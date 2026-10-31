@@ -41,6 +41,8 @@ jobs:
         env:
           ASTRO_TELEMETRY_DISABLED: "1"
         run: pnpm --filter ./site run build
+      - name: Every internal link and anchor of the site resolves
+        run: python scripts/check_links.py
       - name: Figures are reproducible
         run: |
           node figures/start.mjs
