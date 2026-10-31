@@ -41,4 +41,4 @@ python scripts/check_parity.py
 
 ## License
 
-Text and figures are licensed under CC BY-SA 4.0, code under the MIT License. The license texts are in [LICENSES](LICENSES). The figures use the handwriting font Kalam by the Indian Type Foundry under the SIL Open Font License 1.1, which the site serves from the package `@fontsource/kalam`.
+Text and figures are licensed under CC BY-SA 4.0, code under the MIT License. The license texts are in [LICENSES](LICENSES).

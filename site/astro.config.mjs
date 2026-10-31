@@ -59,8 +59,7 @@ export default defineConfig({
       disable404Route: true,
       // Numbers of parts and chapters in the navigation
       routeMiddleware: './src/route-data.js',
-      // Kalam is the handwriting font of the figures, served by the site itself
-      customCss: ['@fontsource/kalam/400.css', '@fontsource/kalam/700.css', './src/styles/course.css'],
+      customCss: ['./src/styles/course.css'],
       components: {
         Head: './src/components/Head.astro',
         Pagination: './src/components/Pagination.astro',

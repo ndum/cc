@@ -1,7 +1,5 @@
 /**
  * Figures of part 0, start. Writes one SVG per language into site/src/assets/figures/<lang>/.
- * Colours come from classes that site/src/styles/course.css maps to the theme variables of the
- * site, so the inlined figures follow light and dark mode.
  *
  *   node figures/start.mjs
  */
@@ -9,11 +7,178 @@ import { mkdirSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { sketch } from './sketch.mjs';
+import { arrow, band, figure, label, line, note, strip, tag, tile } from './diagram.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 
-const TEXT = {
+const ARCH = {
+  de: {
+    title: 'Die Zielarchitektur des Kurses',
+    desc:
+      'Vier Schichten übereinander, daneben eine Spalte für die Automatisierung. Die Infrastruktur besteht ' +
+      'aus dem Front-end und zwei Knoten mit Ubuntu auf SmartLearn oder Hyper-V. Darauf stellt OpenNebula ' +
+      'die IaaS bereit, mit oned, Sunstone, Mandanten und Netzen, die VMs laufen mit KVM auf den Knoten. ' +
+      'Darüber läuft die Plattform k3s mit Argo CD, den Apps der Mitglieder, Prometheus, Loki, Ollama, ' +
+      'Grafana mit Alertmanager und der KI-Triage. Zuoberst nutzen die Mitglieder von Wolkenwerk Bern die ' +
+      'Cloud. Ansible mit OneDeploy baut die IaaS, OpenTofu legt die VMs von k3s an, Argo CD holt die Apps ' +
+      'aus dem Git-Repo. Links steht bei jeder Schicht der Teil des Kurses, der sie aufbaut.',
+    layers: ['Mitglieder', 'Plattform', 'IaaS', 'Infrastruktur'],
+    tags: ['Teil 3 und 6', 'Teil 4 und 5', 'Teil 2 und 3', 'Teil 0'],
+    members: [
+      ['Praxis', 'Rosenweg'],
+      ['Treuhand', 'Aaregg'],
+      ['Veloatelier', 'Matte'],
+      ['Gemeinde', 'Hinterbüel'],
+      ['Mitglied 5', 'aus UN4'],
+    ],
+    platform: [
+      ['Argo CD', 'GitOps'],
+      ['Apps', 'Webshop'],
+      ['Prometheus', 'Metriken'],
+      ['Loki', 'Logs'],
+      ['Ollama', 'KI-Dienst'],
+    ],
+    platformRow: ['Grafana und Alertmanager', 'KI-Triage mit Freigabe'],
+    platformBase: 'Kubernetes k3s, k3s-server und k3s-agent als VMs',
+    iaas: [
+      ['oned', 'API, Scheduler'],
+      ['Sunstone', 'Weboberfläche'],
+      ['Mandanten', 'Quotas, Showback'],
+      ['Netze', 'VXLAN, NAT'],
+    ],
+    iaasBase: 'OpenNebula 7.4, VMs mit KVM und libvirt auf den Knoten',
+    infra: [
+      ['Front-end', 'Ubuntu 26.04'],
+      ['Knoten 1', 'Ubuntu 26.04'],
+      ['Knoten 2', 'Ubuntu 26.04'],
+    ],
+    infraBase: 'SmartLearn mit VMware oder Hyper-V',
+    automation: 'Automatisierung',
+    tools: [
+      ['Git-Repo', 'Argo CD'],
+      ['OpenTofu', 'k3s-VMs'],
+      ['Ansible', 'OneDeploy'],
+      ['prepare.sh', 'Lab-VMs'],
+    ],
+  },
+  en: {
+    title: 'The target architecture of the course',
+    desc:
+      'Four layers on top of each other with a column for automation next to them. The infrastructure is ' +
+      'the front-end and two nodes with Ubuntu on SmartLearn or Hyper-V. On it, OpenNebula provides the IaaS ' +
+      'with oned, Sunstone, tenants and networks, and the VMs run with KVM on the nodes. Above that runs the ' +
+      'platform k3s with Argo CD, the apps of the members, Prometheus, Loki, Ollama, Grafana with ' +
+      'Alertmanager and the AI triage. At the top, the members of Wolkenwerk Bern use the cloud. Ansible with ' +
+      'OneDeploy builds the IaaS, OpenTofu creates the VMs of k3s, and Argo CD pulls the apps from the Git repo. ' +
+      'On the left, each layer shows the part of the course that builds it.',
+    layers: ['Members', 'Platform', 'IaaS', 'Infrastructure'],
+    tags: ['parts 3 and 6', 'parts 4 and 5', 'parts 2 and 3', 'part 0'],
+    members: [
+      ['Practice', 'Rosenweg'],
+      ['Fiduciary', 'Aaregg'],
+      ['Bike shop', 'Matte'],
+      ['Municipality', 'Hinterbüel'],
+      ['Member 5', 'from UN4'],
+    ],
+    platform: [
+      ['Argo CD', 'GitOps'],
+      ['Apps', 'web shop'],
+      ['Prometheus', 'metrics'],
+      ['Loki', 'logs'],
+      ['Ollama', 'AI service'],
+    ],
+    platformRow: ['Grafana and Alertmanager', 'AI triage with approval'],
+    platformBase: 'Kubernetes k3s, k3s-server and k3s-agent as VMs',
+    iaas: [
+      ['oned', 'API, scheduler'],
+      ['Sunstone', 'web interface'],
+      ['Tenants', 'quotas, showback'],
+      ['Networks', 'VXLAN, NAT'],
+    ],
+    iaasBase: 'OpenNebula 7.4, VMs with KVM and libvirt on the nodes',
+    infra: [
+      ['Front-end', 'Ubuntu 26.04'],
+      ['Node 1', 'Ubuntu 26.04'],
+      ['Node 2', 'Ubuntu 26.04'],
+    ],
+    infraBase: 'SmartLearn with VMware, or Hyper-V',
+    automation: 'Automation',
+    tools: [
+      ['Git repo', 'Argo CD'],
+      ['OpenTofu', 'k3s VMs'],
+      ['Ansible', 'OneDeploy'],
+      ['prepare.sh', 'lab VMs'],
+    ],
+  },
+};
+
+// Layout of the architecture: a column for the layer names, the tiles, a column for the tools
+const LEFT = 20;
+const CONTENT = 168;
+const CONTENT_W = 440;
+const BAND_W = CONTENT + CONTENT_W + 16 - LEFT;
+const TOOLS = LEFT + BAND_W + 20;
+const TOOLS_W = 116;
+const PAD = 16;
+const GAP = 8;
+
+/** x positions and width of n tiles side by side in the content area */
+function columns(n, x = CONTENT, w = CONTENT_W) {
+  const width = (w - GAP * (n - 1)) / n;
+  return Array.from({ length: n }, (_, i) => ({ x: x + i * (width + GAP), w: width }));
+}
+
+function architecture(lang) {
+  const t = ARCH[lang];
+  const id = `p0c1-architecture-${lang}`;
+  const body = [];
+  const layer = (index, y, h, level) => {
+    body.push(band(LEFT, y, BAND_W, h, level));
+    body.push(label(LEFT + PAD, y + 26, t.layers[index]));
+    body.push(tag(LEFT + PAD, y + 36, t.tags[index], 112));
+  };
+
+  // Members
+  layer(0, 20, 78, 1);
+  columns(5).forEach((c, i) => body.push(tile(c.x, 36, c.w, 46, ...t.members[i])));
+
+  // Platform
+  layer(1, 114, 160, 2);
+  columns(5).forEach((c, i) => body.push(tile(c.x, 130, c.w, 46, ...t.platform[i], { accent: i === 4 })));
+  const left2 = columns(5).slice(0, 2);
+  const right3 = columns(5).slice(2);
+  body.push(tile(left2[0].x, 184, left2[1].x + left2[1].w - left2[0].x, 32, t.platformRow[0]));
+  body.push(tile(right3[0].x, 184, right3[2].x + right3[2].w - right3[0].x, 32, t.platformRow[1]));
+  body.push(strip(CONTENT, 226, CONTENT_W, 32, t.platformBase));
+
+  // IaaS
+  layer(2, 290, 128, 3);
+  columns(4).forEach((c, i) => body.push(tile(c.x, 306, c.w, 46, ...t.iaas[i], { accent: i === 0 })));
+  body.push(strip(CONTENT, 362, CONTENT_W, 40, t.iaasBase));
+
+  // Infrastructure
+  layer(3, 434, 128, 4);
+  columns(3).forEach((c, i) => body.push(tile(c.x, 450, c.w, 46, ...t.infra[i])));
+  body.push(strip(CONTENT, 506, CONTENT_W, 40, t.infraBase));
+
+  // Automation tools, each with an arrow into the layer it builds
+  body.push(band(TOOLS, 20, TOOLS_W + 20, 542, 4));
+  body.push(label(TOOLS + 10, 46, t.automation));
+  const toolTiles = [
+    { y: 130, target: 153 },
+    { y: 226, target: 242 },
+    { y: 306, target: 329 },
+    { y: 450, target: 473 },
+  ];
+  toolTiles.forEach(({ y, target }, i) => {
+    body.push(tile(TOOLS + 10, y, TOOLS_W, 46, ...t.tools[i], { code: i === 3 }));
+    body.push(arrow(id, [[TOOLS + 10, target], [LEFT + BAND_W - 16 + 14, target]]));
+  });
+
+  return figure({ id, width: TOOLS + TOOLS_W + 40, height: 582, title: t.title, desc: t.desc, body });
+}
+
+const LAB = {
   de: {
     title: 'Das Lab mit drei VMs und zwei Netzen',
     desc:
@@ -21,10 +186,8 @@ const TEXT = {
       'VMs der Cloud. Diese VMs und das Front-end teilen ein internes VXLAN-Netz. Das Front-end ist ' +
       'dessen Gateway und leitet den Verkehr mit NAT ins Internet.',
     internet: 'Internet',
-    fe: 'Front-end',
-    feSub: 'Gateway, Weboberfläche',
-    node1: 'Knoten 1',
-    node2: 'Knoten 2',
+    fe: ['Front-end', 'Gateway, Weboberfläche'],
+    nodes: ['Knoten 1', 'Knoten 2'],
     kvm: 'KVM',
     vm: 'VM',
     labNet: 'Labnetz, feste Adressen',
@@ -37,10 +200,8 @@ const TEXT = {
       'on every node. These VMs and the front-end share an internal VXLAN network. The front-end is ' +
       'its gateway and forwards its traffic to the internet with NAT.',
     internet: 'Internet',
-    fe: 'Front-end',
-    feSub: 'gateway, web interface',
-    node1: 'Node 1',
-    node2: 'Node 2',
+    fe: ['Front-end', 'gateway, web interface'],
+    nodes: ['Node 1', 'Node 2'],
     kvm: 'KVM',
     vm: 'VM',
     labNet: 'lab network, fixed addresses',
@@ -48,183 +209,46 @@ const TEXT = {
   },
 };
 
-const escape = (text) => text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-
-function box(x, y, w, h, title, sub, strong = false) {
-  const parts = [`<rect class="fig-box${strong ? ' fig-box-strong' : ''}" x="${x}" y="${y}" width="${w}" height="${h}" rx="6"/>`];
-  parts.push(`<text class="fig-text" x="${x + 14}" y="${y + 26}">${escape(title)}</text>`);
-  if (sub) parts.push(`<text class="fig-sub" x="${x + 14}" y="${y + 48}">${escape(sub)}</text>`);
-  return parts.join('\n');
-}
-
 function labMap(lang) {
-  const t = TEXT[lang];
+  const t = LAB[lang];
   const id = `p0c2-lab-${lang}`;
-  const line = (d, dashed = false) => `<path class="fig-arrow" d="${d}"${dashed ? ' stroke-dasharray="6 5"' : ''}/>`;
-  const arrow = (d) => `<path class="fig-arrow" d="${d}" marker-end="url(#${id}-head)"/>`;
-  const vms = [
-    { x: 296, node: 1 },
-    { x: 384, node: 1 },
-    { x: 526, node: 2 },
-    { x: 614, node: 2 },
+  const body = [];
+  const nodes = [
+    { x: 290, name: t.nodes[0] },
+    { x: 510, name: t.nodes[1] },
   ];
-  const parts = [
-    `<defs><marker id="${id}-head" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">` +
-      `<path class="fig-arrowhead" d="M 0 0 L 10 5 L 0 10 z"/></marker></defs>`,
-    box(40, 16, 200, 40, t.internet, ''),
-    // NAT from the front-end to the internet
-    arrow('M 110 130 L 110 60'),
-    `<text class="fig-code" x="120" y="100">NAT</text>`,
-    // The lab network joins the three VMs
-    line('M 200 112 L 600 112'),
-    line('M 200 112 L 200 130'),
-    line('M 370 112 L 370 130'),
-    line('M 600 112 L 600 130'),
-    `<text class="fig-sub" x="390" y="102">${escape(t.labNet)}</text>`,
-    box(40, 130, 200, 70, t.fe, t.feSub, true),
-    box(280, 130, 190, 140, t.node1, t.kvm),
-    box(510, 130, 190, 140, t.node2, t.kvm),
-    ...vms.map((vm) => `<rect class="fig-box" x="${vm.x}" y="${206}" width="74" height="40" rx="4"/>` +
-      `\n<text class="fig-text" x="${vm.x + 37}" y="${231}" text-anchor="middle">${t.vm}</text>`),
-    // The internal network joins the front-end and the VMs of the cloud
-    line('M 110 200 L 110 300', true),
-    ...vms.map((vm) => line(`M ${vm.x + 37} 246 L ${vm.x + 37} 300`, true)),
-    line(`M 110 300 L ${vms.at(-1).x + 37} 300`, true),
-    `<text class="fig-sub" x="40" y="326">${escape(t.innerNet)}</text>`,
-  ];
-  return [
-    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 340" role="img" aria-labelledby="${id}-title ${id}-desc">`,
-    `<title id="${id}-title">${escape(t.title)}</title>`,
-    `<desc id="${id}-desc">${escape(t.desc)}</desc>`,
-    ...parts,
-    '</svg>',
-    '',
-  ].join('\n');
-}
-
-const ARCH = {
-  de: {
-    title: 'Die Zielarchitektur des Kurses',
-    desc:
-      'Fünf Schichten übereinander. Unten laufen drei Lab-VMs mit Ubuntu auf SmartLearn oder Hyper-V. ' +
-      'Darauf stellt OpenNebula die IaaS bereit, mit der API von oned, der Weboberfläche, Mandanten mit ' +
-      'Quotas und einem internen Netz. Darüber läuft die Plattform k3s auf zwei VMs, per OpenTofu ' +
-      'bereitgestellt, mit Argo CD, den Apps der Mitglieder, Prometheus, Loki und Ollama. Zuoberst nutzen ' +
-      'die Mitglieder von Wolkenwerk Bern die Cloud. Neben jeder Schicht steht der Teil des Kurses, der sie aufbaut.',
-    members: 'Mitglieder von Wolkenwerk Bern',
-    memberNames: ['Praxis', 'Treuhand', 'Veloatelier', 'Gemeinde', 'eigenes Mitglied'],
-    platform: 'Plattform, k3s auf zwei VMs',
-    services: [
-      ['Argo CD', 'GitOps'],
-      ['Webshop', 'Apps der Mitglieder'],
-      ['Prometheus', 'Metriken, Alerts'],
-      ['Loki', 'Logs'],
-      ['Ollama', 'KI-Dienst'],
-    ],
-    git: 'Git-Repo',
-    triage: 'KI-Triage mit Freigabe',
-    iaas: 'IaaS, OpenNebula 7.4',
-    iaasParts: [
-      ['oned', 'API, Scheduler'],
-      ['Sunstone', 'Weboberfläche'],
-      ['Mandanten', 'Quotas, Showback'],
-      ['internes Netz', 'VXLAN, NAT'],
-      ['VMs auf KVM', 'k3s, Mitglieder'],
-    ],
-    tofu: 'OpenTofu',
-    lab: 'Lab-VMs mit Ubuntu 26.04',
-    labVms: ['Front-end', 'Knoten 1', 'Knoten 2'],
-    hypervisor: 'auf SmartLearn oder Hyper-V',
-    parts: ['Teil 3 und 6', 'Teil 4 und 5', 'Teil 2 und 3', 'Teil 0'],
-  },
-  en: {
-    title: 'The target architecture of the course',
-    desc:
-      'Five layers on top of each other. At the bottom, three lab VMs with Ubuntu run on SmartLearn or ' +
-      'Hyper-V. On them, OpenNebula provides the IaaS with the API of oned, the web interface, tenants with ' +
-      'quotas and an internal network. Above it runs the platform k3s on two VMs, provisioned with OpenTofu, ' +
-      'with Argo CD, the apps of the members, Prometheus, Loki and Ollama. At the top, the members of ' +
-      'Wolkenwerk Bern use the cloud. Next to each layer is the part of the course that builds it.',
-    members: 'Members of Wolkenwerk Bern',
-    memberNames: ['practice', 'fiduciary', 'bike shop', 'municipality', 'your member'],
-    platform: 'Platform, k3s on two VMs',
-    services: [
-      ['Argo CD', 'GitOps'],
-      ['Web shop', 'apps of members'],
-      ['Prometheus', 'metrics, alerts'],
-      ['Loki', 'logs'],
-      ['Ollama', 'AI service'],
-    ],
-    git: 'Git repo',
-    triage: 'AI triage with approval',
-    iaas: 'IaaS, OpenNebula 7.4',
-    iaasParts: [
-      ['oned', 'API, scheduler'],
-      ['Sunstone', 'web interface'],
-      ['Tenants', 'quotas, showback'],
-      ['Internal network', 'VXLAN, NAT'],
-      ['VMs on KVM', 'k3s, members'],
-    ],
-    tofu: 'OpenTofu',
-    lab: 'Lab VMs with Ubuntu 26.04',
-    labVms: ['Front-end', 'Node 1', 'Node 2'],
-    hypervisor: 'on SmartLearn or Hyper-V',
-    parts: ['parts 3 and 6', 'parts 4 and 5', 'parts 2 and 3', 'part 0'],
-  },
-};
-
-function architecture(lang) {
-  const t = ARCH[lang];
-  const id = `p0c1-architecture-${lang}`;
-  const column = (index) => 34 + index * 132;
-  const band = (y, h, title, part) =>
-    [
-      `<rect class="fig-box" x="20" y="${y}" width="680" height="${h}" rx="8" stroke-dasharray="7 5"/>`,
-      `<text class="fig-text" x="34" y="${y + 24}">${escape(title)}</text>`,
-      `<text class="fig-sub" x="686" y="${y + 24}" text-anchor="end">${escape(part)}</text>`,
-    ].join('\n');
-  const cell = (x, y, w, h, title, sub, strong = false) =>
-    [
-      `<rect class="fig-box${strong ? ' fig-box-strong' : ''}" x="${x}" y="${y}" width="${w}" height="${h}" rx="5"/>`,
-      `<text class="fig-text" x="${x + w / 2}" y="${y + (sub ? 20 : 22)}" text-anchor="middle">${escape(title)}</text>`,
-      ...(sub ? [`<text class="fig-sub" x="${x + w / 2}" y="${y + 38}" text-anchor="middle">${escape(sub)}</text>`] : []),
-    ].join('\n');
-  const arrow = (d) => `<path class="fig-arrow" d="${d}" marker-end="url(#${id}-head)"/>`;
-  const parts = [
-    `<defs><marker id="${id}-head" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">` +
-      `<path class="fig-arrowhead" d="M 0 0 L 10 5 L 0 10 z"/></marker></defs>`,
-    band(10, 76, t.members, t.parts[0]),
-    ...t.memberNames.map((name, i) => cell(column(i), 42, 124, 34, name, '')),
-    band(104, 152, t.platform, t.parts[1]),
-    ...t.services.map(([name, sub], i) => cell(column(i), 136, 124, 48, name, sub, name === 'Ollama')),
-    cell(column(0), 204, 124, 40, t.git, ''),
-    arrow(`M ${column(0) + 62} 204 L ${column(0) + 62} 188`),
-    cell(column(2), 204, 388, 40, t.triage, ''),
-    arrow('M 160 292 L 160 260'),
-    `<text class="fig-code" x="168" y="282">${escape(t.tofu)}</text>`,
-    band(296, 112, t.iaas, t.parts[2]),
-    ...t.iaasParts.map(([name, sub], i) => cell(column(i), 328, 124, 48, name, sub, name === 'oned')),
-    band(426, 76, t.lab, t.parts[3]),
-    ...t.labVms.map((name, i) => cell(298 + i * 132, 456, 124, 34, name, '')),
-    `<text class="fig-sub" x="34" y="526">${escape(t.hypervisor)}</text>`,
-  ];
-  return [
-    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 540" role="img" aria-labelledby="${id}-title ${id}-desc">`,
-    `<title id="${id}-title">${escape(t.title)}</title>`,
-    `<desc id="${id}-desc">${escape(t.desc)}</desc>`,
-    ...parts,
-    '</svg>',
-    '',
-  ].join('\n');
-}
-
-for (const lang of Object.keys(TEXT)) {
-  const target = join(ROOT, 'site', 'src', 'assets', 'figures', lang, 'p0c2-lab.svg');
-  mkdirSync(dirname(target), { recursive: true });
-  writeFileSync(target, sketch(labMap(lang), 'p0c2-lab'));
+  // Internet and NAT
+  body.push(tile(40, 20, 200, 40, t.internet));
+  body.push(arrow(id, [[140, 140], [140, 64]]));
+  body.push(note(150, 106, 'NAT', 'start', { code: true }));
+  // Lab network
+  body.push(line([[190, 116], [620, 116]]));
+  body.push(line([[190, 116], [190, 140]]));
+  nodes.forEach((n) => body.push(line([[n.x + 90, 116], [n.x + 90, 140]])));
+  body.push(note(620, 108, t.labNet, 'end'));
+  // Front-end and nodes
+  body.push(tile(40, 140, 200, 56, ...t.fe, { accent: true }));
+  const vms = [];
+  nodes.forEach((n) => {
+    body.push(band(n.x, 140, 180, 132, 2));
+    body.push(label(n.x + 12, 160, n.name));
+    body.push(note(n.x + 168, 160, t.kvm, 'end'));
+    [n.x + 12, n.x + 96].forEach((x) => {
+      body.push(tile(x, 178, 72, 40, t.vm));
+      vms.push(x + 36);
+    });
+  });
+  // Internal network
+  body.push(line([[140, 196], [140, 300]], { dashed: true, accent: true }));
+  vms.forEach((x) => body.push(line([[x, 218], [x, 300]], { dashed: true, accent: true })));
+  body.push(line([[140, 300], [vms.at(-1), 300]], { dashed: true, accent: true }));
+  body.push(note(40, 326, t.innerNet));
+  return figure({ id, width: 720, height: 340, title: t.title, desc: t.desc, body });
 }
 
 for (const lang of Object.keys(ARCH)) {
-  const target = join(ROOT, 'site', 'src', 'assets', 'figures', lang, 'p0c1-architecture.svg');
-  writeFileSync(target, sketch(architecture(lang), 'p0c1-architecture'));
+  const dir = join(ROOT, 'site', 'src', 'assets', 'figures', lang);
+  mkdirSync(dir, { recursive: true });
+  writeFileSync(join(dir, 'p0c1-architecture.svg'), architecture(lang));
+  writeFileSync(join(dir, 'p0c2-lab.svg'), labMap(lang));
 }

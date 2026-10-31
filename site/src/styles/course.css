@@ -65,7 +65,7 @@
   margin-bottom: 0;
 }
 
-/* Tabs: :::tabs with ::tab, and the files of a playground */
+/* Tabs: :::tabs with ::tab */
 lt-tabs {
   display: block;
   margin-block: 1.25rem;
@@ -131,53 +131,6 @@ lt-tabs {
   }
 }
 
-/* Starlight spaces sibling elements in page content, controls in one row need no gap from that */
-.lt-play-bar > * {
-  margin: 0;
-}
-.lt-play-bar button {
-  font: inherit;
-  font-size: var(--sl-text-sm);
-  padding: 0.3rem 0.85rem;
-  border: 1px solid var(--sl-color-gray-4);
-  border-radius: 0.3rem;
-  background: var(--sl-color-gray-6);
-  color: var(--sl-color-white);
-  cursor: pointer;
-}
-.lt-play-bar .lt-play-open {
-  border-color: var(--sl-color-accent);
-  background: var(--sl-color-accent-low);
-}
-.lt-play-bar button:hover {
-  border-color: var(--sl-color-accent-high);
-}
-.lt-play-bar button:focus-visible {
-  outline: 2px solid var(--sl-color-accent-high);
-  outline-offset: 2px;
-}
-.lt-play-bar button:disabled {
-  cursor: progress;
-  opacity: 0.7;
-}
-.lt-play-status {
-  font-size: var(--sl-text-sm);
-  color: var(--sl-color-gray-2);
-}
-.lt-play-stage {
-  height: 34rem;
-  margin-top: 0.75rem;
-  border: 1px solid var(--sl-color-gray-5);
-  border-radius: 0.5rem;
-  overflow: hidden;
-}
-.lt-play-stage[data-layout='vertical'] {
-  height: 46rem;
-}
-.lt-play-stage > .vue-repl {
-  height: 100%;
-}
-
 /* Figures generated as SVG by figures/*.mjs and inlined by remark-inline-figures */
 .lt-figure {
   margin-block: 1.5rem;
@@ -192,57 +145,85 @@ lt-tabs {
   max-width: 42rem;
   height: auto;
 }
-.fig .fig-paper {
+/* Diagrams drawn by figures/diagram.mjs, all colours from the theme of the site */
+.fig text {
+  font-family: var(--__sl-font, system-ui, sans-serif);
+}
+.fig .d-band {
+  fill: color-mix(in srgb, var(--sl-color-accent) 5%, var(--sl-color-bg));
+  stroke: color-mix(in srgb, var(--sl-color-accent) 25%, var(--sl-color-bg));
+  stroke-width: 1;
+}
+.fig .d-band-2 {
+  fill: color-mix(in srgb, var(--sl-color-accent) 9%, var(--sl-color-bg));
+}
+.fig .d-band-3 {
+  fill: color-mix(in srgb, var(--sl-color-accent) 13%, var(--sl-color-bg));
+}
+.fig .d-band-4 {
+  fill: color-mix(in srgb, var(--sl-color-gray-5) 40%, var(--sl-color-bg));
+  stroke: var(--sl-color-gray-5);
+}
+.fig .d-tile {
   fill: var(--sl-color-bg);
+  stroke: color-mix(in srgb, var(--sl-color-gray-3) 60%, var(--sl-color-bg));
+  stroke-width: 1;
 }
-/* Lines that look drawn by hand, drawn by figures/sketch.mjs */
-.fig .fig-line {
-  fill: none;
-  stroke: var(--sl-color-gray-2);
-  stroke-width: 1.4;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-.fig .fig-line-strong {
-  stroke: var(--sl-color-white);
-  stroke-width: 1.6;
-}
-.fig .fig-hatch {
-  fill: none;
+.fig .d-tile-accent {
+  fill: color-mix(in srgb, var(--sl-color-accent) 16%, var(--sl-color-bg));
   stroke: var(--sl-color-accent);
-  stroke-width: 1.1;
-  stroke-linecap: round;
-  opacity: 0.6;
+  stroke-width: 1.5;
 }
-.fig .fig-text {
+.fig .d-strip {
+  fill: color-mix(in srgb, var(--sl-color-gray-5) 55%, var(--sl-color-bg));
+  stroke: none;
+}
+.fig .d-title {
   fill: var(--sl-color-white);
-  font-family: 'Kalam', cursive;
-  font-size: 16px;
-  font-weight: 700;
-}
-.fig .fig-sub {
-  fill: var(--sl-color-gray-2);
-  font-family: 'Kalam', cursive;
   font-size: 13px;
+  font-weight: 600;
 }
-.fig .fig-strong {
-  fill: var(--sl-color-white);
-  font-weight: 700;
+.fig .d-sub {
+  fill: var(--sl-color-gray-2);
+  font-size: 11px;
 }
-.fig .fig-code {
+.fig .d-code {
   fill: var(--sl-color-gray-2);
   font-family: var(--__sl-font-mono, monospace);
-  font-size: 12px;
+  font-size: 11px;
 }
-.fig .fig-arrow {
+.fig .d-label {
+  fill: var(--sl-color-accent-high);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+.fig .d-tag {
+  fill: var(--sl-color-accent);
+}
+.fig .d-tag-text {
+  fill: var(--sl-color-black);
+  font-size: 10.5px;
+  font-weight: 600;
+}
+.fig .d-line {
+  fill: none;
+  stroke: var(--sl-color-gray-3);
+  stroke-width: 1.25;
+}
+.fig .d-line-accent {
+  stroke: var(--sl-color-accent);
+}
+.fig .d-dashed {
+  stroke-dasharray: 5 4;
+}
+.fig .d-arrow {
   fill: none;
   stroke: var(--sl-color-accent);
   stroke-width: 1.5;
-  stroke-linecap: round;
-  stroke-linejoin: round;
 }
-.fig .fig-label-bg {
-  fill: var(--sl-color-bg);
+.fig .d-head {
+  fill: var(--sl-color-accent);
 }
 
 /* Starlight spaces sibling elements in page content, controls in one row need no gap from that */

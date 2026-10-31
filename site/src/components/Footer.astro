@@ -6,20 +6,17 @@ const english = Astro.locals.starlightRoute.lang === 'en';
 const repo = 'https://github.com/ndum/cc';
 const ccBySa = english ? 'https://creativecommons.org/licenses/by-sa/4.0/' : 'https://creativecommons.org/licenses/by-sa/4.0/deed.de';
 const mit = `${repo}/blob/main/LICENSES/MIT.txt`;
-const ofl = 'https://openfontlicense.org/';
 ---
 
 <Default><slot /></Default>
 {
   english ? (
     <p class="lt-licence">
-      Text and figures are licensed under <a href={ccBySa}>CC BY-SA 4.0</a> and the code under the <a href={mit}>MIT License</a>. The figures use the font Kalam under the <a href={ofl}>SIL Open
-      Font License 1.1</a>. The sources are on <a href={repo}>GitHub</a>.
+      Text and figures are licensed under <a href={ccBySa}>CC BY-SA 4.0</a> and the code under the <a href={mit}>MIT License</a>. The sources are on <a href={repo}>GitHub</a>.
     </p>
   ) : (
     <p class="lt-licence">
-      Texte und Abbildungen stehen unter <a href={ccBySa}>CC BY-SA 4.0</a> und der Code unter der <a href={mit}>MIT-Lizenz</a>. Die Schrift der Abbildungen ist Kalam unter der <a href={ofl}>SIL
-      Open Font License 1.1</a>. Die Quellen liegen auf <a href={repo}>GitHub</a>.
+      Texte und Abbildungen stehen unter <a href={ccBySa}>CC BY-SA 4.0</a> und der Code unter der <a href={mit}>MIT-Lizenz</a>. Die Quellen liegen auf <a href={repo}>GitHub</a>.
     </p>
   )
 }
