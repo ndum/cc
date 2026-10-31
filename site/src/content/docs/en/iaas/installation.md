@@ -25,6 +25,8 @@ Ansible sets up servers over SSH. An inventory lists the servers and their group
 
 OneDeploy is the collection of playbooks the OpenNebula project uses to build a cloud from a front-end and several nodes. The course uses the version `release-1.4.1`, which it is tested with. Ansible runs on the front-end and sets up the front-end itself and both nodes from there.
 
+![How OneDeploy sets up the lab. Ansible on the front-end reads the inventory and the playbooks of OneDeploy. It sets up the front-end locally, with oned, the scheduler and FireEdge, and the two nodes over SSH, with KVM and libvirt.](../../../../assets/figures/en/p2c2-deploy.svg)
+
 ## Setting up OneDeploy
 
 The script `lab/one-deploy/install.sh` installs Ansible from the Ubuntu packages, fetches OneDeploy at the course version into `~/cc-lab/one-deploy` and installs the Ansible collections OneDeploy needs.

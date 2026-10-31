@@ -25,6 +25,8 @@ Ansible richtet Server über SSH ein. Ein Inventar listet die Server und ihre Gr
 
 OneDeploy ist die Sammlung von Playbooks, mit der das OpenNebula-Projekt eine Cloud aus einem Front-end und mehreren Knoten aufbaut. Der Kurs verwendet die Version `release-1.4.1`, mit der er getestet ist. Ansible läuft auf dem Front-end und richtet von dort aus das Front-end selbst und beide Knoten ein.
 
+![Wie OneDeploy das Lab einrichtet. Ansible auf dem Front-end liest das Inventar und die Playbooks von OneDeploy. Es richtet das Front-end lokal ein, mit oned, Scheduler und FireEdge, und die beiden Knoten über SSH, mit KVM und libvirt.](../../../assets/figures/de/p2c2-deploy.svg)
+
 ## OneDeploy einrichten
 
 Das Skript `lab/one-deploy/install.sh` installiert Ansible aus den Paketen von Ubuntu, holt OneDeploy in der Kursversion nach `~/cc-lab/one-deploy` und installiert die Ansible-Collections, die OneDeploy braucht.

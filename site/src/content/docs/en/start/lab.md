@@ -29,6 +29,8 @@ Your lab consists of three virtual machines. The front-end will manage the cloud
 | Node 1 | runs VMs | 4 | at least 8 GB | 50 GB |
 | Node 2 | runs VMs | 4 | at least 8 GB | 50 GB |
 
+![The lab with three VMs and two networks. The front-end and two nodes sit on the lab network with fixed addresses. VMs of the cloud run on every node. These VMs and the front-end share an internal VXLAN network. The front-end is its gateway and forwards its traffic to the internet with NAT.](../../../../assets/figures/en/p0c2-lab.svg)
+
 All three VMs share one network and have fixed IP addresses. The VMs of your cloud later get an internal network of their own that only your three VMs know about. The front-end connects that network to the internet through NAT. This way the lab works on any hypervisor, even one that does not allow foreign MAC addresses on its network.
 
 ## Three ways to get the VMs

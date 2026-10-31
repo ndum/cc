@@ -29,6 +29,8 @@ Dein Lab besteht aus drei virtuellen Maschinen. Das Front-end verwaltet später 
 | Knoten 1 | führt VMs aus | 4 | mindestens 8 GB | 50 GB |
 | Knoten 2 | führt VMs aus | 4 | mindestens 8 GB | 50 GB |
 
+![Das Lab mit drei VMs und zwei Netzen. Das Front-end und zwei Knoten hängen im Labnetz mit festen Adressen. Auf jedem Knoten laufen VMs der Cloud. Diese VMs und das Front-end teilen ein internes VXLAN-Netz. Das Front-end ist dessen Gateway und leitet den Verkehr mit NAT ins Internet.](../../../assets/figures/de/p0c2-lab.svg)
+
 Alle drei VMs liegen im selben Netz und haben feste IP-Adressen. Die VMs deiner Cloud bekommen später ein eigenes, internes Netz, das nur deine drei VMs kennen. Das Front-end verbindet dieses Netz über NAT mit dem Internet. So funktioniert das Lab auf jedem Hypervisor, auch wenn er fremde MAC-Adressen in seinem Netz nicht zulässt.
 
 ## Drei Wege zu den VMs

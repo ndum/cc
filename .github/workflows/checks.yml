@@ -43,6 +43,8 @@ jobs:
         run: pnpm --filter ./site run build
       - name: Figures are reproducible
         run: |
+          node figures/start.mjs
+          node figures/iaas.mjs
           node figures/favicon.mjs
           git diff --exit-code
 
