@@ -60,8 +60,11 @@ echo "$HOST ($IP)"
 say "Packages"
 # The minimal server image of Ubuntu 26.04 has no rsyslog, one-deploy expects it
 packages=(rsyslog)
-[ "$ROLE" = fe ] && packages+=(nftables)
+# acl lets Ansible on the front-end switch to the user oneadmin, nftables carries the NAT of the gateway
+[ "$ROLE" = fe ] && packages+=(acl nftables)
 export DEBIAN_FRONTEND=noninteractive
+# needrestart would print its report after every installation
+export NEEDRESTART_SUSPEND=1
 apt-get -qq update
 apt-get -qq install -y "${packages[@]}" >/dev/null
 systemctl enable --now rsyslog >/dev/null 2>&1

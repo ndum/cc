@@ -43,9 +43,9 @@ The inventory describes your lab for OneDeploy. The script `make-inventory.sh` w
 ~/cc/lab/one-deploy/make-inventory.sh > ~/cc-lab/inventory.yml
 ```
 
-::code{file="lab/one-deploy/make-inventory.sh" lines="18-41"}
+::code{file="lab/one-deploy/make-inventory.sh" lines="18-42"}
 
-The group `frontend` holds the front-end, the group `node` the two nodes. Values under `vars` apply to all of them. `one_version` sets the version of OpenNebula, and `ds` with `mode: ssh` means the nodes receive images over SSH, so no shared storage is needed. You create the networks for your members' VMs yourself in chapter 2.3, which is why the inventory has none yet.
+The group `frontend` holds the front-end, the group `node` the two nodes. Since Ansible runs on the front-end, it reaches it locally instead of over SSH, which is what `ansible_connection: local` says. Values under `vars` apply to all of them. `one_version` sets the version of OpenNebula, and `ds` with `mode: ssh` means the nodes receive images over SSH, so no shared storage is needed. You create the networks for your members' VMs yourself in chapter 2.3, which is why the inventory has none yet.
 
 Before you install, check that Ansible reaches all three VMs.
 
@@ -69,13 +69,14 @@ The output ends with the section `PLAY RECAP` and one line per VM. After a succe
 
 When a run stops, a line further up starts with `fatal:` and the name of the VM, with the message below it. Above that, Ansible shows the task that failed and the file it comes from. Read the message first, then the task. Most of the time the message already explains the problem.
 
-While this course was being developed, the run stopped three times, and each of those stops is handled by the preparation script from [chapter 0.2](../../start/lab/) today:
+While this course was being developed, the run stopped four times, and each of those stops is handled by the preparation script from [chapter 0.2](../../start/lab/) today:
 
 | Message | Cause | How the course handles it |
 |---|---|---|
 | `Please make sure each cluster member can resolve all Front-end hostnames` | The VMs did not know each other's names. | `prepare.sh` writes all names to `/etc/hosts`, and the inventory sets `ensure_hosts`. |
 | `Could not find the requested service rsyslog.service` | The minimal Ubuntu 26.04 image does not include rsyslog. | `prepare.sh` installs rsyslog on all VMs. |
 | `opennebula-fireedge ... Depends nodejs (<= 21)` | Ubuntu offers a newer Node.js than the web interface accepts. | `prepare.sh` makes Node.js come from the OpenNebula repository. |
+| `Failed to set permissions on the temporary files Ansible needs to create when becoming an unprivileged user` | On the front-end Ansible switches to the user `oneadmin` and needs the package acl for that. | `prepare.sh` installs acl on the front-end. |
 
 After a fix, simply start the run again. Since Ansible describes the target state, it skips everything that is already right.
 

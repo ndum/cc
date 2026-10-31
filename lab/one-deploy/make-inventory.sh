@@ -32,7 +32,8 @@ all:
 
 frontend:
   hosts:
-    $CC_FE_HOST: { ansible_host: $CC_FE_IP }
+    # Ansible runs on the front-end, so it reaches the front-end itself without SSH
+    $CC_FE_HOST: { ansible_host: $CC_FE_IP, ansible_connection: local }
 
 node:
   hosts:

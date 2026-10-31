@@ -93,9 +93,10 @@ The result is the content of the file `/etc/cc-lab.env`. Create it with the same
 
 ## The course repo on the VMs
 
-The scripts of the course live in the course repo. Clone it into your home directory on each of the three VMs.
+The scripts of the course live in the course repo. The minimal installation of Ubuntu does not include Git, so you install it first. Then you clone the course repo into your home directory on each of the three VMs.
 
 ```bash
+sudo apt install -y git
 git clone https://github.com/ndum/cc.git
 ```
 

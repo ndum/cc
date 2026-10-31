@@ -93,9 +93,10 @@ Das Ergebnis ist der Inhalt der Datei `/etc/cc-lab.env`. Lege sie auf allen drei
 
 ## Das Kursrepo auf den VMs
 
-Die Skripte des Kurses liegen im Kursrepo. Hole es auf jeder der drei VMs in dein Home-Verzeichnis.
+Die Skripte des Kurses liegen im Kursrepo. Die minimale Installation von Ubuntu enthält kein Git, deshalb installierst du es zuerst. Danach holst du das Kursrepo auf jeder der drei VMs in dein Home-Verzeichnis.
 
 ```bash
+sudo apt install -y git
 git clone https://github.com/ndum/cc.git
 ```
 

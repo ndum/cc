@@ -43,9 +43,9 @@ Das Inventar beschreibt dein Lab für OneDeploy. Das Skript `make-inventory.sh` 
 ~/cc/lab/one-deploy/make-inventory.sh > ~/cc-lab/inventory.yml
 ```
 
-::code{file="lab/one-deploy/make-inventory.sh" lines="18-41"}
+::code{file="lab/one-deploy/make-inventory.sh" lines="18-42"}
 
-Die Gruppe `frontend` enthält das Front-end, die Gruppe `node` die beiden Knoten. Unter `vars` stehen Werte, die für alle gelten. `one_version` legt die Version von OpenNebula fest, `ds` mit `mode: ssh` sagt, dass die Knoten Images über SSH erhalten und kein gemeinsamer Speicher nötig ist. Netze für die VMs deiner Mitglieder legst du in Kapitel 2.3 selbst an, das Inventar enthält deshalb noch keine.
+Die Gruppe `frontend` enthält das Front-end, die Gruppe `node` die beiden Knoten. Weil Ansible auf dem Front-end läuft, verbindet es sich mit ihm lokal statt über SSH, das sagt `ansible_connection: local`. Unter `vars` stehen Werte, die für alle gelten. `one_version` legt die Version von OpenNebula fest, `ds` mit `mode: ssh` sagt, dass die Knoten Images über SSH erhalten und kein gemeinsamer Speicher nötig ist. Netze für die VMs deiner Mitglieder legst du in Kapitel 2.3 selbst an, das Inventar enthält deshalb noch keine.
 
 Bevor du installierst, prüfst du, ob Ansible alle drei VMs erreicht.
 
@@ -69,13 +69,14 @@ Am Ende steht der Abschnitt `PLAY RECAP` mit einer Zeile pro VM. Bei einer erfol
 
 Bricht ein Lauf ab, steht weiter oben eine Zeile mit `fatal:` und dem Namen der VM, darunter die Meldung. Davor zeigt Ansible die Aufgabe, an der es gescheitert ist, und die Datei, in der diese Aufgabe steht. Lies zuerst die Meldung, dann die Aufgabe. Meist erklärt die Meldung den Fehler schon.
 
-Bei der Entwicklung dieses Kurses brach der Lauf dreimal ab, und jeder Abbruch steckt heute im Vorbereitungsskript aus [Kapitel 0.2](../../start/lab/):
+Bei der Entwicklung dieses Kurses brach der Lauf viermal ab, und jeder Abbruch steckt heute im Vorbereitungsskript aus [Kapitel 0.2](../../start/lab/):
 
 | Meldung | Ursache | Lösung im Kurs |
 |---|---|---|
 | `Please make sure each cluster member can resolve all Front-end hostnames` | Die VMs kannten die Namen der anderen nicht. | `prepare.sh` schreibt alle Namen in `/etc/hosts`, das Inventar setzt `ensure_hosts`. |
 | `Could not find the requested service rsyslog.service` | Das minimale Ubuntu 26.04 enthält rsyslog nicht. | `prepare.sh` installiert rsyslog auf allen VMs. |
 | `opennebula-fireedge ... Depends nodejs (<= 21)` | Ubuntu bietet ein neueres Node.js an als die Weboberfläche verträgt. | `prepare.sh` legt fest, dass Node.js aus dem Repo von OpenNebula kommt. |
+| `Failed to set permissions on the temporary files Ansible needs to create when becoming an unprivileged user` | Ansible wechselt auf dem Front-end zum Benutzer `oneadmin` und braucht dafür das Paket acl. | `prepare.sh` installiert acl auf dem Front-end. |
 
 Nach einer Korrektur startest du den Lauf einfach noch einmal. Weil Ansible den Zielzustand beschreibt, überspringt es alles, was schon stimmt.
 

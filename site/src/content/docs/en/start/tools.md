@@ -51,7 +51,7 @@ Host mmuster-node2
 
 ## SSH from the front-end to the nodes
 
-From part 2 on you mostly work on the front-end. From there Ansible sets up the nodes, and the check scripts test them. The front-end therefore needs a key of its own that is registered on the nodes. Log in to the front-end, create a key without a passphrase and copy it to both nodes. `ssh-copy-id` asks once for the node's password and has you confirm that you know the node.
+From part 2 on you mostly work on the front-end. From there Ansible sets up the nodes, and the check scripts test them. Ansible sets up the front-end itself locally, without SSH. The front-end therefore needs a key of its own that is registered on the nodes. Log in to the front-end, create a key without a passphrase and copy it to both nodes. `ssh-copy-id` asks once for the node's password and has you confirm that you know the node.
 
 ```bash
 ssh-keygen -t ed25519 -N "" -f ~/.ssh/id_ed25519

@@ -51,7 +51,7 @@ Host mmuster-node2
 
 ## SSH vom Front-end auf die Knoten
 
-Ab Teil 2 arbeitest du vor allem auf dem Front-end. Von dort aus richtet Ansible die Knoten ein, und die Check-Skripte prüfen sie. Das Front-end braucht deshalb einen eigenen Schlüssel, der auf den Knoten eingetragen ist. Melde dich auf dem Front-end an, erzeuge dort einen Schlüssel ohne Passphrase und kopiere ihn auf beide Knoten. `ssh-copy-id` fragt dabei einmal nach dem Passwort des Knotens und bestätigt, dass du den Knoten kennst.
+Ab Teil 2 arbeitest du vor allem auf dem Front-end. Von dort aus richtet Ansible die Knoten ein, und die Check-Skripte prüfen sie. Das Front-end selbst richtet Ansible lokal ein, ohne SSH. Das Front-end braucht deshalb einen eigenen Schlüssel, der auf den Knoten eingetragen ist. Melde dich auf dem Front-end an, erzeuge dort einen Schlüssel ohne Passphrase und kopiere ihn auf beide Knoten. `ssh-copy-id` fragt dabei einmal nach dem Passwort des Knotens und bestätigt, dass du den Knoten kennst.
 
 ```bash
 ssh-keygen -t ed25519 -N "" -f ~/.ssh/id_ed25519
