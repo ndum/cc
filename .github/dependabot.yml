@@ -1,0 +1,12 @@
+version: 2
+# npm is left out on purpose, its updates go through the _source folders, scripts/localize.mjs
+# and the lock file in pull requests of their own
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 7
+    commit-message:
+      prefix: ci

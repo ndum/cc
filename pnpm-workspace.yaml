@@ -1,0 +1,11 @@
+# pnpm 12 reads every non-auth setting from this file.
+
+packages:
+  - site
+
+# Never install a version published less than 7 days ago (minutes), transitive packages included.
+minimumReleaseAge: 10080
+# Fail instead of falling back to a younger version when nothing in range is old enough.
+minimumReleaseAgeStrict: true
+# Write exact versions into package.json.
+savePrefix: ''

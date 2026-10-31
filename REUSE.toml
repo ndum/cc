@@ -1,0 +1,13 @@
+version = 1
+
+# Code, configuration and everything not listed below
+[[annotations]]
+path = "**"
+SPDX-FileCopyrightText = "2026 ndum"
+SPDX-License-Identifier = "MIT"
+
+# Course text and figures
+[[annotations]]
+path = ["README.md", "site/src/content/**", "site/src/assets/figures/**"]
+SPDX-FileCopyrightText = "2026 ndum"
+SPDX-License-Identifier = "CC-BY-SA-4.0"
