@@ -165,12 +165,23 @@ Bei der Entwicklung dieses Kurses brach der Lauf viermal ab, und jeder Abbruch s
 
 Nach einer Korrektur startest du den Lauf einfach noch einmal. Weil Ansible den Zielzustand beschreibt, überspringt es alles, was schon stimmt.
 
-## Prüfen
+## Die CLI als dein Benutzer
 
-Ob OpenNebula läuft und beide Knoten bereit sind, zeigt `onehost list`. Den Befehl führst du als Benutzer `oneadmin` aus. In der Spalte `STAT` muss bei beiden Knoten `on` stehen.
+Die Befehle von OpenNebula wie `onehost` oder `onevm` melden sich mit dem Benutzer und Passwort aus der Datei `~/.one/one_auth` an der API an. Damit du nicht jedes Mal zu `oneadmin` wechseln musst, legst du diese Datei für deinen eigenen Benutzer an, mit dem Passwort aus dem Inventar. Nur du darfst sie lesen.
 
 ```bash
-sudo -iu oneadmin onehost list
+mkdir -p ~/.one
+(umask 077; echo "oneadmin:$(cat ~/cc-lab/oneadmin.pass)" > ~/.one/one_auth)
+```
+
+Für ein Lab ist das bequem. In einer echten Cloud arbeitet das Plattform-Team mit eigenen Benutzern und nicht mit `oneadmin`, das zeigt Kapitel 3.1.
+
+## Prüfen
+
+Ob OpenNebula läuft und beide Knoten bereit sind, zeigt `onehost list`. In der Spalte `STAT` muss bei beiden Knoten `on` stehen. OneDeploy trägt die Knoten mit ihren IP-Adressen als Namen ein.
+
+```bash
+onehost list
 ```
 
 Welche Dienste auf dem Front-end laufen und auf welchen Ports sie warten, zeigen `systemctl` und `ss`.
@@ -197,7 +208,7 @@ Der erste Lauf meldet bei beiden Knoten `changed=2`, weil htop neu installiert u
 ::::
 
 ::::exercise[Lab]
-Installiere OpenNebula 7.4 mit OneDeploy, prüfe die Hosts mit `onehost list`, melde dich an der Weboberfläche an und lade den Bericht des Checks `install` in dein Abgabe-Repo.
+Installiere OpenNebula 7.4 mit OneDeploy, richte die CLI für deinen Benutzer ein, prüfe die Hosts mit `onehost list`, melde dich an der Weboberfläche an und lade den Bericht des Checks `install` in dein Abgabe-Repo.
 
 :::solution
 Der Check endet mit «8 von 8 Prüfungen erfüllt». `onehost list` zeigt beide Knoten mit `on` in der Spalte `STAT`. Steht dort `err`, zeigt `onehost show` und der Name des Hosts im Abschnitt `MONITORING` den Grund, oft eine fehlende SSH-Verbindung vom Front-end zum Knoten.

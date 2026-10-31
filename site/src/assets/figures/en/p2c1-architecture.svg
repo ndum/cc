@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 284" role="img" aria-labelledby="p2c1-architecture-en-title p2c1-architecture-en-desc">
+<title id="p2c1-architecture-en-title">The building blocks of OpenNebula</title>
+<desc id="p2c1-architecture-en-desc">Three areas side by side. On the left Sunstone, the CLI and OpenTofu reach the front-end through the API. In the middle oned on the front-end manages all objects, stores them in MariaDB, lets the scheduler pick nodes and receives states from onemonitord. The drivers for hosts, VMs, transfer, networks and datastores carry out the jobs. On the right the nodes work with libvirt and KVM, and the drivers reach them over SSH.</desc>
+<defs><marker id="p2c1-architecture-en-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"/></marker></defs>
+<rect class="d-band d-band-1" x="16" y="16" width="168" height="252" rx="6"/>
+<text class="d-label" x="32" y="40" text-anchor="start">ACCESS</text>
+<rect class="d-tile" x="32" y="56" width="136" height="50" rx="4"/>
+<text class="d-title" x="100" y="78" text-anchor="middle">Sunstone</text>
+<text class="d-sub" x="100" y="95" text-anchor="middle">port 2616</text>
+<rect class="d-tile" x="32" y="122" width="136" height="50" rx="4"/>
+<text class="d-title" x="100" y="144" text-anchor="middle">CLI</text>
+<text class="d-code" x="100" y="161" text-anchor="middle">onevm, onehost</text>
+<rect class="d-tile" x="32" y="188" width="136" height="50" rx="4"/>
+<text class="d-title" x="100" y="210" text-anchor="middle">OpenTofu</text>
+<text class="d-sub" x="100" y="227" text-anchor="middle">from part 4</text>
+<rect class="d-band d-band-2" x="204" y="16" width="360" height="252" rx="6"/>
+<text class="d-label" x="220" y="40" text-anchor="start">FRONT-END</text>
+<rect class="d-tile" x="220" y="56" width="328" height="50" rx="4"/>
+<rect class="d-bar" x="220" y="56" width="4" height="50" rx="2"/>
+<text class="d-title" x="384" y="78" text-anchor="middle">oned</text>
+<text class="d-sub" x="384" y="95" text-anchor="middle">manages all objects</text>
+<rect class="d-tile" x="220" y="122" width="104" height="50" rx="4"/>
+<text class="d-title" x="272" y="144" text-anchor="middle">MariaDB</text>
+<text class="d-sub" x="272" y="161" text-anchor="middle">database</text>
+<rect class="d-tile" x="332" y="122" width="104" height="50" rx="4"/>
+<text class="d-title" x="384" y="144" text-anchor="middle">Scheduler</text>
+<text class="d-sub" x="384" y="161" text-anchor="middle">picks nodes</text>
+<rect class="d-tile" x="444" y="122" width="104" height="50" rx="4"/>
+<text class="d-title" x="496" y="144" text-anchor="middle">Monitoring</text>
+<text class="d-code" x="496" y="161" text-anchor="middle">onemonitord</text>
+<rect class="d-strip" x="220" y="188" width="328" height="64" rx="4"/>
+<text class="d-sub" x="384" y="224" text-anchor="middle"></text>
+<rect class="d-band d-band-1" x="584" y="16" width="200" height="252" rx="6"/>
+<text class="d-label" x="600" y="40" text-anchor="start">NODES</text>
+<rect class="d-tile" x="600" y="56" width="168" height="50" rx="4"/>
+<text class="d-title" x="684" y="78" text-anchor="middle">Node 1</text>
+<text class="d-sub" x="684" y="95" text-anchor="middle">libvirt, KVM</text>
+<rect class="d-tile" x="600" y="122" width="168" height="50" rx="4"/>
+<text class="d-title" x="684" y="144" text-anchor="middle">Node 2</text>
+<text class="d-sub" x="684" y="161" text-anchor="middle">libvirt, KVM</text>
+<rect class="d-strip" x="600" y="188" width="168" height="64" rx="4"/>
+<text class="d-sub" x="684" y="224" text-anchor="middle"></text>
+<path class="d-arrow" d="M 168 122 L 218 81" marker-end="url(#p2c1-architecture-en-head)"/>
+<path class="d-arrow" d="M 168 88 L 218 81" marker-end="url(#p2c1-architecture-en-head)"/>
+<path class="d-arrow" d="M 168 155 L 218 81" marker-end="url(#p2c1-architecture-en-head)"/>
+<path class="d-arrow" d="M 548 220 L 598 220" marker-end="url(#p2c1-architecture-en-head)"/>
+<text class="d-code" x="573" y="212" text-anchor="middle">SSH</text>
+<text class="d-meta" x="193" y="112" text-anchor="middle">API 2633</text>
+<text class="d-sub" x="384" y="210" text-anchor="middle">drivers carry out the jobs</text>
+<text class="d-sub" x="384" y="225" text-anchor="middle">IM hosts, VMM VMs, TM transfer,</text>
+<text class="d-sub" x="384" y="240" text-anchor="middle">VNM networks, DS datastores</text>
+<text class="d-sub" x="684" y="216" text-anchor="middle">datastore 0</text>
+<text class="d-sub" x="684" y="231" text-anchor="middle">disks of running VMs</text>
+</svg>

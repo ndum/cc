@@ -34,7 +34,7 @@ jobs:
         working-directory: site
         run: node --test "tests/*.test.mjs"
       - name: Shell scripts of the lab pass ShellCheck
-        run: shellcheck lab/*.sh lab/one-deploy/*.sh
+        run: shellcheck lab/*.sh lab/one-deploy/*.sh lab/iaas/*.sh
       - name: Python scripts compile
         run: python -m py_compile checks/check.py scripts/params.py
       - name: The site builds

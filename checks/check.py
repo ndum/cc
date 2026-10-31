@@ -5,6 +5,7 @@ Run it on the front-end as the user who works with the lab:
 
     python3 checks/check.py start      end of chapter 0.5, the three VMs are prepared and connected
     python3 checks/check.py install    chapter 2.2, OpenNebula runs with both nodes
+    python3 checks/check.py iaas       chapters 2.3 and 2.4, network, template and a VM in the cloud
 
 The report lands in ~/cc-reports/ and is printed. The hash at its end covers the whole report, so a
 changed report no longer matches its hash. The script is public, so the hash proves only that a
@@ -44,7 +45,7 @@ def run(*cmd, timeout=20):
 
 def ssh(host, command):
     # accept-new trusts a node seen for the first time, a changed key still fails
-    return run("ssh", "-o", "BatchMode=yes", "-o", "StrictHostKeyChecking=accept-new", "-o", "ConnectTimeout=5", host, command)
+    return run("ssh", "-o", "BatchMode=yes", "-o", "StrictHostKeyChecking=accept-new", "-o", "LogLevel=ERROR", "-o", "ConnectTimeout=5", host, command)
 
 
 def read_env():
@@ -133,7 +134,62 @@ def check_install(env, report):
     report.check(status == 200, tr("Die Weboberfläche antwortet auf Port 2616", "The web interface answers on port 2616"), f"{status}")
 
 
-CHECKS = {"start": check_start, "install": check_install}
+def one_json(*args):
+    """Runs an OpenNebula command with --json as the current user and returns the parsed result or None"""
+    code, out = run(*args, "--json")
+    if code != 0:
+        return None
+    try:
+        return json.loads(out)
+    except ValueError:
+        return None
+
+
+def as_list(value):
+    return value if isinstance(value, list) else [value] if value else []
+
+
+def check_iaas(env, report):
+    code, out = run("onevnet", "list")
+    if not report.check(code == 0, tr("Die CLI von OpenNebula läuft als dein Benutzer", "The OpenNebula CLI runs as your user"),
+                        tr("Kapitel 2.1 zeigt, wie du ~/.one/one_auth anlegst.", "Chapter 2.1 shows how to create ~/.one/one_auth.")):
+        return
+    vnet = one_json("onevnet", "show", "cc-net")
+    template = (vnet or {}).get("VNET", {}).get("TEMPLATE", {})
+    if report.check(vnet is not None, tr("Das Netz cc-net existiert", "The network cc-net exists")):
+        report.check(template.get("VN_MAD") == "vxlan", tr("cc-net verwendet VXLAN", "cc-net uses VXLAN"), str(template.get("VN_MAD")))
+        report.check(str(template.get("VLAN_ID")) == env["CC_VNI"], tr(f"cc-net hat die VXLAN-Kennung {env['CC_VNI']}", f"cc-net has the VXLAN id {env['CC_VNI']}"),
+                     f"VLAN_ID={template.get('VLAN_ID')}")
+        report.check(template.get("GATEWAY") == env["CC_GUEST_GATEWAY"], tr(f"cc-net hat das Gateway {env['CC_GUEST_GATEWAY']}", f"cc-net has the gateway {env['CC_GUEST_GATEWAY']}"),
+                     f"GATEWAY={template.get('GATEWAY')}")
+        report.check(str(template.get("GUEST_MTU")) == "1450", tr("cc-net gibt den Gästen MTU 1450", "cc-net gives the guests MTU 1450"))
+    report.check(one_json("onetemplate", "show", "ubuntu") is not None, tr("Die Vorlage ubuntu existiert", "The template ubuntu exists"))
+    pool = one_json("onevm", "list") or {}
+    vms = as_list(pool.get("VM_POOL", {}).get("VM"))
+    prefix = env["CC_GUEST_NET"].rsplit(".", 1)[0] + "."
+    running = []
+    for vm in vms:
+        # LCM_STATE 3 is RUNNING
+        if str(vm.get("LCM_STATE")) != "3":
+            continue
+        for nic in as_list(vm.get("TEMPLATE", {}).get("NIC")):
+            if str(nic.get("IP", "")).startswith(prefix):
+                running.append((vm.get("NAME"), nic.get("IP")))
+    if not report.check(running != [], tr("Eine VM läuft im internen Netz", "A VM runs in the internal network"),
+                        tr("Starte eine VM aus der Vorlage ubuntu, Kapitel 2.4.", "Start a VM from the template ubuntu, chapter 2.4.")):
+        return
+    name, ip = running[0]
+    code, out = run("ssh", "-o", "BatchMode=yes", "-o", "StrictHostKeyChecking=accept-new", "-o", "LogLevel=ERROR", "-o", "ConnectTimeout=5", f"root@{ip}",
+                    "hostname; curl -s -o /dev/null -w '%{http_code}' https://www.ubuntu.com")
+    lines = out.splitlines()
+    if report.check(code == 0, tr(f"SSH auf {name} ({ip})", f"SSH to {name} ({ip})"),
+                    tr("Ist dein Schlüssel bei oneadmin hinterlegt? Kapitel 2.4.", "Is your key stored for oneadmin? Chapter 2.4.")):
+        report.check(lines[:1] == [name], tr(f"{name} trägt seinen Namen aus dem Kontext", f"{name} has its name from the context"))
+        report.check(lines[-1:] in (["200"], ["301"]), tr(f"{name} erreicht das Internet über das Gateway", f"{name} reaches the internet through the gateway"),
+                     out[-80:])
+
+
+CHECKS = {"start": check_start, "install": check_install, "iaas": check_iaas}
 
 
 def main():

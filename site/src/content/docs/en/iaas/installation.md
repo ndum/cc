@@ -165,12 +165,23 @@ While this course was being developed, the run stopped four times, and each of t
 
 After a fix, simply start the run again. Since Ansible describes the target state, it skips everything that is already right.
 
-## Checking
+## The CLI as your user
 
-`onehost list` shows whether OpenNebula runs and both nodes are ready. Run it as the user `oneadmin`. The column `STAT` has to show `on` for both nodes.
+The OpenNebula commands such as `onehost` or `onevm` log in to the API with the user and password from the file `~/.one/one_auth`. So that you do not have to switch to `oneadmin` every time, you create this file for your own user with the password from the inventory. Only you may read it.
 
 ```bash
-sudo -iu oneadmin onehost list
+mkdir -p ~/.one
+(umask 077; echo "oneadmin:$(cat ~/cc-lab/oneadmin.pass)" > ~/.one/one_auth)
+```
+
+That is convenient for a lab. In a real cloud the platform team works with users of its own instead of `oneadmin`, as chapter 3.1 shows.
+
+## Checking
+
+`onehost list` shows whether OpenNebula runs and both nodes are ready. The column `STAT` has to show `on` for both nodes. OneDeploy registers the nodes with their IP addresses as names.
+
+```bash
+onehost list
 ```
 
 `systemctl` and `ss` show which services run on the front-end and which ports they listen on.
@@ -197,7 +208,7 @@ The first run reports `changed=2` on both nodes because htop was installed and `
 ::::
 
 ::::exercise[Lab]
-Install OpenNebula 7.4 with OneDeploy, check the hosts with `onehost list`, log in to the web interface and upload the report of the check `install` to your hand-in repo.
+Install OpenNebula 7.4 with OneDeploy, set up the CLI for your user, check the hosts with `onehost list`, log in to the web interface and upload the report of the check `install` to your hand-in repo.
 
 :::solution
 The check ends with "8 of 8 checks passed". `onehost list` shows both nodes with `on` in the column `STAT`. If it shows `err` instead, `onehost show` with the host's name explains why in the section `MONITORING`, often a missing SSH connection from the front-end to the node.
