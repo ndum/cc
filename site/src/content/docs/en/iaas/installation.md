@@ -1,31 +1,78 @@
 ---
 title: Installation with OneDeploy
-description: Ansible and OneDeploy on the front-end, the inventory of your lab, a run that installs OpenNebula 7.4 on three VMs, and how to read a run that stops.
+description: How Ansible works with inventories, playbooks, roles and handlers, how OneDeploy is organized, what it installs and configures on the front-end and the nodes, and how to read a run that stops.
 sidebar:
   order: 2
 ---
 
 :::assignment
-"The board chose OpenNebula," Simone Wyss writes. "The software is free, it comes from Europe and it runs on our three servers. Can you install it in a way we can repeat any time we add a server?"
+"The board chose OpenNebula," Simone Wyss writes. "The software is free, it comes from Europe and it runs on our three servers. Can you install it in a way we can repeat any time we add a server? And please write down what runs where afterwards, so we still know a year from now."
 :::
 
 :::goals
 After this chapter you can
 
-- explain how Ansible works with an inventory and playbooks,
-- set up OneDeploy on the front-end,
-- generate and read the inventory of your lab,
+- explain how Ansible works with inventories, playbooks, tasks, modules, roles and handlers,
+- run a small playbook of your own and recognize idempotence in its output,
+- describe how OneDeploy is organized,
 - install OpenNebula 7.4 with one run of OneDeploy,
+- name the services that run on the front-end and the nodes afterwards and how they work together,
 - read the message of a run that stopped and fix the problem.
 :::
 
-## Ansible and OneDeploy
+## Ansible
 
-Ansible sets up servers over SSH. An inventory lists the servers and their groups, and a playbook describes steps that Ansible runs on those servers. Ansible describes the target state, not the individual commands. A second run therefore changes only what is not yet right.
+You could set up a cloud of three servers by hand. With thirty servers, or with a server that has to be rebuilt after a failure, that becomes slow and error-prone. Configuration management tools therefore describe the desired state of the servers in files and bring the servers into that state. Ansible is one of them, and it is the tool the OpenNebula project uses to automate its installations.
 
-OneDeploy is the collection of playbooks the OpenNebula project uses to build a cloud from a front-end and several nodes. The course uses the version `release-1.4.1`, which it is tested with. Ansible runs on the front-end and sets up the front-end itself and both nodes from there.
+Ansible needs no agent. The target machines only need SSH and Python. Ansible runs on a control machine, the front-end in your lab, connects to the targets, copies small programs over, runs them and deletes them again. This is called a push model because the control machine initiates the changes.
+
+The key idea is the target state. A shell script says "install package X". An Ansible task says "package X is installed". If that is already true, Ansible does nothing and reports `ok`. If it has to change something, it reports `changed`. This property is called idempotence. A run may be repeated any number of times, and the result stays the same.
+
+### Terms
+
+| Term | Meaning | Example from the lab |
+|---|---|---|
+| Inventory | list of target machines, in groups, with variables | `inventory.yml` with the groups `frontend` and `node` |
+| Playbook | YAML file with one or more plays | `opennebula.deploy.main` |
+| Play | assigns roles or tasks to a group of machines | "the role `kvm` on all nodes" |
+| Task | a single step that uses a module | "package `opennebula-node-kvm` is installed" |
+| Module | the program that carries out a task | `apt`, `copy`, `template`, `service`, `user` |
+| Role | bundle of tasks, templates, defaults and handlers for one job | `database`, `opennebula/server`, `gui`, `kvm` |
+| Handler | task that runs only when another task changed something | restart a service after its configuration changed |
+| Variable | value that controls tasks and templates | `one_version: "7.4"` |
+| Facts | information Ansible gathers about a target | Ubuntu version, number of CPUs, network cards |
+| become | switching to another user, usually root with sudo | `ansible_become: true` |
+| Collection | packaged bundle of roles, modules and playbooks | `opennebula.deploy` |
+
+### A first playbook
+
+The course's example greets you with the name of the cooperative on every node. It installs a package, writes a file with facts about the node and shows the file through a handler.
+
+::code{file="examples/ansible/motd.yml"}
+
+Run it twice. The first run reports `changed` for both tasks, and the handler shows the greeting. The second run reports `ok` everywhere and `changed=0`, and the handler stays silent because nothing changed. The line `gather_facts: true` is needed because OneDeploy turns off the automatic gathering of facts in its configuration.
+
+```bash
+cd ~/cc-lab/one-deploy
+ansible-playbook -i ../inventory.yml ~/cc/examples/ansible/motd.yml
+```
+
+The example needs the inventory from the section [The inventory](#the-inventory), so create that first.
+
+## OneDeploy
+
+OneDeploy is an Ansible collection by the OpenNebula project. It installs a cloud from a front-end and several nodes, optionally with high availability, Ceph storage or a routed network. The course uses the version `release-1.4.1`, which it is tested with, and only the simplest layout with local storage.
 
 ![How OneDeploy sets up the lab. Ansible on the front-end reads the inventory and the playbooks of OneDeploy. It sets up the front-end locally, with oned, the scheduler and FireEdge, and the two nodes over SSH, with KVM and libvirt.](../../../../assets/figures/en/p2c2-deploy.svg)
+
+The playbook `opennebula.deploy.main` has two parts. The part `pre` prepares all machines. It checks Python and the machine names, distributes SSH keys and sets up time synchronization and logging. The part `site` then installs OpenNebula in plays for the groups of the inventory:
+
+1. all machines with the role `common`, shared packages and the OpenNebula package source
+2. the front-end with the roles `database`, `opennebula/server`, `gate`, `flow`, `form` and `gui`
+3. the nodes with the roles `kvm`, `datastore/node` and `network/node`
+4. the front-end once more with `datastore/frontend` and `network/frontend`, which create the datastores and networks and register the nodes as hosts
+
+Roles for features the inventory does not turn on, such as Ceph, a routed network or Prometheus, are skipped. They show up as `skipping` in the output.
 
 ## Setting up OneDeploy
 
@@ -58,14 +105,50 @@ ansible -i ../inventory.yml all -m ping
 
 ## Installing OpenNebula
 
-A run of OneDeploy takes ten to twenty minutes. It sets up the package sources, installs the database, the service `oned`, the scheduler and the web interface FireEdge on the front-end and KVM with libvirt on the nodes. At the end it registers the nodes as hosts.
+A run of OneDeploy takes ten to twenty minutes. Ansible shows every role and every task with its result per machine.
 
 ```bash
 cd ~/cc-lab/one-deploy
 ansible-playbook -i ../inventory.yml opennebula.deploy.main | tee ../deploy.log
 ```
 
-The output ends with the section `PLAY RECAP` and one line per VM. After a successful installation every line shows `failed=0`.
+The output ends with the section `PLAY RECAP` and one line per VM. After a successful installation every line shows `failed=0`. The numbers for `ok`, `changed` and `skipped` tell you how many tasks were already right, how many changed something and how many your lab did not need.
+
+## The installed services
+
+After the run, OpenNebula is fully installed. The details below come from a lab of the course with OpenNebula 7.4.1 on Ubuntu 26.04.
+
+### On the front-end
+
+| Service | Package | Port | Job |
+|---|---|---|---|
+| `oned` | `opennebula` | 2633 (XML-RPC), 2634 (gRPC) | the core of OpenNebula, manages all objects and offers the API that the CLI, the web interface and OpenTofu use |
+| Scheduler | `opennebula` | | a driver of `oned` that picks a suitable node for every new VM |
+| `onemonitord` | `opennebula` | 4124 | collects the state of nodes and VMs |
+| MariaDB | `mariadb-server` | 3306, local only | database of `oned` with all users, hosts, images, networks and VMs |
+| FireEdge | `opennebula-fireedge` | 2616 | the web interface Sunstone |
+| guacd | `opennebula-guacd` | 4822 | shows the console of a VM in the browser |
+| OneFlow | `opennebula-flow` | 2474 | services made of several VMs with elasticity rules, the topic of chapter 3.5 |
+| OneGate | `opennebula-gate` | 5030, local only | lets VMs report values to OpenNebula, OneFlow needs it |
+| OneForm | `opennebula-form` | 13013 | provisions new clusters at providers, not used in the course |
+| Hook manager | `opennebula` | 2101 and 2102, local only | runs scripts when an object changes |
+| SSH agent | `opennebula` | | holds the key of `oneadmin` for the connections to the nodes |
+
+On top of that come the user `oneadmin` with an SSH key pair, time synchronization with chrony and the configuration under `/etc/one/`, mainly `oned.conf`. Inside OpenNebula the run creates three datastores. The datastore `system` with ID 0 holds the disks of running VMs, `default` with ID 1 the images, and `files` with ID 2 files such as kernels or context scripts. All three use the transfer driver `ssh`.
+
+### On the nodes
+
+| Service | Package | Job |
+|---|---|---|
+| KVM with QEMU | `qemu-system-x86` | runs the VMs with the virtualization of the CPU |
+| libvirt | `libvirt-daemon-system` | manages the VMs on the node, with `virtlogd` for the logs and `virtlockd` against disks opened twice |
+| Node package | `opennebula-node-kvm` | creates the user `oneadmin` in the groups `kvm` and `libvirt` and configures libvirt for OpenNebula |
+
+No OpenNebula service of its own runs on the nodes. The key of `oneadmin` from the front-end is listed in their `authorized_keys`.
+
+### Front-end and nodes working together
+
+When you start a VM, `oned` records it in the database, and the scheduler picks a node with enough free CPU and memory. The front-end then connects to that node as `oneadmin` over SSH. The transfer driver `ssh` copies the VM's image into the node's `system` datastore under `/var/lib/one/datastores/0/`. Then a driver on the node calls libvirt, and libvirt starts the VM with KVM. The drivers are small Ruby and shell programs that the front-end copies to `/var/tmp/one/` on every node. That is what the handler "Sync Remotes" does at the end of a run. `onemonitord` then regularly asks how nodes and VMs are doing, and `oned` shows it in `onehost list` and the web interface.
 
 ## Reading a run that stopped
 
@@ -90,6 +173,13 @@ After a fix, simply start the run again. Since Ansible describes the target stat
 sudo -iu oneadmin onehost list
 ```
 
+`systemctl` and `ss` show which services run on the front-end and which ports they listen on.
+
+```bash
+systemctl list-units 'opennebula*' mariadb.service
+sudo ss -ltnp
+```
+
 You reach the web interface in the browser on port 2616 of the front-end, for example `http://192.168.42.10:2616/`. Log in as `oneadmin` with the password from `~/cc-lab/oneadmin.pass`.
 
 The check of this chapter covers the service, the version, both hosts and the web interface.
@@ -98,10 +188,26 @@ The check of this chapter covers the service, the version, both hosts and the we
 python3 ~/cc/checks/check.py install
 ```
 
+::::exercise[Warm-up]
+Create the inventory and run the playbook `motd.yml` twice. Compare the two `PLAY RECAP` sections and explain why the handler does not run the second time.
+
+:::solution
+The first run reports `changed=2` on both nodes because htop was installed and `/etc/motd` was written. The second run reports `changed=0`. Since the task "Write the greeting" changed nothing, it does not notify the handler, and the handler does not run.
+:::
+::::
+
 ::::exercise[Lab]
 Install OpenNebula 7.4 with OneDeploy, check the hosts with `onehost list`, log in to the web interface and upload the report of the check `install` to your hand-in repo.
 
 :::solution
 The check ends with "8 of 8 checks passed". `onehost list` shows both nodes with `on` in the column `STAT`. If it shows `err` instead, `onehost show` with the host's name explains why in the section `MONITORING`, often a missing SSH connection from the front-end to the node.
+:::
+::::
+
+::::exercise[Deep dive]
+Match every port that `sudo ss -ltnp` shows on your front-end to a service from the table. Which ports are reachable only locally, and why does that make sense for the database?
+
+:::solution
+MariaDB on 3306, OneGate on 5030 and the hook manager on 2101 and 2102 listen only locally, on `127.0.0.1`. The database is needed only by `oned` on the same machine. If it were reachable on the network, anyone with its password could read or change all data of the cloud, bypassing the OpenNebula API.
 :::
 ::::

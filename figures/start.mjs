@@ -102,8 +102,129 @@ function labMap(lang) {
   ].join('\n');
 }
 
+const ARCH = {
+  de: {
+    title: 'Die Zielarchitektur des Kurses',
+    desc:
+      'Fünf Schichten übereinander. Unten laufen drei Lab-VMs mit Ubuntu auf SmartLearn oder Hyper-V. ' +
+      'Darauf stellt OpenNebula die IaaS bereit, mit der API von oned, der Weboberfläche, Mandanten mit ' +
+      'Quotas und einem internen Netz. Darüber läuft die Plattform k3s auf zwei VMs, per OpenTofu ' +
+      'bereitgestellt, mit Argo CD, den Apps der Mitglieder, Prometheus, Loki und Ollama. Zuoberst nutzen ' +
+      'die Mitglieder von Wolkenwerk Bern die Cloud. Neben jeder Schicht steht der Teil des Kurses, der sie aufbaut.',
+    members: 'Mitglieder von Wolkenwerk Bern',
+    memberNames: ['Praxis', 'Treuhand', 'Veloatelier', 'Gemeinde', 'eigenes Mitglied'],
+    platform: 'Plattform, k3s auf zwei VMs',
+    services: [
+      ['Argo CD', 'GitOps'],
+      ['Webshop', 'Apps der Mitglieder'],
+      ['Prometheus', 'Metriken, Alerts'],
+      ['Loki', 'Logs'],
+      ['Ollama', 'KI-Dienst'],
+    ],
+    git: 'Git-Repo',
+    triage: 'KI-Triage mit Freigabe',
+    iaas: 'IaaS, OpenNebula 7.4',
+    iaasParts: [
+      ['oned', 'API, Scheduler'],
+      ['Sunstone', 'Weboberfläche'],
+      ['Mandanten', 'Quotas, Showback'],
+      ['internes Netz', 'VXLAN, NAT'],
+      ['VMs auf KVM', 'k3s, Mitglieder'],
+    ],
+    tofu: 'OpenTofu',
+    lab: 'Lab-VMs mit Ubuntu 26.04',
+    labVms: ['Front-end', 'Knoten 1', 'Knoten 2'],
+    hypervisor: 'auf SmartLearn oder Hyper-V',
+    parts: ['Teil 3 und 6', 'Teil 4 und 5', 'Teil 2 und 3', 'Teil 0'],
+  },
+  en: {
+    title: 'The target architecture of the course',
+    desc:
+      'Five layers on top of each other. At the bottom, three lab VMs with Ubuntu run on SmartLearn or ' +
+      'Hyper-V. On them, OpenNebula provides the IaaS with the API of oned, the web interface, tenants with ' +
+      'quotas and an internal network. Above it runs the platform k3s on two VMs, provisioned with OpenTofu, ' +
+      'with Argo CD, the apps of the members, Prometheus, Loki and Ollama. At the top, the members of ' +
+      'Wolkenwerk Bern use the cloud. Next to each layer is the part of the course that builds it.',
+    members: 'Members of Wolkenwerk Bern',
+    memberNames: ['practice', 'fiduciary', 'bike shop', 'municipality', 'your member'],
+    platform: 'Platform, k3s on two VMs',
+    services: [
+      ['Argo CD', 'GitOps'],
+      ['Web shop', 'apps of members'],
+      ['Prometheus', 'metrics, alerts'],
+      ['Loki', 'logs'],
+      ['Ollama', 'AI service'],
+    ],
+    git: 'Git repo',
+    triage: 'AI triage with approval',
+    iaas: 'IaaS, OpenNebula 7.4',
+    iaasParts: [
+      ['oned', 'API, scheduler'],
+      ['Sunstone', 'web interface'],
+      ['Tenants', 'quotas, showback'],
+      ['Internal network', 'VXLAN, NAT'],
+      ['VMs on KVM', 'k3s, members'],
+    ],
+    tofu: 'OpenTofu',
+    lab: 'Lab VMs with Ubuntu 26.04',
+    labVms: ['Front-end', 'Node 1', 'Node 2'],
+    hypervisor: 'on SmartLearn or Hyper-V',
+    parts: ['parts 3 and 6', 'parts 4 and 5', 'parts 2 and 3', 'part 0'],
+  },
+};
+
+function architecture(lang) {
+  const t = ARCH[lang];
+  const id = `p0c1-architecture-${lang}`;
+  const column = (index) => 34 + index * 132;
+  const band = (y, h, title, part) =>
+    [
+      `<rect class="fig-box" x="20" y="${y}" width="680" height="${h}" rx="8" stroke-dasharray="7 5"/>`,
+      `<text class="fig-text" x="34" y="${y + 24}">${escape(title)}</text>`,
+      `<text class="fig-sub" x="686" y="${y + 24}" text-anchor="end">${escape(part)}</text>`,
+    ].join('\n');
+  const cell = (x, y, w, h, title, sub, strong = false) =>
+    [
+      `<rect class="fig-box${strong ? ' fig-box-strong' : ''}" x="${x}" y="${y}" width="${w}" height="${h}" rx="5"/>`,
+      `<text class="fig-text" x="${x + w / 2}" y="${y + (sub ? 20 : 22)}" text-anchor="middle">${escape(title)}</text>`,
+      ...(sub ? [`<text class="fig-sub" x="${x + w / 2}" y="${y + 38}" text-anchor="middle">${escape(sub)}</text>`] : []),
+    ].join('\n');
+  const arrow = (d) => `<path class="fig-arrow" d="${d}" marker-end="url(#${id}-head)"/>`;
+  const parts = [
+    `<defs><marker id="${id}-head" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">` +
+      `<path class="fig-arrowhead" d="M 0 0 L 10 5 L 0 10 z"/></marker></defs>`,
+    band(10, 76, t.members, t.parts[0]),
+    ...t.memberNames.map((name, i) => cell(column(i), 42, 124, 34, name, '')),
+    band(104, 152, t.platform, t.parts[1]),
+    ...t.services.map(([name, sub], i) => cell(column(i), 136, 124, 48, name, sub, name === 'Ollama')),
+    cell(column(0), 204, 124, 40, t.git, ''),
+    arrow(`M ${column(0) + 62} 204 L ${column(0) + 62} 188`),
+    cell(column(2), 204, 388, 40, t.triage, ''),
+    arrow('M 160 292 L 160 260'),
+    `<text class="fig-code" x="168" y="282">${escape(t.tofu)}</text>`,
+    band(296, 112, t.iaas, t.parts[2]),
+    ...t.iaasParts.map(([name, sub], i) => cell(column(i), 328, 124, 48, name, sub, name === 'oned')),
+    band(426, 76, t.lab, t.parts[3]),
+    ...t.labVms.map((name, i) => cell(298 + i * 132, 456, 124, 34, name, '')),
+    `<text class="fig-sub" x="34" y="526">${escape(t.hypervisor)}</text>`,
+  ];
+  return [
+    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 540" role="img" aria-labelledby="${id}-title ${id}-desc">`,
+    `<title id="${id}-title">${escape(t.title)}</title>`,
+    `<desc id="${id}-desc">${escape(t.desc)}</desc>`,
+    ...parts,
+    '</svg>',
+    '',
+  ].join('\n');
+}
+
 for (const lang of Object.keys(TEXT)) {
   const target = join(ROOT, 'site', 'src', 'assets', 'figures', lang, 'p0c2-lab.svg');
   mkdirSync(dirname(target), { recursive: true });
   writeFileSync(target, sketch(labMap(lang), 'p0c2-lab'));
+}
+
+for (const lang of Object.keys(ARCH)) {
+  const target = join(ROOT, 'site', 'src', 'assets', 'figures', lang, 'p0c1-architecture.svg');
+  writeFileSync(target, sketch(architecture(lang), 'p0c1-architecture'));
 }

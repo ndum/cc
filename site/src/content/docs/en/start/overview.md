@@ -40,6 +40,14 @@ Wolkenwerk Bern is a young cooperative. Small organizations in the region founde
 
 The first four members need different things. Praxis Rosenweg, a medical practice, keeps patient data and is bound by professional secrecy. Treuhand Aaregg, a fiduciary office, has far more work at the end of each month and during tax season. Veloatelier Matte, a bike shop, sells through a web shop that gets overrun on spring Saturdays. Gemeinde Hinterbüel, a small municipality, needs reliable counter services on a fixed budget. In part 6 a fifth member joins, and you design it yourself.
 
+## The target architecture
+
+By the end of the course you run a cloud in five layers. At the bottom are your three lab VMs on SmartLearn or Hyper-V. On them OpenNebula provides the infrastructure, with tenants, quotas and an internal network for your members' VMs. With OpenTofu you create two VMs in it that run the Kubernetes cluster k3s. That cluster carries the services of the platform. Argo CD deploys the members' apps from a Git repo, Prometheus and Loki watch everything, and Ollama offers a local language model that suggests a cause and an action when an alert fires. At the top, the members use this cloud.
+
+![The target architecture of the course. Five layers on top of each other. At the bottom, three lab VMs with Ubuntu run on SmartLearn or Hyper-V. On them, OpenNebula provides the IaaS with the API of oned, the web interface, tenants with quotas and an internal network. Above it runs the platform k3s on two VMs, provisioned with OpenTofu, with Argo CD, the apps of the members, Prometheus, Loki and Ollama. At the top, the members of Wolkenwerk Bern use the cloud. Next to each layer is the part of the course that builds it.](../../../../assets/figures/en/p0c1-architecture.svg)
+
+Every part of the course builds a layer or extends one. The figure shows the parts to the right of each layer.
+
 ## Assessment
 
 Your grade comes from four implementation proofs. You hand in UN1 and UN2 together at the end of block 4 and get your first grade for them. UN3 and UN4 follow at the end of block 6 and make up the second grade. Both grades count the same. Block 7 is reserved for the mock exam and its discussion. [Assessment](../../assessment/) has the details.

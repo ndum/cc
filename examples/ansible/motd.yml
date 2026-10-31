@@ -1,0 +1,33 @@
+---
+# A first playbook: every node greets with the name of the cooperative when you log in.
+# Run it twice and compare the recap, the second run changes nothing.
+#
+#   ansible-playbook -i ~/cc-lab/inventory.yml ~/cc/examples/ansible/motd.yml
+- name: Greeting on the nodes
+  hosts: node
+  become: true
+  # The ansible.cfg of OneDeploy turns automatic facts off, this play needs them
+  gather_facts: true
+  vars:
+    cooperative: Wolkenwerk Bern
+  tasks:
+    - name: Install htop to watch the load of a node
+      ansible.builtin.apt:
+        name: htop
+        state: present
+        update_cache: true
+        cache_valid_time: 3600
+
+    - name: Write the greeting
+      ansible.builtin.copy:
+        dest: /etc/motd
+        content: |
+          {{ cooperative }}, {{ inventory_hostname }}
+          Ubuntu {{ ansible_facts['distribution_version'] }}, {{ ansible_facts['processor_vcpus'] }} vCPU
+        mode: "0644"
+      notify: Show the greeting
+
+  handlers:
+    - name: Show the greeting
+      ansible.builtin.command: cat /etc/motd
+      changed_when: false

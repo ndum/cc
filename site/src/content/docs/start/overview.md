@@ -40,6 +40,14 @@ Wolkenwerk Bern ist eine junge Genossenschaft. Kleine Organisationen aus der Reg
 
 Die ersten vier Mitglieder haben unterschiedliche Anforderungen. Die Praxis Rosenweg führt Patientendaten und untersteht dem Berufsgeheimnis. Die Treuhand Aaregg hat am Monatsende und in der Steuersaison viel mehr Last als sonst. Das Veloatelier Matte verkauft über einen Webshop, der an Frühlingssamstagen überläuft. Die Gemeinde Hinterbüel braucht verlässliche Schalterdienste und hat ein festes Budget. In Teil 6 kommt ein fünftes Mitglied dazu, das du selbst entwirfst.
 
+## Die Zielarchitektur
+
+Am Ende des Kurses betreibst du eine Cloud in fünf Schichten. Zuunterst laufen deine drei Lab-VMs auf SmartLearn oder Hyper-V. Auf ihnen stellt OpenNebula die Infrastruktur bereit, mit Mandanten, Quotas und einem internen Netz für die VMs deiner Mitglieder. Mit OpenTofu legst du darin zwei VMs an, auf denen der Kubernetes-Cluster k3s läuft. Auf diesem Cluster liegen die Dienste der Plattform. Argo CD rollt die Apps der Mitglieder aus einem Git-Repo aus, Prometheus und Loki überwachen alles, und Ollama bietet ein lokales Sprachmodell an, das bei Alerts eine Ursache und eine Aktion vorschlägt. Ganz oben nutzen die Mitglieder diese Cloud.
+
+![Die Zielarchitektur des Kurses. Fünf Schichten übereinander. Unten laufen drei Lab-VMs mit Ubuntu auf SmartLearn oder Hyper-V. Darauf stellt OpenNebula die IaaS bereit, mit der API von oned, der Weboberfläche, Mandanten mit Quotas und einem internen Netz. Darüber läuft die Plattform k3s auf zwei VMs, per OpenTofu bereitgestellt, mit Argo CD, den Apps der Mitglieder, Prometheus, Loki und Ollama. Zuoberst nutzen die Mitglieder von Wolkenwerk Bern die Cloud. Neben jeder Schicht steht der Teil des Kurses, der sie aufbaut.](../../../assets/figures/de/p0c1-architecture.svg)
+
+Jeder Teil des Kurses baut eine Schicht auf oder erweitert sie. Die Teile stehen in der Abbildung rechts neben der Schicht.
+
 ## Leistungsbeurteilung
 
 Deine Modulnote entsteht aus vier Umsetzungsnachweisen. UN1 und UN2 gibst du am Ende von Block 4 zusammen ab und erhältst dafür die erste Note. UN3 und UN4 gibst du am Ende von Block 6 ab, sie ergeben die zweite Note. Beide Noten zählen gleich viel. Block 7 gehört der Probeprüfung und ihrer Besprechung. Die Einzelheiten stehen unter [Leistungsbeurteilung](../../assessment/).
