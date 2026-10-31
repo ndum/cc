@@ -44,6 +44,7 @@ jobs:
       - name: Figures are reproducible
         run: |
           node figures/start.mjs
+          node figures/basics.mjs
           node figures/iaas.mjs
           node figures/favicon.mjs
           git diff --exit-code

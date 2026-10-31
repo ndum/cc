@@ -181,6 +181,15 @@ lt-tabs {
   font-size: 14px;
   font-weight: 600;
 }
+.fig .d-title-small {
+  fill: var(--sl-color-white);
+  font-size: 12.5px;
+  font-weight: 600;
+}
+.fig .d-cell-provider {
+  fill: color-mix(in srgb, var(--sl-color-gray-5) 60%, var(--sl-color-bg));
+  stroke: none;
+}
 .fig .d-sub {
   fill: var(--sl-color-gray-3);
   font-size: 12px;

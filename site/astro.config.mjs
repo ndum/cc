@@ -42,6 +42,7 @@ export default defineConfig({
       sidebar: [
         // The parts come first and without a gap, the blocks without numbers follow them
         { label: 'Start', translations: { en: 'Getting started' }, collapsed: true, items: [{ autogenerate: { directory: 'start' } }] },
+        { label: 'Cloud-Grundlagen', translations: { en: 'Cloud basics' }, collapsed: true, items: [{ autogenerate: { directory: 'basics' } }] },
         { label: 'IaaS aufbauen', translations: { en: 'Building IaaS' }, collapsed: true, items: [{ autogenerate: { directory: 'iaas' } }] },
         {
           label: 'Leistungsbeurteilung',
