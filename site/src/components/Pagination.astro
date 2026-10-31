@@ -1,0 +1,11 @@
+---
+// Starlight puts the "previous / next page" links (with the neighbours' titles) inside
+// <main data-pagefind-body>, so every page was indexed with its neighbours' titles and a
+// search for one title also returned both neighbours. Hide them from the index.
+// `display: contents` keeps the footer layout unchanged.
+import Default from '@astrojs/starlight/components/Pagination.astro';
+---
+
+<div data-pagefind-ignore style="display: contents">
+  <Default><slot /></Default>
+</div>

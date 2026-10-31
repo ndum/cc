@@ -1,0 +1,13 @@
+[Unit]
+Description=Gateway of the CC guest network (VXLAN, gateway address and NAT)
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/local/sbin/cc-gateway up
+ExecStop=/usr/local/sbin/cc-gateway down
+
+[Install]
+WantedBy=multi-user.target

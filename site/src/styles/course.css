@@ -1,0 +1,376 @@
+/* Course building blocks: boxes, tabs, quizzes and the parameter generator. Colours come from Starlight's
+   variables, so light and dark mode follow the site theme. */
+
+/* Boxes: assignment, goals, deepdive, exercise, selfcheck, solution */
+.lt-box {
+  --lt-color: var(--sl-color-accent);
+  --lt-bg: var(--sl-color-accent-low);
+  margin-block: 1.25rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--sl-color-gray-5);
+  border-inline-start: 0.3rem solid var(--lt-color);
+  border-radius: 0.5rem;
+  background: color-mix(in srgb, var(--lt-bg) 35%, transparent);
+}
+.lt-assignment {
+  --lt-color: var(--sl-color-orange);
+  --lt-bg: var(--sl-color-orange-low);
+}
+.lt-goals {
+  --lt-color: var(--sl-color-accent);
+  --lt-bg: var(--sl-color-accent-low);
+}
+.lt-exercise,
+.lt-selfcheck {
+  --lt-color: var(--sl-color-blue);
+  --lt-bg: var(--sl-color-blue-low);
+}
+.lt-solution {
+  --lt-color: var(--sl-color-green);
+  --lt-bg: var(--sl-color-green-low);
+}
+.lt-deepdive {
+  --lt-color: var(--sl-color-purple);
+  --lt-bg: var(--sl-color-purple-low);
+}
+.lt-box-title,
+.lt-solution > summary {
+  margin: 0 0 0.5rem;
+  font-weight: 600;
+  color: var(--sl-color-white);
+}
+/* The title of a deep dive is a heading for the table of contents, but looks like the other titles.
+   Starlight sets the size of a heading on the wrapper of its anchor link as well. */
+.lt-box .sl-heading-wrapper:has(> .lt-box-title),
+.lt-box h3.lt-box-title {
+  font-size: inherit;
+  line-height: inherit;
+}
+.lt-box-kind {
+  display: block;
+  font-size: var(--sl-text-xs);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--lt-color);
+}
+.lt-solution > summary {
+  margin: 0;
+  cursor: pointer;
+}
+.lt-solution[open] > summary {
+  margin-bottom: 0.5rem;
+}
+.lt-box > :last-child {
+  margin-bottom: 0;
+}
+
+/* Tabs: :::tabs with ::tab, and the files of a playground */
+lt-tabs {
+  display: block;
+  margin-block: 1.25rem;
+}
+.lt-tablist {
+  display: flex;
+  gap: 0.25rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  border-bottom: 1px solid var(--sl-color-gray-5);
+}
+.lt-tab {
+  appearance: none;
+  margin: 0 0 -1px;
+  padding: 0.5rem 0.9rem;
+  border: 0;
+  border-bottom: 0.2rem solid transparent;
+  background: none;
+  color: var(--sl-color-gray-2);
+  font: inherit;
+  cursor: pointer;
+}
+.lt-tab:hover {
+  color: var(--sl-color-white);
+}
+.lt-tab[aria-selected='true'] {
+  color: var(--sl-color-white);
+  border-bottom-color: var(--sl-color-accent);
+}
+.lt-tab:focus-visible,
+.lt-panel:focus-visible {
+  outline: 2px solid var(--sl-color-accent-high);
+  outline-offset: -2px;
+}
+.lt-panel[hidden] {
+  display: none;
+}
+/* Without JavaScript every panel is visible and introduced by its label */
+.lt-panel-label {
+  margin: 1rem 0 0.25rem;
+  font-weight: 600;
+  color: var(--sl-color-white);
+}
+.lt-panel-label[hidden] {
+  display: none;
+}
+/* While scripting is on but the element is not upgraded yet, show only the first panel */
+@media (scripting: enabled) {
+  lt-tabs:not(:defined) > .lt-panel:not(:first-of-type) {
+    display: none;
+  }
+  lt-tabs:not(:defined) .lt-panel-label {
+    display: none;
+  }
+}
+@media print {
+  .lt-tablist {
+    display: none;
+  }
+  .lt-panel[hidden],
+  .lt-panel-label[hidden] {
+    display: block;
+  }
+}
+
+/* Starlight spaces sibling elements in page content, controls in one row need no gap from that */
+.lt-play-bar > * {
+  margin: 0;
+}
+.lt-play-bar button {
+  font: inherit;
+  font-size: var(--sl-text-sm);
+  padding: 0.3rem 0.85rem;
+  border: 1px solid var(--sl-color-gray-4);
+  border-radius: 0.3rem;
+  background: var(--sl-color-gray-6);
+  color: var(--sl-color-white);
+  cursor: pointer;
+}
+.lt-play-bar .lt-play-open {
+  border-color: var(--sl-color-accent);
+  background: var(--sl-color-accent-low);
+}
+.lt-play-bar button:hover {
+  border-color: var(--sl-color-accent-high);
+}
+.lt-play-bar button:focus-visible {
+  outline: 2px solid var(--sl-color-accent-high);
+  outline-offset: 2px;
+}
+.lt-play-bar button:disabled {
+  cursor: progress;
+  opacity: 0.7;
+}
+.lt-play-status {
+  font-size: var(--sl-text-sm);
+  color: var(--sl-color-gray-2);
+}
+.lt-play-stage {
+  height: 34rem;
+  margin-top: 0.75rem;
+  border: 1px solid var(--sl-color-gray-5);
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+.lt-play-stage[data-layout='vertical'] {
+  height: 46rem;
+}
+.lt-play-stage > .vue-repl {
+  height: 100%;
+}
+
+/* Figures generated as SVG by figures/*.mjs and inlined by remark-inline-figures */
+.lt-figure {
+  margin-block: 1.5rem;
+  /* On a narrow screen a figure keeps its minimum width and scrolls sideways, so its labels stay
+     readable */
+  overflow-x: auto;
+}
+.lt-figure svg {
+  display: block;
+  width: 100%;
+  min-width: 32rem;
+  max-width: 42rem;
+  height: auto;
+}
+.fig .fig-paper {
+  fill: var(--sl-color-bg);
+}
+/* Lines that look drawn by hand, drawn by figures/sketch.mjs */
+.fig .fig-line {
+  fill: none;
+  stroke: var(--sl-color-gray-2);
+  stroke-width: 1.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.fig .fig-line-strong {
+  stroke: var(--sl-color-white);
+  stroke-width: 1.6;
+}
+.fig .fig-hatch {
+  fill: none;
+  stroke: var(--sl-color-accent);
+  stroke-width: 1.1;
+  stroke-linecap: round;
+  opacity: 0.6;
+}
+.fig .fig-text {
+  fill: var(--sl-color-white);
+  font-family: 'Kalam', cursive;
+  font-size: 16px;
+  font-weight: 700;
+}
+.fig .fig-sub {
+  fill: var(--sl-color-gray-2);
+  font-family: 'Kalam', cursive;
+  font-size: 13px;
+}
+.fig .fig-strong {
+  fill: var(--sl-color-white);
+  font-weight: 700;
+}
+.fig .fig-code {
+  fill: var(--sl-color-gray-2);
+  font-family: var(--__sl-font-mono, monospace);
+  font-size: 12px;
+}
+.fig .fig-arrow {
+  fill: none;
+  stroke: var(--sl-color-accent);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.fig .fig-label-bg {
+  fill: var(--sl-color-bg);
+}
+
+/* Starlight spaces sibling elements in page content, controls in one row need no gap from that */
+.lt-quiz-answer > * {
+  margin: 0;
+}
+.lt-quiz-answer button {
+  font: inherit;
+  font-size: var(--sl-text-sm);
+  padding: 0.3rem 0.85rem;
+  border: 1px solid var(--sl-color-gray-4);
+  border-radius: 0.3rem;
+  background: var(--sl-color-gray-6);
+  color: var(--sl-color-white);
+  cursor: pointer;
+}
+
+/* Quizzes: <lt-quiz> from quiz.js */
+lt-quiz {
+  display: block;
+  margin-block: 1.25rem;
+}
+.lt-question {
+  --lt-color: var(--sl-color-blue);
+  --lt-bg: var(--sl-color-blue-low);
+}
+.lt-quiz-answer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.75rem;
+  align-items: center;
+  margin-block: 0.75rem;
+}
+.lt-quiz-answer label {
+  font-weight: 600;
+  color: var(--sl-color-white);
+}
+.lt-quiz-answer input {
+  width: 9rem;
+  padding: 0.3rem 0.5rem;
+  border: 1px solid var(--sl-color-gray-4);
+  border-radius: 0.3rem;
+  background: var(--sl-color-black);
+  color: var(--sl-color-white);
+  font: inherit;
+  font-variant-numeric: tabular-nums;
+}
+.lt-quiz-answer input[aria-invalid='true'] {
+  border-color: var(--sl-color-red);
+}
+.lt-quiz-answer input[aria-invalid='false'] {
+  border-color: var(--sl-color-green);
+}
+.lt-quiz-feedback {
+  flex-basis: 100%;
+  margin: 0;
+  font-size: var(--sl-text-sm);
+}
+.lt-quiz-feedback:empty {
+  display: none;
+}
+.lt-quiz-feedback[data-state='right'] {
+  color: var(--sl-color-green-high);
+}
+.lt-quiz-feedback[data-state='wrong'],
+.lt-quiz-feedback[data-state='invalid'] {
+  color: var(--sl-color-red-high);
+}
+.lt-quiz-summary {
+  margin-block: 1.25rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--sl-color-gray-5);
+  border-inline-start: 0.3rem solid var(--sl-color-accent);
+  border-radius: 0.5rem;
+}
+.lt-quiz-summary > :first-child {
+  margin-top: 0;
+}
+.lt-quiz-summary > :last-child {
+  margin-bottom: 0;
+}
+
+/* Parameter generator: <cc-params> from params.js */
+cc-params {
+  display: block;
+  margin-block: 1.25rem;
+  padding: 1rem;
+  border: 1px solid var(--sl-color-gray-5);
+  border-radius: 0.5rem;
+}
+.cc-params-field {
+  display: grid;
+  gap: 0.25rem;
+  margin-block: 0.5rem;
+}
+.cc-params-field label {
+  font-weight: 600;
+  color: var(--sl-color-white);
+}
+.cc-params-field input {
+  font: inherit;
+  max-width: 20rem;
+  padding: 0.3rem 0.5rem;
+  border: 1px solid var(--sl-color-gray-4);
+  border-radius: 0.3rem;
+  background: var(--sl-color-black);
+  color: var(--sl-color-white);
+}
+.cc-params-hint {
+  font-size: var(--sl-text-xs);
+  color: var(--sl-color-gray-3);
+}
+.cc-params-error {
+  color: var(--sl-color-red-high);
+}
+.cc-params-error:empty {
+  display: none;
+}
+.cc-params-label {
+  font-weight: 600;
+}
+.cc-params-result button {
+  font: inherit;
+  font-size: var(--sl-text-sm);
+  padding: 0.3rem 0.85rem;
+  border: 1px solid var(--sl-color-gray-4);
+  border-radius: 0.3rem;
+  background: var(--sl-color-gray-6);
+  color: var(--sl-color-white);
+  cursor: pointer;
+}
