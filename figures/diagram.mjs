@@ -7,6 +7,37 @@
 
 export const escape = (text) => String(text).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
+/** Font sizes in px, course.css sets the same values for the d-* classes */
+export const SIZE = { title: 13, small: 12, sub: 11, code: 11, label: 11 };
+/** Space between a text and the border of its tile, on each side */
+export const PADDING = 12;
+
+// Approximate advance widths of a sans-serif font as a share of the font size
+const NARROW = new Set("iljtfrI.,:;'|!()[] ");
+const WIDE = new Set('mwMW');
+
+/** Estimated width of a text in px, bold adds about 6 percent, code uses a monospace advance */
+export function measure(text, size, { bold = false, mono = false } = {}) {
+  if (mono) return String(text).length * size * 0.6;
+  let width = 0;
+  for (const char of String(text)) {
+    if (NARROW.has(char)) width += 0.3;
+    else if (WIDE.has(char)) width += 0.86;
+    else if (/[A-ZÄÖÜ]/.test(char)) width += 0.68;
+    else if (/[0-9]/.test(char)) width += 0.58;
+    else width += 0.55;
+  }
+  return width * size * (bold ? 1.06 : 1);
+}
+
+/** Stops the figure script when a text does not fit the given width with padding on both sides */
+function fit(text, available, size, options = {}) {
+  const needed = measure(text, size, options) + 2 * PADDING;
+  if (needed > available) {
+    throw new Error(`"${text}" needs about ${Math.ceil(needed)} px but has only ${Math.floor(available)} px. Widen the tile or shorten the text.`);
+  }
+}
+
 /** The arrowhead every figure uses, referenced as url(#<id>-head) */
 export function defs(id) {
   return (
@@ -23,6 +54,8 @@ export function band(x, y, w, h, level = 1) {
 /** A tile with a centred title and an optional subtitle, accent marks a tile with a bar on its left */
 export function tile(x, y, w, h, title, sub = '', { accent = false, code = false } = {}) {
   const cx = x + w / 2;
+  fit(title, w, SIZE.title, { bold: true });
+  if (sub) fit(sub, w, code ? SIZE.code : SIZE.sub, { mono: code });
   const parts = [`<rect class="d-tile" x="${x}" y="${y}" width="${w}" height="${h}" rx="4"/>`];
   if (accent) parts.push(`<rect class="d-bar" x="${x}" y="${y}" width="4" height="${h}" rx="2"/>`);
   if (sub) {
@@ -36,6 +69,7 @@ export function tile(x, y, w, h, title, sub = '', { accent = false, code = false
 
 /** A flat strip across a band, for the base a layer runs on */
 export function strip(x, y, w, h, text) {
+  fit(text, w, SIZE.sub);
   return [
     `<rect class="d-strip" x="${x}" y="${y}" width="${w}" height="${h}" rx="4"/>`,
     `<text class="d-sub" x="${x + w / 2}" y="${y + h / 2 + 4}" text-anchor="middle">${escape(text)}</text>`,

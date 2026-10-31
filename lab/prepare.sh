@@ -94,7 +94,7 @@ else
   if [ -n "$flag" ]; then
     echo "The CPU of this VM offers $flag."
   else
-    fail "This VM sees no vmx or svm flag. Turn on nested virtualisation for it, see chapters 0.2 and 0.6."
+    fail "This VM sees no vmx or svm flag. Turn on nested virtualisation for it, see chapter 0.2 and the supplement on own hypervisors."
   fi
   echo "Network interface for OpenNebula: $(ip route show default | awk '{ for (i = 1; i < NF; i++) if ($i == "dev") { print $(i + 1); exit } }')"
 fi

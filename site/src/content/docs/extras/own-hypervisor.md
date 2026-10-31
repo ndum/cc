@@ -2,7 +2,7 @@
 title: Eigener Hypervisor
 description: Das Lab auf einem eigenen Hypervisor statt auf smartlearn, mit dem Skript für Hyper-V und Hinweisen für VMware, VirtualBox und Proxmox.
 sidebar:
-  order: 6
+  order: 1
 ---
 
 :::goals
@@ -15,13 +15,13 @@ Nach diesem Kapitel kannst du
 
 ## Voraussetzungen
 
-Der Standardweg des Kurses ist smartlearn. Ein eigener Hypervisor lohnt sich, wenn du auch ausserhalb der Schule ohne Netzzugang zu smartlearn arbeiten willst. Dieser Weg geht auf eigenes Risiko, und deine Lehrperson hilft vor allem beim Standardweg.
+Diese Ergänzung gehört nicht zum Standardweg des Kurses, der auf smartlearn läuft. Ein eigener Hypervisor lohnt sich, wenn du auch ausserhalb der Schule ohne Netzzugang zu smartlearn arbeiten willst. Dieser Weg geht auf eigenes Risiko, und deine Lehrperson hilft vor allem beim Standardweg.
 
 Dein Rechner braucht mindestens 32 GB RAM, besser 48 GB, dazu eine x86-CPU mit Virtualisierung und rund 200 GB freien Speicher. Ein Mac mit Apple-Prozessor eignet sich nicht, weil das Lab auf x86-Prozessoren getestet ist.
 
 Unabhängig vom Hypervisor gelten dieselben Anforderungen wie auf smartlearn:
 
-1. drei VMs mit den Grössen aus [Kapitel 0.2](../lab/)
+1. drei VMs mit den Grössen aus [Kapitel 0.2](../../start/lab/)
 2. verschachtelte Virtualisierung auf beiden Knoten
 3. ein gemeinsames Netz mit festen Adressen, aus dem die VMs ins Internet kommen
 4. Ubuntu Server 26.04 mit den Einstellungen aus Kapitel 0.2

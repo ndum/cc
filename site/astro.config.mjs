@@ -45,6 +45,12 @@ export default defineConfig({
         { label: 'Cloud-Grundlagen', translations: { en: 'Cloud basics' }, collapsed: true, items: [{ autogenerate: { directory: 'basics' } }] },
         { label: 'IaaS aufbauen', translations: { en: 'Building IaaS' }, collapsed: true, items: [{ autogenerate: { directory: 'iaas' } }] },
         {
+          label: 'Ergänzungen',
+          translations: { en: 'Supplements' },
+          collapsed: true,
+          items: [{ autogenerate: { directory: 'extras' } }],
+        },
+        {
           label: 'Leistungsbeurteilung',
           translations: { en: 'Assessment' },
           collapsed: true,

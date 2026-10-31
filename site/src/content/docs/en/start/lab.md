@@ -38,7 +38,7 @@ The VMs of your cloud get a second, internal network that only your three VMs kn
 
 ## smartlearn
 
-Your teacher provides the three VMs on smartlearn, with fixed addresses on a shared network and with nested virtualization. This is the default way of the course, and all instructions assume it. If you prefer to run the VMs on a hypervisor of your own, [chapter 0.6](../own-hypervisor/) has the hints you need.
+Your teacher provides the three VMs on smartlearn, with fixed addresses on a shared network and with nested virtualization. This is the default way of the course, and all instructions assume it. If you prefer to run the VMs on a hypervisor of your own, the supplement [A hypervisor of your own](../../extras/own-hypervisor/) has the hints you need.
 
 ## Nested virtualization
 

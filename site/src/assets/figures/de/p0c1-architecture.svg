@@ -1,99 +1,87 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 564" role="img" aria-labelledby="p0c1-architecture-de-title p0c1-architecture-de-desc">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 620" role="img" aria-labelledby="p0c1-architecture-de-title p0c1-architecture-de-desc">
 <title id="p0c1-architecture-de-title">Die Zielarchitektur des Kurses</title>
-<desc id="p0c1-architecture-de-desc">Vier Schichten übereinander, daneben eine Spalte für die Automatisierung. Die Infrastruktur besteht aus dem Front-end und zwei Knoten mit Ubuntu auf smartlearn oder einem eigenen Hypervisor. Darauf stellt OpenNebula die IaaS bereit, mit oned, Sunstone, Mandanten und Netzen, die VMs laufen mit KVM auf den Knoten. Darüber läuft die Plattform k3s mit Argo CD, den Apps der Mitglieder, Prometheus, Loki, Ollama, Grafana mit Alertmanager und der KI-Triage. Zuoberst nutzen die Mitglieder von Wolkenwerk Bern die Cloud. Ansible mit OneDeploy baut die IaaS, OpenTofu legt die VMs von k3s an, Argo CD holt die Apps aus dem Git-Repo. Links steht bei jeder Schicht der Teil des Kurses, der sie aufbaut.</desc>
+<desc id="p0c1-architecture-de-desc">Vier Schichten übereinander. Die Infrastruktur besteht aus dem Front-end und zwei Knoten mit Ubuntu auf smartlearn, eingerichtet mit prepare.sh. Darauf stellt OpenNebula die IaaS bereit, mit oned, Sunstone, Mandanten und Netzen, installiert mit Ansible und OneDeploy, die VMs laufen mit KVM auf den Knoten. Darüber läuft die Plattform k3s, von OpenTofu angelegt, mit Argo CD, dem Webshop, Ollama, der KI-Triage, Prometheus, Grafana und Loki, die Apps holt Argo CD aus einem Git-Repo. Zuoberst nutzen die Mitglieder von Wolkenwerk Bern die Cloud. Jede Schicht nennt die Teile des Kurses, die sie aufbauen.</desc>
 <defs><marker id="p0c1-architecture-de-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"/></marker></defs>
-<rect class="d-band d-band-1" x="16" y="16" width="588" height="80" rx="6"/>
-<text class="d-label" x="30" y="40" text-anchor="start">MITGLIEDER</text>
-<text class="d-meta" x="30" y="58" text-anchor="start">Teile 3 und 6</text>
-<rect class="d-tile" x="150" y="30" width="81.6" height="52" rx="4"/>
-<text class="d-title" x="190.8" y="53" text-anchor="middle">Praxis</text>
-<text class="d-sub" x="190.8" y="70" text-anchor="middle">Rosenweg</text>
-<rect class="d-tile" x="239.6" y="30" width="81.6" height="52" rx="4"/>
-<text class="d-title" x="280.4" y="53" text-anchor="middle">Treuhand</text>
-<text class="d-sub" x="280.4" y="70" text-anchor="middle">Aaregg</text>
-<rect class="d-tile" x="329.2" y="30" width="81.6" height="52" rx="4"/>
-<text class="d-title" x="370" y="53" text-anchor="middle">Veloatelier</text>
-<text class="d-sub" x="370" y="70" text-anchor="middle">Matte</text>
-<rect class="d-tile" x="418.79999999999995" y="30" width="81.6" height="52" rx="4"/>
-<text class="d-title" x="459.59999999999997" y="53" text-anchor="middle">Gemeinde</text>
-<text class="d-sub" x="459.59999999999997" y="70" text-anchor="middle">Hinterbüel</text>
-<rect class="d-tile" x="508.4" y="30" width="81.6" height="52" rx="4"/>
-<text class="d-title" x="549.1999999999999" y="53" text-anchor="middle">Mitglied 5</text>
-<text class="d-sub" x="549.1999999999999" y="70" text-anchor="middle">aus UN4</text>
-<rect class="d-band d-band-2" x="16" y="108" width="588" height="168" rx="6"/>
-<text class="d-label" x="30" y="132" text-anchor="start">PLATTFORM</text>
-<text class="d-meta" x="30" y="150" text-anchor="start">Teile 4 und 5</text>
-<rect class="d-tile" x="150" y="122" width="81.6" height="52" rx="4"/>
-<rect class="d-bar" x="150" y="122" width="4" height="52" rx="2"/>
-<text class="d-title" x="190.8" y="145" text-anchor="middle">Argo CD</text>
-<text class="d-sub" x="190.8" y="162" text-anchor="middle">GitOps</text>
-<rect class="d-tile" x="239.6" y="122" width="81.6" height="52" rx="4"/>
-<text class="d-title" x="280.4" y="145" text-anchor="middle">Apps</text>
-<text class="d-sub" x="280.4" y="162" text-anchor="middle">Webshop</text>
-<rect class="d-tile" x="329.2" y="122" width="81.6" height="52" rx="4"/>
-<text class="d-title" x="370" y="145" text-anchor="middle">Prometheus</text>
-<text class="d-sub" x="370" y="162" text-anchor="middle">Metriken</text>
-<rect class="d-tile" x="418.79999999999995" y="122" width="81.6" height="52" rx="4"/>
-<text class="d-title" x="459.59999999999997" y="145" text-anchor="middle">Loki</text>
-<text class="d-sub" x="459.59999999999997" y="162" text-anchor="middle">Logs</text>
-<rect class="d-tile" x="508.4" y="122" width="81.6" height="52" rx="4"/>
-<rect class="d-bar" x="508.4" y="122" width="4" height="52" rx="2"/>
-<text class="d-title" x="549.1999999999999" y="145" text-anchor="middle">Ollama</text>
-<text class="d-sub" x="549.1999999999999" y="162" text-anchor="middle">KI-Dienst</text>
-<rect class="d-tile" x="150" y="182" width="171.2" height="36" rx="4"/>
-<text class="d-title" x="235.6" y="205" text-anchor="middle">Grafana und Alertmanager</text>
-<rect class="d-tile" x="329.2" y="182" width="260.8" height="36" rx="4"/>
-<text class="d-title" x="459.6" y="205" text-anchor="middle">KI-Triage mit Freigabe</text>
-<rect class="d-strip" x="150" y="228" width="440" height="34" rx="4"/>
-<text class="d-sub" x="370" y="249" text-anchor="middle">Kubernetes k3s, k3s-server und k3s-agent als VMs</text>
-<rect class="d-band d-band-3" x="16" y="288" width="588" height="124" rx="6"/>
-<text class="d-label" x="30" y="312" text-anchor="start">IAAS</text>
-<text class="d-meta" x="30" y="330" text-anchor="start">Teile 2 und 3</text>
-<rect class="d-tile" x="150" y="302" width="104" height="52" rx="4"/>
-<rect class="d-bar" x="150" y="302" width="4" height="52" rx="2"/>
-<text class="d-title" x="202" y="325" text-anchor="middle">oned</text>
-<text class="d-sub" x="202" y="342" text-anchor="middle">API, Scheduler</text>
-<rect class="d-tile" x="262" y="302" width="104" height="52" rx="4"/>
-<text class="d-title" x="314" y="325" text-anchor="middle">Sunstone</text>
-<text class="d-sub" x="314" y="342" text-anchor="middle">Weboberfläche</text>
-<rect class="d-tile" x="374" y="302" width="104" height="52" rx="4"/>
-<text class="d-title" x="426" y="325" text-anchor="middle">Mandanten</text>
-<text class="d-sub" x="426" y="342" text-anchor="middle">Quotas, Showback</text>
-<rect class="d-tile" x="486" y="302" width="104" height="52" rx="4"/>
-<text class="d-title" x="538" y="325" text-anchor="middle">Netze</text>
-<text class="d-sub" x="538" y="342" text-anchor="middle">VXLAN, NAT</text>
-<rect class="d-strip" x="150" y="364" width="440" height="34" rx="4"/>
-<text class="d-sub" x="370" y="385" text-anchor="middle">OpenNebula 7.4, VMs mit KVM und libvirt auf den Knoten</text>
-<rect class="d-band d-band-4" x="16" y="424" width="588" height="124" rx="6"/>
-<text class="d-label" x="30" y="448" text-anchor="start">INFRASTRUKTUR</text>
-<text class="d-meta" x="30" y="466" text-anchor="start">Teil 0</text>
-<rect class="d-tile" x="150" y="438" width="141.33333333333334" height="52" rx="4"/>
-<text class="d-title" x="220.66666666666669" y="461" text-anchor="middle">Front-end</text>
-<text class="d-sub" x="220.66666666666669" y="478" text-anchor="middle">Ubuntu 26.04</text>
-<rect class="d-tile" x="299.33333333333337" y="438" width="141.33333333333334" height="52" rx="4"/>
-<text class="d-title" x="370.00000000000006" y="461" text-anchor="middle">Knoten 1</text>
-<text class="d-sub" x="370.00000000000006" y="478" text-anchor="middle">Ubuntu 26.04</text>
-<rect class="d-tile" x="448.6666666666667" y="438" width="141.33333333333334" height="52" rx="4"/>
-<text class="d-title" x="519.3333333333334" y="461" text-anchor="middle">Knoten 2</text>
-<text class="d-sub" x="519.3333333333334" y="478" text-anchor="middle">Ubuntu 26.04</text>
-<rect class="d-strip" x="150" y="500" width="440" height="34" rx="4"/>
-<text class="d-sub" x="370" y="521" text-anchor="middle">smartlearn oder ein eigener Hypervisor</text>
-<rect class="d-band d-band-1" x="620" y="16" width="144" height="532" rx="6"/>
-<text class="d-label" x="632" y="40" text-anchor="start">AUTOMATISIERUNG</text>
-<rect class="d-tile" x="632" y="122" width="120" height="52" rx="4"/>
-<text class="d-title" x="692" y="145" text-anchor="middle">Git-Repo</text>
-<text class="d-sub" x="692" y="162" text-anchor="middle">Argo CD</text>
-<path class="d-arrow" d="M 632 148 L 605 148" marker-end="url(#p0c1-architecture-de-head)"/>
-<rect class="d-tile" x="632" y="228" width="120" height="52" rx="4"/>
-<text class="d-title" x="692" y="251" text-anchor="middle">OpenTofu</text>
-<text class="d-sub" x="692" y="268" text-anchor="middle">k3s-VMs</text>
-<path class="d-arrow" d="M 632 245 L 605 245" marker-end="url(#p0c1-architecture-de-head)"/>
-<rect class="d-tile" x="632" y="302" width="120" height="52" rx="4"/>
-<text class="d-title" x="692" y="325" text-anchor="middle">Ansible</text>
-<text class="d-sub" x="692" y="342" text-anchor="middle">OneDeploy</text>
-<path class="d-arrow" d="M 632 328 L 605 328" marker-end="url(#p0c1-architecture-de-head)"/>
-<rect class="d-tile" x="632" y="438" width="120" height="52" rx="4"/>
-<text class="d-title" x="692" y="461" text-anchor="middle">prepare.sh</text>
-<text class="d-code" x="692" y="478" text-anchor="middle">Lab-VMs</text>
-<path class="d-arrow" d="M 632 464 L 605 464" marker-end="url(#p0c1-architecture-de-head)"/>
+<rect class="d-band d-band-1" x="16" y="16" width="688" height="96" rx="6"/>
+<text class="d-label" x="36" y="40" text-anchor="start">MITGLIEDER</text>
+<text class="d-meta" x="125.77771999999999" y="40" text-anchor="start">Teile 3 und 6</text>
+<text class="d-meta" x="684" y="40" text-anchor="end">Self-Service über Sunstone und Git</text>
+<rect class="d-tile" x="36" y="52" width="121.6" height="46" rx="4"/>
+<text class="d-title" x="96.8" y="72" text-anchor="middle">Praxis</text>
+<text class="d-sub" x="96.8" y="89" text-anchor="middle">Rosenweg</text>
+<rect class="d-tile" x="167.6" y="52" width="121.6" height="46" rx="4"/>
+<text class="d-title" x="228.39999999999998" y="72" text-anchor="middle">Treuhand</text>
+<text class="d-sub" x="228.39999999999998" y="89" text-anchor="middle">Aaregg</text>
+<rect class="d-tile" x="299.2" y="52" width="121.6" height="46" rx="4"/>
+<text class="d-title" x="360" y="72" text-anchor="middle">Veloatelier</text>
+<text class="d-sub" x="360" y="89" text-anchor="middle">Matte</text>
+<rect class="d-tile" x="430.79999999999995" y="52" width="121.6" height="46" rx="4"/>
+<text class="d-title" x="491.59999999999997" y="72" text-anchor="middle">Gemeinde</text>
+<text class="d-sub" x="491.59999999999997" y="89" text-anchor="middle">Hinterbüel</text>
+<rect class="d-tile" x="562.4" y="52" width="121.6" height="46" rx="4"/>
+<text class="d-title" x="623.1999999999999" y="72" text-anchor="middle">Mitglied 5</text>
+<text class="d-sub" x="623.1999999999999" y="89" text-anchor="middle">aus UN4</text>
+<rect class="d-band d-band-2" x="16" y="124" width="688" height="184" rx="6"/>
+<text class="d-label" x="36" y="148" text-anchor="start">PLATTFORM</text>
+<text class="d-meta" x="126.80380000000001" y="148" text-anchor="start">Teile 4 und 5</text>
+<text class="d-meta" x="684" y="148" text-anchor="end">aufgebaut mit OpenTofu und Argo CD</text>
+<rect class="d-tile" x="36" y="160" width="154.5" height="46" rx="4"/>
+<rect class="d-bar" x="36" y="160" width="4" height="46" rx="2"/>
+<text class="d-title" x="113.25" y="180" text-anchor="middle">Argo CD</text>
+<text class="d-sub" x="113.25" y="197" text-anchor="middle">GitOps</text>
+<rect class="d-tile" x="200.5" y="160" width="154.5" height="46" rx="4"/>
+<text class="d-title" x="277.75" y="180" text-anchor="middle">Webshop</text>
+<text class="d-sub" x="277.75" y="197" text-anchor="middle">Apps der Mitglieder</text>
+<rect class="d-tile" x="365" y="160" width="154.5" height="46" rx="4"/>
+<rect class="d-bar" x="365" y="160" width="4" height="46" rx="2"/>
+<text class="d-title" x="442.25" y="180" text-anchor="middle">Ollama</text>
+<text class="d-sub" x="442.25" y="197" text-anchor="middle">KI-Dienst</text>
+<rect class="d-tile" x="529.5" y="160" width="154.5" height="46" rx="4"/>
+<text class="d-title" x="606.75" y="180" text-anchor="middle">KI-Triage</text>
+<text class="d-sub" x="606.75" y="197" text-anchor="middle">mit Freigabe</text>
+<rect class="d-tile" x="36" y="214" width="209.33333333333334" height="46" rx="4"/>
+<text class="d-title" x="140.66666666666669" y="234" text-anchor="middle">Prometheus</text>
+<text class="d-sub" x="140.66666666666669" y="251" text-anchor="middle">Metriken, Alerts</text>
+<rect class="d-tile" x="255.33333333333334" y="214" width="209.33333333333334" height="46" rx="4"/>
+<text class="d-title" x="360" y="234" text-anchor="middle">Grafana</text>
+<text class="d-sub" x="360" y="251" text-anchor="middle">Dashboards</text>
+<rect class="d-tile" x="474.6666666666667" y="214" width="209.33333333333334" height="46" rx="4"/>
+<text class="d-title" x="579.3333333333334" y="234" text-anchor="middle">Loki</text>
+<text class="d-sub" x="579.3333333333334" y="251" text-anchor="middle">Logs</text>
+<rect class="d-strip" x="36" y="268" width="648" height="30" rx="4"/>
+<text class="d-sub" x="360" y="287" text-anchor="middle">Kubernetes k3s auf zwei VMs aus OpenNebula</text>
+<rect class="d-band d-band-3" x="16" y="320" width="688" height="136" rx="6"/>
+<text class="d-label" x="36" y="344" text-anchor="start">IAAS</text>
+<text class="d-meta" x="76.01284000000001" y="344" text-anchor="start">Teile 2 und 3</text>
+<text class="d-meta" x="684" y="344" text-anchor="end">installiert mit Ansible und OneDeploy</text>
+<rect class="d-tile" x="36" y="356" width="154.5" height="46" rx="4"/>
+<rect class="d-bar" x="36" y="356" width="4" height="46" rx="2"/>
+<text class="d-title" x="113.25" y="376" text-anchor="middle">oned</text>
+<text class="d-sub" x="113.25" y="393" text-anchor="middle">API, Scheduler</text>
+<rect class="d-tile" x="200.5" y="356" width="154.5" height="46" rx="4"/>
+<text class="d-title" x="277.75" y="376" text-anchor="middle">Sunstone</text>
+<text class="d-sub" x="277.75" y="393" text-anchor="middle">Weboberfläche</text>
+<rect class="d-tile" x="365" y="356" width="154.5" height="46" rx="4"/>
+<text class="d-title" x="442.25" y="376" text-anchor="middle">Mandanten</text>
+<text class="d-sub" x="442.25" y="393" text-anchor="middle">Quotas, Showback</text>
+<rect class="d-tile" x="529.5" y="356" width="154.5" height="46" rx="4"/>
+<text class="d-title" x="606.75" y="376" text-anchor="middle">Netze</text>
+<text class="d-sub" x="606.75" y="393" text-anchor="middle">VXLAN, NAT</text>
+<rect class="d-strip" x="36" y="410" width="648" height="30" rx="4"/>
+<text class="d-sub" x="360" y="429" text-anchor="middle">OpenNebula 7.4, VMs mit KVM und libvirt auf den Knoten</text>
+<rect class="d-band d-band-4" x="16" y="468" width="688" height="136" rx="6"/>
+<text class="d-label" x="36" y="492" text-anchor="start">INFRASTRUKTUR</text>
+<text class="d-meta" x="154.50796" y="492" text-anchor="start">Teil 0</text>
+<text class="d-meta" x="684" y="492" text-anchor="end">vorbereitet mit prepare.sh</text>
+<rect class="d-tile" x="36" y="504" width="209.33333333333334" height="46" rx="4"/>
+<text class="d-title" x="140.66666666666669" y="524" text-anchor="middle">Front-end</text>
+<text class="d-sub" x="140.66666666666669" y="541" text-anchor="middle">Ubuntu 26.04</text>
+<rect class="d-tile" x="255.33333333333334" y="504" width="209.33333333333334" height="46" rx="4"/>
+<text class="d-title" x="360" y="524" text-anchor="middle">Knoten 1</text>
+<text class="d-sub" x="360" y="541" text-anchor="middle">Ubuntu 26.04</text>
+<rect class="d-tile" x="474.6666666666667" y="504" width="209.33333333333334" height="46" rx="4"/>
+<text class="d-title" x="579.3333333333334" y="524" text-anchor="middle">Knoten 2</text>
+<text class="d-sub" x="579.3333333333334" y="541" text-anchor="middle">Ubuntu 26.04</text>
+<rect class="d-strip" x="36" y="558" width="648" height="30" rx="4"/>
+<text class="d-sub" x="360" y="577" text-anchor="middle">smartlearn oder ein eigener Hypervisor</text>
 </svg>

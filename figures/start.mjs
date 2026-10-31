@@ -7,7 +7,7 @@ import { mkdirSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { arrow, band, figure, label, line, meta, note, strip, tile } from './diagram.mjs';
+import { arrow, band, figure, label, line, measure, meta, note, SIZE, strip, tile } from './diagram.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -15,15 +15,18 @@ const ARCH = {
   de: {
     title: 'Die Zielarchitektur des Kurses',
     desc:
-      'Vier Schichten übereinander, daneben eine Spalte für die Automatisierung. Die Infrastruktur besteht ' +
-      'aus dem Front-end und zwei Knoten mit Ubuntu auf smartlearn oder einem eigenen Hypervisor. Darauf stellt OpenNebula ' +
-      'die IaaS bereit, mit oned, Sunstone, Mandanten und Netzen, die VMs laufen mit KVM auf den Knoten. ' +
-      'Darüber läuft die Plattform k3s mit Argo CD, den Apps der Mitglieder, Prometheus, Loki, Ollama, ' +
-      'Grafana mit Alertmanager und der KI-Triage. Zuoberst nutzen die Mitglieder von Wolkenwerk Bern die ' +
-      'Cloud. Ansible mit OneDeploy baut die IaaS, OpenTofu legt die VMs von k3s an, Argo CD holt die Apps ' +
-      'aus dem Git-Repo. Links steht bei jeder Schicht der Teil des Kurses, der sie aufbaut.',
-    layers: ['Mitglieder', 'Plattform', 'IaaS', 'Infrastruktur'],
-    tags: ['Teile 3 und 6', 'Teile 4 und 5', 'Teile 2 und 3', 'Teil 0'],
+      'Vier Schichten übereinander. Die Infrastruktur besteht aus dem Front-end und zwei Knoten mit Ubuntu ' +
+      'auf smartlearn, eingerichtet mit prepare.sh. Darauf stellt OpenNebula die IaaS bereit, mit oned, ' +
+      'Sunstone, Mandanten und Netzen, installiert mit Ansible und OneDeploy, die VMs laufen mit KVM auf den ' +
+      'Knoten. Darüber läuft die Plattform k3s, von OpenTofu angelegt, mit Argo CD, dem Webshop, Ollama, der ' +
+      'KI-Triage, Prometheus, Grafana und Loki, die Apps holt Argo CD aus einem Git-Repo. Zuoberst nutzen die ' +
+      'Mitglieder von Wolkenwerk Bern die Cloud. Jede Schicht nennt die Teile des Kurses, die sie aufbauen.',
+    layers: [
+      { name: 'Mitglieder', parts: 'Teile 3 und 6', tools: 'Self-Service über Sunstone und Git' },
+      { name: 'Plattform', parts: 'Teile 4 und 5', tools: 'aufgebaut mit OpenTofu und Argo CD' },
+      { name: 'IaaS', parts: 'Teile 2 und 3', tools: 'installiert mit Ansible und OneDeploy' },
+      { name: 'Infrastruktur', parts: 'Teil 0', tools: 'vorbereitet mit prepare.sh' },
+    ],
     members: [
       ['Praxis', 'Rosenweg'],
       ['Treuhand', 'Aaregg'],
@@ -31,15 +34,18 @@ const ARCH = {
       ['Gemeinde', 'Hinterbüel'],
       ['Mitglied 5', 'aus UN4'],
     ],
-    platform: [
+    apps: [
       ['Argo CD', 'GitOps'],
-      ['Apps', 'Webshop'],
-      ['Prometheus', 'Metriken'],
-      ['Loki', 'Logs'],
+      ['Webshop', 'Apps der Mitglieder'],
       ['Ollama', 'KI-Dienst'],
+      ['KI-Triage', 'mit Freigabe'],
     ],
-    platformRow: ['Grafana und Alertmanager', 'KI-Triage mit Freigabe'],
-    platformBase: 'Kubernetes k3s, k3s-server und k3s-agent als VMs',
+    observe: [
+      ['Prometheus', 'Metriken, Alerts'],
+      ['Grafana', 'Dashboards'],
+      ['Loki', 'Logs'],
+    ],
+    platformBase: 'Kubernetes k3s auf zwei VMs aus OpenNebula',
     iaas: [
       ['oned', 'API, Scheduler'],
       ['Sunstone', 'Weboberfläche'],
@@ -53,26 +59,22 @@ const ARCH = {
       ['Knoten 2', 'Ubuntu 26.04'],
     ],
     infraBase: 'smartlearn oder ein eigener Hypervisor',
-    automation: 'Automatisierung',
-    tools: [
-      ['Git-Repo', 'Argo CD'],
-      ['OpenTofu', 'k3s-VMs'],
-      ['Ansible', 'OneDeploy'],
-      ['prepare.sh', 'Lab-VMs'],
-    ],
   },
   en: {
     title: 'The target architecture of the course',
     desc:
-      'Four layers on top of each other with a column for automation next to them. The infrastructure is ' +
-      'the front-end and two nodes with Ubuntu on smartlearn or a hypervisor of your own. On it, OpenNebula provides the IaaS ' +
-      'with oned, Sunstone, tenants and networks, and the VMs run with KVM on the nodes. Above that runs the ' +
-      'platform k3s with Argo CD, the apps of the members, Prometheus, Loki, Ollama, Grafana with ' +
-      'Alertmanager and the AI triage. At the top, the members of Wolkenwerk Bern use the cloud. Ansible with ' +
-      'OneDeploy builds the IaaS, OpenTofu creates the VMs of k3s, and Argo CD pulls the apps from the Git repo. ' +
-      'On the left, each layer shows the part of the course that builds it.',
-    layers: ['Members', 'Platform', 'IaaS', 'Infrastructure'],
-    tags: ['parts 3 and 6', 'parts 4 and 5', 'parts 2 and 3', 'part 0'],
+      'Four layers on top of each other. The infrastructure is the front-end and two nodes with Ubuntu on ' +
+      'smartlearn, set up with prepare.sh. On it OpenNebula provides the IaaS with oned, Sunstone, tenants and ' +
+      'networks, installed with Ansible and OneDeploy, and the VMs run with KVM on the nodes. Above that runs the ' +
+      'platform k3s, created by OpenTofu, with Argo CD, the web shop, Ollama, the AI triage, Prometheus, Grafana ' +
+      'and Loki, and Argo CD pulls the apps from a Git repo. At the top the members of Wolkenwerk Bern use the ' +
+      'cloud. Every layer names the parts of the course that build it.',
+    layers: [
+      { name: 'Members', parts: 'parts 3 and 6', tools: 'self-service through Sunstone and Git' },
+      { name: 'Platform', parts: 'parts 4 and 5', tools: 'built with OpenTofu and Argo CD' },
+      { name: 'IaaS', parts: 'parts 2 and 3', tools: 'installed with Ansible and OneDeploy' },
+      { name: 'Infrastructure', parts: 'part 0', tools: 'prepared with prepare.sh' },
+    ],
     members: [
       ['Practice', 'Rosenweg'],
       ['Fiduciary', 'Aaregg'],
@@ -80,15 +82,18 @@ const ARCH = {
       ['Municipality', 'Hinterbüel'],
       ['Member 5', 'from UN4'],
     ],
-    platform: [
+    apps: [
       ['Argo CD', 'GitOps'],
-      ['Apps', 'web shop'],
-      ['Prometheus', 'metrics'],
-      ['Loki', 'logs'],
+      ['Web shop', 'apps of the members'],
       ['Ollama', 'AI service'],
+      ['AI triage', 'with approval'],
     ],
-    platformRow: ['Grafana and Alertmanager', 'AI triage with approval'],
-    platformBase: 'Kubernetes k3s, k3s-server and k3s-agent as VMs',
+    observe: [
+      ['Prometheus', 'metrics, alerts'],
+      ['Grafana', 'dashboards'],
+      ['Loki', 'logs'],
+    ],
+    platformBase: 'Kubernetes k3s on two VMs from OpenNebula',
     iaas: [
       ['oned', 'API, scheduler'],
       ['Sunstone', 'web interface'],
@@ -102,81 +107,63 @@ const ARCH = {
       ['Node 2', 'Ubuntu 26.04'],
     ],
     infraBase: 'smartlearn or a hypervisor of your own',
-    automation: 'Automation',
-    tools: [
-      ['Git repo', 'Argo CD'],
-      ['OpenTofu', 'k3s VMs'],
-      ['Ansible', 'OneDeploy'],
-      ['prepare.sh', 'lab VMs'],
-    ],
   },
 };
 
-// Layout of the architecture: a column for the layer names, the tiles, a column for the tools
-const LEFT = 16;
-const CONTENT = 150;
-const CONTENT_W = 440;
-const BAND_W = CONTENT + CONTENT_W + 14 - LEFT;
-const TOOLS = LEFT + BAND_W + 16;
-const TOOLS_W = 120;
-const GAP = 8;
+// One column of bands, each with a header line and its tiles below
+const X = 16;
+const W = 688;
+const INNER = 20;
+const GAP = 10;
+const TILE_H = 46;
 
-/** x positions and width of n tiles side by side in the content area */
-function columns(n, x = CONTENT, w = CONTENT_W) {
-  const width = (w - GAP * (n - 1)) / n;
-  return Array.from({ length: n }, (_, i) => ({ x: x + i * (width + GAP), w: width }));
+/** x positions and width of n tiles side by side inside a band */
+function columns(n) {
+  const width = (W - 2 * INNER - GAP * (n - 1)) / n;
+  return Array.from({ length: n }, (_, i) => ({ x: X + INNER + i * (width + GAP), w: width }));
 }
-
-const span = (cols) => ({ x: cols[0].x, w: cols.at(-1).x + cols.at(-1).w - cols[0].x });
 
 function architecture(lang) {
   const t = ARCH[lang];
   const id = `p0c1-architecture-${lang}`;
   const body = [];
-  const layer = (index, y, h, level) => {
-    body.push(band(LEFT, y, BAND_W, h, level));
-    body.push(label(LEFT + 14, y + 24, t.layers[index]));
-    body.push(meta(LEFT + 14, y + 42, t.tags[index]));
+  let y = 16;
+  const header = (index, top, level, height) => {
+    const layer = t.layers[index];
+    body.push(band(X, top, W, height, level));
+    body.push(label(X + INNER, top + 24, layer.name));
+    body.push(meta(X + INNER + 10 + measure(layer.name.toUpperCase(), SIZE.label, { bold: true }) * 1.1, top + 24, layer.parts));
+    body.push(meta(X + W - INNER, top + 24, layer.tools, 'end'));
   };
-  const five = columns(5);
+  const row = (tiles, top, accents = []) =>
+    columns(tiles.length).forEach((c, i) => body.push(tile(c.x, top, c.w, TILE_H, ...tiles[i], { accent: accents.includes(i) })));
+  const base = (top, text) => body.push(strip(X + INNER, top, W - 2 * INNER, 30, text));
 
   // Members
-  layer(0, 16, 80, 1);
-  five.forEach((c, i) => body.push(tile(c.x, 30, c.w, 52, ...t.members[i])));
+  header(0, y, 1, 96);
+  row(t.members, y + 36);
+  y += 96 + 12;
 
   // Platform
-  layer(1, 108, 168, 2);
-  five.forEach((c, i) => body.push(tile(c.x, 122, c.w, 52, ...t.platform[i], { accent: i === 0 || i === 4 })));
-  const a = span(five.slice(0, 2));
-  const b = span(five.slice(2));
-  body.push(tile(a.x, 182, a.w, 36, t.platformRow[0]));
-  body.push(tile(b.x, 182, b.w, 36, t.platformRow[1]));
-  body.push(strip(CONTENT, 228, CONTENT_W, 34, t.platformBase));
+  header(1, y, 2, 184);
+  row(t.apps, y + 36, [0, 2]);
+  row(t.observe, y + 36 + TILE_H + 8);
+  base(y + 36 + 2 * TILE_H + 16, t.platformBase);
+  y += 184 + 12;
 
   // IaaS
-  layer(2, 288, 124, 3);
-  columns(4).forEach((c, i) => body.push(tile(c.x, 302, c.w, 52, ...t.iaas[i], { accent: i === 0 })));
-  body.push(strip(CONTENT, 364, CONTENT_W, 34, t.iaasBase));
+  header(2, y, 3, 136);
+  row(t.iaas, y + 36, [0]);
+  base(y + 36 + TILE_H + 8, t.iaasBase);
+  y += 136 + 12;
 
   // Infrastructure
-  layer(3, 424, 124, 4);
-  columns(3).forEach((c, i) => body.push(tile(c.x, 438, c.w, 52, ...t.infra[i])));
-  body.push(strip(CONTENT, 500, CONTENT_W, 34, t.infraBase));
+  header(3, y, 4, 136);
+  row(t.infra, y + 36);
+  base(y + 36 + TILE_H + 8, t.infraBase);
+  y += 136;
 
-  // Automation tools, each with an arrow into the layer it builds
-  body.push(band(TOOLS, 16, TOOLS_W + 24, 532, 1));
-  body.push(label(TOOLS + 12, 40, t.automation));
-  [
-    { y: 122, target: 148 },
-    { y: 228, target: 245 },
-    { y: 302, target: 328 },
-    { y: 438, target: 464 },
-  ].forEach(({ y, target }, i) => {
-    body.push(tile(TOOLS + 12, y, TOOLS_W, 52, ...t.tools[i], { code: i === 3 }));
-    body.push(arrow(id, [[TOOLS + 12, target], [LEFT + BAND_W + 1, target]]));
-  });
-
-  return figure({ id, width: TOOLS + TOOLS_W + 24 + LEFT, height: 564, title: t.title, desc: t.desc, body });
+  return figure({ id, width: X * 2 + W, height: y + 16, title: t.title, desc: t.desc, body });
 }
 
 const LAB = {

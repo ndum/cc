@@ -38,7 +38,7 @@ Die VMs deiner Cloud bekommen ein zweites, internes Netz, das nur deine drei VMs
 
 ## smartlearn
 
-Deine Lehrperson stellt dir die drei VMs auf smartlearn bereit, mit festen Adressen in einem gemeinsamen Netz und mit verschachtelter Virtualisierung. Das ist der Standardweg des Kurses, und alle Anleitungen gehen davon aus. Wer die VMs lieber auf einem eigenen Hypervisor betreibt, findet die Hinweise dazu in [Kapitel 0.6](../own-hypervisor/).
+Deine Lehrperson stellt dir die drei VMs auf smartlearn bereit, mit festen Adressen in einem gemeinsamen Netz und mit verschachtelter Virtualisierung. Das ist der Standardweg des Kurses, und alle Anleitungen gehen davon aus. Wer die VMs lieber auf einem eigenen Hypervisor betreibt, findet die Hinweise dazu in der Ergänzung [Eigener Hypervisor](../../extras/own-hypervisor/).
 
 ## Verschachtelte Virtualisierung
 
