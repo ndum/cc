@@ -15,20 +15,21 @@ export function defs(id) {
   );
 }
 
-/** A tinted band that groups the tiles of one layer, level 1 to 4 sets the strength of the tint */
+/** A light band that groups the tiles of one layer, level 1 to 4 sets the strength of the tint */
 export function band(x, y, w, h, level = 1) {
-  return `<rect class="d-band d-band-${level}" x="${x}" y="${y}" width="${w}" height="${h}" rx="10"/>`;
+  return `<rect class="d-band d-band-${level}" x="${x}" y="${y}" width="${w}" height="${h}" rx="6"/>`;
 }
 
-/** A tile with a centred title and an optional subtitle, accent marks the tile the figure is about */
+/** A tile with a centred title and an optional subtitle, accent marks a tile with a bar on its left */
 export function tile(x, y, w, h, title, sub = '', { accent = false, code = false } = {}) {
   const cx = x + w / 2;
-  const parts = [`<rect class="d-tile${accent ? ' d-tile-accent' : ''}" x="${x}" y="${y}" width="${w}" height="${h}" rx="6"/>`];
+  const parts = [`<rect class="d-tile" x="${x}" y="${y}" width="${w}" height="${h}" rx="4"/>`];
+  if (accent) parts.push(`<rect class="d-bar" x="${x}" y="${y}" width="4" height="${h}" rx="2"/>`);
   if (sub) {
     parts.push(`<text class="d-title" x="${cx}" y="${y + h / 2 - 3}" text-anchor="middle">${escape(title)}</text>`);
-    parts.push(`<text class="${code ? 'd-code' : 'd-sub'}" x="${cx}" y="${y + h / 2 + 13}" text-anchor="middle">${escape(sub)}</text>`);
+    parts.push(`<text class="${code ? 'd-code' : 'd-sub'}" x="${cx}" y="${y + h / 2 + 14}" text-anchor="middle">${escape(sub)}</text>`);
   } else {
-    parts.push(`<text class="d-title" x="${cx}" y="${y + h / 2 + 4.5}" text-anchor="middle">${escape(title)}</text>`);
+    parts.push(`<text class="d-title" x="${cx}" y="${y + h / 2 + 5}" text-anchor="middle">${escape(title)}</text>`);
   }
   return parts.join('\n');
 }
@@ -36,27 +37,24 @@ export function tile(x, y, w, h, title, sub = '', { accent = false, code = false
 /** A flat strip across a band, for the base a layer runs on */
 export function strip(x, y, w, h, text) {
   return [
-    `<rect class="d-strip" x="${x}" y="${y}" width="${w}" height="${h}" rx="5"/>`,
+    `<rect class="d-strip" x="${x}" y="${y}" width="${w}" height="${h}" rx="4"/>`,
     `<text class="d-sub" x="${x + w / 2}" y="${y + h / 2 + 4}" text-anchor="middle">${escape(text)}</text>`,
   ].join('\n');
 }
 
-/** A label in the strong style, for the names of layers and groups */
+/** The name of a layer or group, set in small capitals */
 export function label(x, y, text, anchor = 'start') {
-  return `<text class="d-label" x="${x}" y="${y}" text-anchor="${anchor}">${escape(text)}</text>`;
+  return `<text class="d-label" x="${x}" y="${y}" text-anchor="${anchor}">${escape(text.toUpperCase())}</text>`;
+}
+
+/** Muted metadata under a label, such as the parts of the course that build a layer */
+export function meta(x, y, text, anchor = 'start') {
+  return `<text class="d-meta" x="${x}" y="${y}" text-anchor="${anchor}">${escape(text)}</text>`;
 }
 
 /** Plain secondary text */
 export function note(x, y, text, anchor = 'start', { code = false } = {}) {
   return `<text class="${code ? 'd-code' : 'd-sub'}" x="${x}" y="${y}" text-anchor="${anchor}">${escape(text)}</text>`;
-}
-
-/** A pill with a short tag such as the part of the course */
-export function tag(x, y, text, width = 92) {
-  return [
-    `<rect class="d-tag" x="${x}" y="${y}" width="${width}" height="20" rx="10"/>`,
-    `<text class="d-tag-text" x="${x + width / 2}" y="${y + 14}" text-anchor="middle">${escape(text)}</text>`,
-  ].join('\n');
 }
 
 const pathOf = (points) => points.map(([px, py], i) => `${i === 0 ? 'M' : 'L'} ${px} ${py}`).join(' ');

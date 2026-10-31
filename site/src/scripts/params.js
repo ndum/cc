@@ -1,5 +1,5 @@
 /**
- * <cc-params>: the parameter generator of chapter 0.2.
+ * <cc-params>: the parameter generator of chapter 0.3.
  *
  * Students type their personal code and the addresses of their three VMs, the element shows the
  * content of /etc/cc-lab.env. Everything is computed in the browser, nothing leaves the page.

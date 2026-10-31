@@ -2,30 +2,31 @@
 <title id="p2c2-deploy-de-title">Wie OneDeploy das Lab einrichtet</title>
 <desc id="p2c2-deploy-de-desc">Ansible auf dem Front-end liest das Inventar und die Playbooks von OneDeploy. Es richtet das Front-end lokal ein, mit oned, Scheduler und FireEdge, und die beiden Knoten über SSH, mit KVM und libvirt.</desc>
 <defs><marker id="p2c2-deploy-de-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"/></marker></defs>
-<rect class="d-band d-band-1" x="20" y="20" width="184" height="224" rx="10"/>
-<text class="d-label" x="36" y="44" text-anchor="start">Eingaben</text>
-<rect class="d-tile" x="36" y="60" width="152" height="50" rx="6"/>
+<rect class="d-band d-band-1" x="20" y="20" width="184" height="224" rx="6"/>
+<text class="d-label" x="36" y="44" text-anchor="start">EINGABEN</text>
+<rect class="d-tile" x="36" y="60" width="152" height="50" rx="4"/>
 <text class="d-title" x="112" y="82" text-anchor="middle">Inventar</text>
-<text class="d-code" x="112" y="98" text-anchor="middle">inventory.yml</text>
-<rect class="d-tile" x="36" y="172" width="152" height="50" rx="6"/>
+<text class="d-code" x="112" y="99" text-anchor="middle">inventory.yml</text>
+<rect class="d-tile" x="36" y="172" width="152" height="50" rx="4"/>
 <text class="d-title" x="112" y="194" text-anchor="middle">OneDeploy</text>
-<text class="d-sub" x="112" y="210" text-anchor="middle">Playbooks, Rollen</text>
-<rect class="d-band d-band-2" x="268" y="20" width="184" height="224" rx="10"/>
-<text class="d-label" x="284" y="44" text-anchor="start">Steuerung</text>
-<rect class="d-tile d-tile-accent" x="284" y="116" width="152" height="50" rx="6"/>
+<text class="d-sub" x="112" y="211" text-anchor="middle">Playbooks, Rollen</text>
+<rect class="d-band d-band-2" x="268" y="20" width="184" height="224" rx="6"/>
+<text class="d-label" x="284" y="44" text-anchor="start">STEUERUNG</text>
+<rect class="d-tile" x="284" y="116" width="152" height="50" rx="4"/>
+<rect class="d-bar" x="284" y="116" width="4" height="50" rx="2"/>
 <text class="d-title" x="360" y="138" text-anchor="middle">Ansible</text>
-<text class="d-sub" x="360" y="154" text-anchor="middle">auf dem Front-end</text>
-<rect class="d-band d-band-1" x="516" y="20" width="204" height="224" rx="10"/>
-<text class="d-label" x="532" y="44" text-anchor="start">Ziele</text>
-<rect class="d-tile" x="532" y="60" width="172" height="50" rx="6"/>
+<text class="d-sub" x="360" y="155" text-anchor="middle">auf dem Front-end</text>
+<rect class="d-band d-band-1" x="516" y="20" width="204" height="224" rx="6"/>
+<text class="d-label" x="532" y="44" text-anchor="start">ZIELE</text>
+<rect class="d-tile" x="532" y="60" width="172" height="50" rx="4"/>
 <text class="d-title" x="618" y="82" text-anchor="middle">Front-end</text>
-<text class="d-sub" x="618" y="98" text-anchor="middle">oned, Scheduler, FireEdge</text>
-<rect class="d-tile" x="532" y="120" width="172" height="50" rx="6"/>
+<text class="d-sub" x="618" y="99" text-anchor="middle">oned, Scheduler, FireEdge</text>
+<rect class="d-tile" x="532" y="120" width="172" height="50" rx="4"/>
 <text class="d-title" x="618" y="142" text-anchor="middle">Knoten 1</text>
-<text class="d-sub" x="618" y="158" text-anchor="middle">KVM, libvirt</text>
-<rect class="d-tile" x="532" y="180" width="172" height="50" rx="6"/>
+<text class="d-sub" x="618" y="159" text-anchor="middle">KVM, libvirt</text>
+<rect class="d-tile" x="532" y="180" width="172" height="50" rx="4"/>
 <text class="d-title" x="618" y="202" text-anchor="middle">Knoten 2</text>
-<text class="d-sub" x="618" y="218" text-anchor="middle">KVM, libvirt</text>
+<text class="d-sub" x="618" y="219" text-anchor="middle">KVM, libvirt</text>
 <path class="d-arrow" d="M 188 85 L 228 85 L 228 133 L 282 133" marker-end="url(#p2c2-deploy-de-head)"/>
 <path class="d-arrow" d="M 188 197 L 228 197 L 228 149 L 282 149" marker-end="url(#p2c2-deploy-de-head)"/>
 <path class="d-arrow" d="M 436 133 L 476 133 L 476 85 L 530 85" marker-end="url(#p2c2-deploy-de-head)"/>

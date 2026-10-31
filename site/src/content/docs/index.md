@@ -15,4 +15,4 @@ In diesem Kurs baust und betreibst du eine eigene Cloud. Auf drei virtuellen Mas
 
 Alle Kapitel folgen einem Fall. Die Genossenschaft Wolkenwerk Bern betreibt für ihre Mitglieder eine gemeinsame Cloud, darunter eine Hausarztpraxis, ein Treuhandbüro, ein Velogeschäft mit Webshop und eine kleine Gemeinde. Simone Wyss, die Geschäftsführerin, bringt in jedem Teil einen neuen Auftrag, und du bist das Plattform-Team.
 
-Teil 0 bringt den [Kursüberblick](start/overview/), das [Einrichten des Labs](start/lab/) und die [Werkzeuge mit dem Abgabe-Repo](start/tools/). Die weiteren Teile entstehen im Lauf des Semesters. Wie die Note zustande kommt, steht unter [Leistungsbeurteilung](assessment/), die Begriffe des Kurses im [Glossar](glossary/).
+Teil 0 bringt den [Kursüberblick](start/overview/), [das Lab](start/lab/), deine [persönlichen Parameter](start/parameters/), das [Vorbereiten der VMs](start/prepare/) und die [Werkzeuge mit dem Abgabe-Repo](start/tools/). Die weiteren Teile entstehen im Lauf des Semesters. Wie die Note zustande kommt, steht unter [Leistungsbeurteilung](assessment/), die Begriffe des Kurses im [Glossar](glossary/).

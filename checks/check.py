@@ -3,7 +3,7 @@
 
 Run it on the front-end as the user who works with the lab:
 
-    python3 checks/check.py start      end of chapter 0.3, the three VMs are prepared and connected
+    python3 checks/check.py start      end of chapter 0.5, the three VMs are prepared and connected
     python3 checks/check.py install    chapter 2.2, OpenNebula runs with both nodes
 
 The report lands in ~/cc-reports/ and is printed. The hash at its end covers the whole report, so a
@@ -97,7 +97,7 @@ def check_start(env, report):
     for node in nodes:
         code, out = ssh(node, "hostname; . /etc/os-release; echo $VERSION_ID; grep -cwE 'vmx|svm' /proc/cpuinfo; systemctl is-active rsyslog")
         if not report.check(code == 0, tr(f"SSH ohne Passwort auf {node}", f"SSH without password to {node}"),
-                            tr("Kapitel 0.3 zeigt, wie der Schlüssel auf die Knoten kommt.", "Chapter 0.3 shows how the key gets to the nodes.")):
+                            tr("Kapitel 0.5 zeigt, wie der Schlüssel auf die Knoten kommt.", "Chapter 0.5 shows how the key gets to the nodes.")):
             continue
         name, version, flags, rsyslog = (out.splitlines() + ["", "", "0", ""])[:4]
         report.check(name == node, tr(f"{node} trägt seinen Namen", f"{node} has its name"))
@@ -140,7 +140,7 @@ def main():
     if len(sys.argv) != 2 or sys.argv[1] not in CHECKS:
         sys.exit(tr("Aufruf: python3 checks/check.py ", "usage: python3 checks/check.py ") + "|".join(CHECKS))
     if not ENV_FILE.exists():
-        sys.exit(tr(f"{ENV_FILE} fehlt, Kapitel 0.2 zeigt, wie du sie anlegst.", f"{ENV_FILE} is missing, chapter 0.2 shows how to create it."))
+        sys.exit(tr(f"{ENV_FILE} fehlt, Kapitel 0.3 zeigt, wie du sie anlegst.", f"{ENV_FILE} is missing, chapter 0.3 shows how to create it."))
     name = sys.argv[1]
     env = read_env()
     global LANG

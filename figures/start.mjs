@@ -7,7 +7,7 @@ import { mkdirSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { arrow, band, figure, label, line, note, strip, tag, tile } from './diagram.mjs';
+import { arrow, band, figure, label, line, meta, note, strip, tile } from './diagram.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -16,14 +16,14 @@ const ARCH = {
     title: 'Die Zielarchitektur des Kurses',
     desc:
       'Vier Schichten übereinander, daneben eine Spalte für die Automatisierung. Die Infrastruktur besteht ' +
-      'aus dem Front-end und zwei Knoten mit Ubuntu auf SmartLearn oder Hyper-V. Darauf stellt OpenNebula ' +
+      'aus dem Front-end und zwei Knoten mit Ubuntu auf smartlearn oder einem eigenen Hypervisor. Darauf stellt OpenNebula ' +
       'die IaaS bereit, mit oned, Sunstone, Mandanten und Netzen, die VMs laufen mit KVM auf den Knoten. ' +
       'Darüber läuft die Plattform k3s mit Argo CD, den Apps der Mitglieder, Prometheus, Loki, Ollama, ' +
       'Grafana mit Alertmanager und der KI-Triage. Zuoberst nutzen die Mitglieder von Wolkenwerk Bern die ' +
       'Cloud. Ansible mit OneDeploy baut die IaaS, OpenTofu legt die VMs von k3s an, Argo CD holt die Apps ' +
       'aus dem Git-Repo. Links steht bei jeder Schicht der Teil des Kurses, der sie aufbaut.',
     layers: ['Mitglieder', 'Plattform', 'IaaS', 'Infrastruktur'],
-    tags: ['Teil 3 und 6', 'Teil 4 und 5', 'Teil 2 und 3', 'Teil 0'],
+    tags: ['Teile 3 und 6', 'Teile 4 und 5', 'Teile 2 und 3', 'Teil 0'],
     members: [
       ['Praxis', 'Rosenweg'],
       ['Treuhand', 'Aaregg'],
@@ -52,7 +52,7 @@ const ARCH = {
       ['Knoten 1', 'Ubuntu 26.04'],
       ['Knoten 2', 'Ubuntu 26.04'],
     ],
-    infraBase: 'SmartLearn mit VMware oder Hyper-V',
+    infraBase: 'smartlearn oder ein eigener Hypervisor',
     automation: 'Automatisierung',
     tools: [
       ['Git-Repo', 'Argo CD'],
@@ -65,7 +65,7 @@ const ARCH = {
     title: 'The target architecture of the course',
     desc:
       'Four layers on top of each other with a column for automation next to them. The infrastructure is ' +
-      'the front-end and two nodes with Ubuntu on SmartLearn or Hyper-V. On it, OpenNebula provides the IaaS ' +
+      'the front-end and two nodes with Ubuntu on smartlearn or a hypervisor of your own. On it, OpenNebula provides the IaaS ' +
       'with oned, Sunstone, tenants and networks, and the VMs run with KVM on the nodes. Above that runs the ' +
       'platform k3s with Argo CD, the apps of the members, Prometheus, Loki, Ollama, Grafana with ' +
       'Alertmanager and the AI triage. At the top, the members of Wolkenwerk Bern use the cloud. Ansible with ' +
@@ -101,7 +101,7 @@ const ARCH = {
       ['Node 1', 'Ubuntu 26.04'],
       ['Node 2', 'Ubuntu 26.04'],
     ],
-    infraBase: 'SmartLearn with VMware, or Hyper-V',
+    infraBase: 'smartlearn or a hypervisor of your own',
     automation: 'Automation',
     tools: [
       ['Git repo', 'Argo CD'],
@@ -113,13 +113,12 @@ const ARCH = {
 };
 
 // Layout of the architecture: a column for the layer names, the tiles, a column for the tools
-const LEFT = 20;
-const CONTENT = 168;
+const LEFT = 16;
+const CONTENT = 150;
 const CONTENT_W = 440;
-const BAND_W = CONTENT + CONTENT_W + 16 - LEFT;
-const TOOLS = LEFT + BAND_W + 20;
-const TOOLS_W = 116;
-const PAD = 16;
+const BAND_W = CONTENT + CONTENT_W + 14 - LEFT;
+const TOOLS = LEFT + BAND_W + 16;
+const TOOLS_W = 120;
 const GAP = 8;
 
 /** x positions and width of n tiles side by side in the content area */
@@ -128,54 +127,56 @@ function columns(n, x = CONTENT, w = CONTENT_W) {
   return Array.from({ length: n }, (_, i) => ({ x: x + i * (width + GAP), w: width }));
 }
 
+const span = (cols) => ({ x: cols[0].x, w: cols.at(-1).x + cols.at(-1).w - cols[0].x });
+
 function architecture(lang) {
   const t = ARCH[lang];
   const id = `p0c1-architecture-${lang}`;
   const body = [];
   const layer = (index, y, h, level) => {
     body.push(band(LEFT, y, BAND_W, h, level));
-    body.push(label(LEFT + PAD, y + 26, t.layers[index]));
-    body.push(tag(LEFT + PAD, y + 36, t.tags[index], 112));
+    body.push(label(LEFT + 14, y + 24, t.layers[index]));
+    body.push(meta(LEFT + 14, y + 42, t.tags[index]));
   };
+  const five = columns(5);
 
   // Members
-  layer(0, 20, 78, 1);
-  columns(5).forEach((c, i) => body.push(tile(c.x, 36, c.w, 46, ...t.members[i])));
+  layer(0, 16, 80, 1);
+  five.forEach((c, i) => body.push(tile(c.x, 30, c.w, 52, ...t.members[i])));
 
   // Platform
-  layer(1, 114, 160, 2);
-  columns(5).forEach((c, i) => body.push(tile(c.x, 130, c.w, 46, ...t.platform[i], { accent: i === 4 })));
-  const left2 = columns(5).slice(0, 2);
-  const right3 = columns(5).slice(2);
-  body.push(tile(left2[0].x, 184, left2[1].x + left2[1].w - left2[0].x, 32, t.platformRow[0]));
-  body.push(tile(right3[0].x, 184, right3[2].x + right3[2].w - right3[0].x, 32, t.platformRow[1]));
-  body.push(strip(CONTENT, 226, CONTENT_W, 32, t.platformBase));
+  layer(1, 108, 168, 2);
+  five.forEach((c, i) => body.push(tile(c.x, 122, c.w, 52, ...t.platform[i], { accent: i === 0 || i === 4 })));
+  const a = span(five.slice(0, 2));
+  const b = span(five.slice(2));
+  body.push(tile(a.x, 182, a.w, 36, t.platformRow[0]));
+  body.push(tile(b.x, 182, b.w, 36, t.platformRow[1]));
+  body.push(strip(CONTENT, 228, CONTENT_W, 34, t.platformBase));
 
   // IaaS
-  layer(2, 290, 128, 3);
-  columns(4).forEach((c, i) => body.push(tile(c.x, 306, c.w, 46, ...t.iaas[i], { accent: i === 0 })));
-  body.push(strip(CONTENT, 362, CONTENT_W, 40, t.iaasBase));
+  layer(2, 288, 124, 3);
+  columns(4).forEach((c, i) => body.push(tile(c.x, 302, c.w, 52, ...t.iaas[i], { accent: i === 0 })));
+  body.push(strip(CONTENT, 364, CONTENT_W, 34, t.iaasBase));
 
   // Infrastructure
-  layer(3, 434, 128, 4);
-  columns(3).forEach((c, i) => body.push(tile(c.x, 450, c.w, 46, ...t.infra[i])));
-  body.push(strip(CONTENT, 506, CONTENT_W, 40, t.infraBase));
+  layer(3, 424, 124, 4);
+  columns(3).forEach((c, i) => body.push(tile(c.x, 438, c.w, 52, ...t.infra[i])));
+  body.push(strip(CONTENT, 500, CONTENT_W, 34, t.infraBase));
 
   // Automation tools, each with an arrow into the layer it builds
-  body.push(band(TOOLS, 20, TOOLS_W + 20, 542, 4));
-  body.push(label(TOOLS + 10, 46, t.automation));
-  const toolTiles = [
-    { y: 130, target: 153 },
-    { y: 226, target: 242 },
-    { y: 306, target: 329 },
-    { y: 450, target: 473 },
-  ];
-  toolTiles.forEach(({ y, target }, i) => {
-    body.push(tile(TOOLS + 10, y, TOOLS_W, 46, ...t.tools[i], { code: i === 3 }));
-    body.push(arrow(id, [[TOOLS + 10, target], [LEFT + BAND_W - 16 + 14, target]]));
+  body.push(band(TOOLS, 16, TOOLS_W + 24, 532, 1));
+  body.push(label(TOOLS + 12, 40, t.automation));
+  [
+    { y: 122, target: 148 },
+    { y: 228, target: 245 },
+    { y: 302, target: 328 },
+    { y: 438, target: 464 },
+  ].forEach(({ y, target }, i) => {
+    body.push(tile(TOOLS + 12, y, TOOLS_W, 52, ...t.tools[i], { code: i === 3 }));
+    body.push(arrow(id, [[TOOLS + 12, target], [LEFT + BAND_W + 1, target]]));
   });
 
-  return figure({ id, width: TOOLS + TOOLS_W + 40, height: 582, title: t.title, desc: t.desc, body });
+  return figure({ id, width: TOOLS + TOOLS_W + 24 + LEFT, height: 564, title: t.title, desc: t.desc, body });
 }
 
 const LAB = {

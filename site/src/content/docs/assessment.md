@@ -20,7 +20,7 @@ Jeder Nachweis hat ein Bewertungsraster. Etwa 60 % der Punkte gibt es für die F
 
 ## Zeigen
 
-Einen Nachweis zeigst du entweder live im Unterricht oder in einem Screencast. Der Screencast dauert höchstens zehn Minuten und ist eine einzige Aufnahme ohne Schnitt. Er beginnt mit deiner Datei `/etc/cc-lab.env` und dem Bericht des Checks mit seinem Hash. Danach führst du die verlangten Funktionen in deinem Lab vor und begründest zum Schluss zwei oder drei eigene Entscheide. Die Regeln stehen auch in [Kapitel 0.3](../start/tools/#screencasts).
+Einen Nachweis zeigst du entweder live im Unterricht oder in einem Screencast. Der Screencast dauert höchstens zehn Minuten und ist eine einzige Aufnahme ohne Schnitt. Er beginnt mit deiner Datei `/etc/cc-lab.env` und dem Bericht des Checks mit seinem Hash. Danach führst du die verlangten Funktionen in deinem Lab vor und begründest zum Schluss zwei oder drei eigene Entscheide. Die Regeln stehen auch in [Kapitel 0.5](../start/tools/#screencasts).
 
 ## Abgeben
 

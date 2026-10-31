@@ -154,7 +154,7 @@ When you start a VM, `oned` records it in the database, and the scheduler picks 
 
 When a run stops, a line further up starts with `fatal:` and the name of the VM, with the message below it. Above that, Ansible shows the task that failed and the file it comes from. Read the message first, then the task. Most of the time the message already explains the problem.
 
-While this course was being developed, the run stopped four times, and each of those stops is handled by the preparation script from [chapter 0.2](../../start/lab/) today:
+While this course was being developed, the run stopped four times, and each of those stops is handled by the preparation script from [chapter 0.4](../../start/prepare/) today:
 
 | Message | Cause | How the course handles it |
 |---|---|---|

@@ -154,7 +154,7 @@ Startest du eine VM, legt `oned` sie in der Datenbank an, und der Scheduler wäh
 
 Bricht ein Lauf ab, steht weiter oben eine Zeile mit `fatal:` und dem Namen der VM, darunter die Meldung. Davor zeigt Ansible die Aufgabe, an der es gescheitert ist, und die Datei, in der diese Aufgabe steht. Lies zuerst die Meldung, dann die Aufgabe. Meist erklärt die Meldung den Fehler schon.
 
-Bei der Entwicklung dieses Kurses brach der Lauf viermal ab, und jeder Abbruch steckt heute im Vorbereitungsskript aus [Kapitel 0.2](../../start/lab/):
+Bei der Entwicklung dieses Kurses brach der Lauf viermal ab, und jeder Abbruch steckt heute im Vorbereitungsskript aus [Kapitel 0.4](../../start/prepare/):
 
 | Meldung | Ursache | Lösung im Kurs |
 |---|---|---|

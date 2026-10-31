@@ -2,7 +2,7 @@
 title: Tools and hand-in repo
 description: SSH keys and an SSH configuration, the key from the front-end to the nodes, the hand-in repo on GitLab or GitHub, the first check with its report and the rules for screencasts.
 sidebar:
-  order: 3
+  order: 5
 ---
 
 :::assignment

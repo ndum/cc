@@ -20,7 +20,7 @@ Every proof has a rubric. About 60% of the points are for the features the assig
 
 ## Showing
 
-You show a proof either live in class or in a screencast. The screencast lasts at most ten minutes and is a single recording without cuts. It starts with your file `/etc/cc-lab.env` and the report of the check with its hash. Then you demonstrate the required features in your lab, and at the end you explain two or three of your own decisions. [Chapter 0.3](../start/tools/#screencasts) lists the rules as well.
+You show a proof either live in class or in a screencast. The screencast lasts at most ten minutes and is a single recording without cuts. It starts with your file `/etc/cc-lab.env` and the report of the check with its hash. Then you demonstrate the required features in your lab, and at the end you explain two or three of your own decisions. [Chapter 0.5](../start/tools/#screencasts) lists the rules as well.
 
 ## Handing in
 

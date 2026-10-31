@@ -2,7 +2,7 @@
 title: Werkzeuge und Abgabe-Repo
 description: SSH-Schlüssel und eine SSH-Konfiguration, der Schlüssel vom Front-end zu den Knoten, das Abgabe-Repo auf GitLab oder GitHub, der erste Check mit Bericht und die Regeln für Screencasts.
 sidebar:
-  order: 3
+  order: 5
 ---
 
 :::assignment

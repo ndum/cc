@@ -17,7 +17,7 @@ fail() { printf '\nERROR: %s\n' "$*" >&2; exit 1; }
 [ "$(id -u)" -eq 0 ] || fail "Run the script with sudo."
 ROLE=${1:-}
 case "$ROLE" in fe | node1 | node2) ;; *) fail "Name the role: fe, node1 or node2." ;; esac
-[ -f "$ENV_FILE" ] || fail "$ENV_FILE is missing. Copy it from the parameter generator of chapter 0.2."
+[ -f "$ENV_FILE" ] || fail "$ENV_FILE is missing. Copy it from the parameter generator of chapter 0.3."
 # A file pasted through a Windows editor ends its lines with CR LF, the CR would become part of every value
 sed -i 's/\r$//' "$ENV_FILE"
 
@@ -94,10 +94,10 @@ else
   if [ -n "$flag" ]; then
     echo "The CPU of this VM offers $flag."
   else
-    fail "This VM sees no vmx or svm flag. Turn on nested virtualisation for it, chapter 0.2 shows how."
+    fail "This VM sees no vmx or svm flag. Turn on nested virtualisation for it, see chapters 0.2 and 0.6."
   fi
   echo "Network interface for OpenNebula: $(ip route show default | awk '{ for (i = 1; i < NF; i++) if ($i == "dev") { print $(i + 1); exit } }')"
 fi
 
 say "Done"
-echo "$HOST is prepared. Once all three VMs are prepared, chapter 0.3 continues on the front-end."
+echo "$HOST is prepared. Once all three VMs are prepared, chapter 0.5 continues on the front-end."
