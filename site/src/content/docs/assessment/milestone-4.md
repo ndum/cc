@@ -1,13 +1,13 @@
 ---
-title: UN4 Ein eigenes Mitglied
-description: Der Auftrag des vierten Umsetzungsnachweises mit dem eigenen Mitglied, den verlangten Funktionen, dem Ablauf des Screencasts, dem Inhalt der Abgabe und dem Bewertungsraster.
+title: Meilenstein 4 · Ein eigenes Mitglied
+description: Der Auftrag des vierten Meilensteins mit dem eigenen Mitglied, den verlangten Funktionen, dem Ablauf des Screencasts, dem Inhalt der Abgabe und dem Bewertungsraster.
 ---
 
 :::assignment
 «Die fünfte Organisation hat ja gesagt», schreibt Simone Wyss. «Jetzt brauchen wir alles, was der Vorstand verlangt hat. Eine Einschätzung des Schutzbedarfs, ein SLA, einen Preis, und dass sie sicher und mit Backup auf unserer Plattform läuft. Und wenn bei ihr etwas schiefgeht, will ich danach einen ehrlichen Bericht.»
 :::
 
-UN4 umfasst Teil 6. Du entwirfst ein fünftes Mitglied von Wolkenwerk Bern selbst, schätzt seinen Schutzbedarf ein, legst Service Levels und einen Preis fest und bringst es gesichert auf deine gehärtete Plattform. Einen Vorfall bei diesem Mitglied behandelst du mit dem Triage-Dienst und schreibst ein Postmortem. UN4 ist eine Einzelarbeit und gehört mit UN3 zur Abgabe 2 am Ende von Block 6.
+Meilenstein 4 umfasst Teil 6. Du entwirfst ein fünftes Mitglied von Wolkenwerk Bern selbst, schätzt seinen Schutzbedarf ein, legst Service Levels und einen Preis fest und bringst es gesichert auf deine gehärtete Plattform. Einen Vorfall bei diesem Mitglied behandelst du mit dem Triage-Dienst und schreibst ein Postmortem. Meilenstein 4 ist eine Einzelarbeit und gehört mit Meilenstein 3 zur Abgabe 2.
 
 ## Dein Mitglied
 
@@ -39,7 +39,7 @@ Alles läuft in deinem eigenen Lab mit deinen persönlichen Parametern aus Kapit
 
 ## Erklärungen und Entscheide
 
-Im README von UN4 und im Screencast erklärst du
+Im README von Meilenstein 4 und im Screencast erklärst du
 
 - dein Mitglied, seine Dienste und seinen Schutzbedarf nach Vertraulichkeit, Integrität und Verfügbarkeit, und welcher Dienst warum auf einer VM oder im Cluster läuft,
 - dein SLA mit Verfügbarkeit, Supportzeiten, RPO und RTO, begründet mit der Architektur deines Labs und den gemessenen Zeiten der Wiederherstellung,
@@ -63,7 +63,7 @@ Der Screencast dauert höchstens zehn Minuten in einer einzigen Aufnahme. Ein Vo
 | 7 bis 8 | Entwurf und korrigiertes Postmortem |
 | 8 bis 10 | SLA, Kostenmodell und zwei oder drei eigene Entscheide |
 
-Die Wiederherstellung des Clusters darfst du vor der Aufnahme machen und im Screencast mit ihren Spuren zeigen, etwa dem Snapshot, den Zeiten und dem Zustand danach. Zeigst du UN4 live im Unterricht, gilt derselbe Ablauf.
+Die Wiederherstellung des Clusters darfst du vor der Aufnahme machen und im Screencast mit ihren Spuren zeigen, etwa dem Snapshot, den Zeiten und dem Zustand danach. Zeigst du Meilenstein 4 live im Unterricht, gilt derselbe Ablauf.
 
 ## Abgabe
 
@@ -96,4 +96,4 @@ Das Token von k3s, den Schlüssel von Sealed Secrets und die Backups gibst du ni
 | **Erklärungen und Entscheide** | **12** |
 | **Total** | **30** |
 
-Die Funktionen ergeben 60 % der Punkte, die Erklärungen und Entscheide 40 %. Die Note der Abgabe 2 berechnet deine Lehrperson aus den Punkten von UN3 und UN4 nach den Regeln der Schule.
+Die Funktionen ergeben 60 % der Punkte, die Erklärungen und Entscheide 40 %. Die Note der Abgabe 2 berechnet deine Dozentin oder dein Dozent aus den Punkten von Meilenstein 3 und 4 nach den Regeln der Schule.

@@ -5,7 +5,7 @@ sidebar:
   order: 3
 ---
 
-The tables on this page collect problems that actually came up while the course was tried out. Before you search for your symptom, it pays to follow a fixed procedure. It also works where no table helps, and it is the procedure the mock exam in block 7 practices.
+The tables on this page collect problems that actually came up while the course was tried out. Before you search for your symptom, it pays to follow a fixed procedure. It also works where no table helps.
 
 ## Handling a fault
 

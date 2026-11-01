@@ -1,13 +1,13 @@
 ---
-title: UN4 A member of your own
-description: The assignment of the fourth implementation proof with a member of your own, the required functions, the course of the screencast, the content of the hand-in and the rubric.
+title: Milestone 4 · A member of your own
+description: The assignment of the fourth milestone with a member of your own, the required functions, the course of the screencast, the content of the hand-in and the rubric.
 ---
 
 :::assignment
 "The fifth organization said yes," writes Simone Wyss. "Now we need everything the board asked for. An assessment of the protection needs, an SLA, a price, and that it runs securely and backed up on our platform. And if something goes wrong for them, I want an honest report afterwards."
 :::
 
-UN4 covers part 6. You design a fifth member of Wolkenwerk Bern yourself, assess its protection needs, set service levels and a price, and bring it onto your hardened platform with backups. You handle an incident of this member with the triage service and write a postmortem. UN4 is individual work and belongs with UN3 to hand-in 2 at the end of block 6.
+Milestone 4 covers part 6. You design a fifth member of Wolkenwerk Bern yourself, assess its protection needs, set service levels and a price, and bring it onto your hardened platform with backups. You handle an incident of this member with the triage service and write a postmortem. Milestone 4 is individual work and belongs with milestone 3 to hand-in 2.
 
 ## Your member
 
@@ -39,7 +39,7 @@ Everything runs in your own lab with your personal parameters from chapter 0.3.
 
 ## Explanations and decisions
 
-In the README of UN4 and in the screencast you explain
+In the README of milestone 4 and in the screencast you explain
 
 - your member, its services and its protection needs for confidentiality, integrity and availability, and which service runs on a VM or in the cluster and why,
 - your SLA with availability, support hours, RPO and RTO, justified with your lab's architecture and the measured restore times,
@@ -63,7 +63,7 @@ The screencast lasts at most ten minutes in a single take. A suggestion for its 
 | 7 to 8 | draft and corrected postmortem |
 | 8 to 10 | SLA, cost model and two or three decisions of your own |
 
-You may restore the cluster before recording and show its traces in the screencast, such as the snapshot, the times and the state afterwards. If you show UN4 live in class, the same course applies.
+You may restore the cluster before recording and show its traces in the screencast, such as the snapshot, the times and the state afterwards. If you show milestone 4 live in class, the same course applies.
 
 ## Hand-in
 
@@ -96,4 +96,4 @@ You do not hand in the k3s token, the Sealed Secrets key or the backups. You put
 | **Explanations and decisions** | **12** |
 | **Total** | **30** |
 
-The functions make up 60 % of the points, the explanations and decisions 40 %. Your teacher calculates the grade of hand-in 2 from the points of UN3 and UN4 according to the school's rules.
+The functions make up 60 % of the points, the explanations and decisions 40 %. Your instructor calculates the grade of hand-in 2 from the points of milestones 3 and 4 according to the school's rules.

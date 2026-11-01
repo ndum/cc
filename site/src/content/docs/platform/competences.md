@@ -22,4 +22,4 @@ Mit diesem Raster schätzt du ein, ob du deine Plattform aus Code bauen und erkl
 | Namespaces mit einer Vorlage begrenzen und trennen | Zeige die Quota der Gemeinde an ihrer Grenze und die Trennung durch die NetworkPolicy. | [Plattform-Vorlagen](../templates/#an-der-grenze) |
 | einen Antrag als Pull Request bearbeiten | Lege ein Mitglied per Pull Request an und erkläre, worauf du beim Prüfen achtest. | [Plattform-Vorlagen](../templates/#der-antrag-der-gemeinde) |
 
-Mit diesem Teil schliesst du den [Umsetzungsnachweis UN2](../../assessment/un2/) ab. UN1 und UN2 gibst du zusammen am Ende von Block 4 ab. In Teil 5 beobachtest du den Webshop, lässt ihn unter Last wachsen und betreibst ein lokales Sprachmodell.
+Mit diesem Teil schliesst du [Meilenstein 2](../../assessment/milestone-2/) ab. Die Meilensteine 1 und 2 gibst du zusammen als Abgabe 1 ab. In Teil 5 beobachtest du den Webshop, lässt ihn unter Last wachsen und betreibst ein lokales Sprachmodell.

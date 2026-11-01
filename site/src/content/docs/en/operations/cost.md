@@ -97,7 +97,7 @@ Power also depends on utilization. An idle server draws a large part of its peak
 OpenCost calculates the cost of a cluster per namespace, deployment and pod, with prices per CPU and GB, and shows unused reservations. It runs in the cluster and reads from Prometheus. For the course, the queries above and the calculation in a table are enough.
 
 ::::exercise[Cost model]
-Create the cost model for your member from UN4. Calculate with the full cost above or with assumptions of your own, justified, and compare the result with the showback from chapter 3.3.
+Create the cost model for your member from milestone 4. Calculate with the full cost above or with assumptions of your own, justified, and compare the result with the showback from chapter 3.3.
 
 :::solution
 The model names the member's resources from quota and VM, its share of capacity, the monthly price from the full cost and the amount from showback. It explains the difference with the labor missing in showback and proposes a way of billing, such as a base fee plus consumption. Assumptions of your own are allowed if they are justified.

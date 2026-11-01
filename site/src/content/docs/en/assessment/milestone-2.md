@@ -1,13 +1,13 @@
 ---
-title: UN2 Platform as code
-description: The assignment of the second implementation proof with the required functions, the course of the screencast, the content of the hand-in and the rubric.
+title: Milestone 2 · Platform as code
+description: The assignment of the second milestone with the required functions, the course of the screencast, the content of the hand-in and the rubric.
 ---
 
 :::assignment
 "The board wants to see that you can rebuild the platform at any time," Simone Wyss writes. "Throw it away in front of them and build it again, with the bike shop's web shop and room for another member."
 :::
 
-UN2 covers part 4. On your cloud you build a Kubernetes cluster from code, roll out the web shop with GitOps, give the members namespaces from a template and explain your decisions. UN2 is individual work and belongs with UN1 to hand-in 1 at the end of block 4.
+Milestone 2 covers part 4. On your cloud you build a Kubernetes cluster from code, roll out the web shop with GitOps, give the members namespaces from a template and explain your decisions. Milestone 2 is individual work and belongs with milestone 1 to hand-in 1.
 
 ## Required functions
 
@@ -24,7 +24,7 @@ Everything runs in your own lab with your personal parameters from chapter 0.3.
 
 ## Explanations and decisions
 
-In the README of UN2 and in the screencast you explain
+In the README of milestone 2 and in the screencast you explain
 
 - the architecture of your platform with a drawing of your own of OpenNebula, the cluster VMs, Gitea, Argo CD and the namespaces,
 - the difference between your click path of part 2 and the code of part 4, with state, drift and idempotence,
@@ -50,7 +50,7 @@ The screencast lasts at most ten minutes in a single take. A suggestion for its 
 | 8 to 9 | `tofu plan` without changes, the check `platform` after the rebuild |
 | 9 to 10 | two or three decisions of your own |
 
-In the lab, the rebuild took a little under three minutes. Start it early in the recording and explain the code while it runs. If you show UN2 live in class, the same course applies.
+In the lab, the rebuild took a little under three minutes. Start it early in the recording and explain the code while it runs. If you show milestone 2 live in class, the same course applies.
 
 ## Hand-in
 
@@ -81,4 +81,4 @@ You put the reports of the checks in `reports/`. How the repo is structured and 
 | **Explanations and decisions** | **12** |
 | **Total** | **30** |
 
-The functions make up 60 % of the points, the explanations and decisions 40 %. Your teacher calculates the grade of hand-in 1 from the points of UN1 and UN2 according to the school's rules.
+The functions make up 60 % of the points, the explanations and decisions 40 %. Your instructor calculates the grade of hand-in 1 from the points of milestones 1 and 2 according to the school's rules.

@@ -14,9 +14,9 @@ After this chapter you can
 
 - reach your VMs without a password using an SSH key and an SSH configuration,
 - reach the nodes from the front-end without a password,
-- create your hand-in repo and share it with your teacher,
+- create your hand-in repo and share it with your instructor,
 - run the check of a chapter and read its report,
-- record a screencast that meets the rules of the proofs.
+- record a screencast that meets the rules of the milestones.
 :::
 
 ## SSH keys
@@ -63,7 +63,7 @@ After that, `ssh mmuster-node1 hostname` has to print the node's name without as
 
 ## The hand-in repo
 
-For your proofs you create a private repo, either on your school's GitLab or on GitHub. Name it `cc-` followed by your code, for example `cc-mmuster`, and give your teacher read access. The repo holds your code, the reports of the checks, a README for every proof and your screencast or a link to it. [Assessment](../../assessment/) describes the exact layout.
+For your milestones you create a private repo, either on your school's GitLab or on GitHub. Name it `cc-` followed by your code, for example `cc-mmuster`, and give your instructor read access. The repo holds your code, the reports of the checks, a README for every milestone and your screencast or a link to it. [Assessment](../../assessment/) describes the exact layout.
 
 Clone the repo onto the front-end, where most of the files come from. To reach GitLab or GitHub from the VM, add the front-end's public key to your account there.
 
@@ -79,7 +79,7 @@ Now you check whether your lab is ready. The check script runs on the front-end.
 python3 ~/cc/checks/check.py start
 ```
 
-Each line of the report starts with `[ok]` or `[!!]`. Below a line with `[!!]` there is a hint on where to look. The script saves the report in `~/cc-reports/`, and it ends with a hash that covers the whole report. Editing the report by hand afterwards breaks the hash. Since the script is public, though, the hash does not prove that the check really ran. Your showing is the proof.
+Each line of the report starts with `[ok]` or `[!!]`. Below a line with `[!!]` there is a hint on where to look. The script saves the report in `~/cc-reports/`, and it ends with a hash that covers the whole report. Editing the report by hand afterwards breaks the hash. Since the script is public, though, the hash does not prove that the check really ran. Your showing is the milestone.
 
 ::code{file="checks/check.py" lines="161-166"}
 
@@ -87,13 +87,13 @@ Copy the report into the folder `reports/` of your hand-in repo, commit it and p
 
 ## Screencasts
 
-You show a proof either live in class or in a screencast. Screencasts follow these rules:
+You show a milestone either live in class or in a screencast. Screencasts follow these rules:
 
 1. at most ten minutes, one recording without cuts
 2. first `cat /etc/cc-lab.env` and the report of the check with its hash
 3. then the required features, live in your lab
 4. at the end two or three of your own decisions and why you made them
-5. audio with your voice, so your teacher hears how you explain
+5. audio with your voice, so your instructor hears how you explain
 
 On Windows you record with the Snipping Tool or with OBS Studio, on macOS with the built-in screen recording. Put the screencast into your hand-in repo or onto storage such as OneDrive and add the link to the README.
 

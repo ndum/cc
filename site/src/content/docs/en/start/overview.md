@@ -1,6 +1,6 @@
 ---
 title: Course overview
-description: How the course works, the case of Wolkenwerk Bern, the four implementation proofs with their two hand-ins and the rules for AI tools.
+description: How the course works, the case of Wolkenwerk Bern, the four milestones with their two hand-ins and the rules for AI tools.
 sidebar:
   order: 1
 ---
@@ -12,27 +12,34 @@ Simone Wyss writes to you on your first day. "Welcome to Wolkenwerk Bern. The th
 :::goals
 After this chapter you can
 
+- describe what you build and learn in this module,
 - explain how the course is organized and how you learn with it,
 - name the members of Wolkenwerk Bern and what they need,
-- describe how the four implementation proofs and the two hand-ins make up your grade,
+- describe how the four milestones and the two hand-ins make up your grade,
 - use AI tools the way the course rules require.
 :::
 
+## The module at a glance
+
+In this module you build a small cloud in your own lab and run it the way a platform team would. You start with three empty Ubuntu VMs. By the end they carry a platform that runs the apps of five members, with monitoring, backups and prices. You pick up the theory of cloud computing at the point where your lab needs it.
+
+| Part | What you do | Result |
+|---|---|---|
+| 0 Getting started | You meet the case, generate your personal parameters and prepare the three VMs and your tools. | prepared VMs and a hand-in repo |
+| 1 Cloud basics | You learn the characteristics of a cloud, the service and deployment models, the rules on data protection and sovereignty, and virtualization with KVM. | protection needs of the members and verified virtualization on the nodes |
+| 2 Building IaaS | You install OpenNebula with Ansible, bring the nodes into service as hosts, set up networks, images and templates, and start your first VMs. | a running IaaS cloud |
+| 3 Tenants and self-service | You split the cloud into groups with quotas, charge usage back with showback, give the members self-service and let a service grow with OneFlow. | four members with their own resources, milestone 1 |
+| 4 Platform as code | You create a Kubernetes cluster with OpenTofu, roll out the web shop from Git with Argo CD and give the members namespaces from a template. | a platform you can rebuild from code, milestone 2 |
+| 5 Observability, scaling and AI | You monitor everything with Prometheus, Grafana and Loki, set an SLO, let the web shop scale on its own and run a local language model that sorts alerts. | a monitored platform with AI triage, milestone 3 |
+| 6 Operations | You harden the platform, back it up and restore it, write an SLA, work out the cost and put a fifth member of your own design into service. | a cloud ready for operation, milestone 4 |
+
+Each part adds a layer of the [target architecture](#the-target-architecture). The milestones close parts 3, 4, 5 and 6, and your grade comes from them.
+
 ## Learning in this course
 
-The course is built for self-study. Class time starts with a short input, and most of the time you work in your own lab. Whatever you do not finish in class, you continue at home. A few lessons of self-study come on top, mostly for the theory in part 1 and part 6.
+The course is built for self-study. Class time starts with a short input, and most of the time you work in your own lab. Whatever you do not finish in class, you continue at home. Your instructor decides how class time and self-study are split.
 
 Every chapter starts with an assignment from Simone Wyss. The learning goals follow, then the explanation with figures and commands, and at the end tasks in your lab. Many chapters have a check script that tells you whether your lab is in the expected state. Every part ends with a page that lists its competences.
-
-The course has seven parts:
-
-1. Part 0 Getting started with the lab and the tools
-2. Part 1 Cloud basics
-3. Part 2 Building IaaS with OpenNebula
-4. Part 3 Tenants and self-service
-5. Part 4 Platform as code with OpenTofu, Kubernetes and GitOps
-6. Part 5 Observability, scaling and AI
-7. Part 6 Operations with security, backup, SLAs and cost
 
 ## The case
 
@@ -50,13 +57,13 @@ Every part of the course builds a layer or extends one. The header line of each 
 
 ## Assessment
 
-Your grade comes from four implementation proofs. You hand in UN1 and UN2 together at the end of block 4 and get your first grade for them. UN3 and UN4 follow at the end of block 6 and make up the second grade. Both grades count the same. Block 7 is reserved for the mock exam and its discussion. [Assessment](../../assessment/) has the details.
+Your grade comes from four milestones. You hand in milestones 1 and 2 together and get your first grade for them. Milestones 3 and 4 make up the second grade. Both grades count the same. Your instructor announces the dates. [Assessment](../../assessment/) has the details.
 
-Every proof is individual work. You show it either in a screencast of at most ten minutes or live in class, and you hand in your repo with it. Your environment carries your [personal parameters](../parameters/) such as host names and networks. Every lab therefore looks a little different, and a copied solution stands out.
+Every milestone is individual work. You show it either in a screencast of at most ten minutes or live in class, and you hand in your repo with it. Your environment carries your [personal parameters](../parameters/) such as host names and networks. Every lab therefore looks a little different, and a copied solution stands out.
 
 ## AI tools
 
-You may use AI assistants to write code, configuration and scripts. Two rules apply. First, the README of every proof states what you used an AI assistant for. Second, you must be able to explain everything you hand in. Your teacher asks questions during the showing, and a solution you cannot explain does not count as yours.
+You may use AI assistants to write code, configuration and scripts. Two rules apply. First, the README of every milestone states what you used an AI assistant for. Second, you must be able to explain everything you hand in. Your instructor asks questions during the showing, and a solution you cannot explain does not count as yours.
 
 From part 5 on, the course itself runs a local language model on your platform. There you learn what a small model can do in operations and where it gets things wrong.
 

@@ -20,9 +20,9 @@ Nach diesem Kapitel kannst du
 
 ## Zweck der Parameter
 
-Jedes Lab im Kurs ist ein wenig anders. Aus einem persönlichen Code entstehen die Namen deiner VMs, das interne Netz deiner Cloud und die Kennung ihres VXLAN-Netzes. Diese Werte begleiten dich durch den ganzen Kurs. Die Skripte lesen sie, die Kapitel verwenden sie in den Befehlen, und in jedem Umsetzungsnachweis sind sie sichtbar. Deine Lehrperson kann sie jederzeit aus deinem Code nachrechnen. Eine Lösung, die aus einem anderen Lab kopiert wurde, fällt dadurch auf.
+Jedes Lab im Kurs ist ein wenig anders. Aus einem persönlichen Code entstehen die Namen deiner VMs, das interne Netz deiner Cloud und die Kennung ihres VXLAN-Netzes. Diese Werte begleiten dich durch den ganzen Kurs. Die Skripte lesen sie, die Kapitel verwenden sie in den Befehlen, und in jedem Meilenstein sind sie sichtbar. Deine Dozentin oder dein Dozent kann sie jederzeit aus deinem Code nachrechnen. Eine Lösung, die aus einem anderen Lab kopiert wurde, fällt dadurch auf.
 
-Den Code nennt dir deine Lehrperson, meist ist es dein Kürzel. Er beginnt mit einem Buchstaben und besteht aus 2 bis 16 Kleinbuchstaben oder Ziffern. Behalte für den ganzen Kurs denselben Code.
+Den Code nennt dir deine Dozentin oder dein Dozent, meist ist es dein Kürzel. Er beginnt mit einem Buchstaben und besteht aus 2 bis 16 Kleinbuchstaben oder Ziffern. Behalte für den ganzen Kurs denselben Code.
 
 ## Der Generator
 
@@ -59,7 +59,7 @@ sudo nano /etc/cc-lab.env
 Danach zeigt `cat /etc/cc-lab.env` auf jeder VM dieselben Zeilen. Stimmt später ein Wert nicht, etwa weil du eine Adresse falsch eingegeben hast, korrigierst du die Datei auf allen drei VMs und startest das Vorbereitungsskript aus [Kapitel 0.4](../prepare/) noch einmal.
 
 :::note
-Jeder Screencast eines Umsetzungsnachweises beginnt mit `cat /etc/cc-lab.env`. Deine Lehrperson sieht daran, dass die Vorführung aus deinem Lab stammt.
+Jeder Screencast eines Meilensteins beginnt mit `cat /etc/cc-lab.env`. Deine Dozentin oder dein Dozent sieht daran, dass die Vorführung aus deinem Lab stammt.
 :::
 
 ::::exercise[Lab]

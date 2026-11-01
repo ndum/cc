@@ -10,7 +10,7 @@ Mit diesem Raster schätzt du ein, ob du für die nächsten Teile bereit bist. L
 
 | Ich kann … | Prüfaufgabe | Nachschlagen |
 |---|---|---|
-| erklären, wie der Kurs aufgebaut ist und wie meine Note entsteht | Nenne die vier Umsetzungsnachweise, die zwei Abgaben und was in Block 7 geschieht. | [Kursüberblick](../overview/#leistungsbeurteilung) |
+| erklären, wie der Kurs aufgebaut ist und wie meine Note entsteht | Nenne die vier Meilensteine und die zwei Abgaben. | [Kursüberblick](../overview/#leistungsbeurteilung) |
 | die Mitglieder von Wolkenwerk Bern und ihre Anforderungen nennen | Nenne zu jedem Mitglied die Anforderung, die es von den anderen unterscheidet. | [Kursüberblick](../overview/#der-fall) |
 | KI-Werkzeuge nach den Regeln des Kurses einsetzen | Nenne die zwei Regeln für KI-Assistenten in den Nachweisen. | [Kursüberblick](../overview/#ki-werkzeuge) |
 | die drei VMs des Labs und ihre beiden Netze beschreiben | Zeichne das Lab mit Front-end, Knoten, Labnetz und internem Netz aus dem Gedächtnis. | [Das Lab](../lab/#zwei-netze) |
@@ -20,6 +20,6 @@ Mit diesem Raster schätzt du ein, ob du für die nächsten Teile bereit bist. L
 | das Gateway des internen Netzes prüfen | Erkläre die Ausgabe von `sudo cc-gateway status`. | [VMs vorbereiten](../prepare/#das-gateway) |
 | ohne Passwort per SSH auf alle VMs zugreifen | Melde dich mit `ssh` und dem Namen aus deiner SSH-Konfiguration am Front-end an und von dort an einem Knoten. | [Werkzeuge](../tools/#ssh-vom-front-end-auf-die-knoten) |
 | einen Check starten und seinen Bericht lesen | Starte den Check `start` und erkläre, was der Hash am Ende belegt und was nicht. | [Werkzeuge](../tools/#der-erste-check) |
-| einen Screencast nach den Regeln der Nachweise aufnehmen | Zähle auf, was in den ersten 30 Sekunden eines Screencasts zu sehen ist. | [Werkzeuge](../tools/#screencasts) |
+| einen Screencast nach den Regeln der Meilensteine aufnehmen | Zähle auf, was in den ersten 30 Sekunden eines Screencasts zu sehen ist. | [Werkzeuge](../tools/#screencasts) |
 
 Für Teil 2 brauchst du drei vorbereitete VMs, die der Check `start` ohne `[!!]` bestätigt.

@@ -25,7 +25,7 @@ Der Kubernetes-Cluster von Teil 4 läuft auf zwei VMs mit je 6 GB Arbeitsspeiche
 
 OpenNebula reserviert für jede VM den ganzen Speicher aus ihrer Vorlage auf ihrem Knoten, auch wenn die VM ihn gerade nicht braucht. Nach dem Cluster bleiben also auf jedem Knoten 1,2 GB, genug für eine einzige VM mit 1 GB. Die drei Webserver aus Teil 2, die VMs der Praxis und der Dienst der Treuhand aus Teil 3 belegen zusammen 6 GB. Mit ihnen startet der Cluster nicht, OpenNebula fände keinen Knoten mit 6 GB frei.
 
-Darum räumst du vor diesem Kapitel auf. Nimm vorher den Screencast von UN1 auf, denn danach fehlen die VMs, die er zeigt. Die Gruppen, Quotas, Preise und Vorlagen aus Teil 3 bleiben bestehen, du entfernst nur die laufenden VMs.
+Darum räumst du vor diesem Kapitel auf. Nimm vorher den Screencast von Meilenstein 1 auf, denn danach fehlen die VMs, die er zeigt. Die Gruppen, Quotas, Preise und Vorlagen aus Teil 3 bleiben bestehen, du entfernst nur die laufenden VMs.
 
 ```bash
 onevm list
@@ -41,8 +41,8 @@ onehost list
 
 `oneadmin` darf die VMs aller Mitglieder beenden. Am Ende zeigt `onehost list` auf beiden Knoten `0K / 7.2G`.
 
-:::note[UN1 live zeigen]
-Wer UN1 im Unterricht live zeigt statt im Screencast, nimmt den Cluster für die Vorführung von den Knoten. `onevm undeploy k3s-server` und `onevm undeploy k3s-agent` stoppen die VMs und geben Speicher und CPU frei, ihre Disks bleiben erhalten. Danach startest du die VMs der Mitglieder mit den Befehlen aus Teil 3 neu, zeigst UN1 und beendest sie wieder. `onevm resume` bringt den Cluster zurück. Im Lab dauerte `undeploy` knapp zwei Minuten, nach `resume` antwortete der Webshop aus Kapitel 4.4 nach etwa 45 Sekunden wieder. `onevm poweroff` reicht dafür nicht, eine ausgeschaltete VM behält ihren Platz auf dem Knoten.
+:::note[Meilenstein 1 live zeigen]
+Wer Meilenstein 1 im Unterricht live zeigt statt im Screencast, nimmt den Cluster für die Vorführung von den Knoten. `onevm undeploy k3s-server` und `onevm undeploy k3s-agent` stoppen die VMs und geben Speicher und CPU frei, ihre Disks bleiben erhalten. Danach startest du die VMs der Mitglieder mit den Befehlen aus Teil 3 neu, zeigst Meilenstein 1 und beendest sie wieder. `onevm resume` bringt den Cluster zurück. Im Lab dauerte `undeploy` knapp zwei Minuten, nach `resume` antwortete der Webshop aus Kapitel 4.4 nach etwa 45 Sekunden wieder. `onevm poweroff` reicht dafür nicht, eine ausgeschaltete VM behält ihren Platz auf dem Knoten.
 :::
 
 ## Werkzeuge

@@ -40,7 +40,7 @@ Seit Teil 4 steht der Soll-Zustand der Plattform in Git. Ein neuer Cluster holt 
 | Daten in Volumes, etwa Prometheus, Loki, Audit-Log | Disk des Agents | in diesem Kurs nicht |
 | VMs der Mitglieder | Datastores der Knoten | Backups von OpenNebula |
 
-Das Repo in Gitea liegt auf dem Front-end. Fällt das Front-end aus, sind Gitea, State, Snapshots und Backups zugleich weg. Das verletzt die Regel 3-2-1. Eine Kopie gehört auf ein anderes System, etwa auf den Rechner der Lehrperson oder in einen Speicher ausser Haus.
+Das Repo in Gitea liegt auf dem Front-end. Fällt das Front-end aus, sind Gitea, State, Snapshots und Backups zugleich weg. Das verletzt die Regel 3-2-1. Eine Kopie gehört auf ein anderes System, etwa auf den Rechner der Dozentin oder des Dozenten oder in einen Speicher ausser Haus.
 
 ## Der Cluster mit etcd
 
@@ -153,7 +153,7 @@ Backups zählen zur Quota des Datastores. Ein Mitglied mit vielen grossen Backup
 Velero sichert Namespaces samt ihren Volumes in einen Objektspeicher und stellt einzelne Namespaces wieder her, ohne den ganzen Cluster zurückzusetzen. Es bräuchte einen Speicher wie MinIO und weitere Komponenten auf den knappen Knoten. Für den Kurs genügen Git, die Snapshots von etcd und die Backups von OpenNebula.
 
 ::::exercise[RPO und RTO]
-Lege für die vier Mitglieder und für dein eigenes Mitglied aus UN4 ein RPO und ein RTO fest. Prüfe, ob die Plattform sie mit den Snapshots alle sechs Stunden und den nächtlichen Backups erreicht.
+Lege für die vier Mitglieder und für dein eigenes Mitglied aus Meilenstein 4 ein RPO und ein RTO fest. Prüfe, ob die Plattform sie mit den Snapshots alle sechs Stunden und den nächtlichen Backups erreicht.
 
 :::solution
 Eine mögliche Festlegung ist die Treuhand mit RPO vier Stunden und RTO vier Stunden am Monatsende, die Praxis mit RPO 24 Stunden und RTO einem Arbeitstag, der Webshop mit RPO 24 Stunden und RTO einer Stunde am Samstag, die Gemeinde mit RPO 24 Stunden und RTO vier Stunden zu den Schalterzeiten. Die nächtlichen Backups der VMs erreichen ein RPO von 24 Stunden, die Treuhand bräuchte häufigere. Ein RTO von einer Stunde verlangt eine geübte Wiederherstellung, im Lab dauerte der Neubau des Clusters gut zehn Minuten, die Wiederherstellung aus dem Snapshot unter einer Minute.

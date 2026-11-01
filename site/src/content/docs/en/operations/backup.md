@@ -40,7 +40,7 @@ Since part 4, the desired state of the platform has been in Git. A new cluster g
 | data in volumes, such as Prometheus, Loki, audit log | agent disk | not in this course |
 | member VMs | node datastores | OpenNebula backups |
 
-The Gitea repo lives on the front-end. If the front-end fails, Gitea, state, snapshots and backups are gone at once. That violates the 3-2-1 rule. One copy belongs on another system, such as the teacher's computer or storage offsite.
+The Gitea repo lives on the front-end. If the front-end fails, Gitea, state, snapshots and backups are gone at once. That violates the 3-2-1 rule. One copy belongs on another system, such as the instructor's computer or storage offsite.
 
 ## The cluster with etcd
 
@@ -153,7 +153,7 @@ Backups count against the datastore quota. A member with many large backups need
 Velero backs up namespaces together with their volumes into object storage and restores single namespaces without resetting the whole cluster. It would need storage such as MinIO and more components on the tight nodes. For the course, Git, the etcd snapshots and the OpenNebula backups are enough.
 
 ::::exercise[RPO and RTO]
-Set an RPO and an RTO for the four members and for your own member from UN4. Check whether the platform meets them with snapshots every six hours and nightly backups.
+Set an RPO and an RTO for the four members and for your own member from milestone 4. Check whether the platform meets them with snapshots every six hours and nightly backups.
 
 :::solution
 One possible setting is the fiduciary office with an RPO of four hours and an RTO of four hours at the end of the month, the practice with an RPO of 24 hours and an RTO of one working day, the web shop with an RPO of 24 hours and an RTO of one hour on Saturdays, the municipality with an RPO of 24 hours and an RTO of four hours during counter hours. The nightly VM backups reach an RPO of 24 hours, so the fiduciary office would need more frequent ones. An RTO of one hour requires a practiced restore. In the lab, rebuilding the cluster took a good ten minutes, restoring from the snapshot less than one.

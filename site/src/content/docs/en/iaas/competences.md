@@ -22,4 +22,4 @@ Use this grid to judge whether your IaaS is running and you understand it. Read 
 | empty a node for maintenance | Show the commands for maintenance and the return of a node. | [Operating hosts](../hosts/#maintenance-of-a-node) |
 | explain the consequences of a node failure in the lab | Explain why the VMs of a failed node do not start elsewhere. | [Operating hosts](../hosts/#failure-of-a-node) |
 
-In part 3 you split this cloud among the members and complete the implementation proof UN1.
+In part 3 you split this cloud among the members and complete milestone 1.

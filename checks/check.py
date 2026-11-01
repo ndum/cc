@@ -9,7 +9,7 @@ Run it on the front-end as the user who works with the lab:
     python3 checks/check.py tenants    chapters 3.1 to 3.5, members, quotas, showback and the OneFlow service
     python3 checks/check.py platform   chapters 4.2 to 4.5, k3s from OpenTofu, Gitea, Argo CD and member namespaces
     python3 checks/check.py observability  chapters 5.1 to 5.6, metrics, logs, SLO, autoscaling, local model and triage
-    python3 checks/check.py operations  chapters 6.1 and 6.2 and UN4, hardening, Sealed Secrets, backups and the new member
+    python3 checks/check.py operations  chapters 6.1 and 6.2 and milestone 4, hardening, Sealed Secrets, backups and the new member
 
 The report lands in ~/cc-reports/ and is printed. The hash at its end covers the whole report, so a
 changed report no longer matches its hash. The script is public, so the hash proves only that a
@@ -451,13 +451,13 @@ def check_operations(env, report):
     images = as_list(((one_json("oneimage", "list") or {}).get("IMAGE_POOL") or {}).get("IMAGE"))
     # Image type 6 is a backup
     report.check(any(i.get("TYPE") == "6" for i in images), tr("Es gibt ein Backup einer VM", "There is a backup of a VM"))
-    # UN4, the fifth member
+    # milestone 4, the fifth member
     groups = as_list(((one_json("onegroup", "list") or {}).get("GROUP_POOL") or {}).get("GROUP"))
     new = [g for g in groups if g.get("NAME") not in set(MEMBERS) | {"oneadmin", "users"}]
     quotas = [((one_json("onegroup", "show", g.get("NAME")) or {}).get("GROUP", {}).get("VM_QUOTA") or {}).get("VM") or {} for g in new]
     with_quota = [q for q in quotas if str(q.get("VMS", "-1")).isdigit()]
     report.check(bool(with_quota), tr("Das neue Mitglied hat eine Gruppe mit Quota in OpenNebula", "The new member has a group with a quota in OpenNebula"),
-                 tr("UN4, wie Kapitel 3.1 und 3.2", "UN4, as in chapters 3.1 and 3.2"))
+                 tr("Meilenstein 4, wie Kapitel 3.1 und 3.2", "milestone 4, as in chapters 3.1 and 3.2"))
     vms = as_list(((one_json("onevm", "list") or {}).get("VM_POOL") or {}).get("VM"))
     report.check(any(v.get("GNAME") in {g.get("NAME") for g in new} and v.get("LCM_STATE") == "3" for v in vms),
                  tr("Eine VM des neuen Mitglieds läuft", "A VM of the new member runs"))
@@ -465,10 +465,10 @@ def check_operations(env, report):
     running = [n for n in others if any((d.get("status", {}).get("readyReplicas") or 0) > 0
                                         for d in (kube_json("get", "deployments", "-n", n) or {}).get("items", []))]
     report.check(bool(running), tr("Das neue Mitglied hat einen Namespace mit einer laufenden App", "The new member has a namespace with a running app"),
-                 tr("UN4, Ordner in members/ mit Vorlage und App", "UN4, folder in members/ with the template and an app"))
+                 tr("Meilenstein 4, Ordner in members/ mit Vorlage und App", "milestone 4, folder in members/ with the template and an app"))
     rules = json.dumps(kube_json("get", "prometheusrules", "-A") or {})
     report.check(any(f'namespace=\\"{n}\\"' in rules for n in others), tr("Eine Alert-Regel überwacht das neue Mitglied", "An alert rule watches the new member"),
-                 tr("UN4, wie Kapitel 5.3", "UN4, as in chapter 5.3"))
+                 tr("Meilenstein 4, wie Kapitel 5.3", "milestone 4, as in chapter 5.3"))
 
 
 CHECKS = {"start": check_start, "install": check_install, "iaas": check_iaas, "tenants": check_tenants, "platform": check_platform,

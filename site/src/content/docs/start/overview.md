@@ -1,6 +1,6 @@
 ---
 title: Kursüberblick
-description: Wie der Kurs aufgebaut ist, der Fall Wolkenwerk Bern, die vier Umsetzungsnachweise mit ihren zwei Abgaben und die Regeln für KI-Werkzeuge.
+description: Wie der Kurs aufgebaut ist, der Fall Wolkenwerk Bern, die vier Meilensteine mit ihren zwei Abgaben und die Regeln für KI-Werkzeuge.
 sidebar:
   order: 1
 ---
@@ -12,27 +12,34 @@ Simone Wyss schreibt dir an deinem ersten Tag. «Willkommen bei Wolkenwerk Bern.
 :::goals
 Nach diesem Kapitel kannst du
 
+- beschreiben, was du in diesem Modul aufbaust und lernst,
 - erklären, wie der Kurs aufgebaut ist und wie du mit ihm lernst,
 - die Mitglieder von Wolkenwerk Bern und ihre Anforderungen nennen,
-- beschreiben, wie die vier Umsetzungsnachweise und die zwei Abgaben deine Note ergeben,
+- beschreiben, wie die vier Meilensteine und die zwei Abgaben deine Note ergeben,
 - KI-Werkzeuge im Kurs so einsetzen, wie es die Regeln verlangen.
 :::
 
+## Das Modul im Überblick
+
+In diesem Modul baust du in deinem eigenen Lab eine kleine Cloud auf und betreibst sie, wie es ein Plattform-Team tut. Du beginnst mit drei leeren Ubuntu-VMs. Am Ende tragen sie eine Plattform, auf der die Apps von fünf Mitgliedern laufen, überwacht, gesichert und mit Preisen versehen. Die Theorie zu Cloud Computing lernst du dort, wo du sie im Lab gerade brauchst.
+
+| Teil | Das machst du | Ergebnis |
+|---|---|---|
+| 0 Start | Du lernst den Fall kennen, erzeugst deine persönlichen Parameter und bereitest die drei VMs und deine Werkzeuge vor. | vorbereitete VMs und ein Abgabe-Repo |
+| 1 Cloud-Grundlagen | Du lernst die Merkmale einer Cloud, die Service- und Bereitstellungsmodelle, die Regeln zu Datenschutz und Souveränität und die Virtualisierung mit KVM kennen. | Schutzbedarf der Mitglieder und geprüfte Virtualisierung auf den Knoten |
+| 2 IaaS aufbauen | Du installierst OpenNebula mit Ansible, nimmst die Knoten als Hosts in Betrieb, legst Netze, Images und Vorlagen an und startest erste VMs. | eine laufende IaaS-Cloud |
+| 3 Mandanten und Self-Service | Du teilst die Cloud in Gruppen mit Quotas auf, rechnest den Verbrauch mit Showback ab, gibst den Mitgliedern Self-Service und lässt einen Dienst mit OneFlow wachsen. | vier Mitglieder mit eigenen Ressourcen, Meilenstein 1 |
+| 4 Plattform per Code | Du legst mit OpenTofu einen Kubernetes-Cluster an, rollst den Webshop mit Argo CD aus Git aus und gibst den Mitgliedern Namespaces aus einer Vorlage. | eine Plattform, die du aus Code neu bauen kannst, Meilenstein 2 |
+| 5 Observability, Skalierung und KI | Du überwachst alles mit Prometheus, Grafana und Loki, legst ein SLO fest, lässt den Webshop automatisch skalieren und betreibst ein lokales Sprachmodell, das Alerts einordnet. | eine überwachte Plattform mit KI-Triage, Meilenstein 3 |
+| 6 Betrieb | Du härtest die Plattform, sicherst und stellst wieder her, schreibst ein SLA, rechnest die Kosten und bringst ein eigenes, fünftes Mitglied in Betrieb. | eine betriebsbereite Cloud, Meilenstein 4 |
+
+Mit jedem Teil kommt eine Schicht der [Zielarchitektur](#die-zielarchitektur) dazu. Die Meilensteine schliessen Teil 3, 4, 5 und 6 ab, und aus ihnen entsteht deine Note.
+
 ## So lernst du in diesem Kurs
 
-Der Kurs ist für das Selbststudium gebaut. Im Unterricht gibt es kurze Inputs, den grössten Teil der Zeit arbeitest du in deinem eigenen Lab. Was du im Unterricht nicht fertig bringst, setzt du zu Hause fort. Dazu kommen einige Lektionen Selbststudium, vor allem für die Theorie in Teil 1 und Teil 6.
+Der Kurs ist für das Selbststudium gebaut. Im Unterricht gibt es kurze Inputs, den grössten Teil der Zeit arbeitest du in deinem eigenen Lab. Was du im Unterricht nicht fertig bringst, setzt du zu Hause fort. Wie Unterricht und Selbststudium verteilt sind, legt deine Dozentin oder dein Dozent fest.
 
 Jedes Kapitel beginnt mit einem Auftrag von Simone Wyss. Danach folgen die Lernziele, die Erklärung mit Abbildungen und Befehlen und am Ende Aufgaben in deinem Lab. Viele Kapitel haben ein Check-Skript, das dir sagt, ob dein Lab im erwarteten Zustand ist. Jeder Teil endet mit einer Seite, die seine Kompetenzen auflistet.
-
-Der Kurs hat sieben Teile:
-
-1. Teil 0 Start mit Lab und Werkzeugen
-2. Teil 1 Cloud-Grundlagen
-3. Teil 2 IaaS aufbauen mit OpenNebula
-4. Teil 3 Mandanten und Self-Service
-5. Teil 4 Plattform per Code mit OpenTofu, Kubernetes und GitOps
-6. Teil 5 Observability, Skalierung und KI
-7. Teil 6 Betrieb mit Sicherheit, Backup, SLA und Kosten
 
 ## Der Fall
 
@@ -50,13 +57,13 @@ Jeder Teil des Kurses baut eine Schicht auf oder erweitert sie. In der Kopfzeile
 
 ## Leistungsbeurteilung
 
-Deine Modulnote entsteht aus vier Umsetzungsnachweisen. UN1 und UN2 gibst du am Ende von Block 4 zusammen ab und erhältst dafür die erste Note. UN3 und UN4 gibst du am Ende von Block 6 ab, sie ergeben die zweite Note. Beide Noten zählen gleich viel. Block 7 gehört der Probeprüfung und ihrer Besprechung. Die Einzelheiten stehen unter [Leistungsbeurteilung](../../assessment/).
+Deine Modulnote entsteht aus vier Meilensteinen. Die Meilensteine 1 und 2 gibst du zusammen ab und erhältst dafür die erste Note. Die Meilensteine 3 und 4 ergeben die zweite Note. Beide Noten zählen gleich viel. Die Termine gibt deine Dozentin oder dein Dozent bekannt. Die Einzelheiten stehen unter [Leistungsbeurteilung](../../assessment/).
 
-Jeder Nachweis ist eine Einzelarbeit. Du zeigst ihn entweder in einem Screencast von höchstens zehn Minuten oder live im Unterricht, und du gibst dazu dein Abgabe-Repo ab. Deine Umgebung trägt deine [persönlichen Parameter](../parameters/) wie Hostnamen und Netze. Deshalb sieht jedes Lab ein wenig anders aus, und eine kopierte Lösung fällt auf.
+Jeder Meilenstein ist eine Einzelarbeit. Du zeigst ihn entweder in einem Screencast von höchstens zehn Minuten oder live im Unterricht, und du gibst dazu dein Abgabe-Repo ab. Deine Umgebung trägt deine [persönlichen Parameter](../parameters/) wie Hostnamen und Netze. Deshalb sieht jedes Lab ein wenig anders aus, und eine kopierte Lösung fällt auf.
 
 ## KI-Werkzeuge
 
-Du darfst KI-Assistenten verwenden, um Code, Konfigurationen und Skripte zu schreiben. Zwei Regeln gelten dabei. Erstens hältst du im README jedes Nachweises fest, wofür du einen KI-Assistenten eingesetzt hast. Zweitens musst du alles erklären können, was du abgibst. In der Vorführung fragt deine Lehrperson nach, und eine Lösung, die du nicht erklären kannst, zählt nicht als deine.
+Du darfst KI-Assistenten verwenden, um Code, Konfigurationen und Skripte zu schreiben. Zwei Regeln gelten dabei. Erstens hältst du im README jedes Meilensteins fest, wofür du einen KI-Assistenten eingesetzt hast. Zweitens musst du alles erklären können, was du abgibst. In der Vorführung fragt deine Dozentin oder dein Dozent nach, und eine Lösung, die du nicht erklären kannst, zählt nicht als deine.
 
 Im Kurs selbst läuft ab Teil 5 ein lokales Sprachmodell auf deiner Plattform. Dort lernst du, was ein kleines Modell im Betrieb leisten kann und wo es danebenliegt.
 

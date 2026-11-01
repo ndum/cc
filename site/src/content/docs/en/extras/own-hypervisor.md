@@ -15,7 +15,7 @@ After this chapter you can
 
 ## Requirements
 
-This supplement is not part of the default way of the course, which runs on smartlearn. A hypervisor of your own makes sense if you want to work outside school without access to smartlearn. This way is at your own risk, and your teacher mainly supports the default way.
+This supplement is not part of the default way of the course, which runs on smartlearn. A hypervisor of your own makes sense if you want to work outside school without access to smartlearn. This way is at your own risk, and your instructor mainly supports the default way.
 
 Your computer needs at least 32 GB of RAM, better 48 GB, an x86 CPU with virtualization and about 200 GB of free disk space. A Mac with an Apple processor is not suitable because the lab is tested on x86 processors.
 

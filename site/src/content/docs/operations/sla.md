@@ -94,7 +94,7 @@ Im Lab lief ein Vorfall wie in Kapitel 5.3. `FAIL_PERCENT` stand über Git auf 6
 Ein zweiter Entwurf über eine halbe Stunde nannte 13 Minuten Auswirkung und schrieb im nächsten Satz, die Benutzer hätten keine Ausfälle bemerkt, obwohl 60 % der Anfragen scheiterten. Ein Entwurf spart Tipparbeit, aber jede Aussage muss gegen die Zeitlinie geprüft werden. Wer ihn ungeprüft weitergibt, verbreitet Behauptungen mit dem Anschein eines Berichts.
 
 ::::exercise[SLA]
-Entwirf ein SLA für dein eigenes Mitglied aus UN4 auf einer Seite. Begründe die Verfügbarkeit mit der Architektur deines Labs und die Supportzeiten mit den Mitteln einer kleinen Genossenschaft.
+Entwirf ein SLA für dein eigenes Mitglied aus Meilenstein 4 auf einer Seite. Begründe die Verfügbarkeit mit der Architektur deines Labs und die Supportzeiten mit den Mitteln einer kleinen Genossenschaft.
 
 :::solution
 Ein gutes SLA nennt den Dienst und seine Grenzen, eine Verfügbarkeit mit Zeitraum und Ausnahmen, etwa 99 % pro Monat zu Bürozeiten ohne angekündigte Wartung, Supportzeiten mit Reaktionszeiten, RPO und RTO aus Kapitel 6.2, den Ort der Daten in der Schweiz, die Pflichten des Mitglieds und eine Folge bei Verfehlung. Die Begründung erwähnt den einzelnen Server von k3s und das fehlende Pikett. Eine Zusage über 99,9 % ohne mehr Server und Pikett wäre nicht ehrlich.

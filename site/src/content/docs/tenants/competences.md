@@ -21,4 +21,4 @@ Mit diesem Raster schätzt du ein, ob deine Cloud für mehrere Mitglieder bereit
 | Regeln für die Elastizität schreiben und beobachten | Zeige, wie der Dienst unter Last wächst, und erkläre, warum er nicht auf drei VMs wächst. | [Elastizität mit OneFlow](../oneflow/#wachsen-unter-last) |
 | Elastizität nach Zeitplan einsetzen | Schreibe eine Regel, die den Dienst jeden Montag um 7 Uhr auf zwei VMs setzt. | [Elastizität mit OneFlow](../oneflow/#wachsen-nach-zeitplan) |
 
-Mit diesem Teil schliesst du den [Umsetzungsnachweis UN1](../../assessment/un1/) ab. In Teil 4 baust du auf dieser Cloud eine Plattform per Code.
+Mit diesem Teil schliesst du [Meilenstein 1](../../assessment/milestone-1/) ab. In Teil 4 baust du auf dieser Cloud eine Plattform per Code.

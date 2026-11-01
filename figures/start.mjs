@@ -32,7 +32,7 @@ const ARCH = {
       ['Treuhand', 'Aaregg'],
       ['Veloatelier', 'Matte'],
       ['Gemeinde', 'Hinterbüel'],
-      ['Mitglied 5', 'aus UN4'],
+      ['Mitglied 5', 'aus Meilenstein 4'],
     ],
     apps: [
       ['Argo CD', 'GitOps'],
@@ -80,7 +80,7 @@ const ARCH = {
       ['Fiduciary', 'Aaregg'],
       ['Bike shop', 'Matte'],
       ['Municipality', 'Hinterbüel'],
-      ['Member 5', 'from UN4'],
+      ['Member 5', 'from milestone 4'],
     ],
     apps: [
       ['Argo CD', 'GitOps'],

@@ -14,9 +14,9 @@ Nach diesem Kapitel kannst du
 
 - mit einem SSH-Schlüssel und einer SSH-Konfiguration ohne Passwort auf deine VMs zugreifen,
 - vom Front-end ohne Passwort auf die Knoten zugreifen,
-- dein Abgabe-Repo anlegen und mit deiner Lehrperson teilen,
+- dein Abgabe-Repo anlegen und mit deiner Dozentin oder deinem Dozenten teilen,
 - den Check eines Kapitels starten und seinen Bericht lesen,
-- einen Screencast aufnehmen, der die Regeln der Nachweise erfüllt.
+- einen Screencast aufnehmen, der die Regeln der Meilensteine erfüllt.
 :::
 
 ## SSH-Schlüssel
@@ -63,7 +63,7 @@ Danach muss `ssh mmuster-node1 hostname` den Namen des Knotens ausgeben, ohne na
 
 ## Das Abgabe-Repo
 
-Für deine Nachweise legst du ein privates Repo an, entweder auf dem GitLab deiner Schule oder auf GitHub. Nenne es `cc-` und deinen Code, also zum Beispiel `cc-mmuster`, und gib deiner Lehrperson Lesezugriff. In dieses Repo kommen dein Code, die Berichte der Checks, ein README pro Nachweis und dein Screencast oder ein Link darauf. Die genaue Struktur steht unter [Leistungsbeurteilung](../../assessment/).
+Für deine Meilensteine legst du ein privates Repo an, entweder auf dem GitLab deiner Schule oder auf GitHub. Nenne es `cc-` und deinen Code, also zum Beispiel `cc-mmuster`, und gib deiner Dozentin oder deinem Dozenten Lesezugriff. In dieses Repo kommen dein Code, die Berichte der Checks, ein README pro Meilenstein und dein Screencast oder ein Link darauf. Die genaue Struktur steht unter [Leistungsbeurteilung](../../assessment/).
 
 Klone das Repo auf das Front-end, denn dort entstehen die meisten Dateien. Für den Zugriff von der VM aus legst du den öffentlichen Schlüssel des Front-ends in deinem GitLab- oder GitHub-Konto ab.
 
@@ -87,13 +87,13 @@ Kopiere den Bericht in dein Abgabe-Repo, in den Ordner `reports/`, und lade ihn 
 
 ## Screencasts
 
-Einen Nachweis zeigst du entweder live im Unterricht oder in einem Screencast. Für Screencasts gelten diese Regeln:
+Einen Meilenstein zeigst du entweder live im Unterricht oder in einem Screencast. Für Screencasts gelten diese Regeln:
 
 1. höchstens zehn Minuten, in einer Aufnahme ohne Schnitt
 2. zuerst `cat /etc/cc-lab.env` und der Bericht des Checks mit seinem Hash
 3. danach die verlangten Funktionen, live in deinem Lab
 4. zum Schluss zwei oder drei eigene Entscheide und ihre Begründung
-5. Ton mit deiner Stimme, damit deine Lehrperson hört, wie du erklärst
+5. Ton mit deiner Stimme, damit deine Dozentin oder dein Dozent hört, wie du erklärst
 
 Unter Windows nimmst du mit dem Snipping Tool oder mit OBS Studio auf, unter macOS mit der Bildschirmaufnahme. Den Screencast legst du in dein Abgabe-Repo oder auf einen Speicher wie OneDrive und trägst den Link im README ein.
 

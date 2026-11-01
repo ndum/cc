@@ -19,7 +19,7 @@ After this chapter you can
 - show who may do what on your platform.
 :::
 
-You study part 6 on your own, and block 6 is work time for UN4. The chapters build on your lab as it stands after part 5.
+The chapters of part 6 build on your lab as it stands after part 5.
 
 ## Protection needs
 
@@ -64,7 +64,7 @@ sudo ~/cc/platform/operations/harden-frontend.sh
 ssh -o PubkeyAuthentication=no mmuster-fe
 ```
 
-The second connection fails with `Permission denied (publickey)`. In the lab, the web interface answered as before, Gitea could no longer be reached from the teacher's computer, and all targets in Prometheus stayed `up`.
+The second connection fails with `Permission denied (publickey)`. In the lab, the web interface answered as before, Gitea could no longer be reached from the instructor's computer, and all targets in Prometheus stayed `up`.
 
 ## Rights on the platform
 
@@ -150,7 +150,7 @@ The last line prints `SealedSecret`. Without the controller's private key, the S
 The front-end and the k3s VMs get Ubuntu's security updates automatically. A reboot, for a new kernel for example, does not happen on its own. `/var/run/reboot-required` shows when one is needed. You update the platform software yourself, OpenNebula through its packages, k3s through the variable `k3s_version` and a rebuild, and the charts through their versions in Git. Each of these versions is in Git, so you can trace what ran when.
 
 ::::exercise[Protection needs]
-Assess the protection needs of Wolkenwerk's four members for confidentiality, integrity and availability, and justify each level in one sentence. Do the same for your own member from UN4.
+Assess the protection needs of Wolkenwerk's four members for confidentiality, integrity and availability, and justify each level in one sentence. Do the same for your own member from milestone 4.
 
 :::solution
 One possible assessment gives the practice very high confidentiality, high integrity and normal availability, because health data falls under professional secrecy and the practice can bridge an outage of a few hours on paper. The fiduciary office has high confidentiality, very high integrity and high availability at the end of the month. The bike shop has normal confidentiality, normal integrity and high availability on Saturdays. The municipality has high confidentiality because of personal data, high integrity and high availability during counter hours. Other levels are correct if the reasoning holds.

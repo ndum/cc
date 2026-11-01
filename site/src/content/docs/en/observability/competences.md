@@ -23,4 +23,4 @@ Use this grid to judge whether you can observe your platform, scale it and suppo
 | review a proposal of the model | Assess a proposal of the triage service and decide with reasons. | [AI triage with approval](../triage/#in-the-lab) |
 | assess the risks of a model in operations | Name the safeguards of the triage service and what they protect against. | [AI triage with approval](../triage/#safeguards) |
 
-With this part you complete the [implementation proof UN3](../../assessment/un3/). Part 6 is about security, backup, service levels and cost, and you bring a member of your own onto the platform.
+With this part you complete [milestone 3](../../assessment/milestone-3/). Part 6 is about security, backup, service levels and cost, and you bring a member of your own onto the platform.

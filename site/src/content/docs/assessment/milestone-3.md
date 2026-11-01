@@ -1,13 +1,13 @@
 ---
-title: UN3 Observability, Skalierung und KI
-description: Der Auftrag des dritten Umsetzungsnachweises mit den verlangten Funktionen, dem Ablauf des Screencasts, dem Inhalt der Abgabe und dem Bewertungsraster.
+title: Meilenstein 3 · Observability, Skalierung und KI
+description: Der Auftrag des dritten Meilensteins mit den verlangten Funktionen, dem Ablauf des Screencasts, dem Inhalt der Abgabe und dem Bewertungsraster.
 ---
 
 :::assignment
 «Vor der Saison will der Vorstand drei Dinge sehen», schreibt Simone Wyss. «Dass ihr merkt, wenn der Webshop leidet, bevor die Kundschaft es tut. Dass er am Samstag mitwächst. Und was unser eigenes Sprachmodell im Betrieb wirklich taugt.»
 :::
 
-UN3 umfasst Teil 5. Du überwachst Plattform und Webshop, legst ein SLO mit Alert fest, lässt den Shop unter Last wachsen, betreibst ein lokales Modell und setzt es mit Freigabe in der Triage ein. UN3 ist eine Einzelarbeit und gehört mit UN4 zur Abgabe 2 am Ende von Block 6.
+Meilenstein 3 umfasst Teil 5. Du überwachst Plattform und Webshop, legst ein SLO mit Alert fest, lässt den Shop unter Last wachsen, betreibst ein lokales Modell und setzt es mit Freigabe in der Triage ein. Meilenstein 3 ist eine Einzelarbeit und gehört mit Meilenstein 4 zur Abgabe 2.
 
 ## Verlangte Funktionen
 
@@ -24,7 +24,7 @@ Alles läuft in deinem eigenen Lab mit deinen persönlichen Parametern aus Kapit
 
 ## Erklärungen und Entscheide
 
-Im README von UN3 und im Screencast erklärst du
+Im README von Meilenstein 3 und im Screencast erklärst du
 
 - den Weg einer Metrik vom Exporter bis ins Dashboard und den Weg eines Alerts bis zum Triage-Dienst, mit einer eigenen Zeichnung,
 - dein SLO, sein Fehlerbudget und warum der Alert zwei Zeitfenster hat,
@@ -49,7 +49,7 @@ Der Screencast dauert höchstens zehn Minuten in einer einzigen Aufnahme. Ein Vo
 | 8 bis 9 | Messung des Modells, Zugriff der Mitglieder |
 | 9 bis 10 | zwei oder drei eigene Entscheide |
 
-Der Alert nach Burn Rate braucht je nach Verkehr der letzten Stunde zehn Minuten oder mehr. Löse ihn vor der Aufnahme aus und zeige im Screencast den Verlauf in Prometheus. Zeigst du UN3 live im Unterricht, gilt derselbe Ablauf.
+Der Alert nach Burn Rate braucht je nach Verkehr der letzten Stunde zehn Minuten oder mehr. Löse ihn vor der Aufnahme aus und zeige im Screencast den Verlauf in Prometheus. Zeigst du Meilenstein 3 live im Unterricht, gilt derselbe Ablauf.
 
 ## Abgabe
 
@@ -80,4 +80,4 @@ Die Berichte der Checks legst du in `reports/`. Wie das Repo aufgebaut ist und w
 | **Erklärungen und Entscheide** | **12** |
 | **Total** | **30** |
 
-Die Funktionen ergeben 60 % der Punkte, die Erklärungen und Entscheide 40 %. Die Note der Abgabe 2 berechnet deine Lehrperson aus den Punkten von UN3 und UN4 nach den Regeln der Schule.
+Die Funktionen ergeben 60 % der Punkte, die Erklärungen und Entscheide 40 %. Die Note der Abgabe 2 berechnet deine Dozentin oder dein Dozent aus den Punkten von Meilenstein 3 und 4 nach den Regeln der Schule.

@@ -15,7 +15,7 @@ Nach diesem Kapitel kannst du
 
 ## Voraussetzungen
 
-Diese Ergänzung gehört nicht zum Standardweg des Kurses, der auf smartlearn läuft. Ein eigener Hypervisor lohnt sich, wenn du auch ausserhalb der Schule ohne Netzzugang zu smartlearn arbeiten willst. Dieser Weg geht auf eigenes Risiko, und deine Lehrperson hilft vor allem beim Standardweg.
+Diese Ergänzung gehört nicht zum Standardweg des Kurses, der auf smartlearn läuft. Ein eigener Hypervisor lohnt sich, wenn du auch ausserhalb der Schule ohne Netzzugang zu smartlearn arbeiten willst. Dieser Weg geht auf eigenes Risiko, und deine Dozentin oder dein Dozent hilft vor allem beim Standardweg.
 
 Dein Rechner braucht mindestens 32 GB RAM, besser 48 GB, dazu eine x86-CPU mit Virtualisierung und rund 200 GB freien Speicher. Ein Mac mit Apple-Prozessor eignet sich nicht, weil das Lab auf x86-Prozessoren getestet ist.
 

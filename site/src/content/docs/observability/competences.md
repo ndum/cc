@@ -23,4 +23,4 @@ Mit diesem Raster schätzt du ein, ob du deine Plattform beobachten, skalieren u
 | einen Vorschlag des Modells prüfen | Beurteile einen Vorschlag des Triage-Dienstes und entscheide begründet. | [KI-Triage mit Freigabe](../triage/#im-lab) |
 | Risiken eines Modells im Betrieb einschätzen | Nenne die Schutzmassnahmen des Triage-Dienstes und wogegen sie schützen. | [KI-Triage mit Freigabe](../triage/#schutzmassnahmen) |
 
-Mit diesem Teil schliesst du den [Umsetzungsnachweis UN3](../../assessment/un3/) ab. In Teil 6 geht es um Sicherheit, Sicherung, Service Levels und Kosten, und du bringst ein eigenes Mitglied auf die Plattform.
+Mit diesem Teil schliesst du [Meilenstein 3](../../assessment/milestone-3/) ab. In Teil 6 geht es um Sicherheit, Sicherung, Service Levels und Kosten, und du bringst ein eigenes Mitglied auf die Plattform.

@@ -22,4 +22,4 @@ Use this grid to judge whether you can build your platform from code and explain
 | limit and separate namespaces with a template | Show the municipality's quota at its limit and the separation by the NetworkPolicy. | [Platform templates](../templates/#at-the-limit) |
 | handle a request as a pull request | Add a member by pull request and explain what you look for in the review. | [Platform templates](../templates/#the-municipalitys-request) |
 
-With this part you complete the [implementation proof UN2](../../assessment/un2/). You hand in UN1 and UN2 together at the end of block 4. In part 5 you watch the web shop, let it grow under load and run a local language model.
+With this part you complete [milestone 2](../../assessment/milestone-2/). You hand in milestones 1 and 2 together as hand-in 1. In part 5 you watch the web shop, let it grow under load and run a local language model.

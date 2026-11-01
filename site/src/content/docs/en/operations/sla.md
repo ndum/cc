@@ -94,7 +94,7 @@ In the lab, an incident ran as in chapter 5.3. `FAIL_PERCENT` was set to 60 thro
 A second draft covering half an hour stated 13 minutes of impact and wrote in the next sentence that users noticed no failures, although 60 % of requests failed. A draft saves typing, but every statement has to be checked against the timeline. Passing it on unchecked spreads claims that look like a report.
 
 ::::exercise[SLA]
-Draft a one-page SLA for your own member from UN4. Justify the availability with the architecture of your lab and the support hours with the means of a small cooperative.
+Draft a one-page SLA for your own member from milestone 4. Justify the availability with the architecture of your lab and the support hours with the means of a small cooperative.
 
 :::solution
 A good SLA names the service and its limits, an availability with period and exceptions, such as 99 % per month during office hours excluding announced maintenance, support hours with response times, RPO and RTO from chapter 6.2, the location of the data in Switzerland, the member's duties and a consequence when missed. The reasoning mentions the single k3s server and the missing on-call service. A promise above 99.9 % without more servers and on-call would not be honest.

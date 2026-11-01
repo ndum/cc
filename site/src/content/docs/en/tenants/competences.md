@@ -21,4 +21,4 @@ Use this grid to judge whether your cloud is ready for several members and you u
 | write and observe elasticity rules | Show how the service grows under load and explain why it does not grow to three VMs. | [Elasticity with OneFlow](../oneflow/#growing-under-load) |
 | use elasticity by schedule | Write a rule that sets the service to two VMs every Monday at 7 o'clock. | [Elasticity with OneFlow](../oneflow/#growing-by-schedule) |
 
-With this part you complete the [implementation proof UN1](../../assessment/un1/). In part 4 you build a platform as code on top of this cloud.
+With this part you complete [milestone 1](../../assessment/milestone-1/). In part 4 you build a platform as code on top of this cloud.

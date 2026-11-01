@@ -19,7 +19,7 @@ Nach diesem Kapitel kannst du
 - zeigen, wer auf deiner Plattform was darf.
 :::
 
-Teil 6 lernst du im Selbststudium, Block 6 ist Arbeitszeit für UN4. Die Kapitel bauen auf deinem Lab nach Teil 5 auf.
+Die Kapitel von Teil 6 bauen auf deinem Lab nach Teil 5 auf.
 
 ## Schutzbedarf
 
@@ -64,7 +64,7 @@ sudo ~/cc/platform/operations/harden-frontend.sh
 ssh -o PubkeyAuthentication=no mmuster-fe
 ```
 
-Die zweite Verbindung scheitert mit `Permission denied (publickey)`. Im Lab antwortete die Weboberfläche danach wie vorher, Gitea war vom Rechner der Lehrperson aus nicht mehr erreichbar, und alle Ziele in Prometheus blieben `up`.
+Die zweite Verbindung scheitert mit `Permission denied (publickey)`. Im Lab antwortete die Weboberfläche danach wie vorher, Gitea war vom Rechner der Dozentin oder des Dozenten aus nicht mehr erreichbar, und alle Ziele in Prometheus blieben `up`.
 
 ## Rechte auf der Plattform
 
@@ -150,7 +150,7 @@ Die letzte Zeile gibt `SealedSecret` aus. Ohne den privaten Schlüssel des Contr
 Das Front-end und die VMs von k3s bekommen Sicherheitsupdates von Ubuntu automatisch. Ein Neustart, etwa für einen neuen Kernel, geschieht nicht von selbst. `/var/run/reboot-required` zeigt, wann einer nötig ist. Die Software der Plattform aktualisierst du selbst, OpenNebula mit den Paketen, k3s über die Variable `k3s_version` und einen Neubau, die Charts über ihre Versionen in Git. Jede dieser Versionen steht in Git, so ist nachvollziehbar, was wann lief.
 
 ::::exercise[Schutzbedarf]
-Schätze den Schutzbedarf der vier Mitglieder von Wolkenwerk nach Vertraulichkeit, Integrität und Verfügbarkeit ein und begründe jede Stufe in einem Satz. Mach dasselbe für dein eigenes Mitglied aus UN4.
+Schätze den Schutzbedarf der vier Mitglieder von Wolkenwerk nach Vertraulichkeit, Integrität und Verfügbarkeit ein und begründe jede Stufe in einem Satz. Mach dasselbe für dein eigenes Mitglied aus Meilenstein 4.
 
 :::solution
 Eine mögliche Einschätzung ist die Praxis mit Vertraulichkeit sehr hoch, Integrität hoch und Verfügbarkeit normal, weil Gesundheitsdaten unter das Berufsgeheimnis fallen und die Praxis einen Ausfall von Stunden mit Papier überbrückt. Die Treuhand hat Vertraulichkeit hoch, Integrität sehr hoch und Verfügbarkeit hoch am Monatsende. Das Veloatelier hat Vertraulichkeit normal, Integrität normal und Verfügbarkeit hoch am Samstag. Die Gemeinde hat Vertraulichkeit hoch wegen Personendaten, Integrität hoch und Verfügbarkeit hoch zu den Schalterzeiten. Andere Stufen sind richtig, wenn die Begründung trägt.

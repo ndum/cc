@@ -23,4 +23,4 @@ Mit diesem Raster schätzt du ein, ob du deine Plattform sicher, wiederherstellb
 | Vollkosten berechnen und einen Preis ableiten | Rechne aus, welchen Anteil der Kosten ein Mitglied mit 1 CPU und 2 GB trägt. | [Kosten und Ressourceneffizienz](../cost/#ein-preis-für-das-neue-mitglied) |
 | Ressourcen nach Messwerten anpassen | Vergleiche Requests und Verbrauch eines Namespaces und schlage neue Werte vor. | [Kosten und Ressourceneffizienz](../cost/#right-sizing) |
 
-Mit diesem Teil schliesst du den [Umsetzungsnachweis UN4](../../assessment/un4/) ab und hast die Inhalte des Kurses durch. Block 7 gehört der [Probeprüfung](../../assessment/mock-exam/).
+Mit diesem Teil schliesst du [Meilenstein 4](../../assessment/milestone-4/) ab und hast die Inhalte des Kurses durch.

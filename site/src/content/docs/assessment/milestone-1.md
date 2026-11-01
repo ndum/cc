@@ -1,13 +1,13 @@
 ---
-title: UN1 IaaS für Wolkenwerk
-description: Der Auftrag des ersten Umsetzungsnachweises mit den verlangten Funktionen, dem Ablauf des Screencasts, dem Inhalt der Abgabe und dem Bewertungsraster.
+title: Meilenstein 1 · IaaS für Wolkenwerk
+description: Der Auftrag des ersten Meilensteins mit den verlangten Funktionen, dem Ablauf des Screencasts, dem Inhalt der Abgabe und dem Bewertungsraster.
 ---
 
 :::assignment
 «Die vier Mitglieder sollen ab nächstem Monat auf unserer eigenen Cloud arbeiten», schreibt Simone Wyss. «Zeig dem Vorstand, dass sie läuft, dass jedes Mitglied nur seine eigenen Maschinen sieht, was es verbraucht und wie die Treuhand Ende Monat mehr Leistung bekommt.»
 :::
 
-UN1 umfasst Teil 2 und Teil 3. Du baust in deinem Lab die IaaS für Wolkenwerk Bern auf, teilst sie unter den vier Mitgliedern auf und erklärst deine Entscheide. UN1 ist eine Einzelarbeit und gehört mit UN2 zur Abgabe 1 am Ende von Block 4.
+Meilenstein 1 umfasst Teil 2 und Teil 3. Du baust in deinem Lab die IaaS für Wolkenwerk Bern auf, teilst sie unter den vier Mitgliedern auf und erklärst deine Entscheide. Meilenstein 1 ist eine Einzelarbeit und gehört mit Meilenstein 2 zur Abgabe 1.
 
 ## Verlangte Funktionen
 
@@ -24,7 +24,7 @@ Alles läuft in deinem eigenen Lab mit deinen persönlichen Parametern aus Kapit
 
 ## Erklärungen und Entscheide
 
-Im README von UN1 und im Screencast erklärst du
+Im README von Meilenstein 1 und im Screencast erklärst du
 
 - die Architektur deines Labs mit einer eigenen Zeichnung von Front-end, Knoten, Netzen, Gruppen und VDC,
 - warum die VMs VXLAN und eine MTU von 1450 brauchen,
@@ -49,7 +49,7 @@ Der Screencast dauert höchstens zehn Minuten in einer einzigen Aufnahme. Ein Vo
 | 7 bis 9 | Dienst der Treuhand unter Last |
 | 9 bis 10 | zwei oder drei eigene Entscheide |
 
-Den Dienst unter Last startest du am besten vor der Aufnahme, das Wachsen braucht einige Minuten. Nimm den Screencast am Ende von Block 3 auf. In Kapitel 4.2 entfernst du die VMs von Teil 2 und 3, weil der Kubernetes-Cluster ihren Platz braucht. Zeigst du UN1 live im Unterricht, gilt derselbe Ablauf, und [Kapitel 4.2](../../platform/opentofu/#platz-auf-den-knoten) zeigt, wie du den Cluster dafür vorübergehend von den Knoten nimmst.
+Den Dienst unter Last startest du am besten vor der Aufnahme, das Wachsen braucht einige Minuten. Nimm den Screencast auf, bevor du mit Teil 4 beginnst. In Kapitel 4.2 entfernst du die VMs von Teil 2 und 3, weil der Kubernetes-Cluster ihren Platz braucht. Zeigst du Meilenstein 1 live im Unterricht, gilt derselbe Ablauf, und [Kapitel 4.2](../../platform/opentofu/#platz-auf-den-knoten) zeigt, wie du den Cluster dafür vorübergehend von den Knoten nimmst.
 
 ## Abgabe
 
@@ -81,4 +81,4 @@ Die Berichte der Checks legst du in `reports/`. Wie das Repo aufgebaut ist und w
 | **Erklärungen und Entscheide** | **12** |
 | **Total** | **30** |
 
-Die Funktionen ergeben 60 % der Punkte, die Erklärungen und Entscheide 40 %. Die Note der Abgabe 1 berechnet deine Lehrperson aus den Punkten von UN1 und UN2 nach den Regeln der Schule.
+Die Funktionen ergeben 60 % der Punkte, die Erklärungen und Entscheide 40 %. Die Note der Abgabe 1 berechnet deine Dozentin oder dein Dozent aus den Punkten von Meilenstein 1 und 2 nach den Regeln der Schule.

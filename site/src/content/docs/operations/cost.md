@@ -97,7 +97,7 @@ Auch der Strom hängt an der Belegung. Ein Server im Leerlauf braucht einen gros
 OpenCost rechnet die Kosten eines Clusters pro Namespace, Deployment und Pod aus, mit Preisen pro CPU und GB, und zeigt ungenutzte Reservierungen. Es läuft im Cluster und liest aus Prometheus. Für den Kurs genügen die Abfragen oben und die Rechnung in einer Tabelle.
 
 ::::exercise[Kostenmodell]
-Erstelle das Kostenmodell für dein Mitglied aus UN4. Rechne mit den Vollkosten oben oder mit eigenen begründeten Annahmen und vergleiche das Ergebnis mit dem Showback aus Kapitel 3.3.
+Erstelle das Kostenmodell für dein Mitglied aus Meilenstein 4. Rechne mit den Vollkosten oben oder mit eigenen begründeten Annahmen und vergleiche das Ergebnis mit dem Showback aus Kapitel 3.3.
 
 :::solution
 Das Modell nennt die Ressourcen des Mitglieds aus Quota und VM, den Anteil an der Kapazität, den Preis pro Monat aus den Vollkosten und den Betrag aus dem Showback. Es erklärt den Unterschied mit der Arbeit, die im Showback fehlt, und schlägt eine Verrechnung vor, etwa Grundbeitrag plus Verbrauch. Eigene Annahmen sind erlaubt, wenn sie begründet sind.

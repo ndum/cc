@@ -1,13 +1,13 @@
 ---
-title: UN3 Observability, scaling and AI
-description: The assignment of the third implementation proof with the required functions, the course of the screencast, the content of the hand-in and the rubric.
+title: Milestone 3 · Observability, scaling and AI
+description: The assignment of the third milestone with the required functions, the course of the screencast, the content of the hand-in and the rubric.
 ---
 
 :::assignment
 "Before the season the board wants to see three things," Simone Wyss writes. "That you notice when the web shop suffers before customers do. That it grows along on Saturdays. And how good our own language model really is in operations."
 :::
 
-UN3 covers part 5. You monitor the platform and the web shop, set an SLO with an alert, let the shop grow under load, run a local model and use it in triage with approval. UN3 is individual work and belongs with UN4 to hand-in 2 at the end of block 6.
+Milestone 3 covers part 5. You monitor the platform and the web shop, set an SLO with an alert, let the shop grow under load, run a local model and use it in triage with approval. Milestone 3 is individual work and belongs with milestone 4 to hand-in 2.
 
 ## Required functions
 
@@ -24,7 +24,7 @@ Everything runs in your own lab with your personal parameters from chapter 0.3.
 
 ## Explanations and decisions
 
-In the README of UN3 and in the screencast you explain
+In the README of milestone 3 and in the screencast you explain
 
 - the path of a metric from the exporter to the dashboard and the path of an alert to the triage service, with a drawing of your own,
 - your SLO, its error budget and why the alert has two time windows,
@@ -49,7 +49,7 @@ The screencast lasts at most ten minutes in a single take. A suggestion for its 
 | 8 to 9 | measurement of the model, access of the members |
 | 9 to 10 | two or three decisions of your own |
 
-Depending on the traffic of the last hour, the burn rate alert takes ten minutes or more. Fire it before recording and show its course in Prometheus in the screencast. If you show UN3 live in class, the same course applies.
+Depending on the traffic of the last hour, the burn rate alert takes ten minutes or more. Fire it before recording and show its course in Prometheus in the screencast. If you show milestone 3 live in class, the same course applies.
 
 ## Hand-in
 
@@ -80,4 +80,4 @@ You put the reports of the checks in `reports/`. How the repo is structured and 
 | **Explanations and decisions** | **12** |
 | **Total** | **30** |
 
-The functions make up 60 % of the points, the explanations and decisions 40 %. Your teacher calculates the grade of hand-in 2 from the points of UN3 and UN4 according to the school's rules.
+The functions make up 60 % of the points, the explanations and decisions 40 %. Your instructor calculates the grade of hand-in 2 from the points of milestones 3 and 4 according to the school's rules.

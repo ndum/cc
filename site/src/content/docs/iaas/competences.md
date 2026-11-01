@@ -22,4 +22,4 @@ Mit diesem Raster schätzt du ein, ob deine IaaS steht und du sie verstehst. Lie
 | einen Knoten für die Wartung leeren | Zeige die Befehle für Wartung und Rückkehr eines Knotens. | [Hosts betreiben](../hosts/#wartung-eines-knotens) |
 | die Folgen eines Knotenausfalls im Lab erklären | Begründe, warum die VMs eines ausgefallenen Knotens nicht anderswo starten. | [Hosts betreiben](../hosts/#ausfall-eines-knotens) |
 
-In Teil 3 teilst du diese Cloud unter den Mitgliedern auf und schliesst damit den Umsetzungsnachweis UN1 ab.
+In Teil 3 teilst du diese Cloud unter den Mitgliedern auf und schliesst damit Meilenstein 1 ab.

@@ -78,7 +78,7 @@ export default defineConfig({
           label: 'Leistungsbeurteilung',
           translations: { en: 'Assessment' },
           collapsed: true,
-          items: [{ slug: 'assessment', label: 'Übersicht', translations: { en: 'Overview' } }, { slug: 'assessment/un1' }, { slug: 'assessment/un2' }, { slug: 'assessment/un3' }, { slug: 'assessment/un4' }, { slug: 'assessment/mock-exam' }, { slug: 'assessment/diploma-exam' }],
+          items: [{ slug: 'assessment', label: 'Übersicht', translations: { en: 'Overview' } }, { slug: 'assessment/milestone-1' }, { slug: 'assessment/milestone-2' }, { slug: 'assessment/milestone-3' }, { slug: 'assessment/milestone-4' }],
         },
         {
           label: 'Nachschlagen',

@@ -1,13 +1,13 @@
 ---
-title: UN2 Plattform per Code
-description: Der Auftrag des zweiten Umsetzungsnachweises mit den verlangten Funktionen, dem Ablauf des Screencasts, dem Inhalt der Abgabe und dem Bewertungsraster.
+title: Meilenstein 2 · Plattform per Code
+description: Der Auftrag des zweiten Meilensteins mit den verlangten Funktionen, dem Ablauf des Screencasts, dem Inhalt der Abgabe und dem Bewertungsraster.
 ---
 
 :::assignment
 «Der Vorstand will sehen, dass ihr die Plattform jederzeit neu bauen könnt», schreibt Simone Wyss. «Werft sie vor seinen Augen weg und baut sie wieder auf, mit dem Webshop des Veloateliers und dem Platz für ein weiteres Mitglied.»
 :::
 
-UN2 umfasst Teil 4. Du baust auf deiner Cloud einen Kubernetes-Cluster aus Code, rollst den Webshop mit GitOps aus, gibst den Mitgliedern Namespaces aus einer Vorlage und erklärst deine Entscheide. UN2 ist eine Einzelarbeit und gehört mit UN1 zur Abgabe 1 am Ende von Block 4.
+Meilenstein 2 umfasst Teil 4. Du baust auf deiner Cloud einen Kubernetes-Cluster aus Code, rollst den Webshop mit GitOps aus, gibst den Mitgliedern Namespaces aus einer Vorlage und erklärst deine Entscheide. Meilenstein 2 ist eine Einzelarbeit und gehört mit Meilenstein 1 zur Abgabe 1.
 
 ## Verlangte Funktionen
 
@@ -24,7 +24,7 @@ Alles läuft in deinem eigenen Lab mit deinen persönlichen Parametern aus Kapit
 
 ## Erklärungen und Entscheide
 
-Im README von UN2 und im Screencast erklärst du
+Im README von Meilenstein 2 und im Screencast erklärst du
 
 - die Architektur deiner Plattform mit einer eigenen Zeichnung von OpenNebula, den VMs des Clusters, Gitea, Argo CD und den Namespaces,
 - den Unterschied zwischen deinem Klickpfad aus Teil 2 und dem Code von Teil 4, mit State, Drift und Idempotenz,
@@ -50,7 +50,7 @@ Der Screencast dauert höchstens zehn Minuten in einer einzigen Aufnahme. Ein Vo
 | 8 bis 9 | `tofu plan` ohne Änderungen, der Check `platform` nach dem Neubau |
 | 9 bis 10 | zwei oder drei eigene Entscheide |
 
-Der Neubau dauerte im Lab knapp drei Minuten. Starte ihn früh in der Aufnahme und erkläre den Code, während er läuft. Zeigst du UN2 live im Unterricht, gilt derselbe Ablauf.
+Der Neubau dauerte im Lab knapp drei Minuten. Starte ihn früh in der Aufnahme und erkläre den Code, während er läuft. Zeigst du Meilenstein 2 live im Unterricht, gilt derselbe Ablauf.
 
 ## Abgabe
 
@@ -81,4 +81,4 @@ Die Berichte der Checks legst du in `reports/`. Wie das Repo aufgebaut ist und w
 | **Erklärungen und Entscheide** | **12** |
 | **Total** | **30** |
 
-Die Funktionen ergeben 60 % der Punkte, die Erklärungen und Entscheide 40 %. Die Note der Abgabe 1 berechnet deine Lehrperson aus den Punkten von UN1 und UN2 nach den Regeln der Schule.
+Die Funktionen ergeben 60 % der Punkte, die Erklärungen und Entscheide 40 %. Die Note der Abgabe 1 berechnet deine Dozentin oder dein Dozent aus den Punkten von Meilenstein 1 und 2 nach den Regeln der Schule.

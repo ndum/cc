@@ -5,7 +5,7 @@ sidebar:
   order: 3
 ---
 
-Die Tabellen auf dieser Seite sammeln Probleme, die beim Erproben des Kurses tatsächlich aufgetreten sind. Bevor du nach deinem Symptom suchst, lohnt sich ein festes Vorgehen. Es hilft auch dort, wo keine Tabelle weiterhilft, und es ist das Vorgehen, das die Probeprüfung in Block 7 übt.
+Die Tabellen auf dieser Seite sammeln Probleme, die beim Erproben des Kurses tatsächlich aufgetreten sind. Bevor du nach deinem Symptom suchst, lohnt sich ein festes Vorgehen. Es hilft auch dort, wo keine Tabelle weiterhilft.
 
 ## Vorgehen bei einer Störung
 

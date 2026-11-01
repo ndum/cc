@@ -20,9 +20,9 @@ After this chapter you can
 
 ## Purpose of the parameters
 
-Every lab in the course is a little different. A personal code determines the names of your VMs, the internal network of your cloud and the identifier of its VXLAN network. These values stay with you for the whole course. The scripts read them, the chapters use them in their commands, and every implementation proof shows them. Your teacher can recompute them from your code at any time, so a solution copied from another lab stands out.
+Every lab in the course is a little different. A personal code determines the names of your VMs, the internal network of your cloud and the identifier of its VXLAN network. These values stay with you for the whole course. The scripts read them, the chapters use them in their commands, and every milestone shows them. Your instructor can recompute them from your code at any time, so a solution copied from another lab stands out.
 
-Your teacher gives you the code, usually your short name. It starts with a letter and consists of 2 to 16 lower case letters or digits. Keep the same code for the whole course.
+Your instructor gives you the code, usually your short name. It starts with a letter and consists of 2 to 16 lower case letters or digits. Keep the same code for the whole course.
 
 ## The generator
 
@@ -59,7 +59,7 @@ sudo nano /etc/cc-lab.env
 After that, `cat /etc/cc-lab.env` shows the same lines on every VM. If a value turns out to be wrong later, for example because you mistyped an address, fix the file on all three VMs and run the preparation script from [chapter 0.4](../prepare/) again.
 
 :::note
-Every screencast of an implementation proof starts with `cat /etc/cc-lab.env`. It shows your teacher that the demonstration comes from your lab.
+Every screencast of a milestone starts with `cat /etc/cc-lab.env`. It shows your instructor that the demonstration comes from your lab.
 :::
 
 ::::exercise[Lab]
