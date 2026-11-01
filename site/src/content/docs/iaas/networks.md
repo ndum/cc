@@ -15,7 +15,8 @@ Nach diesem Kapitel kannst du
 - die Netztreiber von OpenNebula unterscheiden und VXLAN begründen,
 - das interne Netz deiner Cloud aus deinen Parametern anlegen,
 - erklären, was ein Adressbereich und eine Lease sind,
-- beschreiben, wie Netz, Gateway und NAT zusammenspielen.
+- beschreiben, wie Netz, Gateway und NAT zusammenspielen,
+- erklären, was ein Overlay-Netz ist und weshalb die MTU auf 1450 Byte sinkt.
 :::
 
 ## Netztreiber
@@ -31,11 +32,19 @@ Ein virtuelles Netz in OpenNebula beschreibt, wie die VMs an ein Netz angeschlos
 
 Dein Lab nutzt `vxlan`. Im Labnetz erscheinen nur die Adressen deiner drei VMs, die VMs der Cloud sind darin unsichtbar. Deshalb funktioniert das Lab auch auf smartlearn, wo der Hypervisor keine fremden MAC-Adressen durchlässt.
 
+Die drei Treiber für Linux-Bridges unterscheiden sich vor allem darin, wie viel das physische Netz über die VMs wissen muss. Bei `bridge` sieht der Switch die MAC-Adresse jeder VM, das Netz der VMs ist das Netz der Knoten. `802.1Q` trennt die Netze mit einem VLAN-Tag im Rahmen. Das Tag hat 12 Bit, es gibt also höchstens 4094 Netze, und jeder Switch zwischen den Knoten muss diese VLANs kennen. `vxlan` verlangt vom physischen Netz nur, dass sich die Knoten über IP erreichen. Seine Kennung hat 24 Bit, das reicht für rund 16 Millionen Netze. Dafür kostet jedes Paket 50 Byte, und Rahmen an alle brauchen Multicast. Die [Übersicht der Netztreiber](https://docs.opennebula.io/7.4/product/cluster_configuration/networking_system/overview/) beschreibt alle Varianten von OpenNebula 7.4.
+
+## Overlay-Netze
+
+Ein Overlay-Netz ist ein virtuelles Netz, das auf einem bestehenden Netz aufsetzt. Das bestehende Netz heisst Underlay, in deinem Lab ist es das Labnetz mit den Adressen von Front-end und Knoten. Die Endpunkte des Overlays sind die Knoten selbst. Sie verpacken den Verkehr der VMs in gewöhnliche IP-Pakete an einen anderen Knoten, und das Underlay transportiert diese Pakete wie jeden anderen Verkehr. Den VMs erscheint es, als hingen sie alle am selben Switch, auch wenn sie auf verschiedenen Knoten laufen. So entsteht ein Netz auf Schicht 2 über ein Netz auf Schicht 3 hinweg, und das Underlay muss weder die IP-Adressen noch die MAC-Adressen der VMs kennen. Clouds setzen Overlays deshalb gern ein, denn ein Mandant kann ein neues Netz anlegen, ohne dass jemand am physischen Netz etwas ändert.
+
 ## VXLAN
 
 VXLAN (Virtual Extensible LAN) packt jeden Ethernet-Rahmen einer VM in ein UDP-Paket und schickt es über das Labnetz zum Knoten, auf dem die Ziel-VM läuft. Dort packt der Kernel den Rahmen wieder aus. Eine Kennung zwischen 1 und rund 16 Millionen trennt die Netze voneinander, in deinem Lab ist es `CC_VNI` aus deinen Parametern. Rahmen an alle, etwa die Anfragen von ARP, gehen an eine Multicast-Gruppe, die OpenNebula aus 239.0.0.0 und der Kennung bildet. Das Gateway auf dem Front-end tritt derselben Gruppe bei und gehört damit zum selben Netz.
 
-Der Kopf von VXLAN und das äussere Paket brauchen 50 Byte. Bleiben im Labnetz 1500 Byte pro Paket, dürfen die VMs nur 1450 Byte senden. Senden sie mehr, gehen grosse Pakete verloren, und Downloads über HTTPS brechen ab, während kleine Anfragen noch klappen. Das Netz gibt den VMs deshalb die MTU 1450 mit.
+Den Aufbau der Pakete legt [RFC 7348](https://www.rfc-editor.org/rfc/rfc7348) fest. Vor den Rahmen der VM setzt der Knoten einen VXLAN-Kopf von 8 Byte, der vor allem die Kennung mit 24 Bit enthält, den VXLAN Network Identifier oder kurz VNI. Davor kommen ein UDP-Kopf und ein IP-Kopf mit den Adressen der beiden Knoten als Absender und Ziel. Der empfangende Knoten liest die VNI und gibt den Rahmen nur an die Bridge des passenden Netzes weiter. So bleiben die Netze verschiedener Mandanten getrennt, obwohl ihre Pakete über dieselbe Leitung laufen. Die IANA hat VXLAN den UDP-Port 4789 zugeteilt. Der Linux-Kernel nimmt als Vorgabe noch den älteren Port 8472, und OpenNebula übernimmt diesen Wert, wie die [Dokumentation zu VXLAN](https://docs.opennebula.io/7.4/product/cluster_configuration/networking_system/vxlan/) festhält. Deshalb setzt `lab/cc-gateway.sh` auf dem Front-end ebenfalls `dstport 8472`, sonst kämen die Pakete der Knoten dort nicht an.
+
+Ein Paket im Labnetz darf 1500 Byte gross sein. Davon belegen der äussere IP-Kopf 20 Byte, der UDP-Kopf 8 Byte, der VXLAN-Kopf 8 Byte und der Ethernet-Kopf des inneren Rahmens 14 Byte. Diese 50 Byte fehlen der VM, für ihr IP-Paket bleiben 1450 Byte. Zu grosse Pakete zerlegen die Knoten nicht, denn RFC 7348 verbietet den Endpunkten die Fragmentierung. Senden die VMs mehr, gehen grosse Pakete verloren, und Downloads über HTTPS brechen ab, während kleine Anfragen noch klappen. Das Netz gibt den VMs deshalb über `GUEST_MTU` und den Kontext die MTU 1450 mit.
 
 ## Das interne Netz anlegen
 
@@ -65,7 +74,17 @@ Weil OpenNebula die Adressen verwaltet, bleibt die Adresse einer VM gleich, sola
 
 Das Netz `cc-net` und der Dienst `cc-gateway` aus Kapitel 0.4 gehören zusammen. Auf den Knoten legt OpenNebula beim Start der ersten VM die Bridge `ccbr` mit deiner Kennung und das VXLAN an. Auf dem Front-end hat `cc-gateway` die Bridge `cc-br` mit der Adresse des Gateways und dasselbe VXLAN schon eingerichtet. Pakete einer VM ins Internet gehen so über das VXLAN zum Front-end, das sie mit NAT ins Labnetz und weiter ins Internet schickt.
 
-![Der Weg eines Pakets von der VM ins Internet. Links schickt eine VM auf Knoten 1 ihren Rahmen an die Bridge ccbr mit deiner Kennung und weiter ins VXLAN. In der Mitte reist der Rahmen im Labnetz in einem UDP-Paket an Port 8472. Der Kopf von VXLAN und das äussere Paket brauchen 50 der 1500 Byte, für den Rahmen der VM bleiben höchstens 1450 Byte. Rechts packt cc-vxlan auf dem Front-end den Rahmen aus und gibt ihn an die Bridge cc-br mit der Adresse des Gateways. Die NAT-Regel in der nftables-Tabelle cc_gateway ersetzt die Absenderadresse, und das Paket geht über das Labnetz ins Internet. Achte darauf, dass im Labnetz nur Front-end und Knoten sichtbar sind.](../../../assets/figures/de/p2c3-network-path.svg)
+![Der Weg eines Pakets von der VM ins Internet. Links schickt eine VM auf Knoten 1 ihren Rahmen an die Bridge ccbr mit deiner Kennung und weiter ins VXLAN. In der Mitte reist der Rahmen im Labnetz in einem UDP-Paket an Port 8472. Der Kopf von VXLAN und das äussere Paket brauchen 36 Byte, der Ethernet-Kopf im Rahmen der VM weitere 14. Für das IP-Paket der VM bleiben so höchstens 1450 der 1500 Byte, darum die MTU 1450. Rechts packt cc-vxlan auf dem Front-end den Rahmen aus und gibt ihn an die Bridge cc-br mit der Adresse des Gateways. Die NAT-Regel in der nftables-Tabelle cc_gateway ersetzt die Absenderadresse, und das Paket geht über das Labnetz ins Internet. Achte darauf, dass im Labnetz nur Front-end und Knoten sichtbar sind.](../../../assets/figures/de/p2c3-network-path.svg)
+
+## Source NAT
+
+Die Adressen deines internen Netzes stammen aus einem privaten Bereich nach [RFC 1918](https://www.rfc-editor.org/rfc/rfc1918). Router im Internet leiten solche Adressen nicht weiter, und auch das Labnetz kennt keine Route zurück in dein internes Netz. Schickte das Front-end die Pakete der VMs unverändert weiter, käme nie eine Antwort zurück. Deshalb ersetzt es mit Source NAT die Absenderadresse jedes ausgehenden Pakets durch seine eigene Adresse im Labnetz, wie es [RFC 3022](https://www.rfc-editor.org/rfc/rfc3022) beschreibt. Damit viele VMs gleichzeitig dieselbe Adresse nutzen können, ändert es bei Bedarf auch den Absenderport. Jede Verbindung hält der Kernel in einer Tabelle fest, dem Connection Tracking. Kommt eine Antwort, sucht er dort den passenden Eintrag, setzt die Adresse der VM wieder als Ziel ein und schickt das Paket über das VXLAN zurück.
+
+Masquerade ist eine Form von Source NAT, bei der die neue Absenderadresse nicht fest in der Regel steht. Der Kernel nimmt jeweils die aktuelle Adresse der Schnittstelle, über die das Paket hinausgeht, deshalb stimmt die Regel auch dann noch, wenn sich die Adresse des Front-ends ändert. Die Regel in `cc-gateway` erfasst nur Pakete aus deinem internen Netz, die über die Schnittstelle zum Labnetz hinausgehen. Vorher schaltet das Skript mit `net.ipv4.ip_forward` das Weiterleiten ein, ohne das ein Linux-Host keine Pakete für andere Rechner weitergibt.
+
+::code{file="lab/cc-gateway.sh" lines="47-54"}
+
+Damit ist auch die Frage der Mitglieder beantwortet. Die VMs erreichen das Internet, von aussen sind sie aber nicht sichtbar. Eine Verbindung, die von aussen beginnt, hat keinen Eintrag in der Tabelle und erreicht nur das Front-end selbst. Soll ein Dienst in einer VM von aussen erreichbar sein, braucht es eine Weiterleitung mit Destination NAT oder einen Proxy auf dem Front-end.
 
 ::::exercise[Lab]
 Lege das Netz `cc-net` mit dem Skript an und vergleiche `onevnet show cc-net` mit den Werten in `/etc/cc-lab.env`. Welche drei Werte müssen übereinstimmen, damit das Gateway funktioniert?

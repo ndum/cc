@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 864 356" role="img" aria-labelledby="p2c3-network-path-de-title p2c3-network-path-de-desc">
 <title id="p2c3-network-path-de-title">Der Weg eines Pakets von der VM ins Internet</title>
-<desc id="p2c3-network-path-de-desc">Links schickt eine VM auf Knoten 1 ihren Rahmen an die Bridge ccbr mit deiner Kennung und weiter ins VXLAN. In der Mitte reist der Rahmen im Labnetz in einem UDP-Paket an Port 8472. Der Kopf von VXLAN und das äussere Paket brauchen 50 der 1500 Byte, für den Rahmen der VM bleiben höchstens 1450 Byte. Rechts packt cc-vxlan auf dem Front-end den Rahmen aus und gibt ihn an die Bridge cc-br mit der Adresse des Gateways. Die NAT-Regel in der nftables-Tabelle cc_gateway ersetzt die Absenderadresse, und das Paket geht über das Labnetz ins Internet.</desc>
+<desc id="p2c3-network-path-de-desc">Links schickt eine VM auf Knoten 1 ihren Rahmen an die Bridge ccbr mit deiner Kennung und weiter ins VXLAN. In der Mitte reist der Rahmen im Labnetz in einem UDP-Paket an Port 8472. Der Kopf von VXLAN und das äussere Paket brauchen 36 Byte, der Ethernet-Kopf im Rahmen der VM weitere 14. Für das IP-Paket der VM bleiben so höchstens 1450 der 1500 Byte, darum die MTU 1450. Rechts packt cc-vxlan auf dem Front-end den Rahmen aus und gibt ihn an die Bridge cc-br mit der Adresse des Gateways. Die NAT-Regel in der nftables-Tabelle cc_gateway ersetzt die Absenderadresse, und das Paket geht über das Labnetz ins Internet.</desc>
 <defs><marker id="p2c3-network-path-de-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"/></marker></defs>
 <rect class="d-band d-band-2" x="16" y="86" width="208" height="254" rx="6"/>
 <text class="d-label" x="32" y="110" text-anchor="start">KNOTEN 1</text>
@@ -23,8 +23,8 @@
 <text class="d-sub" x="426" y="140" text-anchor="middle">1500 Byte pro Paket im Labnetz</text>
 <path class="d-line" d="M 262 184 L 452 184"/>
 <path class="d-line d-line-accent" d="M 458 184 L 590 184"/>
-<text class="d-sub" x="357" y="176" text-anchor="middle">50 Byte</text>
-<text class="d-sub" x="524" y="176" text-anchor="middle">höchstens 1450 Byte</text>
+<text class="d-sub" x="357" y="176" text-anchor="middle">36 Byte</text>
+<text class="d-sub" x="524" y="176" text-anchor="middle">Rahmen bis 1464 Byte</text>
 <rect class="d-strip" x="262" y="196" width="40" height="50" rx="4"/>
 <text class="d-sub" x="282" y="225" text-anchor="middle">IP</text>
 <rect class="d-strip" x="306" y="196" width="80" height="50" rx="4"/>

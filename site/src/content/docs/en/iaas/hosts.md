@@ -14,6 +14,7 @@ After this chapter you can
 
 - read and change the states of a host,
 - tell real from allocated capacity and explain overcommitment,
+- describe the rules the scheduler uses to pick a node and read the states of a VM,
 - move VMs to another node with and without interruption,
 - empty a node for maintenance and put it back into service,
 - describe what happens to its VMs when a node fails.
@@ -39,6 +40,37 @@ onehost show <node> | sed -n '/HOST SHARES/,/LOCAL SYSTEM/p'
 ```
 
 The scheduler plans with the reserved capacity. Once a node is fully reserved, no further VM starts there, even if it actually has room left. With the values `RESERVED_CPU` and `RESERVED_MEM` on the host, the platform team can adjust the capacity. A positive value keeps a reserve free, a negative value allows overcommitment. Overcommitment relies on the fact that VMs rarely all work at full load at the same time, and it lowers the cost. If they do all work at once, all of them slow down. Overcommitting memory is riskier than overcommitting CPU, because missing memory makes VMs crash instead of just slowing them down.
+
+## Placement by the scheduler
+
+A new VM waits until the scheduler assigns it a node. By default OpenNebula 7.4 uses the [Rank Scheduler](https://docs.opennebula.io/7.4/product/cloud_system_administration/scheduler/rank_scheduler/) for this, and it works in two steps. First it filters. Every node that fails the VM's `SCHED_REQUIREMENTS` expression or lacks free CPU or memory, measured against the reserved capacity, drops out. Datastores and networks go through the same check. Then it sorts the remaining nodes by the expression `SCHED_RANK` and takes the one with the highest value. You can set both expressions in a template, for example to start a VM only on nodes with a certain property. Without `SCHED_RANK` the installation's policy applies, and the documentation offers the following policies.
+
+| Policy | Rank | Effect |
+|---|---|---|
+| Packing | `RUNNING_VMS` | fills nodes that already run VMs first and leaves others empty |
+| Striping | `- RUNNING_VMS` | spreads VMs across as many nodes as possible |
+| Load-aware | `FREE_CPU` | prefers the nodes whose CPU currently has the lowest load |
+| Fixed | `PRIORITY` | follows a priority the platform team sets on the host or cluster |
+
+In the lab, `/etc/one/schedulers/rank.conf` contains the entry `DEFAULT_SCHED` with `POLICY = 1`, which is striping, unchanged from the file the OpenNebula package ships. That is why your VMs spread across both nodes. Packing needs fewer nodes, so the rest can be switched off. Striping keeps headroom on every node, and a failure hits fewer VMs. Besides the Rank Scheduler, OpenNebula 7.4 includes the [Distributed Resource Scheduler](https://docs.opennebula.io/7.4/product/cloud_system_administration/scheduler/drs/). It takes the actual load of the nodes into account and proposes migrations, which the platform team either reviews or lets run automatically.
+
+## Life cycle of a VM
+
+`onevm list` shows the state of every VM in short form in the column `STAT`. The [state reference](https://docs.opennebula.io/7.4/product/operation_references/configuration_references/vm_states/) lists a great many of them, and in daily work you will mostly meet the following ones.
+
+| State | Meaning | Trigger |
+|---|---|---|
+| `pend` | waiting for the scheduler to pick a node | `onetemplate instantiate`, `onevm resume` from `unde` |
+| `prol` | OpenNebula copies the disks to the node | node chosen |
+| `boot` | OpenNebula waits for the hypervisor to create the VM | copying finished |
+| `runn` | the VM is running, including its own boot and shutdown | started by the hypervisor |
+| `poff` | switched off, the disks stay on the node | `onevm poweroff` |
+| `unde` | switched off, the disks are back in the `system` datastore of the front-end | `onevm undeploy` |
+| `fail` | a step such as copying or booting failed | error in `prol`, `boot` or during a migration |
+| `unkn` | monitoring can no longer reach the VM | node failure |
+| `done` | terminated, `onevm list` no longer shows the VM | `onevm terminate` |
+
+The difference between `poff` and `unde` matters for capacity. A powered-off VM keeps its place on the node, while a VM in `unde` frees it and goes through the scheduler and `prol` again at its next start. When a VM ends up in `fail`, its log in `/var/log/one/<id>.log` shows the cause, and `onevm recover` brings it back afterwards.
 
 ## Migration
 
@@ -86,5 +118,13 @@ Gemeinde Hinterbüel wants to know whether two nodes are enough when one is down
 
 :::solution
 A node with 7.2 GB and 400 hundredths of CPU carries seven VMs with 1 GB and 50 hundredths each, so memory sets the limit. Spread over both nodes there must therefore be no more than seven if one node alone has to carry all of them. Overcommitting memory would be risky, because VMs crash when memory runs out, and during maintenance all of them run on one node.
+:::
+::::
+
+::::exercise[Scheduler policy]
+Gemeinde Hinterbüel would like to save power at night by switching off nodes that run no VMs. Which scheduler policy fits, where would you set it, and what does the municipality accept in return?
+
+:::solution
+Packing fits, because it fills the nodes that already run VMs first and leaves the others empty. You set it in `/etc/one/schedulers/rank.conf` with `POLICY = 0` in the entry `DEFAULT_SCHED`, or for single VMs with `SCHED_RANK = "RUNNING_VMS"` in the template. In return more VMs share the same node. If it fails, more VMs are affected, and load peaks of those VMs slow each other down. Packing only affects new placements and does not move existing VMs.
 :::
 ::::

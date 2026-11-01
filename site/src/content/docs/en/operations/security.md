@@ -1,6 +1,6 @@
 ---
 title: Security
-description: Protection needs of the members, a hardened front-end with SSH keys, a firewall and updates, the restricted profile for pods, encrypted secrets in Git and who may do what on the platform.
+description: Protection needs of the members, a hardened front-end with SSH keys, a firewall and updates, TLS and SSH tunnels, RBAC in Kubernetes, the restricted profile for pods, encrypted secrets in Git and who may do what on the platform.
 sidebar:
   order: 1
 ---
@@ -14,6 +14,8 @@ After this chapter you can
 
 - assess a member's protection needs for confidentiality, integrity and availability,
 - harden the front-end with SSH keys, a firewall and automatic updates,
+- explain how TLS protects a connection and where the lab relies on SSH tunnels instead,
+- define and check the rights of a ServiceAccount with a Role and a RoleBinding,
 - require the restricted profile for member pods with Pod Security Admission,
 - store secrets encrypted in Git,
 - show who may do what on your platform.
@@ -70,6 +72,36 @@ The second connection fails with `Permission denied (publickey)`. In the lab, th
 
 From now on you reach Gitea through a tunnel. The tunnel to Grafana already uses local port 3000, so pick another one, for example `ssh -L 3001:localhost:3000 mmuster-fe`, and open `http://localhost:3001/`.
 
+## Transport encryption
+
+The firewall decides who can reach a service. It does nothing about what happens to the data on the way. Almost every web interface in the lab speaks plain HTTP, Sunstone on port 2616, Gitea on port 3000, Argo CD, Grafana and the web shop. Anyone who can read the traffic between browser and service sees passwords, session cookies and content in plain text. The same goes for the token in `~/.git-credentials` that Git uses to push to the `platform` repo, and for the connection over which Argo CD fetches the repo from Gitea.
+
+TLS (Transport Layer Security) protects a connection in three ways. Encryption keeps the content confidential. Every block sent carries an authentication tag, so the receiver notices if anything was changed in transit, which protects integrity. And the server proves its identity with a certificate, so the client knows it is talking to the right server and not to someone in between. The current version, TLS 1.3, is specified in [RFC 8446](https://www.rfc-editor.org/rfc/rfc8446).
+
+A certificate binds a public key to a name, such as the server's hostname or IP address. It is signed by a certificate authority (CA). The client keeps a list of CAs it trusts and checks that the certificate comes from one of them, has not expired and matches the address it asked for. During the handshake, the server then proves that it holds the private key belonging to the certificate. An attacker can copy the certificate but cannot provide that proof.
+
+You can see this in the lab with the Kubernetes API on port 6443. When k3s is installed, it creates its own CAs and uses them to issue the API server's certificate ([k3s documentation](https://docs.k3s.io/cli/certificate)). Your kubeconfig contains that CA's certificate, which is why kubectl trusts the server without any public CA involved. With `openssl s_client` you can check the connection by hand, on the front-end and without changing anything.
+
+```bash
+server=$(kubectl config view -o jsonpath='{.clusters[0].cluster.server}')
+echo | openssl s_client -connect "${server#https://}" \
+  -CAfile <(kubectl config view --raw -o jsonpath='{.clusters[0].cluster.certificate-authority-data}' | base64 -d) \
+  2>/dev/null | grep -E 'subject=|issuer=|Protocol|Verify return'
+```
+
+```text
+subject=O=k3s, CN=k3s
+issuer=CN=k3s-server-ca@1793541775
+Protocol: TLSv1.3
+Verify return code: 0 (ok)
+```
+
+The number after `k3s-server-ca@` is the time k3s created the CA, so yours will differ. Without `-CAfile`, openssl reports `Verify return code: 19 (self-signed certificate in certificate chain)`. The connection is still encrypted, but openssl does not know the k3s CA and cannot confirm that the server is genuine.
+
+Plain HTTP is acceptable for the web interfaces in the lab because hardly any of them is exposed. After hardening, other hosts can only reach SSH and Sunstone. You open Gitea, Argo CD, Grafana and the web shop through SSH tunnels, and SSH encrypts the connection itself and authenticates the server with its host key. Behind the tunnel, the traffic stays on the front-end or in cc-net, which only the lab's nodes and VMs can reach. Sunstone is the exception. Its login crosses the classroom network in plain text. That is acceptable for a practice environment with test data, but not for the practice's patient data.
+
+A production setup puts every service behind TLS. Web interfaces usually sit behind a reverse proxy such as nginx or Traefik, which terminates TLS and passes requests on to the service, and Sunstone would be handled that way. Inside the cluster, an [Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/) with a `tls` section does the job, and k3s already ships Traefik as its ingress controller. Gitea can also serve HTTPS itself ([Gitea documentation](https://docs.gitea.com/administration/https-setup)). The certificates come either from an internal CA, whose certificate then has to be installed on every device of the members, or from a public CA such as Let's Encrypt. Let's Encrypt issues certificates for free and automatically through the ACME protocol, with the server proving that it controls the domain ([How It Works](https://letsencrypt.org/how-it-works/)). That requires a public domain name. With HTTPS, the token in `~/.git-credentials` would no longer cross the network in plain text. On disk it stays readable, so only your user may read the file, and `ls -l ~/.git-credentials` shows `-rw-------`.
+
 ## Rights on the platform
 
 Since part 3, the platform has separated rights on several levels. The principle is always the same, every role gets only what it needs for its work.
@@ -82,7 +114,54 @@ Since part 3, the platform has separated rights on several levels. The principle
 | Automation | the triage service's own role, only `get` and `patch` in `velo` | 5.6 |
 | Changes | pull requests in Gitea, Argo CD only reads | 4.4 |
 
-One gap remains. The `oneadmin` account and your kubeconfig may do everything. In the lab you are the whole platform team. In a real team, each person would get an account of their own, and administrator rights would be limited to a few people.
+### Roles in Kubernetes
+
+Kubernetes controls access to its API with role-based access control, RBAC for short ([Kubernetes documentation](https://kubernetes.io/docs/reference/access-authn-authz/rbac/)). Every API request has a sender, a verb and a resource. RBAC calls the sender a subject. A subject is a user, a group or a ServiceAccount. Kubernetes does not manage users and groups itself. They come from elsewhere, for example from the client certificate someone logs in with. A ServiceAccount, by contrast, is an object in a namespace and gives a program in the cluster an identity of its own. The verb states what should happen, such as `get`, `list`, `watch`, `create`, `patch` or `delete`. The resource is the kind of object, such as `deployments` from the API group `apps`, or `secrets` from the core group, which YAML writes as `""`.
+
+You grant rights in two steps. A role lists which verbs are allowed on which resources. A binding then connects subjects to exactly one role. Both come in a namespaced flavor and a cluster-wide one.
+
+| Object | Applies in | Contains |
+|---|---|---|
+| Role | one namespace | rules made of API groups, resources and verbs |
+| ClusterRole | the whole cluster | rules, also for resources without a namespace such as nodes |
+| RoleBinding | one namespace | subjects and a Role or ClusterRole |
+| ClusterRoleBinding | the whole cluster | subjects and a ClusterRole |
+
+A RoleBinding may refer to a ClusterRole and then grants its rights only in its own namespace. That is how the built-in ClusterRoles `view`, `edit` and `admin` serve as templates. If the municipality got access to its namespace, a RoleBinding in `gemeinde` binding its group to `edit` would be enough. RBAC only knows permissions. Anything no rule allows is denied, and the rights from several bindings add up.
+
+### The triage service as an example
+
+The triage service from chapter 5.6 runs in the namespace `ai` under the ServiceAccount `triage`. It should be able to restart the web shop and do nothing else.
+
+::code{file="platform/observability/repo/ai/triage-rbac.yaml"}
+
+The Role lives in `velo` and allows `get` and `patch` on deployments in the `apps` group. That is enough for a restart, which only sets an annotation in the deployment's pod template. The RoleBinding lives in `velo` too and names the ServiceAccount from `ai` as its subject. Subject and binding may sit in different namespaces, and the rights always apply in the binding's namespace. So the service can neither read secrets nor delete deployments nor touch anything in `gemeinde`.
+
+This approach is called least privilege. Every identity gets the smallest set of rights that lets it do its job ([RBAC good practices](https://kubernetes.io/docs/concepts/security/rbac-good-practices/)). If someone takes control of the service, for example with a crafted alert that leads the model to a wrong suggestion, the damage is limited to restarts in `velo`.
+
+`kubectl auth can-i` checks whether the rules work. The `--as` option asks on behalf of another subject, and a ServiceAccount is written as `system:serviceaccount:<namespace>:<name>` ([kubectl auth can-i](https://kubernetes.io/docs/reference/kubectl/generated/kubectl_auth/kubectl_auth_can-i/)). Chapter 5.6 checked single verbs, and `--list` shows all rights in a namespace at once.
+
+```bash
+kubectl auth can-i --list -n velo --as=system:serviceaccount:ai:triage
+```
+
+```text
+Resources                                       Non-Resource URLs                      Resource Names   Verbs
+selfsubjectreviews.authentication.k8s.io        []                                     []               [create]
+selfsubjectaccessreviews.authorization.k8s.io   []                                     []               [create]
+selfsubjectrulesreviews.authorization.k8s.io    []                                     []               [create]
+deployments.apps                                []                                     []               [get patch]
+                                                [/.well-known/openid-configuration/]   []               [get]
+...
+```
+
+The `deployments.apps` line comes from the Role `triage`. Every authenticated subject gets the three lines above it and the URLs below it through built-in ClusterRoles such as `system:basic-user` and `system:discovery`, so that it can query its own rights and explore the API.
+
+### Accounts with full rights
+
+Other accounts on the platform may do far more. The Argo CD application controller is bound through a ClusterRoleBinding to a ClusterRole that allows every verb on every resource, because it has to create arbitrary objects from Git anywhere in the cluster. The real boundary is therefore Git. Whoever may push to `main` of `wolkenwerk/platform` changes the whole cluster through Argo CD.
+
+The `oneadmin` account and your kubeconfig may do everything as well. `kubectl auth whoami` shows that your kubeconfig identifies you as `system:admin` in the group `system:masters`. Members of this group bypass every RBAC check. That is also why `--as` works for you, since taking on another identity is a right of its own, with the verb `impersonate`. In the lab you are the whole platform team. In a real team, each person would get an account of their own with suitable roles, and administrator rights would be limited to a few people.
 
 ## Pod Security Admission
 
@@ -166,6 +245,23 @@ Harden your front-end, move the Grafana password into a SealedSecret and set the
 
 :::solution
 `ssh -o PubkeyAuthentication=no` fails, `systemctl is-active cc-firewall` shows `active`, and `kubectl get ns velo --show-labels` shows the label `pod-security.kubernetes.io/enforce=restricted`. `kubectl -n velo run test --image=busybox -- sleep 5` ends with `forbidden: violates PodSecurity`. The first checks of the check `operations` are green.
+:::
+::::
+
+::::exercise[Checking rights]
+Use `kubectl auth can-i` with `--as=system:serviceaccount:ai:triage` to find out whether the triage service may read and delete deployments in `velo`, patch deployments in `gemeinde` and read secrets in `velo`. Then work out which rule the Role `triage` would additionally need so that the service can read the logs of the pods in `velo`. Do not change anything in the lab.
+
+:::solution
+kubectl answers `yes` only to the first question.
+
+```bash
+kubectl auth can-i get deployments -n velo --as=system:serviceaccount:ai:triage      # yes
+kubectl auth can-i delete deployments -n velo --as=system:serviceaccount:ai:triage   # no
+kubectl auth can-i patch deployments -n gemeinde --as=system:serviceaccount:ai:triage  # no
+kubectl auth can-i get secrets -n velo --as=system:serviceaccount:ai:triage          # no
+```
+
+Deleting is missing from the list of verbs, `gemeinde` has no RoleBinding for the service, and secrets are a different resource. For the logs, the Role would need a second rule with the API group `""`, the resource `pods/log` and the verb `get`, plus `list` on `pods` so the service can find the pod names. Today, `kubectl auth can-i get pods/log -n velo` with the same `--as` option answers `no`. The new rule would go into the file in the platform repo, and Argo CD would apply it.
 :::
 ::::
 

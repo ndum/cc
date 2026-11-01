@@ -167,7 +167,8 @@ const PATH = {
     desc:
       'Links schickt eine VM auf Knoten 1 ihren Rahmen an die Bridge ccbr mit deiner Kennung und weiter ins ' +
       'VXLAN. In der Mitte reist der Rahmen im Labnetz in einem UDP-Paket an Port 8472. Der Kopf von VXLAN und ' +
-      'das äussere Paket brauchen 50 der 1500 Byte, für den Rahmen der VM bleiben höchstens 1450 Byte. Rechts ' +
+      'das äussere Paket brauchen 36 Byte, der Ethernet-Kopf im Rahmen der VM weitere 14. Für das IP-Paket der ' +
+      'VM bleiben so höchstens 1450 der 1500 Byte, darum die MTU 1450. Rechts ' +
       'packt cc-vxlan auf dem Front-end den Rahmen aus und gibt ihn an die Bridge cc-br mit der Adresse des ' +
       'Gateways. Die NAT-Regel in der nftables-Tabelle cc_gateway ersetzt die Absenderadresse, und das Paket ' +
       'geht über das Labnetz ins Internet.',
@@ -177,8 +178,8 @@ const PATH = {
     nodeVxlan: ['VXLAN', 'Kennung CC_VNI'],
     labNet: 'Labnetz',
     total: '1500 Byte pro Paket im Labnetz',
-    header: '50 Byte',
-    payload: 'höchstens 1450 Byte',
+    header: '36 Byte',
+    payload: 'Rahmen bis 1464 Byte',
     packet: ['IP', 'UDP 8472', 'VXLAN'],
     frame: 'Rahmen der VM',
     visible: 'sichtbar sind nur Front-end und Knoten',
@@ -193,7 +194,8 @@ const PATH = {
     desc:
       'On the left a VM on node 1 hands its frame to the bridge ccbr with your identifier and on to the VXLAN. ' +
       'In the middle the frame crosses the lab network inside a UDP packet to port 8472. The VXLAN header and ' +
-      'the outer packet take 50 of the 1500 bytes, which leaves at most 1450 bytes for the frame of the VM. On ' +
+      'the outer packet take 36 bytes, and the Ethernet header inside the VM frame another 14. That leaves at ' +
+      'most 1450 of the 1500 bytes for the IP packet of the VM, hence the MTU of 1450. On ' +
       'the right cc-vxlan on the front-end unwraps the frame and passes it to the bridge cc-br, which holds the ' +
       'gateway address. The NAT rule in the nftables table cc_gateway replaces the source address, and the ' +
       'packet leaves over the lab network for the internet.',
@@ -203,8 +205,8 @@ const PATH = {
     nodeVxlan: ['VXLAN', 'identifier CC_VNI'],
     labNet: 'Lab network',
     total: '1500 bytes per packet on the lab network',
-    header: '50 bytes',
-    payload: 'at most 1450 bytes',
+    header: '36 bytes',
+    payload: 'frame up to 1464 bytes',
     packet: ['IP', 'UDP 8472', 'VXLAN'],
     frame: 'Frame of the VM',
     visible: 'only the front-end and the nodes are visible',
