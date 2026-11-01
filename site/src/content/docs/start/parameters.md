@@ -57,15 +57,15 @@ Ohne Adresse erreichst du eine VM noch nicht per SSH. Du trägst die Adressen de
 1. Prüfe mit `ip -br link` den Namen der Netzwerkschnittstelle. Steht im Generator ein anderer Name, korrigierst du ihn dort.
 2. Lege die Datei an und füge den Inhalt aus dem Generator für diese VM ein.
 3. Schütze die Datei und übernimm die Einstellungen mit `netplan try`. Bestätige mit Enter. Bleibt die Bestätigung aus, stellt netplan nach zwei Minuten die alten Einstellungen wieder her.
-4. Prüfe die Adresse, das Gateway und den Namen eines Servers im Internet.
+4. Prüfe die Adresse, die Route über das Gateway und eine Verbindung ins Internet. Das minimale Ubuntu enthält kein `ping`, `curl` ist dabei.
 
 ```bash
 sudo nano /etc/netplan/60-cc-lab.yaml
 sudo chmod 600 /etc/netplan/60-cc-lab.yaml
 sudo netplan try
 ip -br addr
-ping -c 2 192.168.210.1
-ping -c 2 ubuntu.com
+ip route
+curl -sI https://ubuntu.com | head -1
 ```
 
 Die Datei beginnt mit `60`, damit sie nach einer allfälligen Datei `50-cloud-init.yaml` gelesen wird und deren Einstellungen für dieselbe Schnittstelle überschreibt. YAML verlangt Einrückungen mit Leerzeichen, ein Tabulator führt zu einem Fehler.
@@ -74,8 +74,9 @@ Die Datei beginnt mit `60`, damit sie nach einer allfälligen Datei `50-cloud-in
 |---|---|---|
 | `netplan try` meldet einen Fehler in der Datei | Einrückung mit Tabulator oder falsch eingerückte Zeile | Datei mit `cat -A` ansehen, Tabulatoren erscheinen als `^I` |
 | `ip -br addr` zeigt zwei Adressen | DHCP aus `50-cloud-init.yaml` für eine andere Schnittstelle | Name der Schnittstelle im Generator prüfen |
-| Gateway antwortet nicht | falsche Adresse oder falsche Schnittstelle | `ip -br addr` mit der Tabelle im Generator vergleichen |
-| Gateway antwortet, `ubuntu.com` nicht | DNS fehlt | `resolvectl status` zeigt den DNS, er muss 192.168.210.1 sein |
+| `ip route` zeigt keine Zeile `default via 192.168.210.1` | Route fehlt in der Datei oder falsche Schnittstelle | Datei und `ip -br addr` mit dem Generator vergleichen |
+| `curl` meldet «Could not resolve host» | DNS fehlt | `resolvectl status` zeigt den DNS, er muss 192.168.210.1 sein |
+| `curl` wartet und bricht ab | kein Weg ins Internet | Adresse und Gateway prüfen, sonst die Dozentin oder den Dozenten fragen |
 
 ## Die Datei auf den VMs
 

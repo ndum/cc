@@ -57,15 +57,15 @@ Without an address you cannot reach a VM over SSH yet. So you set the addresses 
 1. Check the name of the network interface with `ip -br link`. If the generator shows another name, correct it there.
 2. Create the file and paste the content the generator shows for this VM.
 3. Protect the file and apply the settings with `netplan try`. Confirm with Enter. Without a confirmation netplan restores the old settings after two minutes.
-4. Check the address, the gateway and the name of a server on the internet.
+4. Check the address, the route through the gateway and a connection to the internet. Minimal Ubuntu has no `ping`, but it has `curl`.
 
 ```bash
 sudo nano /etc/netplan/60-cc-lab.yaml
 sudo chmod 600 /etc/netplan/60-cc-lab.yaml
 sudo netplan try
 ip -br addr
-ping -c 2 192.168.210.1
-ping -c 2 ubuntu.com
+ip route
+curl -sI https://ubuntu.com | head -1
 ```
 
 The file name starts with `60` so that it is read after a file `50-cloud-init.yaml`, if there is one, and overrides its settings for the same interface. YAML needs indentation with spaces, a tab causes an error.
@@ -74,8 +74,9 @@ The file name starts with `60` so that it is read after a file `50-cloud-init.ya
 |---|---|---|
 | `netplan try` reports an error in the file | indentation with a tab or a line indented wrongly | look at the file with `cat -A`, tabs show up as `^I` |
 | `ip -br addr` shows two addresses | DHCP from `50-cloud-init.yaml` for another interface | check the interface name in the generator |
-| the gateway does not answer | wrong address or wrong interface | compare `ip -br addr` with the table in the generator |
-| the gateway answers, `ubuntu.com` does not | DNS is missing | `resolvectl status` shows the DNS, it must be 192.168.210.1 |
+| `ip route` shows no line `default via 192.168.210.1` | the route is missing in the file or the interface is wrong | compare the file and `ip -br addr` with the generator |
+| `curl` reports "Could not resolve host" | DNS is missing | `resolvectl status` shows the DNS, it must be 192.168.210.1 |
+| `curl` waits and gives up | no way to the internet | check address and gateway, otherwise ask your instructor |
 
 ## The file on the VMs
 
