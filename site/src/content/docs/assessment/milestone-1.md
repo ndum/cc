@@ -17,10 +17,21 @@ Alles läuft in deinem eigenen Lab mit deinen persönlichen Parametern aus Kapit
 2. Das Netz `cc-net` ist aus deinen Parametern angelegt, eine VM aus der Vorlage `ubuntu` läuft mit SSH und Zugang zum Internet, der Check `iaas` ist grün.
 3. Du leerst einen Knoten für die Wartung, nimmst ihn wieder in Betrieb und verschiebst eine VM live.
 4. Die vier Mitglieder haben Gruppen mit Admins im VDC `wolkenwerk`, und ein Mitglied sieht die VMs eines anderen nicht.
-5. Die Quotas der Mitglieder sind gesetzt, und du zeigst die Meldung an der Grenze.
+5. Die Quotas der Mitglieder sind gesetzt, die Gemeinde hat die Quota aus deinen [persönlichen Werten](../../start/parameters/), und du zeigst die Meldung an der Grenze.
 6. Die Vorlage `ubuntu` hat Preise, der Showback eines Monats liegt als CSV in deinem Abgabe-Repo.
 7. Ein Benutzer eines Mitglieds startet eine VM im Self-Service.
-8. Die Treuhand betreibt ihren Dienst in OneFlow selbst, er wächst unter Last und schrumpft wieder, der Check `tenants` ist grün.
+8. Die Treuhand betreibt ihren Dienst in OneFlow selbst, er wächst unter Last und schrumpft wieder, der Check `m1` ist grün.
+
+## Eigene Erweiterung
+
+Zu den Funktionen gehört eine Erweiterung, die über den Kurs hinausgeht. Sie soll zu Wolkenwerk passen und in deinem Lab laufen. Eigene Ideen sind willkommen, die Liste hilft beim Einstieg.
+
+- eine zweite Dienstvorlage in OneFlow mit zwei Rollen, etwa Web und Datenbank
+- ein Hook in OpenNebula, der beim Start einer VM eines Mitglieds einen Eintrag schreibt
+- ein Skript mit Timer, das den Showback jeden Monat als CSV ablegt
+- ein eigenes Image mit vorinstalliertem Webserver für die Mitglieder
+
+Die Erweiterung gibt bis zu 3 Punkte. 1 Punkt gibt es, wenn sie läuft, 2, wenn du sie im README begründest, und 3, wenn du sie im Screencast vorführst und ihre Grenzen beurteilst.
 
 ## Erklärungen und Entscheide
 
@@ -41,13 +52,12 @@ Der Screencast dauert höchstens zehn Minuten in einer einzigen Aufnahme. Ein Vo
 
 | Minuten | Was du zeigst |
 |---|---|
-| 0 bis 1 | `/etc/cc-lab.env` und die Berichte der Checks `install`, `iaas` und `tenants` mit Hash |
+| 0 bis 1 | `/etc/cc-lab.env` und die Berichte der Checks `install`, `iaas` und `m1` mit Hash |
 | 1 bis 3 | Architektur anhand deiner Zeichnung, `onehost list`, `onevnet show cc-net` |
 | 3 bis 4 | Wartung eines Knotens mit Migration |
 | 4 bis 6 | Mitglieder, Trennung, Quota an der Grenze, Self-Service |
-| 6 bis 7 | Showback und deine Kostenrechnung |
-| 7 bis 9 | Dienst der Treuhand unter Last |
-| 9 bis 10 | zwei oder drei eigene Entscheide |
+| 6 bis 8 | Showback, deine Kostenrechnung und der Dienst der Treuhand unter Last |
+| 8 bis 10 | die zwei Fragen aus dem Bericht, deine Erweiterung und eigene Entscheide |
 
 Den Dienst unter Last startest du am besten vor der Aufnahme, das Wachsen braucht einige Minuten. Nimm den Screencast auf, bevor du mit Teil 4 beginnst. In Kapitel 4.2 entfernst du die VMs von Teil 2 und 3, weil der Kubernetes-Cluster ihren Platz braucht. Zeigst du Meilenstein 1 live im Unterricht, gilt derselbe Ablauf, und [Kapitel 4.2](../../platform/opentofu/#platz-auf-den-knoten) zeigt, wie du den Cluster dafür vorübergehend von den Knoten nimmst.
 
@@ -67,12 +77,13 @@ Die Berichte der Checks legst du in `reports/`. Wie das Repo aufgebaut ist und w
 | Kriterium | Punkte |
 |---|---|
 | OpenNebula mit zwei Knoten, Check `install` | 2 |
-| Netz, Vorlage und VM, Check `iaas` | 3 |
+| Netz, Vorlage und VM, Check `iaas` | 2 |
 | Wartung eines Knotens mit Migration | 2 |
-| Mitglieder mit Gruppen, Admins und VDC, Trennung gezeigt | 3 |
-| Quotas gesetzt, Grenze gezeigt | 2 |
+| Mitglieder mit Gruppen, Admins und VDC, Trennung gezeigt | 2 |
+| Quotas mit den persönlichen Werten der Gemeinde, Grenze gezeigt | 2 |
 | Showback mit Preisen und CSV | 2 |
-| Self-Service und Dienst der Treuhand mit Elastizität, Check `tenants` | 4 |
+| Self-Service und Dienst der Treuhand mit Elastizität, Check `m1` | 3 |
+| Eigene Erweiterung | 3 |
 | **Funktionen** | **18** |
 | Architektur mit eigener Zeichnung | 3 |
 | VXLAN, MTU und Trennung der Mitglieder erklärt | 3 |
@@ -81,4 +92,4 @@ Die Berichte der Checks legst du in `reports/`. Wie das Repo aufgebaut ist und w
 | **Erklärungen und Entscheide** | **12** |
 | **Total** | **30** |
 
-Die Funktionen ergeben 60 % der Punkte, die Erklärungen und Entscheide 40 %. Die Note der Abgabe 1 berechnet deine Dozentin oder dein Dozent aus den Punkten von Meilenstein 1 und 2 nach den Regeln der Schule.
+Die Funktionen mit der Erweiterung ergeben 60 % der Punkte, die Erklärungen und Entscheide 40 %. Jedes Erklärungskriterium bewertet deine Dozentin oder dein Dozent nach den [Stufen 0 bis 3](../#stufen-der-erklärungen). Beantwortest du eine der zwei Fragen aus dem Bericht nicht oder falsch, bekommt das Kriterium, zu dem sie gehört, höchstens 1 Punkt. Die Note der Abgabe 1 berechnet deine Dozentin oder dein Dozent aus den Punkten von Meilenstein 1 und 2 nach den Regeln der Schule.

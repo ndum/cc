@@ -10,6 +10,8 @@ Run it on the front-end as the user who works with the lab:
     python3 checks/check.py platform   chapters 4.2 to 4.5, k3s from OpenTofu, Gitea, Argo CD and member namespaces
     python3 checks/check.py observability  chapters 5.1 to 5.6, metrics, logs, SLO, autoscaling, local model and triage
     python3 checks/check.py operations  chapters 6.1 and 6.2 and milestone 4, hardening, Sealed Secrets, backups and the new member
+    python3 checks/check.py m1         milestone 1, the check tenants, your personal values and two questions for the screencast
+    python3 checks/check.py m2 | m3 | m4  the same for milestones 2 to 4 with the checks platform, observability and operations
 
 The report lands in ~/cc-reports/ and is printed. The hash at its end covers the whole report, so a
 changed report no longer matches its hash. The script is public, so the hash proves only that a
@@ -471,8 +473,144 @@ def check_operations(env, report):
                  tr("Meilenstein 4, wie Kapitel 5.3", "milestone 4, as in chapter 5.3"))
 
 
+# Questions for the screencast of a milestone. The check draws two of each pool with the personal
+# code, so neighbours rarely answer the same ones, and the answers have to come from the own lab
+QUESTIONS = {
+    "m1": [
+        ("Zeige mit onevm show, auf welchem Knoten eine VM der Praxis läuft, und erkläre, nach welcher Regel der Scheduler diesen Knoten gewählt hat.",
+         "Show with onevm show which node a VM of the practice runs on, and explain by which rule the scheduler chose that node."),
+        ("Zeige die MTU in einer VM und erkläre, woher der Unterschied zu 1500 kommt.",
+         "Show the MTU inside a VM and explain where the difference to 1500 comes from."),
+        ("Zeige mit onegroup show gemeinde die Nutzung und erkläre, was geschieht, wenn die Gemeinde eine VM mehr startet, als ihre Quota erlaubt.",
+         "Show the usage with onegroup show gemeinde and explain what happens when the municipality starts one VM more than its quota allows."),
+        ("Zeige mit oneacl list die Regel, die einer Gruppe das Anlegen von VMs erlaubt, und erkläre ihre Teile.",
+         "Show with oneacl list the rule that lets a group create VMs, and explain its parts."),
+        ("Zeige im Showback die Kosten einer VM und rechne sie aus den Preisen der Vorlage nach.",
+         "Show the cost of a VM in the showback and recompute it from the prices in the template."),
+        ("Zeige die Regeln der Elastizität des Dienstes der Treuhand und erkläre, was bei einem Ausfall eines Knotens mit dem Dienst geschieht.",
+         "Show the elasticity rules of the fiduciary office's service and explain what happens to the service when a node fails."),
+    ],
+    "m2": [
+        ("Lösche einen Pod des Webshops und erkläre mit kubectl get rs, wer ihn ersetzt.",
+         "Delete a pod of the web shop and explain with kubectl get rs who replaces it."),
+        ("Ändere die Zahl der Pods des Webshops mit kubectl scale und erkläre, was Argo CD danach tut.",
+         "Change the number of web shop pods with kubectl scale and explain what Argo CD does afterwards."),
+        ("Zeige mit tofu plan, dass Code und Infrastruktur übereinstimmen, und erkläre, was der State dazu beiträgt.",
+         "Show with tofu plan that code and infrastructure match, and explain what the state contributes."),
+        ("Zeige die ResourceQuota der Gemeinde mit kubectl describe und erkläre, was mit einem Pod geschieht, der sie überschreiten würde.",
+         "Show the municipality's ResourceQuota with kubectl describe and explain what happens to a pod that would exceed it."),
+        ("Zeige mit ip route auf k3s-server die Route ins Pod-Netz des Agents und erkläre host-gw.",
+         "Show with ip route on k3s-server the route into the agent's pod network and explain host-gw."),
+        ("Zeige die NetworkPolicy eines Mitglieds und erkläre, welchen Verkehr sie erlaubt.",
+         "Show the NetworkPolicy of a member and explain which traffic it allows."),
+    ],
+    "m3": [
+        ("Zeige in Prometheus die Abfrage hinter deinem SLO-Alert und erkläre den Faktor 14,4.",
+         "Show in Prometheus the query behind your SLO alert and explain the factor 14.4."),
+        ("Zeige mit kubectl get hpa die aktuelle Auslastung und rechne aus, wie viele Pods der HPA bei doppelter Last wollte.",
+         "Show the current utilization with kubectl get hpa and work out how many pods the HPA would want at twice the load."),
+        ("Suche mit LogQL die Fehler des Webshops der letzten Stunde und erkläre, warum die Adresse der Kundschaft kein Label ist.",
+         "Find the web shop errors of the last hour with LogQL and explain why the customer address is not a label."),
+        ("Zeige im Audit-Log des Triage-Dienstes einen Vorschlag und begründe, warum du ihn freigegeben oder abgelehnt hast.",
+         "Show a proposal in the triage service's audit log and justify why you approved or rejected it."),
+        ("Zeige, welche Ziele Prometheus ausserhalb des Clusters abholt, und erkläre, wie es sie findet.",
+         "Show which targets Prometheus scrapes outside the cluster and explain how it finds them."),
+        ("Zeige Requests und Limits von Ollama und erkläre, was bei zu wenig Speicher auf dem Node geschieht.",
+         "Show the requests and limits of Ollama and explain what happens when the node runs short of memory."),
+    ],
+    "m4": [
+        ("Zeige mit kubectl auth can-i, was der Triage-Dienst im Namespace deines Mitglieds darf, und begründe deine Wahl.",
+         "Show with kubectl auth can-i what the triage service may do in your member's namespace, and justify your choice."),
+        ("Zeige die Regeln der Firewall und erkläre, warum Gitea von aussen nicht erreichbar ist.",
+         "Show the firewall rules and explain why Gitea cannot be reached from outside."),
+        ("Zeige den letzten Snapshot von etcd auf dem Front-end und erkläre, was bei einer Wiederherstellung verloren geht.",
+         "Show the latest etcd snapshot on the front-end and explain what a restore loses."),
+        ("Zeige das Backup der VM deines Mitglieds und berechne aus dem Zeitplan des Jobs das schlechteste RPO.",
+         "Show the backup of your member's VM and work out the worst RPO from the job's schedule."),
+        ("Zeige ein SealedSecret in Git und erkläre, warum es dort liegen darf.",
+         "Show a SealedSecret in Git and explain why it may live there."),
+        ("Zeige den Preis deines Mitglieds pro Monat und erkläre, welcher Posten der Vollkosten am meisten ausmacht.",
+         "Show your member's monthly price and explain which item of the full cost weighs most."),
+    ],
+}
+
+
+def load_params_module():
+    """scripts/params.py of the course repo computes the personal values, the check reuses it"""
+    sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent.parent / "scripts"))
+    import params  # noqa: E402, the path is only known at run time
+    return params
+
+
+def millicores(value):
+    value = str(value)
+    return int(value[:-1]) if value.endswith("m") else int(float(value) * 1000)
+
+
+def mebibytes(value):
+    value = str(value)
+    units = {"Mi": 1, "Gi": 1024}
+    for unit, factor in units.items():
+        if value.endswith(unit):
+            return int(float(value[:-2]) * factor)
+    return int(value) // (1024 * 1024)
+
+
+def check_milestone(milestone, part):
+    """The check of the part, the personal values of the milestone and two questions for the screencast"""
+    def run_check(env, report):
+        part(env, report)
+        params = load_params_module()
+        code = env.get("CC_CODE", "")
+        values = params.milestones(code)[milestone]
+        report.lines += ["", tr(f"Meilenstein {milestone[1]}, persönliche Werte", f"Milestone {milestone[1]}, personal values")]
+        if milestone == "m1":
+            quota = (((one_json("onegroup", "show", "gemeinde") or {}).get("GROUP", {}).get("VM_QUOTA") or {}).get("VM") or {})
+            want = (values["gemeindeVms"], values["gemeindeCpu"], values["gemeindeMemory"])
+            have = (int(quota.get("VMS", -1)), float(quota.get("CPU", -1)), int(quota.get("MEMORY", -1)))
+            report.check(have == want, tr(f"Die Gemeinde hat die Quota {want[0]} VMs, {want[1]} CPU, {want[2]} MB",
+                                          f"The municipality has the quota {want[0]} VMs, {want[1]} CPU, {want[2]} MB"), f"VMS={have[0]} CPU={have[1]} MEMORY={have[2]}")
+        elif milestone == "m2":
+            items = (kube_json("get", "resourcequota", "-n", "gemeinde") or {}).get("items", [])
+            hard = items[0].get("spec", {}).get("hard", {}) if items else {}
+            ok = (bool(hard) and millicores(hard.get("limits.cpu", "0")) == millicores(values["gemeindeLimitsCpu"])
+                  and mebibytes(hard.get("limits.memory", "0")) == mebibytes(values["gemeindeLimitsMemory"]))
+            report.check(ok, tr(f"Die ResourceQuota der Gemeinde hat limits.cpu {values['gemeindeLimitsCpu']} und limits.memory {values['gemeindeLimitsMemory']}",
+                                f"The municipality's ResourceQuota has limits.cpu {values['gemeindeLimitsCpu']} and limits.memory {values['gemeindeLimitsMemory']}"),
+                         tr("über members/gemeinde in Git, Kapitel 4.5", "through members/gemeinde in Git, chapter 4.5"))
+        elif milestone == "m3":
+            budget = {"99.0": "0.01", "99.9": "0.001"}[values["sloTarget"]]
+            _, body = http(f"http://{env.get('CC_K3S_SERVER_IP')}:30090/api/v1/rules?type=alert")
+            report.check(f"14.4 * {budget})" in body, tr(f"Der Alert des SLO rechnet mit dem Ziel {values['sloTarget']} %", f"The SLO alert uses the target {values['sloTarget']} %"),
+                         tr("webshop-slo.yaml, Kapitel 5.3", "webshop-slo.yaml, chapter 5.3"))
+            hpa = kube_json("get", "hpa", "webshop", "-n", "velo") or {}
+            report.check(hpa.get("spec", {}).get("maxReplicas") == values["hpaMax"],
+                         tr(f"Der HPA des Webshops erlaubt höchstens {values['hpaMax']} Pods", f"The web shop HPA allows at most {values['hpaMax']} pods"),
+                         tr("hpa.yaml, Kapitel 5.4", "hpa.yaml, chapter 5.4"))
+        elif milestone == "m4":
+            jobs = as_list(((one_json("onebackupjob", "list") or {}).get("BACKUPJOB_POOL") or {}).get("BACKUPJOB"))
+            ok = False
+            for job in jobs:
+                if job.get("TEMPLATE", {}).get("KEEP_LAST") != str(values["backupKeep"]):
+                    continue
+                shown = (one_json("onebackupjob", "show", job.get("ID")) or {}).get("BACKUPJOB", {})
+                for action in as_list(shown.get("TEMPLATE", {}).get("SCHED_ACTION")):
+                    hour = datetime.datetime.fromtimestamp(int(action.get("TIME", 0))).hour
+                    ok = ok or hour == values["backupHour"]
+            report.check(ok, tr(f"Ein Backup-Job läuft um {values['backupHour']} Uhr und behält {values['backupKeep']} Backups",
+                                f"A backup job runs at {values['backupHour']}:00 and keeps {values['backupKeep']} backups"),
+                         tr("backup-job.sh aus Kapitel 6.2 anpassen", "adapt backup-job.sh from chapter 6.2"))
+        pool = QUESTIONS[milestone]
+        report.lines += ["", tr("Fragen für deinen Screencast", "Questions for your screencast")]
+        for number, index in enumerate(params.questions(code, milestone, len(pool)), 1):
+            report.lines.append(f"{number}. {tr(*pool[index])}")
+    return run_check
+
+
 CHECKS = {"start": check_start, "install": check_install, "iaas": check_iaas, "tenants": check_tenants, "platform": check_platform,
-          "observability": check_observability, "operations": check_operations}
+          "observability": check_observability, "operations": check_operations,
+          "m1": check_milestone("m1", check_tenants), "m2": check_milestone("m2", check_platform),
+          "m3": check_milestone("m3", check_observability), "m4": check_milestone("m4", check_operations)}
 
 
 def main():

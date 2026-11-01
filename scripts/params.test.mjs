@@ -5,7 +5,7 @@ import { createHash } from 'node:crypto';
 import { test } from 'node:test';
 import { fileURLToPath } from 'node:url';
 
-import { CODE_PATTERN, envLines, normalizeCode, paramsFromDigest } from '../site/src/scripts/params-core.js';
+import { CODE_PATTERN, envLines, milestonesFromDigest, normalizeCode, paramsFromDigest } from '../site/src/scripts/params-core.js';
 
 const python = process.platform === 'win32' ? 'python' : 'python3';
 const script = fileURLToPath(new URL('./params.py', import.meta.url));
@@ -21,6 +21,14 @@ function fromPython(code) {
 test('JavaScript and Python agree', () => {
   for (const code of ['mmuster', 'ab', 'x9', 'anna2027', 'zzzzzzzzzzzzzzzz']) {
     assert.deepEqual(fromJs(code), fromPython(code), code);
+  }
+});
+
+test('the values of the milestones agree', () => {
+  for (const code of ['mmuster', 'ab', 'x9', 'anna2027', 'zzzzzzzzzzzzzzzz']) {
+    const js = milestonesFromDigest(createHash('sha256').update(`cc2027-ms:${code}`).digest());
+    const py = JSON.parse(execFileSync(python, [script, code, '--milestones'], { encoding: 'utf8' }));
+    assert.deepEqual(js, py, code);
   }
 });
 

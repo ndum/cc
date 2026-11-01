@@ -41,6 +41,19 @@ export function paramsFromDigest(code, digest) {
   };
 }
 
+/**
+ * Values the milestones ask for, from a digest of their own so the values above never change
+ * @param {Uint8Array} d the SHA-256 digest of `cc2027-ms:${code}`
+ */
+export function milestonesFromDigest(d) {
+  return {
+    m1: { gemeindeVms: [3, 4][d[0] % 2], gemeindeCpu: [1.5, 2][d[1] % 2], gemeindeMemory: [2560, 3072][d[2] % 2] },
+    m2: { gemeindeLimitsCpu: ['1', '1500m'][d[3] % 2], gemeindeLimitsMemory: ['1Gi', '1536Mi'][d[4] % 2] },
+    m3: { sloTarget: ['99.0', '99.9'][d[5] % 2], hpaMax: [4, 5][d[6] % 2] },
+    m4: { backupHour: [1, 3, 4][d[7] % 3], backupKeep: [5, 10, 14][d[8] % 3] },
+  };
+}
+
 /** The lines of /etc/cc-lab.env, the file the prepare script and the checks read */
 export function envLines(params, labIps = {}, lang = 'de') {
   const lines = [

@@ -17,10 +17,21 @@ Alles läuft in deinem eigenen Lab mit deinen persönlichen Parametern aus Kapit
 2. k3s läuft mit Server und Agent, eigenen Bereichen für Pods und Services und dem Routing host-gw, kubectl arbeitet vom Front-end aus.
 3. Gitea läuft auf dem Front-end mit dem privaten Repo `wolkenwerk/platform`, Argo CD liest es mit einem Token, das nur lesen darf.
 4. Argo CD rollt den Webshop aus Git aus, du zeigst Self-Heal und eine Änderung über Git.
-5. Die Namespaces `velo` und `gemeinde` entstehen aus der Vorlage mit ResourceQuota, LimitRange und NetworkPolicy, die Gemeinde per Pull Request.
+5. Die Namespaces `velo` und `gemeinde` entstehen aus der Vorlage mit ResourceQuota, LimitRange und NetworkPolicy, die Gemeinde per Pull Request und mit der ResourceQuota aus deinen [persönlichen Werten](../../start/parameters/).
 6. Ein weiteres Mitglied nach deiner Wahl bekommt per Pull Request einen Namespace mit eigenen, begründeten Grenzen.
 7. Du zeigst die Quota an ihrer Grenze und die Trennung der Namespaces durch die NetworkPolicy.
-8. Du baust den Cluster mit `tofu destroy`, `tofu apply` und dem Bootstrap von Argo CD neu, und alles aus Git steht wieder, der Check `platform` ist grün.
+8. Du baust den Cluster mit `tofu destroy`, `tofu apply` und dem Bootstrap von Argo CD neu, und alles aus Git steht wieder, der Check `m2` ist grün.
+
+## Eigene Erweiterung
+
+Zu den Funktionen gehört eine Erweiterung, die über den Kurs hinausgeht. Sie soll zu Wolkenwerk passen und in deinem Lab laufen. Eigene Ideen sind willkommen, die Liste hilft beim Einstieg.
+
+- ein AppProject in Argo CD pro Mitglied, das nur dessen Namespace erlaubt
+- Branch-Schutz in Gitea, der für `main` einen Pull Request verlangt
+- ein Ingress mit eigenem Hostnamen für die App eines Mitglieds
+- ein Overlay mit Kustomize für eine Testumgebung des Webshops
+
+Die Erweiterung gibt bis zu 3 Punkte. 1 Punkt gibt es, wenn sie läuft, 2, wenn du sie im README begründest, und 3, wenn du sie im Screencast vorführst und ihre Grenzen beurteilst.
 
 ## Erklärungen und Entscheide
 
@@ -41,14 +52,13 @@ Der Screencast dauert höchstens zehn Minuten in einer einzigen Aufnahme. Ein Vo
 
 | Minuten | Was du zeigst |
 |---|---|
-| 0 bis 1 | `/etc/cc-lab.env`, den Bericht des Checks `platform` mit Hash und deine Zeichnung |
+| 0 bis 1 | `/etc/cc-lab.env`, den Bericht des Checks `m2` mit Hash und deine Zeichnung |
 | 1 bis 2 | `tofu destroy` und `tofu apply` starten, während der Cluster entsteht, das Repo in Gitea |
 | 2 bis 4 | `main.tf` und das Startskript, Adressbereiche und host-gw |
 | 4 bis 5 | Bootstrap von Argo CD, die Applications kommen zurück |
 | 5 bis 6 | Webshop im Browser, Self-Heal, eine Änderung über Git |
 | 6 bis 8 | Vorlage, Pull Request deines eigenen Mitglieds, Quota an der Grenze, NetworkPolicy |
-| 8 bis 9 | `tofu plan` ohne Änderungen, der Check `platform` nach dem Neubau |
-| 9 bis 10 | zwei oder drei eigene Entscheide |
+| 8 bis 10 | `tofu plan` ohne Änderungen, die zwei Fragen aus dem Bericht, deine Erweiterung und eigene Entscheide |
 
 Der Neubau dauerte im Lab knapp drei Minuten. Starte ihn früh in der Aufnahme und erkläre den Code, während er läuft. Zeigst du Meilenstein 2 live im Unterricht, gilt derselbe Ablauf.
 
@@ -66,13 +76,14 @@ Die Berichte der Checks legst du in `reports/`. Wie das Repo aufgebaut ist und w
 
 | Kriterium | Punkte |
 |---|---|
-| VMs des Clusters aus OpenTofu, Plan ohne Änderungen, State ausserhalb von Git | 3 |
+| VMs des Clusters aus OpenTofu, Plan ohne Änderungen, State ausserhalb von Git | 2 |
 | k3s mit eigenen Adressbereichen und host-gw, kubectl vom Front-end | 2 |
 | Gitea mit privatem Repo, Token mit Leserechten für Argo CD | 2 |
-| Webshop mit Argo CD, Self-Heal und Änderung über Git | 3 |
-| Namespaces aus der Vorlage, Antrag der Gemeinde, Quota und NetworkPolicy gezeigt | 2 |
+| Webshop mit Argo CD, Self-Heal und Änderung über Git | 2 |
+| Namespaces aus der Vorlage, Gemeinde mit den persönlichen Werten, Quota und NetworkPolicy gezeigt | 2 |
 | Eigenes Mitglied mit eigenen Grenzen | 2 |
-| Neubau des Clusters, alles aus Git wieder da, Check `platform` | 4 |
+| Neubau des Clusters, alles aus Git wieder da, Check `m2` | 3 |
+| Eigene Erweiterung | 3 |
 | **Funktionen** | **18** |
 | Architektur mit eigener Zeichnung | 3 |
 | Klickpfad und Code, State, Drift und Idempotenz erklärt | 3 |
@@ -81,4 +92,4 @@ Die Berichte der Checks legst du in `reports/`. Wie das Repo aufgebaut ist und w
 | **Erklärungen und Entscheide** | **12** |
 | **Total** | **30** |
 
-Die Funktionen ergeben 60 % der Punkte, die Erklärungen und Entscheide 40 %. Die Note der Abgabe 1 berechnet deine Dozentin oder dein Dozent aus den Punkten von Meilenstein 1 und 2 nach den Regeln der Schule.
+Die Funktionen mit der Erweiterung ergeben 60 % der Punkte, die Erklärungen und Entscheide 40 %. Jedes Erklärungskriterium bewertet deine Dozentin oder dein Dozent nach den [Stufen 0 bis 3](../#stufen-der-erklärungen). Beantwortest du eine der zwei Fragen aus dem Bericht nicht oder falsch, bekommt das Kriterium, zu dem sie gehört, höchstens 1 Punkt. Die Note der Abgabe 1 berechnet deine Dozentin oder dein Dozent aus den Punkten von Meilenstein 1 und 2 nach den Regeln der Schule.

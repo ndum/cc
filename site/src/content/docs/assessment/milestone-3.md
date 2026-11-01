@@ -17,10 +17,21 @@ Alles läuft in deinem eigenen Lab mit deinen persönlichen Parametern aus Kapit
 2. Prometheus liest die Exporter von OpenNebula auf Front-end und Knoten und den Webshop, alle Ziele sind `up`.
 3. Ein Dashboard zeigt OpenNebula, die vier goldenen Signale des Webshops und die Mitglieder gegen ihre Quota. Mindestens ein Panel hast du selbst entworfen.
 4. Du findest den Fehler eines Deployments mit LogQL in Loki.
-5. Das SLO des Webshops ist als Regel hinterlegt, du löst den Alert über Git aus und beendest ihn wieder.
-6. Der Webshop wächst unter Last mit dem HPA und schrumpft wieder, du zeigst den Lasttest im Dashboard.
+5. Das SLO des Webshops ist mit dem Ziel aus deinen [persönlichen Werten](../../start/parameters/) als Regel hinterlegt, du löst den Alert über Git aus und beendest ihn wieder.
+6. Der Webshop wächst unter Last mit dem HPA bis zu deiner persönlichen Obergrenze und schrumpft wieder, du zeigst den Lasttest im Dashboard.
 7. Ollama läuft mit einem Modell, du hast die Tokens pro Sekunde gemessen, und ein Mitglied hat Zugriff, ein anderes nicht.
-8. Der Triage-Dienst bekommt einen Alert, du prüfst den Vorschlag und entscheidest, das Audit-Log zeigt deine Entscheidung, der Check `observability` ist grün.
+8. Der Triage-Dienst bekommt einen Alert, du prüfst den Vorschlag und entscheidest, das Audit-Log zeigt deine Entscheidung, der Check `m3` ist grün.
+
+## Eigene Erweiterung
+
+Zu den Funktionen gehört eine Erweiterung, die über den Kurs hinausgeht. Sie soll zu Wolkenwerk passen und in deinem Lab laufen. Eigene Ideen sind willkommen, die Liste hilft beim Einstieg.
+
+- ein Dashboard für ein Mitglied mit seinem Verbrauch gegen die Quota
+- ein zweites SLO für die Antwortzeit des Webshops mit eigenem Alert
+- ein Alert, wenn ein Mitglied in OpenNebula 80 % seiner Quota erreicht
+- eine bessere Frage an das Modell mit `EXTRA_INSTRUCTIONS` und einem gemessenen Vergleich
+
+Die Erweiterung gibt bis zu 3 Punkte. 1 Punkt gibt es, wenn sie läuft, 2, wenn du sie im README begründest, und 3, wenn du sie im Screencast vorführst und ihre Grenzen beurteilst.
 
 ## Erklärungen und Entscheide
 
@@ -41,13 +52,12 @@ Der Screencast dauert höchstens zehn Minuten in einer einzigen Aufnahme. Ein Vo
 
 | Minuten | Was du zeigst |
 |---|---|
-| 0 bis 1 | `/etc/cc-lab.env`, den Bericht des Checks `observability` mit Hash und deine Zeichnung |
+| 0 bis 1 | `/etc/cc-lab.env`, den Bericht des Checks `m3` mit Hash und deine Zeichnung |
 | 1 bis 3 | Ziele in Prometheus, dein Dashboard, eine Abfrage mit PromQL |
 | 3 bis 4 | Fehlersuche mit LogQL |
 | 4 bis 6 | Lasttest mit HPA im Dashboard, deine Abstimmung von Limits und Quota |
-| 6 bis 8 | SLO, Alert, Vorschlag des Triage-Dienstes, deine Entscheidung, Audit-Log |
-| 8 bis 9 | Messung des Modells, Zugriff der Mitglieder |
-| 9 bis 10 | zwei oder drei eigene Entscheide |
+| 6 bis 8 | SLO, Alert, Vorschlag des Triage-Dienstes, deine Entscheidung, Audit-Log, Messung des Modells |
+| 8 bis 10 | die zwei Fragen aus dem Bericht, deine Erweiterung und eigene Entscheide |
 
 Der Alert nach Burn Rate braucht je nach Verkehr der letzten Stunde zehn Minuten oder mehr. Löse ihn vor der Aufnahme aus und zeige im Screencast den Verlauf in Prometheus. Zeigst du Meilenstein 3 live im Unterricht, gilt derselbe Ablauf.
 
@@ -66,12 +76,13 @@ Die Berichte der Checks legst du in `reports/`. Wie das Repo aufgebaut ist und w
 
 | Kriterium | Punkte |
 |---|---|
-| Stack aus Git, Ziele von OpenNebula und Webshop `up` | 3 |
-| Dashboard mit eigenem Panel, Fehlersuche mit LogQL | 3 |
-| SLO mit Alert, ausgelöst und beendet | 3 |
-| Webshop wächst und schrumpft unter Last | 3 |
+| Stack aus Git, Ziele von OpenNebula und Webshop `up` | 2 |
+| Dashboard mit eigenem Panel, Fehlersuche mit LogQL | 2 |
+| SLO mit persönlichem Ziel und Alert, ausgelöst und beendet | 3 |
+| Webshop wächst bis zur persönlichen Obergrenze und schrumpft | 2 |
 | Modell gemessen, Zugriff der Mitglieder gesteuert | 2 |
-| Triage mit Entscheidung und Audit-Log, Check `observability` | 4 |
+| Triage mit Entscheidung und Audit-Log, Check `m3` | 4 |
+| Eigene Erweiterung | 3 |
 | **Funktionen** | **18** |
 | Zeichnung mit den Wegen von Metrik und Alert | 3 |
 | SLO, Fehlerbudget und Burn Rate begründet | 3 |
@@ -80,4 +91,4 @@ Die Berichte der Checks legst du in `reports/`. Wie das Repo aufgebaut ist und w
 | **Erklärungen und Entscheide** | **12** |
 | **Total** | **30** |
 
-Die Funktionen ergeben 60 % der Punkte, die Erklärungen und Entscheide 40 %. Die Note der Abgabe 2 berechnet deine Dozentin oder dein Dozent aus den Punkten von Meilenstein 3 und 4 nach den Regeln der Schule.
+Die Funktionen mit der Erweiterung ergeben 60 % der Punkte, die Erklärungen und Entscheide 40 %. Jedes Erklärungskriterium bewertet deine Dozentin oder dein Dozent nach den [Stufen 0 bis 3](../#stufen-der-erklärungen). Beantwortest du eine der zwei Fragen aus dem Bericht nicht oder falsch, bekommt das Kriterium, zu dem sie gehört, höchstens 1 Punkt. Die Note der Abgabe 2 berechnet deine Dozentin oder dein Dozent aus den Punkten von Meilenstein 3 und 4 nach den Regeln der Schule.

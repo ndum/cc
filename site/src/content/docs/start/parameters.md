@@ -30,7 +30,7 @@ Gib deinen Code und die Adressen deiner drei VMs ein. Die Rechnung läuft nur in
 
 <cc-params></cc-params>
 
-Das Ergebnis ist der Inhalt der Datei `/etc/cc-lab.env`.
+Das Ergebnis ist der Inhalt der Datei `/etc/cc-lab.env`. Darunter stehen deine persönlichen Werte für die vier Meilensteine. Bis zum jeweiligen Meilenstein arbeitest du mit den Werten der Kapitel, erst der Meilenstein verlangt deine eigenen.
 
 ## Die Werte
 

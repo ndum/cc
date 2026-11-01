@@ -30,7 +30,7 @@ Enter your code and the addresses of your three VMs. The calculation runs only i
 
 <cc-params></cc-params>
 
-The result is the content of the file `/etc/cc-lab.env`.
+The result is the content of the file `/etc/cc-lab.env`. Below it are your personal values for the four milestones. Until a milestone you work with the values of the chapters, only the milestone asks for your own.
 
 ## The values
 

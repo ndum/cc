@@ -17,10 +17,21 @@ Everything runs in your own lab with your personal parameters from chapter 0.3.
 2. Prometheus scrapes the OpenNebula exporters on the front-end and the nodes and the web shop, and all targets are `up`.
 3. A dashboard shows OpenNebula, the four golden signals of the web shop and the members against their quota. You designed at least one panel yourself.
 4. You find the error of a deployment with LogQL in Loki.
-5. The web shop SLO is stored as a rule, and you fire the alert through Git and end it again.
-6. The web shop grows under load with the HPA and shrinks again, and you show the load test in the dashboard.
+5. The web shop SLO is stored as a rule with the target from your [personal values](../../start/parameters/), and you fire the alert through Git and end it again.
+6. The web shop grows under load with the HPA up to your personal maximum and shrinks again, and you show the load test in the dashboard.
 7. Ollama runs with a model, you measured the tokens per second, and one member has access while another does not.
-8. The triage service receives an alert, you review the proposal and decide, the audit log shows your decision, and the check `observability` is green.
+8. The triage service receives an alert, you review the proposal and decide, the audit log shows your decision, and the check `m3` is green.
+
+## Extension of your own
+
+The functions include an extension that goes beyond the course. It should fit Wolkenwerk and run in your lab. Ideas of your own are welcome, the list helps you get started.
+
+- a dashboard for a member with its usage against the quota
+- a second SLO for the response time of the web shop with an alert of its own
+- an alert when a member reaches 80 % of its quota in OpenNebula
+- a better question to the model with `EXTRA_INSTRUCTIONS` and a measured comparison
+
+The extension gives up to 3 points. You get 1 point if it runs, 2 if you justify it in the README, and 3 if you demonstrate it in the screencast and assess its limits.
 
 ## Explanations and decisions
 
@@ -41,13 +52,12 @@ The screencast lasts at most ten minutes in a single take. A suggestion for its 
 
 | Minutes | What you show |
 |---|---|
-| 0 to 1 | `/etc/cc-lab.env`, the report of the check `observability` with its hash and your drawing |
+| 0 to 1 | `/etc/cc-lab.env`, the report of the check `m3` with its hash and your drawing |
 | 1 to 3 | targets in Prometheus, your dashboard, a PromQL query |
 | 3 to 4 | troubleshooting with LogQL |
 | 4 to 6 | load test with the HPA in the dashboard, how you tuned limits and quota |
-| 6 to 8 | SLO, alert, proposal of the triage service, your decision, audit log |
-| 8 to 9 | measurement of the model, access of the members |
-| 9 to 10 | two or three decisions of your own |
+| 6 to 8 | SLO, alert, proposal of the triage service, your decision, audit log, measurement of the model |
+| 8 to 10 | the two questions from the report, your extension and decisions of your own |
 
 Depending on the traffic of the last hour, the burn rate alert takes ten minutes or more. Fire it before recording and show its course in Prometheus in the screencast. If you show milestone 3 live in class, the same course applies.
 
@@ -66,12 +76,13 @@ You put the reports of the checks in `reports/`. How the repo is structured and 
 
 | Criterion | Points |
 |---|---|
-| Stack from Git, OpenNebula and web shop targets `up` | 3 |
-| Dashboard with a panel of your own, troubleshooting with LogQL | 3 |
-| SLO with an alert, fired and ended | 3 |
-| Web shop grows and shrinks under load | 3 |
+| Stack from Git, OpenNebula and web shop targets `up` | 2 |
+| Dashboard with a panel of your own, troubleshooting with LogQL | 2 |
+| SLO with your personal target and an alert, fired and ended | 3 |
+| Web shop grows up to your personal maximum and shrinks | 2 |
 | Model measured, members' access controlled | 2 |
-| Triage with decision and audit log, check `observability` | 4 |
+| Triage with decision and audit log, check `m3` | 4 |
+| Extension of your own | 3 |
 | **Functions** | **18** |
 | Drawing with the paths of metric and alert | 3 |
 | SLO, error budget and burn rate justified | 3 |
@@ -80,4 +91,4 @@ You put the reports of the checks in `reports/`. How the repo is structured and 
 | **Explanations and decisions** | **12** |
 | **Total** | **30** |
 
-The functions make up 60 % of the points, the explanations and decisions 40 %. Your instructor calculates the grade of hand-in 2 from the points of milestones 3 and 4 according to the school's rules.
+The functions with the extension make up 60 % of the points, the explanations and decisions 40 %. Your instructor rates each explanation criterion by the [levels 0 to 3](../#levels-of-the-explanations). If you leave one of the two questions from the report unanswered or answer it wrongly, the criterion it belongs to gets at most 1 point. Your instructor calculates the grade of hand-in 2 from the points of milestones 3 and 4 according to the school's rules.

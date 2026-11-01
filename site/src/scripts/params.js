@@ -5,7 +5,7 @@
  * content of /etc/cc-lab.env. Everything is computed in the browser, nothing leaves the page.
  * The last input is kept in localStorage, so the values are still there on the next visit.
  */
-import { CODE_PATTERN, envLines, normalizeCode, paramsFromDigest } from './params-core.js';
+import { CODE_PATTERN, envLines, milestonesFromDigest, normalizeCode, paramsFromDigest } from './params-core.js';
 
 const TEXT = {
   de: {
@@ -19,6 +19,11 @@ const TEXT = {
     result: 'Inhalt von /etc/cc-lab.env',
     copy: 'Kopieren',
     copied: 'Kopiert',
+    milestones: 'Deine Werte für die Meilensteine',
+    m1: (v) => `Meilenstein 1, Quota der Gemeinde: ${v.gemeindeVms} VMs, ${String(v.gemeindeCpu).replace('.', ',')} CPU, ${v.gemeindeMemory} MB`,
+    m2: (v) => `Meilenstein 2, ResourceQuota im Namespace gemeinde: limits.cpu ${v.gemeindeLimitsCpu}, limits.memory ${v.gemeindeLimitsMemory}`,
+    m3: (v) => `Meilenstein 3, SLO des Webshops ${v.sloTarget.replace('.', ',')} %, höchstens ${v.hpaMax} Pods im HPA`,
+    m4: (v) => `Meilenstein 4, Backup-Job um ${v.backupHour} Uhr, ${v.backupKeep} Backups behalten`,
   },
   en: {
     code: 'Personal code',
@@ -31,6 +36,11 @@ const TEXT = {
     result: 'Content of /etc/cc-lab.env',
     copy: 'Copy',
     copied: 'Copied',
+    milestones: 'Your values for the milestones',
+    m1: (v) => `Milestone 1, quota of the municipality: ${v.gemeindeVms} VMs, ${v.gemeindeCpu} CPU, ${v.gemeindeMemory} MB`,
+    m2: (v) => `Milestone 2, ResourceQuota in the namespace gemeinde: limits.cpu ${v.gemeindeLimitsCpu}, limits.memory ${v.gemeindeLimitsMemory}`,
+    m3: (v) => `Milestone 3, web shop SLO ${v.sloTarget} %, at most ${v.hpaMax} pods in the HPA`,
+    m4: (v) => `Milestone 4, backup job at ${v.backupHour}:00, keep ${v.backupKeep} backups`,
   },
 };
 
@@ -53,8 +63,8 @@ function save(values) {
   }
 }
 
-async function digestOf(code) {
-  const data = new TextEncoder().encode(`cc2027:${code}`);
+async function digestOf(code, prefix = 'cc2027') {
+  const data = new TextEncoder().encode(`${prefix}:${code}`);
   return new Uint8Array(await crypto.subtle.digest('SHA-256', data));
 }
 
@@ -81,6 +91,8 @@ class CcParams extends HTMLElement {
         <p class="cc-params-label">${t.result}</p>
         <pre><code></code></pre>
         <button type="button">${t.copy}</button>
+        <p class="cc-params-label">${t.milestones}</p>
+        <ul class="cc-params-milestones"></ul>
       </div>`;
     const form = this.querySelector('form');
     const error = this.querySelector('.cc-params-error');
@@ -102,6 +114,14 @@ class CcParams extends HTMLElement {
       const params = paramsFromDigest(normalized, await digestOf(normalized));
       const ips = { fe: values.fe?.trim(), node1: values.node1?.trim(), node2: values.node2?.trim() };
       code.textContent = envLines(params, ips, lang).join('\n');
+      const ms = milestonesFromDigest(await digestOf(normalized, 'cc2027-ms'));
+      this.querySelector('.cc-params-milestones').replaceChildren(
+        ...['m1', 'm2', 'm3', 'm4'].map((key) => {
+          const item = document.createElement('li');
+          item.textContent = t[key](ms[key]);
+          return item;
+        }),
+      );
       result.hidden = false;
     };
 

@@ -31,11 +31,22 @@ Everything runs in your own lab with your personal parameters from chapter 0.3.
 1. The front-end is hardened, the Grafana password comes from Git as a SealedSecret, and all members run with the profile `restricted`.
 2. k3s runs with etcd, a timer copies the snapshots to the front-end, and you have restored the cluster from a snapshot.
 3. Your member has a group in OpenNebula with an admin, VDC, quota and prices, and a VM with at most 1 GB.
-4. A backup job backs up the VM every night, and you have restored it from a backup.
+4. A backup job backs up the VM every night at the time from your [personal values](../../start/parameters/) and keeps as many backups as they ask for. You have restored the VM from a backup.
 5. Your member has a namespace from the template with its application, through a pull request in Gitea and Argo CD.
 6. An alert rule with the label `triage: "true"` watches the application. You fire the alert through Git, decide on the triage service's proposal and fix the fault. [Chapter 6.3](../../operations/sla/#an-alert-for-a-new-member) shows the way.
 7. The model writes a draft postmortem of this incident, and you correct it.
-8. The check `operations` is green.
+8. The check `m4` is green.
+
+## Extension of your own
+
+The functions include an extension that goes beyond the course. It should fit Wolkenwerk and run in your lab. Ideas of your own are welcome, the list helps you get started.
+
+- an encrypted off-site copy of the backups, for example with restic
+- TLS for Gitea or the web interface with a CA of your own
+- a restore drill as a script that measures the time
+- an alert when the latest etcd snapshot is older than one day
+
+The extension gives up to 3 points. You get 1 point if it runs, 2 if you justify it in the README, and 3 if you demonstrate it in the screencast and assess its limits.
 
 ## Explanations and decisions
 
@@ -55,13 +66,13 @@ The screencast lasts at most ten minutes in a single take. A suggestion for its 
 
 | Minutes | What you show |
 |---|---|
-| 0 to 1 | `/etc/cc-lab.env`, the report of the check `operations` with its hash, your member in two sentences |
+| 0 to 1 | `/etc/cc-lab.env`, the report of the check `m4` with its hash, your member in two sentences |
 | 1 to 2 | hardening, the SealedSecret, a pod without security settings being rejected |
 | 2 to 4 | group, quota and VM in OpenNebula, the backup job, the restored VM |
 | 4 to 5 | snapshots on the front-end, the cluster restore with its measured time |
 | 5 to 7 | pull request, application in the namespace, alert, proposal and decision, fix through Git |
-| 7 to 8 | draft and corrected postmortem |
-| 8 to 10 | SLA, cost model and two or three decisions of your own |
+| 7 to 8 | corrected postmortem, SLA and cost model at a glance |
+| 8 to 10 | the two questions from the report, your extension and decisions of your own |
 
 You may restore the cluster before recording and show its traces in the screencast, such as the snapshot, the times and the state afterwards. If you show milestone 4 live in class, the same course applies.
 
@@ -82,12 +93,13 @@ You do not hand in the k3s token, the Sealed Secrets key or the backups. You put
 | Criterion | Points |
 |---|---|
 | Hardening, SealedSecret, profile `restricted` | 2 |
-| etcd, snapshots on the front-end, cluster restored | 3 |
-| Member in OpenNebula with quota, VM, backup job and restore | 3 |
-| Namespace with application through a pull request | 3 |
-| Alert with triage, decision and fix through Git | 3 |
+| etcd, snapshots on the front-end, cluster restored | 2 |
+| Member in OpenNebula with quota, VM, backup job with your personal values and restore | 3 |
+| Namespace with application through a pull request | 2 |
+| Alert with triage, decision and fix through Git | 2 |
 | Postmortem corrected | 2 |
-| Check `operations` | 2 |
+| Check `m4` | 2 |
+| Extension of your own | 3 |
 | **Functions** | **18** |
 | Member and protection needs justified | 3 |
 | SLA with RPO, RTO and honest availability | 3 |
@@ -96,4 +108,4 @@ You do not hand in the k3s token, the Sealed Secrets key or the backups. You put
 | **Explanations and decisions** | **12** |
 | **Total** | **30** |
 
-The functions make up 60 % of the points, the explanations and decisions 40 %. Your instructor calculates the grade of hand-in 2 from the points of milestones 3 and 4 according to the school's rules.
+The functions with the extension make up 60 % of the points, the explanations and decisions 40 %. Your instructor rates each explanation criterion by the [levels 0 to 3](../#levels-of-the-explanations). If you leave one of the two questions from the report unanswered or answer it wrongly, the criterion it belongs to gets at most 1 point. Your instructor calculates the grade of hand-in 2 from the points of milestones 3 and 4 according to the school's rules.

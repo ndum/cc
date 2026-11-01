@@ -31,11 +31,22 @@ Alles läuft in deinem eigenen Lab mit deinen persönlichen Parametern aus Kapit
 1. Das Front-end ist gehärtet, das Passwort von Grafana kommt als SealedSecret aus Git, und alle Mitglieder laufen mit dem Profil `restricted`.
 2. k3s läuft mit etcd, ein Timer kopiert die Snapshots auf das Front-end, und du hast den Cluster aus einem Snapshot wiederhergestellt.
 3. Dein Mitglied hat in OpenNebula eine Gruppe mit Admin, VDC, Quota und Preisen und eine VM mit höchstens 1 GB.
-4. Ein Backup-Job sichert die VM jede Nacht, und du hast sie aus einem Backup wiederhergestellt.
+4. Ein Backup-Job sichert die VM jede Nacht zur Zeit aus deinen [persönlichen Werten](../../start/parameters/) und behält so viele Backups, wie sie verlangen. Du hast die VM aus einem Backup wiederhergestellt.
 5. Dein Mitglied hat einen Namespace aus der Vorlage mit seiner Anwendung, über einen Pull Request in Gitea und Argo CD.
 6. Eine Alert-Regel mit dem Label `triage: "true"` überwacht die Anwendung. Du löst den Alert über Git aus, entscheidest über den Vorschlag des Triage-Dienstes und behebst den Fehler. [Kapitel 6.3](../../operations/sla/#ein-alert-für-ein-neues-mitglied) zeigt den Weg.
 7. Das Modell schreibt einen Entwurf des Postmortems zu diesem Vorfall, und du korrigierst ihn.
-8. Der Check `operations` ist grün.
+8. Der Check `m4` ist grün.
+
+## Eigene Erweiterung
+
+Zu den Funktionen gehört eine Erweiterung, die über den Kurs hinausgeht. Sie soll zu Wolkenwerk passen und in deinem Lab laufen. Eigene Ideen sind willkommen, die Liste hilft beim Einstieg.
+
+- eine verschlüsselte Kopie der Backups ausser Haus, etwa mit restic
+- TLS für Gitea oder die Weboberfläche mit einer eigenen CA
+- eine Wiederherstellungsübung als Skript, das die Zeit misst
+- ein Alert, wenn der letzte Snapshot von etcd älter als einen Tag ist
+
+Die Erweiterung gibt bis zu 3 Punkte. 1 Punkt gibt es, wenn sie läuft, 2, wenn du sie im README begründest, und 3, wenn du sie im Screencast vorführst und ihre Grenzen beurteilst.
 
 ## Erklärungen und Entscheide
 
@@ -55,13 +66,13 @@ Der Screencast dauert höchstens zehn Minuten in einer einzigen Aufnahme. Ein Vo
 
 | Minuten | Was du zeigst |
 |---|---|
-| 0 bis 1 | `/etc/cc-lab.env`, den Bericht des Checks `operations` mit Hash, dein Mitglied in zwei Sätzen |
+| 0 bis 1 | `/etc/cc-lab.env`, den Bericht des Checks `m4` mit Hash, dein Mitglied in zwei Sätzen |
 | 1 bis 2 | Härtung, SealedSecret, Abweisung eines Pods ohne Sicherheitsangaben |
 | 2 bis 4 | Gruppe, Quota und VM in OpenNebula, Backup-Job, die wiederhergestellte VM |
 | 4 bis 5 | Snapshots auf dem Front-end, die Wiederherstellung des Clusters mit der gemessenen Zeit |
 | 5 bis 7 | Pull Request, Anwendung im Namespace, Alert, Vorschlag und Entscheidung, Behebung über Git |
-| 7 bis 8 | Entwurf und korrigiertes Postmortem |
-| 8 bis 10 | SLA, Kostenmodell und zwei oder drei eigene Entscheide |
+| 7 bis 8 | korrigiertes Postmortem, SLA und Kostenmodell im Überblick |
+| 8 bis 10 | die zwei Fragen aus dem Bericht, deine Erweiterung und eigene Entscheide |
 
 Die Wiederherstellung des Clusters darfst du vor der Aufnahme machen und im Screencast mit ihren Spuren zeigen, etwa dem Snapshot, den Zeiten und dem Zustand danach. Zeigst du Meilenstein 4 live im Unterricht, gilt derselbe Ablauf.
 
@@ -82,12 +93,13 @@ Das Token von k3s, den Schlüssel von Sealed Secrets und die Backups gibst du ni
 | Kriterium | Punkte |
 |---|---|
 | Härtung, SealedSecret, Profil `restricted` | 2 |
-| etcd, Snapshots auf dem Front-end, Cluster wiederhergestellt | 3 |
-| Mitglied in OpenNebula mit Quota, VM, Backup-Job und Wiederherstellung | 3 |
-| Namespace mit Anwendung über Pull Request | 3 |
-| Alert mit Triage, Entscheidung und Behebung über Git | 3 |
+| etcd, Snapshots auf dem Front-end, Cluster wiederhergestellt | 2 |
+| Mitglied in OpenNebula mit Quota, VM, Backup-Job mit persönlichen Werten und Wiederherstellung | 3 |
+| Namespace mit Anwendung über Pull Request | 2 |
+| Alert mit Triage, Entscheidung und Behebung über Git | 2 |
 | Postmortem korrigiert | 2 |
-| Check `operations` | 2 |
+| Check `m4` | 2 |
+| Eigene Erweiterung | 3 |
 | **Funktionen** | **18** |
 | Mitglied und Schutzbedarf begründet | 3 |
 | SLA mit RPO, RTO und ehrlicher Verfügbarkeit | 3 |
@@ -96,4 +108,4 @@ Das Token von k3s, den Schlüssel von Sealed Secrets und die Backups gibst du ni
 | **Erklärungen und Entscheide** | **12** |
 | **Total** | **30** |
 
-Die Funktionen ergeben 60 % der Punkte, die Erklärungen und Entscheide 40 %. Die Note der Abgabe 2 berechnet deine Dozentin oder dein Dozent aus den Punkten von Meilenstein 3 und 4 nach den Regeln der Schule.
+Die Funktionen mit der Erweiterung ergeben 60 % der Punkte, die Erklärungen und Entscheide 40 %. Jedes Erklärungskriterium bewertet deine Dozentin oder dein Dozent nach den [Stufen 0 bis 3](../#stufen-der-erklärungen). Beantwortest du eine der zwei Fragen aus dem Bericht nicht oder falsch, bekommt das Kriterium, zu dem sie gehört, höchstens 1 Punkt. Die Note der Abgabe 2 berechnet deine Dozentin oder dein Dozent aus den Punkten von Meilenstein 3 und 4 nach den Regeln der Schule.

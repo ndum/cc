@@ -17,10 +17,21 @@ Everything runs in your own lab with your personal parameters from chapter 0.3.
 2. The network `cc-net` is created from your parameters, a VM from the template `ubuntu` runs with SSH and internet access, the check `iaas` is green.
 3. You empty a node for maintenance, put it back into service and move a VM live.
 4. The four members have groups with admins in the VDC `wolkenwerk`, and one member does not see the VMs of another.
-5. The members' quotas are set, and you show the message at the limit.
+5. The members' quotas are set, the municipality has the quota from your [personal values](../../start/parameters/), and you show the message at the limit.
 6. The template `ubuntu` has prices, the showback of a month is in your hand-in repo as CSV.
 7. A user of a member starts a VM in self-service.
-8. The fiduciary office runs its service in OneFlow itself, it grows under load and shrinks again, the check `tenants` is green.
+8. The fiduciary office runs its service in OneFlow itself, it grows under load and shrinks again, the check `m1` is green.
+
+## Extension of your own
+
+The functions include an extension that goes beyond the course. It should fit Wolkenwerk and run in your lab. Ideas of your own are welcome, the list helps you get started.
+
+- a second OneFlow service template with two roles, for example web and database
+- an OpenNebula hook that writes an entry when a VM of a member starts
+- a script with a timer that stores the showback as CSV every month
+- an image of your own with a preinstalled web server for the members
+
+The extension gives up to 3 points. You get 1 point if it runs, 2 if you justify it in the README, and 3 if you demonstrate it in the screencast and assess its limits.
 
 ## Explanations and decisions
 
@@ -41,13 +52,12 @@ The screencast lasts at most ten minutes in a single take. A suggestion for its 
 
 | Minutes | What you show |
 |---|---|
-| 0 to 1 | `/etc/cc-lab.env` and the reports of the checks `install`, `iaas` and `tenants` with their hash |
+| 0 to 1 | `/etc/cc-lab.env` and the reports of the checks `install`, `iaas` and `m1` with their hash |
 | 1 to 3 | architecture using your drawing, `onehost list`, `onevnet show cc-net` |
 | 3 to 4 | maintenance of a node with migration |
 | 4 to 6 | members, separation, quota at the limit, self-service |
-| 6 to 7 | showback and your cost calculation |
-| 7 to 9 | the fiduciary office's service under load |
-| 9 to 10 | two or three decisions of your own |
+| 6 to 8 | showback, your cost calculation and the fiduciary office's service under load |
+| 8 to 10 | the two questions from the report, your extension and decisions of your own |
 
 Best start the service under load before recording, growing takes a few minutes. Record the screencast before you start part 4. In chapter 4.2 you remove the VMs of parts 2 and 3, because the Kubernetes cluster needs their room. If you show milestone 1 live in class, the same course applies, and [chapter 4.2](../../platform/opentofu/#room-on-the-nodes) shows how to take the cluster off the nodes for a while.
 
@@ -67,12 +77,13 @@ You put the reports of the checks in `reports/`. How the repo is structured and 
 | Criterion | Points |
 |---|---|
 | OpenNebula with two nodes, check `install` | 2 |
-| Network, template and VM, check `iaas` | 3 |
+| Network, template and VM, check `iaas` | 2 |
 | Maintenance of a node with migration | 2 |
-| Members with groups, admins and VDC, separation shown | 3 |
-| Quotas set, limit shown | 2 |
+| Members with groups, admins and VDC, separation shown | 2 |
+| Quotas with the municipality's personal values, limit shown | 2 |
 | Showback with prices and CSV | 2 |
-| Self-service and the fiduciary office's service with elasticity, check `tenants` | 4 |
+| Self-service and the fiduciary office's service with elasticity, check `m1` | 3 |
+| Extension of your own | 3 |
 | **Functions** | **18** |
 | Architecture with a drawing of your own | 3 |
 | VXLAN, MTU and separation of the members explained | 3 |
@@ -81,4 +92,4 @@ You put the reports of the checks in `reports/`. How the repo is structured and 
 | **Explanations and decisions** | **12** |
 | **Total** | **30** |
 
-The functions make up 60 % of the points, the explanations and decisions 40 %. Your instructor calculates the grade of hand-in 1 from the points of milestones 1 and 2 according to the school's rules.
+The functions with the extension make up 60 % of the points, the explanations and decisions 40 %. Your instructor rates each explanation criterion by the [levels 0 to 3](../#levels-of-the-explanations). If you leave one of the two questions from the report unanswered or answer it wrongly, the criterion it belongs to gets at most 1 point. Your instructor calculates the grade of hand-in 1 from the points of milestones 1 and 2 according to the school's rules.

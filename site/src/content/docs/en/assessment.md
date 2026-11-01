@@ -16,11 +16,30 @@ Your module grade is the average of the two grades. Your instructor gives you th
 
 Every milestone is individual work in your own lab. The assignments of the milestones come with the parts they belong to. [Milestone 1](milestone-1/) belongs to part 2 and part 3, [milestone 2](milestone-2/) to part 4, [milestone 3](milestone-3/) to part 5 and [milestone 4](milestone-4/) to part 6. In milestone 4 you design a fifth member of Wolkenwerk Bern yourself and bring it onto your platform.
 
-Every milestone has a rubric. About 60% of the points are for the features the assignment asks for, about 40% for your explanations and the reasons behind your decisions.
+Every milestone has a rubric with 30 points. 15 points are for the features the assignment asks for, 3 for an extension of your own beyond the course and 12 for your explanations and the reasons behind your decisions. That makes 60% for what runs and 40% for what you understand.
+
+## Personal values and questions
+
+Some values a milestone asks for come from your personal code, for example the municipality's quota or the SLO target. The [parameter generator](../start/parameters/) shows them below the content of `/etc/cc-lab.env`. Each milestone has a check of its own, `m1` to `m4`. It runs the check of the part, verifies your personal values and uses your code to draw two questions from a pool of six. You answer the questions in the screencast on your own lab.
+
+Help from others is allowed, and talking a solution through is part of learning. Your personal values and your questions show whether you understand your solution yourself.
+
+## Levels of the explanations
+
+Each explanation criterion gives 0 to 3 points. The levels apply to every milestone.
+
+| Points | Level |
+|---|---|
+| 0 | missing or wrong |
+| 1 | repeats what the course says, without reference to your lab |
+| 2 | correctly explains what happens in your lab, with your values and outputs |
+| 3 | justifies a decision of your own, names an alternative and weighs them |
+
+If you leave one of the two questions from the report unanswered or answer it wrongly, the criterion it belongs to gets at most 1 point.
 
 ## Showing
 
-You show a milestone either live in class or in a screencast. The screencast lasts at most ten minutes and is a single recording without cuts. It starts with your file `/etc/cc-lab.env` and the report of the check with its hash. Then you demonstrate the required features in your lab, and at the end you explain two or three of your own decisions. [Chapter 0.5](../start/tools/#screencasts) lists the rules as well.
+You show a milestone either live in class or in a screencast. The screencast lasts at most ten minutes and is a single recording without cuts. It starts with your file `/etc/cc-lab.env` and the report of the milestone check with its hash and your two questions. Then you demonstrate the required features in your lab, and at the end you explain two or three of your own decisions. [Chapter 0.5](../start/tools/#screencasts) lists the rules as well.
 
 ## Handing in
 
