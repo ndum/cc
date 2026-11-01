@@ -74,7 +74,7 @@ kubectl apply -f ~/backup/k3s/sealed-secrets-key.yaml
 ~/cc/platform/bootstrap-argocd.sh
 ```
 
-In the lab, `tofu apply` took 484 seconds. Much of that time the old VMs spent waiting to shut down. OpenNebula also held the new server in `pending` and reported "Not enough capacity on datastores", because the free disk space of one node was still the old value. `onehost forceupdate` solved that at once. After the bootstrap, Argo CD rolled out everything, and a few minutes later all eleven applications were synced and healthy, including the decrypted Grafana password. Ollama loaded its model again. What was lost was the data in the volumes, meaning the metrics, the logs and the triage service's audit log.
+In the lab, `tofu apply` for this rebuild with the whole stack of part 5 took 484 seconds, much longer than the rebuild of the empty cluster in chapter 4.2. Much of that time the old VMs spent waiting to shut down. OpenNebula also held the new server in `pending` and reported "Not enough capacity on datastores", because the free disk space of one node was still the old value. `onehost forceupdate` solved that at once. After the bootstrap, Argo CD rolled out everything, and a few minutes later all eleven applications were synced and healthy, including the decrypted Grafana password. Ollama loaded its model again. What was lost was the data in the volumes, meaning the metrics, the logs and the triage service's audit log.
 
 ## Saving the snapshots
 

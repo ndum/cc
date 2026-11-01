@@ -74,7 +74,7 @@ kubectl apply -f ~/backup/k3s/sealed-secrets-key.yaml
 ~/cc/platform/bootstrap-argocd.sh
 ```
 
-Im Lab dauerte `tofu apply` 484 Sekunden. Einen grossen Teil davon warteten die alten VMs auf ihr Herunterfahren. OpenNebula hielt den neuen Server zudem in `pending` und meldete «Not enough capacity on datastores». Die freie Disk eines Knotens war noch der alte Wert. `onehost forceupdate` löste das sofort. Nach dem Bootstrap rollte Argo CD alles aus, und nach wenigen Minuten waren alle elf Applications synchron und gesund, auch das entschlüsselte Passwort von Grafana. Ollama lud sein Modell neu. Verloren waren die Daten in den Volumes, also die Metriken, die Logs und das Audit-Log des Triage-Dienstes.
+Im Lab dauerte `tofu apply` für diesen Neubau mit dem ganzen Stack aus Teil 5 484 Sekunden, viel länger als der Neubau des leeren Clusters in Kapitel 4.2. Einen grossen Teil davon warteten die alten VMs auf ihr Herunterfahren. OpenNebula hielt den neuen Server zudem in `pending` und meldete «Not enough capacity on datastores». Die freie Disk eines Knotens war noch der alte Wert. `onehost forceupdate` löste das sofort. Nach dem Bootstrap rollte Argo CD alles aus, und nach wenigen Minuten waren alle elf Applications synchron und gesund, auch das entschlüsselte Passwort von Grafana. Ollama lud sein Modell neu. Verloren waren die Daten in den Volumes, also die Metriken, die Logs und das Audit-Log des Triage-Dienstes.
 
 ## Snapshots sichern
 

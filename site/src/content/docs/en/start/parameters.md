@@ -48,6 +48,8 @@ The result is the content of the file `/etc/cc-lab.env`. Below it are your perso
 
 The internal network always lies within 172.16.0.0/12, and the VXLAN identifier between 1000 and 9999. This way two labs stay out of each other's way, even on the same network of smartlearn.
 
+The address range for the VMs runs from `.10` to `.209`, so it also holds the fixed addresses `.110` and `.111` for Kubernetes. OpenNebula gives a VM without a requested address the first free address from `.10` on, so the VMs of parts 2 and 3 stay well below. OpenTofu explicitly asks for `.110` and `.111` for the two Kubernetes VMs. If one of them were taken already, `tofu apply` would stop with a message.
+
 ## The file on the VMs
 
 Create the file `/etc/cc-lab.env` with the same content on all three VMs. The easiest way is to open it in an editor and paste the output of the generator.

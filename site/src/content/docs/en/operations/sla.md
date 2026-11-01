@@ -45,7 +45,7 @@ Percentages sound alike but differ a lot. The table converts them into allowed d
 | 99.5 % | 3.6 hours | 1.83 days |
 | 99.9 % | 43 minutes | 8.8 hours |
 
-What the platform can promise follows from its architecture. The lab has one front-end, one k3s server and two nodes. If the k3s server fails, the web shop is down until the VM is rebuilt. In the lab that took a good ten minutes, provided someone reacts at once. If a node fails, its VMs are gone until it runs again or they are recreated on the other node. And the platform team of a small cooperative works office hours. Without an on-call service, an outage on Saturday evening gets fixed on Monday.
+What the platform can promise follows from its architecture. The lab has one front-end, one k3s server and two nodes. If the k3s server fails, the web shop is down until the VM is rebuilt. In the lab that took a good ten minutes until the web shop ran again, with the whole stack and provided someone reacts at once. If a node fails, its VMs are gone until it runs again or they are recreated on the other node. And the platform team of a small cooperative works office hours. Without an on-call service, an outage on Saturday evening gets fixed on Monday.
 
 Honest promises are therefore along the lines of 99 % during office hours with a response time of four hours. More takes more effort, such as three k3s servers, an on-call service or a second data center, and it costs accordingly. Chapter 6.4 works out the price.
 

@@ -76,7 +76,7 @@ In the lab, after a load test, the picture looked like this.
 
 The measurement comes from the course lab. There the own member from milestone 4 is called `probe`, in your lab you see the namespace of your member instead.
 
-The numbers say different things. For the web shop, use was above the requests because the HPA scales the pods by utilization of the requests. There the requests are a tool for scaling, not a mistake. Ollama reserved four times more CPU than it needed, but a third too little memory. With the model loaded it used 3.3 GiB against a request of 2 GiB. When memory gets tight on the node, Kubernetes first evicts pods that use more than they reserved. A better request would be about 0.5 CPU and 3.5 GiB of memory. The change belongs in `ai/ollama.yaml` and thus in a pull request.
+The numbers say different things. For the web shop, use was above the requests because the HPA scales the pods by utilization of the requests. There the requests are a tool for scaling, not a mistake. Ollama reserved four times more CPU than it needed, but a third too little memory. With the model loaded it used 3.3 GiB against a request of 2 GiB. When memory gets tight on the node, Kubernetes first evicts pods that use more than they reserved. A better request would be about 0.5 CPU and 3.5 GiB of memory. The limit of 4 GiB then leaves little headroom. Whoever raises the request therefore also checks the limit and whether the agent has the room next to Loki and the members' pods. The change belongs in `ai/ollama.yaml` and thus in a pull request.
 
 One hour is too short for such decisions. A Saturday in spring looks different from a Tuesday in January. Grafana shows the same queries over weeks, and only then is a change worthwhile.
 

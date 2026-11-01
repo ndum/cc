@@ -170,7 +170,7 @@ tofu destroy
 tofu apply
 ```
 
-Netz und Image bleiben stehen, weil der Code sie nur liest. Im Lab waren nach dem Neubau beide VMs nach etwa zwei Minuten bereit, mit Kubernetes darauf. Wie das Startskript das macht, zeigt Kapitel 4.3.
+Netz und Image bleiben stehen, weil der Code sie nur liest. Im Lab waren nach dem Neubau beide VMs nach etwa zwei Minuten bereit, mit Kubernetes darauf. Das gilt für den leeren Cluster von Teil 4, mit Monitoring und Modell in Teil 6 dauert ein Neubau deutlich länger. Wie das Startskript das macht, zeigt Kapitel 4.3.
 
 ::::exercise[Lab]
 Räume die Knoten auf, installiere die Werkzeuge und lege die beiden VMs mit OpenTofu an. Zeige mit `tofu plan`, dass danach keine Änderungen offen sind.
@@ -192,6 +192,6 @@ Ein neuer Name, wie oben, erscheint als `~ name` im Plan, `tofu apply` macht ihn
 Die Treuhand fragt, ob der Cluster mit weniger Speicher auskäme, damit daneben wieder eine VM für sie Platz hat. Wo änderst du das, und welche Folgen hat es?
 
 :::solution
-`variables.tf` hat die Variable `memory` mit 6144. In `terraform.tfvars` setzt du etwa `memory = 5120`, dann zeigt der Plan eine Änderung an beiden VMs. Jeder Knoten hätte danach 2,2 GB frei, genug für zwei kleine VMs. In Teil 5 brauchen Prometheus, Loki und das lokale Modell aber den Speicher, im Test lag der Server mit allem bei 3,4 GB und das Modell brauchte 2,7 GB auf dem Agent. Die Entscheidung gehört begründet in die Dokumentation.
+`variables.tf` hat die Variable `memory` mit 6144. In `terraform.tfvars` setzt du etwa `memory = 5120`, dann zeigt der Plan eine Änderung an beiden VMs. Jeder Knoten hätte danach 2,2 GB frei, genug für zwei kleine VMs. In Teil 5 brauchen Prometheus, Loki und das lokale Modell aber den Speicher, im Test lag der Server mit allem bei 3,4 GB und das Modell brauchte 2,7 GB auf dem Agent. Die spätere Messung über eine Stunde mit Anfragen ergab bis 3,3 GiB, Kapitel 6.4 zeigt die Messung. Die Entscheidung gehört begründet in die Dokumentation.
 :::
 ::::

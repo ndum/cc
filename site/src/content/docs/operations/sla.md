@@ -45,7 +45,7 @@ Prozentzahlen klingen ähnlich und unterscheiden sich stark. Die Tabelle rechnet
 | 99,5 % | 3,6 Stunden | 1,83 Tage |
 | 99,9 % | 43 Minuten | 8,8 Stunden |
 
-Was die Plattform zusagen kann, folgt aus ihrer Architektur. Im Lab gibt es ein Front-end, einen Server von k3s und zwei Knoten. Fällt der Server von k3s aus, steht der Webshop, bis die VM neu gebaut ist. Das waren im Lab gut zehn Minuten, wenn jemand sofort reagiert. Fällt ein Knoten aus, sind seine VMs weg, bis er wieder läuft oder sie auf dem anderen Knoten neu entstehen. Und das Plattform-Team einer kleinen Genossenschaft arbeitet zu Bürozeiten. Ein Ausfall am Samstagabend wird erst am Montag behoben, wenn kein Pikettdienst besteht.
+Was die Plattform zusagen kann, folgt aus ihrer Architektur. Im Lab gibt es ein Front-end, einen Server von k3s und zwei Knoten. Fällt der Server von k3s aus, steht der Webshop, bis die VM neu gebaut ist. Das waren im Lab gut zehn Minuten bis zum laufenden Webshop, mit dem ganzen Stack und wenn jemand sofort reagiert. Fällt ein Knoten aus, sind seine VMs weg, bis er wieder läuft oder sie auf dem anderen Knoten neu entstehen. Und das Plattform-Team einer kleinen Genossenschaft arbeitet zu Bürozeiten. Ein Ausfall am Samstagabend wird erst am Montag behoben, wenn kein Pikettdienst besteht.
 
 Ehrlich sind darum Zusagen wie 99 % zu Bürozeiten mit einer Reaktionszeit von vier Stunden. Mehr verlangt mehr Aufwand, etwa drei Server für k3s, einen Pikettdienst oder ein zweites Rechenzentrum, und es kostet entsprechend mehr. Kapitel 6.4 rechnet den Preis aus.
 

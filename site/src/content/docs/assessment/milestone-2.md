@@ -60,7 +60,7 @@ Der Screencast dauert höchstens zehn Minuten in einer einzigen Aufnahme. Ein Vo
 | 6 bis 8 | Vorlage, Pull Request deines eigenen Mitglieds, Quota an der Grenze, NetworkPolicy |
 | 8 bis 10 | `tofu plan` ohne Änderungen, die zwei Fragen aus dem Bericht, deine Erweiterung und eigene Entscheide |
 
-Der Neubau dauerte im Lab knapp drei Minuten. Starte ihn früh in der Aufnahme und erkläre den Code, während er läuft. Zeigst du Meilenstein 2 live im Unterricht, gilt derselbe Ablauf.
+Mit dem Stand von Teil 4 dauerte der Neubau im Lab bis zum laufenden Webshop knapp drei Minuten. Starte ihn früh in der Aufnahme und erkläre den Code, während er läuft. Zeigst du Meilenstein 2 live im Unterricht, gilt derselbe Ablauf.
 
 ## Abgabe
 

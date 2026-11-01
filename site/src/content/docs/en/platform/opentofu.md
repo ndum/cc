@@ -170,7 +170,7 @@ tofu destroy
 tofu apply
 ```
 
-The network and the image stay, because the code only reads them. In the lab, both VMs were ready about two minutes after the rebuild, with Kubernetes on them. Chapter 4.3 shows how the start script does that.
+The network and the image stay, because the code only reads them. In the lab, both VMs were ready about two minutes after the rebuild, with Kubernetes on them. That holds for the empty cluster of part 4, a rebuild with monitoring and the model in part 6 takes much longer. Chapter 4.3 shows how the start script does that.
 
 ::::exercise[Lab]
 Clean up the nodes, install the tools and create the two VMs with OpenTofu. Show with `tofu plan` that no changes are left.
@@ -192,6 +192,6 @@ A new name, as above, shows up as `~ name` in the plan, and `tofu apply` reverts
 The fiduciary office asks whether the cluster could do with less memory so that one of its VMs fits next to it again. Where do you change that, and what follows from it?
 
 :::solution
-`variables.tf` has the variable `memory` set to 6144. In `terraform.tfvars` you set, for example, `memory = 5120`, and the plan shows a change on both VMs. Each node would then have 2.2 GB free, enough for two small VMs. In part 5, however, Prometheus, Loki and the local model need the memory. In the test, the server sat at 3.4 GB with everything running, and the model used 2.7 GB on the agent. The decision and its reasons go into the documentation.
+`variables.tf` has the variable `memory` set to 6144. In `terraform.tfvars` you set, for example, `memory = 5120`, and the plan shows a change on both VMs. Each node would then have 2.2 GB free, enough for two small VMs. In part 5, however, Prometheus, Loki and the local model need the memory. In the test, the server sat at 3.4 GB with everything running, and the model used 2.7 GB on the agent. The later measurement over an hour with requests reached up to 3.3 GiB, chapter 6.4 shows the measurement. The decision and its reasons go into the documentation.
 :::
 ::::

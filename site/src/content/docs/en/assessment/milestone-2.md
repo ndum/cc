@@ -60,7 +60,7 @@ The screencast lasts at most ten minutes in a single take. A suggestion for its 
 | 6 to 8 | template, pull request of your own member, quota at its limit, NetworkPolicy |
 | 8 to 10 | `tofu plan` without changes, the two questions from the report, your extension and decisions of your own |
 
-In the lab, the rebuild took a little under three minutes. Start it early in the recording and explain the code while it runs. If you show milestone 2 live in class, the same course applies.
+With the state of part 4, the rebuild in the lab took a little under three minutes until the web shop was running again. Start it early in the recording and explain the code while it runs. If you show milestone 2 live in class, the same course applies.
 
 ## Hand-in
 
