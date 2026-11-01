@@ -63,7 +63,7 @@ Eine VM aus der Vorlage `ubuntu` hat 0,5 CPU, 1024 MB Arbeitsspeicher und eine D
 Die Preise müssen am Ende die Kosten der Genossenschaft decken. Dazu gehören die Hardware über ihre Lebensdauer, Strom, Lizenzen, Backup und die Arbeit des Plattform-Teams, auch die Reserve für Wartung aus Kapitel 2.5. Ein einfacher Ansatz teilt die jährlichen Kosten durch die Kapazität, die im Jahr verkauft werden kann. Kapitel 6.4 rechnet mit allen Kosten, im Zusatzauftrag von Meilenstein 4 auch für ein eigenes Mitglied.
 
 ::::exercise[Lab]
-Trage die Preise in die Vorlage ein. Beende je eine VM der Praxis und der Treuhand mit `onevm terminate` und starte sie unter demselben Namen aus der Vorlage neu. Berechne den Showback nach einer Stunde, in der Zwischenzeit kannst du mit Kapitel 3.4 weiterarbeiten. Exportiere die Liste als CSV in dein Abgabe-Repo.
+Trage die Preise in die Vorlage ein. Beende als `praxis-admin` die VM `praxis-1` mit `onevm terminate` und starte sie unter demselben Namen aus der Vorlage neu. Starte ausserdem als `treuhand-admin` die VM `treuhand-1`. Berechne den Showback nach einer Stunde, in der Zwischenzeit kannst du mit Kapitel 3.4 weiterarbeiten. Exportiere die Liste als CSV in dein Abgabe-Repo.
 
 :::solution
 `onetemplate show ubuntu` zeigt `CPU_COST`, `MEMORY_COST` und `DISK_COST`. Nach `oneshowback calculate` listet `oneshowback list` die neuen VMs mit rund einer Stunde und Kosten um 0.05. Die alten VMs ohne Preise stehen mit Kosten 0 in der Liste.

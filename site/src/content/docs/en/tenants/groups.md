@@ -53,11 +53,13 @@ Every new group first lands in the VDC `default`, which grants all clusters to a
 
 ## Working as a member
 
-To see what a member sees, you log in as its admin. The CLI reads user and password from the file that `ONE_AUTH` points to.
+To see what a member sees, you log in as its admin. The CLI reads user and password from the file that `ONE_AUTH` points to. The loop creates such a file for all four admins, you need them in the next chapters.
 
 ```bash
-printf 'praxis-admin:%s\n' "$(cat ~/cc-lab/tenants/praxis-admin.pass)" > ~/cc-lab/tenants/praxis.auth
-chmod 600 ~/cc-lab/tenants/praxis.auth
+for m in praxis treuhand velo gemeinde; do
+  printf '%s-admin:%s\n' "$m" "$(cat ~/cc-lab/tenants/$m-admin.pass)" > ~/cc-lab/tenants/$m.auth
+done
+chmod 600 ~/cc-lab/tenants/*.auth
 export ONE_AUTH=~/cc-lab/tenants/praxis.auth
 onetemplate list
 onevnet list

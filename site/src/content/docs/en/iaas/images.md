@@ -108,7 +108,7 @@ python3 ~/cc/checks/check.py iaas
 Get the image, create the template, start the VM `web-1` and upload the report of the check `iaas` to your hand-in repo.
 
 :::solution
-The check ends with "11 of 11 checks passed". Inside the VM, `hostname` shows the name `web-1`, `ip -br addr` an address from your internal network and `ip link show eth0` the MTU 1450.
+The check ends with "11 of 11 base checks passed". Inside the VM, `hostname` shows the name `web-1`, `ip -br addr` an address from your internal network and `ip link show eth0` the MTU 1450.
 :::
 ::::
 

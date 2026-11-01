@@ -6,7 +6,7 @@ set -euo pipefail
 
 # member  VMs  CPU  memory in MB
 QUOTAS="
-praxis    2    1    2048
+praxis    2    1.5  2048
 treuhand  4    2    4096
 velo      2    1    2048
 gemeinde  2    1    2048

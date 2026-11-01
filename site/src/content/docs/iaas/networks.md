@@ -82,7 +82,7 @@ Die Adressen deines internen Netzes stammen aus einem privaten Bereich nach [RFC
 
 Masquerade ist eine Form von Source NAT, bei der die neue Absenderadresse nicht fest in der Regel steht. Der Kernel nimmt jeweils die aktuelle Adresse der Schnittstelle, über die das Paket hinausgeht, deshalb stimmt die Regel auch dann noch, wenn sich die Adresse des Front-ends ändert. Die Regel in `cc-gateway` erfasst nur Pakete aus deinem internen Netz, die über die Schnittstelle zum Labnetz hinausgehen. Vorher schaltet das Skript mit `net.ipv4.ip_forward` das Weiterleiten ein, ohne das ein Linux-Host keine Pakete für andere Rechner weitergibt.
 
-::code{file="lab/cc-gateway.sh" lines="47-54"}
+::code{file="lab/cc-gateway.sh" lines="47-55"}
 
 Damit ist auch die Frage der Mitglieder beantwortet. Die VMs erreichen das Internet, von aussen sind sie aber nicht sichtbar. Eine Verbindung, die von aussen beginnt, hat keinen Eintrag in der Tabelle und erreicht nur das Front-end selbst. Soll ein Dienst in einer VM von aussen erreichbar sein, braucht es eine Weiterleitung mit Destination NAT oder einen Proxy auf dem Front-end.
 

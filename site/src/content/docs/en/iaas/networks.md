@@ -82,7 +82,7 @@ The addresses of your internal network come from a private range as defined in [
 
 Masquerade is a kind of source NAT where the rule does not contain a fixed new source address. The kernel takes the current address of the interface the packet leaves through, so the rule stays correct even if the front-end's address changes. The rule in `cc-gateway` only matches packets from your internal network that leave through the interface to the lab network. Before that, the script turns on forwarding with `net.ipv4.ip_forward`. Without it, a Linux host does not pass on packets meant for other machines.
 
-::code{file="lab/cc-gateway.sh" lines="47-54"}
+::code{file="lab/cc-gateway.sh" lines="47-55"}
 
 This also answers the members' question. The VMs reach the internet, but nobody outside can see them. A connection that starts outside finds no entry in the table and only reaches the front-end itself. To make a service in a VM reachable from outside, you need a port forward with destination NAT or a proxy on the front-end.
 

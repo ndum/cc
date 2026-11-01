@@ -55,12 +55,14 @@ Der Adressbereich für die VMs reicht von `.10` bis `.209` und enthält damit au
 Ohne Adresse erreichst du eine VM noch nicht per SSH. Du trägst die Adressen deshalb an der Konsole von smartlearn ein, auf jeder VM ihre eigene. Ubuntu verwaltet das Netz mit netplan, das seine Einstellungen aus YAML-Dateien in `/etc/netplan/` liest.
 
 1. Prüfe mit `ip -br link` den Namen der Netzwerkschnittstelle. Steht im Generator ein anderer Name, korrigierst du ihn dort.
-2. Lege die Datei an und füge den Inhalt aus dem Generator für diese VM ein.
+2. Lege die Datei an. Das minimale Ubuntu hat noch keinen Editor, deshalb schreibst du sie mit `tee`. Füge nach der ersten Zeile den Inhalt aus dem Generator für diese VM ein und schliesse mit einer Zeile `EOF`.
 3. Schütze die Datei und übernimm die Einstellungen mit `netplan try`. Bestätige mit Enter. Bleibt die Bestätigung aus, stellt netplan nach zwei Minuten die alten Einstellungen wieder her.
 4. Prüfe die Adresse, die Route über das Gateway und eine Verbindung ins Internet. Das minimale Ubuntu enthält kein `ping`, `curl` ist dabei.
 
 ```bash
-sudo nano /etc/netplan/60-cc-lab.yaml
+sudo tee /etc/netplan/60-cc-lab.yaml <<'EOF'
+<Inhalt aus dem Generator>
+EOF
 sudo chmod 600 /etc/netplan/60-cc-lab.yaml
 sudo netplan try
 ip -br addr
@@ -80,10 +82,12 @@ Die Datei beginnt mit `60`, damit sie nach einer allfälligen Datei `50-cloud-in
 
 ## Die Datei auf den VMs
 
-Lege die Datei `/etc/cc-lab.env` auf allen drei VMs mit demselben Inhalt an. Jetzt geht das schon per SSH, am einfachsten öffnest du die Datei mit einem Editor und fügst die Ausgabe des Generators ein.
+Lege die Datei `/etc/cc-lab.env` auf allen drei VMs mit demselben Inhalt an. Jetzt geht das schon per SSH. Du schreibst die Datei wieder mit `tee`, fügst die Ausgabe des Generators ein und schliesst mit `EOF`. Einen Editor, nano, installiert erst das Vorbereitungsskript in Kapitel 0.4.
 
 ```bash
-sudo nano /etc/cc-lab.env
+sudo tee /etc/cc-lab.env <<'EOF'
+<Inhalt aus dem Generator>
+EOF
 ```
 
 Danach zeigt `cat /etc/cc-lab.env` auf jeder VM dieselben Zeilen. Stimmt später ein Wert nicht, etwa weil du eine Adresse falsch eingegeben hast, korrigierst du die Datei auf allen drei VMs und startest das Vorbereitungsskript aus [Kapitel 0.4](../prepare/) noch einmal.

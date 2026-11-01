@@ -67,7 +67,7 @@ Das Skript `lab/one-deploy/install.sh` installiert Ansible aus den Paketen von U
 ~/cc/lab/one-deploy/install.sh
 ```
 
-::code{file="lab/one-deploy/install.sh" lines="15-22"}
+::code{file="lab/one-deploy/install.sh" lines="16-23"}
 
 ## Das Inventar
 
@@ -75,6 +75,7 @@ Das Inventar beschreibt dein Lab für OneDeploy. Das Skript `make-inventory.sh` 
 
 ```bash
 ~/cc/lab/one-deploy/make-inventory.sh > ~/cc-lab/inventory.yml
+chmod 600 ~/cc-lab/inventory.yml
 ```
 
 ::code{file="lab/one-deploy/make-inventory.sh" lines="18-42"}
@@ -94,7 +95,7 @@ Das Beispiel des Kurses grüsst auf jedem Knoten mit dem Namen der Genossenschaf
 
 ::code{file="examples/ansible/motd.yml"}
 
-Starte es zweimal. Der erste Lauf meldet für beide Tasks `changed`, und der Handler zeigt den Gruss. Der zweite Lauf meldet überall `ok` und `changed=0`, und der Handler bleibt stumm, weil sich nichts geändert hat. Die Zeile `gather_facts: true` ist nötig, weil OneDeploy in seiner Konfiguration das automatische Sammeln von Facts abschaltet.
+Starte es zweimal. Der erste Lauf meldet für beide Tasks `changed`, und der Handler läuft. Den Gruss selbst siehst du bei der nächsten Anmeldung an einem Knoten oder mit `cat /etc/motd`. Der zweite Lauf meldet überall `ok` und `changed=0`, und der Handler bleibt stumm, weil sich nichts geändert hat. Die Zeile `gather_facts: true` ist nötig, weil OneDeploy in seiner Konfiguration das automatische Sammeln von Facts abschaltet.
 
 ```bash
 cd ~/cc-lab/one-deploy
@@ -103,7 +104,7 @@ ansible-playbook -i ../inventory.yml ~/cc/examples/ansible/motd.yml
 
 ## OpenNebula installieren
 
-Der Lauf von OneDeploy dauert zehn bis zwanzig Minuten. Ansible zeigt dabei jede Rolle und jeden Task mit dem Ergebnis pro Rechner.
+Der Lauf von OneDeploy dauert einige Minuten, im Lab des Kurses knapp zwei, bei einem langsamen Netz deutlich länger. Ansible zeigt dabei jede Rolle und jeden Task mit dem Ergebnis pro Rechner.
 
 ```bash
 cd ~/cc-lab/one-deploy
@@ -209,7 +210,7 @@ Der erste Lauf meldet bei beiden Knoten `changed=2`, weil htop neu installiert u
 Installiere OpenNebula 7.4 mit OneDeploy, richte die CLI für deinen Benutzer ein, prüfe die Hosts mit `onehost list`, melde dich an der Weboberfläche an und lade den Bericht des Checks `install` in dein Abgabe-Repo.
 
 :::solution
-Der Check endet mit «8 von 8 Prüfungen erfüllt». `onehost list` zeigt beide Knoten mit `on` in der Spalte `STAT`. Steht dort `err`, zeigt `onehost show` und der Name des Hosts im Abschnitt `MONITORING` den Grund, oft eine fehlende SSH-Verbindung vom Front-end zum Knoten.
+Der Check endet mit «8 von 8 Prüfungen der Basis erfüllt». `onehost list` zeigt beide Knoten mit `on` in der Spalte `STAT`. Steht dort `err`, zeigt `onehost show` und der Name des Hosts im Abschnitt `MONITORING` den Grund, oft eine fehlende SSH-Verbindung vom Front-end zum Knoten.
 :::
 ::::
 

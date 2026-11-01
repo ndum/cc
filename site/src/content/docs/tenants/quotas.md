@@ -53,7 +53,7 @@ Die Mitglieder zahlen unterschiedlich viel und brauchen unterschiedlich viel. Di
 
 | Mitglied | Gruppe | VMs | CPU | Arbeitsspeicher |
 |---|---|---|---|---|
-| Praxis Rosenweg | `praxis` | 2 | 1 | 2048 MB |
+| Praxis Rosenweg | `praxis` | 2 | 1,5 | 2048 MB |
 | Treuhand Aaregg | `treuhand` | 4 | 2 | 4096 MB |
 | Veloatelier Matte | `velo` | 2 | 1 | 2048 MB |
 | Gemeinde Hinterbüel | `gemeinde` | 2 | 1 | 2048 MB |
@@ -67,7 +67,15 @@ Das Skript `lab/tenants/set-quotas.sh` setzt diese Werte. Für jede Gruppe schre
 onegroup show praxis | sed -n '/VMS USAGE/,/DATASTORE/p'
 ```
 
-Die CPU der Quota zählt wie `CPU` in der Vorlage. Eine VM aus der Vorlage `ubuntu` braucht 0,5 davon, zwei VMs füllen also die Quota der Praxis.
+Die CPU der Quota zählt wie `CPU` in der Vorlage. Eine VM aus der Vorlage `ubuntu` braucht 0,5 davon. Die Praxis bekommt 1,5 CPU, weil Sunstone beim Start einer VM die CPU auf die Zahl der virtuellen CPUs setzt, also auf 1. So passt in Kapitel 3.4 eine VM aus Sunstone neben `praxis-1`.
+
+Für Meilenstein 1 bekommt die Gemeinde die Quota aus deinen [persönlichen Werten](../../start/parameters/). Kopiere dafür das Skript, ändere die Zeile der Gemeinde und führe die Kopie aus. Die anderen Mitglieder behalten die Werte der Tabelle.
+
+```bash
+cp ~/cc/lab/tenants/set-quotas.sh ~/cc-lab/set-quotas.sh
+nano ~/cc-lab/set-quotas.sh
+~/cc-lab/set-quotas.sh
+```
 
 ## An der Grenze
 
@@ -95,7 +103,7 @@ In Teil 4 begegnest du derselben Idee wieder. Eine [ResourceQuota](https://kuber
 Setze die Quotas der vier Mitglieder. Starte als `praxis-admin` neben `praxis-1` aus Kapitel 3.1 die VM `praxis-2` und danach eine dritte VM `praxis-3`. Notiere die Meldung und zeige mit `onegroup show praxis` die Nutzung.
 
 :::solution
-`set-quotas.sh` meldet die Werte aller vier Mitglieder. `praxis-2` startet, die dritte VM scheitert mit «limit of 2 reached for VMS quota in VM». `onegroup show praxis` zeigt bei den VMs `2 / 2` und beim Arbeitsspeicher `2048M / 2G`, auch die CPU ist voll ausgeschöpft.
+`set-quotas.sh` meldet die Werte aller vier Mitglieder. `praxis-2` startet, die dritte VM scheitert mit «limit of 2 reached for VMS quota in VM». `onegroup show praxis` zeigt bei den VMs `2 / 2` und beim Arbeitsspeicher `2G / 2G` und bei der CPU `1 / 1.5`.
 :::
 ::::
 
@@ -103,7 +111,7 @@ Setze die Quotas der vier Mitglieder. Starte als `praxis-admin` neben `praxis-1`
 Das Veloatelier möchte für den Samstag eine VM mit 2 CPU und 2048 MB Arbeitsspeicher aus einer eigenen Vorlage. Passt das in seine Quota? Welche Quota würdest du vorschlagen, und was bedeutet das für die anderen Mitglieder?
 
 :::solution
-Nein, die Quota des Veloateliers erlaubt nur 1 CPU. Für diese VM und eine kleine daneben bräuchte es mindestens 2,5 CPU und 3072 MB. Die Quotas aller Mitglieder ergäben dann zusammen 6,5 CPU und 11 GB. Beide Knoten zusammen tragen das, ein einzelner Knoten während der Wartung aber nicht mehr. Das ist vertretbar, wenn die Samstage des Veloateliers nicht mit dem Monatsende der Treuhand zusammenfallen, und gehört in die Kostenrechnung.
+Nein, die Quota des Veloateliers erlaubt nur 1 CPU. Für diese VM und eine kleine daneben bräuchte es mindestens 2,5 CPU und 3072 MB. Die Quotas aller Mitglieder ergäben dann zusammen 7 CPU und 11 GB. Beide Knoten zusammen tragen das, ein einzelner Knoten während der Wartung aber nicht mehr. Das ist vertretbar, wenn die Samstage des Veloateliers nicht mit dem Monatsende der Treuhand zusammenfallen, und gehört in die Kostenrechnung.
 :::
 ::::
 

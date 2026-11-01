@@ -55,12 +55,14 @@ The address range for the VMs runs from `.10` to `.209`, so it also holds the fi
 Without an address you cannot reach a VM over SSH yet. So you set the addresses on the smartlearn console, each VM with its own. Ubuntu manages the network with netplan, which reads its settings from YAML files in `/etc/netplan/`.
 
 1. Check the name of the network interface with `ip -br link`. If the generator shows another name, correct it there.
-2. Create the file and paste the content the generator shows for this VM.
+2. Create the file. Minimal Ubuntu has no editor yet, so you write it with `tee`. After the first line paste the content the generator shows for this VM and finish with a line `EOF`.
 3. Protect the file and apply the settings with `netplan try`. Confirm with Enter. Without a confirmation netplan restores the old settings after two minutes.
 4. Check the address, the route through the gateway and a connection to the internet. Minimal Ubuntu has no `ping`, but it has `curl`.
 
 ```bash
-sudo nano /etc/netplan/60-cc-lab.yaml
+sudo tee /etc/netplan/60-cc-lab.yaml <<'EOF'
+<content from the generator>
+EOF
 sudo chmod 600 /etc/netplan/60-cc-lab.yaml
 sudo netplan try
 ip -br addr
@@ -80,10 +82,12 @@ The file name starts with `60` so that it is read after a file `50-cloud-init.ya
 
 ## The file on the VMs
 
-Create the file `/etc/cc-lab.env` with the same content on all three VMs. SSH works by now. The easiest way is to open it in an editor and paste the output of the generator.
+Create the file `/etc/cc-lab.env` with the same content on all three VMs. SSH works by now. You write the file with `tee` again, paste the output of the generator and finish with `EOF`. An editor, nano, only comes with the preparation script in chapter 0.4.
 
 ```bash
-sudo nano /etc/cc-lab.env
+sudo tee /etc/cc-lab.env <<'EOF'
+<content from the generator>
+EOF
 ```
 
 After that, `cat /etc/cc-lab.env` shows the same lines on every VM. If a value turns out to be wrong later, for example because you mistyped an address, fix the file on all three VMs and run the preparation script from [chapter 0.4](../prepare/) again.

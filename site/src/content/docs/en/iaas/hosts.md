@@ -102,10 +102,10 @@ When a node fails, its VMs stop running. After a while `onehost list` shows the 
 A cloud that survives failures therefore needs shared storage that all nodes can reach, such as Ceph or an NFS server, and a rule that automatically restarts the VMs of a failed node on another one. OpenNebula offers hooks for that. The lab deliberately lacks both so that it gets by with three VMs. In part 6 this gap is part of the availability assessment.
 
 ::::exercise[Maintenance]
-Start two VMs from the template `ubuntu`, empty the node they run on, take it offline and put it back into service. Finally move one VM back live. Write down the commands in the right order.
+Start two VMs from the template `ubuntu`, empty a node one of them runs on, take it offline and put it back into service. Finally move one VM back live. Write down the commands in the right order.
 
 :::solution
-1. `onetemplate instantiate ubuntu --name web-2` and `--name web-3`, then `onevm list` for the nodes
+1. `onetemplate instantiate ubuntu --name web-2` and `--name web-3`, then `onevm list --size host=15` for the nodes, because without the option the column `HOST` cuts the address
 2. `onehost flush <node>` and wait until `onevm list` shows no asterisk anymore
 3. `onehost offline <node>`
 4. `onehost enable <node>` after the maintenance

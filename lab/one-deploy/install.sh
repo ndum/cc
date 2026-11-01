@@ -9,7 +9,8 @@ set -euo pipefail
 ONE_DEPLOY_RELEASE=release-1.4.1
 
 sudo DEBIAN_FRONTEND=noninteractive apt-get -qq update
-sudo DEBIAN_FRONTEND=noninteractive apt-get -qq install -y ansible-core git python3-netaddr >/dev/null
+# needrestart would print its report after the installation
+sudo DEBIAN_FRONTEND=noninteractive NEEDRESTART_SUSPEND=1 apt-get -qq install -y ansible-core git python3-netaddr >/dev/null
 ansible --version | head -1
 
 mkdir -p ~/cc-lab

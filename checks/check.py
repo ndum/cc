@@ -260,7 +260,7 @@ def check_tenants(env, report):
                  "onetemplate chmod ubuntu 604")
     report.check(bool(template.get("TEMPLATE", {}).get("CPU_COST")), tr("Die Vorlage ubuntu hat Preise für Showback", "The template ubuntu has prices for showback"),
                  tr("costs.tpl aus Kapitel 3.3", "costs.tpl from chapter 3.3"))
-    records = as_list((one_json("oneshowback", "list") or {}).get("SHOWBACK_RECORDS", {}).get("SHOWBACK"))
+    records = as_list(((one_json("oneshowback", "list") or {}).get("SHOWBACK_RECORDS") or {}).get("SHOWBACK"))
     report.check(any(r.get("GNAME") in MEMBERS and float(r.get("TOTAL_COST") or 0) > 0 for r in records),
                  tr("Showback weist einem Mitglied Kosten zu", "Showback assigns costs to a member"),
                  tr("VM eines Mitglieds starten, später oneshowback calculate, Kapitel 3.3", "Start a VM of a member, later oneshowback calculate, chapter 3.3"))

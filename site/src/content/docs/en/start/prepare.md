@@ -37,7 +37,7 @@ sudo ./cc/lab/prepare.sh node1
 
 On every VM the script sets the host name, adds the names of all three VMs to `/etc/hosts` and installs rsyslog.
 
-::code{file="lab/prepare.sh" lines="47-57"}
+::code{file="lab/prepare.sh" lines="47-59"}
 
 On the nodes it checks that the CPU virtualization arrives and names the network interface OpenNebula will need later. On the front-end it installs acl and nftables, makes Node.js come from the OpenNebula package source and sets up the gateway for the internal network as the service `cc-gateway`, which runs at every boot.
 

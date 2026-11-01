@@ -53,11 +53,13 @@ Jede neue Gruppe landet zuerst im VDC `default`, das allen Gruppen alle Cluster 
 
 ## Als Mitglied arbeiten
 
-Um zu sehen, was ein Mitglied sieht, meldest du dich als dessen Admin an. Die CLI liest Benutzer und Passwort aus der Datei, auf die `ONE_AUTH` zeigt.
+Um zu sehen, was ein Mitglied sieht, meldest du dich als dessen Admin an. Die CLI liest Benutzer und Passwort aus der Datei, auf die `ONE_AUTH` zeigt. Die Schleife legt eine solche Datei für alle vier Admins an, du brauchst sie in den nächsten Kapiteln.
 
 ```bash
-printf 'praxis-admin:%s\n' "$(cat ~/cc-lab/tenants/praxis-admin.pass)" > ~/cc-lab/tenants/praxis.auth
-chmod 600 ~/cc-lab/tenants/praxis.auth
+for m in praxis treuhand velo gemeinde; do
+  printf '%s-admin:%s\n' "$m" "$(cat ~/cc-lab/tenants/$m-admin.pass)" > ~/cc-lab/tenants/$m.auth
+done
+chmod 600 ~/cc-lab/tenants/*.auth
 export ONE_AUTH=~/cc-lab/tenants/praxis.auth
 onetemplate list
 onevnet list

@@ -37,7 +37,7 @@ sudo ./cc/lab/prepare.sh node1
 
 Auf jeder VM setzt das Skript den Hostnamen, trägt die Namen aller drei VMs in `/etc/hosts` ein und installiert rsyslog.
 
-::code{file="lab/prepare.sh" lines="47-57"}
+::code{file="lab/prepare.sh" lines="47-59"}
 
 Auf den Knoten prüft es, ob die CPU-Virtualisierung ankommt, und nennt die Netzwerkschnittstelle, die OpenNebula später braucht. Auf dem Front-end installiert es acl und nftables, legt fest, dass Node.js aus der Paketquelle von OpenNebula kommt, und richtet das Gateway für das interne Netz als Dienst `cc-gateway` ein, der bei jedem Start läuft.
 

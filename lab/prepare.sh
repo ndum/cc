@@ -48,6 +48,8 @@ say "Host name and /etc/hosts"
 hostnamectl set-hostname "$HOST"
 sed -i '/# cc-lab begin/,/# cc-lab end/d' /etc/hosts
 sed -i "/[[:space:]]$HOST\$/d" /etc/hosts
+# The installer names the VM in a line 127.0.1.1, keep it on the new name
+sed -i "s/^127\.0\.1\.1[[:space:]].*/127.0.1.1 $HOST/" /etc/hosts
 cat >>/etc/hosts <<EOF
 # cc-lab begin
 $CC_FE_IP $CC_FE_HOST
@@ -58,8 +60,8 @@ EOF
 echo "$HOST ($IP)"
 
 say "Packages"
-# The minimal server image of Ubuntu 26.04 has no rsyslog, one-deploy expects it
-packages=(rsyslog)
+# The minimal server image of Ubuntu 26.04 has no rsyslog, one-deploy expects it, and no editor for the chapters
+packages=(rsyslog nano)
 # acl lets Ansible on the front-end switch to the user oneadmin, nftables carries the NAT of the gateway
 [ "$ROLE" = fe ] && packages+=(acl nftables)
 export DEBIAN_FRONTEND=noninteractive

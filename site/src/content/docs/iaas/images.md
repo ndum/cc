@@ -108,7 +108,7 @@ python3 ~/cc/checks/check.py iaas
 Hole das Image, lege die Vorlage an, starte die VM `web-1` und lade den Bericht des Checks `iaas` in dein Abgabe-Repo.
 
 :::solution
-Der Check endet mit «11 von 11 Prüfungen erfüllt». In der VM zeigt `hostname` den Namen `web-1`, `ip -br addr` eine Adresse aus deinem internen Netz und `ip link show eth0` die MTU 1450.
+Der Check endet mit «11 von 11 Prüfungen der Basis erfüllt». In der VM zeigt `hostname` den Namen `web-1`, `ip -br addr` eine Adresse aus deinem internen Netz und `ip link show eth0` die MTU 1450.
 :::
 ::::
 

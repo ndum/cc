@@ -67,7 +67,7 @@ The script `lab/one-deploy/install.sh` installs Ansible from the Ubuntu packages
 ~/cc/lab/one-deploy/install.sh
 ```
 
-::code{file="lab/one-deploy/install.sh" lines="15-22"}
+::code{file="lab/one-deploy/install.sh" lines="16-23"}
 
 ## The inventory
 
@@ -75,6 +75,7 @@ The inventory describes your lab for OneDeploy. The script `make-inventory.sh` w
 
 ```bash
 ~/cc/lab/one-deploy/make-inventory.sh > ~/cc-lab/inventory.yml
+chmod 600 ~/cc-lab/inventory.yml
 ```
 
 ::code{file="lab/one-deploy/make-inventory.sh" lines="18-42"}
@@ -94,7 +95,7 @@ The course's example greets you with the name of the cooperative on every node. 
 
 ::code{file="examples/ansible/motd.yml"}
 
-Run it twice. The first run reports `changed` for both tasks, and the handler shows the greeting. The second run reports `ok` everywhere and `changed=0`, and the handler stays silent because nothing changed. The line `gather_facts: true` is needed because OneDeploy turns off the automatic gathering of facts in its configuration.
+Run it twice. The first run reports `changed` for both tasks, and the handler runs. You see the greeting itself at your next login on a node or with `cat /etc/motd`. The second run reports `ok` everywhere and `changed=0`, and the handler stays silent because nothing changed. The line `gather_facts: true` is needed because OneDeploy turns off the automatic gathering of facts in its configuration.
 
 ```bash
 cd ~/cc-lab/one-deploy
@@ -103,7 +104,7 @@ ansible-playbook -i ../inventory.yml ~/cc/examples/ansible/motd.yml
 
 ## Installing OpenNebula
 
-A run of OneDeploy takes ten to twenty minutes. Ansible shows every role and every task with its result per machine.
+A run of OneDeploy takes a few minutes, a little under two in the course lab and much longer on a slow network. Ansible shows every role and every task with its result per machine.
 
 ```bash
 cd ~/cc-lab/one-deploy
@@ -209,7 +210,7 @@ The first run reports `changed=2` on both nodes because htop was installed and `
 Install OpenNebula 7.4 with OneDeploy, set up the CLI for your user, check the hosts with `onehost list`, log in to the web interface and upload the report of the check `install` to your hand-in repo.
 
 :::solution
-The check ends with "8 of 8 checks passed". `onehost list` shows both nodes with `on` in the column `STAT`. If it shows `err` instead, `onehost show` with the host's name explains why in the section `MONITORING`, often a missing SSH connection from the front-end to the node.
+The check ends with "8 of 8 base checks passed". `onehost list` shows both nodes with `on` in the column `STAT`. If it shows `err` instead, `onehost show` with the host's name explains why in the section `MONITORING`, often a missing SSH connection from the front-end to the node.
 :::
 ::::
 

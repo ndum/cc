@@ -81,7 +81,7 @@ python3 ~/cc/checks/check.py start
 
 Each line of the report starts with `[ok]` or `[!!]`. Below a line with `[!!]` there is a hint on where to look. The script saves the report in `~/cc-reports/`, and it ends with a hash that covers the whole report. Editing the report by hand afterwards breaks the hash. Since the script is public, though, the hash does not prove that the check really ran. Your screenshots and the showing of the advanced tasks are the proof.
 
-::code{file="checks/check.py" lines="161-166"}
+::code{file="checks/check.py" lines="711-716"}
 
 Copy the report into the folder `reports/` of your hand-in repo, commit it and push it.
 
@@ -101,6 +101,6 @@ On Windows you record with the Snipping Tool or with OBS Studio, on macOS with t
 Set up SSH with a key and a configuration, connect the front-end to the nodes, create your hand-in repo and upload the report of the check `start`.
 
 :::solution
-The check ends with a line like "20 of 20 checks passed" and a hash. If an SSH connection is missing, the report shows `[!!] SSH without password to` and the node's name. In that case the front-end's key is missing on that node.
+The check ends with a line like "22 of 22 base checks passed" and a hash. If an SSH connection is missing, the report shows `[!!] SSH without password to` and the node's name. In that case the front-end's key is missing on that node.
 :::
 ::::

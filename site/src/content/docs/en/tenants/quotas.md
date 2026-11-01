@@ -53,7 +53,7 @@ The members pay different amounts and need different amounts. The fiduciary offi
 
 | Member | Group | VMs | CPU | Memory |
 |---|---|---|---|---|
-| Praxis Rosenweg | `praxis` | 2 | 1 | 2048 MB |
+| Praxis Rosenweg | `praxis` | 2 | 1.5 | 2048 MB |
 | Treuhand Aaregg | `treuhand` | 4 | 2 | 4096 MB |
 | Veloatelier Matte | `velo` | 2 | 1 | 2048 MB |
 | Gemeinde Hinterbüel | `gemeinde` | 2 | 1 | 2048 MB |
@@ -67,7 +67,15 @@ The script `lab/tenants/set-quotas.sh` sets these values. For every group it wri
 onegroup show praxis | sed -n '/VMS USAGE/,/DATASTORE/p'
 ```
 
-The CPU of the quota counts like `CPU` in the template. A VM from the template `ubuntu` needs 0.5 of it, so two VMs fill the practice's quota.
+The CPU of the quota counts like `CPU` in the template. A VM from the template `ubuntu` needs 0.5 of it. The practice gets 1.5 CPU because Sunstone sets the CPU of a VM it starts to the number of virtual CPUs, so to 1. That way a VM from Sunstone fits next to `praxis-1` in chapter 3.4.
+
+For milestone 1 the municipality gets the quota from your [personal values](../../start/parameters/). Copy the script, change the line of the municipality and run the copy. The other members keep the values of the table.
+
+```bash
+cp ~/cc/lab/tenants/set-quotas.sh ~/cc-lab/set-quotas.sh
+nano ~/cc-lab/set-quotas.sh
+~/cc-lab/set-quotas.sh
+```
 
 ## At the limit
 
@@ -95,7 +103,7 @@ You will meet the same idea again in part 4. A [ResourceQuota](https://kubernete
 Set the quotas of the four members. As `praxis-admin`, start the VM `praxis-2` next to `praxis-1` from chapter 3.1, then a third VM `praxis-3`. Write down the message and show the usage with `onegroup show praxis`.
 
 :::solution
-`set-quotas.sh` reports the values of all four members. `praxis-2` starts, the third VM fails with "limit of 2 reached for VMS quota in VM". `onegroup show praxis` shows `2 / 2` for the VMs and `2048M / 2G` for the memory, and the CPU is used up as well.
+`set-quotas.sh` reports the values of all four members. `praxis-2` starts, the third VM fails with "limit of 2 reached for VMS quota in VM". `onegroup show praxis` shows `2 / 2` for the VMs and `2G / 2G` for the memory, and the CPU is used up as well.
 :::
 ::::
 
@@ -103,7 +111,7 @@ Set the quotas of the four members. As `praxis-admin`, start the VM `praxis-2` n
 The bike shop would like a VM with 2 CPU and 2048 MB of memory from a template of its own for Saturdays. Does that fit into its quota? Which quota would you propose, and what does it mean for the other members?
 
 :::solution
-No, the bike shop's quota only allows 1 CPU. For this VM and a small one next to it, it would need at least 2.5 CPU and 3072 MB. The quotas of all members would then add up to 6.5 CPU and 11 GB. Both nodes together carry that, but a single node during maintenance no longer does.
+No, the bike shop's quota only allows 1 CPU. For this VM and a small one next to it, it would need at least 2.5 CPU and 3072 MB. The quotas of all members would then add up to 7 CPU and 11 GB. Both nodes together carry that, but a single node during maintenance no longer does.
 :::
 ::::
 

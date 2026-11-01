@@ -81,7 +81,7 @@ python3 ~/cc/checks/check.py start
 
 Jede Zeile des Berichts beginnt mit `[ok]` oder `[!!]`. Unter einer Zeile mit `[!!]` steht ein Hinweis, wo du suchen kannst. Das Skript speichert den Bericht in `~/cc-reports/`. Am Ende steht ein Hash, der zum ganzen Bericht gehört. Wer den Bericht nachträglich von Hand ändert, macht diesen Hash ungültig. Weil das Skript öffentlich ist, beweist der Hash aber nicht, dass der Check wirklich gelaufen ist. Den Beweis liefern deine Screenshots und die Vorführung der Zusatzaufträge.
 
-::code{file="checks/check.py" lines="161-166"}
+::code{file="checks/check.py" lines="711-716"}
 
 Kopiere den Bericht in dein Abgabe-Repo, in den Ordner `reports/`, und lade ihn mit einem Commit hoch.
 
@@ -101,6 +101,6 @@ Unter Windows nimmst du mit dem Snipping Tool oder mit OBS Studio auf, unter mac
 Richte SSH mit Schlüssel und Konfiguration ein, verbinde das Front-end mit den Knoten, lege dein Abgabe-Repo an und lade den Bericht des Checks `start` hoch.
 
 :::solution
-Der Check endet mit einer Zeile wie «20 von 20 Prüfungen erfüllt» und einem Hash. Eine fehlende SSH-Verbindung zeigt der Bericht mit `[!!] SSH ohne Passwort auf` und dem Namen des Knotens. In diesem Fall fehlt der Schlüssel des Front-ends auf dem Knoten.
+Der Check endet mit einer Zeile wie «22 von 22 Prüfungen der Basis erfüllt» und einem Hash. Eine fehlende SSH-Verbindung zeigt der Bericht mit `[!!] SSH ohne Passwort auf` und dem Namen des Knotens. In diesem Fall fehlt der Schlüssel des Front-ends auf dem Knoten.
 :::
 ::::

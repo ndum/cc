@@ -100,7 +100,7 @@ onetemplate update praxis-gross
 The copy takes over everything, including the prices from chapter 3.3, and belongs to the practice. Whatever it puts in there is still limited by its quota. This splits the work. The platform team maintains a few shared templates, networks and images, and the members set themselves up within their quota.
 
 ::::exercise[Lab]
-With two VMs the practice's quota from chapter 3.2 is full. So first delete the VM `praxis-2` as `praxis-admin` with `onevm terminate`. Then create the user `praxis-mpa`, log in with it in Sunstone and start a VM. Check as `praxis-admin` that you see it, and delete it.
+With two VMs the practice's quota from chapter 3.2 is full. So first delete the VM `praxis-2` as `praxis-admin` with `onevm terminate`. Sunstone sets the CPU of a new VM to 1, which just fits next to `praxis-1` into the practice's 1.5 CPU. Then create the user `praxis-mpa`, log in with it in Sunstone and start a VM. Check as `praxis-admin` that you see it, and delete it.
 
 :::solution
 `oneuser create praxis-mpa <password>` creates the user in the group `praxis`. In Sunstone the view `cloud` shows the template `ubuntu`, and the VM only starts as long as the practice's quota has room. As `praxis-admin`, `onevm list` shows the VM with the owner `praxis-mpa`, and `onevm terminate` deletes it.

@@ -102,10 +102,10 @@ Fällt ein Knoten aus, laufen seine VMs nicht mehr. `onehost list` zeigt den Kno
 Für eine Cloud, die Ausfälle verkraftet, braucht es deshalb gemeinsamen Speicher, den alle Knoten erreichen, etwa Ceph oder ein NFS-Server, und eine Regel, die VMs eines ausgefallenen Knotens automatisch auf einem anderen neu startet. OpenNebula bietet dafür Hooks. Im Lab fehlt beides bewusst, damit es mit drei VMs auskommt. In Teil 6 gehört diese Lücke zur Beurteilung der Verfügbarkeit.
 
 ::::exercise[Wartung]
-Starte zwei VMs aus der Vorlage `ubuntu`, leere den Knoten, auf dem sie laufen, nimm ihn offline und danach wieder in Betrieb. Verschiebe zum Schluss eine VM live zurück. Notiere die Befehle in der richtigen Reihenfolge.
+Starte zwei VMs aus der Vorlage `ubuntu`, leere einen Knoten, auf dem eine davon läuft, nimm ihn offline und danach wieder in Betrieb. Verschiebe zum Schluss eine VM live zurück. Notiere die Befehle in der richtigen Reihenfolge.
 
 :::solution
-1. `onetemplate instantiate ubuntu --name web-2` und `--name web-3`, dann `onevm list` für die Knoten
+1. `onetemplate instantiate ubuntu --name web-2` und `--name web-3`, dann `onevm list --size host=15` für die Knoten, denn ohne die Option kürzt die Spalte `HOST` die Adresse
 2. `onehost flush <knoten>` und warten, bis `onevm list` keinen Stern mehr zeigt
 3. `onehost offline <knoten>`
 4. `onehost enable <knoten>` nach der Wartung
