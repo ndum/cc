@@ -54,6 +54,36 @@ export function milestonesFromDigest(d) {
   };
 }
 
+/** The lab network of every smartlearn environment, the same for all students because each one is isolated */
+export const LAB_NET = '192.168.210.0/24';
+export const LAB_GATEWAY = '192.168.210.1';
+
+/**
+ * Addresses of the three lab VMs, three in a row between .20 and .199
+ * @param {Uint8Array} d the SHA-256 digest of `cc2027-lab:${code}`
+ */
+export function labFromDigest(d) {
+  const base = 20 + 3 * (((d[0] << 8) | d[1]) % 60);
+  return { fe: `192.168.210.${base}`, node1: `192.168.210.${base + 1}`, node2: `192.168.210.${base + 2}` };
+}
+
+/** The netplan file that gives one lab VM its fixed address */
+export function netplanText(ip, iface) {
+  return [
+    'network:',
+    '  version: 2',
+    '  ethernets:',
+    `    ${iface}:`,
+    '      dhcp4: false',
+    `      addresses: [${ip}/24]`,
+    '      routes:',
+    '        - to: default',
+    `          via: ${LAB_GATEWAY}`,
+    '      nameservers:',
+    `        addresses: [${LAB_GATEWAY}]`,
+  ].join('\n');
+}
+
 /** The lines of /etc/cc-lab.env, the file the prepare script and the checks read */
 export function envLines(params, labIps = {}, lang = 'de') {
   const lines = [

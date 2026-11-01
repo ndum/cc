@@ -9,6 +9,7 @@ both agree. Change both files together, and only in ways that keep the values of
     python3 scripts/params.py mmuster --lang en
     python3 scripts/params.py mmuster --json
     python3 scripts/params.py mmuster --milestones
+    python3 scripts/params.py mmuster --lab
 """
 import argparse
 import hashlib
@@ -43,6 +44,18 @@ def params(code):
         "k3sServerIp": f"{prefix}.110",
         "k3sAgentIp": f"{prefix}.111",
     }
+
+
+# The lab network of every smartlearn environment, the same for all students because each one is isolated
+LAB_NET = "192.168.210.0/24"
+LAB_GATEWAY = "192.168.210.1"
+
+
+def lab(code):
+    """Addresses of the three lab VMs, three in a row between .20 and .199, from a digest of their own"""
+    d = hashlib.sha256(f"cc2027-lab:{code}".encode()).digest()
+    base = 20 + 3 * (((d[0] << 8) | d[1]) % 60)
+    return {"fe": f"192.168.210.{base}", "node1": f"192.168.210.{base + 1}", "node2": f"192.168.210.{base + 2}"}
 
 
 def milestones(code):
@@ -93,10 +106,14 @@ def main():
     parser.add_argument("--lang", choices=["de", "en"], default="de")
     parser.add_argument("--json", action="store_true")
     parser.add_argument("--milestones", action="store_true", help="print the values of the milestones as JSON")
+    parser.add_argument("--lab", action="store_true", help="print the addresses of the three lab VMs as JSON")
     args = parser.parse_args()
     code = normalize_code(args.code)
     if not CODE_PATTERN.match(code):
         sys.exit("The code starts with a letter and has 2 to 16 letters or digits.")
+    if args.lab:
+        print(json.dumps(lab(code)))
+        return
     if args.milestones:
         print(json.dumps(milestones(code)))
         return
@@ -104,7 +121,10 @@ def main():
     if args.json:
         print(json.dumps(p))
     else:
-        print("\n".join(env_lines(p, {"fe": args.fe, "node1": args.node1, "node2": args.node2}, args.lang)))
+        # Addresses given on the command line win, for a lab outside smartlearn
+        given = {"fe": args.fe, "node1": args.node1, "node2": args.node2}
+        ips = {**lab(code), **{key: value for key, value in given.items() if value}}
+        print("\n".join(env_lines(p, ips, args.lang)))
 
 
 if __name__ == "__main__":

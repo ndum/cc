@@ -37,15 +37,15 @@ So that you do not have to remember addresses, create the file `~/.ssh/config` o
 
 ```text
 Host mmuster-fe
-  HostName 192.168.42.10
+  HostName 192.168.210.137
   User cc
 
 Host mmuster-node1
-  HostName 192.168.42.11
+  HostName 192.168.210.138
   User cc
 
 Host mmuster-node2
-  HostName 192.168.42.12
+  HostName 192.168.210.139
   User cc
 ```
 

@@ -103,6 +103,12 @@ class Report:
 
 def check_start(env, report):
     fe, nodes = env["CC_FE_HOST"], [env["CC_NODE1_HOST"], env["CC_NODE2_HOST"]]
+    lab = load_params_module().lab(env.get("CC_CODE", ""))
+    report.check([env["CC_FE_IP"], env["CC_NODE1_IP"], env["CC_NODE2_IP"]] == [lab["fe"], lab["node1"], lab["node2"]],
+                 tr(f"Die Adressen passen zu deinem Code, {lab['fe']} bis {lab['node2']}", f"The addresses match your code, {lab['fe']} to {lab['node2']}"),
+                 tr("Kapitel 0.3 nennt die Adressen deiner VMs.", "Chapter 0.3 lists the addresses of your VMs."))
+    report.check(env["CC_FE_IP"] in run("hostname", "-I")[1].split(), tr(f"Das Front-end hat die Adresse {env['CC_FE_IP']}", f"The front-end has the address {env['CC_FE_IP']}"),
+                 tr("netplan aus Kapitel 0.3", "netplan from chapter 0.3"))
     report.check(socket.gethostname() == fe, tr(f"Dieser Rechner heisst {fe}", f"This machine is called {fe}"),
                  tr("Das Skript läuft auf dem Front-end, prepare.sh setzt den Namen.", "Run the check on the front-end, prepare.sh sets the name."))
     for host, ip in [(fe, env["CC_FE_IP"]), (nodes[0], env["CC_NODE1_IP"]), (nodes[1], env["CC_NODE2_IP"])]:

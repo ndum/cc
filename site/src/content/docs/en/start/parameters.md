@@ -20,17 +20,17 @@ After this chapter you can
 
 ## Purpose of the parameters
 
-Every lab in the course is a little different. A personal code determines the names of your VMs, the internal network of your cloud and the identifier of its VXLAN network. These values stay with you for the whole course. The scripts read them, the chapters use them in their commands, and every milestone shows them. Your instructor can recompute them from your code at any time, so a solution copied from another lab stands out.
+Every lab in the course is a little different. A personal code determines the names and addresses of your VMs, the internal network of your cloud and the identifier of its VXLAN network. These values stay with you for the whole course. The scripts read them, the chapters use them in their commands, and every milestone shows them. Your instructor can recompute them from your code at any time, so a solution copied from another lab stands out.
 
 Your instructor gives you the code, usually your short name. It starts with a letter and consists of 2 to 16 lower case letters or digits. Keep the same code for the whole course.
 
 ## The generator
 
-Enter your code and the addresses of your three VMs. The calculation runs only in your browser, nothing leaves this page. Your input is still there the next time you visit.
+Enter your code and the name of the network interface of your VMs. The calculation runs only in your browser, nothing leaves this page. Your input is still there the next time you visit.
 
 <cc-params></cc-params>
 
-The result is the content of the file `/etc/cc-lab.env`. Below it are your personal values for the four milestones. Until a milestone you work with the values of the chapters, only the milestone asks for your own.
+The result shows the addresses of your three VMs, a netplan file for each VM and the content of the file `/etc/cc-lab.env`. Below it are your personal values for the four milestones. Until a milestone you work with the values of the chapters, only the milestone asks for your own.
 
 ## The values
 
@@ -39,20 +39,47 @@ The result is the content of the file `/etc/cc-lab.env`. Below it are your perso
 | `CC_CODE` | your personal code | in every report of the checks |
 | `CC_LANG` | language of the reports, `de` or `en` | check scripts |
 | `CC_FE_HOST`, `CC_NODE1_HOST`, `CC_NODE2_HOST` | names of the three VMs, built from the code | host names, `/etc/hosts`, Ansible inventory |
-| `CC_FE_IP`, `CC_NODE1_IP`, `CC_NODE2_IP` | addresses of the three VMs on the lab network | `/etc/hosts`, inventory, web interface |
+| `CC_FE_IP`, `CC_NODE1_IP`, `CC_NODE2_IP` | addresses of the three VMs on the lab network, derived from the code | netplan, `/etc/hosts`, inventory, web interface |
 | `CC_GUEST_NET` | internal network for the VMs of your cloud | gateway on the front-end, network in OpenNebula from chapter 2.3 |
 | `CC_GUEST_GATEWAY` | address of the front-end on the internal network | gateway, network in OpenNebula |
 | `CC_GUEST_FIRST`, `CC_GUEST_SIZE` | first address and number of addresses for the VMs of the cloud | address range of the network in OpenNebula |
 | `CC_VNI`, `CC_VXLAN_GROUP` | identifier and multicast group of your VXLAN network | gateway on the front-end, network in OpenNebula |
 | `CC_K3S_SERVER_IP`, `CC_K3S_AGENT_IP` | fixed addresses of the two VMs for Kubernetes | part 4 |
 
-The internal network always lies within 172.16.0.0/12, and the VXLAN identifier between 1000 and 9999. This way two labs stay out of each other's way, even on the same network of smartlearn.
+The internal network always lies within 172.16.0.0/12, and the VXLAN identifier between 1000 and 9999. The addresses of the three VMs lie next to each other between 192.168.210.20 and 192.168.210.199. Since every environment on smartlearn has its own lab network, two people may have the same addresses.
 
 The address range for the VMs runs from `.10` to `.209`, so it also holds the fixed addresses `.110` and `.111` for Kubernetes. OpenNebula gives a VM without a requested address the first free address from `.10` on, so the VMs of parts 2 and 3 stay well below. OpenTofu explicitly asks for `.110` and `.111` for the two Kubernetes VMs. If one of them were taken already, `tofu apply` would stop with a message.
 
+## Setting the addresses
+
+Without an address you cannot reach a VM over SSH yet. So you set the addresses on the smartlearn console, each VM with its own. Ubuntu manages the network with netplan, which reads its settings from YAML files in `/etc/netplan/`.
+
+1. Check the name of the network interface with `ip -br link`. If the generator shows another name, correct it there.
+2. Create the file and paste the content the generator shows for this VM.
+3. Protect the file and apply the settings with `netplan try`. Confirm with Enter. Without a confirmation netplan restores the old settings after two minutes.
+4. Check the address, the gateway and the name of a server on the internet.
+
+```bash
+sudo nano /etc/netplan/60-cc-lab.yaml
+sudo chmod 600 /etc/netplan/60-cc-lab.yaml
+sudo netplan try
+ip -br addr
+ping -c 2 192.168.210.1
+ping -c 2 ubuntu.com
+```
+
+The file name starts with `60` so that it is read after a file `50-cloud-init.yaml`, if there is one, and overrides its settings for the same interface. YAML needs indentation with spaces, a tab causes an error.
+
+| Symptom | Cause | What helps |
+|---|---|---|
+| `netplan try` reports an error in the file | indentation with a tab or a line indented wrongly | look at the file with `cat -A`, tabs show up as `^I` |
+| `ip -br addr` shows two addresses | DHCP from `50-cloud-init.yaml` for another interface | check the interface name in the generator |
+| the gateway does not answer | wrong address or wrong interface | compare `ip -br addr` with the table in the generator |
+| the gateway answers, `ubuntu.com` does not | DNS is missing | `resolvectl status` shows the DNS, it must be 192.168.210.1 |
+
 ## The file on the VMs
 
-Create the file `/etc/cc-lab.env` with the same content on all three VMs. The easiest way is to open it in an editor and paste the output of the generator.
+Create the file `/etc/cc-lab.env` with the same content on all three VMs. SSH works by now. The easiest way is to open it in an editor and paste the output of the generator.
 
 ```bash
 sudo nano /etc/cc-lab.env
@@ -65,7 +92,7 @@ The documentation of every milestone starts with the content of `/etc/cc-lab.env
 :::
 
 ::::exercise[Lab]
-Generate your parameters, create `/etc/cc-lab.env` on all three VMs and explain three of the values to a classmate in your own words.
+Generate your parameters, set its address on each of the three VMs, create `/etc/cc-lab.env` on all three and explain three of the values to a classmate in your own words.
 
 :::solution
 The file has 16 lines and is the same on all three VMs. The host names start with your code, the internal network lies within 172.16.0.0/12 and ends in `.0/24`, and the VXLAN identifier lies between 1000 and 9999.

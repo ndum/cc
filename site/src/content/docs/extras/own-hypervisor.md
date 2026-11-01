@@ -36,9 +36,9 @@ powershell -ExecutionPolicy Bypass -File new-lab.ps1 -Code mmuster -Iso "$env:US
 
 Das Skript gibt dem Front-end 16 GB RAM, den Knoten 8 GB und jeder VM vier virtuelle CPUs. Es schaltet die verschachtelte Virtualisierung ein, dazu den festen Speicher, den sie verlangt, und das Zertifikat für Secure Boot mit Ubuntu.
 
-::code{file="lab/hyperv/new-lab.ps1" lines="45-49"}
+::code{file="lab/hyperv/new-lab.ps1" lines="48-52"}
 
-Am Ende zeigt das Skript die Adressen im Netz 192.168.42.0/24, die du bei der Installation von Ubuntu einträgst. Windows 11 Home enthält kein Hyper-V.
+Das Skript legt das Labnetz 192.168.210.0/24 mit NAT an, der Rechner selbst ist das Gateway 192.168.210.1. Am Ende zeigt es die Adressen aus deinem Code, dieselben wie der Generator in Kapitel 0.3, die du bei der Installation von Ubuntu einträgst. Auf .1 antwortet unter Hyper-V kein DNS, trag deshalb den DNS ein, den das Skript nennt. Windows 11 Home enthält kein Hyper-V.
 
 ## VMware
 

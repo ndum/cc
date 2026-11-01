@@ -189,7 +189,7 @@ systemctl list-units 'opennebula*' mariadb.service
 sudo ss -ltnp
 ```
 
-Die Weboberfläche erreichst du im Browser unter Port 2616 des Front-ends, zum Beispiel `http://192.168.42.10:2616/`. Du meldest dich als `oneadmin` mit dem Passwort aus `~/cc-lab/oneadmin.pass` an.
+Die Weboberfläche erreichst du im Browser unter Port 2616 des Front-ends, zum Beispiel `http://192.168.210.137:2616/`. Du meldest dich als `oneadmin` mit dem Passwort aus `~/cc-lab/oneadmin.pass` an.
 
 Der Check dieses Kapitels prüft den Dienst, die Version, beide Hosts und die Weboberfläche.
 

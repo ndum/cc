@@ -36,9 +36,9 @@ powershell -ExecutionPolicy Bypass -File new-lab.ps1 -Code mmuster -Iso "$env:US
 
 The script gives the front-end 16 GB of RAM, the nodes 8 GB and every VM four virtual CPUs. It turns on nested virtualization along with the fixed memory it requires and the Secure Boot certificate Ubuntu needs.
 
-::code{file="lab/hyperv/new-lab.ps1" lines="45-49"}
+::code{file="lab/hyperv/new-lab.ps1" lines="48-52"}
 
-At the end the script prints the addresses on the network 192.168.42.0/24 that you enter when you install Ubuntu. Windows 11 Home does not include Hyper-V.
+The script creates the lab network 192.168.210.0/24 with NAT, and the computer itself is the gateway 192.168.210.1. At the end it prints the addresses from your code, the same as the generator in chapter 0.3, which you enter when you install Ubuntu. Under Hyper-V no DNS answers on .1, so enter the DNS the script names. Windows 11 Home does not include Hyper-V.
 
 ## VMware
 

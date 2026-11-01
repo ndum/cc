@@ -1,21 +1,35 @@
 /**
  * <cc-params>: the parameter generator of chapter 0.3.
  *
- * Students type their personal code and the addresses of their three VMs, the element shows the
- * content of /etc/cc-lab.env. Everything is computed in the browser, nothing leaves the page.
- * The last input is kept in localStorage, so the values are still there on the next visit.
+ * Students type their personal code and the name of the network interface of their VMs. The
+ * element shows the addresses of the three VMs, the netplan file for each of them and the content
+ * of /etc/cc-lab.env. Everything is computed in the browser, nothing leaves the page. The last
+ * input is kept in localStorage, so the values are still there on the next visit.
  */
-import { CODE_PATTERN, envLines, milestonesFromDigest, normalizeCode, paramsFromDigest } from './params-core.js';
+import {
+  CODE_PATTERN,
+  envLines,
+  labFromDigest,
+  milestonesFromDigest,
+  netplanText,
+  normalizeCode,
+  paramsFromDigest,
+} from './params-core.js';
 
 const TEXT = {
   de: {
     code: 'Persönlicher Code',
     codeHint: 'Kleinbuchstaben und Ziffern, beginnt mit einem Buchstaben, 2 bis 16 Zeichen',
-    fe: 'IP-Adresse des Front-ends',
-    node1: 'IP-Adresse von Knoten 1',
-    node2: 'IP-Adresse von Knoten 2',
+    iface: 'Netzwerkschnittstelle',
+    ifaceHint: 'so, wie sie ip -br link auf deinen VMs zeigt, etwa ens160 oder eth0',
     invalidCode: 'Der Code beginnt mit einem Buchstaben und hat 2 bis 16 Kleinbuchstaben oder Ziffern.',
-    invalidIp: 'Diese Adresse ist keine gültige IPv4-Adresse.',
+    invalidIface: 'Der Name der Schnittstelle besteht aus Kleinbuchstaben und Ziffern.',
+    addresses: 'Adressen deiner drei VMs',
+    vm: 'VM',
+    host: 'Hostname',
+    address: 'Adresse',
+    names: { fe: 'Front-end', node1: 'Knoten 1', node2: 'Knoten 2' },
+    netplan: (name) => `/etc/netplan/60-cc-lab.yaml auf ${name}`,
     result: 'Inhalt von /etc/cc-lab.env',
     copy: 'Kopieren',
     copied: 'Kopiert',
@@ -28,11 +42,16 @@ const TEXT = {
   en: {
     code: 'Personal code',
     codeHint: 'lower case letters and digits, starts with a letter, 2 to 16 characters',
-    fe: 'IP address of the front-end',
-    node1: 'IP address of node 1',
-    node2: 'IP address of node 2',
+    iface: 'Network interface',
+    ifaceHint: 'as ip -br link shows it on your VMs, for example ens160 or eth0',
     invalidCode: 'The code starts with a letter and has 2 to 16 lower case letters or digits.',
-    invalidIp: 'This is not a valid IPv4 address.',
+    invalidIface: 'The interface name consists of lower case letters and digits.',
+    addresses: 'Addresses of your three VMs',
+    vm: 'VM',
+    host: 'Host name',
+    address: 'Address',
+    names: { fe: 'Front-end', node1: 'Node 1', node2: 'Node 2' },
+    netplan: (name) => `/etc/netplan/60-cc-lab.yaml on ${name}`,
     result: 'Content of /etc/cc-lab.env',
     copy: 'Copy',
     copied: 'Copied',
@@ -45,7 +64,8 @@ const TEXT = {
 };
 
 const STORAGE_KEY = 'cc-params';
-const IPV4 = /^(25[0-5]|2[0-4]\d|1?\d?\d)(\.(25[0-5]|2[0-4]\d|1?\d?\d)){3}$/;
+const IFACE = /^[a-z][a-z0-9]{1,14}$/;
+const ROLES = ['fe', 'node1', 'node2'];
 
 function load() {
   try {
@@ -68,70 +88,98 @@ async function digestOf(code, prefix = 'cc2027') {
   return new Uint8Array(await crypto.subtle.digest('SHA-256', data));
 }
 
+/** A block with a label, preformatted text and a copy button */
+function block(label, text, t) {
+  const wrap = document.createElement('div');
+  const title = document.createElement('p');
+  title.className = 'cc-params-label';
+  title.textContent = label;
+  const pre = document.createElement('pre');
+  const code = document.createElement('code');
+  code.textContent = text;
+  pre.append(code);
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.textContent = t.copy;
+  button.addEventListener('click', async () => {
+    await navigator.clipboard.writeText(`${text}\n`);
+    button.textContent = t.copied;
+    setTimeout(() => (button.textContent = t.copy), 1500);
+  });
+  wrap.append(title, pre, button);
+  return wrap;
+}
+
 class CcParams extends HTMLElement {
   connectedCallback() {
     const lang = document.documentElement.lang.startsWith('en') ? 'en' : 'de';
     const t = TEXT[lang];
     const stored = load();
-    const field = (name, label, hint = '') => `
+    const field = (name, label, hint, fallback = '') => `
       <p class="cc-params-field">
         <label for="cc-${name}">${label}</label>
-        <input id="cc-${name}" name="${name}" autocomplete="off" spellcheck="false" value="${stored[name] ?? ''}">
-        ${hint ? `<span class="cc-params-hint">${hint}</span>` : ''}
+        <input id="cc-${name}" name="${name}" autocomplete="off" spellcheck="false" value="${stored[name] ?? fallback}">
+        <span class="cc-params-hint">${hint}</span>
       </p>`;
     this.innerHTML = `
       <form class="cc-params-form">
         ${field('code', t.code, t.codeHint)}
-        ${field('fe', t.fe)}
-        ${field('node1', t.node1)}
-        ${field('node2', t.node2)}
+        ${field('iface', t.iface, t.ifaceHint, 'ens160')}
       </form>
       <p class="cc-params-error" role="alert"></p>
-      <div class="cc-params-result" hidden>
-        <p class="cc-params-label">${t.result}</p>
-        <pre><code></code></pre>
-        <button type="button">${t.copy}</button>
-        <p class="cc-params-label">${t.milestones}</p>
-        <ul class="cc-params-milestones"></ul>
-      </div>`;
+      <div class="cc-params-result" hidden></div>`;
     const form = this.querySelector('form');
     const error = this.querySelector('.cc-params-error');
     const result = this.querySelector('.cc-params-result');
-    const code = this.querySelector('code');
-    const button = this.querySelector('button');
 
     const update = async () => {
       const values = Object.fromEntries(new FormData(form));
       save(values);
       const normalized = normalizeCode(values.code);
-      const badIp = ['fe', 'node1', 'node2'].find((key) => values[key] && !IPV4.test(values[key].trim()));
-      if (!CODE_PATTERN.test(normalized)) {
-        error.textContent = normalized ? t.invalidCode : '';
+      const iface = (values.iface ?? '').trim();
+      if (!CODE_PATTERN.test(normalized) || !IFACE.test(iface)) {
+        error.textContent = normalized && !CODE_PATTERN.test(normalized) ? t.invalidCode : iface && !IFACE.test(iface) ? t.invalidIface : '';
         result.hidden = true;
         return;
       }
-      error.textContent = badIp ? t.invalidIp : '';
+      error.textContent = '';
       const params = paramsFromDigest(normalized, await digestOf(normalized));
-      const ips = { fe: values.fe?.trim(), node1: values.node1?.trim(), node2: values.node2?.trim() };
-      code.textContent = envLines(params, ips, lang).join('\n');
+      const ips = labFromDigest(await digestOf(normalized, 'cc2027-lab'));
+      const hosts = { fe: params.feHost, node1: params.node1Host, node2: params.node2Host };
+
+      const label = document.createElement('p');
+      label.className = 'cc-params-label';
+      label.textContent = t.addresses;
+      const table = document.createElement('table');
+      const head = table.createTHead().insertRow();
+      for (const text of [t.vm, t.host, t.address]) head.append(Object.assign(document.createElement('th'), { textContent: text }));
+      const body = table.createTBody();
+      for (const role of ROLES) {
+        const row = body.insertRow();
+        for (const text of [t.names[role], hosts[role], `${ips[role]}/24`]) row.insertCell().textContent = text;
+      }
+
       const ms = milestonesFromDigest(await digestOf(normalized, 'cc2027-ms'));
-      this.querySelector('.cc-params-milestones').replaceChildren(
-        ...['m1', 'm2', 'm3', 'm4'].map((key) => {
-          const item = document.createElement('li');
-          item.textContent = t[key](ms[key]);
-          return item;
-        }),
+      const msLabel = document.createElement('p');
+      msLabel.className = 'cc-params-label';
+      msLabel.textContent = t.milestones;
+      const list = document.createElement('ul');
+      list.className = 'cc-params-milestones';
+      list.append(...['m1', 'm2', 'm3', 'm4'].map((key) => Object.assign(document.createElement('li'), { textContent: t[key](ms[key]) })));
+
+      result.replaceChildren(
+        label,
+        table,
+        ...ROLES.map((role) => block(t.netplan(t.names[role]), netplanText(ips[role], iface), t)),
+        block(t.result, envLines(params, ips, lang).join('\n'), t),
+        msLabel,
+        list,
       );
       result.hidden = false;
     };
 
     form.addEventListener('input', update);
     form.addEventListener('submit', (event) => event.preventDefault());
-    button.addEventListener('click', async () => {
-      await navigator.clipboard.writeText(`${code.textContent}\n`);
-      button.textContent = t.copied;
-      setTimeout(() => (button.textContent = t.copy), 1500);
-    });
     update();
   }
 }

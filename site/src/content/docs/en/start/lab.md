@@ -32,13 +32,13 @@ Your lab consists of three virtual machines. The front-end will manage the cloud
 
 ## Two networks
 
-All three VMs sit on the lab network with fixed IP addresses. You reach the VMs through this network, and the front-end and the nodes talk to each other over it.
+All three VMs sit on the lab network 192.168.210.0/24 with fixed IP addresses derived from your personal code. You reach the VMs through this network, and the front-end and the nodes talk to each other over it.
 
 The VMs of your cloud get a second, internal network that only your three VMs know about. It runs as VXLAN on top of the lab network. The front-end is the gateway of this network and connects it to the internet through NAT. This way the lab works on any hypervisor, even one that does not allow foreign MAC addresses on its network.
 
 ## smartlearn
 
-Your instructor provides the three VMs on smartlearn, with fixed addresses on a shared network and with nested virtualization. This is the default way of the course, and all instructions assume it. If you prefer to run the VMs on a hypervisor of your own, the supplement [A hypervisor of your own](../../extras/own-hypervisor/) has the hints you need.
+Your instructor provides an environment of your own on smartlearn with the three VMs and nested virtualization. The environment has a lab network of its own, 192.168.210.0/24, with gateway and DNS on 192.168.210.1 and access to the internet. No other lab shares this network. You set the addresses of your VMs yourself in [chapter 0.3](../parameters/#setting-the-addresses). This is the default way of the course, and all instructions assume it. If you prefer to run the VMs on a hypervisor of your own, the supplement [A hypervisor of your own](../../extras/own-hypervisor/) has the hints you need.
 
 ## Nested virtualization
 
@@ -53,7 +53,7 @@ grep -cE 'vmx|svm' /proc/cpuinfo
 All three VMs run Ubuntu Server 26.04 LTS. If you install Ubuntu yourself, use these settings:
 
 1. the variant "Ubuntu Server (minimized)"
-2. a fixed IPv4 address with gateway and DNS
+2. the fixed IPv4 address from your personal parameters, see chapter 0.3
 3. the same user name on all three VMs, for example `cc`
 4. the box "Install OpenSSH server" checked
 5. no additional snaps
@@ -67,9 +67,9 @@ echo "$USER ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/$USER
 If your VMs support snapshots, now is a good time for the first one. It takes you back to a fresh installation at any time.
 
 ::::exercise[Lab]
-Log in to all three VMs, check nested virtualization on both nodes and set up sudo without a password. Write down the IP addresses of the three VMs, you need them in the next chapter.
+Log in to all three VMs on the smartlearn console, check nested virtualization on both nodes and set up sudo without a password. Write down the name of the network interface that `ip -br link` shows, you need it in the next chapter.
 
 :::solution
-`grep -cE 'vmx|svm' /proc/cpuinfo` prints a number greater than zero on both nodes, usually 4 or 8 with four vCPUs. After that, `sudo -n true` runs without asking.
+`grep -cE 'vmx|svm' /proc/cpuinfo` prints a number greater than zero on both nodes, usually 4 or 8 with four vCPUs. After that, `sudo -n true` runs without asking. Besides `lo`, `ip -br link` shows one interface, usually `ens160` or `eth0`.
 :::
 ::::
