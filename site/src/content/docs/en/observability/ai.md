@@ -80,15 +80,17 @@ While answering, Ollama uses nearly all four cores of the agent, about 3.9 in th
 
 ::code{file="platform/observability/repo/ai/networkpolicy.yaml"}
 
-A member gets access when its namespace carries the label `ai: allowed`. That belongs in its folder under `members`, as a patch on the namespace.
+A member gets access when its namespace carries the label `ai: allowed`. That belongs in its folder under `members`, as a patch on the namespace. Kustomize adds the label to the ones the namespace already has, so the labels of the template stay.
 
 ```yaml
   - target:
       kind: Namespace
     patch: |-
-      - op: add
-        path: /metadata/labels
-        value:
+      apiVersion: v1
+      kind: Namespace
+      metadata:
+        name: velo
+        labels:
           ai: allowed
 ```
 

@@ -9,6 +9,7 @@ Run it on the front-end as the user who works with the lab:
     python3 checks/check.py tenants    chapters 3.1 to 3.5, members, quotas, showback and the OneFlow service
     python3 checks/check.py platform   chapters 4.2 to 4.5, k3s from OpenTofu, Gitea, Argo CD and member namespaces
     python3 checks/check.py observability  chapters 5.1 to 5.6, metrics, logs, SLO, autoscaling, local model and triage
+    python3 checks/check.py operations  chapters 6.1 and 6.2 and UN4, hardening, Sealed Secrets, backups and the new member
 
 The report lands in ~/cc-reports/ and is printed. The hash at its end covers the whole report, so a
 changed report no longer matches its hash. The script is public, so the hash proves only that a
@@ -392,8 +393,86 @@ def check_observability(env, report):
                  tr("Seite des Triage-Dienstes, Kapitel 5.6", "Page of the triage service, chapter 5.6"))
 
 
+def check_operations(env, report):
+    home = pathlib.Path.home()
+    # Chapter 6.1, the front-end
+    code, out = run("ssh", "-o", "BatchMode=yes", "-o", "PubkeyAuthentication=no", "-o", "StrictHostKeyChecking=accept-new",
+                    "-o", "ConnectTimeout=5", "localhost", "true")
+    methods = out.rsplit("(", 1)[-1] if "Permission denied" in out else out
+    report.check("Permission denied" in out and "password" not in methods and "keyboard-interactive" not in methods,
+                 tr("SSH auf dem Front-end nimmt nur noch Schlüssel an", "SSH on the front-end only accepts keys"),
+                 tr("harden-frontend.sh aus Kapitel 6.1", "harden-frontend.sh from chapter 6.1"))
+    report.check(run("systemctl", "is-active", "cc-firewall")[1] == "active",
+                 tr("Die Firewall des Front-ends ist aktiv", "The firewall of the front-end is active"),
+                 tr("harden-frontend.sh aus Kapitel 6.1", "harden-frontend.sh from chapter 6.1"))
+    report.check('"1"' in run("apt-config", "dump", "APT::Periodic::Unattended-Upgrade")[1],
+                 tr("Sicherheitsupdates laufen automatisch", "Security updates run automatically"))
+    if not report.check(run("kubectl", "get", "nodes")[0] == 0, tr("kubectl erreicht den Cluster", "kubectl reaches the cluster"),
+                        tr("get-kubeconfig.sh aus Kapitel 4.3", "get-kubeconfig.sh from chapter 4.3")):
+        return
+    apps = {a["metadata"]["name"]: a.get("status", {}) for a in (kube_json("get", "applications", "-n", "argocd") or {}).get("items", [])}
+    for name in ("sealed-secrets", "secrets"):
+        status = apps.get(name, {})
+        report.check(status.get("sync", {}).get("status") == "Synced" and status.get("health", {}).get("status") == "Healthy",
+                     tr(f"Argo CD hält {name} synchron und gesund", f"Argo CD keeps {name} synced and healthy"),
+                     tr("Ordner operations/repo ins Plattform-Repo kopieren, Kapitel 6.1", "Copy operations/repo into the platform repo, chapter 6.1"))
+    secret = kube_json("get", "secret", "grafana-admin", "-n", "monitoring") or {}
+    owners = [o.get("kind") for o in secret.get("metadata", {}).get("ownerReferences", [])]
+    report.check("SealedSecret" in owners, tr("Das Grafana-Passwort kommt als SealedSecret aus Git", "The Grafana password comes from Git as a SealedSecret"),
+                 tr("seal-secrets.sh aus Kapitel 6.1", "seal-secrets.sh from chapter 6.1"))
+    members = [n[len("member-"):] for n in apps if n.startswith("member-")]
+    loose = []
+    for namespace in members:
+        labels = (kube_json("get", "namespace", namespace) or {}).get("metadata", {}).get("labels", {})
+        if labels.get("pod-security.kubernetes.io/enforce") != "restricted":
+            loose.append(namespace)
+    report.check(bool(members) and not loose, tr("Alle Mitglieder laufen mit dem Profil restricted", "All members run with the profile restricted"),
+                 ", ".join(loose))
+    # Chapter 6.2, backups
+    server = env.get("CC_K3S_SERVER_IP")
+    code, out = ssh(f"root@{server}", "k3s etcd-snapshot ls")
+    snapshots = [line for line in out.splitlines() if "snapshot" in line and not line.startswith("Name")] if code == 0 else []
+    report.check(bool(snapshots), tr("k3s läuft mit etcd und hat Snapshots", "k3s runs with etcd and has snapshots"),
+                 tr("--cluster-init im Startskript, Kapitel 6.2", "--cluster-init in the start script, chapter 6.2"))
+    backup = home / "backup" / "k3s"
+    copies = list((backup / "snapshots").glob("*")) if (backup / "snapshots").is_dir() else []
+    report.check(bool(copies) and (backup / "token").exists() and (backup / "sealed-secrets-key.yaml").exists(),
+                 tr("Snapshots, Token und Schlüssel liegen auf dem Front-end", "Snapshots, token and key are stored on the front-end"),
+                 tr("backup-k3s.sh aus Kapitel 6.2", "backup-k3s.sh from chapter 6.2"))
+    report.check(run("systemctl", "is-active", "cc-backup-k3s.timer")[1] == "active",
+                 tr("Ein Timer kopiert die Snapshots regelmässig", "A timer copies the snapshots regularly"),
+                 tr("install-backup-timer.sh aus Kapitel 6.2", "install-backup-timer.sh from chapter 6.2"))
+    datastore = (one_json("onedatastore", "show", "backups") or {}).get("DATASTORE", {})
+    report.check(datastore.get("TYPE") == "3", tr("OpenNebula hat einen Backup-Datastore", "OpenNebula has a backup datastore"),
+                 tr("backup-datastore.sh aus Kapitel 6.2", "backup-datastore.sh from chapter 6.2"))
+    jobs = as_list(((one_json("onebackupjob", "list") or {}).get("BACKUPJOB_POOL") or {}).get("BACKUPJOB"))
+    report.check(any(j.get("SCHED_ACTIONS") for j in jobs),
+                 tr("Ein Backup-Job läuft nach Zeitplan", "A backup job runs on a schedule"), tr("backup-job.sh aus Kapitel 6.2", "backup-job.sh from chapter 6.2"))
+    images = as_list(((one_json("oneimage", "list") or {}).get("IMAGE_POOL") or {}).get("IMAGE"))
+    # Image type 6 is a backup
+    report.check(any(i.get("TYPE") == "6" for i in images), tr("Es gibt ein Backup einer VM", "There is a backup of a VM"))
+    # UN4, the fifth member
+    groups = as_list(((one_json("onegroup", "list") or {}).get("GROUP_POOL") or {}).get("GROUP"))
+    new = [g for g in groups if g.get("NAME") not in set(MEMBERS) | {"oneadmin", "users"}]
+    quotas = [((one_json("onegroup", "show", g.get("NAME")) or {}).get("GROUP", {}).get("VM_QUOTA") or {}).get("VM") or {} for g in new]
+    with_quota = [q for q in quotas if str(q.get("VMS", "-1")).isdigit()]
+    report.check(bool(with_quota), tr("Das neue Mitglied hat eine Gruppe mit Quota in OpenNebula", "The new member has a group with a quota in OpenNebula"),
+                 tr("UN4, wie Kapitel 3.1 und 3.2", "UN4, as in chapters 3.1 and 3.2"))
+    vms = as_list(((one_json("onevm", "list") or {}).get("VM_POOL") or {}).get("VM"))
+    report.check(any(v.get("GNAME") in {g.get("NAME") for g in new} and v.get("LCM_STATE") == "3" for v in vms),
+                 tr("Eine VM des neuen Mitglieds läuft", "A VM of the new member runs"))
+    others = [n for n in members if n not in ("velo", "gemeinde")]
+    running = [n for n in others if any((d.get("status", {}).get("readyReplicas") or 0) > 0
+                                        for d in (kube_json("get", "deployments", "-n", n) or {}).get("items", []))]
+    report.check(bool(running), tr("Das neue Mitglied hat einen Namespace mit einer laufenden App", "The new member has a namespace with a running app"),
+                 tr("UN4, Ordner in members/ mit Vorlage und App", "UN4, folder in members/ with the template and an app"))
+    rules = json.dumps(kube_json("get", "prometheusrules", "-A") or {})
+    report.check(any(f'namespace=\\"{n}\\"' in rules for n in others), tr("Eine Alert-Regel überwacht das neue Mitglied", "An alert rule watches the new member"),
+                 tr("UN4, wie Kapitel 5.3", "UN4, as in chapter 5.3"))
+
+
 CHECKS = {"start": check_start, "install": check_install, "iaas": check_iaas, "tenants": check_tenants, "platform": check_platform,
-          "observability": check_observability}
+          "observability": check_observability, "operations": check_operations}
 
 
 def main():

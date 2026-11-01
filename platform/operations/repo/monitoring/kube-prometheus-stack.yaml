@@ -1,0 +1,86 @@
+# Values of kube-prometheus-stack for the lab, chapter 5.1
+
+# k3s runs etcd, scheduler, controller manager and proxy inside one process, their own monitors find nothing
+kubeEtcd:
+  enabled: false
+kubeControllerManager:
+  enabled: false
+kubeScheduler:
+  enabled: false
+kubeProxy:
+  enabled: false
+
+prometheus:
+  service:
+    type: NodePort
+    nodePort: 30090
+  prometheusSpec:
+    retention: 3d
+    resources:
+      requests:
+        cpu: 100m
+        memory: 512Mi
+    # Read monitors, rules and scrape configs of every namespace, not only those of this chart
+    serviceMonitorSelectorNilUsesHelmValues: false
+    podMonitorSelectorNilUsesHelmValues: false
+    ruleSelectorNilUsesHelmValues: false
+    scrapeConfigSelectorNilUsesHelmValues: false
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          accessModes: [ReadWriteOnce]
+          resources:
+            requests:
+              storage: 5Gi
+
+alertmanager:
+  # Alerts of the web shop and every alert with the label triage="true" go to the triage service
+  # of chapter 5.6, all others nowhere for now. A new member marks its rules with that label
+  config:
+    route:
+      receiver: "null"
+      group_by: [alertname, namespace]
+      group_wait: 30s
+      group_interval: 5m
+      repeat_interval: 4h
+      routes:
+        - receiver: triage
+          matchers:
+            - alertname =~ "Webshop.*"
+        - receiver: triage
+          matchers:
+            - triage = "true"
+    receivers:
+      - name: "null"
+      - name: triage
+        webhook_configs:
+          - url: http://triage.ai.svc:8080/alert
+            send_resolved: true
+  service:
+    type: NodePort
+    nodePort: 30093
+  alertmanagerSpec:
+    resources:
+      requests:
+        cpu: 10m
+        memory: 64Mi
+
+grafana:
+  service:
+    type: NodePort
+    nodePort: 30300
+  # The password lives in a secret that make-secrets.sh creates, not in Git
+  admin:
+    existingSecret: grafana-admin
+    userKey: admin-user
+    passwordKey: admin-password
+  additionalDataSources:
+    - name: Loki
+      type: loki
+      uid: loki
+      url: http://loki.monitoring.svc:3100
+  # Dashboards from config maps with the label grafana_dashboard in any namespace
+  sidecar:
+    dashboards:
+      enabled: true
+      searchNamespace: ALL

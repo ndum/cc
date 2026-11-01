@@ -16,8 +16,8 @@ The chapters follow one case. Wolkenwerk Bern, a fictional cooperative in Bern, 
 |---|---|
 | `site/` | the course site, built with Astro and Starlight, German at the root and English under `/en/` |
 | `lab/` | the scripts that create and prepare the virtual machines of the lab and install OpenNebula |
-| `platform/` | the platform on top of the cloud, tools, Gitea, Argo CD, the template of the platform repo with OpenTofu code and its additions for monitoring and the local model |
-| `case/` | the container apps of the case, the web shop with its load generator and the triage service |
+| `platform/` | the platform on top of the cloud, tools, Gitea, Argo CD, the template of the platform repo with OpenTofu code and its additions for monitoring, the local model and operations with security and backup |
+| `case/` | the container apps of the case, the web shop with its load generator, the triage service and the postmortem draft |
 | `checks/` | the check scripts that test the state of a lab and write a report |
 | `figures/` | the scripts that draw the figures and the favicon |
 | `scripts/` | the checks of the course, the localization and the parameter generator |

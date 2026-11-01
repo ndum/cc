@@ -1,0 +1,10 @@
+# Pods of a member must meet the profile restricted of Pod Security Admission, Kubernetes refuses others.
+# warn and audit report the same profile when a manifest is applied and in the audit log
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: member
+  labels:
+    pod-security.kubernetes.io/enforce: restricted
+    pod-security.kubernetes.io/warn: restricted
+    pod-security.kubernetes.io/audit: restricted

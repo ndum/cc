@@ -80,15 +80,17 @@ Während einer Antwort belegt Ollama fast alle vier Kerne des Agents, im Testauf
 
 ::code{file="platform/observability/repo/ai/networkpolicy.yaml"}
 
-Ein Mitglied bekommt Zugriff, wenn sein Namespace das Label `ai: allowed` trägt. Das gehört in seinen Ordner unter `members`, als Patch auf den Namespace.
+Ein Mitglied bekommt Zugriff, wenn sein Namespace das Label `ai: allowed` trägt. Das gehört in seinen Ordner unter `members`, als Patch auf den Namespace. Kustomize fügt das Label zu denen hinzu, die der Namespace schon hat, so bleiben die Labels der Vorlage erhalten.
 
 ```yaml
   - target:
       kind: Namespace
     patch: |-
-      - op: add
-        path: /metadata/labels
-        value:
+      apiVersion: v1
+      kind: Namespace
+      metadata:
+        name: velo
+        labels:
           ai: allowed
 ```
 

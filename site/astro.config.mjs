@@ -63,6 +63,12 @@ export default defineConfig({
           items: [{ autogenerate: { directory: 'observability' } }],
         },
         {
+          label: 'Betrieb',
+          translations: { en: 'Operations' },
+          collapsed: true,
+          items: [{ autogenerate: { directory: 'operations' } }],
+        },
+        {
           label: 'Ergänzungen',
           translations: { en: 'Supplements' },
           collapsed: true,
@@ -72,7 +78,7 @@ export default defineConfig({
           label: 'Leistungsbeurteilung',
           translations: { en: 'Assessment' },
           collapsed: true,
-          items: [{ slug: 'assessment', label: 'Übersicht', translations: { en: 'Overview' } }, { slug: 'assessment/un1' }, { slug: 'assessment/un2' }, { slug: 'assessment/un3' }],
+          items: [{ slug: 'assessment', label: 'Übersicht', translations: { en: 'Overview' } }, { slug: 'assessment/un1' }, { slug: 'assessment/un2' }, { slug: 'assessment/un3' }, { slug: 'assessment/un4' }],
         },
         {
           label: 'Nachschlagen',
