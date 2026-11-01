@@ -10,7 +10,7 @@ Deine Modulnote setzt sich aus vier Umsetzungsnachweisen zusammen. Je zwei davon
 | Abgabe 1 | UN1 IaaS für Wolkenwerk und UN2 Plattform per Code | Ende Block 4 | 50 % |
 | Abgabe 2 | UN3 Observability, Skalierung und KI und UN4 ein eigenes Mitglied | Ende Block 6 | 50 % |
 
-Die Modulnote ist der Durchschnitt der beiden Noten. Block 7 gehört der Probeprüfung und ihrer Besprechung, sie zählt nicht für die Note. Die genauen Termine, den Weg der Abgabe und die Regeln zu Verspätungen erhältst du von deiner Lehrperson.
+Die Modulnote ist der Durchschnitt der beiden Noten. Block 7 gehört der [Probeprüfung](mock-exam/) und ihrer Besprechung, sie zählt nicht für die Note. Die genauen Termine, den Weg der Abgabe und die Regeln zu Verspätungen erhältst du von deiner Lehrperson.
 
 ## Die Nachweise
 
@@ -41,4 +41,4 @@ Im README jedes Nachweises hältst du fest, wofür du einen KI-Assistenten einge
 
 ## Diplomprüfung
 
-Nach dem Modul folgt die Diplomprüfung ausserhalb des Moduls. Sie ist praktisch, dauert 60 Minuten und ist Open Book. Die Probeprüfung in Block 7 hat dasselbe Format.
+Nach dem Modul folgt die Diplomprüfung ausserhalb des Moduls. Sie ist praktisch, dauert 60 Minuten und ist Open Book. Die Probeprüfung in Block 7 hat dasselbe Format. Was zur Diplomprüfung feststeht und wie du dich vorbereitest, steht auf der Seite [Diplomprüfung](diploma-exam/).

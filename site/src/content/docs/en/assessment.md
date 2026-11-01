@@ -10,7 +10,7 @@ Your grade comes from four implementation proofs. You hand in two of them togeth
 | Hand-in 1 | UN1 IaaS for Wolkenwerk and UN2 platform as code | end of block 4 | 50% |
 | Hand-in 2 | UN3 observability, scaling and AI and UN4 a member of your own | end of block 6 | 50% |
 
-Your module grade is the average of the two grades. Block 7 is reserved for the mock exam and its discussion, which does not count toward the grade. Your teacher gives you the exact dates, the way to hand in and the rules for late submissions.
+Your module grade is the average of the two grades. Block 7 is reserved for the [mock exam](mock-exam/) and its discussion, which does not count toward the grade. Your teacher gives you the exact dates, the way to hand in and the rules for late submissions.
 
 ## The proofs
 
@@ -41,4 +41,4 @@ The README of every proof states what you used an AI assistant for. Put the scre
 
 ## Diploma exam
 
-The diploma exam follows after the module, outside of it. It is practical, takes 60 minutes and is open book. The mock exam in block 7 has the same format.
+The diploma exam follows after the module, outside of it. It is practical, takes 60 minutes and is open book. The mock exam in block 7 has the same format. The page [Diploma exam](diploma-exam/) lists what is settled and how to prepare.

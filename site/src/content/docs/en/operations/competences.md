@@ -23,4 +23,4 @@ Use this grid to judge whether you can run your platform securely, recoverably a
 | calculate full cost and derive a price | Work out the share of the cost a member with 1 CPU and 2 GB carries. | [Cost and resource efficiency](../cost/#a-price-for-the-new-member) |
 | adjust resources based on measurements | Compare requests and use of a namespace and propose new values. | [Cost and resource efficiency](../cost/#right-sizing) |
 
-With this part you complete the [implementation proof UN4](../../assessment/un4/) and have covered the content of the course. Block 7 belongs to the mock exam.
+With this part you complete the [implementation proof UN4](../../assessment/un4/) and have covered the content of the course. Block 7 belongs to the [mock exam](../../assessment/mock-exam/).
