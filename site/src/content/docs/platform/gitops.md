@@ -32,6 +32,8 @@ Mit OpenTofu beschreibst du die VMs in Code, ausführen musst du ihn aber selbst
 
 Der Unterschied zum klassischen Ausrollen liegt in der Richtung. Bei einem Push-Ansatz meldet sich eine Pipeline oder ein Mensch mit Rechten am Cluster an und spielt Änderungen ein. Bei GitOps braucht ausser dem Agent im Cluster niemand diese Rechte. Wer etwas ändern will, ändert Git, und die Geschichte von Git ist zugleich das Protokoll aller Änderungen.
 
+![Der Kreislauf von GitOps. Das Plattform-Team schickt eine Änderung mit git push an Gitea auf dem Front-end oder öffnet einen Pull Request, der nach der Prüfung zusammengeführt wird. Argo CD im k3s-Cluster holt das Repo wolkenwerk/platform jede Minute mit Leserechten. Es vergleicht den Soll-Zustand aus Git mit dem Ist-Zustand, etwa beim Webshop im Namespace velo, und wendet die Unterschiede an. Ändert jemand den Cluster von Hand mit kubectl scale, setzt Self-Heal die Änderung zurück. Achte auf die Richtung der Pfeile. Niemand schickt etwas in den Cluster, Argo CD holt sich den Soll-Zustand selbst.](../../../assets/figures/de/p4c4-gitops.svg)
+
 ## Gitea auf dem Front-end
 
 Argo CD, der Agent dieses Kapitels, braucht ein Git-Repo, das er aus dem Cluster erreicht. Das Plattform-Team betreibt dafür ein eigenes Gitea. Gitea ist ein schlanker Git-Server mit Weboberfläche, Benutzern, Organisationen und Pull Requests, unter der Lizenz MIT.
@@ -132,6 +134,8 @@ Die erste Application heisst `root`. Sie zeigt auf den Ordner `apps` im Repo, in
 ::code{file="platform/repo/apps/webshop.yaml"}
 
 Argo CD rollt also zuerst `root` aus und findet darin die Application `webshop`, die den Ordner `webshop` in den Namespace `velo` bringt. Eine neue Anwendung braucht nur eine neue Datei in `apps`, mit `kubectl` arbeitest du danach nicht mehr. Dieses Muster heisst App of Apps.
+
+![App of Apps im Plattform-Repo. Die Application root wendet das Skript beim Bootstrap einmal an, sie zeigt auf den Ordner apps. Darin liegen die Application webshop, die den Ordner webshop in den Namespace velo bringt, und das ApplicationSet members aus Kapitel 4.5. Das ApplicationSet erzeugt für jeden Ordner unter members eine eigene Application, etwa member-velo und member-gemeinde. Achte darauf, dass nur root von Hand in den Cluster kommt, alles Weitere entsteht aus Dateien in Git.](../../../assets/figures/de/p4c4-app-of-apps.svg)
 
 | Einstellung | Wirkung |
 |---|---|

@@ -29,6 +29,8 @@ desired pods = ceil(current pods × current utilization / target)
 
 Two pods at 120 % with a target of 60 % make four pods. The HPA takes the values from the metrics-server that k3s ships.
 
+![The control loop of the HorizontalPodAutoscaler. The metrics-server of k3s measures the CPU of the web shop pods. The HorizontalPodAutoscaler compares the average utilization with the target of 60 % of the request and computes pods times utilization divided by target, rounded up, so two pods at 120 % give four pods. It stays between 2 and 6 pods and sets replicas in the deployment webshop in the namespace velo. Every pod has a request of 50m and a limit of 250m. Below, the ResourceQuota member caps the limits at 2 CPU. Six pods need 1.5 CPU, and the rest is left for the extra pods of a rollout.](../../../../assets/figures/en/p5c4-hpa.svg)
+
 ::code{file="platform/observability/repo/webshop/hpa.yaml"}
 
 The web shop grows between two and six pods. When shrinking, the HPA waits five minutes and takes the highest recommendation of that period. A shop that is briefly quiet between two waves does not lose its pods right away.

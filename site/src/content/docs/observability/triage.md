@@ -28,6 +28,8 @@ Nach diesem Kapitel kannst du
 5. Der Vorschlag erscheint auf einer Webseite. Ein Mensch gibt ihn mit seinem Namen frei oder lehnt ihn ab.
 6. Nur eine freigegebene Aktion läuft, und nur auf erlaubten Deployments. Jeder Schritt landet im Audit-Log.
 
+![Vom Alert zur Aktion. Prometheus wertet die Regel WebshopErrorBudgetBurn aus und schickt den Alert an Alertmanager. Alertmanager leitet Alerts, deren alertname mit Webshop beginnt, als Webhook an den Triage-Dienst im Namespace ai. Der Dienst holt die Fehlerzeilen der letzten 15 Minuten aus Loki und den Zustand des Deployments aus der Kubernetes-API und fragt Ollama mit llama3.2:3b. Den Vorschlag zeigt er auf einer Webseite an Port 30880. Ein Mensch gibt ihn mit seinem Namen frei oder lehnt ihn ab. Nur eine freigegebene Aktion läuft, nur restart und nur auf velo/webshop. Jeder Schritt landet im Audit-Log.](../../../assets/figures/de/p5c6-triage.svg)
+
 Der Dienst ist ein kleines Programm in Python, `case/triage/triage.py`, das nur die Standardbibliothek nutzt. Die CI des Kursrepos baut daraus das Image `ghcr.io/ndum/cc/triage:1.0.0`.
 
 ## Die Frage an das Modell

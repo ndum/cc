@@ -72,6 +72,8 @@ Working with OpenTofu has two steps.
 
 The plan is where you catch mistakes. If it shows `-/+` for a VM you only meant to rename, you stop. Teams show the plan in a pull request before anyone applies it.
 
+![Plan and apply with the state. The code in Git on the left is the desired state, and OpenNebula on the right holds the actual state. tofu plan reads the code, the state in terraform.tfstate and the actual state, and only shows what would change. tofu apply reads the code, changes the VMs through the OpenNebula API and then writes the state. On the far right someone changes a VM by hand in Sunstone or with the CLI. Notice that only apply changes anything, and that the next plan catches this drift because it reads the actual state.](../../../../assets/figures/en/p4c1-plan-apply.svg)
+
 ## Drift and idempotence
 
 Drift is a difference between the actual state and the code, for example because someone changed a VM by hand in Sunstone. `tofu plan` makes drift visible and `tofu apply` reverts it.

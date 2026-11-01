@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 792 308" role="img" aria-labelledby="p4c1-plan-apply-de-title p4c1-plan-apply-de-desc">
+<title id="p4c1-plan-apply-de-title">Plan und Apply mit dem State</title>
+<desc id="p4c1-plan-apply-de-desc">Links liegt der Code in Git als Soll-Zustand. tofu plan liest den Code, den State in terraform.tfstate und den Ist-Zustand in OpenNebula und zeigt die Unterschiede. tofu apply liest den Code, ändert die VMs in OpenNebula und schreibt den State. Rechts ändert jemand eine VM von Hand in Sunstone oder mit der CLI, diese Drift zeigt der nächste Plan.</desc>
+<defs><marker id="p4c1-plan-apply-de-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"/></marker></defs>
+<rect class="d-band d-band-1" x="16" y="16" width="144" height="276" rx="6"/>
+<text class="d-label" x="32" y="40" text-anchor="start">SOLL-ZUSTAND</text>
+<rect class="d-tile" x="32" y="56" width="112" height="220" rx="4"/>
+<text class="d-title" x="88" y="163" text-anchor="middle">Code in Git</text>
+<text class="d-code" x="88" y="180" text-anchor="middle">tofu/*.tf</text>
+<rect class="d-band d-band-2" x="208" y="16" width="192" height="276" rx="6"/>
+<text class="d-label" x="224" y="40" text-anchor="start">OPENTOFU</text>
+<rect class="d-tile" x="224" y="56" width="160" height="50" rx="4"/>
+<text class="d-title" x="304" y="78" text-anchor="middle">tofu plan</text>
+<text class="d-sub" x="304" y="95" text-anchor="middle">zeigt Änderungen</text>
+<rect class="d-tile" x="224" y="141" width="160" height="50" rx="4"/>
+<rect class="d-bar" x="224" y="141" width="4" height="50" rx="2"/>
+<text class="d-title" x="304" y="163" text-anchor="middle">State</text>
+<text class="d-code" x="304" y="180" text-anchor="middle">terraform.tfstate</text>
+<rect class="d-tile" x="224" y="226" width="160" height="50" rx="4"/>
+<text class="d-title" x="304" y="248" text-anchor="middle">tofu apply</text>
+<text class="d-sub" x="304" y="265" text-anchor="middle">führt den Plan aus</text>
+<rect class="d-band d-band-1" x="448" y="16" width="144" height="276" rx="6"/>
+<text class="d-label" x="464" y="40" text-anchor="start">IST-ZUSTAND</text>
+<rect class="d-tile" x="464" y="56" width="112" height="220" rx="4"/>
+<text class="d-title" x="520" y="163" text-anchor="middle">OpenNebula</text>
+<text class="d-sub" x="520" y="180" text-anchor="middle">API 2633, VMs</text>
+<rect class="d-band d-band-1" x="640" y="16" width="136" height="276" rx="6"/>
+<text class="d-label" x="656" y="40" text-anchor="start">DRIFT</text>
+<rect class="d-tile" x="656" y="141" width="104" height="50" rx="4"/>
+<text class="d-title" x="708" y="163" text-anchor="middle">Von Hand</text>
+<text class="d-sub" x="708" y="180" text-anchor="middle">Sunstone, CLI</text>
+<path class="d-arrow" d="M 144 81 L 222 81" marker-end="url(#p4c1-plan-apply-de-head)"/>
+<path class="d-arrow" d="M 144 251 L 222 251" marker-end="url(#p4c1-plan-apply-de-head)"/>
+<text class="d-sub" x="184" y="74" text-anchor="middle">liest</text>
+<text class="d-sub" x="184" y="244" text-anchor="middle">liest</text>
+<path class="d-arrow" d="M 304 141 L 304 108" marker-end="url(#p4c1-plan-apply-de-head)"/>
+<path class="d-arrow" d="M 304 226 L 304 193" marker-end="url(#p4c1-plan-apply-de-head)"/>
+<text class="d-sub" x="314" y="128" text-anchor="start">liest</text>
+<text class="d-sub" x="314" y="213" text-anchor="start">schreibt</text>
+<path class="d-arrow" d="M 464 81 L 386 81" marker-end="url(#p4c1-plan-apply-de-head)"/>
+<path class="d-arrow" d="M 384 251 L 462 251" marker-end="url(#p4c1-plan-apply-de-head)"/>
+<text class="d-sub" x="424" y="74" text-anchor="middle">liest</text>
+<text class="d-sub" x="424" y="244" text-anchor="middle">ändert</text>
+<path class="d-arrow" d="M 656 166 L 578 166" marker-end="url(#p4c1-plan-apply-de-head)"/>
+<text class="d-sub" x="616" y="159" text-anchor="middle">ändert</text>
+</svg>

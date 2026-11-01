@@ -29,6 +29,8 @@ gewünschte Pods = aufrunden(aktuelle Pods × aktuelle Auslastung / Ziel)
 
 Zwei Pods mit 120 % bei einem Ziel von 60 % ergeben vier Pods. Die Werte holt der HPA vom metrics-server, den k3s mitbringt.
 
+![Der Regelkreis des HorizontalPodAutoscalers. Der metrics-server von k3s misst die CPU der Pods des Webshops. Der HorizontalPodAutoscaler vergleicht die mittlere Auslastung mit dem Ziel von 60 % des Requests und rechnet aufgerundet Pods mal Auslastung durch Ziel, zwei Pods mit 120 % ergeben vier Pods. Er bleibt zwischen 2 und 6 Pods und setzt replicas im Deployment webshop im Namespace velo. Jeder Pod hat einen Request von 50m und ein Limit von 250m. Darunter begrenzt die ResourceQuota member die Limits auf 2 CPU, sechs Pods brauchen 1,5 CPU, der Rest bleibt für die zusätzlichen Pods eines Rollouts.](../../../assets/figures/de/p5c4-hpa.svg)
+
 ::code{file="platform/observability/repo/webshop/hpa.yaml"}
 
 Der Webshop wächst zwischen zwei und sechs Pods. Beim Schrumpfen wartet der HPA fünf Minuten und nimmt die höchste Empfehlung dieser Zeit. Ein Shop, der zwischen zwei Wellen kurz ruhig ist, verliert so nicht gleich seine Pods.

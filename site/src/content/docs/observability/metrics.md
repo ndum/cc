@@ -89,6 +89,8 @@ Für die IaaS-Schicht bringt OpenNebula eigene Exporter mit, im Paket `opennebul
 
 Im Lab meldeten alle sechs Ziele `ok`. Der OpenNebula-Exporter brauchte nach dem Start etwa eine halbe Minute, bis er die Hosts kannte. Prometheus erreicht die Exporter über drei ScrapeConfigs mit den Adressen aus deinen Parametern.
 
+![Was Prometheus abholt. Links der Cluster k3s. Prometheus läuft im Namespace monitoring und holt die Metriken im Cluster vom Webshop im Namespace velo, von kube-state-metrics und von node-exporter auf k3s-server und k3s-agent. Ausserhalb des Clusters holt es auf dem Front-end den OpenNebula-Exporter auf Port 9925 und node_exporter auf Port 9100 ab, auf beiden Knoten node_exporter auf Port 9100 und den Libvirt-Exporter auf Port 9926. Grafana fragt Prometheus mit PromQL ab. Im Cluster findet Prometheus die Ziele über ServiceMonitors, ausserhalb über drei ScrapeConfigs.](../../../assets/figures/de/p5c1-scrape.svg)
+
 ::code{file="platform/observability/repo/monitoring/config/opennebula.yaml"}
 
 ## Der Webshop als Ziel

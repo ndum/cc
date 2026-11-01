@@ -25,6 +25,8 @@ Der Kubernetes-Cluster von Teil 4 läuft auf zwei VMs mit je 6 GB Arbeitsspeiche
 
 OpenNebula reserviert für jede VM den ganzen Speicher aus ihrer Vorlage auf ihrem Knoten, auch wenn die VM ihn gerade nicht braucht. Nach dem Cluster bleiben also auf jedem Knoten 1,2 GB, genug für eine einzige VM mit 1 GB. Die drei Webserver aus Teil 2, die VMs der Praxis und der Dienst der Treuhand aus Teil 3 belegen zusammen 6 GB. Mit ihnen startet der Cluster nicht, OpenNebula fände keinen Knoten mit 6 GB frei.
 
+![Der Speicher eines Knotens. Ein Balken zeigt die 8 GB eines Knotens. 0,8 GB bleiben dem Host, die übrigen 7,2 GB meldet OpenNebula für VMs. Davon reserviert die k3s-VM 6 GB, auf einem Knoten der Server, auf dem anderen der Agent. Frei bleiben 1,2 GB. Achte darauf, dass daneben nur noch eine VM mit 1 GB Platz hat, weil OpenNebula den ganzen Speicher jeder VM reserviert.](../../../assets/figures/de/p4c2-memory.svg)
+
 Darum räumst du vor diesem Kapitel auf. Nimm vorher den Screencast von Meilenstein 1 auf, denn danach fehlen die VMs, die er zeigt. Die Gruppen, Quotas, Preise und Vorlagen aus Teil 3 bleiben bestehen, du entfernst nur die laufenden VMs.
 
 ```bash

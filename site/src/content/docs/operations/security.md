@@ -57,6 +57,8 @@ Härten heisst, alles abzuschalten oder abzuschotten, was nicht gebraucht wird. 
 
 SSH nimmt danach nur noch Schlüssel an, und `root` darf sich nicht direkt anmelden. Ein Passwort lässt sich erraten oder abfangen, ein privater Schlüssel verlässt deinen Rechner nicht. Die Firewall ist eine eigene Tabelle von nftables. Sie lässt die Knoten und cc-net alles erreichen, von anderswo nur SSH und die Weboberfläche. Die Tabelle `cc_gateway` mit der NAT für cc-net aus Kapitel 0.4 bleibt unberührt. Ubuntu installiert Sicherheitsupdates mit `unattended-upgrades` jeden Tag selbst, das Skript stellt sicher, dass es läuft.
 
+![Die Schutzschichten von Front-end und Cluster. In der Mitte das Front-end. Seine Firewall, die Tabelle cc_firewall von nftables, weist alles ab, was sie nicht ausdrücklich erlaubt. Andere Rechner erreichen nur SSH auf Port 22 und die Weboberfläche auf Port 2616, SSH nimmt nur Schlüssel an und lässt root nicht direkt herein. Die Knoten und cc-net erreichen alles, auch Gitea auf Port 3000, die API auf Port 2633 und die Exporter auf den Ports 9100 und 9925. unattended-upgrades installiert jeden Tag Sicherheitsupdates. Rechts der Cluster. Pod Security Admission verlangt in den Namespaces der Mitglieder das Profil restricted, NetworkPolicies trennen die Mitglieder, und der Triage-Dienst darf nur get und patch auf Deployments in velo. Ein SealedSecret kommt verschlüsselt aus Gitea, nur der Controller von Sealed Secrets in kube-system kann es entschlüsseln.](../../../assets/figures/de/p6c1-security.svg)
+
 Prüfe vorher, dass du dich mit deinem Schlüssel anmelden kannst. Lass die erste Verbindung offen, bis eine zweite mit dem Schlüssel klappt.
 
 ```bash

@@ -57,6 +57,8 @@ Hardening means switching off or shielding everything that is not needed. The co
 
 Afterwards, SSH accepts keys only, and `root` cannot log in directly. A password can be guessed or intercepted, while a private key never leaves your computer. The firewall is an nftables table of its own. It lets the nodes and cc-net reach everything and allows only SSH and the web interface from anywhere else. The `cc_gateway` table with the NAT for cc-net from chapter 0.4 stays untouched. Ubuntu installs security updates daily with `unattended-upgrades`, and the script makes sure it runs.
 
+![The protection layers of front-end and cluster. In the middle the front-end. Its firewall, the nftables table cc_firewall, drops everything it does not explicitly allow. Other hosts reach only SSH on port 22 and the web interface on port 2616, and SSH accepts only keys and does not let root log in directly. The nodes and cc-net reach everything, including Gitea on port 3000, the API on port 2633 and the exporters on ports 9100 and 9925. unattended-upgrades installs security updates every day. On the right the cluster. Pod Security Admission enforces the profile restricted in the member namespaces, NetworkPolicies separate the members, and the triage service may only get and patch deployments in velo. A SealedSecret comes encrypted from Gitea, and only the Sealed Secrets controller in kube-system can decrypt it.](../../../../assets/figures/en/p6c1-security.svg)
+
 First check that you can log in with your key. Keep the first connection open until a second one with the key works.
 
 ```bash

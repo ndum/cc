@@ -25,6 +25,8 @@ The Kubernetes cluster of part 4 runs on two VMs with 6 GB of memory each, one p
 
 OpenNebula reserves the full memory of a VM's template on its node, even when the VM does not use it at the moment. With the cluster in place, each node has 1.2 GB left, enough for a single VM with 1 GB. The three web servers of part 2 plus the practice's VMs and the fiduciary office's service of part 3 take 6 GB together. With them running the cluster does not start, because OpenNebula finds no node with 6 GB free.
 
+![The memory of a node. A bar shows the 8 GB of one node. The host keeps 0.8 GB, and OpenNebula reports the remaining 7.2 GB for VMs. The k3s VM reserves 6 GB of that, the server on one node and the agent on the other. That leaves 1.2 GB free. Notice that only one more VM with 1 GB fits next to it, because OpenNebula reserves the full memory of every VM.](../../../../assets/figures/en/p4c2-memory.svg)
+
 So you clean up before this chapter. Record the milestone 1 screencast first, because afterwards the VMs it shows are gone. The groups, quotas, prices and templates of part 3 stay, you only remove the running VMs.
 
 ```bash

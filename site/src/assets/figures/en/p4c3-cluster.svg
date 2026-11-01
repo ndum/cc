@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 346" role="img" aria-labelledby="p4c3-cluster-en-title p4c3-cluster-en-desc">
+<title id="p4c3-cluster-en-title">The k3s cluster in cc-net</title>
+<desc id="p4c3-cluster-en-desc">Two VMs in the internal network cc-net. k3s-server with the address CC_K3S_SERVER_IP holds the control plane with the API server on port 6443 and the SQLite database and runs pods as well. k3s-agent with the address CC_K3S_AGENT_IP joins with the token and runs pods. Each node gets a /24 of 10.52.0.0/16 for its pods, and services live in 10.53.0.0/16. With host-gw each node has a route to the pod network of the other one through that node’s address in cc-net. kubectl on the front-end talks to the API server.</desc>
+<defs><marker id="p4c3-cluster-en-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"/></marker></defs>
+<rect class="d-band d-band-1" x="16" y="16" width="160" height="314" rx="6"/>
+<text class="d-label" x="28" y="40" text-anchor="start">FRONT-END</text>
+<rect class="d-tile" x="28" y="96" width="136" height="46" rx="4"/>
+<text class="d-title" x="96" y="116" text-anchor="middle">kubectl</text>
+<text class="d-code" x="96" y="133" text-anchor="middle">~/.kube/config</text>
+<rect class="d-band d-band-1" x="216" y="16" width="568" height="314" rx="6"/>
+<text class="d-label" x="232" y="40" text-anchor="start">CC-NET</text>
+<text class="d-meta" x="768" y="40" text-anchor="end">CC_GUEST_NET in 172.16.0.0/12</text>
+<rect class="d-band d-band-2" x="232" y="56" width="268" height="212" rx="6"/>
+<text class="d-label" x="248" y="80" text-anchor="start">K3S-SERVER</text>
+<text class="d-meta" x="484" y="80" text-anchor="end">CC_K3S_SERVER_IP</text>
+<rect class="d-tile" x="248" y="152" width="236" height="46" rx="4"/>
+<text class="d-title" x="366" y="172" text-anchor="middle">Pods</text>
+<text class="d-sub" x="366" y="189" text-anchor="middle">a /24 of 10.52.0.0/16</text>
+<rect class="d-strip" x="248" y="208" width="236" height="44" rx="4"/>
+<text class="d-sub" x="366" y="234" text-anchor="middle"></text>
+<text class="d-sub" x="366" y="226" text-anchor="middle">route to the agent’s pod network</text>
+<text class="d-code" x="366" y="241" text-anchor="middle">via CC_K3S_AGENT_IP</text>
+<rect class="d-band d-band-2" x="516" y="56" width="252" height="212" rx="6"/>
+<text class="d-label" x="532" y="80" text-anchor="start">K3S-AGENT</text>
+<text class="d-meta" x="752" y="80" text-anchor="end">CC_K3S_AGENT_IP</text>
+<rect class="d-tile" x="532" y="152" width="220" height="46" rx="4"/>
+<text class="d-title" x="642" y="172" text-anchor="middle">Pods</text>
+<text class="d-sub" x="642" y="189" text-anchor="middle">a /24 of 10.52.0.0/16</text>
+<rect class="d-strip" x="532" y="208" width="220" height="44" rx="4"/>
+<text class="d-sub" x="642" y="234" text-anchor="middle"></text>
+<text class="d-sub" x="642" y="226" text-anchor="middle">route to the server’s pod network</text>
+<text class="d-code" x="642" y="241" text-anchor="middle">via CC_K3S_SERVER_IP</text>
+<rect class="d-tile" x="248" y="96" width="113" height="46" rx="4"/>
+<rect class="d-bar" x="248" y="96" width="4" height="46" rx="2"/>
+<text class="d-title" x="304.5" y="116" text-anchor="middle">API server</text>
+<text class="d-sub" x="304.5" y="133" text-anchor="middle">control plane</text>
+<rect class="d-tile" x="371" y="96" width="113" height="46" rx="4"/>
+<text class="d-title" x="427.5" y="116" text-anchor="middle">Database</text>
+<text class="d-sub" x="427.5" y="133" text-anchor="middle">SQLite</text>
+<rect class="d-tile" x="532" y="96" width="220" height="46" rx="4"/>
+<text class="d-title" x="642" y="116" text-anchor="middle">Agent</text>
+<text class="d-sub" x="642" y="133" text-anchor="middle">joins with the token</text>
+<path class="d-line d-line-accent" d="M 484 175 L 532 175"/>
+<rect class="d-strip" x="232" y="284" width="536" height="30" rx="4"/>
+<text class="d-sub" x="500" y="303" text-anchor="middle">services from 10.53.0.0/16, valid across the cluster</text>
+<path class="d-arrow" d="M 164 119 L 246 119" marker-end="url(#p4c3-cluster-en-head)"/>
+<text class="d-code" x="196" y="112" text-anchor="middle">6443</text>
+</svg>

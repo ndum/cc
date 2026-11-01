@@ -32,6 +32,8 @@ With OpenTofu you describe the VMs in code, but you still run the code yourself.
 
 The difference from a classic rollout is the direction. With a push approach, a pipeline or a person with rights logs in to the cluster and applies changes. With GitOps, nobody but the agent in the cluster needs those rights. Whoever wants a change edits Git, and the Git history doubles as the log of every change.
 
+![The GitOps loop. The platform team sends a change with git push to Gitea on the front-end, or opens a pull request that is merged after review. Argo CD in the k3s cluster polls the repo wolkenwerk/platform every minute with read-only access. It compares the desired state from Git with the live state, for example for the web shop in the namespace velo, and applies the differences. If someone changes the cluster by hand with kubectl scale, self-heal reverts the change. Pay attention to the direction of the arrows. Nothing is pushed into the cluster, Argo CD pulls the desired state itself.](../../../../assets/figures/en/p4c4-gitops.svg)
+
 ## Gitea on the front-end
 
 Argo CD, the agent of this chapter, needs a Git repo it can reach from the cluster. The platform team runs its own Gitea for that. Gitea is a lightweight Git server with a web interface, users, organizations and pull requests, under the MIT license.
@@ -132,6 +134,8 @@ The first application is called `root`. It points to the folder `apps` in the re
 ::code{file="platform/repo/apps/webshop.yaml"}
 
 Argo CD first rolls out `root` and finds the application `webshop` in it, which brings the folder `webshop` into the namespace `velo`. A new application only needs a new file in `apps`, and from then on you no longer work with `kubectl`. This pattern is called app of apps.
+
+![App of apps in the platform repo. The bootstrap script applies the application root once, and root points to the folder apps. That folder holds the application webshop, which brings the folder webshop into the namespace velo, and the ApplicationSet members from chapter 4.5. The ApplicationSet generates a separate application for every folder under members, such as member-velo and member-gemeinde. Notice that only root enters the cluster by hand, and everything else comes from files in Git.](../../../../assets/figures/en/p4c4-app-of-apps.svg)
 
 | Setting | Effect |
 |---|---|

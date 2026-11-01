@@ -42,6 +42,8 @@ Seit Teil 4 steht der Soll-Zustand der Plattform in Git. Ein neuer Cluster holt 
 
 Das Repo in Gitea liegt auf dem Front-end. Fällt das Front-end aus, sind Gitea, State, Snapshots und Backups zugleich weg. Das verletzt die Regel 3-2-1. Eine Kopie gehört auf ein anderes System, etwa auf den Rechner der Dozentin oder des Dozenten oder in einen Speicher ausser Haus.
 
+![Wo die Daten liegen und wie sie gesichert sind. Links der Cluster k3s und die Knoten. etcd auf k3s-server schreibt alle sechs Stunden einen Snapshot und behält acht davon. Ein Timer kopiert die Snapshots alle sechs Stunden nach ~/backup/k3s auf dem Front-end, zusammen mit dem Token von k3s und dem Schlüssel von Sealed Secrets. Die Volumes auf k3s-agent mit Metriken, Logs und Audit-Log sind nicht gesichert. Die VMs der Mitglieder liegen in den Datastores der Knoten, ein Backup-Job sichert sie jede Nacht um 2 Uhr in den Backup-Datastore backups auf dem Front-end und behält sieben Backups. Auf dem Front-end liegen auch das Repo platform in Gitea und die Arbeitskopie ~/platform mit dem State von OpenTofu. Eine Kopie ausser Haus fehlt, darum verletzt das Lab die Regel 3-2-1. Fällt das Front-end aus, ist alles zugleich weg.](../../../assets/figures/de/p6c2-backup.svg)
+
 ## Der Cluster mit etcd
 
 In Teil 4 hast du k3s mit seiner Standard-Datenbank SQLite installiert. Für Snapshots braucht k3s etcd. Die Vorlage aus den Ergänzungen von Teil 6 startet den Server mit `--cluster-init` und lässt k3s alle sechs Stunden einen Snapshot schreiben, acht davon bleiben auf dem Server. Die Optionen beschreibt die [Dokumentation von k3s](https://docs.k3s.io/cli/etcd-snapshot).

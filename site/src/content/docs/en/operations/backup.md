@@ -42,6 +42,8 @@ Since part 4, the desired state of the platform has been in Git. A new cluster g
 
 The Gitea repo lives on the front-end. If the front-end fails, Gitea, state, snapshots and backups are gone at once. That violates the 3-2-1 rule. One copy belongs on another system, such as the instructor's computer or storage offsite.
 
+![Where the data lives and how it is backed up. On the left the k3s cluster and the nodes. etcd on k3s-server writes a snapshot every six hours and keeps eight of them. A timer copies the snapshots to ~/backup/k3s on the front-end every six hours, together with the k3s token and the Sealed Secrets key. The volumes on k3s-agent with metrics, logs and the audit log are not backed up. The member VMs live in the datastores of the nodes, and a backup job backs them up every night at 2:00 to the backup datastore backups on the front-end and keeps seven backups. The front-end also holds the repo platform in Gitea and the working copy ~/platform with the OpenTofu state. An off-site copy is missing, so the lab breaks the 3-2-1 rule. If the front-end fails, everything is gone at once.](../../../../assets/figures/en/p6c2-backup.svg)
+
 ## The cluster with etcd
 
 In part 4 you installed k3s with its default database, SQLite. For snapshots, k3s needs etcd. The template from the additions of part 6 starts the server with `--cluster-init` and lets k3s write a snapshot every six hours, keeping eight of them on the server. The [k3s documentation](https://docs.k3s.io/cli/etcd-snapshot) describes the options.

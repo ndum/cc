@@ -72,6 +72,8 @@ Pods auf verschiedenen Nodes brauchen einen Weg zueinander. flannel baut dafür 
 
 Beide VMs liegen aber im selben Netz `cc-net`. Dann braucht es kein Overlay. Mit `--flannel-backend host-gw` trägt flannel auf jedem Node eine Route ein, das Netz der Pods des anderen Nodes liegt hinter dessen Adresse in `cc-net`. Pakete gehen ohne zusätzliche Kapselung direkt hin. host-gw funktioniert nur, wenn alle Nodes im selben Layer-2-Netz liegen, für einen Cluster über mehrere Standorte wäre wieder ein Overlay nötig.
 
+![Der k3s-Cluster in cc-net. Links spricht kubectl auf dem Front-end mit der kubeconfig den API-Server auf Port 6443 an. Im internen Netz cc-net mit dem Bereich CC_GUEST_NET liegen zwei VMs. k3s-server mit der Adresse CC_K3S_SERVER_IP enthält die Control Plane mit API-Server und der Datenbank SQLite und führt selbst Pods aus. k3s-agent mit der Adresse CC_K3S_AGENT_IP tritt mit dem Token bei und führt ebenfalls Pods aus. Jeder Node bekommt für seine Pods ein /24 aus 10.52.0.0/16, die Services liegen für den ganzen Cluster in 10.53.0.0/16. Achte auf die Routen von host-gw. Jeder Node schickt Pakete für das Pod-Netz des anderen direkt an dessen Adresse in cc-net, ohne Overlay.](../../../assets/figures/de/p4c3-cluster.svg)
+
 ## Die kubeconfig
 
 kubectl braucht die Adresse der API und ein Zertifikat, um sich anzumelden. Beides steht auf dem Server in `/etc/rancher/k3s/k3s.yaml`, mit `127.0.0.1` als Adresse. Das Skript holt die Datei per SSH, setzt die Adresse des Servers ein und legt sie als `~/.kube/config` ab.

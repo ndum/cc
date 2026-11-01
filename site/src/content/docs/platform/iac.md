@@ -72,6 +72,8 @@ Die Arbeit mit OpenTofu hat zwei Schritte.
 
 Der Plan ist die Stelle, an der du Fehler abfängst. Steht dort `-/+` vor einer VM, die du nur umbenennen wolltest, brichst du ab. In Teams wird der Plan in einem Pull Request gezeigt, bevor jemand ihn ausführt.
 
+![Plan und Apply mit dem State. Links liegt der Code in Git als Soll-Zustand, rechts der Ist-Zustand in OpenNebula. tofu plan liest den Code, den State in terraform.tfstate und den Ist-Zustand und zeigt nur, was sich ändern würde. tofu apply liest den Code, ändert die VMs über die API von OpenNebula und schreibt danach den State. Ganz rechts ändert jemand eine VM von Hand in Sunstone oder mit der CLI. Achte darauf, dass nur apply etwas ändert und dass der nächste Plan diese Drift zeigt, weil er den Ist-Zustand liest.](../../../assets/figures/de/p4c1-plan-apply.svg)
+
 ## Drift und Idempotenz
 
 Drift ist eine Abweichung des Ist-Zustands vom Code, etwa weil jemand eine VM in Sunstone von Hand geändert hat. `tofu plan` macht Drift sichtbar, `tofu apply` macht sie rückgängig.

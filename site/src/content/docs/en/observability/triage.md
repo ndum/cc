@@ -28,6 +28,8 @@ After this chapter you can
 5. The proposal appears on a web page. A person approves or rejects it with their name.
 6. Only an approved action runs, and only on allowed deployments. Every step lands in the audit log.
 
+![From alert to action. Prometheus evaluates the rule WebshopErrorBudgetBurn and sends the alert to Alertmanager. Alertmanager routes alerts whose alertname starts with Webshop as a webhook to the triage service in the namespace ai. The service fetches the error lines of the last 15 minutes from Loki and the state of the deployment from the Kubernetes API and asks Ollama with llama3.2:3b. It shows the proposal on a web page on port 30880. A person approves it with their name or rejects it. Only an approved action runs, only restart and only on velo/webshop. Every step lands in the audit log.](../../../../assets/figures/en/p5c6-triage.svg)
+
 The service is a small Python program, `case/triage/triage.py`, that only uses the standard library. The CI of the course repo builds the image `ghcr.io/ndum/cc/triage:1.0.0` from it.
 
 ## The question to the model

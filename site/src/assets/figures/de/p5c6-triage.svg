@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 888 366" role="img" aria-labelledby="p5c6-triage-de-title p5c6-triage-de-desc">
+<title id="p5c6-triage-de-title">Vom Alert zur Aktion</title>
+<desc id="p5c6-triage-de-desc">Prometheus wertet die Regel WebshopErrorBudgetBurn aus und schickt den Alert an Alertmanager. Alertmanager leitet Alerts, deren alertname mit Webshop beginnt, als Webhook an den Triage-Dienst im Namespace ai. Der Dienst holt die Fehlerzeilen der letzten 15 Minuten aus Loki und den Zustand des Deployments aus der Kubernetes-API und fragt Ollama mit llama3.2:3b. Den Vorschlag zeigt er auf einer Webseite an Port 30880. Ein Mensch gibt ihn mit seinem Namen frei oder lehnt ihn ab. Nur eine freigegebene Aktion läuft, nur restart und nur auf velo/webshop. Jeder Schritt landet im Audit-Log.</desc>
+<defs><marker id="p5c6-triage-de-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"/></marker></defs>
+<text class="d-label" x="452" y="46" text-anchor="end">KONTEXT</text>
+<rect class="d-tile" x="472" y="16" width="172" height="50" rx="4"/>
+<text class="d-title" x="558" y="38" text-anchor="middle">Loki</text>
+<text class="d-sub" x="558" y="55" text-anchor="middle">Fehlerzeilen, 15 Minuten</text>
+<rect class="d-tile" x="700" y="16" width="172" height="50" rx="4"/>
+<text class="d-title" x="786" y="38" text-anchor="middle">Kubernetes-API</text>
+<text class="d-sub" x="786" y="55" text-anchor="middle">Zustand des Deployments</text>
+<rect class="d-tile" x="16" y="106" width="172" height="50" rx="4"/>
+<text class="d-title" x="102" y="128" text-anchor="middle">Prometheus</text>
+<text class="d-code" x="102" y="145" text-anchor="middle">WebshopErrorBudgetBurn</text>
+<rect class="d-tile" x="244" y="106" width="172" height="50" rx="4"/>
+<text class="d-title" x="330" y="128" text-anchor="middle">Alertmanager</text>
+<text class="d-code" x="330" y="145" text-anchor="middle">alertname =~ Webshop.*</text>
+<rect class="d-tile" x="472" y="106" width="172" height="50" rx="4"/>
+<rect class="d-bar" x="472" y="106" width="4" height="50" rx="2"/>
+<text class="d-title" x="558" y="128" text-anchor="middle">Triage-Dienst</text>
+<text class="d-sub" x="558" y="145" text-anchor="middle">Namespace ai</text>
+<rect class="d-tile" x="700" y="106" width="172" height="50" rx="4"/>
+<text class="d-title" x="786" y="128" text-anchor="middle">Ollama</text>
+<text class="d-code" x="786" y="145" text-anchor="middle">llama3.2:3b</text>
+<rect class="d-tile" x="700" y="236" width="172" height="50" rx="4"/>
+<text class="d-title" x="786" y="258" text-anchor="middle">Vorschlag</text>
+<text class="d-sub" x="786" y="275" text-anchor="middle">Webseite, Port 30880</text>
+<rect class="d-tile" x="472" y="236" width="172" height="50" rx="4"/>
+<rect class="d-bar" x="472" y="236" width="4" height="50" rx="2"/>
+<text class="d-title" x="558" y="258" text-anchor="middle">Mensch</text>
+<text class="d-sub" x="558" y="275" text-anchor="middle">entscheidet mit Namen</text>
+<rect class="d-tile" x="244" y="236" width="172" height="50" rx="4"/>
+<text class="d-title" x="330" y="258" text-anchor="middle">Aktion</text>
+<text class="d-sub" x="330" y="275" text-anchor="middle">restart, nur velo/webshop</text>
+<rect class="d-tile" x="16" y="236" width="172" height="50" rx="4"/>
+<text class="d-title" x="102" y="258" text-anchor="middle">Audit-Log</text>
+<text class="d-code" x="102" y="275" text-anchor="middle">/data/audit.jsonl</text>
+<path class="d-arrow" d="M 188 131 L 242 131" marker-end="url(#p5c6-triage-de-head)"/>
+<text class="d-sub" x="215" y="124" text-anchor="middle">Alert</text>
+<path class="d-arrow" d="M 416 131 L 470 131" marker-end="url(#p5c6-triage-de-head)"/>
+<text class="d-sub" x="443" y="124" text-anchor="middle">Webhook</text>
+<path class="d-arrow" d="M 644 123 L 698 123" marker-end="url(#p5c6-triage-de-head)"/>
+<path class="d-arrow" d="M 700 139 L 646 139" marker-end="url(#p5c6-triage-de-head)"/>
+<path class="d-arrow" d="M 532 66 L 532 104" marker-end="url(#p5c6-triage-de-head)"/>
+<path class="d-arrow" d="M 760 66 L 760 84 L 620 84 L 620 104" marker-end="url(#p5c6-triage-de-head)"/>
+<path class="d-arrow" d="M 600 156 L 600 196 L 786 196 L 786 234" marker-end="url(#p5c6-triage-de-head)"/>
+<path class="d-arrow" d="M 700 261 L 646 261" marker-end="url(#p5c6-triage-de-head)"/>
+<path class="d-arrow" d="M 472 261 L 418 261" marker-end="url(#p5c6-triage-de-head)"/>
+<text class="d-sub" x="445" y="229" text-anchor="middle">freigegeben</text>
+<path class="d-arrow" d="M 244 261 L 190 261" marker-end="url(#p5c6-triage-de-head)"/>
+<path class="d-line" d="M 558 286 L 558 306 L 102 306"/>
+<path class="d-arrow" d="M 102 306 L 102 288" marker-end="url(#p5c6-triage-de-head)"/>
+<text class="d-sub" x="330" y="322" text-anchor="middle">abgelehnt</text>
+<text class="d-meta" x="16" y="352" text-anchor="start">Der Dienst schreibt jeden Schritt ins Audit-Log, vom Alert über den Vorschlag bis zur Entscheidung.</text>
+</svg>

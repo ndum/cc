@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 172" role="img" aria-labelledby="p4c2-memory-de-title p4c2-memory-de-desc">
+<title id="p4c2-memory-de-title">Der Speicher eines Knotens</title>
+<desc id="p4c2-memory-de-desc">Ein Balken für die 8 GB eines Knotens. 0,8 GB bleiben dem Host, 7,2 GB meldet OpenNebula für VMs. Davon reserviert die k3s-VM 6 GB, frei bleiben 1,2 GB, genug für eine einzige VM mit 1 GB.</desc>
+<defs><marker id="p4c2-memory-de-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"/></marker></defs>
+<rect class="d-band d-band-1" x="16" y="16" width="768" height="140" rx="6"/>
+<text class="d-label" x="40" y="40" text-anchor="start">KNOTEN 1 ODER KNOTEN 2</text>
+<text class="d-meta" x="760" y="40" text-anchor="end">8 GB Arbeitsspeicher</text>
+<rect class="d-tile" x="40" y="56" width="68" height="50" rx="4"/>
+<text class="d-title" x="74" y="78" text-anchor="middle">Host</text>
+<text class="d-sub" x="74" y="95" text-anchor="middle">0,8 GB</text>
+<rect class="d-tile" x="112" y="56" width="536" height="50" rx="4"/>
+<rect class="d-bar" x="112" y="56" width="4" height="50" rx="2"/>
+<text class="d-title" x="380" y="78" text-anchor="middle">k3s-VM</text>
+<text class="d-sub" x="380" y="95" text-anchor="middle">6 GB, k3s-server oder k3s-agent</text>
+<rect class="d-tile" x="652" y="56" width="108" height="50" rx="4"/>
+<text class="d-title" x="706" y="78" text-anchor="middle">frei</text>
+<text class="d-sub" x="706" y="95" text-anchor="middle">1,2 GB</text>
+<path class="d-line" d="M 112 114 L 112 120 L 760 120 L 760 114"/>
+<text class="d-sub" x="436" y="140" text-anchor="middle">7,2 GB für VMs, ALLOCATED_MEM in onehost list</text>
+</svg>

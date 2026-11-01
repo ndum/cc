@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 392" role="img" aria-labelledby="p5c4-hpa-de-title p5c4-hpa-de-desc">
+<title id="p5c4-hpa-de-title">Der Regelkreis des HorizontalPodAutoscalers</title>
+<desc id="p5c4-hpa-de-desc">Ein Regelkreis aus vier Teilen. Der metrics-server von k3s misst die CPU der Pods des Webshops. Der HorizontalPodAutoscaler vergleicht die mittlere Auslastung mit dem Ziel von 60 % des Requests und rechnet aufrunden aus Pods mal Auslastung durch Ziel, zwei Pods mit 120 % ergeben vier Pods. Er bleibt zwischen 2 und 6 Pods und setzt replicas im Deployment webshop im Namespace velo. Jeder Pod hat einen Request von 50m und ein Limit von 250m. Darunter begrenzt die ResourceQuota member die Limits auf 2 CPU, sechs Pods brauchen 1,5 CPU, der Rest bleibt für die zusätzlichen Pods eines Rollouts.</desc>
+<defs><marker id="p5c4-hpa-de-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"/></marker></defs>
+<rect class="d-band d-band-1" x="16" y="16" width="728" height="248" rx="6"/>
+<text class="d-label" x="32" y="40" text-anchor="start">REGELKREIS</text>
+<rect class="d-tile" x="32" y="56" width="220" height="56" rx="4"/>
+<text class="d-title" x="142" y="81" text-anchor="middle">metrics-server</text>
+<text class="d-sub" x="142" y="98" text-anchor="middle">CPU der Pods, aus k3s</text>
+<rect class="d-tile" x="380" y="56" width="340" height="56" rx="4"/>
+<rect class="d-bar" x="380" y="56" width="4" height="56" rx="2"/>
+<text class="d-title" x="550" y="81" text-anchor="middle">HorizontalPodAutoscaler</text>
+<text class="d-sub" x="550" y="98" text-anchor="middle">Ziel 60 % des Requests, 2 bis 6 Pods</text>
+<rect class="d-strip" x="380" y="120" width="340" height="28" rx="4"/>
+<text class="d-sub" x="550" y="138" text-anchor="middle">aufrunden(Pods × Auslastung / Ziel)</text>
+<text class="d-meta" x="380" y="168" text-anchor="start">Beispiel 2 Pods × 120 % / 60 % = 4 Pods</text>
+<rect class="d-tile" x="380" y="196" width="340" height="52" rx="4"/>
+<text class="d-title" x="550" y="219" text-anchor="middle">Deployment webshop</text>
+<text class="d-sub" x="550" y="236" text-anchor="middle">Namespace velo, ohne replicas in Git</text>
+<rect class="d-tile" x="32" y="196" width="220" height="52" rx="4"/>
+<text class="d-title" x="142" y="219" text-anchor="middle">Pods des Webshops</text>
+<text class="d-sub" x="142" y="236" text-anchor="middle">Request 50m, Limit 250m</text>
+<path class="d-arrow" d="M 252 84 L 378 84" marker-end="url(#p5c4-hpa-de-head)"/>
+<text class="d-sub" x="316" y="76" text-anchor="middle">Auslastung</text>
+<path class="d-arrow" d="M 680 148 L 680 194" marker-end="url(#p5c4-hpa-de-head)"/>
+<text class="d-code" x="688" y="176" text-anchor="start">replicas</text>
+<path class="d-arrow" d="M 380 222 L 254 222" marker-end="url(#p5c4-hpa-de-head)"/>
+<text class="d-sub" x="316" y="214" text-anchor="middle">skaliert</text>
+<path class="d-arrow" d="M 142 196 L 142 114" marker-end="url(#p5c4-hpa-de-head)"/>
+<text class="d-sub" x="150" y="158" text-anchor="start">misst</text>
+<rect class="d-band d-band-2" x="16" y="280" width="728" height="96" rx="6"/>
+<text class="d-label" x="32" y="304" text-anchor="start">GRENZE</text>
+<rect class="d-tile" x="32" y="316" width="688" height="48" rx="4"/>
+<text class="d-title" x="376" y="337" text-anchor="middle">ResourceQuota member</text>
+<text class="d-sub" x="376" y="354" text-anchor="middle">limits.cpu 2, sechs Pods brauchen 1,5 CPU, Rest für einen Rollout</text>
+<path class="d-line d-line-accent d-dashed" d="M 142 316 L 142 250"/>
+<text class="d-sub" x="150" y="290" text-anchor="start">begrenzt</text>
+</svg>
