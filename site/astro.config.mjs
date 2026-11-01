@@ -45,6 +45,12 @@ export default defineConfig({
         { label: 'Cloud-Grundlagen', translations: { en: 'Cloud basics' }, collapsed: true, items: [{ autogenerate: { directory: 'basics' } }] },
         { label: 'IaaS aufbauen', translations: { en: 'Building IaaS' }, collapsed: true, items: [{ autogenerate: { directory: 'iaas' } }] },
         {
+          label: 'Mandanten und Self-Service',
+          translations: { en: 'Tenants and self-service' },
+          collapsed: true,
+          items: [{ autogenerate: { directory: 'tenants' } }],
+        },
+        {
           label: 'Ergänzungen',
           translations: { en: 'Supplements' },
           collapsed: true,
@@ -54,7 +60,7 @@ export default defineConfig({
           label: 'Leistungsbeurteilung',
           translations: { en: 'Assessment' },
           collapsed: true,
-          items: [{ slug: 'assessment', label: 'Übersicht', translations: { en: 'Overview' } }],
+          items: [{ slug: 'assessment', label: 'Übersicht', translations: { en: 'Overview' } }, { slug: 'assessment/un1' }],
         },
         {
           label: 'Nachschlagen',

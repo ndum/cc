@@ -6,6 +6,7 @@ Run it on the front-end as the user who works with the lab:
     python3 checks/check.py start      end of chapter 0.5, the three VMs are prepared and connected
     python3 checks/check.py install    chapter 2.2, OpenNebula runs with both nodes
     python3 checks/check.py iaas       chapters 2.3 and 2.4, network, template and a VM in the cloud
+    python3 checks/check.py tenants    chapters 3.1 to 3.5, members, quotas, showback and the OneFlow service
 
 The report lands in ~/cc-reports/ and is printed. The hash at its end covers the whole report, so a
 changed report no longer matches its hash. The script is public, so the hash proves only that a
@@ -152,7 +153,7 @@ def as_list(value):
 def check_iaas(env, report):
     code, out = run("onevnet", "list")
     if not report.check(code == 0, tr("Die CLI von OpenNebula läuft als dein Benutzer", "The OpenNebula CLI runs as your user"),
-                        tr("Kapitel 2.1 zeigt, wie du ~/.one/one_auth anlegst.", "Chapter 2.1 shows how to create ~/.one/one_auth.")):
+                        tr("Kapitel 2.2 zeigt, wie du ~/.one/one_auth anlegst.", "Chapter 2.2 shows how to create ~/.one/one_auth.")):
         return
     vnet = one_json("onevnet", "show", "cc-net")
     template = (vnet or {}).get("VNET", {}).get("TEMPLATE", {})
@@ -189,7 +190,62 @@ def check_iaas(env, report):
                      out[-80:])
 
 
-CHECKS = {"start": check_start, "install": check_install, "iaas": check_iaas}
+MEMBERS = ["praxis", "treuhand", "velo", "gemeinde"]
+
+
+def check_tenants(env, report):
+    if not report.check(run("onegroup", "list")[0] == 0, tr("Die CLI von OpenNebula läuft als dein Benutzer", "The OpenNebula CLI runs as your user"),
+                        tr("Kapitel 2.2 zeigt, wie du ~/.one/one_auth anlegst.", "Chapter 2.2 shows how to create ~/.one/one_auth.")):
+        return
+    groups = {}
+    for member in MEMBERS:
+        group = (one_json("onegroup", "show", member) or {}).get("GROUP")
+        if not report.check(group is not None, tr(f"Die Gruppe {member} existiert", f"The group {member} exists"),
+                            tr("make-tenants.sh aus Kapitel 3.1", "make-tenants.sh from chapter 3.1")):
+            continue
+        groups[member] = group
+        admin = (one_json("oneuser", "show", f"{member}-admin") or {}).get("USER", {})
+        report.check(admin.get("ID") in as_list(group.get("ADMINS", {}).get("ID")),
+                     tr(f"{member}-admin verwaltet die Gruppe {member}", f"{member}-admin administers the group {member}"))
+        quota = (group.get("VM_QUOTA") or {}).get("VM", {})
+        # -1 means the default quota, -2 unlimited, a set quota is a positive number
+        report.check(str(quota.get("VMS", "-1")).isdigit(),
+                     tr(f"{member} hat eine Quota für VMs", f"{member} has a quota for VMs"), f"VMS={quota.get('VMS')}")
+    vdc = (one_json("onevdc", "show", "wolkenwerk") or {}).get("VDC")
+    if report.check(vdc is not None, tr("Das VDC wolkenwerk existiert", "The VDC wolkenwerk exists")):
+        inside = set(as_list((vdc.get("GROUPS") or {}).get("ID")))
+        report.check(all(g.get("ID") in inside for g in groups.values()) and len(groups) == len(MEMBERS),
+                     tr("Alle Mitglieder gehören zum VDC wolkenwerk", "All members belong to the VDC wolkenwerk"))
+        default = set(as_list(((one_json("onevdc", "show", "default") or {}).get("VDC", {}).get("GROUPS") or {}).get("ID")))
+        report.check(not any(g.get("ID") in default for g in groups.values()),
+                     tr("Kein Mitglied ist mehr im VDC default", "No member is left in the VDC default"),
+                     tr("onevdc delgroup default <gruppe>", "onevdc delgroup default <group>"))
+    template = (one_json("onetemplate", "show", "ubuntu") or {}).get("VMTEMPLATE", {})
+    report.check(template.get("PERMISSIONS", {}).get("OTHER_U") == "1", tr("Die Mitglieder dürfen die Vorlage ubuntu nutzen", "The members may use the template ubuntu"),
+                 "onetemplate chmod ubuntu 604")
+    report.check(bool(template.get("TEMPLATE", {}).get("CPU_COST")), tr("Die Vorlage ubuntu hat Preise für Showback", "The template ubuntu has prices for showback"),
+                 tr("costs.tpl aus Kapitel 3.3", "costs.tpl from chapter 3.3"))
+    records = as_list((one_json("oneshowback", "list") or {}).get("SHOWBACK_RECORDS", {}).get("SHOWBACK"))
+    report.check(any(r.get("GNAME") in MEMBERS and float(r.get("TOTAL_COST") or 0) > 0 for r in records),
+                 tr("Showback weist einem Mitglied Kosten zu", "Showback assigns costs to a member"),
+                 tr("VM eines Mitglieds starten, später oneshowback calculate, Kapitel 3.3", "Start a VM of a member, later oneshowback calculate, chapter 3.3"))
+    flow = (one_json("oneflow-template", "show", "treuhand-buchhaltung") or {}).get("DOCUMENT", {})
+    roles = flow.get("TEMPLATE", {}).get("BODY", {}).get("roles", [])
+    report.check(any(role.get("elasticity_policies") for role in roles),
+                 tr("Die Dienstvorlage treuhand-buchhaltung hat Regeln für die Elastizität", "The service template treuhand-buchhaltung has elasticity rules"),
+                 tr("make-service.sh aus Kapitel 3.5", "make-service.sh from chapter 3.5"))
+    code, out = run("oneflow", "list", "--json")
+    try:
+        services = as_list(json.loads(out)) if code == 0 else []
+    except ValueError:
+        services = []
+    # State 2 of a service is RUNNING
+    report.check(any(s.get("GNAME") == "treuhand" and str(s.get("TEMPLATE", {}).get("BODY", {}).get("state")) == "2" for s in services),
+                 tr("Ein Dienst der Treuhand läuft", "A service of the fiduciary office runs"),
+                 tr("Als treuhand-admin instanziieren, Kapitel 3.5", "Instantiate it as treuhand-admin, chapter 3.5"))
+
+
+CHECKS = {"start": check_start, "install": check_install, "iaas": check_iaas, "tenants": check_tenants}
 
 
 def main():
