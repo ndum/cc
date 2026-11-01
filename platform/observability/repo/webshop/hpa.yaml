@@ -1,0 +1,23 @@
+# Two to six pods, a new pod when the pods use more than 60 % of their CPU request on average
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: webshop
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: webshop
+  minReplicas: 2
+  maxReplicas: 6
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 60
+  behavior:
+    # Shrink only after five calm minutes, so that the shop does not shrink between two waves of load
+    scaleDown:
+      stabilizationWindowSeconds: 300

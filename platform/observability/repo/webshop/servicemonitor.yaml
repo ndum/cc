@@ -1,0 +1,13 @@
+# Prometheus reads /metrics of every web shop pod every 15 seconds
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: webshop
+spec:
+  selector:
+    matchLabels:
+      app: webshop
+  endpoints:
+    - port: http
+      path: /metrics
+      interval: 15s

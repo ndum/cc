@@ -6,10 +6,12 @@ It only needs the standard library. Besides the shop it answers /healthz for Kub
 
     python3 app.py
     PORT=8080 SHOP_NAME="Veloatelier Matte" python3 app.py
+    WORK_MS=20 FAIL_PERCENT=5 python3 app.py
 """
 import html
 import json
 import os
+import random
 import socket
 import threading
 import time
@@ -20,6 +22,8 @@ PORT = int(os.environ.get("PORT", "8080"))
 SHOP_NAME = os.environ.get("SHOP_NAME", "Veloatelier Matte")
 # Extra work per request in milliseconds, part 5 uses it to make the shop slow under load
 WORK_MS = int(os.environ.get("WORK_MS", "0"))
+# Share of shop requests answered with an error, part 5 uses it to break the service level on purpose
+FAIL_PERCENT = float(os.environ.get("FAIL_PERCENT", "0"))
 
 PRODUCTS = [
     {"id": 1, "name": "Stadtvelo Aare", "price": 890},
@@ -97,7 +101,11 @@ class Handler(BaseHTTPRequestHandler):
     def do_GET(self):
         start = time.perf_counter()
         path = self.path.split("?", 1)[0]
-        if path == "/":
+        if path in ("/", "/api/products") and random.random() * 100 < FAIL_PERCENT:
+            busy(WORK_MS)
+            print(f"error: simulated failure on {path}", flush=True)
+            code, kind, body = 500, "text/plain", "internal error\n"
+        elif path == "/":
             busy(WORK_MS)
             code, kind, body = 200, "text/html; charset=utf-8", page()
         elif path == "/api/products":

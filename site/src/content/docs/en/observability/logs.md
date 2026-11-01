@@ -1,0 +1,97 @@
+---
+title: Logs with Loki
+description: Logs next to metrics, Loki as a single process, Alloy as the collector on every node, labels and retention, and first LogQL queries to find the error of a deployment.
+sidebar:
+  order: 2
+---
+
+:::assignment
+"On Saturday three customers got an error message at checkout," Veloatelier Matte writes. "Can you find out what happened?"
+:::
+
+:::goals
+After this chapter you can
+
+- explain what logs show that metrics do not,
+- describe how Loki and Alloy are set up in the cluster,
+- filter and count logs by namespace, pod and text with LogQL,
+- find the error of a deployment in the logs.
+:::
+
+## Logs and metrics
+
+Metrics are numbers at fixed intervals. They show that 5 % of the requests fail, but not which ones and with what message. Logs are lines of text a program writes when something happens. They hold the details but take more storage. In Kubernetes, every container writes its logs to standard output and standard error, and the node stores them as files. `kubectl logs` reads these files, but only as long as the pod exists. Once it is replaced, its logs are gone.
+
+## Loki and Alloy
+
+Loki collects logs centrally and keeps them beyond the end of a pod. Unlike a full-text search engine, Loki builds no index over the text, only over a few labels such as namespace and pod. It searches the text only when you query. That keeps Loki small but means you narrow down by labels before you search.
+
+Alloy from Grafana runs as a DaemonSet, that is with one pod per node. Each one reads the logs of the pods on its node, adds labels and sends them to Loki. Both came into your repo with the copy in chapter 5.1, as two applications in `apps/loki.yaml`.
+
+::code{file="platform/observability/repo/monitoring/loki.yaml"}
+
+Loki runs as a single process and stores its data on the disk of a node. That is enough for a lab. In production you would spread Loki over several processes and keep the data in object storage. After three days, Loki deletes old logs.
+
+::code{file="platform/observability/repo/monitoring/alloy.yaml"}
+
+The Alloy configuration is a chain. `discovery.kubernetes` finds the pods of its own node, `discovery.relabel` turns Kubernetes details into the labels `namespace`, `pod`, `container` and `app`, `loki.source.kubernetes` reads the logs, and `loki.write` sends them to Loki. In the test setup, a configuration with a block written on one line failed with "expected TERMINATOR". Alloy wants every attribute on a line of its own.
+
+In the lab, Loki and Alloy were ready 80 seconds after the push.
+
+```bash
+kubectl -n monitoring get pods -o wide | grep -E 'loki|alloy'
+```
+
+## LogQL
+
+You write queries in Grafana under "Explore" with the data source Loki. A query always starts with a selection of streams in curly braces.
+
+| Query | Result |
+|---|---|
+| `{namespace="velo"}` | all logs of the bike shop |
+| `{namespace="velo", app="webshop"} \|= "404"` | lines of the web shop containing `404` |
+| `{namespace="velo"} \|~ "(?i)error\|exception"` | lines matching the regular expression |
+| `{namespace="velo"} != "/healthz"` | everything except the Kubernetes probes |
+| `sum by (pod) (count_over_time({namespace="velo"} \|= " 404 " [5m]))` | number of lines with 404 per pod in five minutes |
+
+`|=` filters by text, `|~` by a regular expression, `!=` excludes. `count_over_time` turns lines into a number. This is how logs become metrics for dashboards and alerts.
+
+In the lab, 20 requests for a page that does not exist produced lines with `404`.
+
+```bash
+for i in $(seq 20); do curl -s -o /dev/null http://<server-address>/warenkorb; done
+```
+
+```text
+10.52.1.10 "GET /warenkorb HTTP/1.1" 404 -
+```
+
+The query with `count_over_time` then showed for each pod how many of these requests it had answered. Traefik spreads the requests across the pods.
+
+## Labels in moderation
+
+In Loki, every combination of labels is a stream of its own. Labels such as namespace, pod or app have few values and work well. An address, an order number or a path as a label would create thousands of streams and slow Loki down. Whatever changes often stays in the text and is found with `|=`.
+
+::::exercise[Lab]
+Roll out Loki and Alloy, create requests with `404` and find them in Grafana. Count them per pod.
+
+:::solution
+`{namespace="velo", app="webshop"} |= "404"` shows the lines with `/warenkorb`, and the label `pod` tells you which pod answered. `sum by (pod) (count_over_time({namespace="velo"} |= " 404 " [5m]))` shows one number per pod, about 20 together.
+:::
+::::
+
+::::exercise[Finding the error]
+Someone set the variable `FAIL_PERCENT` to `30` in the web shop deployment of the platform repo and pushed it. Find in the logs what customers experience and in the Git history who did it. Then restore the old state.
+
+:::solution
+`{namespace="velo", app="webshop"} |= "error"` shows lines like `error: simulated failure on /`, next to lines with status `500`. The time of the first line matches the commit that `git log -p webshop/deployment.yaml` shows. `git revert` followed by `git push` restores the old state, and Argo CD rolls it out. The logs show what happens, Git shows who changed what.
+:::
+::::
+
+::::exercise[One label too many]
+A colleague suggests setting the customer's address as a label in Alloy, so that you can search for a customer faster. What do you answer?
+
+:::solution
+Every address would be a stream of its own, thousands with many customers. Loki would get slower and need more storage. The address is in the text anyway, and `{namespace="velo"} |= "10.52.1.10"` finds it. Data protection matters too, since an address is personal data and needs a purpose and a retention period.
+:::
+::::

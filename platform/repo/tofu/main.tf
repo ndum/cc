@@ -61,7 +61,7 @@ resource "opennebula_virtual_machine" "k3s" {
 
   disk {
     image_id = data.opennebula_image.ubuntu.id
-    size     = 20480
+    size     = var.disk_size
     target   = "vda"
   }
 

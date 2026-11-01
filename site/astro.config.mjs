@@ -57,6 +57,12 @@ export default defineConfig({
           items: [{ autogenerate: { directory: 'platform' } }],
         },
         {
+          label: 'Observability, Skalierung und KI',
+          translations: { en: 'Observability, scaling and AI' },
+          collapsed: true,
+          items: [{ autogenerate: { directory: 'observability' } }],
+        },
+        {
           label: 'Ergänzungen',
           translations: { en: 'Supplements' },
           collapsed: true,
@@ -66,7 +72,7 @@ export default defineConfig({
           label: 'Leistungsbeurteilung',
           translations: { en: 'Assessment' },
           collapsed: true,
-          items: [{ slug: 'assessment', label: 'Übersicht', translations: { en: 'Overview' } }, { slug: 'assessment/un1' }, { slug: 'assessment/un2' }],
+          items: [{ slug: 'assessment', label: 'Übersicht', translations: { en: 'Overview' } }, { slug: 'assessment/un1' }, { slug: 'assessment/un2' }, { slug: 'assessment/un3' }],
         },
         {
           label: 'Nachschlagen',

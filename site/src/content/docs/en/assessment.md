@@ -14,7 +14,7 @@ Your module grade is the average of the two grades. Block 7 is reserved for the 
 
 ## The proofs
 
-Every proof is individual work in your own lab. The assignments of the proofs come with the parts they belong to. [UN1](un1/) belongs to part 2 and part 3, [UN2](un2/) to part 4, UN3 to part 5 and UN4 to part 6. In UN4 you design a fifth member of Wolkenwerk Bern yourself and bring it onto your platform.
+Every proof is individual work in your own lab. The assignments of the proofs come with the parts they belong to. [UN1](un1/) belongs to part 2 and part 3, [UN2](un2/) to part 4, [UN3](un3/) to part 5 and UN4 to part 6. In UN4 you design a fifth member of Wolkenwerk Bern yourself and bring it onto your platform.
 
 Every proof has a rubric. About 60% of the points are for the features the assignment asks for, about 40% for your explanations and the reasons behind your decisions.
 

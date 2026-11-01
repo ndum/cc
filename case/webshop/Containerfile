@@ -6,7 +6,7 @@ LABEL org.opencontainers.image.title="webshop" \
       org.opencontainers.image.licenses="MIT"
 
 WORKDIR /app
-COPY app.py .
+COPY app.py load.py ./
 
 # The shop runs as an unprivileged user, Kubernetes checks this with runAsNonRoot
 USER 10001

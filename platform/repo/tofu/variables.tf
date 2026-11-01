@@ -25,3 +25,9 @@ variable "memory" {
   type        = number
   default     = 6144
 }
+
+variable "disk_size" {
+  description = "Disk of each k3s VM in MB, images, the local model and the volumes of part 5 need about 20 GB"
+  type        = number
+  default     = 30720
+}

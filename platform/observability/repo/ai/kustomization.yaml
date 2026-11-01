@@ -1,0 +1,10 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+# Every file names its namespace, the triage service needs rights in the namespace velo
+resources:
+  - namespace.yaml
+  - ollama.yaml
+  - pull-model.yaml
+  - networkpolicy.yaml
+  - triage.yaml
+  - triage-rbac.yaml

@@ -8,12 +8,14 @@ Run it on the front-end as the user who works with the lab:
     python3 checks/check.py iaas       chapters 2.3 and 2.4, network, template and a VM in the cloud
     python3 checks/check.py tenants    chapters 3.1 to 3.5, members, quotas, showback and the OneFlow service
     python3 checks/check.py platform   chapters 4.2 to 4.5, k3s from OpenTofu, Gitea, Argo CD and member namespaces
+    python3 checks/check.py observability  chapters 5.1 to 5.6, metrics, logs, SLO, autoscaling, local model and triage
 
 The report lands in ~/cc-reports/ and is printed. The hash at its end covers the whole report, so a
 changed report no longer matches its hash. The script is public, so the hash proves only that a
 report was not edited by hand afterwards, not that the check really ran. The showing of a proof is
 what counts.
 """
+import base64
 import datetime
 import getpass
 import hashlib
@@ -25,6 +27,7 @@ import socket
 import subprocess
 import sys
 import urllib.error
+import urllib.parse
 import urllib.request
 
 ENV_FILE = pathlib.Path("/etc/cc-lab.env")
@@ -330,7 +333,67 @@ def check_platform(env, report):
                      ", ".join(kind for kind, items in kinds if not items))
 
 
-CHECKS = {"start": check_start, "install": check_install, "iaas": check_iaas, "tenants": check_tenants, "platform": check_platform}
+def check_observability(env, report):
+    fe, node1, node2, server = env.get("CC_FE_IP"), env.get("CC_NODE1_IP"), env.get("CC_NODE2_IP"), env.get("CC_K3S_SERVER_IP")
+    for target, name in ((f"{fe}:9925", "OpenNebula"), (f"{node1}:9926", "libvirt"), (f"{node2}:9926", "libvirt")):
+        report.check(http(f"http://{target}/metrics")[0] == 200, tr(f"Der Exporter {name} antwortet auf {target}", f"The {name} exporter answers on {target}"),
+                     tr("install-exporters.sh aus Kapitel 5.1", "install-exporters.sh from chapter 5.1"))
+    if not report.check(run("kubectl", "get", "nodes")[0] == 0, tr("kubectl erreicht den Cluster", "kubectl reaches the cluster"),
+                        tr("get-kubeconfig.sh aus Kapitel 4.3", "get-kubeconfig.sh from chapter 4.3")):
+        return
+    apps = {a["metadata"]["name"]: a.get("status", {}) for a in (kube_json("get", "applications", "-n", "argocd") or {}).get("items", [])}
+    for name in ("monitoring", "monitoring-config", "loki", "alloy", "ai"):
+        status = apps.get(name, {})
+        report.check(status.get("sync", {}).get("status") == "Synced" and status.get("health", {}).get("status") == "Healthy",
+                     tr(f"Argo CD hält {name} synchron und gesund", f"Argo CD keeps {name} synced and healthy"),
+                     tr("Ordner observability/repo ins Plattform-Repo kopieren, Kapitel 5.1", "Copy observability/repo into the platform repo, chapter 5.1"))
+    code, body = http(f"http://{server}:30090/api/v1/targets")
+    try:
+        targets = json.loads(body)["data"]["activeTargets"] if code == 200 else []
+    except (ValueError, KeyError):
+        targets = []
+    for job in ("opennebula", "opennebula-libvirt", "webshop"):
+        mine = [t for t in targets if t.get("labels", {}).get("job") == job]
+        report.check(bool(mine) and all(t.get("health") == "up" for t in mine),
+                     tr(f"Prometheus liest den Job {job}", f"Prometheus scrapes the job {job}"), f"{len(mine)} targets")
+    code, body = http(f"http://{server}:30090/api/v1/rules?type=alert")
+    report.check("WebshopErrorBudgetBurn" in body, tr("Die Regeln des SLO für den Webshop sind geladen", "The SLO rules of the web shop are loaded"),
+                 tr("webshop-slo.yaml, Kapitel 5.3", "webshop-slo.yaml, chapter 5.3"))
+    code, body = http(f"http://{server}:30093/api/v2/status")
+    report.check("receiver: triage" in body, tr("Alertmanager schickt die Alerts des Webshops an den Triage-Dienst", "Alertmanager sends the web shop alerts to the triage service"))
+    pass_file = pathlib.Path.home() / "cc-lab" / "grafana.pass"
+    password = pass_file.read_text().strip() if pass_file.exists() else ""
+    base = f"http://{server}:30300"
+    request = urllib.request.Request(f"{base}/api/datasources/proxy/uid/loki/loki/api/v1/query?" + urllib.parse.urlencode({"query": 'count_over_time({namespace="velo"}[1h])'}))
+    request.add_header("Authorization", "Basic " + base64.b64encode(f"admin:{password}".encode()).decode())
+    try:
+        with urllib.request.urlopen(request, timeout=10) as answer:
+            logs = json.loads(answer.read())["data"]["result"]
+    except (OSError, ValueError, KeyError):
+        logs = []
+    report.check(bool(logs), tr("Loki hat Logs aus dem Namespace velo", "Loki holds logs of the namespace velo"),
+                 tr("Loki und Alloy, Kapitel 5.2", "Loki and Alloy, chapter 5.2"))
+    hpa = kube_json("get", "hpa", "webshop", "-n", "velo") or {}
+    report.check(hpa.get("spec", {}).get("maxReplicas", 0) > hpa.get("spec", {}).get("minReplicas", 0) > 0,
+                 tr("Der Webshop hat einen HorizontalPodAutoscaler", "The web shop has a HorizontalPodAutoscaler"),
+                 tr("hpa.yaml, Kapitel 5.4", "hpa.yaml, chapter 5.4"))
+    code, out = run("kubectl", "-n", "ai", "exec", "deploy/ollama", "--", "ollama", "list", timeout=30)
+    report.check(code == 0 and len(out.splitlines()) > 1, tr("Ollama hat ein Modell geladen", "Ollama has a model loaded"), out.splitlines()[-1] if out else "")
+    code, out = run("kubectl", "-n", "ai", "exec", "deploy/triage", "--", "cat", "/data/audit.jsonl", timeout=30)
+    events = []
+    for line in out.splitlines() if code == 0 else []:
+        try:
+            events.append(json.loads(line).get("event"))
+        except ValueError:
+            pass
+    report.check("proposal" in events, tr("Der Triage-Dienst hat einen Vorschlag gemacht", "The triage service made a proposal"),
+                 tr("Alert des Webshops auslösen, Kapitel 5.6", "Fire a web shop alert, chapter 5.6"))
+    report.check("approved" in events or "rejected" in events, tr("Ein Mensch hat über einen Vorschlag entschieden", "A person decided on a proposal"),
+                 tr("Seite des Triage-Dienstes, Kapitel 5.6", "Page of the triage service, chapter 5.6"))
+
+
+CHECKS = {"start": check_start, "install": check_install, "iaas": check_iaas, "tenants": check_tenants, "platform": check_platform,
+          "observability": check_observability}
 
 
 def main():
