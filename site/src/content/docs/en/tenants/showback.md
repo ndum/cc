@@ -39,7 +39,7 @@ A VM takes the prices from the template when it starts. VMs started before there
 
 ## Calculating costs
 
-`oneshowback calculate` calculates the costs of all VMs from their running time and stores them per month. In the lab you start the calculation yourself, in operation a timer would trigger it regularly. `oneshowback list` then shows owner, group, month, hours, running time and cost per VM. With `-g` you only see one member.
+`oneshowback calculate` calculates the costs of all VMs from their running time and stores them per month. OpenNebula ships the timer `opennebula-showback.timer` for this, which starts the calculation every day. For the exercises you start it yourself so that you do not have to wait until midnight. `oneshowback list` then shows owner, group, month, hours, running time and cost per VM. With `-g` you only see one member.
 
 ```bash
 oneshowback calculate
@@ -60,7 +60,7 @@ A VM from the template `ubuntu` has 0.5 CPU, 1024 MB of memory and a disk of 358
 
 Over 30 days with 720 hours that makes about 35 francs. The cost depends on the running time, a stopped VM costs nothing in this model. That is why it pays for the members to stop VMs they do not need.
 
-In the end the prices have to cover the cooperative's costs. These include the hardware over its lifetime, power, licences, backup and the work of the platform team, including the reserve for maintenance from chapter 2.5. A simple approach divides the yearly costs by the capacity that can be sold in a year. Part 6 adds the cost model for your own member.
+In the end the prices have to cover the cooperative's costs. These include the hardware over its lifetime, power, licences, backup and the work of the platform team, including the reserve for maintenance from chapter 2.5. A simple approach divides the yearly costs by the capacity that can be sold in a year. Chapter 6.4 calculates with all costs, and in the advanced task of milestone 4 also for a member of your own.
 
 ::::exercise[Lab]
 Add the prices to the template. Terminate one VM each of the practice and the fiduciary office with `onevm terminate` and start it again from the template under the same name. Calculate the showback after one hour, and carry on with chapter 3.4 in the meantime. Export the list as CSV to your hand-in repo.

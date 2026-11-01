@@ -27,7 +27,7 @@ OpenNebula reserviert für jede VM den ganzen Speicher aus ihrer Vorlage auf ihr
 
 ![Der Speicher eines Knotens. Ein Balken zeigt die 8 GB eines Knotens. 0,8 GB bleiben dem Host, die übrigen 7,2 GB meldet OpenNebula für VMs. Davon reserviert die k3s-VM 6 GB, auf einem Knoten der Server, auf dem anderen der Agent. Frei bleiben 1,2 GB. Achte darauf, dass daneben nur noch eine VM mit 1 GB Platz hat, weil OpenNebula den ganzen Speicher jeder VM reserviert.](../../../assets/figures/de/p4c2-memory.svg)
 
-Darum räumst du vor diesem Kapitel auf. Nimm vorher den Screencast von Meilenstein 1 auf, denn danach fehlen die VMs, die er zeigt. Die Gruppen, Quotas, Preise und Vorlagen aus Teil 3 bleiben bestehen, du entfernst nur die laufenden VMs.
+Darum räumst du vor diesem Kapitel auf. Mache vorher die Screenshots für die Dokumentation von Meilenstein 1, denn danach fehlen die VMs, die sie zeigen. Zeigst du die Zusatzaufträge von Meilenstein 1 im Screencast, nimmst du ihn ebenfalls vorher auf. Die Gruppen, Quotas, Preise und Vorlagen aus Teil 3 bleiben bestehen, du entfernst nur die laufenden VMs.
 
 ```bash
 oneflow list
@@ -37,10 +37,10 @@ for id in $(onevm list -l ID --no-header); do onevm terminate "$id"; done
 onehost list
 ```
 
-Zuerst entfernst du den Dienst der Treuhand, sonst startet OneFlow seine VM gleich wieder. Danach beendet die Schleife jede VM, die `onevm list` zeigt, egal wie du sie in den Teilen 2 und 3 genannt hast. `oneadmin` darf die VMs aller Mitglieder beenden. Am Ende zeigt `onehost list` auf beiden Knoten `0K / 7.2G`.
+Hast du im Zusatzkapitel 3.5 den Dienst der Treuhand gestartet, entfernst du ihn zuerst, sonst startet OneFlow seine VM gleich wieder. Danach beendet die Schleife jede VM, die `onevm list` zeigt, egal wie du sie in den Teilen 2 und 3 genannt hast. `oneadmin` darf die VMs aller Mitglieder beenden. Am Ende zeigt `onehost list` auf beiden Knoten `0K / 7.2G`.
 
-:::note[Meilenstein 1 live zeigen]
-Wer Meilenstein 1 im Unterricht live zeigt statt im Screencast, nimmt den Cluster für die Vorführung von den Knoten. `onevm undeploy k3s-server` und `onevm undeploy k3s-agent` stoppen die VMs und geben Speicher und CPU frei, ihre Disks bleiben erhalten. Danach startest du die VMs der Mitglieder mit den Befehlen aus Teil 3 neu, zeigst Meilenstein 1 und beendest sie wieder. `onevm resume` bringt den Cluster zurück. Im Lab dauerte `undeploy` knapp zwei Minuten, nach `resume` antwortete der Webshop aus Kapitel 4.4 nach etwa 45 Sekunden wieder. `onevm poweroff` reicht dafür nicht, eine ausgeschaltete VM behält ihren Platz auf dem Knoten.
+:::note[Zusatzaufträge von Meilenstein 1 live zeigen]
+Die Basis von Meilenstein 1 belegst du mit der Dokumentation, dafür brauchst du die alten VMs nicht mehr. Wer die Zusatzaufträge von Meilenstein 1 im Unterricht live zeigt statt im Screencast, nimmt den Cluster für die Vorführung von den Knoten. `onevm undeploy k3s-server` und `onevm undeploy k3s-agent` stoppen die VMs und geben Speicher und CPU frei, ihre Disks bleiben erhalten. Danach startest du die VMs, die du für die Zusatzaufträge brauchst, mit den Befehlen aus Teil 3 neu, zeigst die Aufträge und beendest die VMs wieder. `onevm resume` bringt den Cluster zurück. Im Lab dauerte `undeploy` knapp zwei Minuten, nach `resume` antwortete der Webshop aus Kapitel 4.4 nach etwa 45 Sekunden wieder. `onevm poweroff` reicht dafür nicht, eine ausgeschaltete VM behält ihren Platz auf dem Knoten.
 :::
 
 ## Werkzeuge
@@ -162,6 +162,10 @@ Plan: 0 to add, 1 to change, 0 to destroy.
 ```bash
 tofu apply -replace='opennebula_virtual_machine.k3s["k3s-agent"]'
 ```
+
+:::note[Zusatzauftrag]
+Der ganze Neubau mit `tofu destroy`, `tofu apply` und dem Bootstrap aus Kapitel 4.4 gehört zu den Zusatzaufträgen von Meilenstein 2. Für die Basis genügen die VMs aus OpenTofu und ein Plan ohne Änderungen.
+:::
 
 Am meisten sagt der ganze Neubau. `tofu destroy` löscht alles, was im State steht, `tofu apply` baut es wieder auf.
 

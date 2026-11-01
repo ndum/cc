@@ -3,6 +3,9 @@ title: KI-Triage mit Freigabe
 description: Ein Dienst, der Alerts mit Logs und Zustand anreichert, das lokale Modell um eine Einschätzung bittet und nur ausführt, was ein Mensch freigibt, mit enger Liste von Aktionen, eigenen Rechten und einem Audit-Log.
 sidebar:
   order: 6
+  badge:
+    text: Zusatz
+    variant: note
 ---
 
 :::assignment
@@ -17,6 +20,10 @@ Nach diesem Kapitel kannst du
 - einen Vorschlag des Modells prüfen, freigeben oder ablehnen,
 - die Schutzmassnahmen Freigabe, Liste der Aktionen, Rechte und Audit-Log begründen,
 - die Grenzen und Risiken eines Modells im Betrieb kritisch beurteilen.
+:::
+
+:::note[Zusatzkapitel]
+Dieses Kapitel gehört zu den Zusatzaufträgen von Meilenstein 3. Für die Basis brauchst du es nicht. Der Dienst läuft trotzdem in deinem Cluster, und Alertmanager schickt ihm seit Kapitel 5.3 die Alerts des Webshops.
 :::
 
 ## Der Ablauf

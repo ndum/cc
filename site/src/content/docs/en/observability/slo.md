@@ -52,7 +52,7 @@ The lab showed the effect of the long window clearly. A load test had produced t
 
 ## Symptoms and causes
 
-`WebshopErrorBudgetBurn`, `WebshopSlow` and `WebshopDown` report symptoms, meaning what customers notice. Causes such as a full disk, a pod in a restart loop or a node without memory come as rules of their own with kube-prometheus-stack, for example `KubePodCrashLooping` or `KubePersistentVolumeFillingUp`. In the lab, Prometheus reported `KubePersistentVolumeFillingUp` when the agent's disk was 87 % full. Chapter 5.5 explains why.
+`WebshopErrorBudgetBurn`, `WebshopSlow` and `WebshopDown` report symptoms, meaning what customers notice. Causes such as a full disk, a pod in a restart loop or a node without memory come as rules of their own with kube-prometheus-stack, for example `KubePodCrashLooping` or `KubePersistentVolumeFillingUp`. In the lab, Prometheus reported `KubePersistentVolumeFillingUp` when the agent's disk was 87 % full. The advanced chapter 5.5 explains why.
 
 Symptoms are good for waking people up, because they certainly affect customers. Causes are good for tickets and dashboards. An alert nobody has to act on should be deleted. Otherwise the team learns to ignore alerts.
 
@@ -73,7 +73,7 @@ route:
         - alertname =~ "Webshop.*"
 ```
 
-Alerts of the web shop go to the receiver `triage`, the service of chapter 5.6. All others end up at `null` for now and only appear in the Alertmanager interface on port 30093. `group_wait` waits 30 seconds for more alerts of the same group, and `repeat_interval` repeats an open alert only after four hours.
+Alerts of the web shop go to the receiver `triage`, the service of the advanced chapter 5.6. The routing belongs to the base, working with the service itself to the advanced tasks of milestone 3. All others end up at `null` for now and only appear in the Alertmanager interface on port 30093. `group_wait` waits 30 seconds for more alerts of the same group, and `repeat_interval` repeats an open alert only after four hours.
 
 ## Firing an alert
 

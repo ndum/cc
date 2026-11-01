@@ -15,7 +15,7 @@ Nach diesem Kapitel kannst du
 - beschreiben, was du in diesem Modul aufbaust und lernst,
 - erklären, wie der Kurs aufgebaut ist und wie du mit ihm lernst,
 - die Mitglieder von Wolkenwerk Bern und ihre Anforderungen nennen,
-- beschreiben, wie die vier Meilensteine und die zwei Abgaben deine Note ergeben,
+- beschreiben, wie Basis und Zusatzaufträge der vier Meilensteine deine Note ergeben,
 - KI-Werkzeuge im Kurs so einsetzen, wie es die Regeln verlangen.
 :::
 
@@ -30,7 +30,7 @@ In diesem Modul baust du in deinem eigenen Lab eine kleine Cloud auf und betreib
 | 2 IaaS aufbauen | Du installierst OpenNebula mit Ansible, nimmst die Knoten als Hosts in Betrieb, legst Netze, Images und Vorlagen an und startest erste VMs. | eine laufende IaaS-Cloud |
 | 3 Mandanten und Self-Service | Du teilst die Cloud in Gruppen mit Quotas auf, rechnest den Verbrauch mit Showback ab, gibst den Mitgliedern Self-Service und lässt einen Dienst mit OneFlow wachsen. | vier Mitglieder mit eigenen Ressourcen, Meilenstein 1 |
 | 4 Plattform per Code | Du legst mit OpenTofu einen Kubernetes-Cluster an, rollst den Webshop mit Argo CD aus Git aus und gibst den Mitgliedern Namespaces aus einer Vorlage. | eine Plattform, die du aus Code neu bauen kannst, Meilenstein 2 |
-| 5 Observability, Skalierung und KI | Du überwachst alles mit Prometheus, Grafana und Loki, legst ein SLO fest, lässt den Webshop automatisch skalieren und betreibst ein lokales Sprachmodell, das Alerts einordnet. | eine überwachte Plattform mit KI-Triage, Meilenstein 3 |
+| 5 Observability, Skalierung und KI | Du überwachst alles mit Prometheus, Grafana und Loki, legst ein SLO fest, lässt den Webshop automatisch skalieren und betreibst ein lokales Sprachmodell, das Alerts einordnet. | eine überwachte Plattform, Meilenstein 3 mit dem lokalen Sprachmodell in den Zusatzaufträgen |
 | 6 Betrieb | Du härtest die Plattform, sicherst und stellst wieder her, schreibst ein SLA, rechnest die Kosten und bringst ein eigenes, fünftes Mitglied in Betrieb. | eine betriebsbereite Cloud, Meilenstein 4 |
 
 Mit jedem Teil kommt eine Schicht der [Zielarchitektur](#die-zielarchitektur) dazu. Die Meilensteine schliessen Teil 3, 4, 5 und 6 ab, und aus ihnen entsteht deine Note.
@@ -59,11 +59,11 @@ Jeder Teil des Kurses baut eine Schicht auf oder erweitert sie. In der Kopfzeile
 
 Deine Modulnote entsteht aus vier Meilensteinen. Die Meilensteine 1 und 2 gibst du zusammen ab und erhältst dafür die erste Note. Die Meilensteine 3 und 4 ergeben die zweite Note. Beide Noten zählen gleich viel. Die Termine gibt deine Dozentin oder dein Dozent bekannt. Die Einzelheiten stehen unter [Leistungsbeurteilung](../../assessment/).
 
-Jeder Meilenstein ist eine Einzelarbeit. Du zeigst ihn entweder in einem Screencast von höchstens zehn Minuten oder live im Unterricht, und du gibst dazu dein Abgabe-Repo ab. Deine Umgebung trägt deine [persönlichen Parameter](../parameters/) wie Hostnamen und Netze. Deshalb sieht jedes Lab ein wenig anders aus, und eine kopierte Lösung fällt auf.
+Jeder Meilenstein ist eine Einzelarbeit mit zwei Teilen. Die Basis belegst du mit einer Dokumentation mit Screenshots und dem Bericht des Checks in deinem Abgabe-Repo. Eine vollständige Basis ergibt die Note 4,5. Die Zusatzaufträge zeigst du live im Unterricht oder in einem Screencast von höchstens zehn Minuten, mit ihnen erreichst du bis zur Note 6. Deine Umgebung trägt deine [persönlichen Parameter](../parameters/) wie Hostnamen und Netze. Deshalb sieht jedes Lab ein wenig anders aus, und eine kopierte Lösung fällt auf.
 
 ## KI-Werkzeuge
 
-Du darfst KI-Assistenten verwenden, um Code, Konfigurationen und Skripte zu schreiben. Zwei Regeln gelten dabei. Erstens hältst du im README jedes Meilensteins fest, wofür du einen KI-Assistenten eingesetzt hast. Zweitens musst du alles erklären können, was du abgibst. In der Vorführung fragt deine Dozentin oder dein Dozent nach, und eine Lösung, die du nicht erklären kannst, zählt nicht als deine.
+Du darfst KI-Assistenten verwenden, um Code, Konfigurationen und Skripte zu schreiben. Zwei Regeln gelten dabei. Erstens hältst du in der Dokumentation jedes Meilensteins fest, wofür du einen KI-Assistenten eingesetzt hast. Zweitens musst du alles erklären können, was du abgibst. In der Vorführung fragt deine Dozentin oder dein Dozent nach, und eine Lösung, die du nicht erklären kannst, zählt nicht als deine.
 
 Im Kurs selbst läuft ab Teil 5 ein lokales Sprachmodell auf deiner Plattform. Dort lernst du, was ein kleines Modell im Betrieb leisten kann und wo es danebenliegt.
 

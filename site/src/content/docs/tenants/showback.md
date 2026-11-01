@@ -39,7 +39,7 @@ Eine VM übernimmt die Preise beim Start aus der Vorlage. VMs, die vorher gestar
 
 ## Kosten berechnen
 
-`oneshowback calculate` berechnet die Kosten aller VMs aus ihrer Laufzeit und legt sie pro Monat ab. Im Lab startest du die Berechnung selbst, im Betrieb würde ein Timer sie regelmässig auslösen. `oneshowback list` zeigt danach pro VM Besitzer, Gruppe, Monat, Stunden, Laufzeit und Kosten. Mit `-g` siehst du nur ein Mitglied.
+`oneshowback calculate` berechnet die Kosten aller VMs aus ihrer Laufzeit und legt sie pro Monat ab. OpenNebula bringt dafür den Timer `opennebula-showback.timer` mit, der die Berechnung jeden Tag startet. Für die Übungen startest du sie selbst, damit du nicht bis Mitternacht warten musst. `oneshowback list` zeigt danach pro VM Besitzer, Gruppe, Monat, Stunden, Laufzeit und Kosten. Mit `-g` siehst du nur ein Mitglied.
 
 ```bash
 oneshowback calculate
@@ -60,7 +60,7 @@ Eine VM aus der Vorlage `ubuntu` hat 0,5 CPU, 1024 MB Arbeitsspeicher und eine D
 
 Über 30 Tage mit 720 Stunden sind das rund 35 Franken. Die Kosten hängen an der Laufzeit, eine gestoppte VM kostet in diesem Modell nichts mehr. Darum lohnt es sich für die Mitglieder, VMs zu stoppen, die sie nicht brauchen.
 
-Die Preise müssen am Ende die Kosten der Genossenschaft decken. Dazu gehören die Hardware über ihre Lebensdauer, Strom, Lizenzen, Backup und die Arbeit des Plattform-Teams, auch die Reserve für Wartung aus Kapitel 2.5. Ein einfacher Ansatz teilt die jährlichen Kosten durch die Kapazität, die im Jahr verkauft werden kann. In Teil 6 kommt das Kostenmodell für dein eigenes Mitglied dazu.
+Die Preise müssen am Ende die Kosten der Genossenschaft decken. Dazu gehören die Hardware über ihre Lebensdauer, Strom, Lizenzen, Backup und die Arbeit des Plattform-Teams, auch die Reserve für Wartung aus Kapitel 2.5. Ein einfacher Ansatz teilt die jährlichen Kosten durch die Kapazität, die im Jahr verkauft werden kann. Kapitel 6.4 rechnet mit allen Kosten, im Zusatzauftrag von Meilenstein 4 auch für ein eigenes Mitglied.
 
 ::::exercise[Lab]
 Trage die Preise in die Vorlage ein. Beende je eine VM der Praxis und der Treuhand mit `onevm terminate` und starte sie unter demselben Namen aus der Vorlage neu. Berechne den Showback nach einer Stunde, in der Zwischenzeit kannst du mit Kapitel 3.4 weiterarbeiten. Exportiere die Liste als CSV in dein Abgabe-Repo.

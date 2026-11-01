@@ -1,95 +1,74 @@
 ---
 title: Meilenstein 1 · IaaS für Wolkenwerk
-description: Der Auftrag des ersten Meilensteins mit den verlangten Funktionen, dem Ablauf des Screencasts, dem Inhalt der Abgabe und dem Bewertungsraster.
+description: Der Auftrag des ersten Meilensteins mit den sieben Anforderungen der Basis, den drei Zusatzaufträgen, der Vorführung, dem Inhalt der Abgabe und dem Bewertungsraster.
 ---
 
 :::assignment
 «Die vier Mitglieder sollen ab nächstem Monat auf unserer eigenen Cloud arbeiten», schreibt Simone Wyss. «Zeig dem Vorstand, dass sie läuft, dass jedes Mitglied nur seine eigenen Maschinen sieht, was es verbraucht und wie die Treuhand Ende Monat mehr Leistung bekommt.»
 :::
 
-Meilenstein 1 umfasst Teil 2 und Teil 3. Du baust in deinem Lab die IaaS für Wolkenwerk Bern auf, teilst sie unter den vier Mitgliedern auf und erklärst deine Entscheide. Meilenstein 1 ist eine Einzelarbeit und gehört mit Meilenstein 2 zur Abgabe 1.
+Meilenstein 1 umfasst Teil 0 bis Teil 3. In der Basis baust du in deinem Lab die IaaS für Wolkenwerk Bern auf und teilst sie unter den vier Mitgliedern auf. In den Zusatzaufträgen lässt du einen Dienst elastisch wachsen, automatisierst den Showback und prüfst, was ein Knotenausfall für die Mitglieder bedeutet. Meilenstein 1 ist eine Einzelarbeit und gehört mit Meilenstein 2 zur Abgabe 1.
 
-## Verlangte Funktionen
+## Basis
 
-Alles läuft in deinem eigenen Lab mit deinen persönlichen Parametern aus Kapitel 0.3.
+Alles läuft in deinem eigenen Lab mit deinen persönlichen Parametern aus Kapitel 0.3. Die Basis verlangt sieben Anforderungen.
 
-1. OpenNebula 7.4 läuft mit zwei Knoten, der Check `install` ist grün.
-2. Das Netz `cc-net` ist aus deinen Parametern angelegt, eine VM aus der Vorlage `ubuntu` läuft mit SSH und Zugang zum Internet, der Check `iaas` ist grün.
-3. Du leerst einen Knoten für die Wartung, nimmst ihn wieder in Betrieb und verschiebst eine VM live.
-4. Die vier Mitglieder haben Gruppen mit Admins im VDC `wolkenwerk`, und ein Mitglied sieht die VMs eines anderen nicht.
-5. Die Quotas der Mitglieder sind gesetzt, die Gemeinde hat die Quota aus deinen [persönlichen Werten](../../start/parameters/), und du zeigst die Meldung an der Grenze.
-6. Die Vorlage `ubuntu` hat Preise, der Showback eines Monats liegt als CSV in deinem Abgabe-Repo.
-7. Ein Benutzer eines Mitglieds startet eine VM im Self-Service.
-8. Die Treuhand betreibt ihren Dienst in OneFlow selbst, er wächst unter Last und schrumpft wieder, der Check `m1` ist grün.
+1. Die drei VMs sind vorbereitet, der Check `start` ist grün.
+2. OpenNebula 7.4 läuft mit beiden Knoten, der Check `install` ist grün.
+3. Das Netz `cc-net` ist aus deinen Parametern angelegt, eine VM aus der Vorlage `ubuntu` läuft mit SSH und Zugang zum Internet, der Check `iaas` ist grün.
+4. Du leerst einen Knoten für die Wartung, nimmst ihn wieder in Betrieb und verschiebst eine VM live.
+5. Die vier Mitglieder haben Gruppen mit Admins im VDC `wolkenwerk`, und ein Mitglied sieht die VMs eines anderen nicht.
+6. Die Quotas der Mitglieder sind gesetzt, die Gemeinde hat die Quota aus deinen [persönlichen Werten](../../start/parameters/), und du zeigst die Meldung an der Grenze.
+7. Die Vorlage `ubuntu` hat Preise, der Showback eines Monats liegt als CSV vor, und ein Benutzer eines Mitglieds startet eine VM im Self-Service.
 
-## Eigene Erweiterung
+Die Dokumentation zeigt zu jeder Anforderung einen Screenshot mit einem oder zwei Sätzen dazu und enthält den Bericht des Checks `m1`. Mach die Screenshots, bevor du mit Kapitel 4.2 beginnst. Dort entfernst du die VMs von Teil 2 und 3, weil der Kubernetes-Cluster ihren Platz braucht.
 
-Zu den Funktionen gehört eine Erweiterung, die über den Kurs hinausgeht. Sie soll zu Wolkenwerk passen und in deinem Lab laufen. Eigene Ideen sind willkommen, die Liste hilft beim Einstieg.
+## Zusatzaufträge
 
-- eine zweite Dienstvorlage in OneFlow mit zwei Rollen, etwa Web und Datenbank
-- ein Hook in OpenNebula, der beim Start einer VM eines Mitglieds einen Eintrag schreibt
-- ein Skript mit Timer, das den Showback jeden Monat als CSV ablegt
-- ein eigenes Image mit vorinstalliertem Webserver für die Mitglieder
+Für die drei Zusatzaufträge rechnest du mit vier bis sechs Stunden. Jeder gibt 0 bis 3 Punkte nach den [Stufen der Zusatzaufträge](../#stufen-der-zusatzaufträge).
 
-Die Erweiterung gibt bis zu 3 Punkte. 1 Punkt gibt es, wenn sie läuft, 2, wenn du sie im README begründest, und 3, wenn du sie im Screencast vorführst und ihre Grenzen beurteilst.
+### A · Elastizität mit OneFlow
 
-## Erklärungen und Entscheide
+Die Treuhand betreibt ihren Dienst in OneFlow mit Regeln für die Elastizität. Du zeigst, wie der Dienst unter Last wächst und danach wieder schrumpft, und erklärst, warum deine Regeln so sind, wie sie sind. [Kapitel 3.5](../../tenants/oneflow/) zeigt den Weg. Starte die Last vor der Vorführung, das Wachsen braucht einige Minuten.
 
-Im README von Meilenstein 1 und im Screencast erklärst du
+### B · Showback als Bericht
 
-- die Architektur deines Labs mit einer eigenen Zeichnung von Front-end, Knoten, Netzen, Gruppen und VDC,
-- warum die VMs VXLAN und eine MTU von 1450 brauchen,
-- wie Gruppen, VDC und ACLs die Mitglieder trennen,
-- wie du Quotas und Preise festgelegt hast und ob die Preise die Kosten der Genossenschaft decken,
-- warum deine Regeln für die Elastizität so sind, wie sie sind,
-- was im Lab beim Ausfall eines Knotens geschieht und was es für eine höhere Verfügbarkeit bräuchte.
+Ein eigenes Skript mit einem eigenen systemd-Timer legt den Showback des vergangenen Monats als CSV ab. OpenNebula 7.4 bringt den Timer `opennebula-showback.timer` schon mit, er berechnet den Showback täglich. Deinen Timer nennst du deshalb so, dass sein Name `showback` enthält, aber nicht mit `opennebula-` beginnt. Aus dem CSV berechnest du, ob die Preise die Kosten der Genossenschaft decken. [Kapitel 3.3](../../tenants/showback/) erklärt Preise und Showback.
 
-Weichst du von den Werten des Kurses ab, etwa bei Quotas, Preisen oder Regeln, begründest du das. Eigene Entscheide geben mehr Punkte als übernommene Werte.
+### C · Ausfall eines Knotens
 
-## Screencast
+Du schaltest einen Knoten aus und zeigst, was mit den VMs der Mitglieder geschieht. Daraus leitest du einen Vorschlag für die Platzierung der VMs ab, etwa Packing oder Striping, und begründest ihn für die Mitglieder von Wolkenwerk. [Kapitel 2.5](../../iaas/hosts/) beschreibt Scheduler, Wartung und Ausfall.
 
-Der Screencast dauert höchstens zehn Minuten in einer einzigen Aufnahme. Ein Vorschlag für den Ablauf.
+## Zusatzaufträge zeigen
 
-| Minuten | Was du zeigst |
-|---|---|
-| 0 bis 1 | `/etc/cc-lab.env` und die Berichte der Checks `install`, `iaas` und `m1` mit Hash |
-| 1 bis 3 | Architektur anhand deiner Zeichnung, `onehost list`, `onevnet show cc-net` |
-| 3 bis 4 | Wartung eines Knotens mit Migration |
-| 4 bis 6 | Mitglieder, Trennung, Quota an der Grenze, Self-Service |
-| 6 bis 8 | Showback, deine Kostenrechnung und der Dienst der Treuhand unter Last |
-| 8 bis 10 | die zwei Fragen aus dem Bericht, deine Erweiterung und eigene Entscheide |
+Die Zusatzaufträge zeigst du live im Unterricht oder in einem Screencast von höchstens zehn Minuten. Für die Vorführung im Unterricht vereinbarst du selbst einen Termin mit deiner Dozentin oder deinem Dozenten. Der Screencast beginnt mit `cat /etc/cc-lab.env` und dem Bericht des Checks `m1` mit Hash und deinen zwei Fragen, die du in der Vorführung beantwortest.
 
-Den Dienst unter Last startest du am besten vor der Aufnahme, das Wachsen braucht einige Minuten. Nimm den Screencast auf, bevor du mit Teil 4 beginnst. In Kapitel 4.2 entfernst du die VMs von Teil 2 und 3, weil der Kubernetes-Cluster ihren Platz braucht. Zeigst du Meilenstein 1 live im Unterricht, gilt derselbe Ablauf, und [Kapitel 4.2](../../platform/opentofu/#platz-auf-den-knoten) zeigt, wie du den Cluster dafür vorübergehend von den Knoten nimmst.
+Nach Kapitel 4.2 belegt der Kubernetes-Cluster die Knoten. Zeigst du Auftrag A oder C danach live, zeigt [Kapitel 4.2](../../platform/opentofu/#platz-auf-den-knoten), wie du den Cluster dafür vorübergehend von den Knoten nimmst.
 
 ## Abgabe
 
-Im Ordner `m1/` deines Abgabe-Repos liegen
-
-- `README.md` mit Zeichnung, Erklärungen, Entscheiden und deinem Einsatz von KI,
-- der Showback als CSV,
-- deine angepassten Skripte und Vorlagen, falls du welche geändert hast,
-- der Screencast oder ein Link darauf.
+Im Ordner `m1/` deines Abgabe-Repos liegen die Dokumentation mit den Screenshots, der Showback als CSV und deine angepassten Skripte und Vorlagen, falls du welche geändert hast. Für Auftrag B kommen das Skript und die Units des Timers dazu, für die Vorführung der Screencast oder ein Link darauf.
 
 Die Berichte der Checks legst du in `reports/`. Wie das Repo aufgebaut ist und wie du einen Tag setzt, steht in der [Übersicht](../).
 
 ## Bewertungsraster
 
-| Kriterium | Punkte |
+| Anforderung der Basis | Punkte |
 |---|---|
-| OpenNebula mit zwei Knoten, Check `install` | 2 |
-| Netz, Vorlage und VM, Check `iaas` | 2 |
-| Wartung eines Knotens mit Migration | 2 |
-| Mitglieder mit Gruppen, Admins und VDC, Trennung gezeigt | 2 |
-| Quotas mit den persönlichen Werten der Gemeinde, Grenze gezeigt | 2 |
-| Showback mit Preisen und CSV | 2 |
-| Self-Service und Dienst der Treuhand mit Elastizität, Check `m1` | 3 |
-| Eigene Erweiterung | 3 |
-| **Funktionen** | **18** |
-| Architektur mit eigener Zeichnung | 3 |
-| VXLAN, MTU und Trennung der Mitglieder erklärt | 3 |
-| Quotas, Preise und Kostendeckung begründet | 3 |
-| Regeln der Elastizität und Folgen eines Knotenausfalls begründet | 3 |
-| **Erklärungen und Entscheide** | **12** |
-| **Total** | **30** |
+| Drei vorbereitete VMs, Check `start` | 3 |
+| OpenNebula mit beiden Knoten, Check `install` | 3 |
+| Netz, Vorlage und VM mit SSH und Internet, Check `iaas` | 3 |
+| Wartung eines Knotens mit Migration | 3 |
+| Mitglieder mit Gruppen, Admins und VDC, Trennung gezeigt | 3 |
+| Quotas mit den persönlichen Werten der Gemeinde, Grenze gezeigt | 3 |
+| Preise, Showback als CSV und Self-Service | 3 |
+| **Basis** | **21** |
 
-Die Funktionen mit der Erweiterung ergeben 60 % der Punkte, die Erklärungen und Entscheide 40 %. Jedes Erklärungskriterium bewertet deine Dozentin oder dein Dozent nach den [Stufen 0 bis 3](../#stufen-der-erklärungen). Beantwortest du eine der zwei Fragen aus dem Bericht nicht oder falsch, bekommt das Kriterium, zu dem sie gehört, höchstens 1 Punkt. Die Note der Abgabe 1 berechnet deine Dozentin oder dein Dozent aus den Punkten von Meilenstein 1 und 2 nach den Regeln der Schule.
+| Zusatzauftrag | Punkte |
+|---|---|
+| A · Elastizität mit OneFlow | 3 |
+| B · Showback als Bericht mit Kostendeckung | 3 |
+| C · Ausfall eines Knotens und Vorschlag zur Platzierung | 3 |
+| **Zusatz** | **9** |
+
+Meilenstein 1 gibt zusammen höchstens 30 Punkte. Eine Anforderung der Basis gibt 3 Punkte, wenn Bericht und Screenshot sie belegen, und 1 Punkt, wenn sie nur teilweise erfüllt ist. Beantwortest du eine der zwei Fragen nicht oder falsch, bekommt der Zusatzauftrag, zu dem sie gehört, höchstens 1 Punkt.

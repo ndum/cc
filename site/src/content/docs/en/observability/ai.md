@@ -3,6 +3,9 @@ title: A local AI service
 description: A language model with Ollama in your own cluster, model size versus speed and quality, why AVX2 matters, inference as load, access for members and the OpenAI-compatible interface.
 sidebar:
   order: 5
+  badge:
+    text: Advanced
+    variant: note
 ---
 
 :::assignment
@@ -17,6 +20,10 @@ After this chapter you can
 - measure speed in tokens per second and explain what it depends on,
 - treat inference as a load on the platform,
 - control the members' access to the model.
+:::
+
+:::note[Advanced chapter]
+This chapter belongs to the advanced tasks of milestone 3. You do not need it for the base. Ollama runs in your cluster anyway, because the application `ai` from chapter 5.1 rolls it out with the rest.
 :::
 
 ## Local or on the internet

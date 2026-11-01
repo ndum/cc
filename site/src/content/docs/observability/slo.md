@@ -52,7 +52,7 @@ Im Lab war die Wirkung des langen Fensters gut zu sehen. Vorher hatte ein Lastte
 
 ## Symptome und Ursachen
 
-`WebshopErrorBudgetBurn`, `WebshopSlow` und `WebshopDown` melden Symptome, also das, was die Kundschaft merkt. Ursachen wie eine volle Disk, ein Pod in einer Neustartschleife oder ein Knoten ohne Speicher bringt kube-prometheus-stack als eigene Regeln mit, etwa `KubePodCrashLooping` oder `KubePersistentVolumeFillingUp`. Im Lab meldete Prometheus `KubePersistentVolumeFillingUp`, als die Disk des Agents zu 87 % voll war. Kapitel 5.5 erzählt, warum.
+`WebshopErrorBudgetBurn`, `WebshopSlow` und `WebshopDown` melden Symptome, also das, was die Kundschaft merkt. Ursachen wie eine volle Disk, ein Pod in einer Neustartschleife oder ein Knoten ohne Speicher bringt kube-prometheus-stack als eigene Regeln mit, etwa `KubePodCrashLooping` oder `KubePersistentVolumeFillingUp`. Im Lab meldete Prometheus `KubePersistentVolumeFillingUp`, als die Disk des Agents zu 87 % voll war. Das Zusatzkapitel 5.5 erzählt, warum.
 
 Symptome eignen sich, um Menschen zu wecken, denn sie betreffen die Kundschaft sicher. Ursachen eignen sich für Tickets und Dashboards. Ein Alert, auf den niemand reagieren muss, gehört gelöscht, sonst lernt das Team, Alerts zu übersehen.
 
@@ -73,7 +73,7 @@ route:
         - alertname =~ "Webshop.*"
 ```
 
-Alerts des Webshops gehen an den Empfänger `triage`, den Dienst von Kapitel 5.6. Alle anderen landen vorerst bei `null` und erscheinen nur in der Oberfläche von Alertmanager auf Port 30093. `group_wait` wartet 30 Sekunden auf weitere Alerts derselben Gruppe, `repeat_interval` wiederholt einen offenen Alert erst nach vier Stunden.
+Alerts des Webshops gehen an den Empfänger `triage`, den Dienst aus dem Zusatzkapitel 5.6. Die Weiterleitung gehört zur Basis, die Arbeit mit dem Dienst selbst zu den Zusatzaufträgen von Meilenstein 3. Alle anderen landen vorerst bei `null` und erscheinen nur in der Oberfläche von Alertmanager auf Port 30093. `group_wait` wartet 30 Sekunden auf weitere Alerts derselben Gruppe, `repeat_interval` wiederholt einen offenen Alert erst nach vier Stunden.
 
 ## Einen Alert auslösen
 

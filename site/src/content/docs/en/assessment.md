@@ -1,6 +1,6 @@
 ---
 title: Assessment
-description: How the four milestones make up two grades, how you show and hand in a milestone, and how your hand-in repo is organized.
+description: How the four milestones make up two grades, what the base and the advanced tasks ask for, how you document the base and show the advanced tasks, and how your hand-in repo is organized.
 ---
 
 Your grade comes from four milestones. You hand in two of them together each time, and each hand-in gives one grade.
@@ -8,38 +8,72 @@ Your grade comes from four milestones. You hand in two of them together each tim
 | Hand-in | Milestones | Weight |
 |---|---|---|
 | Hand-in 1 | Milestone 1 IaaS for Wolkenwerk and milestone 2 platform as code | 50% |
-| Hand-in 2 | Milestone 3 observability, scaling and AI and milestone 4 a member of your own | 50% |
+| Hand-in 2 | Milestone 3 observability, scaling and AI and milestone 4 operations and a member of your own | 50% |
 
 Your module grade is the average of the two grades. Your instructor gives you the dates of the hand-ins, the way to hand in and the rules for late submissions.
 
+## Points and grade
+
+Each milestone is worth up to 30 points, 21 for the base and 9 for the advanced tasks. A hand-in covers two milestones and so up to 60 points. The grade of a hand-in is 5 × points / 60 + 1. A complete base in both milestones gives you 42 points and a 4.5, and with every advanced task on top you reach a 6. Rounding follows the school's rules.
+
+| Points | Grade |
+|---|---|
+| 30 | 3.5 |
+| 36 | 4.0 |
+| 42 | 4.5 |
+| 48 | 5.0 |
+| 51 | 5.25 |
+| 54 | 5.5 |
+| 60 | 6.0 |
+
 ## The milestones
 
-Every milestone is individual work in your own lab. The assignments of the milestones come with the parts they belong to. [Milestone 1](milestone-1/) belongs to part 2 and part 3, [milestone 2](milestone-2/) to part 4, [milestone 3](milestone-3/) to part 5 and [milestone 4](milestone-4/) to part 6. In milestone 4 you design a fifth member of Wolkenwerk Bern yourself and bring it onto your platform.
+Every milestone is individual work in your own lab. The assignments of the milestones come with the parts they belong to. [Milestone 1](milestone-1/) belongs to parts 0 to 3, [milestone 2](milestone-2/) to part 4, [milestone 3](milestone-3/) to part 5 and [milestone 4](milestone-4/) to part 6. Each milestone has two parts, a base with seven requirements and three advanced tasks that go beyond it.
 
-Every milestone has a rubric with 30 points. 15 points are for the features the assignment asks for, 3 for an extension of your own beyond the course and 12 for your explanations and the reasons behind your decisions. That makes 60% for what runs and 40% for what you understand.
+Students may help each other, and talking a solution through is part of learning. Your personal values, your report and your answers to the questions show whether the solution runs in your lab and whether you understand it.
 
-## Personal values and questions
+## Base
 
-Some values a milestone asks for come from your personal code, for example the municipality's quota or the SLO target. The [parameter generator](../start/parameters/) shows them below the content of `/etc/cc-lab.env`. Each milestone has a check of its own, `m1` to `m4`. It runs the check of the part, verifies your personal values and uses your code to draw two questions from a pool of six. You answer the questions in the screencast on your own lab.
+The base is the work you do with the chapters and their scripts in class and in self-study. Each milestone lists seven requirements, and each one is worth 0 to 3 points.
 
-Help from others is allowed, and talking a solution through is part of learning. Your personal values and your questions show whether you understand your solution yourself.
+| Points | State |
+|---|---|
+| 3 | the check report and a screenshot prove the requirement |
+| 1 | the requirement is only partly met, for example the screenshot shows it but the check is red |
+| 0 | the requirement is missing |
 
-## Levels of the explanations
+Some requirements have no check, such as a drawing or a table of RPO and RTO. You prove those with the documentation alone. The milestone check marks the base requirements with `[ok]` or `[!!]` and counts only those. It marks traces of the advanced tasks with `[+ok]` or `[+!!]` in a separate count that does not count for the base.
 
-Each explanation criterion gives 0 to 3 points. The levels apply to every milestone.
+## Documentation
+
+You prove the base with documentation in a format of your choice, Markdown, Word or PDF. You do not need a screencast for it. The documentation starts with the content of your file `/etc/cc-lab.env`. After that comes a screenshot for each of the seven requirements, with one or two sentences on what it proves. Every terminal screenshot shows the prompt with the name of your VM. The documentation also includes the report of the check `m1` to `m4` and the files the milestone asks for.
+
+## Advanced tasks
+
+Each milestone has three advanced tasks A, B and C. They take more work of your own than the base, so plan four to six hours per milestone. You can pick single tasks, and each one is worth 0 to 3 points on its own. The milestone names the chapters that help with each task.
+
+## Levels of the advanced tasks
+
+Every advanced task is graded on the same levels.
 
 | Points | Level |
 |---|---|
-| 0 | missing or wrong |
-| 1 | repeats what the course says, without reference to your lab |
-| 2 | correctly explains what happens in your lab, with your values and outputs |
-| 3 | justifies a decision of your own, names an alternative and weighs them |
+| 0 | missing |
+| 1 | runs |
+| 2 | runs and is explained on your own lab, with your values and outputs |
+| 3 | in addition, a decision of your own with an alternative and a trade-off |
 
-If you leave one of the two questions from the report unanswered or answer it wrongly, the criterion it belongs to gets at most 1 point.
+## Showing the advanced tasks
 
-## Showing
+You show the advanced tasks of a milestone in one showing, either live in class or in a screencast of at most ten minutes. For a live showing it is up to you to approach your instructor and book a slot. Your instructor sets the date by which the showings take place.
 
-You show a milestone either live in class or in a screencast. The screencast lasts at most ten minutes and is a single recording without cuts. It starts with your file `/etc/cc-lab.env` and the report of the milestone check with its hash and your two questions. Then you demonstrate the required features in your lab, and at the end you explain two or three of your own decisions. [Chapter 0.5](../start/tools/#screencasts) lists the rules as well.
+The screencast is a single recording without cuts. It starts with `cat /etc/cc-lab.env` and the report of the milestone check with its hash and your two questions. Then you demonstrate the advanced tasks in your lab. [Chapter 0.5](../start/tools/#screencasts) lists the rules as well.
+
+## Personal values and questions
+
+Some values of the base come from your personal code, for example the municipality's quota or the SLO target. The [parameter generator](../start/parameters/) shows them below the content of `/etc/cc-lab.env`. Each milestone has a check of its own, `m1` to `m4`. It runs the check of the part, verifies your personal values and uses your code to draw two questions. A solution taken from another lab therefore shows up in the check.
+
+You answer the two questions during the showing of the advanced tasks, live or in the screencast. Each question belongs to one advanced task. If you leave a question unanswered or answer it wrongly, the task it belongs to gets at most 1 point.
 
 ## Handing in
 
@@ -48,12 +82,12 @@ You hand in through your private repo on the school's GitLab or on GitHub, with 
 ```text
 cc-mmuster/
   README.md          your code, name of your instructor, table of contents
+  cc-lab.env         a copy of /etc/cc-lab.env
   reports/           the reports of the checks from ~/cc-reports
-  m1/README.md       architecture, own decisions, use of AI, link to the screencast
-  m2/README.md
-  m3/README.md
-  m4/README.md
-  ...                your code, such as OpenTofu, manifests and scripts
+  m1/                documentation with screenshots, files, link to the screencast
+  m2/
+  m3/
+  m4/
 ```
 
-The README of every milestone states what you used an AI assistant for. Put the screencast into the folder of the milestone, or link to it if it is too large for the repo, for example on OneDrive.
+The documentation of every milestone states what you used an AI assistant for. Put a screencast into the folder of the milestone, or link to it from the documentation if it is too large for the repo, for example on OneDrive.

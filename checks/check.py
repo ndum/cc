@@ -67,17 +67,38 @@ def read_env():
 
 
 class Report:
+    """Base checks count for the grade, checks inside extra() belong to the advanced tasks"""
     def __init__(self):
         self.lines = []
         self.failed = 0
+        self.passed = 0
+        self.advanced = False
+        self.extra_failed = 0
+        self.extra_passed = 0
 
     def check(self, ok, text, hint=""):
-        self.lines.append(f"{'[ok]' if ok else '[!!]'} {text}")
-        if not ok:
-            self.failed += 1
-            if hint:
-                self.lines.append(f"     {hint}")
+        mark = ("[+ok]" if ok else "[+!!]") if self.advanced else ("[ok]" if ok else "[!!]")
+        self.lines.append(f"{mark} {text}")
+        if self.advanced:
+            self.extra_passed += ok
+            self.extra_failed += not ok
+        else:
+            self.passed += ok
+            self.failed += not ok
+        if not ok and hint:
+            self.lines.append(f"     {hint}")
         return ok
+
+    def extra(self):
+        report = self
+
+        class Advanced:
+            def __enter__(self):
+                report.advanced = True
+
+            def __exit__(self, *exc):
+                report.advanced = False
+        return Advanced()
 
 
 def check_start(env, report):
@@ -237,6 +258,11 @@ def check_tenants(env, report):
     report.check(any(r.get("GNAME") in MEMBERS and float(r.get("TOTAL_COST") or 0) > 0 for r in records),
                  tr("Showback weist einem Mitglied Kosten zu", "Showback assigns costs to a member"),
                  tr("VM eines Mitglieds starten, später oneshowback calculate, Kapitel 3.3", "Start a VM of a member, later oneshowback calculate, chapter 3.3"))
+    with report.extra():
+        check_oneflow(report)
+
+
+def check_oneflow(report):
     flow = (one_json("oneflow-template", "show", "treuhand-buchhaltung") or {}).get("DOCUMENT", {})
     roles = flow.get("TEMPLATE", {}).get("BODY", {}).get("roles", [])
     report.check(any(role.get("elasticity_policies") for role in roles),
@@ -380,6 +406,11 @@ def check_observability(env, report):
     report.check(hpa.get("spec", {}).get("maxReplicas", 0) > hpa.get("spec", {}).get("minReplicas", 0) > 0,
                  tr("Der Webshop hat einen HorizontalPodAutoscaler", "The web shop has a HorizontalPodAutoscaler"),
                  tr("hpa.yaml, Kapitel 5.4", "hpa.yaml, chapter 5.4"))
+    with report.extra():
+        check_ai(report)
+
+
+def check_ai(report):
     code, out = run("kubectl", "-n", "ai", "exec", "deploy/ollama", "--", "ollama", "list", timeout=30)
     report.check(code == 0 and len(out.splitlines()) > 1, tr("Ollama hat ein Modell geladen", "Ollama has a model loaded"), out.splitlines()[-1] if out else "")
     code, out = run("kubectl", "-n", "ai", "exec", "deploy/triage", "--", "cat", "/data/audit.jsonl", timeout=30)
@@ -453,7 +484,12 @@ def check_operations(env, report):
     images = as_list(((one_json("oneimage", "list") or {}).get("IMAGE_POOL") or {}).get("IMAGE"))
     # Image type 6 is a backup
     report.check(any(i.get("TYPE") == "6" for i in images), tr("Es gibt ein Backup einer VM", "There is a backup of a VM"))
-    # milestone 4, the fifth member
+    with report.extra():
+        check_new_member(report, members)
+
+
+def check_new_member(report, members):
+    """Advanced task A of milestone 4, the fifth member of the student's own design"""
     groups = as_list(((one_json("onegroup", "list") or {}).get("GROUP_POOL") or {}).get("GROUP"))
     new = [g for g in groups if g.get("NAME") not in set(MEMBERS) | {"oneadmin", "users"}]
     quotas = [((one_json("onegroup", "show", g.get("NAME")) or {}).get("GROUP", {}).get("VM_QUOTA") or {}).get("VM") or {} for g in new]
@@ -556,6 +592,31 @@ def mebibytes(value):
     return int(value) // (1024 * 1024)
 
 
+def check_advanced(milestone, env, report):
+    """Traces of the advanced tasks that a script can see, the showing decides the points"""
+    if milestone == "m1":
+        # OpenNebula ships opennebula-showback.timer itself, only a timer of the student's own counts
+        timers = [line for line in run("systemctl", "list-timers", "--all")[1].splitlines() if "showback" in line and "opennebula-showback" not in line]
+        report.check(bool(timers),
+                     tr("Ein Timer erstellt den Showback regelmässig", "A timer creates the showback regularly"), tr("Zusatzauftrag B", "advanced task B"))
+    elif milestone == "m2":
+        apps = [a["metadata"]["name"] for a in (kube_json("get", "applications", "-n", "argocd") or {}).get("items", [])]
+        own = [n for n in apps if n.startswith("member-") and n not in ("member-velo", "member-gemeinde")]
+        report.check(bool(own), tr("Ein eigenes Mitglied hat einen Namespace aus der Vorlage", "A member of your own has a namespace from the template"), tr("Zusatzauftrag B", "advanced task B"))
+        projects = (kube_json("get", "appprojects", "-n", "argocd") or {}).get("items", [])
+        report.check(any(p["metadata"]["name"] != "default" for p in projects),
+                     tr("Argo CD hat ein eigenes AppProject", "Argo CD has an AppProject of your own"), tr("Zusatzauftrag B", "advanced task B"))
+        token_file = pathlib.Path.home() / "cc-lab" / "gitea" / "platform.token"
+        token = token_file.read_text().strip() if token_file.exists() else None
+        code, body = http(f"http://{env.get('CC_FE_IP')}:3000/api/v1/repos/wolkenwerk/platform/branch_protections", token)
+        report.check(code == 200 and body.strip() not in ("", "[]"), tr("main ist in Gitea geschützt", "main is protected in Gitea"), tr("Zusatzauftrag C", "advanced task C"))
+    elif milestone == "m3":
+        deploy = kube_json("get", "deployment", "triage", "-n", "ai") or {}
+        env_vars = {e.get("name"): e.get("value") for c in deploy.get("spec", {}).get("template", {}).get("spec", {}).get("containers", []) for e in c.get("env", [])}
+        report.check(bool(env_vars.get("EXTRA_INSTRUCTIONS")), tr("Der Triage-Dienst hat eigene Anweisungen", "The triage service has instructions of your own"),
+                     tr("EXTRA_INSTRUCTIONS in ai/triage.yaml, Zusatzauftrag C", "EXTRA_INSTRUCTIONS in ai/triage.yaml, advanced task C"))
+
+
 def check_milestone(milestone, part):
     """The check of the part, the personal values of the milestone and two questions for the screencast"""
     def run_check(env, report):
@@ -600,6 +661,8 @@ def check_milestone(milestone, part):
             report.check(ok, tr(f"Ein Backup-Job läuft um {values['backupHour']} Uhr und behält {values['backupKeep']} Backups",
                                 f"A backup job runs at {values['backupHour']}:00 and keeps {values['backupKeep']} backups"),
                          tr("backup-job.sh aus Kapitel 6.2 anpassen", "adapt backup-job.sh from chapter 6.2"))
+        with report.extra():
+            check_advanced(milestone, env, report)
         pool = QUESTIONS[milestone]
         report.lines += ["", tr("Fragen für deinen Screencast", "Questions for your screencast")]
         for number, index in enumerate(params.questions(code, milestone, len(pool)), 1):
@@ -633,8 +696,12 @@ def main():
         f"time {now}",
         "",
     ]
-    total = len([line for line in report.lines if line.startswith("[")])
-    foot = ["", tr(f"{total - report.failed} von {total} Prüfungen erfüllt", f"{total - report.failed} of {total} checks passed")]
+    total = report.passed + report.failed
+    foot = ["", tr(f"{report.passed} von {total} Prüfungen der Basis erfüllt", f"{report.passed} of {total} base checks passed")]
+    extra = report.extra_passed + report.extra_failed
+    if extra:
+        foot.append(tr(f"{report.extra_passed} von {extra} Prüfungen der Zusatzaufträge erfüllt, sie zählen nicht zur Basis",
+                       f"{report.extra_passed} of {extra} checks of the advanced tasks passed, they do not count for the base"))
     body = "\n".join(head + report.lines + foot)
     digest = hashlib.sha256(body.encode()).hexdigest()[:16]
     text = f"{body}\nhash {digest}\n"

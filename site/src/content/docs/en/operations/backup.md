@@ -94,6 +94,10 @@ That makes the RPO of the cluster six hours. Anything changed in that time throu
 
 ## Restoring the cluster
 
+:::note[Advanced task]
+Restoring from a snapshot with the time measured is one of the advanced tasks of milestone 4. Switching to etcd, the snapshots and their copy to the front-end belong to the base.
+:::
+
 The drill simulates a serious operator error, someone deletes the namespace `argocd` and with it the GitOps control. First take a snapshot and copy it.
 
 ```bash
@@ -127,7 +131,7 @@ OpenNebula backs up the member VMs itself. Backups go to a datastore of type `BA
 
 ::code{file="platform/operations/backup-datastore.sh"}
 
-Since chapter 4.2 only the two k3s VMs run in OpenNebula. You do not back them up this way, their state lives in Git and in the etcd snapshots. To practice, start the VM `praxis-1` from the template `ubuntu` with 1 GB as `praxis-admin`, a node has no more room next to k3s. You back up this VM and restore it. In milestone 4 it is the VM of your own member.
+Since chapter 4.2 only the two k3s VMs run in OpenNebula. You do not back them up this way, their state lives in Git and in the etcd snapshots. To practice, start the VM `praxis-1` from the template `ubuntu` with 1 GB as `praxis-admin`, a node has no more room next to k3s. You back up this VM and restore it. If you do the advanced task of milestone 4 with a member of your own, it can be that member's VM instead.
 
 `onevm backup` starts a backup by hand, even for a running VM. In the lab, backing up a VM with 1 GB of memory and Ubuntu 26.04 took eleven seconds, and the backup image was 1004 MB.
 
@@ -157,7 +161,7 @@ Backups count against the datastore quota. A member with many large backups need
 Velero backs up namespaces together with their volumes into object storage and restores single namespaces without resetting the whole cluster. It would need storage such as MinIO and more components on the tight nodes. For the course, Git, the etcd snapshots and the OpenNebula backups are enough.
 
 ::::exercise[RPO and RTO]
-Set an RPO and an RTO for the four members and for your own member from milestone 4. Check whether the platform meets them with snapshots every six hours and nightly backups.
+Set an RPO and an RTO for the four members. Check whether the platform meets them with snapshots every six hours and nightly backups. If you do the advanced task of milestone 4, add your own member.
 
 :::solution
 One possible setting is the fiduciary office with an RPO of four hours and an RTO of four hours at the end of the month, the practice with an RPO of 24 hours and an RTO of one working day, the web shop with an RPO of 24 hours and an RTO of one hour on Saturdays, the municipality with an RPO of 24 hours and an RTO of four hours during counter hours. The nightly VM backups reach an RPO of 24 hours, so the fiduciary office would need more frequent ones. An RTO of one hour requires a practiced restore. In the lab, rebuilding the cluster took a good ten minutes, restoring from the snapshot less than one.
@@ -165,10 +169,10 @@ One possible setting is the fiduciary office with an RPO of four hours and an RT
 ::::
 
 ::::exercise[Lab]
-Rebuild the cluster with etcd, set up the snapshot copies and a backup job, and practice both restores, the namespace `argocd` from the snapshot and the VM `praxis-1` from its backup. Measure the times.
+Rebuild the cluster with etcd, set up the snapshot copies and a backup job, and restore the VM `praxis-1` from its backup. For the advanced task, also restore the namespace `argocd` from the snapshot. Measure the times.
 
 :::solution
-`k3s etcd-snapshot ls` on the server shows snapshots, `~/backup/k3s` holds snapshots, token and key, and `systemctl list-timers cc-backup-k3s.timer` shows the next run. `onebackupjob list` shows the job, and `oneimage list` an image of type `BK`. After the drills, Argo CD and the VM are back, and the check `operations` reports the backup checks as passed. The times are in the range of the lab, under a minute for the snapshot and about two minutes for the VM.
+`k3s etcd-snapshot ls` on the server shows snapshots, `~/backup/k3s` holds snapshots, token and key, and `systemctl list-timers cc-backup-k3s.timer` shows the next run. `onebackupjob list` shows the job, and `oneimage list` an image of type `BK`. Afterwards the VM is back, and with the advanced task Argo CD as well, and the check `operations` reports the backup checks as passed. The times are in the range of the lab, about two minutes for the VM and under a minute for the snapshot.
 :::
 ::::
 

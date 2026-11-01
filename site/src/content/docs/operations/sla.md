@@ -69,6 +69,10 @@ Eine Anleitung für eine wiederkehrende Störung heisst Runbook. Sie beschreibt 
 
 ## Ein Alert für ein neues Mitglied
 
+:::note[Zusatzauftrag]
+Dieser Abschnitt gehört zum Zusatzauftrag von Meilenstein 4 mit dem eigenen Mitglied. Für die Basis brauchst du ihn nicht.
+:::
+
 Seit Kapitel 6.1 schickt Alertmanager nicht nur die Alerts des Webshops an den Triage-Dienst, sondern jeden Alert mit dem Label `triage: "true"`. Ein neues Mitglied bringt seine Regeln deshalb selbst mit, als `PrometheusRule` in seinem Ordner im Plattform-Repo. Das Beispiel überwacht die App `web` einer Kindertagesstätte im Namespace `kita`.
 
 ```yaml
@@ -98,6 +102,10 @@ Der Dienst darf nach Kapitel 5.6 nur `velo/webshop` anfassen. Für ein neues Mit
 
 ## Postmortems
 
+:::note[Zusatzauftrag]
+Das Postmortem mit dem Entwurf des lokalen Modells gehört zu den Zusatzaufträgen von Meilenstein 4. Für die Basis brauchst du es nicht.
+:::
+
 Nach einer Störung schreibt das Team ein Postmortem. Es hält fest, was passiert ist, welche Auswirkung es hatte, welche Ursachen dazu beitrugen und welche Massnahmen eine Wiederholung verhindern. Die Praxis kommt aus dem Betrieb grosser Dienste, das [Buch zu Site Reliability Engineering](https://sre.google/sre-book/postmortem-culture/) von Google beschreibt sie ausführlich. Ein Postmortem sucht keine Schuldigen. Es nimmt an, dass alle Beteiligten mit den Informationen, die sie hatten, vernünftig gehandelt haben, und fragt, welche Systeme und Abläufe den Fehler möglich gemacht haben.
 
 Die Zeitlinie ist der wichtigste Teil, und sie ist mühsam zu sammeln. Bei Wolkenwerk stehen die Fakten an drei Orten, die Alerts in Prometheus, die Entscheide im Audit-Log des Triage-Dienstes und die Änderungen in Git. Das Skript des Kurses sammelt sie und baut daraus die Zeitlinie selbst, ohne Modell. Das lokale Modell aus Kapitel 5.5 schreibt nur den Text darum herum.
@@ -123,7 +131,7 @@ Im Lab lief ein Vorfall wie in Kapitel 5.3. `FAIL_PERCENT` stand über Git auf 6
 Ein zweiter Entwurf über eine halbe Stunde nannte 13 Minuten Auswirkung und schrieb im nächsten Satz, die Benutzer hätten keine Ausfälle bemerkt, obwohl 60 % der Anfragen scheiterten. Ein Entwurf spart Tipparbeit, aber jede Aussage muss gegen die Zeitlinie geprüft werden. Wer ihn ungeprüft weitergibt, verbreitet Behauptungen mit dem Anschein eines Berichts.
 
 ::::exercise[SLA]
-Entwirf ein SLA für dein eigenes Mitglied aus Meilenstein 4 auf einer Seite. Begründe die Verfügbarkeit mit der Architektur deines Labs und die Supportzeiten mit den Mitteln einer kleinen Genossenschaft.
+Entwirf ein SLA für eines der vier Mitglieder auf einer Seite, etwa für die Treuhand. Begründe die Verfügbarkeit mit der Architektur deines Labs und die Supportzeiten mit den Mitteln einer kleinen Genossenschaft. Machst du den Zusatzauftrag von Meilenstein 4, schreibst du das SLA für dein eigenes Mitglied und stützt es auf die gemessene Zeit der Wiederherstellung aus Kapitel 6.2.
 
 :::solution
 Ein gutes SLA nennt den Dienst und seine Grenzen, eine Verfügbarkeit mit Zeitraum und Ausnahmen, etwa 99 % pro Monat zu Bürozeiten ohne angekündigte Wartung, Supportzeiten mit Reaktionszeiten, RPO und RTO aus Kapitel 6.2, den Ort der Daten in der Schweiz, die Pflichten des Mitglieds und eine Folge bei Verfehlung. Die Begründung erwähnt den einzelnen Server von k3s und das fehlende Pikett. Eine Zusage über 99,9 % ohne mehr Server und Pikett wäre nicht ehrlich.
@@ -131,7 +139,7 @@ Ein gutes SLA nennt den Dienst und seine Grenzen, eine Verfügbarkeit mit Zeitra
 ::::
 
 ::::exercise[Postmortem]
-Löse einen Vorfall aus wie in Kapitel 5.3, entscheide über den Vorschlag des Triage-Dienstes, behebe den Fehler über Git und lass das Modell einen Entwurf schreiben. Korrigiere ihn und markiere jede Änderung.
+Diese Übung gehört zu den Zusatzaufträgen von Meilenstein 4. Löse einen Vorfall aus wie in Kapitel 5.3, entscheide über den Vorschlag des Triage-Dienstes, behebe den Fehler über Git und lass das Modell einen Entwurf schreiben. Korrigiere ihn und markiere jede Änderung.
 
 :::solution
 Der Entwurf enthält eine Zeitlinie mit Commit, Alert, Vorschlag, Entscheid und Revert. Die Korrektur prüft jede Zahl und jede Ursache gegen diese Zeitlinie, streicht erfundene Personen und Fakten und ergänzt Massnahmen mit einer Rolle als Verantwortliche, etwa eine Prüfung von Umgebungsvariablen im Pull Request. Das fertige Postmortem nennt keine schuldige Person.

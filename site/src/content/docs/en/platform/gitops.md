@@ -38,7 +38,7 @@ The difference from a classic rollout is the direction. With a push approach, a 
 
 Argo CD, the agent of this chapter, needs a Git repo it can reach from the cluster. The platform team runs its own Gitea for that. Gitea is a lightweight Git server with a web interface, users, organizations and pull requests, under the MIT license.
 
-Gitea runs on the front-end, not in the cluster. In milestone 2 you rebuild the cluster live. If the desired state lived in a Gitea inside the same cluster, it would be gone after `tofu destroy`, and the new cluster would not know what to roll out. A tool that restores a system must not depend on the system it restores. The front-end has enough memory, and it has to run anyway for OpenNebula to run.
+Gitea runs on the front-end, not in the cluster. In the advanced task of milestone 2 you rebuild the cluster, and in chapter 6.2 you rebuild it for etcd anyway. If the desired state lived in a Gitea inside the same cluster, it would be gone after `tofu destroy`, and the new cluster would not know what to roll out. A tool that restores a system must not depend on the system it restores. The front-end has enough memory, and it has to run anyway for OpenNebula to run.
 
 ::code{file="platform/gitea/install-gitea.sh"}
 

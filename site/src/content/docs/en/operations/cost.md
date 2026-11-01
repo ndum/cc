@@ -47,6 +47,10 @@ With the prices from chapter 3.3, the same member cost around 86 francs a month,
 
 The calculation assumes the platform is fully booked. In fact, the k3s VMs alone take 12 of the 14.4 GB. What the members do not buy, the others carry.
 
+:::note[Advanced task]
+The cost model for your own member is one of the advanced tasks of milestone 4. You calculate it as above with your member's quota and VM and compare it with the showback.
+:::
+
 ## Right-sizing
 
 A quota and a pod's requests reserve resources, even if the pod never uses them. Right-sizing means adjusting the reservation to the measured use. Prometheus knows both. The first query shows the requests per namespace, the second the 95th percentile of the actual use over the last hour.
@@ -74,7 +78,7 @@ In the lab, after a load test, the picture looked like this.
 | ai | 1.02 | 0.22 | 2,112 MiB | 3,391 MiB |
 | probe | 0.05 | 0 | 64 MiB | 21 MiB |
 
-The measurement comes from the course lab. There the own member from milestone 4 is called `probe`, in your lab you see the namespace of your member instead.
+The measurement comes from the course lab. It also ran the member `probe` from the advanced task of milestone 4. Without that task the row is missing in your lab, with it you see the namespace of your member there.
 
 The numbers say different things. For the web shop, use was above the requests because the HPA scales the pods by utilization of the requests. There the requests are a tool for scaling, not a mistake. Ollama reserved four times more CPU than it needed, but a third too little memory. With the model loaded it used 3.3 GiB against a request of 2 GiB. When memory gets tight on the node, Kubernetes first evicts pods that use more than they reserved. A better request would be about 0.5 CPU and 3.5 GiB of memory. The limit of 4 GiB then leaves little headroom. Whoever raises the request therefore also checks the limit and whether the agent has the room next to Loki and the members' pods. The change belongs in `ai/ollama.yaml` and thus in a pull request.
 
@@ -99,7 +103,7 @@ Power also depends on utilization. An idle server draws a large part of its peak
 OpenCost calculates the cost of a cluster per namespace, deployment and pod, with prices per CPU and GB, and shows unused reservations. It runs in the cluster and reads from Prometheus. For the course, the queries above and the calculation in a table are enough.
 
 ::::exercise[Cost model]
-Create the cost model for your member from milestone 4. Calculate with the full cost above or with assumptions of your own, justified, and compare the result with the showback from chapter 3.3.
+Create the cost model for one of the four members with its quota and its VMs. If you do the advanced task of milestone 4, calculate it for your own member. Calculate with the full cost above or with assumptions of your own, justified, and compare the result with the showback from chapter 3.3.
 
 :::solution
 The model names the member's resources from quota and VM, its share of capacity, the monthly price from the full cost and the amount from showback. It explains the difference with the labor missing in showback and proposes a way of billing, such as a base fee plus consumption. Assumptions of your own are allowed if they are justified.

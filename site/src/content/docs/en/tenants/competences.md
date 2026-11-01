@@ -17,8 +17,8 @@ Use this grid to judge whether your cloud is ready for several members and you u
 | tell showback from chargeback | Explain the difference in two sentences for the board. | [Showback](../showback/#showback-and-chargeback) |
 | calculate the cost of a VM | Work out the cost of a VM per hour and per month from its prices. | [Showback](../showback/#the-cost-of-a-vm) |
 | set up self-service with shared templates | Show what a group admin may change on the template `ubuntu` and what not. | [Self-service](../self-service/#the-limits-of-a-member) |
-| describe a service with OneFlow | Explain role, cardinality, `min_vms`, `max_vms` and `cooldown` using the fiduciary office's service. | [Elasticity with OneFlow](../oneflow/#services-and-roles) |
-| write and observe elasticity rules | Show how the service grows under load and explain why it does not grow to three VMs. | [Elasticity with OneFlow](../oneflow/#growing-under-load) |
-| use elasticity by schedule | Write a rule that sets the service to two VMs every Monday at 7 o'clock. | [Elasticity with OneFlow](../oneflow/#growing-by-schedule) |
+| describe a service with OneFlow (advanced) | Explain role, cardinality, `min_vms`, `max_vms` and `cooldown` using the fiduciary office's service. | [Elasticity with OneFlow](../oneflow/#services-and-roles) |
+| write and observe elasticity rules (advanced) | Show how the service grows under load and explain why it does not grow to three VMs. | [Elasticity with OneFlow](../oneflow/#growing-under-load) |
+| use elasticity by schedule (advanced) | Write a rule that sets the service to two VMs every Monday at 7 o'clock. | [Elasticity with OneFlow](../oneflow/#growing-by-schedule) |
 
-With this part you complete [milestone 1](../../assessment/milestone-1/). In part 4 you build a platform as code on top of this cloud.
+With this part you complete [milestone 1](../../assessment/milestone-1/). Rows marked as advanced belong to an advanced task, not to the base. In part 4 you build a platform as code on top of this cloud.

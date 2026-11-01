@@ -15,7 +15,7 @@ After this chapter you can
 - describe what you build and learn in this module,
 - explain how the course is organized and how you learn with it,
 - name the members of Wolkenwerk Bern and what they need,
-- describe how the four milestones and the two hand-ins make up your grade,
+- describe how the base and the advanced tasks of the four milestones make up your grade,
 - use AI tools the way the course rules require.
 :::
 
@@ -30,7 +30,7 @@ In this module you build a small cloud in your own lab and run it the way a plat
 | 2 Building IaaS | You install OpenNebula with Ansible, bring the nodes into service as hosts, set up networks, images and templates, and start your first VMs. | a running IaaS cloud |
 | 3 Tenants and self-service | You split the cloud into groups with quotas, charge usage back with showback, give the members self-service and let a service grow with OneFlow. | four members with their own resources, milestone 1 |
 | 4 Platform as code | You create a Kubernetes cluster with OpenTofu, roll out the web shop from Git with Argo CD and give the members namespaces from a template. | a platform you can rebuild from code, milestone 2 |
-| 5 Observability, scaling and AI | You monitor everything with Prometheus, Grafana and Loki, set an SLO, let the web shop scale on its own and run a local language model that sorts alerts. | a monitored platform with AI triage, milestone 3 |
+| 5 Observability, scaling and AI | You monitor everything with Prometheus, Grafana and Loki, set an SLO, let the web shop scale on its own and run a local language model that sorts alerts. | a monitored platform, milestone 3 with the local language model in the advanced tasks |
 | 6 Operations | You harden the platform, back it up and restore it, write an SLA, work out the cost and put a fifth member of your own design into service. | a cloud ready for operation, milestone 4 |
 
 Each part adds a layer of the [target architecture](#the-target-architecture). The milestones close parts 3, 4, 5 and 6, and your grade comes from them.
@@ -59,11 +59,11 @@ Every part of the course builds a layer or extends one. The header line of each 
 
 Your grade comes from four milestones. You hand in milestones 1 and 2 together and get your first grade for them. Milestones 3 and 4 make up the second grade. Both grades count the same. Your instructor announces the dates. [Assessment](../../assessment/) has the details.
 
-Every milestone is individual work. You show it either in a screencast of at most ten minutes or live in class, and you hand in your repo with it. Your environment carries your [personal parameters](../parameters/) such as host names and networks. Every lab therefore looks a little different, and a copied solution stands out.
+Every milestone is individual work in two parts. You prove the base with documentation with screenshots and the check report in your hand-in repo. A complete base gives you a 4.5. You show the advanced tasks live in class or in a screencast of at most ten minutes, and they take you up to a 6. Your environment carries your [personal parameters](../parameters/) such as host names and networks. Every lab therefore looks a little different, and a copied solution stands out.
 
 ## AI tools
 
-You may use AI assistants to write code, configuration and scripts. Two rules apply. First, the README of every milestone states what you used an AI assistant for. Second, you must be able to explain everything you hand in. Your instructor asks questions during the showing, and a solution you cannot explain does not count as yours.
+You may use AI assistants to write code, configuration and scripts. Two rules apply. First, the documentation of every milestone states what you used an AI assistant for. Second, you must be able to explain everything you hand in. Your instructor asks questions during the showing, and a solution you cannot explain does not count as yours.
 
 From part 5 on, the course itself runs a local language model on your platform. There you learn what a small model can do in operations and where it gets things wrong.
 

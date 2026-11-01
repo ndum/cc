@@ -38,7 +38,7 @@ Der Unterschied zum klassischen Ausrollen liegt in der Richtung. Bei einem Push-
 
 Argo CD, der Agent dieses Kapitels, braucht ein Git-Repo, das er aus dem Cluster erreicht. Das Plattform-Team betreibt dafür ein eigenes Gitea. Gitea ist ein schlanker Git-Server mit Weboberfläche, Benutzern, Organisationen und Pull Requests, unter der Lizenz MIT.
 
-Gitea läuft auf dem Front-end und nicht im Cluster. In Meilenstein 2 baust du den Cluster live neu auf. Läge der Soll-Zustand in einem Gitea im selben Cluster, wäre er nach `tofu destroy` weg, und der neue Cluster wüsste nicht, was er ausrollen soll. Ein Werkzeug, das ein System wiederherstellt, darf nicht vom System abhängen, das es wiederherstellt. Der Front-end hat genug Speicher, und er muss ohnehin laufen, damit OpenNebula läuft.
+Gitea läuft auf dem Front-end und nicht im Cluster. Im Zusatzauftrag von Meilenstein 2 baust du den Cluster neu auf, und in Kapitel 6.2 baust du ihn für etcd ohnehin neu. Läge der Soll-Zustand in einem Gitea im selben Cluster, wäre er nach `tofu destroy` weg, und der neue Cluster wüsste nicht, was er ausrollen soll. Ein Werkzeug, das ein System wiederherstellt, darf nicht vom System abhängen, das es wiederherstellt. Der Front-end hat genug Speicher, und er muss ohnehin laufen, damit OpenNebula läuft.
 
 ::code{file="platform/gitea/install-gitea.sh"}
 

@@ -27,7 +27,7 @@ OpenNebula reserves the full memory of a VM's template on its node, even when th
 
 ![The memory of a node. A bar shows the 8 GB of one node. The host keeps 0.8 GB, and OpenNebula reports the remaining 7.2 GB for VMs. The k3s VM reserves 6 GB of that, the server on one node and the agent on the other. That leaves 1.2 GB free. Notice that only one more VM with 1 GB fits next to it, because OpenNebula reserves the full memory of every VM.](../../../../assets/figures/en/p4c2-memory.svg)
 
-So you clean up before this chapter. Record the milestone 1 screencast first, because afterwards the VMs it shows are gone. The groups, quotas, prices and templates of part 3 stay, you only remove the running VMs.
+So you clean up before this chapter. Take the screenshots for the milestone 1 documentation first, because afterwards the VMs they show are gone. If you show the advanced tasks of milestone 1 in a screencast, record it first as well. The groups, quotas, prices and templates of part 3 stay, you only remove the running VMs.
 
 ```bash
 oneflow list
@@ -37,10 +37,10 @@ for id in $(onevm list -l ID --no-header); do onevm terminate "$id"; done
 onehost list
 ```
 
-First you remove the fiduciary office's service, otherwise OneFlow starts its VM again right away. Then the loop terminates every VM that `onevm list` shows, whatever names you gave them in parts 2 and 3. `oneadmin` may terminate the VMs of every member. At the end, `onehost list` shows `0K / 7.2G` on both nodes.
+If you started the fiduciary office's service in the advanced chapter 3.5, remove it first, otherwise OneFlow starts its VM again right away. Then the loop terminates every VM that `onevm list` shows, whatever names you gave them in parts 2 and 3. `oneadmin` may terminate the VMs of every member. At the end, `onehost list` shows `0K / 7.2G` on both nodes.
 
-:::note[Showing milestone 1 live]
-If you show milestone 1 live in class instead of in a screencast, take the cluster off the nodes for the demo. `onevm undeploy k3s-server` and `onevm undeploy k3s-agent` stop the VMs and release their memory and CPU while keeping their disks. Then you start the members' VMs again with the commands of part 3, show milestone 1 and terminate them. `onevm resume` brings the cluster back. In the lab, `undeploy` took a little under two minutes, and after `resume` the web shop of chapter 4.4 answered again after about 45 seconds. `onevm poweroff` is not enough, a VM that is powered off keeps its place on the node.
+:::note[Showing the advanced tasks of milestone 1 live]
+The documentation proves the base of milestone 1, so it no longer needs the old VMs. If you show the advanced tasks of milestone 1 live in class instead of in a screencast, take the cluster off the nodes for the demo. `onevm undeploy k3s-server` and `onevm undeploy k3s-agent` stop the VMs and release their memory and CPU while keeping their disks. Then you start the VMs the advanced tasks need with the commands of part 3, show the tasks and terminate the VMs again. `onevm resume` brings the cluster back. In the lab, `undeploy` took a little under two minutes, and after `resume` the web shop of chapter 4.4 answered again after about 45 seconds. `onevm poweroff` is not enough, a VM that is powered off keeps its place on the node.
 :::
 
 ## Tools
@@ -162,6 +162,10 @@ Plan: 0 to add, 1 to change, 0 to destroy.
 ```bash
 tofu apply -replace='opennebula_virtual_machine.k3s["k3s-agent"]'
 ```
+
+:::note[Advanced task]
+The full rebuild with `tofu destroy`, `tofu apply` and the bootstrap from chapter 4.4 is one of the advanced tasks of milestone 2. For the base, the VMs from OpenTofu and a plan without changes are enough.
+:::
 
 The full rebuild tells you the most. `tofu destroy` deletes everything in the state, and `tofu apply` builds it again.
 

@@ -3,6 +3,9 @@ title: Elastizität mit OneFlow
 description: Dienste mit Rollen in OneFlow, Kardinalität, Regeln für die Elastizität nach Last und nach Zeitplan, OneGate und ein Dienst für die Treuhand, der Ende Monat wächst.
 sidebar:
   order: 5
+  badge:
+    text: Zusatz
+    variant: note
 ---
 
 :::assignment
@@ -16,6 +19,10 @@ Nach diesem Kapitel kannst du
 - einen Dienst mit Rollen in OneFlow beschreiben und anlegen,
 - Regeln für die Elastizität nach Last und nach Zeitplan schreiben,
 - beobachten und erklären, wie ein Dienst unter Last wächst und wieder schrumpft.
+:::
+
+:::note[Zusatzkapitel]
+Dieses Kapitel gehört zu den Zusatzaufträgen von Meilenstein 1. Für die Basis brauchst du es nicht, und Teil 4 setzt den Dienst der Treuhand nicht voraus.
 :::
 
 ## Elastizität

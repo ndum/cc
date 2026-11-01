@@ -18,9 +18,9 @@ Mit diesem Raster schätzt du ein, ob du deine Plattform beobachten, skalieren u
 | einen Alert nach Burn Rate begründen | Erkläre, wozu der Alert zwei Zeitfenster braucht. | [Alerts und SLOs](../slo/#burn-rate) |
 | Autoscaling einrichten und begrenzen | Rechne nach, ob `maxReplicas` mit dem Limit eines Pods und der Reserve für einen Rollout in die Quota passt. | [Autoscaling](../autoscaling/#grenzen) |
 | einen Lasttest auswerten | Erkläre, warum mehr Pods im Lab nicht mehr Durchsatz brachten. | [Autoscaling](../autoscaling/#der-engpass-anderswo) |
-| ein lokales Modell betreiben und messen | Miss die Tokens pro Sekunde und erkläre, wovon sie abhängen. | [Ein lokaler KI-Dienst](../ai/#geschwindigkeit) |
-| den Zugriff auf das Modell steuern | Gib einem Mitglied Zugriff und zeige, dass ein anderes keinen hat. | [Ein lokaler KI-Dienst](../ai/#inferenz-als-last) |
-| einen Vorschlag des Modells prüfen | Beurteile einen Vorschlag des Triage-Dienstes und entscheide begründet. | [KI-Triage mit Freigabe](../triage/#im-lab) |
-| Risiken eines Modells im Betrieb einschätzen | Nenne die Schutzmassnahmen des Triage-Dienstes und wogegen sie schützen. | [KI-Triage mit Freigabe](../triage/#schutzmassnahmen) |
+| ein lokales Modell betreiben und messen (Zusatz) | Miss die Tokens pro Sekunde und erkläre, wovon sie abhängen. | [Ein lokaler KI-Dienst](../ai/#geschwindigkeit) |
+| den Zugriff auf das Modell steuern (Zusatz) | Gib einem Mitglied Zugriff und zeige, dass ein anderes keinen hat. | [Ein lokaler KI-Dienst](../ai/#inferenz-als-last) |
+| einen Vorschlag des Modells prüfen (Zusatz) | Beurteile einen Vorschlag des Triage-Dienstes und entscheide begründet. | [KI-Triage mit Freigabe](../triage/#im-lab) |
+| Risiken eines Modells im Betrieb einschätzen (Zusatz) | Nenne die Schutzmassnahmen des Triage-Dienstes und wogegen sie schützen. | [KI-Triage mit Freigabe](../triage/#schutzmassnahmen) |
 
-Mit diesem Teil schliesst du [Meilenstein 3](../../assessment/milestone-3/) ab. In Teil 6 geht es um Sicherheit, Sicherung, Service Levels und Kosten, und du bringst ein eigenes Mitglied auf die Plattform.
+Mit diesem Teil schliesst du [Meilenstein 3](../../assessment/milestone-3/) ab. Zeilen mit dem Vermerk «Zusatz» gehören zu einem Zusatzauftrag und nicht zur Basis. In Teil 6 geht es um Sicherheit, Sicherung, Service Levels und Kosten, und als Zusatz bringst du ein eigenes Mitglied auf die Plattform.

@@ -47,6 +47,10 @@ Mit den Preisen aus Kapitel 3.3 kostete dasselbe Mitglied rund 86 Franken im Mon
 
 Die Rechnung nimmt an, dass die Plattform voll belegt ist. In Wahrheit belegen die VMs von k3s allein 12 der 14,4 GB. Was die Mitglieder nicht kaufen, tragen die anderen mit.
 
+:::note[Zusatzauftrag]
+Das Kostenmodell für dein eigenes Mitglied gehört zu den Zusatzaufträgen von Meilenstein 4. Du rechnest es wie oben mit der Quota und der VM deines Mitglieds und vergleichst es mit dem Showback.
+:::
+
 ## Right-Sizing
 
 Eine Quota und die Requests eines Pods reservieren Ressourcen, auch wenn der Pod sie nie nutzt. Right-Sizing heisst, die Reservierung an den gemessenen Verbrauch anzupassen. Prometheus kennt beides. Die erste Abfrage zeigt die Requests pro Namespace, die zweite das 95. Perzentil des tatsächlichen Verbrauchs der letzten Stunde.
@@ -74,7 +78,7 @@ Im Lab ergab sich nach einem Lasttest dieses Bild.
 | ai | 1,02 | 0,22 | 2 112 MiB | 3 391 MiB |
 | probe | 0,05 | 0 | 64 MiB | 21 MiB |
 
-Die Messung stammt aus dem Lab des Kurses. Dort heisst das eigene Mitglied aus Meilenstein 4 `probe`, bei dir steht an dieser Stelle der Namespace deines Mitglieds.
+Die Messung stammt aus dem Lab des Kurses. Dort lief auch das Mitglied `probe` aus dem Zusatzauftrag von Meilenstein 4. Ohne diesen Zusatzauftrag fehlt die Zeile bei dir, mit ihm steht dort der Namespace deines Mitglieds.
 
 Die Zahlen sagen Verschiedenes. Beim Webshop lag der Verbrauch über den Requests, weil das HPA die Pods nach Auslastung der Requests skaliert. Die Requests sind dort ein Werkzeug der Skalierung, kein Fehler. Ollama reservierte viermal mehr CPU, als es brauchte, aber ein Drittel zu wenig Speicher. Mit dem geladenen Modell nutzte es 3,3 GiB bei einem Request von 2 GiB. Wird der Speicher auf dem Node knapp, beendet Kubernetes zuerst Pods, die mehr nutzen, als sie reserviert haben. Ein besserer Request wäre etwa 0,5 CPU und 3,5 GiB Speicher. Das Limit von 4 GiB lässt dann nur noch wenig Luft. Wer den Request erhöht, prüft deshalb auch das Limit und ob der Agent neben Loki und den Pods der Mitglieder den Platz hat. Die Änderung gehört in `ai/ollama.yaml` und damit in einen Pull Request.
 
@@ -99,7 +103,7 @@ Auch der Strom hängt an der Belegung. Ein Server im Leerlauf braucht einen gros
 OpenCost rechnet die Kosten eines Clusters pro Namespace, Deployment und Pod aus, mit Preisen pro CPU und GB, und zeigt ungenutzte Reservierungen. Es läuft im Cluster und liest aus Prometheus. Für den Kurs genügen die Abfragen oben und die Rechnung in einer Tabelle.
 
 ::::exercise[Kostenmodell]
-Erstelle das Kostenmodell für dein Mitglied aus Meilenstein 4. Rechne mit den Vollkosten oben oder mit eigenen begründeten Annahmen und vergleiche das Ergebnis mit dem Showback aus Kapitel 3.3.
+Erstelle das Kostenmodell für eines der vier Mitglieder mit seiner Quota und seinen VMs. Machst du den Zusatzauftrag von Meilenstein 4, rechnest du es für dein eigenes Mitglied. Rechne mit den Vollkosten oben oder mit eigenen begründeten Annahmen und vergleiche das Ergebnis mit dem Showback aus Kapitel 3.3.
 
 :::solution
 Das Modell nennt die Ressourcen des Mitglieds aus Quota und VM, den Anteil an der Kapazität, den Preis pro Monat aus den Vollkosten und den Betrag aus dem Showback. Es erklärt den Unterschied mit der Arbeit, die im Showback fehlt, und schlägt eine Verrechnung vor, etwa Grundbeitrag plus Verbrauch. Eigene Annahmen sind erlaubt, wenn sie begründet sind.

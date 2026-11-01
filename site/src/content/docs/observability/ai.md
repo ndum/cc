@@ -3,6 +3,9 @@ title: Ein lokaler KI-Dienst
 description: Ein Sprachmodell mit Ollama im eigenen Cluster, Grösse des Modells gegen Geschwindigkeit und Qualität, warum AVX2 zählt, Inferenz als Last, Zugriff für Mitglieder und die OpenAI-kompatible Schnittstelle.
 sidebar:
   order: 5
+  badge:
+    text: Zusatz
+    variant: note
 ---
 
 :::assignment
@@ -17,6 +20,10 @@ Nach diesem Kapitel kannst du
 - Geschwindigkeit in Tokens pro Sekunde messen und erklären, wovon sie abhängt,
 - Inferenz als Last für die Plattform einordnen,
 - den Zugriff der Mitglieder auf das Modell steuern.
+:::
+
+:::note[Zusatzkapitel]
+Dieses Kapitel gehört zu den Zusatzaufträgen von Meilenstein 3. Für die Basis brauchst du es nicht. Ollama läuft trotzdem in deinem Cluster, weil die Application `ai` aus Kapitel 5.1 es mit ausrollt.
 :::
 
 ## Lokal oder im Internet

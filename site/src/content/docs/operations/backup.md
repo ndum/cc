@@ -94,6 +94,10 @@ Damit ist das RPO des Clusters sechs Stunden. Was in dieser Zeit über `kubectl`
 
 ## Den Cluster wiederherstellen
 
+:::note[Zusatzauftrag]
+Die Wiederherstellung aus einem Snapshot mit gemessener Zeit gehört zu den Zusatzaufträgen von Meilenstein 4. Der Umstieg auf etcd, die Snapshots und ihre Kopie auf das Front-end gehören zur Basis.
+:::
+
 Die Übung simuliert einen schweren Bedienfehler, jemand löscht den Namespace `argocd` und damit die GitOps-Steuerung. Lege vorher einen Snapshot an und kopiere ihn.
 
 ```bash
@@ -127,7 +131,7 @@ Die VMs der Mitglieder sichert OpenNebula selbst. Backups landen in einem Datast
 
 ::code{file="platform/operations/backup-datastore.sh"}
 
-Seit Kapitel 4.2 laufen in OpenNebula nur noch die beiden VMs von k3s. Diese sicherst du nicht so, ihr Zustand steckt in Git und in den Snapshots von etcd. Zum Üben startest du als `praxis-admin` die VM `praxis-1` aus der Vorlage `ubuntu` mit 1 GB, mehr hat ein Knoten neben k3s nicht frei. Diese VM sicherst du und stellst sie wieder her. In Meilenstein 4 ist es die VM deines eigenen Mitglieds.
+Seit Kapitel 4.2 laufen in OpenNebula nur noch die beiden VMs von k3s. Diese sicherst du nicht so, ihr Zustand steckt in Git und in den Snapshots von etcd. Zum Üben startest du als `praxis-admin` die VM `praxis-1` aus der Vorlage `ubuntu` mit 1 GB, mehr hat ein Knoten neben k3s nicht frei. Diese VM sicherst du und stellst sie wieder her. Machst du den Zusatzauftrag von Meilenstein 4 mit einem eigenen Mitglied, kann es stattdessen dessen VM sein.
 
 Ein Backup von Hand startet `onevm backup`, auch bei einer laufenden VM. Im Lab dauerte das Backup einer VM mit 1 GB Speicher und Ubuntu 26.04 elf Sekunden, das Backup-Image war 1004 MB gross.
 
@@ -157,7 +161,7 @@ Backups zählen zur Quota des Datastores. Ein Mitglied mit vielen grossen Backup
 Velero sichert Namespaces samt ihren Volumes in einen Objektspeicher und stellt einzelne Namespaces wieder her, ohne den ganzen Cluster zurückzusetzen. Es bräuchte einen Speicher wie MinIO und weitere Komponenten auf den knappen Knoten. Für den Kurs genügen Git, die Snapshots von etcd und die Backups von OpenNebula.
 
 ::::exercise[RPO und RTO]
-Lege für die vier Mitglieder und für dein eigenes Mitglied aus Meilenstein 4 ein RPO und ein RTO fest. Prüfe, ob die Plattform sie mit den Snapshots alle sechs Stunden und den nächtlichen Backups erreicht.
+Lege für die vier Mitglieder ein RPO und ein RTO fest. Prüfe, ob die Plattform sie mit den Snapshots alle sechs Stunden und den nächtlichen Backups erreicht. Machst du den Zusatzauftrag von Meilenstein 4, ergänzt du dein eigenes Mitglied.
 
 :::solution
 Eine mögliche Festlegung ist die Treuhand mit RPO vier Stunden und RTO vier Stunden am Monatsende, die Praxis mit RPO 24 Stunden und RTO einem Arbeitstag, der Webshop mit RPO 24 Stunden und RTO einer Stunde am Samstag, die Gemeinde mit RPO 24 Stunden und RTO vier Stunden zu den Schalterzeiten. Die nächtlichen Backups der VMs erreichen ein RPO von 24 Stunden, die Treuhand bräuchte häufigere. Ein RTO von einer Stunde verlangt eine geübte Wiederherstellung, im Lab dauerte der Neubau des Clusters gut zehn Minuten, die Wiederherstellung aus dem Snapshot unter einer Minute.
@@ -165,10 +169,10 @@ Eine mögliche Festlegung ist die Treuhand mit RPO vier Stunden und RTO vier Stu
 ::::
 
 ::::exercise[Lab]
-Baue den Cluster mit etcd neu, richte die Sicherung der Snapshots und einen Backup-Job ein und übe beide Wiederherstellungen, den Namespace `argocd` aus dem Snapshot und die VM `praxis-1` aus ihrem Backup. Miss die Zeiten.
+Baue den Cluster mit etcd neu, richte die Sicherung der Snapshots und einen Backup-Job ein und stelle die VM `praxis-1` aus ihrem Backup wieder her. Für den Zusatzauftrag stellst du zudem den Namespace `argocd` aus dem Snapshot wieder her. Miss die Zeiten.
 
 :::solution
-`k3s etcd-snapshot ls` auf dem Server zeigt Snapshots, `~/backup/k3s` enthält Snapshots, Token und Schlüssel, und `systemctl list-timers cc-backup-k3s.timer` zeigt den nächsten Lauf. `onebackupjob list` zeigt den Job, `oneimage list` ein Image vom Typ `BK`. Nach den Übungen sind Argo CD und die VM zurück, und der Check `operations` meldet die Prüfungen zum Backup als erfüllt. Die Zeiten liegen im Bereich des Labs, unter einer Minute für den Snapshot, rund zwei Minuten für die VM.
+`k3s etcd-snapshot ls` auf dem Server zeigt Snapshots, `~/backup/k3s` enthält Snapshots, Token und Schlüssel, und `systemctl list-timers cc-backup-k3s.timer` zeigt den nächsten Lauf. `onebackupjob list` zeigt den Job, `oneimage list` ein Image vom Typ `BK`. Danach ist die VM zurück, mit dem Zusatzauftrag auch Argo CD, und der Check `operations` meldet die Prüfungen zum Backup als erfüllt. Die Zeiten liegen im Bereich des Labs, rund zwei Minuten für die VM und unter einer Minute für den Snapshot.
 :::
 ::::
 

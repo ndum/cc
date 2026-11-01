@@ -61,7 +61,7 @@ sudo nano /etc/cc-lab.env
 Danach zeigt `cat /etc/cc-lab.env` auf jeder VM dieselben Zeilen. Stimmt später ein Wert nicht, etwa weil du eine Adresse falsch eingegeben hast, korrigierst du die Datei auf allen drei VMs und startest das Vorbereitungsskript aus [Kapitel 0.4](../prepare/) noch einmal.
 
 :::note
-Jeder Screencast eines Meilensteins beginnt mit `cat /etc/cc-lab.env`. Deine Dozentin oder dein Dozent sieht daran, dass die Vorführung aus deinem Lab stammt.
+Die Dokumentation jedes Meilensteins beginnt mit dem Inhalt von `/etc/cc-lab.env`, und jeder Screencast der Zusatzaufträge beginnt mit `cat /etc/cc-lab.env`. Deine Dozentin oder dein Dozent sieht daran, dass Screenshots und Vorführung aus deinem Lab stammen.
 :::
 
 ::::exercise[Lab]

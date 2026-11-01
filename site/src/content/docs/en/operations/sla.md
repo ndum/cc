@@ -69,6 +69,10 @@ Instructions for a recurring incident are called a runbook. A runbook describes 
 
 ## An alert for a new member
 
+:::note[Advanced task]
+This section belongs to the advanced task of milestone 4 with a member of your own. You do not need it for the base.
+:::
+
 Since chapter 6.1, Alertmanager sends not only the web shop's alerts to the triage service but every alert with the label `triage: "true"`. A new member therefore brings its own rules, as a `PrometheusRule` in its folder of the platform repo. The example watches the app `web` of a daycare center in the namespace `kita`.
 
 ```yaml
@@ -98,6 +102,10 @@ Since chapter 5.6 the service may only touch `velo/webshop`. For a new member th
 
 ## Postmortems
 
+:::note[Advanced task]
+The postmortem drafted by the local model is one of the advanced tasks of milestone 4. You do not need it for the base.
+:::
+
 After an incident, the team writes a postmortem. It records what happened, what the impact was, which causes contributed and which measures prevent a repeat. The practice comes from running large services, and Google's [book on site reliability engineering](https://sre.google/sre-book/postmortem-culture/) describes it at length. A postmortem does not look for culprits. It assumes that everyone involved acted reasonably with the information they had, and asks which systems and processes made the failure possible.
 
 The timeline is the most important part, and it is tedious to collect. At Wolkenwerk the facts are in three places, the alerts in Prometheus, the decisions in the triage service's audit log and the changes in Git. The course script collects them and builds the timeline itself, without the model. The local model from chapter 5.5 only writes the text around it.
@@ -123,7 +131,7 @@ In the lab, an incident ran as in chapter 5.3. `FAIL_PERCENT` was set to 60 thro
 A second draft covering half an hour stated 13 minutes of impact and wrote in the next sentence that users noticed no failures, although 60 % of requests failed. A draft saves typing, but every statement has to be checked against the timeline. Passing it on unchecked spreads claims that look like a report.
 
 ::::exercise[SLA]
-Draft a one-page SLA for your own member from milestone 4. Justify the availability with the architecture of your lab and the support hours with the means of a small cooperative.
+Draft a one-page SLA for one of the four members, for example the fiduciary office. Justify the availability with the architecture of your lab and the support hours with the means of a small cooperative. If you do the advanced task of milestone 4, write the SLA for your own member and base it on the restore time you measured in chapter 6.2.
 
 :::solution
 A good SLA names the service and its limits, an availability with period and exceptions, such as 99 % per month during office hours excluding announced maintenance, support hours with response times, RPO and RTO from chapter 6.2, the location of the data in Switzerland, the member's duties and a consequence when missed. The reasoning mentions the single k3s server and the missing on-call service. A promise above 99.9 % without more servers and on-call would not be honest.
@@ -131,7 +139,7 @@ A good SLA names the service and its limits, an availability with period and exc
 ::::
 
 ::::exercise[Postmortem]
-Trigger an incident as in chapter 5.3, decide on the triage service's proposal, fix the fault through Git and let the model write a draft. Correct it and mark every change.
+This exercise belongs to the advanced tasks of milestone 4. Trigger an incident as in chapter 5.3, decide on the triage service's proposal, fix the fault through Git and let the model write a draft. Correct it and mark every change.
 
 :::solution
 The draft holds a timeline with commit, alert, proposal, decision and revert. The correction checks every number and every cause against that timeline, removes invented people and facts and adds measures with a role as owner, such as reviewing environment variables in the pull request. The finished postmortem names no guilty person.

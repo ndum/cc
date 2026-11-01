@@ -3,6 +3,9 @@ title: Elasticity with OneFlow
 description: Services with roles in OneFlow, cardinality, elasticity rules by load and by schedule, OneGate and a service for the fiduciary office that grows at the end of the month.
 sidebar:
   order: 5
+  badge:
+    text: Advanced
+    variant: note
 ---
 
 :::assignment
@@ -16,6 +19,10 @@ After this chapter you can
 - describe and create a service with roles in OneFlow,
 - write elasticity rules by load and by schedule,
 - observe and explain how a service grows under load and shrinks again.
+:::
+
+:::note[Advanced chapter]
+This chapter belongs to the advanced tasks of milestone 1. You do not need it for the base, and part 4 does not rely on the fiduciary office's service.
 :::
 
 ## Elasticity

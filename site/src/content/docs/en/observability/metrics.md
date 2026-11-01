@@ -61,7 +61,7 @@ sed -i "s/FRONTEND_IP/$CC_FE_IP/; s/NODE1_IP/$CC_NODE1_IP/; s/NODE2_IP/$CC_NODE2
 git status
 ```
 
-`git status` shows new applications in `apps`, the folder `monitoring`, the folder `ai` for chapters 5.5 and 5.6, and changed files in `webshop` and `templates/member`. Before you push, you store the Grafana password as a secret so that it stays out of Git.
+`git status` shows new applications in `apps`, the folder `monitoring`, the folder `ai` for the advanced chapters 5.5 and 5.6, and changed files in `webshop` and `templates/member`. Before you push, you store the Grafana password as a secret so that it stays out of Git.
 
 ::code{file="platform/observability/make-secrets.sh"}
 

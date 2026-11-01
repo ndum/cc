@@ -3,6 +3,9 @@ title: AI triage with approval
 description: A service that enriches alerts with logs and state, asks the local model for an assessment and only carries out what a person approves, with a short list of actions, rights of its own and an audit log.
 sidebar:
   order: 6
+  badge:
+    text: Advanced
+    variant: note
 ---
 
 :::assignment
@@ -17,6 +20,10 @@ After this chapter you can
 - review, approve or reject a proposal of the model,
 - justify the safeguards of approval, the list of actions, rights and the audit log,
 - critically assess the limits and risks of a model in operations.
+:::
+
+:::note[Advanced chapter]
+This chapter belongs to the advanced tasks of milestone 3. You do not need it for the base. The service runs in your cluster anyway, and since chapter 5.3 Alertmanager sends it the web shop's alerts.
 :::
 
 ## The flow

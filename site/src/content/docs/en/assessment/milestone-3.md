@@ -1,94 +1,72 @@
 ---
 title: Milestone 3 · Observability, scaling and AI
-description: The assignment of the third milestone with the required functions, the course of the screencast, the content of the hand-in and the rubric.
+description: The assignment of the third milestone with the seven base requirements, the three advanced tasks with the local language model, the showing, the content of the hand-in and the rubric.
 ---
 
 :::assignment
 "Before the season the board wants to see three things," Simone Wyss writes. "That you notice when the web shop suffers before customers do. That it grows along on Saturdays. And how good our own language model really is in operations."
 :::
 
-Milestone 3 covers part 5. You monitor the platform and the web shop, set an SLO with an alert, let the shop grow under load, run a local model and use it in triage with approval. Milestone 3 is individual work and belongs with milestone 4 to hand-in 2.
+Milestone 3 covers part 5. In the base you monitor the platform and the web shop, set an SLO with an alert and let the shop grow under load. In the advanced tasks you run a local language model, use it in triage with approval and improve the questions you ask it. Milestone 3 is individual work and belongs with milestone 4 to hand-in 2.
 
-## Required functions
+## Base
 
-Everything runs in your own lab with your personal parameters from chapter 0.3.
+Everything runs in your own lab with your personal parameters from chapter 0.3. The base has seven requirements.
 
-1. kube-prometheus-stack, Loki and Alloy come through Argo CD from your platform repo, and the Grafana password is not in Git.
-2. Prometheus scrapes the OpenNebula exporters on the front-end and the nodes and the web shop, and all targets are `up`.
-3. A dashboard shows OpenNebula, the four golden signals of the web shop and the members against their quota. You designed at least one panel yourself.
-4. You find the error of a deployment with LogQL in Loki.
+1. kube-prometheus-stack, Loki and Alloy come from your platform repo through Argo CD, and the Grafana password is not in Git.
+2. The OpenNebula exporters are installed, and every target in Prometheus is `up`.
+3. The course dashboard runs, and you designed at least one panel in it yourself.
+4. You find the fault of a deployment with LogQL in Loki.
 5. The web shop SLO is stored as a rule with the target from your [personal values](../../start/parameters/), and you fire the alert through Git and end it again.
 6. The web shop grows under load with the HPA up to your personal maximum and shrinks again, and you show the load test in the dashboard.
-7. Ollama runs with a model, you measured the tokens per second, and one member has access while another does not.
-8. The triage service receives an alert, you review the proposal and decide, the audit log shows your decision, and the check `m3` is green.
+7. A drawing of your own shows the path of a metric from the exporter to the dashboard and the path of an alert, and the check `m3` is green.
 
-## Extension of your own
+The documentation has a screenshot for each requirement with one or two sentences about it, plus the report of the check `m3` and your drawing. Depending on the traffic of the last hour, the burn rate alert takes ten minutes or more, and the HPA only shrinks after five minutes. Leave time for these waits when you take the screenshots.
 
-The functions include an extension that goes beyond the course. It should fit Wolkenwerk and run in your lab. Ideas of your own are welcome, the list helps you get started.
+## Advanced tasks
 
-- a dashboard for a member with its usage against the quota
-- a second SLO for the response time of the web shop with an alert of its own
-- an alert when a member reaches 80 % of its quota in OpenNebula
-- a better question to the model with `EXTRA_INSTRUCTIONS` and a measured comparison
+The three advanced tasks are about the local language model. Plan four to six hours. Each task is worth 0 to 3 points by the [levels of the advanced tasks](../#levels-of-the-advanced-tasks).
 
-The extension gives up to 3 points. You get 1 point if it runs, 2 if you justify it in the README, and 3 if you demonstrate it in the screencast and assess its limits.
+### A · A local language model
 
-## Explanations and decisions
+Ollama runs with `llama3.2:3b` on your platform. You measure the tokens per second and explain what they depend on. One member has access to the model, another does not. [Chapter 5.5](../../observability/ai/) shows the way.
 
-In the README of milestone 3 and in the screencast you explain
+### B · Triage with approval
 
-- the path of a metric from the exporter to the dashboard and the path of an alert to the triage service, with a drawing of your own,
-- your SLO, its error budget and why the alert has two time windows,
-- how you tuned the HPA, limits and quota and where the bottleneck was in the load test,
-- the measured speed of the model and what it depends on,
-- the quality of the proposals with at least two examples, with what was right, what was wrong and how you decided,
-- the safeguards of the triage service and whether you would let an action run on its own.
+The triage service receives alerts and proposes a cause and an action. You approve one proposal and reject another, and the audit log shows both decisions. In the documentation you assess both proposals critically, with what was right and what was wrong. [Chapter 5.6](../../observability/triage/) shows the service and its safeguards.
 
-If you deviate from the course values, for example for the SLO, the HPA or the model, you justify it. Decisions of your own earn more points than values taken over.
+### C · Better questions to the model
 
-## Screencast
+With `EXTRA_INSTRUCTIONS` you extend the question the triage service asks the model. You compare the proposals for the same alert before and after and record the measured result, for example the duration and whether the proposed action fits the fault. [Chapter 5.6](../../observability/triage/) describes the question to the model.
 
-The screencast lasts at most ten minutes in a single take. A suggestion for its course.
+## Showing the advanced tasks
 
-| Minutes | What you show |
-|---|---|
-| 0 to 1 | `/etc/cc-lab.env`, the report of the check `m3` with its hash and your drawing |
-| 1 to 3 | targets in Prometheus, your dashboard, a PromQL query |
-| 3 to 4 | troubleshooting with LogQL |
-| 4 to 6 | load test with the HPA in the dashboard, how you tuned limits and quota |
-| 6 to 8 | SLO, alert, proposal of the triage service, your decision, audit log, measurement of the model |
-| 8 to 10 | the two questions from the report, your extension and decisions of your own |
-
-Depending on the traffic of the last hour, the burn rate alert takes ten minutes or more. Fire it before recording and show its course in Prometheus in the screencast. If you show milestone 3 live in class, the same course applies.
+You show the advanced tasks live in class or in a screencast of at most ten minutes. For a live showing you book a slot with your instructor yourself. The screencast starts with `cat /etc/cc-lab.env` and the report of the check `m3` with its hash and your two questions, which you answer during the showing. The burn rate alert takes ten minutes or more to fire. Fire it for the triage before the showing and show its course in Prometheus.
 
 ## Hand-in
 
-The folder `m3/` of your hand-in repo holds
+The folder `m3/` of your hand-in repo holds the documentation with the screenshots and the drawing, and `platform/`, a copy of your repo `platform` from Gitea without the `.git` folder, without state and without passwords. Task B adds `audit.jsonl`, the audit log of the triage service, and the showing adds the screencast or a link to it.
 
-- `README.md` with drawing, explanations, decisions, the assessment of the proposals and your use of AI,
-- `platform/`, a copy of your repo `platform` from Gitea without the folder `.git`, without state and without passwords,
-- `audit.jsonl`, the audit log of the triage service,
-- the screencast or a link to it.
-
-You put the reports of the checks in `reports/`. How the repo is structured and how you set a tag is described in the [overview](../).
+You put the reports of the checks in `reports/`. The [overview](../) describes how the repo is structured and how you set a tag.
 
 ## Rubric
 
-| Criterion | Points |
+| Base requirement | Points |
 |---|---|
-| Stack from Git, OpenNebula and web shop targets `up` | 2 |
-| Dashboard with a panel of your own, troubleshooting with LogQL | 2 |
-| SLO with your personal target and an alert, fired and ended | 3 |
-| Web shop grows up to your personal maximum and shrinks | 2 |
-| Model measured, members' access controlled | 2 |
-| Triage with decision and audit log, check `m3` | 4 |
-| Extension of your own | 3 |
-| **Functions** | **18** |
-| Drawing with the paths of metric and alert | 3 |
-| SLO, error budget and burn rate justified | 3 |
-| HPA, limits, quota and bottleneck justified | 3 |
-| Quality of the model and safeguards critically assessed | 3 |
-| **Explanations and decisions** | **12** |
-| **Total** | **30** |
+| Stack from Git, Grafana password not in Git | 3 |
+| Exporters installed, all targets `up` | 3 |
+| Course dashboard with a panel of your own | 3 |
+| Troubleshooting with LogQL | 3 |
+| SLO with your personal target, alert fired through Git and ended | 3 |
+| HPA with your personal maximum, load test in the dashboard | 3 |
+| Drawing with the paths of metric and alert, check `m3` | 3 |
+| **Base** | **21** |
 
-The functions with the extension make up 60 % of the points, the explanations and decisions 40 %. Your instructor rates each explanation criterion by the [levels 0 to 3](../#levels-of-the-explanations). If you leave one of the two questions from the report unanswered or answer it wrongly, the criterion it belongs to gets at most 1 point. Your instructor calculates the grade of hand-in 2 from the points of milestones 3 and 4 according to the school's rules.
+| Advanced task | Points |
+|---|---|
+| A · Local language model measured, access controlled | 3 |
+| B · Triage with an approval and a rejection, critically assessed | 3 |
+| C · Better questions with a measured comparison | 3 |
+| **Advanced** | **9** |
+
+Milestone 3 is worth up to 30 points in total. A base requirement gets 3 points when the report and a screenshot prove it, and 1 point when it is only partly met. If you leave one of the two questions unanswered or answer it wrongly, the advanced task it belongs to gets at most 1 point.

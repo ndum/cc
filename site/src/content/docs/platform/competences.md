@@ -12,7 +12,7 @@ Mit diesem Raster schätzt du ein, ob du deine Plattform aus Code bauen und erkl
 |---|---|---|
 | deklarative und imperative Beschreibungen unterscheiden | Erkläre an `onetemplate instantiate` und einem Block von OpenTofu, was ein zweiter Lauf bewirkt. | [Infrastructure as Code](../iac/#deklarativ-und-imperativ) |
 | State, Drift und Idempotenz erklären | Erkläre, warum der State nicht in Git gehört und was ohne ihn passiert. | [Infrastructure as Code](../iac/#state) |
-| VMs mit OpenTofu verwalten | Baue die beiden VMs des Clusters mit `tofu destroy` und `tofu apply` neu und zeige einen Plan ohne Änderungen. | [OpenTofu mit OpenNebula](../opentofu/#ändern-ersetzen-und-neu-bauen) |
+| VMs mit OpenTofu verwalten | Ändere eine der beiden VMs von Hand, zeige die Drift mit `tofu plan` und danach einen Plan ohne Änderungen. | [OpenTofu mit OpenNebula](../opentofu/#ändern-ersetzen-und-neu-bauen) |
 | den Platzbedarf des Clusters begründen | Rechne vor, warum neben dem Cluster auf jedem Knoten nur noch eine kleine VM Platz hat. | [OpenTofu mit OpenNebula](../opentofu/#platz-auf-den-knoten) |
 | einen Kubernetes-Cluster aus Code aufsetzen | Erkläre, wie das Startskript k3s auf Server und Agent installiert. | [Kubernetes per Code](../kubernetes/#das-startskript) |
 | Adressbereiche und Routing des Clusters begründen | Begründe die Bereiche `10.52.0.0/16` und `10.53.0.0/16` und das Routing host-gw. | [Kubernetes per Code](../kubernetes/#adressbereiche) |
@@ -22,4 +22,4 @@ Mit diesem Raster schätzt du ein, ob du deine Plattform aus Code bauen und erkl
 | Namespaces mit einer Vorlage begrenzen und trennen | Zeige die Quota der Gemeinde an ihrer Grenze und die Trennung durch die NetworkPolicy. | [Plattform-Vorlagen](../templates/#an-der-grenze) |
 | einen Antrag als Pull Request bearbeiten | Lege ein Mitglied per Pull Request an und erkläre, worauf du beim Prüfen achtest. | [Plattform-Vorlagen](../templates/#der-antrag-der-gemeinde) |
 
-Mit diesem Teil schliesst du [Meilenstein 2](../../assessment/milestone-2/) ab. Die Meilensteine 1 und 2 gibst du zusammen als Abgabe 1 ab. In Teil 5 beobachtest du den Webshop, lässt ihn unter Last wachsen und betreibst ein lokales Sprachmodell.
+Mit diesem Teil schliesst du [Meilenstein 2](../../assessment/milestone-2/) ab. Die Meilensteine 1 und 2 gibst du zusammen als Abgabe 1 ab. In Teil 5 beobachtest du den Webshop, lässt ihn unter Last wachsen und betreibst als Zusatz ein lokales Sprachmodell.

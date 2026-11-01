@@ -1,94 +1,72 @@
 ---
 title: Meilenstein 3 · Observability, Skalierung und KI
-description: Der Auftrag des dritten Meilensteins mit den verlangten Funktionen, dem Ablauf des Screencasts, dem Inhalt der Abgabe und dem Bewertungsraster.
+description: Der Auftrag des dritten Meilensteins mit den sieben Anforderungen der Basis, den drei Zusatzaufträgen mit dem lokalen Sprachmodell, der Vorführung, dem Inhalt der Abgabe und dem Bewertungsraster.
 ---
 
 :::assignment
 «Vor der Saison will der Vorstand drei Dinge sehen», schreibt Simone Wyss. «Dass ihr merkt, wenn der Webshop leidet, bevor die Kundschaft es tut. Dass er am Samstag mitwächst. Und was unser eigenes Sprachmodell im Betrieb wirklich taugt.»
 :::
 
-Meilenstein 3 umfasst Teil 5. Du überwachst Plattform und Webshop, legst ein SLO mit Alert fest, lässt den Shop unter Last wachsen, betreibst ein lokales Modell und setzt es mit Freigabe in der Triage ein. Meilenstein 3 ist eine Einzelarbeit und gehört mit Meilenstein 4 zur Abgabe 2.
+Meilenstein 3 umfasst Teil 5. In der Basis überwachst du Plattform und Webshop, legst ein SLO mit Alert fest und lässt den Shop unter Last wachsen. In den Zusatzaufträgen betreibst du ein lokales Sprachmodell, setzt es mit Freigabe in der Triage ein und verbesserst die Fragen an das Modell. Meilenstein 3 ist eine Einzelarbeit und gehört mit Meilenstein 4 zur Abgabe 2.
 
-## Verlangte Funktionen
+## Basis
 
-Alles läuft in deinem eigenen Lab mit deinen persönlichen Parametern aus Kapitel 0.3.
+Alles läuft in deinem eigenen Lab mit deinen persönlichen Parametern aus Kapitel 0.3. Die Basis verlangt sieben Anforderungen.
 
 1. kube-prometheus-stack, Loki und Alloy kommen über Argo CD aus deinem Plattform-Repo, das Passwort von Grafana liegt nicht in Git.
-2. Prometheus liest die Exporter von OpenNebula auf Front-end und Knoten und den Webshop, alle Ziele sind `up`.
-3. Ein Dashboard zeigt OpenNebula, die vier goldenen Signale des Webshops und die Mitglieder gegen ihre Quota. Mindestens ein Panel hast du selbst entworfen.
+2. Die Exporter von OpenNebula sind installiert, und alle Ziele in Prometheus sind `up`.
+3. Das Dashboard des Kurses läuft, und mindestens ein Panel darin hast du selbst entworfen.
 4. Du findest den Fehler eines Deployments mit LogQL in Loki.
 5. Das SLO des Webshops ist mit dem Ziel aus deinen [persönlichen Werten](../../start/parameters/) als Regel hinterlegt, du löst den Alert über Git aus und beendest ihn wieder.
 6. Der Webshop wächst unter Last mit dem HPA bis zu deiner persönlichen Obergrenze und schrumpft wieder, du zeigst den Lasttest im Dashboard.
-7. Ollama läuft mit einem Modell, du hast die Tokens pro Sekunde gemessen, und ein Mitglied hat Zugriff, ein anderes nicht.
-8. Der Triage-Dienst bekommt einen Alert, du prüfst den Vorschlag und entscheidest, das Audit-Log zeigt deine Entscheidung, der Check `m3` ist grün.
+7. Eine eigene Zeichnung zeigt den Weg einer Metrik vom Exporter bis ins Dashboard und den Weg eines Alerts, der Check `m3` ist grün.
 
-## Eigene Erweiterung
+Die Dokumentation zeigt zu jeder Anforderung einen Screenshot mit einem oder zwei Sätzen dazu und enthält den Bericht des Checks `m3` und deine Zeichnung. Der Alert nach Burn Rate braucht je nach Verkehr der letzten Stunde zehn Minuten oder mehr, und der HPA schrumpft erst nach fünf Minuten. Plane diese Wartezeiten für die Screenshots ein.
 
-Zu den Funktionen gehört eine Erweiterung, die über den Kurs hinausgeht. Sie soll zu Wolkenwerk passen und in deinem Lab laufen. Eigene Ideen sind willkommen, die Liste hilft beim Einstieg.
+## Zusatzaufträge
 
-- ein Dashboard für ein Mitglied mit seinem Verbrauch gegen die Quota
-- ein zweites SLO für die Antwortzeit des Webshops mit eigenem Alert
-- ein Alert, wenn ein Mitglied in OpenNebula 80 % seiner Quota erreicht
-- eine bessere Frage an das Modell mit `EXTRA_INSTRUCTIONS` und einem gemessenen Vergleich
+Die drei Zusatzaufträge drehen sich um das lokale Sprachmodell. Rechne mit vier bis sechs Stunden. Jeder Auftrag gibt 0 bis 3 Punkte nach den [Stufen der Zusatzaufträge](../#stufen-der-zusatzaufträge).
 
-Die Erweiterung gibt bis zu 3 Punkte. 1 Punkt gibt es, wenn sie läuft, 2, wenn du sie im README begründest, und 3, wenn du sie im Screencast vorführst und ihre Grenzen beurteilst.
+### A · Ein lokales Sprachmodell
 
-## Erklärungen und Entscheide
+Ollama läuft mit `llama3.2:3b` auf deiner Plattform. Du misst die Tokens pro Sekunde und erklärst, wovon sie abhängen. Ein Mitglied hat Zugriff auf das Modell, ein anderes nicht. [Kapitel 5.5](../../observability/ai/) zeigt den Weg.
 
-Im README von Meilenstein 3 und im Screencast erklärst du
+### B · Triage mit Freigabe
 
-- den Weg einer Metrik vom Exporter bis ins Dashboard und den Weg eines Alerts bis zum Triage-Dienst, mit einer eigenen Zeichnung,
-- dein SLO, sein Fehlerbudget und warum der Alert zwei Zeitfenster hat,
-- wie du HPA, Limits und Quota abgestimmt hast und wo im Lasttest der Engpass lag,
-- die gemessene Geschwindigkeit des Modells und wovon sie abhängt,
-- die Qualität der Vorschläge an mindestens zwei Beispielen, mit dem, was stimmte, was falsch war und wie du entschieden hast,
-- die Schutzmassnahmen des Triage-Dienstes und ob du eine Aktion selbständig laufen lassen würdest.
+Der Triage-Dienst bekommt Alerts und schlägt Ursache und Aktion vor. Du gibst einen Vorschlag frei und lehnst einen anderen ab, das Audit-Log zeigt beide Entscheidungen. In der Dokumentation beurteilst du beide Vorschläge kritisch, mit dem, was stimmte, und dem, was falsch war. [Kapitel 5.6](../../observability/triage/) zeigt den Dienst und seine Schutzmassnahmen.
 
-Weichst du von den Werten des Kurses ab, etwa beim SLO, beim HPA oder beim Modell, begründest du das. Eigene Entscheide geben mehr Punkte als übernommene Werte.
+### C · Bessere Fragen an das Modell
 
-## Screencast
+Mit `EXTRA_INSTRUCTIONS` ergänzt du die Frage, die der Triage-Dienst an das Modell stellt. Du vergleichst die Vorschläge zum selben Alert vorher und nachher und hältst das gemessene Ergebnis fest, etwa die Dauer und ob die vorgeschlagene Aktion zum Fehler passt. [Kapitel 5.6](../../observability/triage/) beschreibt die Frage an das Modell.
 
-Der Screencast dauert höchstens zehn Minuten in einer einzigen Aufnahme. Ein Vorschlag für den Ablauf.
+## Zusatzaufträge zeigen
 
-| Minuten | Was du zeigst |
-|---|---|
-| 0 bis 1 | `/etc/cc-lab.env`, den Bericht des Checks `m3` mit Hash und deine Zeichnung |
-| 1 bis 3 | Ziele in Prometheus, dein Dashboard, eine Abfrage mit PromQL |
-| 3 bis 4 | Fehlersuche mit LogQL |
-| 4 bis 6 | Lasttest mit HPA im Dashboard, deine Abstimmung von Limits und Quota |
-| 6 bis 8 | SLO, Alert, Vorschlag des Triage-Dienstes, deine Entscheidung, Audit-Log, Messung des Modells |
-| 8 bis 10 | die zwei Fragen aus dem Bericht, deine Erweiterung und eigene Entscheide |
-
-Der Alert nach Burn Rate braucht je nach Verkehr der letzten Stunde zehn Minuten oder mehr. Löse ihn vor der Aufnahme aus und zeige im Screencast den Verlauf in Prometheus. Zeigst du Meilenstein 3 live im Unterricht, gilt derselbe Ablauf.
+Die Zusatzaufträge zeigst du live im Unterricht oder in einem Screencast von höchstens zehn Minuten. Für die Vorführung im Unterricht vereinbarst du selbst einen Termin mit deiner Dozentin oder deinem Dozenten. Der Screencast beginnt mit `cat /etc/cc-lab.env` und dem Bericht des Checks `m3` mit Hash und deinen zwei Fragen, die du in der Vorführung beantwortest. Der Alert nach Burn Rate braucht zehn Minuten oder mehr, bis er feuert. Löse ihn für die Triage deshalb vor der Vorführung aus und zeige seinen Verlauf in Prometheus.
 
 ## Abgabe
 
-Im Ordner `m3/` deines Abgabe-Repos liegen
-
-- `README.md` mit Zeichnung, Erklärungen, Entscheiden, der Bewertung der Vorschläge und deinem Einsatz von KI,
-- `platform/`, eine Kopie deines Repos `platform` aus Gitea ohne den Ordner `.git`, ohne State und ohne Passwörter,
-- `audit.jsonl`, das Audit-Log des Triage-Dienstes,
-- der Screencast oder ein Link darauf.
+Im Ordner `m3/` deines Abgabe-Repos liegen die Dokumentation mit den Screenshots und der Zeichnung und `platform/`, eine Kopie deines Repos `platform` aus Gitea ohne den Ordner `.git`, ohne State und ohne Passwörter. Für Auftrag B kommt `audit.jsonl` dazu, das Audit-Log des Triage-Dienstes, für die Vorführung der Screencast oder ein Link darauf.
 
 Die Berichte der Checks legst du in `reports/`. Wie das Repo aufgebaut ist und wie du einen Tag setzt, steht in der [Übersicht](../).
 
 ## Bewertungsraster
 
-| Kriterium | Punkte |
+| Anforderung der Basis | Punkte |
 |---|---|
-| Stack aus Git, Ziele von OpenNebula und Webshop `up` | 2 |
-| Dashboard mit eigenem Panel, Fehlersuche mit LogQL | 2 |
-| SLO mit persönlichem Ziel und Alert, ausgelöst und beendet | 3 |
-| Webshop wächst bis zur persönlichen Obergrenze und schrumpft | 2 |
-| Modell gemessen, Zugriff der Mitglieder gesteuert | 2 |
-| Triage mit Entscheidung und Audit-Log, Check `m3` | 4 |
-| Eigene Erweiterung | 3 |
-| **Funktionen** | **18** |
-| Zeichnung mit den Wegen von Metrik und Alert | 3 |
-| SLO, Fehlerbudget und Burn Rate begründet | 3 |
-| HPA, Limits, Quota und Engpass begründet | 3 |
-| Qualität des Modells und Schutzmassnahmen kritisch beurteilt | 3 |
-| **Erklärungen und Entscheide** | **12** |
-| **Total** | **30** |
+| Stack aus Git, Passwort von Grafana nicht in Git | 3 |
+| Exporter installiert, alle Ziele `up` | 3 |
+| Dashboard des Kurses mit eigenem Panel | 3 |
+| Fehlersuche mit LogQL | 3 |
+| SLO mit persönlichem Ziel, Alert über Git ausgelöst und beendet | 3 |
+| HPA mit persönlicher Obergrenze, Lasttest im Dashboard | 3 |
+| Zeichnung mit den Wegen von Metrik und Alert, Check `m3` | 3 |
+| **Basis** | **21** |
 
-Die Funktionen mit der Erweiterung ergeben 60 % der Punkte, die Erklärungen und Entscheide 40 %. Jedes Erklärungskriterium bewertet deine Dozentin oder dein Dozent nach den [Stufen 0 bis 3](../#stufen-der-erklärungen). Beantwortest du eine der zwei Fragen aus dem Bericht nicht oder falsch, bekommt das Kriterium, zu dem sie gehört, höchstens 1 Punkt. Die Note der Abgabe 2 berechnet deine Dozentin oder dein Dozent aus den Punkten von Meilenstein 3 und 4 nach den Regeln der Schule.
+| Zusatzauftrag | Punkte |
+|---|---|
+| A · Lokales Sprachmodell gemessen, Zugriff gesteuert | 3 |
+| B · Triage mit Freigabe und Ablehnung, kritisch beurteilt | 3 |
+| C · Bessere Fragen mit gemessenem Vergleich | 3 |
+| **Zusatz** | **9** |
+
+Meilenstein 3 gibt zusammen höchstens 30 Punkte. Eine Anforderung der Basis gibt 3 Punkte, wenn Bericht und Screenshot sie belegen, und 1 Punkt, wenn sie nur teilweise erfüllt ist. Beantwortest du eine der zwei Fragen nicht oder falsch, bekommt der Zusatzauftrag, zu dem sie gehört, höchstens 1 Punkt.
