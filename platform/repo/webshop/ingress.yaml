@@ -1,0 +1,16 @@
+# Traefik of k3s answers on port 80 of both k3s VMs and forwards to the shop
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: webshop
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: webshop
+                port:
+                  name: http

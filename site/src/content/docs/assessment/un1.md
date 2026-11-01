@@ -49,7 +49,7 @@ Der Screencast dauert höchstens zehn Minuten in einer einzigen Aufnahme. Ein Vo
 | 7 bis 9 | Dienst der Treuhand unter Last |
 | 9 bis 10 | zwei oder drei eigene Entscheide |
 
-Den Dienst unter Last startest du am besten vor der Aufnahme, das Wachsen braucht einige Minuten. Zeigst du UN1 live im Unterricht, gilt derselbe Ablauf.
+Den Dienst unter Last startest du am besten vor der Aufnahme, das Wachsen braucht einige Minuten. Nimm den Screencast am Ende von Block 3 auf. In Kapitel 4.2 entfernst du die VMs von Teil 2 und 3, weil der Kubernetes-Cluster ihren Platz braucht. Zeigst du UN1 live im Unterricht, gilt derselbe Ablauf, und [Kapitel 4.2](../../platform/opentofu/#platz-auf-den-knoten) zeigt, wie du den Cluster dafür vorübergehend von den Knoten nimmst.
 
 ## Abgabe
 

@@ -49,7 +49,7 @@ The screencast lasts at most ten minutes in a single take. A suggestion for its 
 | 7 to 9 | the fiduciary office's service under load |
 | 9 to 10 | two or three decisions of your own |
 
-Best start the service under load before recording, growing takes a few minutes. If you show UN1 live in class, the same course applies.
+Best start the service under load before recording, growing takes a few minutes. Record the screencast at the end of block 3. In chapter 4.2 you remove the VMs of parts 2 and 3, because the Kubernetes cluster needs their room. If you show UN1 live in class, the same course applies, and [chapter 4.2](../../platform/opentofu/#room-on-the-nodes) shows how to take the cluster off the nodes for a while.
 
 ## Hand-in
 

@@ -7,6 +7,7 @@ Run it on the front-end as the user who works with the lab:
     python3 checks/check.py install    chapter 2.2, OpenNebula runs with both nodes
     python3 checks/check.py iaas       chapters 2.3 and 2.4, network, template and a VM in the cloud
     python3 checks/check.py tenants    chapters 3.1 to 3.5, members, quotas, showback and the OneFlow service
+    python3 checks/check.py platform   chapters 4.2 to 4.5, k3s from OpenTofu, Gitea, Argo CD and member namespaces
 
 The report lands in ~/cc-reports/ and is printed. The hash at its end covers the whole report, so a
 changed report no longer matches its hash. The script is public, so the hash proves only that a
@@ -23,6 +24,7 @@ import re
 import socket
 import subprocess
 import sys
+import urllib.error
 import urllib.request
 
 ENV_FILE = pathlib.Path("/etc/cc-lab.env")
@@ -245,7 +247,90 @@ def check_tenants(env, report):
                  tr("Als treuhand-admin instanziieren, Kapitel 3.5", "Instantiate it as treuhand-admin, chapter 3.5"))
 
 
-CHECKS = {"start": check_start, "install": check_install, "iaas": check_iaas, "tenants": check_tenants}
+def kube_json(*args):
+    """Runs kubectl with -o json and returns the parsed result or None"""
+    code, out = run("kubectl", *args, "-o", "json")
+    if code != 0:
+        return None
+    try:
+        return json.loads(out)
+    except ValueError:
+        return None
+
+
+def http(url, token=None):
+    """Returns (status, body) of a GET request, status 0 when nothing answers"""
+    request = urllib.request.Request(url)
+    if token:
+        request.add_header("Authorization", f"token {token}")
+    try:
+        with urllib.request.urlopen(request, timeout=5) as answer:
+            return answer.status, answer.read().decode(errors="replace")
+    except urllib.error.HTTPError as error:
+        return error.code, ""
+    except (OSError, ValueError):
+        return 0, ""
+
+
+def check_platform(env, report):
+    for tool, chapter in (("tofu", "4.2"), ("kubectl", "4.2"), ("helm", "4.2")):
+        report.check(run(tool, "version")[0] == 0 or run(tool, "version", "--client")[0] == 0,
+                     tr(f"{tool} ist installiert", f"{tool} is installed"),
+                     tr(f"install-tools.sh aus Kapitel {chapter}", f"install-tools.sh from chapter {chapter}"))
+    state_file = pathlib.Path.home() / "platform" / "tofu" / "terraform.tfstate"
+    try:
+        state = json.loads(state_file.read_text())
+    except (OSError, ValueError):
+        state = {}
+    vms = [i for r in state.get("resources", []) if r.get("type") == "opennebula_virtual_machine" for i in r.get("instances", [])]
+    report.check(len(vms) == 2, tr("Der State von OpenTofu enthält zwei VMs", "The OpenTofu state holds two VMs"),
+                 tr(f"tofu apply in {state_file.parent}, Kapitel 4.2", f"tofu apply in {state_file.parent}, chapter 4.2"))
+    for name, key in (("k3s-server", "CC_K3S_SERVER_IP"), ("k3s-agent", "CC_K3S_AGENT_IP")):
+        vm = (one_json("onevm", "show", name) or {}).get("VM", {})
+        ips = [n.get("IP") for n in as_list(vm.get("TEMPLATE", {}).get("NIC"))]
+        # LCM state 3 is RUNNING
+        report.check(vm.get("LCM_STATE") == "3" and env.get(key) in ips,
+                     tr(f"Die VM {name} läuft mit {env.get(key)}", f"The VM {name} runs with {env.get(key)}"))
+    nodes = (kube_json("get", "nodes") or {}).get("items", [])
+    ready = [n for n in nodes if any(c.get("type") == "Ready" and c.get("status") == "True" for c in n.get("status", {}).get("conditions", []))]
+    if not report.check(len(ready) == 2, tr("kubectl erreicht den Cluster, zwei Nodes sind Ready", "kubectl reaches the cluster, two nodes are Ready"),
+                        tr("get-kubeconfig.sh aus Kapitel 4.3", "get-kubeconfig.sh from chapter 4.3")):
+        return
+    pods = (kube_json("get", "pods", "-n", "kube-system") or {}).get("items", [])
+    report.check(any(p.get("status", {}).get("podIP", "").startswith("10.52.") for p in pods),
+                 tr("Pods erhalten Adressen aus 10.52.0.0/16", "Pods get addresses from 10.52.0.0/16"),
+                 tr("--cluster-cidr im Startskript, Kapitel 4.3", "--cluster-cidr in the start script, chapter 4.3"))
+    fe = env.get("CC_FE_IP")
+    report.check(http(f"http://{fe}:3000/api/healthz")[0] == 200, tr("Gitea läuft auf dem Front-end", "Gitea runs on the front-end"),
+                 tr("install-gitea.sh aus Kapitel 4.4", "install-gitea.sh from chapter 4.4"))
+    token_file = pathlib.Path.home() / "cc-lab" / "gitea" / "platform.token"
+    token = token_file.read_text().strip() if token_file.exists() else None
+    report.check(http(f"http://{fe}:3000/api/v1/repos/wolkenwerk/platform", token)[0] == 200,
+                 tr("Das Repo wolkenwerk/platform existiert", "The repo wolkenwerk/platform exists"),
+                 tr("make-repo.sh aus Kapitel 4.4", "make-repo.sh from chapter 4.4"))
+    apps = {a["metadata"]["name"]: a.get("status", {}) for a in (kube_json("get", "applications", "-n", "argocd") or {}).get("items", [])}
+    for name in ("root", "webshop", "member-velo"):
+        status = apps.get(name, {})
+        report.check(status.get("sync", {}).get("status") == "Synced" and status.get("health", {}).get("status") == "Healthy",
+                     tr(f"Argo CD hält {name} synchron und gesund", f"Argo CD keeps {name} synced and healthy"),
+                     tr("bootstrap-argocd.sh und root.yaml, Kapitel 4.4", "bootstrap-argocd.sh and root.yaml, chapter 4.4"))
+    source = apps.get("root", {}).get("sync", {}).get("comparedTo", {}).get("source", {}).get("repoURL", "")
+    report.check(source.startswith(f"http://{fe}:3000/"), tr("Argo CD liest den Soll-Zustand aus Gitea", "Argo CD reads the desired state from Gitea"), source)
+    deploy = kube_json("get", "deployment", "webshop", "-n", "velo") or {}
+    report.check((deploy.get("status", {}).get("readyReplicas") or 0) >= 1, tr("Der Webshop läuft im Namespace velo", "The web shop runs in the namespace velo"))
+    report.check(http(f"http://{env.get('CC_K3S_SERVER_IP')}/healthz")[1].strip() == "ok",
+                 tr("Der Webshop antwortet über traefik", "The web shop answers through traefik"))
+    others = [n for n in apps if n.startswith("member-") and n != "member-velo"]
+    report.check(bool(others), tr("Ein weiteres Mitglied hat einen Namespace aus der Vorlage", "Another member has a namespace from the template"),
+                 tr("Pull Request mit members/<mitglied>, Kapitel 4.5", "Pull request with members/<member>, chapter 4.5"))
+    for namespace in ["velo"] + [n[len("member-"):] for n in others]:
+        kinds = [(kind, (kube_json("get", kind, "-n", namespace) or {}).get("items", [])) for kind in ("resourcequota", "limitrange", "networkpolicy")]
+        report.check(all(items for _, items in kinds),
+                     tr(f"Der Namespace {namespace} hat Quota, LimitRange und NetworkPolicy", f"The namespace {namespace} has quota, LimitRange and NetworkPolicy"),
+                     ", ".join(kind for kind, items in kinds if not items))
+
+
+CHECKS = {"start": check_start, "install": check_install, "iaas": check_iaas, "tenants": check_tenants, "platform": check_platform}
 
 
 def main():

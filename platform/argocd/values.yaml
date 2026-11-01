@@ -1,0 +1,21 @@
+# Values of the Helm chart argo-cd for the lab, chapter 4.4
+
+# Login with the admin of Argo CD only, no single sign-on and no notifications
+dex:
+  enabled: false
+notifications:
+  enabled: false
+
+configs:
+  params:
+    # The lab has no certificate, the UI answers over HTTP
+    server.insecure: true
+  cm:
+    # Check Git every minute instead of every three minutes, so that changes show up quickly in class
+    timeout.reconciliation: 60s
+
+server:
+  service:
+    type: NodePort
+    nodePortHttp: 30080
+    nodePortHttps: 30443

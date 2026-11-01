@@ -1,0 +1,13 @@
+# Namespace of Veloatelier Matte, the web shop needs more CPU than the template gives
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: velo
+components:
+  - ../../templates/member
+patches:
+  - target:
+      kind: ResourceQuota
+    patch: |-
+      - op: replace
+        path: /spec/hard/requests.cpu
+        value: "2"

@@ -1,0 +1,17 @@
+# Default values for containers without requests and limits, the quota needs them
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: member
+spec:
+  limits:
+    - type: Container
+      defaultRequest:
+        cpu: 50m
+        memory: 64Mi
+      default:
+        cpu: 250m
+        memory: 128Mi
+      max:
+        cpu: "1"
+        memory: 1Gi

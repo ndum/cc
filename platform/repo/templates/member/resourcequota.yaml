@@ -1,0 +1,14 @@
+# Upper limit of the whole namespace, like the quota of the group in OpenNebula
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: member
+spec:
+  hard:
+    requests.cpu: "1"
+    requests.memory: 1Gi
+    limits.cpu: "2"
+    limits.memory: 2Gi
+    pods: "10"
+    services.nodeports: "0"
+    persistentvolumeclaims: "2"

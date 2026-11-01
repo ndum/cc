@@ -51,6 +51,12 @@ export default defineConfig({
           items: [{ autogenerate: { directory: 'tenants' } }],
         },
         {
+          label: 'Plattform per Code',
+          translations: { en: 'Platform as code' },
+          collapsed: true,
+          items: [{ autogenerate: { directory: 'platform' } }],
+        },
+        {
           label: 'Ergänzungen',
           translations: { en: 'Supplements' },
           collapsed: true,
@@ -60,7 +66,7 @@ export default defineConfig({
           label: 'Leistungsbeurteilung',
           translations: { en: 'Assessment' },
           collapsed: true,
-          items: [{ slug: 'assessment', label: 'Übersicht', translations: { en: 'Overview' } }, { slug: 'assessment/un1' }],
+          items: [{ slug: 'assessment', label: 'Übersicht', translations: { en: 'Overview' } }, { slug: 'assessment/un1' }, { slug: 'assessment/un2' }],
         },
         {
           label: 'Nachschlagen',
