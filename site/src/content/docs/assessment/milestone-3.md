@@ -53,7 +53,7 @@ Der Alert nach Burn Rate braucht je nach Verkehr der letzten Stunde zehn Minuten
 
 ## Abgabe
 
-Im Ordner `un3/` deines Abgabe-Repos liegen
+Im Ordner `m3/` deines Abgabe-Repos liegen
 
 - `README.md` mit Zeichnung, Erklärungen, Entscheiden, der Bewertung der Vorschläge und deinem Einsatz von KI,
 - `platform/`, eine Kopie deines Repos `platform` aus Gitea ohne den Ordner `.git`, ohne State und ohne Passwörter,

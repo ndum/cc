@@ -31,9 +31,9 @@ cc-mmuster/
   README.md          dein Code, Name der Dozentin oder des Dozenten, Inhaltsverzeichnis
   reports/           die Berichte der Checks aus ~/cc-reports
   m1/README.md       Architektur, eigene Entscheide, Einsatz von KI, Link zum Screencast
-  un2/README.md
-  un3/README.md
-  un4/README.md
+  m2/README.md
+  m3/README.md
+  m4/README.md
   ...                dein Code, etwa OpenTofu, Manifeste und Skripte
 ```
 

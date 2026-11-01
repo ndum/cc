@@ -54,7 +54,7 @@ Der Neubau dauerte im Lab knapp drei Minuten. Starte ihn früh in der Aufnahme u
 
 ## Abgabe
 
-Im Ordner `un2/` deines Abgabe-Repos liegen
+Im Ordner `m2/` deines Abgabe-Repos liegen
 
 - `README.md` mit Zeichnung, Erklärungen, Entscheiden und deinem Einsatz von KI,
 - `platform/`, eine Kopie deines Repos `platform` aus Gitea ohne den Ordner `.git`, ohne State und ohne Tokens,

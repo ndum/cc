@@ -31,9 +31,9 @@ cc-mmuster/
   README.md          your code, name of your instructor, table of contents
   reports/           the reports of the checks from ~/cc-reports
   m1/README.md       architecture, own decisions, use of AI, link to the screencast
-  un2/README.md
-  un3/README.md
-  un4/README.md
+  m2/README.md
+  m3/README.md
+  m4/README.md
   ...                your code, such as OpenTofu, manifests and scripts
 ```
 

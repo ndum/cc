@@ -67,7 +67,7 @@ You may restore the cluster before recording and show its traces in the screenca
 
 ## Hand-in
 
-The folder `un4/` of your hand-in repo holds
+The folder `m4/` of your hand-in repo holds
 
 - `README.md` with member, protection needs, SLA, cost model, backup concept, your decisions and your use of AI,
 - `platform/`, a copy of your repo `platform` from Gitea without the folder `.git`, without state and without passwords, SealedSecrets may stay in,

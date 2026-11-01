@@ -53,7 +53,7 @@ Den Dienst unter Last startest du am besten vor der Aufnahme, das Wachsen brauch
 
 ## Abgabe
 
-Im Ordner `un1/` deines Abgabe-Repos liegen
+Im Ordner `m1/` deines Abgabe-Repos liegen
 
 - `README.md` mit Zeichnung, Erklärungen, Entscheiden und deinem Einsatz von KI,
 - der Showback als CSV,

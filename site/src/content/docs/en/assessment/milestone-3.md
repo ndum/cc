@@ -53,7 +53,7 @@ Depending on the traffic of the last hour, the burn rate alert takes ten minutes
 
 ## Hand-in
 
-The folder `un3/` of your hand-in repo holds
+The folder `m3/` of your hand-in repo holds
 
 - `README.md` with drawing, explanations, decisions, the assessment of the proposals and your use of AI,
 - `platform/`, a copy of your repo `platform` from Gitea without the folder `.git`, without state and without passwords,

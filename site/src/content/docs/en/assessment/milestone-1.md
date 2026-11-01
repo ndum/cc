@@ -53,7 +53,7 @@ Best start the service under load before recording, growing takes a few minutes.
 
 ## Hand-in
 
-The folder `un1/` of your hand-in repo holds
+The folder `m1/` of your hand-in repo holds
 
 - `README.md` with drawing, explanations, decisions and your use of AI,
 - the showback as CSV,

@@ -54,7 +54,7 @@ In the lab, the rebuild took a little under three minutes. Start it early in the
 
 ## Hand-in
 
-The folder `un2/` of your hand-in repo holds
+The folder `m2/` of your hand-in repo holds
 
 - `README.md` with drawing, explanations, decisions and your use of AI,
 - `platform/`, a copy of your repo `platform` from Gitea without the folder `.git`, without state and without tokens,

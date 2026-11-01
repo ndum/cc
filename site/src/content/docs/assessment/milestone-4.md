@@ -67,7 +67,7 @@ Die Wiederherstellung des Clusters darfst du vor der Aufnahme machen und im Scre
 
 ## Abgabe
 
-Im Ordner `un4/` deines Abgabe-Repos liegen
+Im Ordner `m4/` deines Abgabe-Repos liegen
 
 - `README.md` mit Mitglied, Schutzbedarf, SLA, Kostenmodell, Konzept der Datensicherung, deinen Entscheiden und deinem Einsatz von KI,
 - `platform/`, eine Kopie deines Repos `platform` aus Gitea ohne den Ordner `.git`, ohne State und ohne Passwörter, SealedSecrets dürfen drin sein,
