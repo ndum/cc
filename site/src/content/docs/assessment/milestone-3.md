@@ -41,7 +41,7 @@ Mit `EXTRA_INSTRUCTIONS` ergänzt du die Frage, die der Triage-Dienst an das Mod
 
 ## Zusatzaufträge zeigen
 
-Die Zusatzaufträge zeigst du live im Unterricht oder in einem Screencast von höchstens zehn Minuten. Für die Vorführung im Unterricht vereinbarst du selbst einen Termin mit deiner Dozentin oder deinem Dozenten. Der Screencast beginnt mit `cat /etc/cc-lab.env` und dem Bericht des Checks `m3` mit Hash und deinen zwei Fragen, die du in der Vorführung beantwortest. Der Alert nach Burn Rate braucht zehn Minuten oder mehr, bis er feuert. Löse ihn für die Triage deshalb vor der Vorführung aus und zeige seinen Verlauf in Prometheus.
+Die Zusatzaufträge zeigst du live im Unterricht oder in einem Screencast von höchstens zehn Minuten. Für die Vorführung im Unterricht vereinbarst du selbst einen Termin mit deiner Dozentin oder deinem Dozenten. Sie muss bis zur Abgabe 2 stattfinden. Der Screencast beginnt mit `cat /etc/cc-lab.env` und dem Bericht des Checks `m3` mit Hash und deinen zwei Fragen, die du in der Vorführung beantwortest. Der Alert nach Burn Rate braucht zehn Minuten oder mehr, bis er feuert. Löse ihn für die Triage deshalb vor der Vorführung aus und zeige seinen Verlauf in Prometheus.
 
 ## Abgabe
 

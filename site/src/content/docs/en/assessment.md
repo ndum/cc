@@ -65,7 +65,7 @@ Every advanced task is graded on the same levels.
 
 ## Showing the advanced tasks
 
-You show the advanced tasks of a milestone in one showing, either live in class or in a screencast of at most ten minutes. For a live showing it is up to you to approach your instructor and book a slot. Your instructor sets the date by which the showings take place.
+You show the advanced tasks of a milestone in one showing, either live in class or in a screencast of at most ten minutes. For a live showing it is up to you to approach your instructor and book a slot. The showing must take place by the hand-in the milestone belongs to, and a screencast must be in the hand-in repo by then. Anything later no longer counts.
 
 The screencast is a single recording without cuts. It starts with `cat /etc/cc-lab.env` and the report of the milestone check with its hash and your two questions. Then you demonstrate the advanced tasks in your lab. [Chapter 0.5](../start/tools/#screencasts) lists the rules as well.
 

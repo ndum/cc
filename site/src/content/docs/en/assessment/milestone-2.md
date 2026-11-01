@@ -41,7 +41,7 @@ In Gitea you protect the branch `main` so that changes only get in through a rev
 
 ## Showing the advanced tasks
 
-You show the advanced tasks live in class or in a screencast of at most ten minutes. For a live showing you book a slot with your instructor yourself. The screencast starts with `cat /etc/cc-lab.env` and the report of the check `m2` with its hash and your two questions, which you answer during the showing.
+You show the advanced tasks live in class or in a screencast of at most ten minutes. For a live showing you book a slot with your instructor yourself. It must take place by hand-in 1. The screencast starts with `cat /etc/cc-lab.env` and the report of the check `m2` with its hash and your two questions, which you answer during the showing.
 
 ## Hand-in
 

@@ -41,7 +41,7 @@ You power off a node and show what happens to the members' VMs. From that you de
 
 ## Showing the advanced tasks
 
-You show the advanced tasks live in class or in a screencast of at most ten minutes. For a live showing you book a slot with your instructor yourself. The screencast starts with `cat /etc/cc-lab.env` and the report of the check `m1` with its hash and your two questions, which you answer during the showing.
+You show the advanced tasks live in class or in a screencast of at most ten minutes. For a live showing you book a slot with your instructor yourself. It must take place by hand-in 1. The screencast starts with `cat /etc/cc-lab.env` and the report of the check `m1` with its hash and your two questions, which you answer during the showing.
 
 After chapter 4.2 the Kubernetes cluster takes up the nodes. If you show task A or C live after that, [chapter 4.2](../../platform/opentofu/#room-on-the-nodes) shows how to take the cluster off the nodes for a while.
 

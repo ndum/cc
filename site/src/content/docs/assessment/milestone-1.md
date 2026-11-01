@@ -41,7 +41,7 @@ Du schaltest einen Knoten aus und zeigst, was mit den VMs der Mitglieder geschie
 
 ## Zusatzaufträge zeigen
 
-Die Zusatzaufträge zeigst du live im Unterricht oder in einem Screencast von höchstens zehn Minuten. Für die Vorführung im Unterricht vereinbarst du selbst einen Termin mit deiner Dozentin oder deinem Dozenten. Der Screencast beginnt mit `cat /etc/cc-lab.env` und dem Bericht des Checks `m1` mit Hash und deinen zwei Fragen, die du in der Vorführung beantwortest.
+Die Zusatzaufträge zeigst du live im Unterricht oder in einem Screencast von höchstens zehn Minuten. Für die Vorführung im Unterricht vereinbarst du selbst einen Termin mit deiner Dozentin oder deinem Dozenten. Sie muss bis zur Abgabe 1 stattfinden. Der Screencast beginnt mit `cat /etc/cc-lab.env` und dem Bericht des Checks `m1` mit Hash und deinen zwei Fragen, die du in der Vorführung beantwortest.
 
 Nach Kapitel 4.2 belegt der Kubernetes-Cluster die Knoten. Zeigst du Auftrag A oder C danach live, zeigt [Kapitel 4.2](../../platform/opentofu/#platz-auf-den-knoten), wie du den Cluster dafür vorübergehend von den Knoten nimmst.
 

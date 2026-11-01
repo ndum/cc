@@ -41,7 +41,7 @@ With `EXTRA_INSTRUCTIONS` you extend the question the triage service asks the mo
 
 ## Showing the advanced tasks
 
-You show the advanced tasks live in class or in a screencast of at most ten minutes. For a live showing you book a slot with your instructor yourself. The screencast starts with `cat /etc/cc-lab.env` and the report of the check `m3` with its hash and your two questions, which you answer during the showing. The burn rate alert takes ten minutes or more to fire. Fire it for the triage before the showing and show its course in Prometheus.
+You show the advanced tasks live in class or in a screencast of at most ten minutes. For a live showing you book a slot with your instructor yourself. It must take place by hand-in 2. The screencast starts with `cat /etc/cc-lab.env` and the report of the check `m3` with its hash and your two questions, which you answer during the showing. The burn rate alert takes ten minutes or more to fire. Fire it for the triage before the showing and show its course in Prometheus.
 
 ## Hand-in
 

@@ -65,7 +65,7 @@ Jeder Zusatzauftrag wird nach denselben Stufen bewertet.
 
 ## Zusatzaufträge zeigen
 
-Die Zusatzaufträge eines Meilensteins zeigst du in einer Vorführung, entweder live im Unterricht oder in einem Screencast von höchstens zehn Minuten. Für eine Vorführung im Unterricht gehst du selbst auf deine Dozentin oder deinen Dozenten zu und vereinbarst einen Termin. Bis wann die Vorführungen stattfinden, legt deine Dozentin oder dein Dozent fest.
+Die Zusatzaufträge eines Meilensteins zeigst du in einer Vorführung, entweder live im Unterricht oder in einem Screencast von höchstens zehn Minuten. Für eine Vorführung im Unterricht gehst du selbst auf deine Dozentin oder deinen Dozenten zu und vereinbarst einen Termin. Die Vorführung muss bis zur Abgabe stattgefunden haben, zu der der Meilenstein gehört, ein Screencast liegt bis dahin im Abgabe-Repo. Was später kommt, zählt nicht mehr.
 
 Der Screencast ist eine einzige Aufnahme ohne Schnitt. Er beginnt mit `cat /etc/cc-lab.env` und dem Bericht des Checks des Meilensteins mit seinem Hash und deinen zwei Fragen. Danach führst du die Zusatzaufträge in deinem Lab vor. Die Regeln stehen auch in [Kapitel 0.5](../start/tools/#screencasts).
 

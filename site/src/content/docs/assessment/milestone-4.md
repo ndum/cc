@@ -54,7 +54,7 @@ Zum Vorfall aus Auftrag A schreibt das lokale Modell aus der Zeitleiste einen En
 
 ## Zusatzaufträge zeigen
 
-Die Zusatzaufträge zeigst du live im Unterricht oder in einem Screencast von höchstens zehn Minuten. Für die Vorführung im Unterricht vereinbarst du selbst einen Termin mit deiner Dozentin oder deinem Dozenten. Der Screencast beginnt mit `cat /etc/cc-lab.env` und dem Bericht des Checks `m4` mit Hash und deinen zwei Fragen, die du in der Vorführung beantwortest.
+Die Zusatzaufträge zeigst du live im Unterricht oder in einem Screencast von höchstens zehn Minuten. Für die Vorführung im Unterricht vereinbarst du selbst einen Termin mit deiner Dozentin oder deinem Dozenten. Sie muss bis zur Abgabe 2 stattfinden. Der Screencast beginnt mit `cat /etc/cc-lab.env` und dem Bericht des Checks `m4` mit Hash und deinen zwei Fragen, die du in der Vorführung beantwortest.
 
 ## Abgabe
 
