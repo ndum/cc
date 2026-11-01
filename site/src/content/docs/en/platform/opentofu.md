@@ -28,18 +28,14 @@ OpenNebula reserves the full memory of a VM's template on its node, even when th
 So you clean up before this chapter. Record the milestone 1 screencast first, because afterwards the VMs it shows are gone. The groups, quotas, prices and templates of part 3 stay, you only remove the running VMs.
 
 ```bash
-onevm list
-onevm terminate web-1
-onevm terminate web-2
-onevm terminate web-3
-onevm terminate praxis-1
-onevm terminate praxis-2
 oneflow list
 oneflow delete <service-id>
+onevm list
+for id in $(onevm list -l ID --no-header); do onevm terminate "$id"; done
 onehost list
 ```
 
-`oneadmin` may terminate the VMs of every member. At the end, `onehost list` shows `0K / 7.2G` on both nodes.
+First you remove the fiduciary office's service, otherwise OneFlow starts its VM again right away. Then the loop terminates every VM that `onevm list` shows, whatever names you gave them in parts 2 and 3. `oneadmin` may terminate the VMs of every member. At the end, `onehost list` shows `0K / 7.2G` on both nodes.
 
 :::note[Showing milestone 1 live]
 If you show milestone 1 live in class instead of in a screencast, take the cluster off the nodes for the demo. `onevm undeploy k3s-server` and `onevm undeploy k3s-agent` stop the VMs and release their memory and CPU while keeping their disks. Then you start the members' VMs again with the commands of part 3, show milestone 1 and terminate them. `onevm resume` brings the cluster back. In the lab, `undeploy` took a little under two minutes, and after `resume` the web shop of chapter 4.4 answered again after about 45 seconds. `onevm poweroff` is not enough, a VM that is powered off keeps its place on the node.
@@ -122,7 +118,7 @@ tofu plan
 tofu apply
 ```
 
-The plan shows three resources with `+`, the token and two VMs. For the token it shows `result = (sensitive value)`. OpenTofu hides secrets in its output but stores them in the state. After `yes`, OpenTofu creates the VMs, in the lab within ten seconds and one on each node. At the end it prints the outputs.
+The plan shows three resources with `+`, the token and two VMs. For the token it shows `result = (sensitive value)`. OpenTofu hides secrets in its output but stores them in the state. After `yes`, OpenTofu creates the VMs, in the lab within ten seconds and one on each node. At the end it prints the outputs. The addresses below come from the course lab, yours show your own `cc-net` network with the endings `.110` and `.111`.
 
 ```text
 Outputs:

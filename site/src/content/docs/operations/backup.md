@@ -48,7 +48,7 @@ In Teil 4 hast du k3s mit seiner Standard-Datenbank SQLite installiert. Für Sna
 
 ::code{file="platform/operations/repo/tofu/k3s.sh.tftpl"}
 
-Die Datei kam mit dem Kopieren in Kapitel 6.1 in dein Repo. `tofu plan` zeigt nur eine Änderung am Kontext der beiden VMs. Das Startskript läuft aber nur beim ersten Start, eine geänderte Vorlage wirkt erst auf neuen VMs. Du baust den Cluster darum neu, und das ist zugleich die erste Übung zur Wiederherstellung. Der Neubau zeigt, wie viel Git allein zurückbringt.
+Die Datei kam mit dem Kopieren in Kapitel 6.1 in dein Repo. `tofu plan` zeigt nur eine Änderung am Kontext der beiden VMs. Das Startskript läuft zwar bei jedem Start, endet aber sofort, wenn k3s schon installiert ist. Eine geänderte Installation wirkt deshalb erst auf neuen VMs. Du baust den Cluster darum neu, und das ist zugleich die erste Übung zur Wiederherstellung. Der Neubau zeigt, wie viel Git allein zurückbringt.
 
 Sichere vor dem Neubau den Schlüssel von Sealed Secrets, sonst kann der neue Cluster das Passwort von Grafana nicht entschlüsseln.
 
@@ -125,6 +125,8 @@ Die VMs der Mitglieder sichert OpenNebula selbst. Backups landen in einem Datast
 
 ::code{file="platform/operations/backup-datastore.sh"}
 
+Seit Kapitel 4.2 laufen in OpenNebula nur noch die beiden VMs von k3s. Diese sicherst du nicht so, ihr Zustand steckt in Git und in den Snapshots von etcd. Zum Üben startest du als `praxis-admin` die VM `praxis-1` aus der Vorlage `ubuntu` mit 1 GB, mehr hat ein Knoten neben k3s nicht frei. Diese VM sicherst du und stellst sie wieder her. In Meilenstein 4 ist es die VM deines eigenen Mitglieds.
+
 Ein Backup von Hand startet `onevm backup`, auch bei einer laufenden VM. Im Lab dauerte das Backup einer VM mit 1 GB Speicher und Ubuntu 26.04 elf Sekunden, das Backup-Image war 1004 MB gross.
 
 ```bash
@@ -161,7 +163,7 @@ Eine mögliche Festlegung ist die Treuhand mit RPO vier Stunden und RTO vier Stu
 ::::
 
 ::::exercise[Lab]
-Baue den Cluster mit etcd neu, richte die Sicherung der Snapshots und einen Backup-Job ein und übe beide Wiederherstellungen, den Namespace `argocd` aus dem Snapshot und eine VM aus ihrem Backup. Miss die Zeiten.
+Baue den Cluster mit etcd neu, richte die Sicherung der Snapshots und einen Backup-Job ein und übe beide Wiederherstellungen, den Namespace `argocd` aus dem Snapshot und die VM `praxis-1` aus ihrem Backup. Miss die Zeiten.
 
 :::solution
 `k3s etcd-snapshot ls` auf dem Server zeigt Snapshots, `~/backup/k3s` enthält Snapshots, Token und Schlüssel, und `systemctl list-timers cc-backup-k3s.timer` zeigt den nächsten Lauf. `onebackupjob list` zeigt den Job, `oneimage list` ein Image vom Typ `BK`. Nach den Übungen sind Argo CD und die VM zurück, und der Check `operations` meldet die Prüfungen zum Backup als erfüllt. Die Zeiten liegen im Bereich des Labs, unter einer Minute für den Snapshot, rund zwei Minuten für die VM.

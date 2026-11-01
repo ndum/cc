@@ -150,7 +150,7 @@ Der Cluster liegt im internen Netz `cc-net`, das nur der Front-end erreicht. Fü
 ssh -L 8080:<adresse-des-servers>:30080 -L 8081:<adresse-des-servers>:80 mmuster-fe
 ```
 
-Solange die Verbindung offen ist, zeigt `http://localhost:8080/` die Oberfläche von Argo CD und `http://localhost:8081/` den Webshop. In Argo CD meldest du dich als `admin` mit dem Passwort an, das das Skript ausgegeben hat. Gitea erreichst du direkt unter Port 3000 des Front-ends.
+Solange die Verbindung offen ist, zeigt `http://localhost:8080/` die Oberfläche von Argo CD und `http://localhost:8081/` den Webshop. In Argo CD meldest du dich als `admin` mit dem Passwort an, das das Skript ausgegeben hat. Gitea erreichst du direkt unter Port 3000 des Front-ends, bis die Firewall aus Kapitel 6.1 den Port von aussen sperrt.
 
 ## Abgleich zeigen
 

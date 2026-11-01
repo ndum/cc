@@ -81,7 +81,16 @@ Roll out Loki and Alloy, create requests with `404` and find them in Grafana. Co
 ::::
 
 ::::exercise[Finding the error]
-Someone set the variable `FAIL_PERCENT` to `30` in the web shop deployment of the platform repo and pushed it. Find in the logs what customers experience and in the Git history who did it. Then restore the old state.
+First stage the fault as if you were a colleague. The command sets the variable `FAIL_PERCENT` in the web shop deployment to `30`, so the shop answers three out of ten requests with an error.
+
+```bash
+cd ~/platform
+sed -i '/FAIL_PERCENT/{n;s/value: "0"/value: "30"/}' webshop/deployment.yaml
+git commit -am "Tune the web shop"
+git push
+```
+
+Wait until Argo CD has picked up the change and call the shop a few times. Find in the logs what customers experience and in the Git history who did it. Then restore the old state.
 
 :::solution
 `{namespace="velo", app="webshop"} |= "error"` shows lines like `error: simulated failure on /`, next to lines with status `500`. The time of the first line matches the commit that `git log -p webshop/deployment.yaml` shows. `git revert` followed by `git push` restores the old state, and Argo CD rolls it out. The logs show what happens, Git shows who changed what.

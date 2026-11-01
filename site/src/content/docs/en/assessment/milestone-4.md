@@ -33,7 +33,7 @@ Everything runs in your own lab with your personal parameters from chapter 0.3.
 3. Your member has a group in OpenNebula with an admin, VDC, quota and prices, and a VM with at most 1 GB.
 4. A backup job backs up the VM every night, and you have restored it from a backup.
 5. Your member has a namespace from the template with its application, through a pull request in Gitea and Argo CD.
-6. An alert rule with the label `triage: "true"` watches the application. You fire the alert through Git, decide on the triage service's proposal and fix the fault.
+6. An alert rule with the label `triage: "true"` watches the application. You fire the alert through Git, decide on the triage service's proposal and fix the fault. [Chapter 6.3](../../operations/sla/#an-alert-for-a-new-member) shows the way.
 7. The model writes a draft postmortem of this incident, and you correct it.
 8. The check `operations` is green.
 

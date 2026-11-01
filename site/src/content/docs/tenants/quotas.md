@@ -68,10 +68,10 @@ OpenNebula prüft die Quota, bevor es eine VM anlegt. Ist sie erschöpft, lehnt 
 Die Meldung nennt den Benutzer, die Gruppe, die Grenze und welche Quota erreicht ist. Das Mitglied löscht dann eine VM oder bittet das Plattform-Team um eine grössere Quota. Eine Quota greift nur bei neuen Aufträgen. Senkt das Plattform-Team sie unter die aktuelle Nutzung, laufen die VMs weiter, aber es kommen keine neuen dazu.
 
 ::::exercise[Lab]
-Setze die Quotas der vier Mitglieder und starte als `praxis-admin` eine dritte VM. Notiere die Meldung und zeige mit `onegroup show praxis` die Nutzung.
+Setze die Quotas der vier Mitglieder. Starte als `praxis-admin` neben `praxis-1` aus Kapitel 3.1 die VM `praxis-2` und danach eine dritte VM `praxis-3`. Notiere die Meldung und zeige mit `onegroup show praxis` die Nutzung.
 
 :::solution
-`set-quotas.sh` meldet die Werte aller vier Mitglieder. Die dritte VM scheitert mit «limit of 2 reached for VMS quota in VM». `onegroup show praxis` zeigt bei den VMs `2 / 2` und beim Arbeitsspeicher `2048M / 2G`, auch die CPU ist voll ausgeschöpft.
+`set-quotas.sh` meldet die Werte aller vier Mitglieder. `praxis-2` startet, die dritte VM scheitert mit «limit of 2 reached for VMS quota in VM». `onegroup show praxis` zeigt bei den VMs `2 / 2` und beim Arbeitsspeicher `2048M / 2G`, auch die CPU ist voll ausgeschöpft.
 :::
 ::::
 

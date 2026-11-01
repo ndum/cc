@@ -63,9 +63,38 @@ An operations concept describes how operations are organized, so they do not dep
 | Security | hardening, updates, rights from chapter 6.1 |
 | Data backup | snapshots, backups and a restore drill every quarter |
 | Documentation | README in the platform repo, instructions for recurring incidents |
-| Cost | monthly showback from chapter 6.4 |
+| Cost | monthly showback from chapter 3.3, full cost from chapter 6.4 |
 
 Instructions for a recurring incident are called a runbook. A runbook describes symptoms, first checks and measures, for example for the alert `WebshopErrorBudgetBurn`. A good runbook can be followed by someone who did not build the system.
+
+## An alert for a new member
+
+Since chapter 6.1, Alertmanager sends not only the web shop's alerts to the triage service but every alert with the label `triage: "true"`. A new member therefore brings its own rules, as a `PrometheusRule` in its folder of the platform repo. The example watches the app `web` of a daycare center in the namespace `kita`.
+
+```yaml
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: kita
+spec:
+  groups:
+    - name: kita
+      rules:
+        - alert: KitaWebDown
+          expr: kube_deployment_status_replicas_available{namespace="kita", deployment="web"} < 1
+          for: 2m
+          labels:
+            severity: critical
+            triage: "true"
+          annotations:
+            summary: The daycare website has no running pod
+```
+
+Name the file something like `members/kita/alerts.yaml` and list it under `resources` in the member's `kustomization.yaml`. The metric carries the labels `namespace` and `deployment`. The triage service builds its target from them, here `kita/web`, and fetches the log lines of that namespace.
+
+You fire the alert through Git by setting `replicas: 0` in the app and pushing. In the course lab the alert came two minutes after the last pod was gone. The triage service proposed a restart, and the team rejected it, because a restart starts no pod while Git asks for zero. The fault is only fixed once `replicas: 1` is back in Git.
+
+Since chapter 5.6 the service may only touch `velo/webshop`. For a new member the context therefore says `(deployment not readable)`, and an approval would fail with `is not in ALLOWED_TARGETS`. If you want it to read and restart the deployment, extend `ALLOWED_TARGETS` in `ai/triage.yaml` and create a `Role` with a `RoleBinding` in the member's namespace, as in `ai/triage-rbac.yaml`. Whether that makes sense is your decision, based on the member's protection needs.
 
 ## Postmortems
 

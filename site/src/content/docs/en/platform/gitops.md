@@ -150,7 +150,7 @@ The cluster sits in the internal network `cc-net`, which only the front-end reac
 ssh -L 8080:<server-address>:30080 -L 8081:<server-address>:80 mmuster-fe
 ```
 
-While the connection is open, `http://localhost:8080/` shows the Argo CD interface and `http://localhost:8081/` the web shop. In Argo CD you sign in as `admin` with the password the script printed. Gitea is reachable directly on port 3000 of the front-end.
+While the connection is open, `http://localhost:8080/` shows the Argo CD interface and `http://localhost:8081/` the web shop. In Argo CD you sign in as `admin` with the password the script printed. Gitea is reachable directly on port 3000 of the front-end until the firewall of chapter 6.1 closes the port from outside.
 
 ## Showing reconciliation
 

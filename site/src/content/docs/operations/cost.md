@@ -21,7 +21,7 @@ Nach diesem Kapitel kannst du
 
 ## Vollkostenrechnung
 
-Kapitel 3.3 hat Preise pro Stunde für CPU, Arbeitsspeicher und Disk in die Vorlage geschrieben. Eine VM mit einer halben CPU und 1 GB kostete damit rund 35 Franken im Monat. Die Preise waren für den Fall erfunden. Ob sie die Kosten decken, zeigt erst eine Rechnung, die alle Kosten enthält.
+Kapitel 3.3 hat Preise pro Stunde für CPU, Arbeitsspeicher und Disk in die Vorlage geschrieben. Eine VM mit einer halben CPU und 1 GB kostete damit rund 35 Franken im Monat. Die Preise waren für den Fall erfunden. Ob sie die Kosten decken, zeigt erst eine Rechnung, die alle Kosten enthält. Die Übung in Kapitel 3.3 rechnete mit vereinfachten Zahlen, ohne Front-end und mit wenig Arbeit. Hier kommen alle Posten dazu, darum fällt das Total deutlich höher aus.
 
 | Posten | Annahme | pro Jahr |
 |---|---|---|
@@ -73,6 +73,8 @@ Im Lab ergab sich nach einem Lasttest dieses Bild.
 | velo | 0,3 | 0,55 | 384 MiB | 197 MiB |
 | ai | 1,02 | 0,22 | 2 112 MiB | 3 391 MiB |
 | probe | 0,05 | 0 | 64 MiB | 21 MiB |
+
+Die Messung stammt aus dem Lab des Kurses. Dort heisst das eigene Mitglied aus Meilenstein 4 `probe`, bei dir steht an dieser Stelle der Namespace deines Mitglieds.
 
 Die Zahlen sagen Verschiedenes. Beim Webshop lag der Verbrauch über den Requests, weil das HPA die Pods nach Auslastung der Requests skaliert. Die Requests sind dort ein Werkzeug der Skalierung, kein Fehler. Ollama reservierte viermal mehr CPU, als es brauchte, aber ein Drittel zu wenig Speicher. Mit dem geladenen Modell nutzte es 3,3 GiB bei einem Request von 2 GiB. Wird der Speicher auf dem Node knapp, beendet Kubernetes zuerst Pods, die mehr nutzen, als sie reserviert haben. Ein besserer Request wäre etwa 0,5 CPU und 3,5 GiB Speicher. Die Änderung gehört in `ai/ollama.yaml` und damit in einen Pull Request.
 

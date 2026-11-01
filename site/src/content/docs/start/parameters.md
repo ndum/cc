@@ -38,7 +38,7 @@ Das Ergebnis ist der Inhalt der Datei `/etc/cc-lab.env`.
 |---|---|---|
 | `CC_CODE` | dein persönlicher Code | in jedem Bericht der Checks |
 | `CC_LANG` | Sprache der Berichte, `de` oder `en` | Check-Skripte |
-| `CC_FE_HOST`, `CC_NODE1_HOST`, `CC_NODE2_HOST` | Namen der drei VMs, aus dem Code gebildet | Hostnamen, `/etc/hosts`, Inventar von Ansible, Hosts in OpenNebula |
+| `CC_FE_HOST`, `CC_NODE1_HOST`, `CC_NODE2_HOST` | Namen der drei VMs, aus dem Code gebildet | Hostnamen, `/etc/hosts`, Inventar von Ansible |
 | `CC_FE_IP`, `CC_NODE1_IP`, `CC_NODE2_IP` | Adressen der drei VMs im Labnetz | `/etc/hosts`, Inventar, Weboberfläche |
 | `CC_GUEST_NET` | internes Netz für die VMs deiner Cloud | Gateway auf dem Front-end, Netz in OpenNebula ab Kapitel 2.3 |
 | `CC_GUEST_GATEWAY` | Adresse des Front-ends im internen Netz | Gateway, Netz in OpenNebula |

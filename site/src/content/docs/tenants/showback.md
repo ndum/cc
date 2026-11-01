@@ -35,7 +35,7 @@ onetemplate update ubuntu --append ~/cc/lab/tenants/costs.tpl
 onetemplate show ubuntu | grep COST
 ```
 
-Eine VM übernimmt die Preise beim Start aus der Vorlage. VMs, die vorher gestartet sind, kosten deshalb nichts. Im Lab startest du die VMs der Mitglieder nach dem Eintragen der Preise neu.
+Eine VM übernimmt die Preise beim Start aus der Vorlage. VMs, die vorher gestartet sind, kosten deshalb nichts. Ein Neustart mit `onevm reboot` genügt dafür nicht. Im Lab beendest du die VMs der Mitglieder nach dem Eintragen der Preise mit `onevm terminate` und startest sie aus der Vorlage wieder.
 
 ## Kosten berechnen
 
@@ -63,7 +63,7 @@ Eine VM aus der Vorlage `ubuntu` hat 0,5 CPU, 1024 MB Arbeitsspeicher und eine D
 Die Preise müssen am Ende die Kosten der Genossenschaft decken. Dazu gehören die Hardware über ihre Lebensdauer, Strom, Lizenzen, Backup und die Arbeit des Plattform-Teams, auch die Reserve für Wartung aus Kapitel 2.5. Ein einfacher Ansatz teilt die jährlichen Kosten durch die Kapazität, die im Jahr verkauft werden kann. In Teil 6 kommt das Kostenmodell für dein eigenes Mitglied dazu.
 
 ::::exercise[Lab]
-Trage die Preise in die Vorlage ein, starte je eine VM für die Praxis und die Treuhand neu und berechne nach einer Stunde den Showback. Exportiere die Liste als CSV in dein Abgabe-Repo.
+Trage die Preise in die Vorlage ein. Beende je eine VM der Praxis und der Treuhand mit `onevm terminate` und starte sie unter demselben Namen aus der Vorlage neu. Berechne den Showback nach einer Stunde, in der Zwischenzeit kannst du mit Kapitel 3.4 weiterarbeiten. Exportiere die Liste als CSV in dein Abgabe-Repo.
 
 :::solution
 `onetemplate show ubuntu` zeigt `CPU_COST`, `MEMORY_COST` und `DISK_COST`. Nach `oneshowback calculate` listet `oneshowback list` die neuen VMs mit rund einer Stunde und Kosten um 0.05. Die alten VMs ohne Preise stehen mit Kosten 0 in der Liste.

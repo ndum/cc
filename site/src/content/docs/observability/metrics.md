@@ -79,7 +79,7 @@ k3s führt Scheduler, Controller Manager und Proxy in einem einzigen Prozess aus
 
 ## OpenNebula als Ziel
 
-Für die IaaS-Schicht bringt OpenNebula eigene Exporter mit, im Paket `opennebula-prometheus-kvm`. Auf dem Front-end liefert der OpenNebula-Exporter auf Port 9925 Hosts, VMs und Datastores, wie OpenNebula sie sieht. Auf den Knoten zeigt node_exporter auf Port 9100 das Betriebssystem und der Libvirt-Exporter auf Port 9926 die VMs, wie KVM sie sieht. Das Paket `opennebula-prometheus` installierst du nicht, es brächte ein zweites Prometheus mit.
+Für die IaaS-Schicht bringt OpenNebula eigene Exporter mit, im Paket `opennebula-prometheus-kvm`. Auf dem Front-end liefert der OpenNebula-Exporter auf Port 9925 Hosts, VMs und Datastores, wie OpenNebula sie sieht. Auf dem Front-end und auf beiden Knoten zeigt node_exporter auf Port 9100 das Betriebssystem, auf den Knoten zeigt dazu der Libvirt-Exporter auf Port 9926 die VMs, wie KVM sie sieht. Das Paket `opennebula-prometheus` installierst du nicht, es brächte ein zweites Prometheus mit.
 
 ::code{file="platform/observability/install-exporters.sh"}
 

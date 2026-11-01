@@ -33,6 +33,8 @@ OpenNebula builds this from three building blocks.
 
 A VDC (virtual data center) is a slice of the infrastructure that OpenNebula assigns to one or more groups. Within it the groups only see their own objects, even though they share the same nodes.
 
+![Groups, group admins and the VDC of the members. At the top the VDC wolkenwerk holds the four groups praxis, treuhand, velo and gemeinde, one per member. Every group has a group admin such as praxis-admin who creates the users of the group. Every group may create VMs, images, templates and documents and only sees its own objects. At the bottom is cluster 0 with node 1, node 2, the network cc-net and the datastores. The platform team assigns it to the VDC, so all four groups share the same nodes.](../../../../assets/figures/en/p3c1-tenants.svg)
+
 ## Groups and group admins
 
 `onegroup create` creates a group and, if you like, an admin with it. `--resources` decides which objects the members of the group may create themselves. In the lab these are VMs, images, templates and documents. OneFlow in chapter 3.5 needs documents, because a service is a document for OpenNebula.

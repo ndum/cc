@@ -65,6 +65,8 @@ Since OpenNebula manages the addresses, a VM keeps its address for as long as it
 
 The network `cc-net` and the service `cc-gateway` from chapter 0.4 belong together. On the nodes OpenNebula creates the bridge `ccbr` with your identifier and the VXLAN when the first VM starts. On the front-end `cc-gateway` has already set up the bridge `cc-br` with the gateway address and the same VXLAN. Packets from a VM to the internet thus travel through the VXLAN to the front-end, which sends them on to the lab network and the internet with NAT.
 
+![How a packet travels from a VM to the internet. On the left a VM on node 1 hands its frame to the bridge ccbr with your identifier and on to the VXLAN. In the middle the frame crosses the lab network inside a UDP packet to port 8472. The VXLAN header and the outer packet take 50 of the 1500 bytes, which leaves at most 1450 bytes for the frame of the VM. On the right cc-vxlan on the front-end unwraps the frame and passes it to the bridge cc-br, which holds the gateway address. The NAT rule in the nftables table cc_gateway replaces the source address, and the packet leaves over the lab network for the internet. Notice that only the front-end and the nodes show up on the lab network.](../../../../assets/figures/en/p2c3-network-path.svg)
+
 ::::exercise[Lab]
 Create the network `cc-net` with the script and compare `onevnet show cc-net` with the values in `/etc/cc-lab.env`. Which three values have to match for the gateway to work?
 

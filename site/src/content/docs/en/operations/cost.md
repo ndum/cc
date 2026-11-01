@@ -21,7 +21,7 @@ After this chapter you can
 
 ## Full cost
 
-Chapter 3.3 put hourly prices for CPU, memory and disk into the template. With them, a VM with half a CPU and 1 GB cost around 35 francs a month. The prices were invented for the case. Only a calculation that includes all costs shows whether they cover them.
+Chapter 3.3 put hourly prices for CPU, memory and disk into the template. With them, a VM with half a CPU and 1 GB cost around 35 francs a month. The prices were invented for the case. Only a calculation that includes all costs shows whether they cover them. The exercise in chapter 3.3 used simplified numbers, without the front-end and with little labor. Here every item is included, so the total comes out much higher.
 
 | Item | Assumption | per year |
 |---|---|---|
@@ -73,6 +73,8 @@ In the lab, after a load test, the picture looked like this.
 | velo | 0.3 | 0.55 | 384 MiB | 197 MiB |
 | ai | 1.02 | 0.22 | 2,112 MiB | 3,391 MiB |
 | probe | 0.05 | 0 | 64 MiB | 21 MiB |
+
+The measurement comes from the course lab. There the own member from milestone 4 is called `probe`, in your lab you see the namespace of your member instead.
 
 The numbers say different things. For the web shop, use was above the requests because the HPA scales the pods by utilization of the requests. There the requests are a tool for scaling, not a mistake. Ollama reserved four times more CPU than it needed, but a third too little memory. With the model loaded it used 3.3 GiB against a request of 2 GiB. When memory gets tight on the node, Kubernetes first evicts pods that use more than they reserved. A better request would be about 0.5 CPU and 3.5 GiB of memory. The change belongs in `ai/ollama.yaml` and thus in a pull request.
 

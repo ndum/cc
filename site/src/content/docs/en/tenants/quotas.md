@@ -68,10 +68,10 @@ OpenNebula checks the quota before it creates a VM. If it is used up, it rejects
 The message names the user, the group, the limit and which quota is reached. The member then deletes a VM or asks the platform team for a larger quota. A quota only applies to new requests. If the platform team lowers it below the current usage, the VMs keep running, but no new ones are added.
 
 ::::exercise[Lab]
-Set the quotas of the four members and start a third VM as `praxis-admin`. Write down the message and show the usage with `onegroup show praxis`.
+Set the quotas of the four members. As `praxis-admin`, start the VM `praxis-2` next to `praxis-1` from chapter 3.1, then a third VM `praxis-3`. Write down the message and show the usage with `onegroup show praxis`.
 
 :::solution
-`set-quotas.sh` reports the values of all four members. The third VM fails with "limit of 2 reached for VMS quota in VM". `onegroup show praxis` shows `2 / 2` for the VMs and `2048M / 2G` for the memory, and the CPU is used up as well.
+`set-quotas.sh` reports the values of all four members. `praxis-2` starts, the third VM fails with "limit of 2 reached for VMS quota in VM". `onegroup show praxis` shows `2 / 2` for the VMs and `2048M / 2G` for the memory, and the CPU is used up as well.
 :::
 ::::
 

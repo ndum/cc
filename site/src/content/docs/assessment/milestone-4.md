@@ -33,7 +33,7 @@ Alles läuft in deinem eigenen Lab mit deinen persönlichen Parametern aus Kapit
 3. Dein Mitglied hat in OpenNebula eine Gruppe mit Admin, VDC, Quota und Preisen und eine VM mit höchstens 1 GB.
 4. Ein Backup-Job sichert die VM jede Nacht, und du hast sie aus einem Backup wiederhergestellt.
 5. Dein Mitglied hat einen Namespace aus der Vorlage mit seiner Anwendung, über einen Pull Request in Gitea und Argo CD.
-6. Eine Alert-Regel mit dem Label `triage: "true"` überwacht die Anwendung. Du löst den Alert über Git aus, entscheidest über den Vorschlag des Triage-Dienstes und behebst den Fehler.
+6. Eine Alert-Regel mit dem Label `triage: "true"` überwacht die Anwendung. Du löst den Alert über Git aus, entscheidest über den Vorschlag des Triage-Dienstes und behebst den Fehler. [Kapitel 6.3](../../operations/sla/#ein-alert-für-ein-neues-mitglied) zeigt den Weg.
 7. Das Modell schreibt einen Entwurf des Postmortems zu diesem Vorfall, und du korrigierst ihn.
 8. Der Check `operations` ist grün.
 

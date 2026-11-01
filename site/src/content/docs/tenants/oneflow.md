@@ -41,12 +41,14 @@ Das Skript `lab/tenants/make-service.sh` schreibt die Dienstvorlage der Treuhand
 
 ## Den Dienst starten
 
-Als `oneadmin` legst du die Dienstvorlage an und gibst sie den Mitgliedern zur Nutzung frei. Instanziieren soll sie die Treuhand selbst, damit der Dienst ihr gehört und gegen ihre Quota zählt.
+Als `oneadmin` legst du die Dienstvorlage an und gibst sie den Mitgliedern zur Nutzung frei. Instanziieren soll sie die Treuhand selbst, damit der Dienst ihr gehört und gegen ihre Quota zählt. Ausserdem hinterlegst du deinen öffentlichen Schlüssel bei `treuhand-admin`, wie in Kapitel 3.1 bei `praxis-admin`. Der Kontext nimmt ihn beim Start jeder VM des Dienstes vom Benutzer, der den Dienst startet.
 
 ```bash
 ~/cc/lab/tenants/make-service.sh > ~/cc-lab/treuhand-service.json
 oneflow-template create ~/cc-lab/treuhand-service.json
 oneflow-template chmod treuhand-buchhaltung 604
+printf 'SSH_PUBLIC_KEY="%s"\n' "$(cat ~/.ssh/id_ed25519.pub)" > /tmp/key.tpl
+oneuser update treuhand-admin --append /tmp/key.tpl
 
 printf 'treuhand-admin:%s\n' "$(cat ~/cc-lab/tenants/treuhand-admin.pass)" > ~/cc-lab/tenants/treuhand.auth
 chmod 600 ~/cc-lab/tenants/treuhand.auth
@@ -56,7 +58,7 @@ oneflow list
 unset ONE_AUTH
 ```
 
-Fehlt der Gruppe das Recht auf Dokumente, meldet OneFlow `Not authorized to perform CREATE DOCUMENT`. Kapitel 3.1 zeigt, wie eine ACL das ergänzt. Nach etwa einer Minute ist der Dienst `RUNNING` mit einer VM. Damit `treuhand-admin` sich an ihr anmelden kann, braucht auch er einen Schlüssel wie `praxis-admin` in Kapitel 3.1.
+Fehlt der Gruppe das Recht auf Dokumente, meldet OneFlow `Not authorized to perform CREATE DOCUMENT`. Kapitel 3.1 zeigt, wie eine ACL das ergänzt. Nach etwa einer Minute ist der Dienst `RUNNING` mit einer VM. Die VM trägt deinen Schlüssel, weil du ihn oben bei `treuhand-admin` hinterlegt hast.
 
 ## Wachsen unter Last
 

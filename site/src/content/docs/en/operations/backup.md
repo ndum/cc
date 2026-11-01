@@ -48,7 +48,7 @@ In part 4 you installed k3s with its default database, SQLite. For snapshots, k3
 
 ::code{file="platform/operations/repo/tofu/k3s.sh.tftpl"}
 
-The file came into your repo with the copy in chapter 6.1. `tofu plan` only shows a change to the context of the two VMs. The start script only runs on first boot, though, so a changed template only affects new VMs. You therefore rebuild the cluster, which is also the first restore drill. The rebuild shows how much Git alone brings back.
+The file came into your repo with the copy in chapter 6.1. `tofu plan` only shows a change to the context of the two VMs. The start script runs at every boot, but it stops right away when k3s is already installed. A changed installation therefore only affects new VMs. You therefore rebuild the cluster, which is also the first restore drill. The rebuild shows how much Git alone brings back.
 
 Before the rebuild, save the Sealed Secrets key, otherwise the new cluster cannot decrypt the Grafana password.
 
@@ -125,6 +125,8 @@ OpenNebula backs up the member VMs itself. Backups go to a datastore of type `BA
 
 ::code{file="platform/operations/backup-datastore.sh"}
 
+Since chapter 4.2 only the two k3s VMs run in OpenNebula. You do not back them up this way, their state lives in Git and in the etcd snapshots. To practice, start the VM `praxis-1` from the template `ubuntu` with 1 GB as `praxis-admin`, a node has no more room next to k3s. You back up this VM and restore it. In milestone 4 it is the VM of your own member.
+
 `onevm backup` starts a backup by hand, even for a running VM. In the lab, backing up a VM with 1 GB of memory and Ubuntu 26.04 took eleven seconds, and the backup image was 1004 MB.
 
 ```bash
@@ -161,7 +163,7 @@ One possible setting is the fiduciary office with an RPO of four hours and an RT
 ::::
 
 ::::exercise[Lab]
-Rebuild the cluster with etcd, set up the snapshot copies and a backup job, and practice both restores, the namespace `argocd` from the snapshot and a VM from its backup. Measure the times.
+Rebuild the cluster with etcd, set up the snapshot copies and a backup job, and practice both restores, the namespace `argocd` from the snapshot and the VM `praxis-1` from its backup. Measure the times.
 
 :::solution
 `k3s etcd-snapshot ls` on the server shows snapshots, `~/backup/k3s` holds snapshots, token and key, and `systemctl list-timers cc-backup-k3s.timer` shows the next run. `onebackupjob list` shows the job, and `oneimage list` an image of type `BK`. After the drills, Argo CD and the VM are back, and the check `operations` reports the backup checks as passed. The times are in the range of the lab, under a minute for the snapshot and about two minutes for the VM.

@@ -63,9 +63,38 @@ Ein Betriebskonzept beschreibt, wie der Betrieb organisiert ist, damit er nicht 
 | Sicherheit | Härtung, Updates, Rechte aus Kapitel 6.1 |
 | Datensicherung | Snapshots, Backups und eine Übung zur Wiederherstellung pro Quartal |
 | Dokumentation | README im Plattform-Repo, Anleitungen für wiederkehrende Störungen |
-| Kosten | Showback pro Monat aus Kapitel 6.4 |
+| Kosten | Showback pro Monat aus Kapitel 3.3, Vollkosten aus Kapitel 6.4 |
 
 Eine Anleitung für eine wiederkehrende Störung heisst Runbook. Sie beschreibt Symptome, erste Prüfungen und Massnahmen, etwa für den Alert `WebshopErrorBudgetBurn`. Ein gutes Runbook kann auch eine Person befolgen, die das System nicht gebaut hat.
+
+## Ein Alert für ein neues Mitglied
+
+Seit Kapitel 6.1 schickt Alertmanager nicht nur die Alerts des Webshops an den Triage-Dienst, sondern jeden Alert mit dem Label `triage: "true"`. Ein neues Mitglied bringt seine Regeln deshalb selbst mit, als `PrometheusRule` in seinem Ordner im Plattform-Repo. Das Beispiel überwacht die App `web` einer Kindertagesstätte im Namespace `kita`.
+
+```yaml
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: kita
+spec:
+  groups:
+    - name: kita
+      rules:
+        - alert: KitaWebDown
+          expr: kube_deployment_status_replicas_available{namespace="kita", deployment="web"} < 1
+          for: 2m
+          labels:
+            severity: critical
+            triage: "true"
+          annotations:
+            summary: Die Website der Kita hat keinen laufenden Pod
+```
+
+Die Datei heisst etwa `members/kita/alerts.yaml` und steht in der `kustomization.yaml` des Mitglieds unter `resources`. Die Metrik liefert die Labels `namespace` und `deployment` mit. Aus ihnen bildet der Triage-Dienst das Ziel, hier `kita/web`, und holt die Logzeilen aus diesem Namespace.
+
+Den Alert löst du über Git aus, indem du in der App `replicas: 0` setzt und pushst. Im Lab des Kurses kam der Alert zwei Minuten nachdem der letzte Pod weg war. Der Triage-Dienst schlug einen Neustart vor, und das Team lehnte ab, denn ein Neustart startet keinen Pod, wenn Git null verlangt. Behoben ist die Störung erst, wenn `replicas: 1` wieder in Git steht.
+
+Der Dienst darf nach Kapitel 5.6 nur `velo/webshop` anfassen. Für ein neues Mitglied steht im Kontext deshalb `(deployment not readable)`, und eine Freigabe würde mit `is not in ALLOWED_TARGETS` scheitern. Soll er das Deployment lesen und neu starten dürfen, ergänzt du `ALLOWED_TARGETS` in `ai/triage.yaml` und legst im Namespace des Mitglieds eine `Role` mit `RoleBinding` wie in `ai/triage-rbac.yaml` an. Ob das sinnvoll ist, entscheidest du mit dem Schutzbedarf des Mitglieds.
 
 ## Postmortems
 

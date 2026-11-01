@@ -55,7 +55,7 @@ Hardening means switching off or shielding everything that is not needed. The co
 
 ::code{file="platform/operations/harden-frontend.sh"}
 
-Afterwards, SSH accepts keys only, and `root` cannot log in directly. A password can be guessed or intercepted, while a private key never leaves your computer. The firewall is an nftables table of its own. It lets the nodes and cc-net reach everything and allows only SSH and the web interface from anywhere else. The `cc_gateway` table with the NAT for cc-net from chapter 2.3 stays untouched. Ubuntu installs security updates daily with `unattended-upgrades`, and the script makes sure it runs.
+Afterwards, SSH accepts keys only, and `root` cannot log in directly. A password can be guessed or intercepted, while a private key never leaves your computer. The firewall is an nftables table of its own. It lets the nodes and cc-net reach everything and allows only SSH and the web interface from anywhere else. The `cc_gateway` table with the NAT for cc-net from chapter 0.4 stays untouched. Ubuntu installs security updates daily with `unattended-upgrades`, and the script makes sure it runs.
 
 First check that you can log in with your key. Keep the first connection open until a second one with the key works.
 
@@ -65,6 +65,8 @@ ssh -o PubkeyAuthentication=no mmuster-fe
 ```
 
 The second connection fails with `Permission denied (publickey)`. In the lab, the web interface answered as before, Gitea could no longer be reached from the instructor's computer, and all targets in Prometheus stayed `up`.
+
+From now on you reach Gitea through a tunnel. The tunnel to Grafana already uses local port 3000, so pick another one, for example `ssh -L 3001:localhost:3000 mmuster-fe`, and open `http://localhost:3001/`.
 
 ## Rights on the platform
 
@@ -150,10 +152,10 @@ The last line prints `SealedSecret`. Without the controller's private key, the S
 The front-end and the k3s VMs get Ubuntu's security updates automatically. A reboot, for a new kernel for example, does not happen on its own. `/var/run/reboot-required` shows when one is needed. You update the platform software yourself, OpenNebula through its packages, k3s through the variable `k3s_version` and a rebuild, and the charts through their versions in Git. Each of these versions is in Git, so you can trace what ran when.
 
 ::::exercise[Protection needs]
-Assess the protection needs of Wolkenwerk's four members for confidentiality, integrity and availability, and justify each level in one sentence. Do the same for your own member from milestone 4.
+Take your assessment of the four members from chapter 1.4 and check which measures of this chapter contribute to which protection goal. Then assess your own member from milestone 4 for confidentiality, integrity and availability, and justify each level in one sentence.
 
 :::solution
-One possible assessment gives the practice very high confidentiality, high integrity and normal availability, because health data falls under professional secrecy and the practice can bridge an outage of a few hours on paper. The fiduciary office has high confidentiality, very high integrity and high availability at the end of the month. The bike shop has normal confidentiality, normal integrity and high availability on Saturdays. The municipality has high confidentiality because of personal data, high integrity and high availability during counter hours. Other levels are correct if the reasoning holds.
+The assessment from chapter 1.4 still holds, for example the practice with very high confidentiality, high integrity and high availability. The firewall, key-only access and the profile `restricted` protect the confidentiality and integrity of every member. Sealed Secrets keep passwords out of plain text in Git. For the practice's very high confidentiality that is not enough on its own, because the web interfaces in the lab run without TLS. A member of your own such as a daycare center with data on children would have very high confidentiality, high integrity and normal availability, because registrations can wait a day. Other levels are right as long as the reasoning holds.
 :::
 ::::
 

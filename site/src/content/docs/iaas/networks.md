@@ -65,6 +65,8 @@ Weil OpenNebula die Adressen verwaltet, bleibt die Adresse einer VM gleich, sola
 
 Das Netz `cc-net` und der Dienst `cc-gateway` aus Kapitel 0.4 gehören zusammen. Auf den Knoten legt OpenNebula beim Start der ersten VM die Bridge `ccbr` mit deiner Kennung und das VXLAN an. Auf dem Front-end hat `cc-gateway` die Bridge `cc-br` mit der Adresse des Gateways und dasselbe VXLAN schon eingerichtet. Pakete einer VM ins Internet gehen so über das VXLAN zum Front-end, das sie mit NAT ins Labnetz und weiter ins Internet schickt.
 
+![Der Weg eines Pakets von der VM ins Internet. Links schickt eine VM auf Knoten 1 ihren Rahmen an die Bridge ccbr mit deiner Kennung und weiter ins VXLAN. In der Mitte reist der Rahmen im Labnetz in einem UDP-Paket an Port 8472. Der Kopf von VXLAN und das äussere Paket brauchen 50 der 1500 Byte, für den Rahmen der VM bleiben höchstens 1450 Byte. Rechts packt cc-vxlan auf dem Front-end den Rahmen aus und gibt ihn an die Bridge cc-br mit der Adresse des Gateways. Die NAT-Regel in der nftables-Tabelle cc_gateway ersetzt die Absenderadresse, und das Paket geht über das Labnetz ins Internet. Achte darauf, dass im Labnetz nur Front-end und Knoten sichtbar sind.](../../../assets/figures/de/p2c3-network-path.svg)
+
 ::::exercise[Lab]
 Lege das Netz `cc-net` mit dem Skript an und vergleiche `onevnet show cc-net` mit den Werten in `/etc/cc-lab.env`. Welche drei Werte müssen übereinstimmen, damit das Gateway funktioniert?
 

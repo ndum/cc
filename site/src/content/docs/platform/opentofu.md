@@ -28,18 +28,14 @@ OpenNebula reserviert für jede VM den ganzen Speicher aus ihrer Vorlage auf ihr
 Darum räumst du vor diesem Kapitel auf. Nimm vorher den Screencast von Meilenstein 1 auf, denn danach fehlen die VMs, die er zeigt. Die Gruppen, Quotas, Preise und Vorlagen aus Teil 3 bleiben bestehen, du entfernst nur die laufenden VMs.
 
 ```bash
-onevm list
-onevm terminate web-1
-onevm terminate web-2
-onevm terminate web-3
-onevm terminate praxis-1
-onevm terminate praxis-2
 oneflow list
 oneflow delete <id-des-dienstes>
+onevm list
+for id in $(onevm list -l ID --no-header); do onevm terminate "$id"; done
 onehost list
 ```
 
-`oneadmin` darf die VMs aller Mitglieder beenden. Am Ende zeigt `onehost list` auf beiden Knoten `0K / 7.2G`.
+Zuerst entfernst du den Dienst der Treuhand, sonst startet OneFlow seine VM gleich wieder. Danach beendet die Schleife jede VM, die `onevm list` zeigt, egal wie du sie in den Teilen 2 und 3 genannt hast. `oneadmin` darf die VMs aller Mitglieder beenden. Am Ende zeigt `onehost list` auf beiden Knoten `0K / 7.2G`.
 
 :::note[Meilenstein 1 live zeigen]
 Wer Meilenstein 1 im Unterricht live zeigt statt im Screencast, nimmt den Cluster für die Vorführung von den Knoten. `onevm undeploy k3s-server` und `onevm undeploy k3s-agent` stoppen die VMs und geben Speicher und CPU frei, ihre Disks bleiben erhalten. Danach startest du die VMs der Mitglieder mit den Befehlen aus Teil 3 neu, zeigst Meilenstein 1 und beendest sie wieder. `onevm resume` bringt den Cluster zurück. Im Lab dauerte `undeploy` knapp zwei Minuten, nach `resume` antwortete der Webshop aus Kapitel 4.4 nach etwa 45 Sekunden wieder. `onevm poweroff` reicht dafür nicht, eine ausgeschaltete VM behält ihren Platz auf dem Knoten.
@@ -122,7 +118,7 @@ tofu plan
 tofu apply
 ```
 
-Der Plan zeigt drei Ressourcen mit `+`, das Token und zwei VMs. Beim Token steht `result = (sensitive value)`. OpenTofu blendet geheime Werte in der Ausgabe aus, speichert sie aber im State. Nach `yes` legt OpenTofu die VMs an, im Lab in zehn Sekunden, je eine auf einem Knoten. Am Ende stehen die Outputs.
+Der Plan zeigt drei Ressourcen mit `+`, das Token und zwei VMs. Beim Token steht `result = (sensitive value)`. OpenTofu blendet geheime Werte in der Ausgabe aus, speichert sie aber im State. Nach `yes` legt OpenTofu die VMs an, im Lab in zehn Sekunden, je eine auf einem Knoten. Am Ende stehen die Outputs. Die Adressen unten stammen aus dem Lab des Kurses, bei dir stehen die Adressen deines Netzes `cc-net` mit den Endungen `.110` und `.111`.
 
 ```text
 Outputs:

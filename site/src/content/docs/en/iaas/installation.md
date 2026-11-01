@@ -44,21 +44,6 @@ The key idea is the target state. A shell script says "install package X". An An
 | become | switching to another user, usually root with sudo | `ansible_become: true` |
 | Collection | packaged bundle of roles, modules and playbooks | `opennebula.deploy` |
 
-### A first playbook
-
-The course's example greets you with the name of the cooperative on every node. It installs a package, writes a file with facts about the node and shows the file through a handler.
-
-::code{file="examples/ansible/motd.yml"}
-
-Run it twice. The first run reports `changed` for both tasks, and the handler shows the greeting. The second run reports `ok` everywhere and `changed=0`, and the handler stays silent because nothing changed. The line `gather_facts: true` is needed because OneDeploy turns off the automatic gathering of facts in its configuration.
-
-```bash
-cd ~/cc-lab/one-deploy
-ansible-playbook -i ../inventory.yml ~/cc/examples/ansible/motd.yml
-```
-
-The example needs the inventory from the section [The inventory](#the-inventory), so create that first.
-
 ## OneDeploy
 
 OneDeploy is an Ansible collection by the OpenNebula project. It installs a cloud from a front-end and several nodes, optionally with high availability, Ceph storage or a routed network. The course uses the version `release-1.4.1`, which it is tested with, and only the simplest layout with local storage.
@@ -101,6 +86,19 @@ Before you install, check that Ansible reaches all three VMs.
 ```bash
 cd ~/cc-lab/one-deploy
 ansible -i ../inventory.yml all -m ping
+```
+
+## A first playbook
+
+The course's example greets you with the name of the cooperative on every node. It installs a package, writes a file with facts about the node and shows the file through a handler.
+
+::code{file="examples/ansible/motd.yml"}
+
+Run it twice. The first run reports `changed` for both tasks, and the handler shows the greeting. The second run reports `ok` everywhere and `changed=0`, and the handler stays silent because nothing changed. The line `gather_facts: true` is needed because OneDeploy turns off the automatic gathering of facts in its configuration.
+
+```bash
+cd ~/cc-lab/one-deploy
+ansible-playbook -i ../inventory.yml ~/cc/examples/ansible/motd.yml
 ```
 
 ## Installing OpenNebula
@@ -200,7 +198,7 @@ python3 ~/cc/checks/check.py install
 ```
 
 ::::exercise[Warm-up]
-Create the inventory and run the playbook `motd.yml` twice. Compare the two `PLAY RECAP` sections and explain why the handler does not run the second time.
+Set up OneDeploy, create the inventory and run the playbook `motd.yml` twice. Compare the two `PLAY RECAP` sections and explain why the handler does not run the second time.
 
 :::solution
 The first run reports `changed=2` on both nodes because htop was installed and `/etc/motd` was written. The second run reports `changed=0`. Since the task "Write the greeting" changed nothing, it does not notify the handler, and the handler does not run.

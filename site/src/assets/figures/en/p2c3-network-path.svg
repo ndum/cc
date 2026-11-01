@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 864 356" role="img" aria-labelledby="p2c3-network-path-en-title p2c3-network-path-en-desc">
+<title id="p2c3-network-path-en-title">How a packet travels from a VM to the internet</title>
+<desc id="p2c3-network-path-en-desc">On the left a VM on node 1 hands its frame to the bridge ccbr with your identifier and on to the VXLAN. In the middle the frame crosses the lab network inside a UDP packet to port 8472. The VXLAN header and the outer packet take 50 of the 1500 bytes, which leaves at most 1450 bytes for the frame of the VM. On the right cc-vxlan on the front-end unwraps the frame and passes it to the bridge cc-br, which holds the gateway address. The NAT rule in the nftables table cc_gateway replaces the source address, and the packet leaves over the lab network for the internet.</desc>
+<defs><marker id="p2c3-network-path-en-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"/></marker></defs>
+<rect class="d-band d-band-2" x="16" y="86" width="208" height="254" rx="6"/>
+<text class="d-label" x="32" y="110" text-anchor="start">NODE 1</text>
+<rect class="d-tile" x="32" y="126" width="176" height="50" rx="4"/>
+<text class="d-title" x="120" y="148" text-anchor="middle">VM</text>
+<text class="d-sub" x="120" y="165" text-anchor="middle">MTU 1450</text>
+<rect class="d-tile" x="32" y="200" width="176" height="50" rx="4"/>
+<text class="d-title" x="120" y="222" text-anchor="middle">Bridge</text>
+<text class="d-code" x="120" y="239" text-anchor="middle">ccbr&lt;CC_VNI&gt;</text>
+<rect class="d-tile" x="32" y="274" width="176" height="50" rx="4"/>
+<text class="d-title" x="120" y="296" text-anchor="middle">VXLAN</text>
+<text class="d-sub" x="120" y="313" text-anchor="middle">identifier CC_VNI</text>
+<path class="d-arrow" d="M 120 176 L 120 198" marker-end="url(#p2c3-network-path-en-head)"/>
+<path class="d-arrow" d="M 120 250 L 120 272" marker-end="url(#p2c3-network-path-en-head)"/>
+<rect class="d-band d-band-1" x="244" y="86" width="376" height="254" rx="6"/>
+<text class="d-label" x="260" y="110" text-anchor="start">LAB NETWORK</text>
+<path class="d-line" d="M 262 150 L 590 150"/>
+<path class="d-line" d="M 262 145 L 262 155"/>
+<path class="d-line" d="M 590 145 L 590 155"/>
+<text class="d-sub" x="426" y="140" text-anchor="middle">1500 bytes per packet on the lab network</text>
+<path class="d-line" d="M 262 184 L 452 184"/>
+<path class="d-line d-line-accent" d="M 458 184 L 590 184"/>
+<text class="d-sub" x="357" y="176" text-anchor="middle">50 bytes</text>
+<text class="d-sub" x="524" y="176" text-anchor="middle">at most 1450 bytes</text>
+<rect class="d-strip" x="262" y="196" width="40" height="50" rx="4"/>
+<text class="d-sub" x="282" y="225" text-anchor="middle">IP</text>
+<rect class="d-strip" x="306" y="196" width="80" height="50" rx="4"/>
+<text class="d-sub" x="346" y="225" text-anchor="middle">UDP 8472</text>
+<rect class="d-strip" x="390" y="196" width="62" height="50" rx="4"/>
+<text class="d-sub" x="421" y="225" text-anchor="middle">VXLAN</text>
+<rect class="d-tile" x="458" y="196" width="132" height="50" rx="4"/>
+<rect class="d-bar" x="458" y="196" width="4" height="50" rx="2"/>
+<text class="d-title" x="524" y="226" text-anchor="middle">Frame of the VM</text>
+<path class="d-arrow" d="M 208 299 L 654 299" marker-end="url(#p2c3-network-path-en-head)"/>
+<text class="d-code" x="432" y="291" text-anchor="middle">UDP 8472</text>
+<text class="d-sub" x="432" y="322" text-anchor="middle">only the front-end and the nodes are visible</text>
+<rect class="d-band d-band-2" x="640" y="86" width="208" height="254" rx="6"/>
+<text class="d-label" x="656" y="110" text-anchor="start">FRONT-END</text>
+<text class="d-meta" x="832" y="110" text-anchor="end">cc-gateway</text>
+<rect class="d-tile" x="656" y="126" width="176" height="50" rx="4"/>
+<rect class="d-bar" x="656" y="126" width="4" height="50" rx="2"/>
+<text class="d-title" x="744" y="148" text-anchor="middle">NAT with nftables</text>
+<text class="d-code" x="744" y="165" text-anchor="middle">cc_gateway: masquerade</text>
+<rect class="d-tile" x="656" y="200" width="176" height="50" rx="4"/>
+<text class="d-title" x="744" y="222" text-anchor="middle">Bridge cc-br</text>
+<text class="d-sub" x="744" y="239" text-anchor="middle">gateway address</text>
+<rect class="d-tile" x="656" y="274" width="176" height="50" rx="4"/>
+<text class="d-title" x="744" y="296" text-anchor="middle">VXLAN</text>
+<text class="d-code" x="744" y="313" text-anchor="middle">cc-vxlan</text>
+<path class="d-arrow" d="M 744 274 L 744 252" marker-end="url(#p2c3-network-path-en-head)"/>
+<path class="d-arrow" d="M 744 200 L 744 178" marker-end="url(#p2c3-network-path-en-head)"/>
+<path class="d-arrow" d="M 744 126 L 744 68" marker-end="url(#p2c3-network-path-en-head)"/>
+<rect class="d-tile" x="656" y="16" width="176" height="50" rx="4"/>
+<text class="d-title" x="744" y="38" text-anchor="middle">Internet</text>
+<text class="d-sub" x="744" y="55" text-anchor="middle">over the lab network</text>
+</svg>

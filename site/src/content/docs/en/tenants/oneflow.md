@@ -41,12 +41,14 @@ The script `lab/tenants/make-service.sh` writes the service template of the fidu
 
 ## Starting the service
 
-As `oneadmin` you create the service template and release it to the members for use. The fiduciary office should instantiate it itself so that the service belongs to it and counts against its quota.
+As `oneadmin` you create the service template and release it to the members for use. The fiduciary office should instantiate it itself so that the service belongs to it and counts against its quota. You also add your public key to `treuhand-admin`, as you did for `praxis-admin` in chapter 3.1. The context takes it from the user who starts the service each time a VM of the service starts.
 
 ```bash
 ~/cc/lab/tenants/make-service.sh > ~/cc-lab/treuhand-service.json
 oneflow-template create ~/cc-lab/treuhand-service.json
 oneflow-template chmod treuhand-buchhaltung 604
+printf 'SSH_PUBLIC_KEY="%s"\n' "$(cat ~/.ssh/id_ed25519.pub)" > /tmp/key.tpl
+oneuser update treuhand-admin --append /tmp/key.tpl
 
 printf 'treuhand-admin:%s\n' "$(cat ~/cc-lab/tenants/treuhand-admin.pass)" > ~/cc-lab/tenants/treuhand.auth
 chmod 600 ~/cc-lab/tenants/treuhand.auth
@@ -56,7 +58,7 @@ oneflow list
 unset ONE_AUTH
 ```
 
-If the group lacks the right to documents, OneFlow reports `Not authorized to perform CREATE DOCUMENT`. Chapter 3.1 shows how an ACL adds it. After about a minute the service is `RUNNING` with one VM. So that `treuhand-admin` can log in to it, it needs a key too, like `praxis-admin` in chapter 3.1.
+If the group lacks the right to documents, OneFlow reports `Not authorized to perform CREATE DOCUMENT`. Chapter 3.1 shows how an ACL adds it. After about a minute the service is `RUNNING` with one VM. The VM carries your key because you added it to `treuhand-admin` above.
 
 ## Growing under load
 

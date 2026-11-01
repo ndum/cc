@@ -44,21 +44,6 @@ Der wichtigste Gedanke ist der Zielzustand. Ein Shell-Skript sagt «installiere 
 | become | Wechsel zu einem anderen Benutzer, meist root mit sudo | `ansible_become: true` |
 | Collection | verpacktes Bündel aus Rollen, Modulen und Playbooks | `opennebula.deploy` |
 
-### Ein erstes Playbook
-
-Das Beispiel des Kurses grüsst auf jedem Knoten mit dem Namen der Genossenschaft. Es installiert ein Paket, schreibt eine Datei mit Facts der Knoten und zeigt die Datei über einen Handler an.
-
-::code{file="examples/ansible/motd.yml"}
-
-Starte es zweimal. Der erste Lauf meldet für beide Tasks `changed`, und der Handler zeigt den Gruss. Der zweite Lauf meldet überall `ok` und `changed=0`, und der Handler bleibt stumm, weil sich nichts geändert hat. Die Zeile `gather_facts: true` ist nötig, weil OneDeploy in seiner Konfiguration das automatische Sammeln von Facts abschaltet.
-
-```bash
-cd ~/cc-lab/one-deploy
-ansible-playbook -i ../inventory.yml ~/cc/examples/ansible/motd.yml
-```
-
-Das Beispiel braucht das Inventar aus dem Abschnitt [Das Inventar](#das-inventar). Erzeuge es also zuerst.
-
 ## OneDeploy
 
 OneDeploy ist eine Ansible-Collection des OpenNebula-Projekts. Sie installiert eine Cloud aus einem Front-end und mehreren Knoten, auf Wunsch auch mit hoher Verfügbarkeit, Ceph als Speicher oder einem gerouteten Netz. Der Kurs verwendet die Version `release-1.4.1`, mit der er getestet ist, und davon nur den einfachsten Aufbau mit lokalem Speicher.
@@ -101,6 +86,19 @@ Bevor du installierst, prüfst du, ob Ansible alle drei VMs erreicht.
 ```bash
 cd ~/cc-lab/one-deploy
 ansible -i ../inventory.yml all -m ping
+```
+
+## Ein erstes Playbook
+
+Das Beispiel des Kurses grüsst auf jedem Knoten mit dem Namen der Genossenschaft. Es installiert ein Paket, schreibt eine Datei mit Facts der Knoten und zeigt die Datei über einen Handler an.
+
+::code{file="examples/ansible/motd.yml"}
+
+Starte es zweimal. Der erste Lauf meldet für beide Tasks `changed`, und der Handler zeigt den Gruss. Der zweite Lauf meldet überall `ok` und `changed=0`, und der Handler bleibt stumm, weil sich nichts geändert hat. Die Zeile `gather_facts: true` ist nötig, weil OneDeploy in seiner Konfiguration das automatische Sammeln von Facts abschaltet.
+
+```bash
+cd ~/cc-lab/one-deploy
+ansible-playbook -i ../inventory.yml ~/cc/examples/ansible/motd.yml
 ```
 
 ## OpenNebula installieren
@@ -200,7 +198,7 @@ python3 ~/cc/checks/check.py install
 ```
 
 ::::exercise[Einstieg]
-Erzeuge das Inventar und starte das Playbook `motd.yml` zweimal. Vergleiche die beiden `PLAY RECAP` und erkläre, warum der Handler beim zweiten Lauf nicht läuft.
+Richte OneDeploy ein, erzeuge das Inventar und starte das Playbook `motd.yml` zweimal. Vergleiche die beiden `PLAY RECAP` und erkläre, warum der Handler beim zweiten Lauf nicht läuft.
 
 :::solution
 Der erste Lauf meldet bei beiden Knoten `changed=2`, weil htop neu installiert und `/etc/motd` neu geschrieben wurde. Der zweite Lauf meldet `changed=0`. Weil der Task «Write the greeting» nichts geändert hat, benachrichtigt er den Handler nicht, und der Handler läuft nicht.

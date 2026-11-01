@@ -55,7 +55,7 @@ Härten heisst, alles abzuschalten oder abzuschotten, was nicht gebraucht wird. 
 
 ::code{file="platform/operations/harden-frontend.sh"}
 
-SSH nimmt danach nur noch Schlüssel an, und `root` darf sich nicht direkt anmelden. Ein Passwort lässt sich erraten oder abfangen, ein privater Schlüssel verlässt deinen Rechner nicht. Die Firewall ist eine eigene Tabelle von nftables. Sie lässt die Knoten und cc-net alles erreichen, von anderswo nur SSH und die Weboberfläche. Die Tabelle `cc_gateway` mit der NAT für cc-net aus Kapitel 2.3 bleibt unberührt. Ubuntu installiert Sicherheitsupdates mit `unattended-upgrades` jeden Tag selbst, das Skript stellt sicher, dass es läuft.
+SSH nimmt danach nur noch Schlüssel an, und `root` darf sich nicht direkt anmelden. Ein Passwort lässt sich erraten oder abfangen, ein privater Schlüssel verlässt deinen Rechner nicht. Die Firewall ist eine eigene Tabelle von nftables. Sie lässt die Knoten und cc-net alles erreichen, von anderswo nur SSH und die Weboberfläche. Die Tabelle `cc_gateway` mit der NAT für cc-net aus Kapitel 0.4 bleibt unberührt. Ubuntu installiert Sicherheitsupdates mit `unattended-upgrades` jeden Tag selbst, das Skript stellt sicher, dass es läuft.
 
 Prüfe vorher, dass du dich mit deinem Schlüssel anmelden kannst. Lass die erste Verbindung offen, bis eine zweite mit dem Schlüssel klappt.
 
@@ -65,6 +65,8 @@ ssh -o PubkeyAuthentication=no mmuster-fe
 ```
 
 Die zweite Verbindung scheitert mit `Permission denied (publickey)`. Im Lab antwortete die Weboberfläche danach wie vorher, Gitea war vom Rechner der Dozentin oder des Dozenten aus nicht mehr erreichbar, und alle Ziele in Prometheus blieben `up`.
+
+Gitea erreichst du ab jetzt über einen Tunnel. Den lokalen Port 3000 belegt schon der Tunnel zu Grafana, darum nimmst du einen anderen, etwa `ssh -L 3001:localhost:3000 mmuster-fe`, und öffnest `http://localhost:3001/`.
 
 ## Rechte auf der Plattform
 
@@ -150,10 +152,10 @@ Die letzte Zeile gibt `SealedSecret` aus. Ohne den privaten Schlüssel des Contr
 Das Front-end und die VMs von k3s bekommen Sicherheitsupdates von Ubuntu automatisch. Ein Neustart, etwa für einen neuen Kernel, geschieht nicht von selbst. `/var/run/reboot-required` zeigt, wann einer nötig ist. Die Software der Plattform aktualisierst du selbst, OpenNebula mit den Paketen, k3s über die Variable `k3s_version` und einen Neubau, die Charts über ihre Versionen in Git. Jede dieser Versionen steht in Git, so ist nachvollziehbar, was wann lief.
 
 ::::exercise[Schutzbedarf]
-Schätze den Schutzbedarf der vier Mitglieder von Wolkenwerk nach Vertraulichkeit, Integrität und Verfügbarkeit ein und begründe jede Stufe in einem Satz. Mach dasselbe für dein eigenes Mitglied aus Meilenstein 4.
+Nimm deine Einstufung der vier Mitglieder aus Kapitel 1.4 und prüfe, welche Massnahmen dieses Kapitels zu welchem Schutzziel beitragen. Stufe danach dein eigenes Mitglied aus Meilenstein 4 nach Vertraulichkeit, Integrität und Verfügbarkeit ein und begründe jede Stufe in einem Satz.
 
 :::solution
-Eine mögliche Einschätzung ist die Praxis mit Vertraulichkeit sehr hoch, Integrität hoch und Verfügbarkeit normal, weil Gesundheitsdaten unter das Berufsgeheimnis fallen und die Praxis einen Ausfall von Stunden mit Papier überbrückt. Die Treuhand hat Vertraulichkeit hoch, Integrität sehr hoch und Verfügbarkeit hoch am Monatsende. Das Veloatelier hat Vertraulichkeit normal, Integrität normal und Verfügbarkeit hoch am Samstag. Die Gemeinde hat Vertraulichkeit hoch wegen Personendaten, Integrität hoch und Verfügbarkeit hoch zu den Schalterzeiten. Andere Stufen sind richtig, wenn die Begründung trägt.
+Die Einstufung aus Kapitel 1.4 gilt weiter, etwa die Praxis mit Vertraulichkeit sehr hoch, Integrität hoch und Verfügbarkeit hoch. Die Firewall, der Zugang nur mit Schlüssel und das Profil `restricted` schützen Vertraulichkeit und Integrität aller Mitglieder. Sealed Secrets halten Passwörter aus dem Klartext in Git. Für die sehr hohe Vertraulichkeit der Praxis reicht das allein nicht, weil die Weboberflächen im Lab ohne TLS laufen. Ein eigenes Mitglied wie eine Kindertagesstätte mit Daten von Kindern hätte eine sehr hohe Vertraulichkeit, eine hohe Integrität und eine normale Verfügbarkeit, weil sich Anmeldungen um einen Tag verschieben lassen. Andere Stufen sind richtig, wenn die Begründung trägt.
 :::
 ::::
 

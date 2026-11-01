@@ -90,7 +90,7 @@ Als die Quota im ersten Versuch erhöht wurde, liefen sechs statt vier Pods, der
 Container starten schneller als VMs, darum reagiert der HPA kürzer. Die Grundidee ist dieselbe, eine Regel misst, vergleicht mit einem Ziel und ändert die Zahl innerhalb fester Grenzen. Unter beiden Systemen liegt dieselbe Hardware. Sechs Pods helfen nur, wenn die zwei VMs des Clusters die CPU haben.
 
 ::::exercise[Lab]
-Rolle den HPA aus, führe den Lasttest durch und notiere, wann der Shop wächst und wann er schrumpft. Zeige im Dashboard aus Kapitel 5.1, wie sich Verkehr und Antwortzeit verhalten.
+Prüfe mit `kubectl -n velo get hpa webshop`, dass der HPA aus Kapitel 5.1 läuft, führe den Lasttest durch und notiere, wann der Shop wächst und wann er schrumpft. Zeige im Dashboard aus Kapitel 5.1, wie sich Verkehr und Antwortzeit verhalten.
 
 :::solution
 `kubectl -n velo get hpa webshop --watch` zeigt die Auslastung steigen und die Pods von zwei auf sechs wachsen, im Lab innerhalb einer Minute. Im Dashboard steigen die Anfragen pro Sekunde, und die Antwortzeit steigt, bleibt im Lab aber unter der Grenze von 0,5 s aus Kapitel 5.3. Nach dem Ende bleibt der Shop fünf Minuten bei sechs Pods und fällt dann auf zwei.

@@ -7,7 +7,7 @@ import { mkdirSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { arrow, band, figure, label, meta, note, strip, tile } from './diagram.mjs';
+import { arrow, band, figure, label, line, meta, note, strip, tile } from './diagram.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -161,6 +161,108 @@ function architecture(lang) {
   return figure({ id, width: 800, height: 284, title: t.title, desc: t.desc, body });
 }
 
+const PATH = {
+  de: {
+    title: 'Der Weg eines Pakets von der VM ins Internet',
+    desc:
+      'Links schickt eine VM auf Knoten 1 ihren Rahmen an die Bridge ccbr mit deiner Kennung und weiter ins ' +
+      'VXLAN. In der Mitte reist der Rahmen im Labnetz in einem UDP-Paket an Port 8472. Der Kopf von VXLAN und ' +
+      'das äussere Paket brauchen 50 der 1500 Byte, für den Rahmen der VM bleiben höchstens 1450 Byte. Rechts ' +
+      'packt cc-vxlan auf dem Front-end den Rahmen aus und gibt ihn an die Bridge cc-br mit der Adresse des ' +
+      'Gateways. Die NAT-Regel in der nftables-Tabelle cc_gateway ersetzt die Absenderadresse, und das Paket ' +
+      'geht über das Labnetz ins Internet.',
+    node: 'Knoten 1',
+    vm: ['VM', 'MTU 1450'],
+    nodeBridge: ['Bridge', 'ccbr<CC_VNI>'],
+    nodeVxlan: ['VXLAN', 'Kennung CC_VNI'],
+    labNet: 'Labnetz',
+    total: '1500 Byte pro Paket im Labnetz',
+    header: '50 Byte',
+    payload: 'höchstens 1450 Byte',
+    packet: ['IP', 'UDP 8472', 'VXLAN'],
+    frame: 'Rahmen der VM',
+    visible: 'sichtbar sind nur Front-end und Knoten',
+    fe: 'Front-end',
+    feVxlan: ['VXLAN', 'cc-vxlan'],
+    feBridge: ['Bridge cc-br', 'Adresse des Gateways'],
+    nat: ['NAT mit nftables', 'cc_gateway: masquerade'],
+    internet: ['Internet', 'über das Labnetz'],
+  },
+  en: {
+    title: 'How a packet travels from a VM to the internet',
+    desc:
+      'On the left a VM on node 1 hands its frame to the bridge ccbr with your identifier and on to the VXLAN. ' +
+      'In the middle the frame crosses the lab network inside a UDP packet to port 8472. The VXLAN header and ' +
+      'the outer packet take 50 of the 1500 bytes, which leaves at most 1450 bytes for the frame of the VM. On ' +
+      'the right cc-vxlan on the front-end unwraps the frame and passes it to the bridge cc-br, which holds the ' +
+      'gateway address. The NAT rule in the nftables table cc_gateway replaces the source address, and the ' +
+      'packet leaves over the lab network for the internet.',
+    node: 'Node 1',
+    vm: ['VM', 'MTU 1450'],
+    nodeBridge: ['Bridge', 'ccbr<CC_VNI>'],
+    nodeVxlan: ['VXLAN', 'identifier CC_VNI'],
+    labNet: 'Lab network',
+    total: '1500 bytes per packet on the lab network',
+    header: '50 bytes',
+    payload: 'at most 1450 bytes',
+    packet: ['IP', 'UDP 8472', 'VXLAN'],
+    frame: 'Frame of the VM',
+    visible: 'only the front-end and the nodes are visible',
+    fe: 'Front-end',
+    feVxlan: ['VXLAN', 'cc-vxlan'],
+    feBridge: ['Bridge cc-br', 'gateway address'],
+    nat: ['NAT with nftables', 'cc_gateway: masquerade'],
+    internet: ['Internet', 'over the lab network'],
+  },
+};
+
+function networkPath(lang) {
+  const t = PATH[lang];
+  const id = `p2c3-network-path-${lang}`;
+  // Three rows of tiles shared by the node and the front-end, the VXLAN row carries the packet across
+  const rows = [126, 200, 274];
+  const body = [
+    // Node, the frame goes down from the VM to the VXLAN interface
+    band(16, 86, 208, 254, 2),
+    label(32, 110, t.node),
+    tile(32, rows[0], 176, 50, ...t.vm),
+    tile(32, rows[1], 176, 50, ...t.nodeBridge, { code: true }),
+    tile(32, rows[2], 176, 50, ...t.nodeVxlan),
+    arrow(id, [[120, 176], [120, 198]]),
+    arrow(id, [[120, 250], [120, 272]]),
+    // Lab network with the layout of the packet and the MTU arithmetic
+    band(244, 86, 376, 254, 1),
+    label(260, 110, t.labNet),
+    line([[262, 150], [590, 150]]),
+    line([[262, 145], [262, 155]]),
+    line([[590, 145], [590, 155]]),
+    note(426, 140, t.total, 'middle'),
+    line([[262, 184], [452, 184]]),
+    line([[458, 184], [590, 184]], { accent: true }),
+    note(357, 176, t.header, 'middle'),
+    note(524, 176, t.payload, 'middle'),
+    strip(262, 196, 40, 50, t.packet[0]),
+    strip(306, 196, 80, 50, t.packet[1]),
+    strip(390, 196, 62, 50, t.packet[2]),
+    tile(458, 196, 132, 50, t.frame, '', { accent: true }),
+    arrow(id, [[208, 299], [654, 299]]),
+    note(432, 291, 'UDP 8472', 'middle', { code: true }),
+    note(432, 322, t.visible, 'middle'),
+    // Front-end, the frame goes up from the VXLAN interface to NAT and out
+    band(640, 86, 208, 254, 2),
+    label(656, 110, t.fe),
+    meta(832, 110, 'cc-gateway', 'end'),
+    tile(656, rows[0], 176, 50, ...t.nat, { code: true, accent: true }),
+    tile(656, rows[1], 176, 50, ...t.feBridge),
+    tile(656, rows[2], 176, 50, ...t.feVxlan, { code: true }),
+    arrow(id, [[744, 274], [744, 252]]),
+    arrow(id, [[744, 200], [744, 178]]),
+    arrow(id, [[744, 126], [744, 68]]),
+    tile(656, 16, 176, 50, ...t.internet),
+  ];
+  return figure({ id, width: 864, height: 356, title: t.title, desc: t.desc, body });
+}
+
 for (const lang of Object.keys(TEXT)) {
   const target = join(ROOT, 'site', 'src', 'assets', 'figures', lang, 'p2c2-deploy.svg');
   mkdirSync(dirname(target), { recursive: true });
@@ -169,4 +271,8 @@ for (const lang of Object.keys(TEXT)) {
 
 for (const lang of Object.keys(ARCH)) {
   writeFileSync(join(ROOT, 'site', 'src', 'assets', 'figures', lang, 'p2c1-architecture.svg'), architecture(lang));
+}
+
+for (const lang of Object.keys(PATH)) {
+  writeFileSync(join(ROOT, 'site', 'src', 'assets', 'figures', lang, 'p2c3-network-path.svg'), networkPath(lang));
 }

@@ -75,7 +75,7 @@ onetemplate update praxis-gross
 Die Kopie übernimmt alles, auch die Preise aus Kapitel 3.3, und gehört der Praxis. Was sie darin einträgt, begrenzt weiterhin ihre Quota. Damit ist die Arbeit verteilt. Das Plattform-Team pflegt wenige gemeinsame Vorlagen, Netze und Images, die Mitglieder richten sich innerhalb ihrer Quota selbst ein.
 
 ::::exercise[Lab]
-Lege als `praxis-admin` den Benutzer `praxis-mpa` an, melde dich mit ihm in Sunstone an und starte eine VM. Prüfe als `praxis-admin`, dass du sie siehst, und lösche sie.
+Mit zwei VMs ist die Quota der Praxis aus Kapitel 3.2 voll. Lösche deshalb zuerst als `praxis-admin` die VM `praxis-2` mit `onevm terminate`. Lege dann den Benutzer `praxis-mpa` an, melde dich mit ihm in Sunstone an und starte eine VM. Prüfe als `praxis-admin`, dass du sie siehst, und lösche sie.
 
 :::solution
 `oneuser create praxis-mpa <passwort>` legt den Benutzer in der Gruppe `praxis` an. In Sunstone zeigt die Ansicht `cloud` die Vorlage `ubuntu`, die VM startet nur, solange die Quota der Praxis Platz hat. Als `praxis-admin` zeigt `onevm list` die VM mit dem Besitzer `praxis-mpa`, `onevm terminate` löscht sie.

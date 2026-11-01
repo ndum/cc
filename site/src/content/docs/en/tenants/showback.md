@@ -35,7 +35,7 @@ onetemplate update ubuntu --append ~/cc/lab/tenants/costs.tpl
 onetemplate show ubuntu | grep COST
 ```
 
-A VM takes the prices from the template when it starts. VMs started before therefore cost nothing. In the lab you restart the members' VMs after adding the prices.
+A VM takes the prices from the template when it starts. VMs started before therefore cost nothing. A reboot with `onevm reboot` is not enough. In the lab you terminate the members' VMs with `onevm terminate` after adding the prices and start them again from the template.
 
 ## Calculating costs
 
@@ -63,7 +63,7 @@ Over 30 days with 720 hours that makes about 35 francs. The cost depends on the 
 In the end the prices have to cover the cooperative's costs. These include the hardware over its lifetime, power, licences, backup and the work of the platform team, including the reserve for maintenance from chapter 2.5. A simple approach divides the yearly costs by the capacity that can be sold in a year. Part 6 adds the cost model for your own member.
 
 ::::exercise[Lab]
-Add the prices to the template, restart one VM each for the practice and the fiduciary office and calculate the showback after one hour. Export the list as CSV to your hand-in repo.
+Add the prices to the template. Terminate one VM each of the practice and the fiduciary office with `onevm terminate` and start it again from the template under the same name. Calculate the showback after one hour, and carry on with chapter 3.4 in the meantime. Export the list as CSV to your hand-in repo.
 
 :::solution
 `onetemplate show ubuntu` shows `CPU_COST`, `MEMORY_COST` and `DISK_COST`. After `oneshowback calculate`, `oneshowback list` lists the new VMs with about one hour and costs around 0.05. The old VMs without prices appear with cost 0.
