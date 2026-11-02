@@ -70,6 +70,10 @@ for i in $(seq 20); do curl -s -o /dev/null http://<adresse-des-servers>/warenko
 
 Traefik verteilt die Anfragen auf die Pods. Die Abfrage mit `count_over_time` zeigte danach, wie viele dieser Aufrufe jeder Pod beantwortet hatte.
 
+In Grafana stellst du die Abfrage unter «Explore» mit der Datenquelle Loki.
+
+![Die Abfrage nach 404 in Grafana Explore. Oben steht die LogQL-Abfrage, darunter zeigt der Balken Logs volume die Zeilen eines kurzen Moments, unten stehen die Zeilen selbst mit der Adresse von Traefik und dem markierten Statuscode 404.](../../../assets/screenshots/grafana-explore-loki.png)
+
 ## Labels mit Mass
 
 Jede Kombination von Labels ist in Loki ein eigener Stream. Labels wie Namespace, Pod oder App haben wenige Werte und eignen sich gut. Eine IP-Adresse, eine Bestellnummer oder ein Pfad als Label würden Tausende Streams erzeugen und Loki langsam machen. Was sich oft ändert, bleibt im Text und wird mit `|=` gesucht.

@@ -140,6 +140,8 @@ A counter on its own says little, because it only rises from the moment the pod 
 
 Grafana shows queries as dashboards. In the browser of the client, you sign in at `http://localhost:3000/` as `admin`, with the password from `~/cc-lab/grafana.pass` on the front-end. The chart brings dashboards for Kubernetes, such as "Kubernetes / Compute Resources / Namespace (Pods)". The platform team adds a dashboard of its own from Git, `monitoring/config/dashboard-wolkenwerk.yaml`. It shows OpenNebula hosts and VMs, traffic, errors and response time of the web shop, CPU per namespace and the members' memory against their quota. Grafana loads every ConfigMap with the label `grafana_dashboard` by itself.
 
+![The dashboard Wolkenwerk platform in Grafana during a load test. At the top, tiles count the hosts and VMs in OpenNebula, the requests per second and the share of errors of the web shop. Below are the allocated memory of the nodes and the CPU of the k3s VMs as libvirt sees it, and at the bottom the requests by status code and the response time.](../../../../assets/screenshots/grafana-dashboard.png)
+
 Changes you make in Grafana itself are lost, because the dashboard comes from a ConfigMap and Grafana has no volume. A panel you want to keep therefore belongs in Git. Copy an existing panel in `monitoring/config/dashboard-wolkenwerk.yaml` and give it your own `title`, your query in `expr` and a free place in `gridPos`, for example below the existing panels with `"y": 28`. The panels in the file have no `id`, and yours needs none either. Then push the change. For a panel you designed in Grafana, the panel menu shows its JSON under "Inspect" and "Panel JSON".
 
 ::::exercise[Lab]

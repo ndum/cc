@@ -58,6 +58,10 @@ kubectl logs load
 
 In the lab, the HPA showed more than 400% after almost 30 seconds and asked for six pods. A little over 40 seconds after the start, six pods ran at 500% of their request each, which is the limit of `250m`. With two pods the generator reported almost 60 requests per second, 95% of them back within 1.3 s. With six pods it was about 145 requests per second within just under 300 ms. After the load ended, the shop first stayed at six pods because of the five-minute wait. A little over five minutes after the end it shrank to four pods, and 15 seconds later to two. Every surplus pod had stopped after two seconds, because the web shop keeps answering for two seconds after the signal to stop and then exits.
 
+In the dashboard of chapter 5.1 the load test looks like this.
+
+![The load test in the dashboard Wolkenwerk platform. On the left, the requests with status 200 rise to a little over 100 per second and drop back to 0 when the load ends. On the right, the response time of the 95th percentile rises from about 50 ms to a little over 200 ms but stays below the limit of 0.5 s.](../../../../assets/screenshots/grafana-loadtest.png)
+
 ## Limits
 
 The lab revealed three limits that occur in production as well.

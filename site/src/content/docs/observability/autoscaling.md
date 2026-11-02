@@ -58,6 +58,10 @@ kubectl logs load
 
 Im Lab stand der HPA nach knapp 30 Sekunden bei über 400 % und verlangte sechs Pods. Gut 40 Sekunden nach dem Start liefen sechs Pods mit je 500 % ihres Requests, also am Limit von `250m`. Mit zwei Pods meldete der Generator knapp 60 Anfragen pro Sekunde, 95 % davon kamen in 1,3 s zurück. Mit sechs Pods waren es rund 145 Anfragen pro Sekunde in knapp 300 ms. Nach dem Ende der Last blieb der Shop wegen der Wartezeit von fünf Minuten zuerst bei sechs Pods. Gut fünf Minuten nach dem Ende schrumpfte er auf vier Pods, 15 Sekunden später auf zwei. Jeder überzählige Pod war nach zwei Sekunden beendet, denn der Webshop antwortet nach dem Signal zum Beenden noch zwei Sekunden und stoppt dann.
 
+Im Dashboard aus Kapitel 5.1 sieht der Lasttest so aus.
+
+![Der Lasttest im Dashboard Wolkenwerk platform. Links steigen die Anfragen mit Status 200 auf gut 100 pro Sekunde und fallen nach dem Ende der Last wieder auf 0. Rechts steigt die Antwortzeit des 95. Perzentils von etwa 50 ms auf gut 200 ms, bleibt aber unter der Grenze von 0,5 s.](../../../assets/screenshots/grafana-loadtest.png)
+
 ## Grenzen
 
 Im Lab zeigten sich drei Grenzen, die im Betrieb ebenso vorkommen.

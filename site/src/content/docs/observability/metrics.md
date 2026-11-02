@@ -140,6 +140,8 @@ Ein Counter allein sagt wenig, weil er seit dem Start des Pods nur steigt. `rate
 
 Grafana zeigt Abfragen als Dashboards. Im Browser des Clients meldest du dich unter `http://localhost:3000/` als `admin` an, mit dem Passwort aus `~/cc-lab/grafana.pass` auf dem Front-end. Das Chart bringt Dashboards für Kubernetes mit, etwa «Kubernetes / Compute Resources / Namespace (Pods)». Dazu kommt ein Dashboard des Plattform-Teams aus Git, `monitoring/config/dashboard-wolkenwerk.yaml`. Es zeigt Hosts und VMs von OpenNebula, Verkehr, Fehler und Antwortzeit des Webshops, CPU pro Namespace und den Speicher der Mitglieder gegen ihre Quota. Grafana lädt jede ConfigMap mit dem Label `grafana_dashboard` von selbst.
 
+![Das Dashboard Wolkenwerk platform in Grafana während eines Lasttests. Oben zählen Kacheln die Hosts und VMs in OpenNebula, die Anfragen pro Sekunde und den Anteil der Fehler des Webshops. Darunter stehen der vergebene Arbeitsspeicher der Knoten und die CPU der k3s-VMs, wie libvirt sie sieht, ganz unten die Anfragen nach Statuscode und die Antwortzeit.](../../../assets/screenshots/grafana-dashboard.png)
+
 Was du in Grafana selbst änderst, bleibt nicht erhalten, denn das Dashboard kommt aus einer ConfigMap und Grafana hat kein Volume. Ein eigenes Panel, das bleiben soll, gehört deshalb in Git. Kopiere dazu in `monitoring/config/dashboard-wolkenwerk.yaml` ein bestehendes Panel. Gib ihm einen eigenen `title`, deine Abfrage in `expr` und einen freien Platz in `gridPos`, etwa unter den bestehenden Panels mit `"y": 28`. Die Panels der Datei haben keine `id`, auch dein Panel braucht keine. Pushe danach die Änderung. Ein Panel, das du in Grafana entworfen hast, findest du als JSON im Menü des Panels unter «Inspect» und «Panel JSON».
 
 ::::exercise[Lab]

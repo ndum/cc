@@ -70,6 +70,10 @@ for i in $(seq 20); do curl -s -o /dev/null http://<server-address>/warenkorb; d
 
 Traefik spreads the requests across the pods. The query with `count_over_time` then showed how many of these requests each pod had answered.
 
+In Grafana you run the query under "Explore" with the data source Loki.
+
+![The query for 404 in Grafana Explore. At the top is the LogQL query, below it the bar of Logs volume shows the lines of one short moment, and at the bottom are the lines themselves with the address of Traefik and the highlighted status code 404.](../../../../assets/screenshots/grafana-explore-loki.png)
+
 ## Labels in moderation
 
 In Loki, every combination of labels is a stream of its own. Labels such as namespace, pod or app have few values and work well. An IP address, an order number or a path as a label would create thousands of streams and slow Loki down. Whatever changes often stays in the text and is found with `|=`.
