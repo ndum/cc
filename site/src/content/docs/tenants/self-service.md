@@ -42,6 +42,10 @@ FIREEDGE=[
   VIEWS="cloud" ]
 ```
 
+Sunstone zeigt diese Werte unter «System › Groups» im Reiter «Info» der Gruppe.
+
+![Die Gruppe praxis in Sunstone. Unter den Attributen steht der Abschnitt FIREEDGE mit der Ansicht cloud für die Benutzer der Gruppe und groupadmin für ihre Admins.](../../../assets/screenshots/sunstone-group-views.png)
+
 | Ansicht | Für | Was sie zeigt |
 |---|---|---|
 | `cloud` | Benutzer eines Mitglieds | Übersicht, VMs, Vorlagen, Dienste, Marketplace und das eigene Konto |
@@ -100,6 +104,10 @@ onetemplate update praxis-gross
 ```
 
 Die Kopie gehört der Praxis und übernimmt alles, auch die Preise aus Kapitel 3.3. Was die Praxis darin einträgt, begrenzt weiterhin ihre Quota. Das Plattform-Team muss so nur wenige gemeinsame Vorlagen, Netze und Images pflegen. Alles Weitere richten die Mitglieder innerhalb ihrer Quota selbst ein.
+
+Unter «Templates › VM Templates» siehst du als `oneadmin` die Vorlagen des Plattform-Teams und die Kopien der Mitglieder nebeneinander.
+
+![Die Vorlagen in Sunstone, angemeldet als oneadmin. Die Kopie praxis-gross gehört praxis-admin und der Gruppe praxis. Die Vorlagen ubuntu und ubuntu-medium gehören oneadmin, ubuntu-26.04 hat OpenNebula beim Export aus dem Marketplace angelegt.](../../../assets/screenshots/sunstone-templates.png)
 
 ## Der Check von Teil 3
 

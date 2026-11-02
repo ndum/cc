@@ -31,6 +31,10 @@ Nach diesem Kapitel kannst du:
 | `off` | nicht mehr überwacht, für ausgeschaltete Knoten | `onehost offline` |
 | `err` | die Überwachung meldet einen Fehler, oft fehlt die SSH-Verbindung | |
 
+Unter «Infrastructure › Hosts» zeigt Sunstone die Zustände mit ihrem ausgeschriebenen Namen, etwa «Monitored» für `on` und «Disabled» für `dsbl`.
+
+![Die beiden Knoten in Sunstone. Knoten 2 ist mit onehost disable gesperrt und steht auf Disabled, Knoten 1 steht auf Monitored. Die Balken zeigen, wie viel CPU und Arbeitsspeicher jeder Knoten an VMs vergeben hat. Auf Knoten 2 laufen die vier VMs weiter, nur neue VMs kommen nicht mehr dazu.](../../../assets/screenshots/sunstone-hosts-disabled.png)
+
 ## Kapazität und Überbuchung
 
 `onehost show` zeigt für Arbeitsspeicher und CPU zwei Werte. `USED (ALLOCATED)` ist, was die Vorlagen der laufenden VMs reservieren. `USED (REAL)` ist, was der Knoten tatsächlich belegt, seine VMs und sein eigenes System zusammen. Drei VMs aus der Vorlage `ubuntu` reservieren 3 GB, im Leerlauf belegen sie aber nur knapp 2 GB. Das System eines Knotens braucht im Lab rund 0,6 GB dazu. Die CPU zählt OpenNebula in Hundertsteln eines Kerns, ein Knoten mit vier Kernen hat 400. Eine VM mit `CPU = "0.5"` reserviert 50 davon.
@@ -53,6 +57,10 @@ Eine neue VM wartet, bis der Scheduler ihr einen Knoten zuweist. OpenNebula 7.4 
 | Fixed | `PRIORITY` | folgt einer Priorität, die das Plattform-Team bei Host oder Cluster setzt |
 
 Im Lab steht in `/etc/one/schedulers/rank.conf` der Eintrag `DEFAULT_SCHED` mit `POLICY = 1`, also Striping, so wie das Paket von OpenNebula die Datei ausliefert. Deshalb verteilen sich deine VMs auf beide Knoten. Packing braucht weniger Knoten, die übrigen lassen sich ausschalten. Striping hält auf jedem Knoten Reserve frei. Fällt ein Knoten aus, trifft es weniger VMs. Neben dem Rank Scheduler bringt OpenNebula 7.4 den [Distributed Resource Scheduler](https://docs.opennebula.io/7.4/product/cloud_system_administration/scheduler/drs/) mit. Er berücksichtigt die tatsächliche Auslastung der Knoten und schlägt Migrationen vor, die das Plattform-Team prüft oder automatisch ausführen lässt.
+
+Wo jede VM gelandet ist, zeigt in Sunstone die Spalte «Host» der Liste unter «Instances › VMs».
+
+![Die VMs web-1 bis web-3 in der Tabellenansicht von Sunstone. In der Spalte Host steht der Knoten jeder VM, der Scheduler hat sie auf beide Knoten verteilt.](../../../assets/screenshots/sunstone-vms-web.png)
 
 ## Lebenszyklus einer VM
 

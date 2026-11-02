@@ -50,6 +50,10 @@ oneshowback list --csv > ~/cc-lab/showback.csv
 
 Ein Gruppenadmin sieht mit `oneshowback list` nur die VMs seiner Gruppe. Jedes Mitglied kann also seine eigenen Kosten prüfen, ohne die der anderen zu sehen.
 
+Sunstone zeigt die Kosten im Reiter «Showback» einer Gruppe.
+
+![Der Reiter Showback der Gruppe praxis in Sunstone. Oben stehen die Kosten pro Monat, unten die Kosten und Stunden jeder VM. Das Lab lief erst rund eine Stunde mit Preisen, deshalb sind die Beträge klein. Die VM praxis-1 hat in dieser Stunde 0,05 Franken gekostet, das passt zur Rechnung im nächsten Abschnitt.](../../../assets/screenshots/sunstone-showback.png)
+
 ## Die Kosten einer VM
 
 Eine VM aus der Vorlage `ubuntu` hat 0,5 CPU, 1024 MB Arbeitsspeicher und eine Disk von 3584 MB. Pro Stunde kostet sie

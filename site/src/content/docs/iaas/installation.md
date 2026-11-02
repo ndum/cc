@@ -196,6 +196,10 @@ sudo ss -ltnp
 
 Die Weboberfläche öffnest du im Browser des Clients, auf smartlearn die Kali-VM, mit eigenem Hypervisor dein PC. Sie ist auf Port 2616 des Front-ends erreichbar, zum Beispiel unter `http://192.168.210.137:2616/`. Du meldest dich als `oneadmin` mit dem Passwort aus `~/cc-lab/oneadmin.pass` an.
 
+Nach der Anmeldung zeigt Sunstone das Dashboard.
+
+![Das Dashboard von Sunstone nach der Anmeldung als oneadmin. Vier Kacheln zählen VMs, Hosts, virtuelle Netze und Images. Die Karte Hosts darunter zeigt, wie viel CPU und Arbeitsspeicher der Cluster schon an VMs vergeben hat. Das Bild stammt aus Teil 3, deshalb laufen hier schon neun VMs.](../../../assets/screenshots/sunstone-dashboard.png)
+
 Der Check dieses Kapitels prüft den Dienst, die Version, beide Hosts und die Weboberfläche.
 
 ```bash

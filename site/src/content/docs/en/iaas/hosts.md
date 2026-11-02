@@ -31,6 +31,10 @@ After this chapter you can:
 | `off` | no longer monitored, for nodes that are switched off | `onehost offline` |
 | `err` | monitoring reports an error, often a missing SSH connection | |
 
+Under "Infrastructure › Hosts", Sunstone shows the states with their full names, such as "Monitored" for `on` and "Disabled" for `dsbl`.
+
+![The two nodes in Sunstone. Node 2 is disabled with onehost disable and shows Disabled, node 1 shows Monitored. The bars show how much CPU and memory each node has allocated to VMs. The four VMs on node 2 keep running, only new VMs no longer go there.](../../../../assets/screenshots/sunstone-hosts-disabled.png)
+
 ## Capacity and overcommitment
 
 `onehost show` lists two values for memory and CPU. `USED (ALLOCATED)` is what the templates of the running VMs reserve. `USED (REAL)` is what the node actually uses, its VMs and its own system together. Three VMs from the template `ubuntu` reserve 3 GB but use a little under 2 GB when idle. In the lab the system of a node adds about 0.6 GB. OpenNebula counts CPU in hundredths of a core, so a node with four cores has 400. A VM with `CPU = "0.5"` reserves 50 of them.
@@ -53,6 +57,10 @@ A new VM waits until the scheduler assigns it a node. By default OpenNebula 7.4 
 | Fixed | `PRIORITY` | follows a priority the platform team sets on the host or cluster |
 
 In the lab, `/etc/one/schedulers/rank.conf` contains the entry `DEFAULT_SCHED` with `POLICY = 1`, which is striping, unchanged from the file the OpenNebula package ships. That is why your VMs spread across both nodes. Packing needs fewer nodes, so the rest can be switched off. Striping keeps headroom on every node, and a failure hits fewer VMs. Besides the Rank Scheduler, OpenNebula 7.4 includes the [Distributed Resource Scheduler](https://docs.opennebula.io/7.4/product/cloud_system_administration/scheduler/drs/). It takes the actual load of the nodes into account and proposes migrations, which the platform team either reviews or lets run automatically.
+
+In Sunstone the "Host" column of the list under "Instances › VMs" shows where each VM ended up.
+
+![The VMs web-1 to web-3 in the table view of Sunstone. The Host column names the node of each VM, and the scheduler has spread them over both nodes.](../../../../assets/screenshots/sunstone-vms-web.png)
 
 ## Life cycle of a VM
 

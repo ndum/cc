@@ -67,6 +67,10 @@ The script `lab/tenants/set-quotas.sh` sets these values. For every group it wri
 onegroup show praxis | sed -n '/VMS USAGE/,/DATASTORE/p'
 ```
 
+In Sunstone the list under "System › Groups" shows how much of the VM quota is used.
+
+![The groups in Sunstone. In the VM Count column the number of VMs comes before the slash and the quota after it. At 2/2 the practice has used up its quota. The value -1 means that the default quota applies to this resource.](../../../../assets/screenshots/sunstone-groups.png)
+
 The CPU of the quota counts like `CPU` in the template. A VM from the template `ubuntu` needs 0.5 of it. The practice gets 1.5 CPU so that a VM from Sunstone fits next to `praxis-1` in chapter 3.4. Sunstone sets the CPU of a new VM to its number of virtual CPUs, which is 1.
 
 For milestone 1 the municipality gets the quota from your [personal values](../../start/parameters/). Copy the script, change the line of the municipality and run the copy. The other members keep the values of the table.

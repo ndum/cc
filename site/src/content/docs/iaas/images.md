@@ -24,6 +24,10 @@ Nach diesem Kapitel kannst du:
 
 Ein Image ist eine Disk, aus der VMs starten, etwa ein vorbereitetes Ubuntu. Images speichert OpenNebula in Datastores. OneDeploy hat drei davon angelegt. In `default` liegen die Images, in `system` die Disks laufender VMs und in `files` kleinere Dateien wie Skripte. Startet eine VM, kopiert der Transfertreiber `ssh` ihr Image in den Datastore `system` des Knotens. Die VM arbeitet auf dieser Kopie, das Image im Datastore bleibt unverändert.
 
+Sunstone zeigt die drei Datastores unter «Storage › Datastores».
+
+![Die drei Datastores in Sunstone. Die Datastores files und default liegen auf dem Front-end und zeigen beide die Belegung seiner Disk. Der Datastore system steht auf 0 KB, weil OpenNebula seinen Platz auf jedem Knoten einzeln misst.](../../../assets/screenshots/sunstone-datastores.png)
+
 Fertige Images liefert der Marketplace von OpenNebula. Mit `onemarketapp export` holst du ein Image in deinen Datastore. OpenNebula legt dazu eine einfache Vorlage an.
 
 ```bash
@@ -98,7 +102,11 @@ onevm show web-1 | grep -E 'IP=|HOST'
 ssh root@<adresse-der-vm>
 ```
 
-Was die Kontextualisierung eingerichtet hat, siehst du in der VM. `hostname` zeigt den Namen, `ip -br addr` die Adresse und `ip link show eth0` die MTU. Mit `curl -I https://ubuntu.com` prüfst du, ob die VM über das Gateway ins Internet kommt. Sunstone zeigt den Bildschirm der VM im Browser des Clients, wenn du auf die VM und dann auf das Symbol der Konsole klickst.
+Was die Kontextualisierung eingerichtet hat, siehst du in der VM. `hostname` zeigt den Namen, `ip -br addr` die Adresse und `ip link show eth0` die MTU. Mit `curl -I https://ubuntu.com` prüfst du, ob die VM über das Gateway ins Internet kommt. Sunstone zeigt den Bildschirm der VM im Browser des Clients. Dazu klickst du unter «Instances › VMs» auf die VM, öffnest oben rechts das Menü mit den drei Punkten und wählst «Console» und dann «VNC».
+
+![Die VM web-1 in Sunstone mit dem geöffneten Menü. Unter Console steht VNC bereit, SSH und RDP sind ausgegraut, weil die Vorlage sie für keine Netzkarte freigibt. Darunter zeigt der Reiter Info den Zustand, den Knoten und die Adresse der VM.](../../../assets/screenshots/sunstone-vm-menu.png)
+
+![Die Konsole von web-1 im Browser. Sunstone holt den Bildschirm der VM über guacd per VNC, die VM wartet auf eine Anmeldung.](../../../assets/screenshots/sunstone-vm-console.png)
 
 Der Check dieses Teils prüft das Netz, die Vorlage, eine laufende VM, die Anmeldung per SSH, ihren Hostnamen und den Zugang zum Internet.
 

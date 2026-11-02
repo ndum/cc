@@ -165,6 +165,79 @@ lt-tabs {
   max-width: 42rem;
   height: auto;
 }
+
+/* Screenshots of the lab interfaces. They are taken at twice their CSS size, so the dialog of
+   scripts/shots.js shows them sharp at their real size when the column is too narrow to read them */
+.lt-shot {
+  position: relative;
+  margin-block: 1.5rem;
+}
+.lt-shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--sl-color-hairline);
+  border-radius: 0.5rem;
+  box-shadow: var(--sl-shadow-sm);
+  cursor: zoom-in;
+}
+.lt-shot-zoom {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: 1px solid var(--sl-color-gray-5);
+  border-radius: 0.375rem;
+  background: var(--sl-color-bg);
+  color: var(--sl-color-text);
+  /* Hidden until needed, so it does not cover the buttons in the screenshot. A tap on the
+     picture opens it as well */
+  opacity: 0;
+  cursor: pointer;
+}
+.lt-shot:hover .lt-shot-zoom,
+.lt-shot-zoom:focus-visible {
+  opacity: 1;
+}
+.lt-shot-zoom:focus-visible {
+  border-color: var(--sl-color-accent);
+}
+.lt-shot-dialog {
+  /* The reset of Starlight removes the auto margin that centres a modal dialog */
+  margin: auto;
+  max-width: 96vw;
+  max-height: 96vh;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  overflow: auto;
+}
+.lt-shot-dialog::backdrop {
+  background: rgb(0 0 0 / 0.75);
+}
+.lt-shot-dialog img {
+  display: block;
+  max-width: 96vw;
+  height: auto;
+  border-radius: 0.5rem;
+  cursor: zoom-out;
+}
+.lt-shot-close {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  padding: 0.25rem 0.75rem;
+  border: 1px solid var(--sl-color-gray-5);
+  border-radius: 0.375rem;
+  background: var(--sl-color-bg);
+  color: var(--sl-color-text);
+  font: inherit;
+  cursor: pointer;
+}
 /* Diagrams drawn by figures/diagram.mjs. The palette is set once for light and once for dark mode,
    the shapes only use these variables */
 .fig {

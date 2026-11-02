@@ -5,6 +5,10 @@
  * Inline SVG follows the site's light and dark theme through CSS variables, which an <img>
  * cannot. The figure's own <title> and <desc> carry the accessible name and description, the
  * Markdown alt text says the same so the page stays understandable on GitHub.
+ *
+ * A paragraph that holds only a screenshot (`.../assets/screenshots/name.png`) becomes a
+ * <figure class="lt-shot">. The image itself stays an image, so Astro still optimizes it and
+ * scripts/shots.js can open it at full size.
  */
 import { readFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
@@ -16,7 +20,12 @@ export default function remarkInlineFigures() {
     visit(tree, 'paragraph', (node, index, parent) => {
       if (!parent || index === undefined || node.children.length !== 1) return;
       const image = node.children[0];
-      if (image.type !== 'image' || !/\/assets\/figures\/[^/]+\/[^/]+\.svg$/.test(image.url)) return;
+      if (image.type !== 'image') return;
+      if (/\/assets\/screenshots\/[^/]+\.png$/.test(image.url)) {
+        node.data = { hName: 'figure', hProperties: { className: ['lt-shot'] } };
+        return;
+      }
+      if (!/\/assets\/figures\/[^/]+\/[^/]+\.svg$/.test(image.url)) return;
       const path = resolve(dirname(file.path), image.url);
       let svg;
       try {

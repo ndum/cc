@@ -24,6 +24,10 @@ After this chapter you can:
 
 An image is a disk that VMs boot from, such as a prepared Ubuntu. Images live in a datastore. OneDeploy created three datastores. `default` holds the images, `system` the disks of running VMs, and `files` smaller files such as scripts. When a VM starts, the transfer driver `ssh` copies its image into the `system` datastore of the node. The VM works on that copy, and the image in the datastore stays unchanged.
 
+Sunstone lists the three datastores under "Storage › Datastores".
+
+![The three datastores in Sunstone. The datastores files and default live on the front-end and both show how full its disk is. The datastore system shows 0 KB, because OpenNebula measures its space on each node separately.](../../../../assets/screenshots/sunstone-datastores.png)
+
 The OpenNebula marketplace provides ready-made images. `onemarketapp export` brings an image into your datastore, and OpenNebula creates a simple template for it.
 
 ```bash
@@ -98,7 +102,11 @@ onevm show web-1 | grep -E 'IP=|HOST'
 ssh root@<address-of-the-vm>
 ```
 
-Inside the VM you can see what contextualization has set up. `hostname` shows the name, `ip -br addr` the address and `ip link show eth0` the MTU. `curl -I https://ubuntu.com` checks whether the VM reaches the internet through the gateway. In Sunstone, a click on the VM and then on the console icon opens its screen in the browser of the client.
+Inside the VM you can see what contextualization has set up. `hostname` shows the name, `ip -br addr` the address and `ip link show eth0` the MTU. `curl -I https://ubuntu.com` checks whether the VM reaches the internet through the gateway. Sunstone shows the screen of the VM in the browser of the client. Click the VM under "Instances › VMs", open the menu with the three dots at the top right and choose "Console", then "VNC".
+
+![The VM web-1 in Sunstone with the menu open. Under Console, VNC is available, while SSH and RDP are greyed out because the template enables them for no network card. Below, the Info tab shows the state, the node and the address of the VM.](../../../../assets/screenshots/sunstone-vm-menu.png)
+
+![The console of web-1 in the browser. Sunstone fetches the screen of the VM over VNC through guacd, and the VM waits for a login.](../../../../assets/screenshots/sunstone-vm-console.png)
 
 The check of this part covers the network, the template, a running VM, the SSH login, its host name and internet access.
 

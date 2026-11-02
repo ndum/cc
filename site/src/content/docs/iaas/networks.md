@@ -60,6 +60,10 @@ onevnet list
 
 `VN_MAD` wählt den Treiber, `PHYDEV` die Schnittstelle der Knoten, `VLAN_ID` die Kennung von VXLAN und `BRIDGE` den Namen der Bridge auf den Knoten. `AR` ist der Adressbereich, aus dem OpenNebula den VMs ihre Adressen gibt. `GATEWAY` und `DNS` erhalten die VMs über den Kontext, wie Kapitel 2.4 zeigt.
 
+In Sunstone findest du das Netz unter «Networks › Virtual networks». Sein Reiter «Info» zeigt dieselben Werte.
+
+![Das Netz cc-net in Sunstone. Der Treiber ist vxlan, die Schnittstelle der Knoten eth0 und die Bridge heisst ccbr mit deiner Kennung. Dieselbe Kennung steht als VLAN-ID, sie ist die Kennung des VXLAN. Unter Used leases zählt Sunstone die vergebenen Adressen.](../../../assets/screenshots/sunstone-vnet.png)
+
 ## Adressen und Leases
 
 OpenNebula verteilt die Adressen selbst, ohne DHCP. Startet eine VM, nimmt OpenNebula die nächste freie Adresse aus dem Adressbereich und vermerkt sie als Lease. Die VM bekommt Adresse, Gateway und DNS beim Start über den Kontext. Die belegten Adressen zeigt `onevnet show`.
@@ -67,6 +71,10 @@ OpenNebula verteilt die Adressen selbst, ohne DHCP. Startet eine VM, nimmt OpenN
 ```bash
 onevnet show cc-net
 ```
+
+In Sunstone listet der Reiter «Leases» des Netzes dieselben Adressen.
+
+![Der Reiter Leases des Netzes cc-net. Jede Zeile nennt die VM, ihre IP-Adresse und ihre MAC-Adresse. OpenNebula bildet die MAC-Adresse aus der IP-Adresse, hinter dem Präfix 02:00 stehen deren vier Byte in hexadezimaler Schreibweise. Aus 172.24.80.10 wird so 02:00:ac:18:50:0a.](../../../assets/screenshots/sunstone-vnet-leases.png)
 
 Weil OpenNebula die Adressen verwaltet, bleibt die Adresse einer VM gleich, solange es die VM gibt. Löschst du sie, wird die Lease wieder frei.
 

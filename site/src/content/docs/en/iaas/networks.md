@@ -60,6 +60,10 @@ onevnet list
 
 `VN_MAD` picks the driver, `PHYDEV` the interface on the nodes, `VLAN_ID` the VXLAN identifier and `BRIDGE` the name of the bridge on the nodes. `AR` is the address range from which OpenNebula hands out addresses to the VMs. The VMs receive `GATEWAY` and `DNS` through the context, as chapter 2.4 shows.
 
+In Sunstone the network is under "Networks › Virtual networks". Its "Info" tab shows the same values.
+
+![The network cc-net in Sunstone. The driver is vxlan, the interface on the nodes is eth0 and the bridge is called ccbr with your identifier. The same identifier appears as the VLAN ID, which is the identifier of the VXLAN. Used leases counts the addresses that are handed out.](../../../../assets/screenshots/sunstone-vnet.png)
+
 ## Addresses and leases
 
 OpenNebula hands out the addresses itself, without DHCP. When a VM starts, OpenNebula takes the next free address from the address range and records it as a lease. The VM receives address, gateway and DNS at boot through the context. `onevnet show` lists the addresses in use.
@@ -67,6 +71,10 @@ OpenNebula hands out the addresses itself, without DHCP. When a VM starts, OpenN
 ```bash
 onevnet show cc-net
 ```
+
+In Sunstone the "Leases" tab of the network lists the same addresses.
+
+![The Leases tab of the network cc-net. Each row names the VM, its IP address and its MAC address. OpenNebula derives the MAC address from the IP address, so the prefix 02:00 is followed by the four bytes of the IP address in hexadecimal. 172.24.80.10 thus becomes 02:00:ac:18:50:0a.](../../../../assets/screenshots/sunstone-vnet-leases.png)
 
 Since OpenNebula manages the addresses, a VM keeps its address for as long as it exists. When you delete it, the lease becomes free again.
 

@@ -58,6 +58,10 @@ onehost show <node>
 
 Sunstone is a React application served by FireEdge. FireEdge runs on Node.js as the service `opennebula-fireedge` on port 2616. For every action it calls the same XML-RPC API as the CLI, at `http://localhost:2633/RPC2`. A VM console in the browser goes through guacd on port 4822, the Apache Guacamole proxy, which connects to the VM over VNC. The views from [chapter 3.4](../../tenants/self-service/) live in `/etc/one/fireedge/sunstone/`, as the [FireEdge documentation](https://docs.opennebula.io/7.4/product/operation_references/opennebula_services_configuration/fireedge/) describes.
 
+The menu on the left divides Sunstone into sections such as "Instances", "Templates", "Storage", "Networks", "Infrastructure" and "System".
+
+![Sunstone with the menu expanded, logged in as oneadmin in the admin view. The Infrastructure section is open and lists Providers, Clusters, Hosts and Zones. The user and version 7.4.1 appear at the bottom left.](../../../../assets/screenshots/sunstone-menu.png)
+
 [OneFlow](https://docs.opennebula.io/7.4/product/operation_references/opennebula_services_configuration/oneflow/) runs as the service `opennebula-flow` on port 2474. It manages services made of several VMs, with roles and elasticity rules. In this course OneFlow belongs to the advanced tasks of milestone 1, which [chapter 3.5](../../tenants/advanced/#services-and-roles) describes. It stores service templates and services in `oned` as documents, which is why the member groups need the right to create documents. OneFlow starts its VMs through the API like any other client.
 
 [OneGate](https://docs.opennebula.io/7.4/product/operation_references/opennebula_services_configuration/onegate/) runs as the service `opennebula-gate` on port 5030 and accepts reports from VMs, such as custom metrics for a OneFlow rule. A VM identifies itself with a token from its context. By default OneGate only accepts requests from the front-end itself, as `ss` shows in [chapter 2.2](../../iaas/installation/). The VMs in cc-net cannot reach it, so OneGate stays theory in this course.

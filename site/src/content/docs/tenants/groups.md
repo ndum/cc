@@ -51,6 +51,10 @@ oneuser list
 
 Jede neue Gruppe landet zuerst im VDC `default`, das allen Gruppen alle Cluster gibt. Das Skript nimmt die Mitglieder dort heraus und fasst sie im VDC `wolkenwerk` zusammen. Diesem VDC teilt es den Cluster 0 zu, der beide Knoten, das Netz `cc-net` und die Datastores enthält. Zum Schluss gibt es die Vorlage `ubuntu` und ihr Image mit `chmod 604` für alle zur Nutzung frei. Die erste Ziffer 6 erlaubt dem Besitzer das Nutzen und Verwalten. Die 0 gibt der Gruppe `oneadmin` keine zusätzlichen Rechte, die 4 erlaubt allen anderen das Nutzen.
 
+In Sunstone steht das VDC unter «System › VDCs», sein Reiter «Groups» listet die vier Gruppen.
+
+![Das VDC wolkenwerk in Sunstone mit den Gruppen gemeinde, velo, treuhand und praxis. Die Balken zeigen schon die Quotas für VMs aus Kapitel 3.2. Die Praxis hat ihre zwei VMs ausgeschöpft.](../../../assets/screenshots/sunstone-vdc.png)
+
 ## Als Mitglied arbeiten
 
 Um zu sehen, was ein Mitglied sieht, meldest du dich als dessen Admin an. Die CLI liest Benutzer und Passwort aus der Datei, auf die `ONE_AUTH` zeigt. Die Schleife legt eine solche Datei für jeden der vier Admins an. Du brauchst die Dateien auch in den nächsten Kapiteln.
@@ -75,6 +79,10 @@ oneuser update praxis-admin --append /tmp/key.tpl
 ```
 
 Startet die Praxis nun eine VM, sieht das Veloatelier sie nicht. Im Lab zeigte `onevm list` als `velo-admin` keine einzige VM, während zwei VMs der Praxis liefen.
+
+Als `oneadmin` zeigt dir Sunstone dagegen die VMs aller Mitglieder.
+
+![Alle VMs des Labs in Sunstone, angemeldet als oneadmin. Die Spalte Owner nennt den Admin, dem eine VM gehört, etwa praxis-admin oder velo-admin. Die VMs web-1 bis web-3 aus Teil 2 gehören oneadmin. Das Bild stammt vom Ende von Teil 3.](../../../assets/screenshots/sunstone-vms-all.png)
 
 ## ACLs
 

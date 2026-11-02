@@ -42,6 +42,10 @@ FIREEDGE=[
   VIEWS="cloud" ]
 ```
 
+Sunstone shows these values under "System › Groups" in the "Info" tab of the group.
+
+![The group praxis in Sunstone. Among its attributes is the FIREEDGE section with the view cloud for the users of the group and groupadmin for its admins.](../../../../assets/screenshots/sunstone-group-views.png)
+
 | View | For | What it shows |
 |---|---|---|
 | `cloud` | users of a member | dashboard, VMs, templates, services, marketplace and their own account |
@@ -100,6 +104,10 @@ onetemplate update praxis-gross
 ```
 
 The copy takes over everything, including the prices from chapter 3.3, and belongs to the practice. Whatever the practice puts in it is still limited by its quota. The platform team only has to maintain a few shared templates, networks and images, and the members set up everything else themselves within their quota.
+
+Under "Templates › VM Templates", `oneadmin` sees the templates of the platform team and the copies of the members side by side.
+
+![The templates in Sunstone, logged in as oneadmin. The copy praxis-gross belongs to praxis-admin and the group praxis. The templates ubuntu and ubuntu-medium belong to oneadmin, and OpenNebula created ubuntu-26.04 when the image was exported from the marketplace.](../../../../assets/screenshots/sunstone-templates.png)
 
 ## The check of part 3
 
