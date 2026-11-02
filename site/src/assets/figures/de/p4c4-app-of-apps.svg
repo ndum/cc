@@ -1,38 +1,51 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 740 286" role="img" aria-labelledby="p4c4-app-of-apps-de-title p4c4-app-of-apps-de-desc">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 304" role="img" aria-labelledby="p4c4-app-of-apps-de-title p4c4-app-of-apps-de-desc">
 <title id="p4c4-app-of-apps-de-title">App of Apps im Plattform-Repo</title>
-<desc id="p4c4-app-of-apps-de-desc">Die Application root wird einmal beim Bootstrap angewendet und zeigt auf den Ordner apps. Darin liegen das ApplicationSet members und die Application webshop, die den Ordner webshop in den Namespace velo bringt. Das ApplicationSet erzeugt für jeden Ordner unter members eine Application, etwa member-velo und member-gemeinde.</desc>
+<desc id="p4c4-app-of-apps-de-desc">Die Application root wendet das Skript beim Bootstrap einmal an, sie zeigt auf den Ordner apps. Darin liegen das ApplicationSet members aus Kapitel 4.5 und die Application webshop, die den Ordner webshop in den Namespace velo bringt. Das ApplicationSet erzeugt für jeden Ordner unter members eine eigene Application, etwa member-velo und member-gemeinde. Achte darauf, dass nur root von Hand in den Cluster kommt, alles Weitere entsteht aus Dateien in Git.</desc>
 <defs><marker id="p4c4-app-of-apps-de-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"/></marker><marker id="p4c4-app-of-apps-de-head-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head d-head-accent" d="M 0 1 L 9 5 L 0 9 z"/></marker></defs>
-<rect class="d-ground" x="0" y="0" width="740" height="286" rx="14"/>
-<rect class="d-band d-band-1" x="16" y="16" width="196" height="254" rx="12"/>
+<rect class="d-ground" x="0" y="0" width="760" height="304" rx="14"/>
+<rect class="d-band d-band-1" x="16" y="16" width="172" height="272" rx="12"/>
 <text class="d-label" x="32" y="40" text-anchor="start">BOOTSTRAP</text>
-<text class="d-meta" x="196" y="40" text-anchor="end">einmal</text>
-<rect class="d-shadow" x="32" y="116.5" width="164" height="50" rx="10"/>
-<rect class="d-tile d-tile-accent" x="32" y="115" width="164" height="50" rx="10"/>
-<text class="d-title" x="114" y="137" text-anchor="middle">root</text>
-<text class="d-sub" x="114" y="153" text-anchor="middle">Application, Ordner apps</text>
-<rect class="d-band d-band-2" x="252" y="16" width="216" height="254" rx="12"/>
-<text class="d-label" x="268" y="40" text-anchor="start">ORDNER APPS</text>
-<rect class="d-shadow" x="268" y="61.5" width="184" height="50" rx="10"/>
-<rect class="d-tile" x="268" y="60" width="184" height="50" rx="10"/>
-<text class="d-title" x="360" y="82" text-anchor="middle">webshop</text>
-<text class="d-sub" x="360" y="98" text-anchor="middle">Application, Namespace velo</text>
-<rect class="d-shadow" x="268" y="171.5" width="184" height="50" rx="10"/>
-<rect class="d-tile" x="268" y="170" width="184" height="50" rx="10"/>
-<text class="d-title" x="360" y="192" text-anchor="middle">members</text>
-<text class="d-sub" x="360" y="208" text-anchor="middle">ApplicationSet, members/*</text>
-<rect class="d-band d-band-1" x="508" y="106" width="216" height="164" rx="12"/>
-<text class="d-label" x="524" y="130" text-anchor="start">ERZEUGT</text>
-<text class="d-meta" x="708" y="130" text-anchor="end">pro Ordner</text>
-<rect class="d-shadow" x="524" y="147.5" width="184" height="50" rx="10"/>
-<rect class="d-tile" x="524" y="146" width="184" height="50" rx="10"/>
-<text class="d-title" x="616" y="168" text-anchor="middle">member-velo</text>
-<text class="d-sub" x="616" y="184" text-anchor="middle">Ordner members/velo</text>
-<rect class="d-shadow" x="524" y="207.5" width="184" height="50" rx="10"/>
-<rect class="d-tile" x="524" y="206" width="184" height="50" rx="10"/>
-<text class="d-title" x="616" y="228" text-anchor="middle">member-gemeinde</text>
-<text class="d-sub" x="616" y="244" text-anchor="middle">Ordner members/gemeinde</text>
-<path class="d-arrow" d="M 196 132 L 232 132 L 232 85 L 266 85" marker-end="url(#p4c4-app-of-apps-de-head)"/>
-<path class="d-arrow" d="M 196 148 L 232 148 L 232 195 L 266 195" marker-end="url(#p4c4-app-of-apps-de-head)"/>
-<path class="d-arrow" d="M 452 187 L 488 187 L 488 171 L 522 171" marker-end="url(#p4c4-app-of-apps-de-head)"/>
-<path class="d-arrow" d="M 452 203 L 488 203 L 488 231 L 522 231" marker-end="url(#p4c4-app-of-apps-de-head)"/>
+<rect class="d-tag" x="121" y="27" width="51" height="18" rx="9"/>
+<text class="d-tag-text" x="146.5" y="39.5" text-anchor="middle">einmal</text>
+<rect class="d-band d-band-1" x="236" y="16" width="196" height="272" rx="12"/>
+<text class="d-label" x="252" y="40" text-anchor="start">ORDNER</text>
+<text class="d-code" x="312.8528" y="40" text-anchor="start">apps/</text>
+<rect class="d-band d-band-1" x="480" y="16" width="264" height="272" rx="12"/>
+<text class="d-label" x="496" y="40" text-anchor="start">ERZEUGT</text>
+<rect class="d-tag" x="660" y="27" width="68" height="18" rx="9"/>
+<text class="d-tag-text" x="694" y="39.5" text-anchor="middle">pro Ordner</text>
+<path class="d-arrow d-arrow-accent" d="M 172 132 L 212 132 L 212 88 L 250 88" marker-end="url(#p4c4-app-of-apps-de-head-accent)"/>
+<path class="d-arrow d-arrow-accent" d="M 172 148 L 212 148 L 212 200 L 250 200" marker-end="url(#p4c4-app-of-apps-de-head-accent)"/>
+<path class="d-arrow d-arrow-accent" d="M 416 192 L 456 192 L 456 144 L 494 144" marker-end="url(#p4c4-app-of-apps-de-head-accent)"/>
+<path class="d-arrow d-arrow-accent" d="M 416 208 L 456 208 L 456 240 L 494 240" marker-end="url(#p4c4-app-of-apps-de-head-accent)"/>
+<rect class="d-shadow" x="32" y="109.5" width="140" height="64" rx="10"/>
+<rect class="d-tile d-tile-accent" x="32" y="108" width="140" height="64" rx="10"/>
+<g class="d-icon d-icon-accent" transform="translate(44 131) scale(0.75)"><path d="M20 12a8 8 0 0 1-14.3 4.9M4 12A8 8 0 0 1 18.3 7.1"/><path d="M18.5 3v4.3h-4.3M5.5 21v-4.3h4.3"/></g>
+<text class="d-title" x="72" y="130" text-anchor="start">root</text>
+<text class="d-sub" x="72" y="145" text-anchor="start">Application</text>
+<text class="d-code" x="72" y="160" text-anchor="start">apps/</text>
+<rect class="d-shadow" x="252" y="57.5" width="164" height="64" rx="10"/>
+<rect class="d-tile" x="252" y="56" width="164" height="64" rx="10"/>
+<g class="d-icon" transform="translate(264 79) scale(0.75)"><path d="M12 3 20 7.5v9L12 21l-8-4.5v-9z"/><path d="M4 7.5 12 12l8-4.5M12 12v9"/></g>
+<text class="d-title" x="292" y="78" text-anchor="start">webshop</text>
+<text class="d-sub" x="292" y="93" text-anchor="start">Application</text>
+<text class="d-code" x="292" y="108" text-anchor="start">webshop/ → velo</text>
+<rect class="d-shadow" x="252" y="169.5" width="164" height="64" rx="10"/>
+<rect class="d-tile" x="252" y="168" width="164" height="64" rx="10"/>
+<g class="d-icon" transform="translate(264 191) scale(0.75)"><circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M4.2 6l2.3 1.8M17.5 16.2l2.3 1.8M4.2 18l2.3-1.8M17.5 7.8 19.8 6M2.5 12h3M18.5 12h3"/></g>
+<text class="d-title" x="292" y="190" text-anchor="start">members</text>
+<text class="d-sub" x="292" y="205" text-anchor="start">ApplicationSet</text>
+<text class="d-code" x="292" y="220" text-anchor="start">members/*</text>
+<rect class="d-shadow" x="496" y="113.5" width="232" height="64" rx="10"/>
+<rect class="d-tile" x="496" y="112" width="232" height="64" rx="10"/>
+<g class="d-icon" transform="translate(508 135) scale(0.75)"><path d="M20 12a8 8 0 0 1-14.3 4.9M4 12A8 8 0 0 1 18.3 7.1"/><path d="M18.5 3v4.3h-4.3M5.5 21v-4.3h4.3"/></g>
+<text class="d-title" x="536" y="134" text-anchor="start">member-velo</text>
+<text class="d-sub" x="536" y="149" text-anchor="start">Application</text>
+<text class="d-code" x="536" y="164" text-anchor="start">members/velo</text>
+<rect class="d-shadow" x="496" y="209.5" width="232" height="64" rx="10"/>
+<rect class="d-tile" x="496" y="208" width="232" height="64" rx="10"/>
+<g class="d-icon" transform="translate(508 231) scale(0.75)"><path d="M20 12a8 8 0 0 1-14.3 4.9M4 12A8 8 0 0 1 18.3 7.1"/><path d="M18.5 3v4.3h-4.3M5.5 21v-4.3h4.3"/></g>
+<text class="d-title" x="536" y="230" text-anchor="start">member-gemeinde</text>
+<text class="d-sub" x="536" y="245" text-anchor="start">Application</text>
+<text class="d-code" x="536" y="260" text-anchor="start">members/gemeinde</text>
 </svg>

@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 512" role="img" aria-labelledby="p2c5-states-de-title p2c5-states-de-desc">
+<title id="p2c5-states-de-title">Die Zustände einer VM</title>
+<desc id="p2c5-states-de-desc">Die Zustände einer VM mit der Kurzform, die onevm list in der Spalte STAT zeigt. onetemplate instantiate legt eine VM in pend an, wo sie auf den Scheduler wartet. Hat er einen Knoten gewählt, kopiert OpenNebula in prol die Disks dorthin. In boot legt der Hypervisor die VM an, danach läuft sie in runn. onevm migrate verschiebt eine laufende VM auf einen anderen Knoten. onevm poweroff schaltet sie nach poff aus, ihre Disks bleiben auf dem Knoten. onevm undeploy bringt sie nach unde, die Disks liegen dann wieder auf dem Front-end. onevm resume startet die VM aus beiden Zuständen wieder, aus poff direkt über boot, aus unde über pend. onevm terminate beendet sie mit done. Ein Fehler beim Kopieren, beim Start oder bei einer Migration führt nach fail. Nach einem Blick ins Log holt onevm recover die VM zurück. Fällt ihr Knoten aus, steht sie auf unkn. Achte auf den Unterschied zwischen poff und unde. Nur in unde gibt eine VM ihren Platz auf dem Knoten frei.</desc>
+<defs><marker id="p2c5-states-de-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"/></marker><marker id="p2c5-states-de-head-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head d-head-accent" d="M 0 1 L 9 5 L 0 9 z"/></marker></defs>
+<rect class="d-ground" x="0" y="0" width="760" height="512" rx="14"/>
+<text class="d-code" x="32" y="112" text-anchor="start">onetemplate instantiate</text>
+<path class="d-arrow d-arrow-accent" d="M 108 120 L 108 150" marker-end="url(#p2c5-states-de-head-accent)"/>
+<path class="d-arrow d-arrow-accent" d="M 184 188 L 211 188" marker-end="url(#p2c5-states-de-head-accent)"/>
+<path class="d-arrow d-arrow-accent" d="M 365 188 L 393 188" marker-end="url(#p2c5-states-de-head-accent)"/>
+<path class="d-arrow d-arrow-accent" d="M 547 188 L 574 188" marker-end="url(#p2c5-states-de-head-accent)"/>
+<path class="d-arrow" d="M 289 152 L 289 98" marker-end="url(#p2c5-states-de-head)"/>
+<path class="d-arrow" d="M 471 152 L 471 98" marker-end="url(#p2c5-states-de-head)"/>
+<text class="d-sub" x="297" y="130" text-anchor="start">Fehler</text>
+<text class="d-sub" x="479" y="130" text-anchor="start">Fehler</text>
+<path class="d-arrow" d="M 592 152 L 592 60 L 549 60" marker-end="url(#p2c5-states-de-head)"/>
+<text class="d-sub" x="600" y="84" text-anchor="start">Fehler bei Migration</text>
+<path class="d-arrow" d="M 640 152 L 640 132 L 704 132 L 704 150" marker-end="url(#p2c5-states-de-head)"/>
+<text class="d-code" x="672" y="124" text-anchor="middle">onevm migrate</text>
+<path class="d-arrow" d="M 592 224 L 592 308 L 549 308" marker-end="url(#p2c5-states-de-head)"/>
+<text class="d-code" x="600" y="252" text-anchor="start">onevm poweroff</text>
+<path class="d-arrow" d="M 471 272 L 471 226" marker-end="url(#p2c5-states-de-head)"/>
+<text class="d-code" x="479" y="252" text-anchor="start">onevm resume</text>
+<path class="d-arrow" d="M 72 272 L 72 226" marker-end="url(#p2c5-states-de-head)"/>
+<text class="d-code" x="80" y="252" text-anchor="start">onevm resume</text>
+<path class="d-line" d="M 716 224 L 716 380"/>
+<path class="d-line" d="M 142 380 L 716 380"/>
+<path class="d-arrow" d="M 142 380 L 142 346" marker-end="url(#p2c5-states-de-head)"/>
+<text class="d-code" x="150" y="368" text-anchor="start">onevm undeploy</text>
+<path class="d-arrow" d="M 237 380 L 237 414" marker-end="url(#p2c5-states-de-head)"/>
+<text class="d-code" x="245" y="402" text-anchor="start">onevm terminate</text>
+<path class="d-arrow" d="M 419 380 L 419 414" marker-end="url(#p2c5-states-de-head)"/>
+<text class="d-sub" x="427" y="402" text-anchor="start">Ausfall des Knotens</text>
+<rect class="d-shadow" x="213" y="25.5" width="334" height="72" rx="10"/>
+<rect class="d-tile" x="213" y="24" width="334" height="72" rx="10"/>
+<text class="d-title" x="380" y="50" text-anchor="middle">Fehlgeschlagen</text>
+<text class="d-sub" x="380" y="65" text-anchor="middle"></text>
+<text class="d-code" x="380" y="80" text-anchor="middle">fail</text>
+<text class="d-sub" x="380" y="65" text-anchor="middle">Ursache im Log, zurück mit <tspan class="d-code">onevm recover</tspan></text>
+<rect class="d-shadow" x="32" y="153.5" width="152" height="72" rx="10"/>
+<rect class="d-tile" x="32" y="152" width="152" height="72" rx="10"/>
+<text class="d-title" x="108" y="178" text-anchor="middle">Wartet</text>
+<text class="d-sub" x="108" y="193" text-anchor="middle">auf den Scheduler</text>
+<text class="d-code" x="108" y="208" text-anchor="middle">pend</text>
+<rect class="d-shadow" x="213" y="153.5" width="152" height="72" rx="10"/>
+<rect class="d-tile" x="213" y="152" width="152" height="72" rx="10"/>
+<text class="d-title" x="289" y="178" text-anchor="middle">Kopiert</text>
+<text class="d-sub" x="289" y="193" text-anchor="middle">Disks zum Knoten</text>
+<text class="d-code" x="289" y="208" text-anchor="middle">prol</text>
+<rect class="d-shadow" x="395" y="153.5" width="152" height="72" rx="10"/>
+<rect class="d-tile" x="395" y="152" width="152" height="72" rx="10"/>
+<text class="d-title" x="471" y="178" text-anchor="middle">Startet</text>
+<text class="d-sub" x="471" y="193" text-anchor="middle">Hypervisor legt VM an</text>
+<text class="d-code" x="471" y="208" text-anchor="middle">boot</text>
+<rect class="d-shadow" x="576" y="153.5" width="152" height="72" rx="10"/>
+<rect class="d-tile d-tile-accent" x="576" y="152" width="152" height="72" rx="10"/>
+<text class="d-title" x="652" y="178" text-anchor="middle">Läuft</text>
+<text class="d-sub" x="652" y="193" text-anchor="middle">auf einem Knoten</text>
+<text class="d-code" x="652" y="208" text-anchor="middle">runn</text>
+<rect class="d-shadow" x="32" y="273.5" width="152" height="72" rx="10"/>
+<rect class="d-tile" x="32" y="272" width="152" height="72" rx="10"/>
+<text class="d-title" x="108" y="298" text-anchor="middle">Ausgeschaltet</text>
+<text class="d-sub" x="108" y="313" text-anchor="middle">Disks auf dem Front-end</text>
+<text class="d-code" x="108" y="328" text-anchor="middle">unde</text>
+<rect class="d-shadow" x="395" y="273.5" width="152" height="72" rx="10"/>
+<rect class="d-tile" x="395" y="272" width="152" height="72" rx="10"/>
+<text class="d-title" x="471" y="298" text-anchor="middle">Ausgeschaltet</text>
+<text class="d-sub" x="471" y="313" text-anchor="middle">Disks auf dem Knoten</text>
+<text class="d-code" x="471" y="328" text-anchor="middle">poff</text>
+<rect class="d-shadow" x="213" y="417.5" width="152" height="72" rx="10"/>
+<rect class="d-tile" x="213" y="416" width="152" height="72" rx="10"/>
+<text class="d-title" x="289" y="442" text-anchor="middle">Beendet</text>
+<text class="d-sub" x="289" y="457" text-anchor="middle">nicht mehr aufgelistet</text>
+<text class="d-code" x="289" y="472" text-anchor="middle">done</text>
+<rect class="d-shadow" x="395" y="417.5" width="152" height="72" rx="10"/>
+<rect class="d-tile" x="395" y="416" width="152" height="72" rx="10"/>
+<text class="d-title" x="471" y="442" text-anchor="middle">Unbekannt</text>
+<text class="d-sub" x="471" y="457" text-anchor="middle">nicht mehr erreichbar</text>
+<text class="d-code" x="471" y="472" text-anchor="middle">unkn</text>
+</svg>

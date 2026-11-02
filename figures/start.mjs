@@ -16,11 +16,13 @@ const ARCH = {
     title: 'Die Zielarchitektur des Kurses',
     desc:
       'Vier Schichten übereinander. Die Infrastruktur besteht aus dem Front-end und zwei Knoten mit Ubuntu ' +
-      'auf smartlearn, eingerichtet mit prepare.sh. Darauf stellt OpenNebula die IaaS bereit, mit oned, ' +
-      'Sunstone, Mandanten und Netzen, installiert mit Ansible und OneDeploy, die VMs laufen mit KVM auf den ' +
-      'Knoten. Darüber läuft die Plattform k3s, von OpenTofu angelegt, mit Argo CD, dem Webshop, Ollama, der ' +
-      'KI-Triage, Prometheus, Grafana und Loki, die Apps holt Argo CD aus einem Git-Repo. Zuoberst nutzen die ' +
-      'Mitglieder von Wolkenwerk Bern die Cloud. Jede Schicht nennt die Teile des Kurses, die sie aufbauen.',
+      'auf smartlearn oder einem eigenen Hypervisor, eingerichtet mit prepare.sh. Darauf stellt OpenNebula die ' +
+      'IaaS bereit, mit oned, Sunstone, Mandanten und Netzen, installiert mit Ansible und OneDeploy, die VMs ' +
+      'laufen mit KVM auf den Knoten. Darüber läuft die Plattform k3s, von OpenTofu angelegt, mit Argo CD, ' +
+      'Prometheus, Grafana, Loki, dem Webshop, Ollama und der KI-Triage. Die Apps holt Argo CD aus einem ' +
+      'Git-Repo. Ollama und die KI-Triage sind mit «Zusatz» markiert, weil du sie in den Zusatzaufträgen von ' +
+      'Teil 5 baust. Zuoberst nutzen die Mitglieder von Wolkenwerk Bern die Cloud. Jede Schicht nennt die Teile ' +
+      'des Kurses, die sie aufbauen.',
     layers: [
       { name: 'Mitglieder', parts: 'Teile 3 und 6', tools: 'Self-Service über Sunstone und Git' },
       { name: 'Plattform', parts: 'Teile 4 und 5', tools: 'aufgebaut mit OpenTofu und Argo CD' },
@@ -34,17 +36,18 @@ const ARCH = {
       ['Gemeinde', 'Hinterbüel'],
       ['Mitglied 5', 'aus Meilenstein 4'],
     ],
-    apps: [
+    tools: [
       ['Argo CD', 'GitOps'],
-      ['Webshop', 'Apps der Mitglieder'],
-      ['Ollama', 'KI-Dienst'],
-      ['KI-Triage', 'mit Freigabe'],
-    ],
-    observe: [
       ['Prometheus', 'Metriken, Alerts'],
       ['Grafana', 'Dashboards'],
       ['Loki', 'Logs'],
     ],
+    services: [
+      ['Webshop', 'Apps der Mitglieder'],
+      ['Ollama', 'KI-Dienst'],
+      ['KI-Triage', 'mit Freigabe'],
+    ],
+    advanced: 'Zusatz',
     platformBase: 'Kubernetes k3s auf zwei VMs aus OpenNebula',
     iaas: [
       ['oned', 'API, Scheduler'],
@@ -64,11 +67,12 @@ const ARCH = {
     title: 'The target architecture of the course',
     desc:
       'Four layers on top of each other. The infrastructure is the front-end and two nodes with Ubuntu on ' +
-      'smartlearn, set up with prepare.sh. On it OpenNebula provides the IaaS with oned, Sunstone, tenants and ' +
-      'networks, installed with Ansible and OneDeploy, and the VMs run with KVM on the nodes. Above that runs the ' +
-      'platform k3s, created by OpenTofu, with Argo CD, the web shop, Ollama, the AI triage, Prometheus, Grafana ' +
-      'and Loki, and Argo CD pulls the apps from a Git repo. At the top the members of Wolkenwerk Bern use the ' +
-      'cloud. Every layer names the parts of the course that build it.',
+      'smartlearn or a hypervisor of your own, set up with prepare.sh. On it OpenNebula provides the IaaS with ' +
+      'oned, Sunstone, tenants and networks, installed with Ansible and OneDeploy, and the VMs run with KVM on the ' +
+      'nodes. Above that runs the platform k3s, created by OpenTofu, with Argo CD, Prometheus, Grafana, Loki, the ' +
+      'web shop, Ollama and the AI triage, and Argo CD pulls the apps from a Git repo. Ollama and the AI triage ' +
+      'are marked as advanced because you build them in the advanced tasks of part 5. At the top the members of ' +
+      'Wolkenwerk Bern use the cloud. Every layer names the parts of the course that build it.',
     layers: [
       { name: 'Members', parts: 'parts 3 and 6', tools: 'self-service through Sunstone and Git' },
       { name: 'Platform', parts: 'parts 4 and 5', tools: 'built with OpenTofu and Argo CD' },
@@ -82,17 +86,18 @@ const ARCH = {
       ['Municipality', 'Hinterbüel'],
       ['Member 5', 'from milestone 4'],
     ],
-    apps: [
+    tools: [
       ['Argo CD', 'GitOps'],
-      ['Web shop', 'apps of the members'],
-      ['Ollama', 'AI service'],
-      ['AI triage', 'with approval'],
-    ],
-    observe: [
       ['Prometheus', 'metrics, alerts'],
       ['Grafana', 'dashboards'],
       ['Loki', 'logs'],
     ],
+    services: [
+      ['Web shop', 'apps of the members'],
+      ['Ollama', 'AI service'],
+      ['AI triage', 'with approval'],
+    ],
+    advanced: 'Advanced',
     platformBase: 'Kubernetes k3s on two VMs from OpenNebula',
     iaas: [
       ['oned', 'API, scheduler'],
@@ -110,12 +115,29 @@ const ARCH = {
   },
 };
 
-// One column of bands, each with a header line and its tiles below
+// Icons of the tiles, the same in both languages. The members stay without an icon, five cards
+// with an icon would not leave room for their names between gaps of 24 px
+const ARCH_ICONS = {
+  tools: ['sync', 'chart', 'client', 'logs'],
+  services: ['container', 'model', 'bell'],
+  iaas: ['cog', 'globe', 'group', 'network'],
+  infra: ['server', 'server', 'server'],
+};
+// Ollama and the triage are built only in the advanced tasks of part 5
+const ADVANCED_SERVICES = [1, 2];
+
+// One column of bands, each with a header line, rows of tiles and the base it runs on
 const X = 16;
-const W = 688;
+const W = 748;
 const INNER = 20;
-const GAP = 10;
+const GAP = 24;
 const TILE_H = 46;
+const ROW_GAP = 24;
+const STRIP_GAP = 12;
+const BAND_GAP = 16;
+const HEADER = 38;
+const STRIP_H = 30;
+const TAG_H = 18;
 
 /** x positions and width of n tiles side by side inside a band */
 function columns(n) {
@@ -128,42 +150,53 @@ function architecture(lang) {
   const id = `p0c1-architecture-${lang}`;
   const body = [];
   let y = 16;
-  const header = (index, top, level, height) => {
-    const layer = t.layers[index];
-    body.push(band(X, top, W, height, level));
-    body.push(label(X + INNER, top + 24, layer.name));
-    body.push(meta(X + INNER + 10 + measure(layer.name.toUpperCase(), SIZE.label, { bold: true }) * 1.1, top + 24, layer.parts));
-    body.push(meta(X + W - INNER, top + 24, layer.tools, 'end'));
+  // A layer is a tinted band with its name and parts on the left, the tool that builds it on
+  // the right, its rows of tiles and, where it has one, the base it runs on
+  const layer = (index, level, rows, base = '') => {
+    const height = HEADER + rows.length * TILE_H + (rows.length - 1) * ROW_GAP + (base ? STRIP_GAP + STRIP_H : 0) + 18;
+    const head = t.layers[index];
+    body.push(band(X, y, W, height, level));
+    body.push(label(X + INNER, y + 24, head.name));
+    // The label is set with a letter spacing of 0.08 em, which measure() does not know
+    const labelWidth = measure(head.name.toUpperCase(), SIZE.label, { bold: true }) + head.name.length * 0.08 * SIZE.label;
+    body.push(meta(X + INNER + 14 + labelWidth, y + 24, head.parts));
+    body.push(meta(X + W - INNER, y + 24, head.tools, 'end'));
+    let top = y + HEADER;
+    for (const { tiles, icons = [], tagged = [] } of rows) {
+      columns(tiles.length).forEach((c, i) => {
+        body.push(tile(c.x, top, c.w, TILE_H, ...tiles[i], { icon: icons[i] ?? '' }));
+        if (tagged.includes(i)) body.push(cardTag(c, top, tiles[i]));
+      });
+      top += TILE_H + ROW_GAP;
+    }
+    if (base) body.push(strip(X + INNER, top - ROW_GAP + STRIP_GAP, W - 2 * INNER, STRIP_H, base));
+    y += height + BAND_GAP;
   };
-  const row = (tiles, top, accents = []) =>
-    columns(tiles.length).forEach((c, i) => body.push(tile(c.x, top, c.w, TILE_H, ...tiles[i], { accent: accents.includes(i) })));
-  const base = (top, text) => body.push(strip(X + INNER, top, W - 2 * INNER, 30, text));
+  // A tag at the right end of a card for what the advanced tasks add, it must not touch the text
+  const cardTag = (c, top, [title, sub]) => {
+    const width = Math.ceil(measure(t.advanced, SIZE.sub, { bold: true })) + 14;
+    const x = c.x + c.w - 12 - width;
+    const textEnd = c.x + 40 + Math.max(measure(title, SIZE.title, { bold: true }), measure(sub, SIZE.sub));
+    if (textEnd + 8 > x) throw new Error(`The tag "${t.advanced}" does not fit beside "${title}". Widen the tile.`);
+    return tag(x, top + (TILE_H - TAG_H) / 2, t.advanced);
+  };
 
-  // Members
-  header(0, y, 1, 96);
-  row(t.members, y + 36);
-  y += 96 + 12;
+  // The bands follow the colours of the lab figure, the servers on the lab network in blue and
+  // the VMs that OpenNebula provides in violet
+  layer(0, 1, [{ tiles: t.members }]);
+  layer(
+    1,
+    4,
+    [
+      { tiles: t.tools, icons: ARCH_ICONS.tools },
+      { tiles: t.services, icons: ARCH_ICONS.services, tagged: ADVANCED_SERVICES },
+    ],
+    t.platformBase,
+  );
+  layer(2, 3, [{ tiles: t.iaas, icons: ARCH_ICONS.iaas }], t.iaasBase);
+  layer(3, 2, [{ tiles: t.infra, icons: ARCH_ICONS.infra }], t.infraBase);
 
-  // Platform
-  header(1, y, 2, 184);
-  row(t.apps, y + 36, [0, 2]);
-  row(t.observe, y + 36 + TILE_H + 8);
-  base(y + 36 + 2 * TILE_H + 16, t.platformBase);
-  y += 184 + 12;
-
-  // IaaS
-  header(2, y, 3, 136);
-  row(t.iaas, y + 36, [0]);
-  base(y + 36 + TILE_H + 8, t.iaasBase);
-  y += 136 + 12;
-
-  // Infrastructure
-  header(3, y, 4, 136);
-  row(t.infra, y + 36);
-  base(y + 36 + TILE_H + 8, t.infraBase);
-  y += 136;
-
-  return figure({ id, width: X * 2 + W, height: y + 16, title: t.title, desc: t.desc, body });
+  return figure({ id, width: X * 2 + W, height: y - BAND_GAP + 16, title: t.title, desc: t.desc, body });
 }
 
 const LAB = {

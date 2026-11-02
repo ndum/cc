@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 272" role="img" aria-labelledby="p6c3-incident-de-title p6c3-incident-de-desc">
+<title id="p6c3-incident-de-title">Die Zeitlinie einer Störung</title>
+<desc id="p6c3-incident-de-desc">Eine Störung auf einer Zeitachse in fünf Phasen. Nach ihrem Beginn erkennt Prometheus die Störung und schickt einen Alert. Danach ordnet das Team die Störung mit den Logs in Loki und den letzten Commits in Git ein. Es behebt sie mit git revert, das Argo CD ausrollt, bis der Dienst wieder läuft. Dann informiert es die betroffenen Mitglieder und schreibt später ein Postmortem ohne Schuldzuweisung mit Zeitlinie und Massnahmen. Unter der Achse stehen die Zeit bis zum Alert und die Zeit bis zur Wiederherstellung. Der Mittelwert der Zeit bis zur Wiederherstellung über viele Störungen ist die MTTR.</desc>
+<defs><marker id="p6c3-incident-de-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"/></marker><marker id="p6c3-incident-de-head-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head d-head-accent" d="M 0 1 L 9 5 L 0 9 z"/></marker></defs>
+<rect class="d-ground" x="0" y="0" width="780" height="272" rx="14"/>
+<path class="d-grid" d="M 24 16 V 132"/>
+<path class="d-grid" d="M 168 16 V 132"/>
+<path class="d-grid" d="M 312 16 V 132"/>
+<path class="d-grid" d="M 456 16 V 132"/>
+<path class="d-grid" d="M 590 16 V 132"/>
+<rect class="d-shadow" x="36" y="25.5" width="120" height="72" rx="10"/>
+<rect class="d-tile" x="36" y="24" width="120" height="72" rx="10"/>
+<text class="d-title" x="96" y="50" text-anchor="middle">Erkennen</text>
+<text class="d-sub" x="96" y="65" text-anchor="middle">Alert aus</text>
+<text class="d-sub" x="96" y="80" text-anchor="middle">Prometheus</text>
+<rect class="d-shadow" x="180" y="25.5" width="120" height="72" rx="10"/>
+<rect class="d-tile" x="180" y="24" width="120" height="72" rx="10"/>
+<text class="d-title" x="240" y="50" text-anchor="middle">Einordnen</text>
+<text class="d-sub" x="240" y="65" text-anchor="middle">Logs in Loki,</text>
+<text class="d-sub" x="240" y="80" text-anchor="middle">Commits in Git</text>
+<rect class="d-shadow" x="324" y="25.5" width="120" height="72" rx="10"/>
+<rect class="d-tile" x="324" y="24" width="120" height="72" rx="10"/>
+<text class="d-title" x="384" y="50" text-anchor="middle">Beheben</text>
+<text class="d-code" x="384" y="65" text-anchor="middle">git revert,</text>
+<text class="d-sub" x="384" y="80" text-anchor="middle">Argo CD rollt aus</text>
+<rect class="d-shadow" x="468" y="25.5" width="110" height="72" rx="10"/>
+<rect class="d-tile" x="468" y="24" width="110" height="72" rx="10"/>
+<text class="d-title" x="523" y="50" text-anchor="middle">Informieren</text>
+<text class="d-sub" x="523" y="65" text-anchor="middle">betroffene</text>
+<text class="d-sub" x="523" y="80" text-anchor="middle">Mitglieder</text>
+<rect class="d-shadow" x="620" y="25.5" width="144" height="72" rx="10"/>
+<rect class="d-tile" x="620" y="24" width="144" height="72" rx="10"/>
+<text class="d-title" x="692" y="50" text-anchor="middle">Postmortem</text>
+<text class="d-sub" x="692" y="65" text-anchor="middle">ohne Schuldzuweisung</text>
+<text class="d-sub" x="692" y="80" text-anchor="middle">Zeitlinie, Massnahmen</text>
+<path class="d-line d-line-accent" d="M 24 132 L 456 132"/>
+<path class="d-line" d="M 456 132 L 590 132"/>
+<path class="d-line d-dashed" d="M 590 132 L 620 132"/>
+<path class="d-arrow" d="M 620 132 L 762 132" marker-end="url(#p6c3-incident-de-head)"/>
+<text class="d-sub" x="605" y="152" text-anchor="middle">später</text>
+<circle class="d-ground" cx="24" cy="132" r="7"/>
+<circle class="d-fill-blue" cx="24" cy="132" r="4.5"/>
+<text class="d-sub" x="20" y="152" text-anchor="start">Störung beginnt</text>
+<circle class="d-ground" cx="168" cy="132" r="7"/>
+<circle class="d-fill-blue" cx="168" cy="132" r="4.5"/>
+<text class="d-sub" x="168" y="152" text-anchor="middle">Alert</text>
+<circle class="d-ground" cx="312" cy="132" r="7"/>
+<circle class="d-fill-blue" cx="312" cy="132" r="4.5"/>
+<text class="d-sub" x="312" y="152" text-anchor="middle">Ursache gefunden</text>
+<circle class="d-ground" cx="456" cy="132" r="7"/>
+<circle class="d-fill-blue" cx="456" cy="132" r="4.5"/>
+<text class="d-sub" x="456" y="152" text-anchor="middle">Dienst läuft wieder</text>
+<path class="d-line" d="M 24 172 L 24 178 L 168 178 L 168 172"/>
+<text class="d-sub" x="96" y="194" text-anchor="middle">Zeit bis zum Alert</text>
+<path class="d-line" d="M 24 216 L 24 222 L 456 222 L 456 216"/>
+<text class="d-sub" x="240" y="238" text-anchor="middle">Zeit bis zur Wiederherstellung</text>
+<text class="d-sub" x="240" y="255" text-anchor="middle"><tspan class="d-title-small">MTTR</tspan><tspan class="d-sub">, ihr Mittelwert über viele Störungen</tspan></text>
+</svg>

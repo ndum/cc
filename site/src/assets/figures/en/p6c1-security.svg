@@ -1,60 +1,69 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 896 332" role="img" aria-labelledby="p6c1-security-en-title p6c1-security-en-desc">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 388" role="img" aria-labelledby="p6c1-security-en-title p6c1-security-en-desc">
 <title id="p6c1-security-en-title">The protection layers of front-end and cluster</title>
-<desc id="p6c1-security-en-desc">In the middle the front-end. Its firewall, the nftables table cc_firewall, drops everything it does not explicitly allow. The client and other hosts reach only SSH on port 22 and the web interface on port 2616, and SSH accepts only keys and does not let root log in directly. The nodes and cc-net reach everything, including Gitea on port 3000, the API on port 2633 and the exporters on ports 9100 and 9925. unattended-upgrades installs security updates every day. On the right the cluster. Pod Security Admission enforces the profile restricted in the member namespaces, NetworkPolicies separate the members, and the triage service may only get and patch deployments in velo. A SealedSecret comes encrypted from Gitea, and only the Sealed Secrets controller in kube-system can decrypt it.</desc>
+<desc id="p6c1-security-en-desc">In the middle the front-end. Its firewall, the nftables table cc_firewall, drops everything it does not explicitly allow. The client and other hosts reach only SSH on port 22 and the web interface on port 2616, and SSH accepts only keys and does not let root log in directly. The nodes and cc-net reach everything, including Gitea on port 3000, the API on port 2633 and the exporters on ports 9100 and 9925. Every day, unattended-upgrades installs security updates. On the right the cluster. Pod Security Admission enforces the profile restricted in the member namespaces, NetworkPolicies separate the members, and Prometheus may only read, in all namespaces. A SealedSecret comes encrypted from Gitea, and only the Sealed Secrets controller in kube-system can decrypt it with its key.</desc>
 <defs><marker id="p6c1-security-en-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"/></marker><marker id="p6c1-security-en-head-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head d-head-accent" d="M 0 1 L 9 5 L 0 9 z"/></marker></defs>
-<rect class="d-ground" x="0" y="0" width="896" height="332" rx="14"/>
-<rect class="d-shadow" x="16" y="91.5" width="176" height="50" rx="10"/>
-<rect class="d-tile" x="16" y="90" width="176" height="50" rx="10"/>
-<text class="d-title" x="104" y="112" text-anchor="middle">Client, other hosts</text>
-<text class="d-sub" x="104" y="128" text-anchor="middle">outside the cloud</text>
-<rect class="d-shadow" x="16" y="181.5" width="176" height="50" rx="10"/>
-<rect class="d-tile" x="16" y="180" width="176" height="50" rx="10"/>
-<text class="d-title" x="104" y="202" text-anchor="middle">Nodes, cc-net</text>
-<text class="d-sub" x="104" y="218" text-anchor="middle">nodes 1, 2 and VMs</text>
-<rect class="d-band d-band-2" x="240" y="16" width="300" height="300" rx="12"/>
-<text class="d-label" x="256" y="40" text-anchor="start">FRONT-END</text>
-<text class="d-meta" x="524" y="40" text-anchor="end">firewall cc_firewall, rest dropped</text>
-<path class="d-line d-line-accent" d="M 262 52 L 262 300"/>
-<rect class="d-shadow" x="280" y="61.5" width="244" height="50" rx="10"/>
-<rect class="d-tile d-tile-accent" x="280" y="60" width="244" height="50" rx="10"/>
-<text class="d-title" x="402" y="82" text-anchor="middle">SSH</text>
-<text class="d-sub" x="402" y="98" text-anchor="middle">port 22, keys only, no root</text>
-<rect class="d-shadow" x="280" y="121.5" width="244" height="50" rx="10"/>
-<rect class="d-tile" x="280" y="120" width="244" height="50" rx="10"/>
-<text class="d-title" x="402" y="142" text-anchor="middle">Web interface</text>
-<text class="d-sub" x="402" y="158" text-anchor="middle">port 2616</text>
-<rect class="d-shadow" x="280" y="181.5" width="244" height="50" rx="10"/>
-<rect class="d-tile" x="280" y="180" width="244" height="50" rx="10"/>
-<text class="d-title" x="402" y="202" text-anchor="middle">Gitea, API, exporters</text>
-<text class="d-sub" x="402" y="218" text-anchor="middle">ports 3000, 2633, 9100, 9925</text>
-<rect class="d-shadow" x="280" y="241.5" width="244" height="50" rx="10"/>
-<rect class="d-tile" x="280" y="240" width="244" height="50" rx="10"/>
-<text class="d-title" x="402" y="262" text-anchor="middle">unattended-upgrades</text>
-<text class="d-sub" x="402" y="278" text-anchor="middle">security updates every day</text>
-<rect class="d-band d-band-2" x="620" y="16" width="260" height="300" rx="12"/>
-<text class="d-label" x="636" y="40" text-anchor="start">K3S CLUSTER</text>
-<rect class="d-shadow" x="636" y="61.5" width="228" height="50" rx="10"/>
-<rect class="d-tile d-tile-accent" x="636" y="60" width="228" height="50" rx="10"/>
-<text class="d-title" x="750" y="82" text-anchor="middle">Pod Security</text>
-<text class="d-sub" x="750" y="98" text-anchor="middle">profile restricted per member</text>
-<rect class="d-shadow" x="636" y="121.5" width="228" height="50" rx="10"/>
-<rect class="d-tile" x="636" y="120" width="228" height="50" rx="10"/>
-<text class="d-title" x="750" y="142" text-anchor="middle">NetworkPolicy</text>
-<text class="d-sub" x="750" y="158" text-anchor="middle">separates the members</text>
-<rect class="d-shadow" x="636" y="181.5" width="228" height="50" rx="10"/>
-<rect class="d-tile" x="636" y="180" width="228" height="50" rx="10"/>
-<text class="d-title" x="750" y="202" text-anchor="middle">Sealed Secrets</text>
-<text class="d-sub" x="750" y="218" text-anchor="middle">controller in kube-system</text>
-<rect class="d-shadow" x="636" y="241.5" width="228" height="50" rx="10"/>
-<rect class="d-tile" x="636" y="240" width="228" height="50" rx="10"/>
-<text class="d-title" x="750" y="262" text-anchor="middle">Triage service</text>
-<text class="d-sub" x="750" y="278" text-anchor="middle">only get, patch in velo</text>
-<path class="d-line" d="M 192 115 L 222 115"/>
-<path class="d-line" d="M 222 85 L 222 145"/>
-<path class="d-arrow" d="M 222 85 L 278 85" marker-end="url(#p6c1-security-en-head)"/>
-<path class="d-arrow" d="M 222 145 L 278 145" marker-end="url(#p6c1-security-en-head)"/>
-<path class="d-arrow" d="M 192 205 L 278 205" marker-end="url(#p6c1-security-en-head)"/>
-<text class="d-sub" x="208" y="197" text-anchor="middle">all</text>
-<path class="d-arrow" d="M 524 205 L 634 205" marker-end="url(#p6c1-security-en-head)"/>
-<text class="d-sub" x="579" y="197" text-anchor="middle">SealedSecret</text>
+<rect class="d-ground" x="0" y="0" width="780" height="388" rx="14"/>
+<rect class="d-band d-band-2" x="228" y="16" width="244" height="356" rx="12"/>
+<text class="d-label d-label-blue" x="244" y="40" text-anchor="start">FRONT-END</text>
+<rect class="d-tag" x="338" y="26" width="118" height="18" rx="9"/>
+<text class="d-tag-text" x="397" y="38.5" text-anchor="middle">firewall cc_firewall</text>
+<rect class="d-band d-band-3" x="540" y="16" width="224" height="356" rx="12"/>
+<text class="d-label d-label-violet" x="556" y="40" text-anchor="start">K3S CLUSTER</text>
+<path class="d-line d-line-accent" d="M 242 56 L 242 360"/>
+<path class="d-line d-line-accent" d="M 188 128 L 208 128"/>
+<path class="d-line d-line-accent" d="M 208 88 L 208 168"/>
+<path class="d-arrow d-arrow-accent" d="M 208 88 L 254 88" marker-end="url(#p6c1-security-en-head-accent)"/>
+<path class="d-arrow d-arrow-accent" d="M 208 168 L 254 168" marker-end="url(#p6c1-security-en-head-accent)"/>
+<path class="d-arrow d-arrow-accent" d="M 188 248 L 254 248" marker-end="url(#p6c1-security-en-head-accent)"/>
+<text class="d-sub" x="215" y="240" text-anchor="middle">all</text>
+<path class="d-arrow" d="M 456 248 L 554 248" marker-end="url(#p6c1-security-en-head)"/>
+<text class="d-sub" x="506" y="240" text-anchor="middle">sealed</text>
+<rect class="d-shadow" x="16" y="101.5" width="172" height="56" rx="10"/>
+<rect class="d-tile" x="16" y="100" width="172" height="56" rx="10"/>
+<text class="d-title" x="102" y="125" text-anchor="middle">Client, other hosts</text>
+<text class="d-sub" x="102" y="141" text-anchor="middle">outside the cloud</text>
+<rect class="d-shadow" x="16" y="221.5" width="172" height="56" rx="10"/>
+<rect class="d-tile" x="16" y="220" width="172" height="56" rx="10"/>
+<text class="d-title" x="102" y="245" text-anchor="middle">Nodes, cc-net</text>
+<text class="d-sub" x="102" y="261" text-anchor="middle">nodes 1, 2 and VMs</text>
+<rect class="d-shadow" x="256" y="61.5" width="200" height="56" rx="10"/>
+<rect class="d-tile d-tile-accent" x="256" y="60" width="200" height="56" rx="10"/>
+<g class="d-icon d-icon-accent" transform="translate(268 79) scale(0.75)"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></g>
+<text class="d-title" x="296" y="85" text-anchor="start">SSH, port 22</text>
+<text class="d-sub" x="296" y="101" text-anchor="start">keys only, no root</text>
+<rect class="d-shadow" x="256" y="141.5" width="200" height="56" rx="10"/>
+<rect class="d-tile" x="256" y="140" width="200" height="56" rx="10"/>
+<g class="d-icon" transform="translate(268 159) scale(0.75)"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></g>
+<text class="d-title" x="296" y="165" text-anchor="start">Web interface</text>
+<text class="d-sub" x="296" y="181" text-anchor="start">port 2616</text>
+<rect class="d-shadow" x="256" y="221.5" width="200" height="56" rx="10"/>
+<rect class="d-tile" x="256" y="220" width="200" height="56" rx="10"/>
+<g class="d-icon" transform="translate(268 239) scale(0.75)"><circle cx="6" cy="6" r="2.5"/><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="9" r="2.5"/><path d="M6 8.5v7M18 11.5c0 3-6 2-10.5 5"/></g>
+<text class="d-title" x="296" y="245" text-anchor="start">Gitea, API, exporters</text>
+<text class="d-code" x="296" y="261" text-anchor="start">3000, 2633, 9100, 9925</text>
+<rect class="d-shadow" x="256" y="301.5" width="200" height="56" rx="10"/>
+<rect class="d-tile" x="256" y="300" width="200" height="56" rx="10"/>
+<g class="d-icon" transform="translate(268 319) scale(0.75)"><path d="M20 12a8 8 0 0 1-14.3 4.9M4 12A8 8 0 0 1 18.3 7.1"/><path d="M18.5 3v4.3h-4.3M5.5 21v-4.3h4.3"/></g>
+<text class="d-title" x="296" y="325" text-anchor="start">unattended-upgrades</text>
+<text class="d-sub" x="296" y="341" text-anchor="start">security updates every day</text>
+<rect class="d-shadow" x="556" y="61.5" width="192" height="56" rx="10"/>
+<rect class="d-tile d-tile-violet" x="556" y="60" width="192" height="56" rx="10"/>
+<g class="d-icon d-icon-violet" transform="translate(568 79) scale(0.75)"><path d="M12 3 19 6v5.5c0 4.4-3 8-7 9.5-4-1.5-7-5.1-7-9.5V6z"/></g>
+<text class="d-title d-title-violet" x="596" y="85" text-anchor="start">Pod Security</text>
+<text class="d-sub" x="596" y="101" text-anchor="start">profile restricted</text>
+<rect class="d-shadow" x="556" y="141.5" width="192" height="56" rx="10"/>
+<rect class="d-tile d-tile-violet" x="556" y="140" width="192" height="56" rx="10"/>
+<g class="d-icon d-icon-violet" transform="translate(568 159) scale(0.75)"><rect x="9" y="3" width="6" height="5" rx="1"/><rect x="3" y="16" width="6" height="5" rx="1"/><rect x="15" y="16" width="6" height="5" rx="1"/><path d="M12 8v4M6 16v-4h12v4"/></g>
+<text class="d-title d-title-violet" x="596" y="165" text-anchor="start">NetworkPolicy</text>
+<text class="d-sub" x="596" y="181" text-anchor="start">separates members</text>
+<rect class="d-shadow" x="556" y="221.5" width="192" height="56" rx="10"/>
+<rect class="d-tile d-tile-violet" x="556" y="220" width="192" height="56" rx="10"/>
+<g class="d-icon d-icon-violet" transform="translate(568 239) scale(0.75)"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></g>
+<text class="d-title d-title-violet" x="596" y="245" text-anchor="start">Sealed Secrets</text>
+<text class="d-sub" x="596" y="261" text-anchor="start">key in the controller</text>
+<rect class="d-shadow" x="556" y="301.5" width="192" height="56" rx="10"/>
+<rect class="d-tile d-tile-violet" x="556" y="300" width="192" height="56" rx="10"/>
+<g class="d-icon d-icon-violet" transform="translate(568 319) scale(0.75)"><ellipse cx="12" cy="5.5" rx="7.5" ry="2.5"/><path d="M4.5 5.5v13c0 1.4 3.4 2.5 7.5 2.5s7.5-1.1 7.5-2.5v-13"/><path d="M4.5 12c0 1.4 3.4 2.5 7.5 2.5s7.5-1.1 7.5-2.5"/></g>
+<text class="d-title d-title-violet" x="596" y="325" text-anchor="start">Prometheus</text>
+<text class="d-sub" x="596" y="341" text-anchor="start">read only, all namespaces</text>
 </svg>

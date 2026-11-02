@@ -1,104 +1,88 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 670 402" role="img" aria-labelledby="p1c2-responsibility-de-title p1c2-responsibility-de-desc">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 424" role="img" aria-labelledby="p1c2-responsibility-de-title p1c2-responsibility-de-desc">
 <title id="p1c2-responsibility-de-title">Geteilte Verantwortung in den Servicemodellen</title>
 <desc id="p1c2-responsibility-de-desc">Vier Spalten für den eigenen Betrieb, IaaS, PaaS und SaaS zeigen neun Schichten von Netz und Hardware bis zu Daten und Zugriffen. Im eigenen Betrieb betreiben die Nutzenden alle Schichten. Bei IaaS übernimmt der Anbieter Netz, Speicher, Server und Virtualisierung, bei PaaS zusätzlich Betriebssystem, Middleware und Laufzeit, bei SaaS auch die Anwendung. Daten und Zugriffe bleiben immer bei den Nutzenden.</desc>
 <defs><marker id="p1c2-responsibility-de-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"/></marker><marker id="p1c2-responsibility-de-head-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head d-head-accent" d="M 0 1 L 9 5 L 0 9 z"/></marker></defs>
-<rect class="d-ground" x="0" y="0" width="670" height="402" rx="14"/>
-<text class="d-label" x="95" y="34" text-anchor="middle">EIGENER BETRIEB</text>
-<rect class="d-tile" x="20" y="50" width="150" height="30" rx="3"/>
-<rect class="d-bar" x="20" y="50" width="4" height="30" rx="2"/>
-<text class="d-title-small" x="95" y="69" text-anchor="middle">Daten und Zugriffe</text>
-<rect class="d-tile" x="20" y="84" width="150" height="30" rx="3"/>
-<rect class="d-bar" x="20" y="84" width="4" height="30" rx="2"/>
-<text class="d-title-small" x="95" y="103" text-anchor="middle">Anwendung</text>
-<rect class="d-tile" x="20" y="118" width="150" height="30" rx="3"/>
-<rect class="d-bar" x="20" y="118" width="4" height="30" rx="2"/>
-<text class="d-title-small" x="95" y="137" text-anchor="middle">Laufzeit</text>
-<rect class="d-tile" x="20" y="152" width="150" height="30" rx="3"/>
-<rect class="d-bar" x="20" y="152" width="4" height="30" rx="2"/>
-<text class="d-title-small" x="95" y="171" text-anchor="middle">Middleware</text>
-<rect class="d-tile" x="20" y="186" width="150" height="30" rx="3"/>
-<rect class="d-bar" x="20" y="186" width="4" height="30" rx="2"/>
-<text class="d-title-small" x="95" y="205" text-anchor="middle">Betriebssystem</text>
-<rect class="d-tile" x="20" y="220" width="150" height="30" rx="3"/>
-<rect class="d-bar" x="20" y="220" width="4" height="30" rx="2"/>
-<text class="d-title-small" x="95" y="239" text-anchor="middle">Virtualisierung</text>
-<rect class="d-tile" x="20" y="254" width="150" height="30" rx="3"/>
-<rect class="d-bar" x="20" y="254" width="4" height="30" rx="2"/>
-<text class="d-title-small" x="95" y="273" text-anchor="middle">Server</text>
-<rect class="d-tile" x="20" y="288" width="150" height="30" rx="3"/>
-<rect class="d-bar" x="20" y="288" width="4" height="30" rx="2"/>
-<text class="d-title-small" x="95" y="307" text-anchor="middle">Speicher</text>
-<rect class="d-tile" x="20" y="322" width="150" height="30" rx="3"/>
-<rect class="d-bar" x="20" y="322" width="4" height="30" rx="2"/>
-<text class="d-title-small" x="95" y="341" text-anchor="middle">Netz</text>
-<text class="d-label" x="255" y="34" text-anchor="middle">IAAS</text>
-<rect class="d-tile" x="180" y="50" width="150" height="30" rx="3"/>
-<rect class="d-bar" x="180" y="50" width="4" height="30" rx="2"/>
-<text class="d-title-small" x="255" y="69" text-anchor="middle">Daten und Zugriffe</text>
-<rect class="d-tile" x="180" y="84" width="150" height="30" rx="3"/>
-<rect class="d-bar" x="180" y="84" width="4" height="30" rx="2"/>
-<text class="d-title-small" x="255" y="103" text-anchor="middle">Anwendung</text>
-<rect class="d-tile" x="180" y="118" width="150" height="30" rx="3"/>
-<rect class="d-bar" x="180" y="118" width="4" height="30" rx="2"/>
-<text class="d-title-small" x="255" y="137" text-anchor="middle">Laufzeit</text>
-<rect class="d-tile" x="180" y="152" width="150" height="30" rx="3"/>
-<rect class="d-bar" x="180" y="152" width="4" height="30" rx="2"/>
-<text class="d-title-small" x="255" y="171" text-anchor="middle">Middleware</text>
-<rect class="d-tile" x="180" y="186" width="150" height="30" rx="3"/>
-<rect class="d-bar" x="180" y="186" width="4" height="30" rx="2"/>
-<text class="d-title-small" x="255" y="205" text-anchor="middle">Betriebssystem</text>
-<rect class="d-cell-provider" x="180" y="220" width="150" height="30" rx="3"/>
-<text class="d-sub" x="255" y="239" text-anchor="middle">Virtualisierung</text>
-<rect class="d-cell-provider" x="180" y="254" width="150" height="30" rx="3"/>
-<text class="d-sub" x="255" y="273" text-anchor="middle">Server</text>
-<rect class="d-cell-provider" x="180" y="288" width="150" height="30" rx="3"/>
-<text class="d-sub" x="255" y="307" text-anchor="middle">Speicher</text>
-<rect class="d-cell-provider" x="180" y="322" width="150" height="30" rx="3"/>
-<text class="d-sub" x="255" y="341" text-anchor="middle">Netz</text>
-<text class="d-label" x="415" y="34" text-anchor="middle">PAAS</text>
-<rect class="d-tile" x="340" y="50" width="150" height="30" rx="3"/>
-<rect class="d-bar" x="340" y="50" width="4" height="30" rx="2"/>
-<text class="d-title-small" x="415" y="69" text-anchor="middle">Daten und Zugriffe</text>
-<rect class="d-tile" x="340" y="84" width="150" height="30" rx="3"/>
-<rect class="d-bar" x="340" y="84" width="4" height="30" rx="2"/>
-<text class="d-title-small" x="415" y="103" text-anchor="middle">Anwendung</text>
-<rect class="d-cell-provider" x="340" y="118" width="150" height="30" rx="3"/>
-<text class="d-sub" x="415" y="137" text-anchor="middle">Laufzeit</text>
-<rect class="d-cell-provider" x="340" y="152" width="150" height="30" rx="3"/>
-<text class="d-sub" x="415" y="171" text-anchor="middle">Middleware</text>
-<rect class="d-cell-provider" x="340" y="186" width="150" height="30" rx="3"/>
-<text class="d-sub" x="415" y="205" text-anchor="middle">Betriebssystem</text>
-<rect class="d-cell-provider" x="340" y="220" width="150" height="30" rx="3"/>
-<text class="d-sub" x="415" y="239" text-anchor="middle">Virtualisierung</text>
-<rect class="d-cell-provider" x="340" y="254" width="150" height="30" rx="3"/>
-<text class="d-sub" x="415" y="273" text-anchor="middle">Server</text>
-<rect class="d-cell-provider" x="340" y="288" width="150" height="30" rx="3"/>
-<text class="d-sub" x="415" y="307" text-anchor="middle">Speicher</text>
-<rect class="d-cell-provider" x="340" y="322" width="150" height="30" rx="3"/>
-<text class="d-sub" x="415" y="341" text-anchor="middle">Netz</text>
-<text class="d-label" x="575" y="34" text-anchor="middle">SAAS</text>
-<rect class="d-tile" x="500" y="50" width="150" height="30" rx="3"/>
-<rect class="d-bar" x="500" y="50" width="4" height="30" rx="2"/>
-<text class="d-title-small" x="575" y="69" text-anchor="middle">Daten und Zugriffe</text>
-<rect class="d-cell-provider" x="500" y="84" width="150" height="30" rx="3"/>
-<text class="d-sub" x="575" y="103" text-anchor="middle">Anwendung</text>
-<rect class="d-cell-provider" x="500" y="118" width="150" height="30" rx="3"/>
-<text class="d-sub" x="575" y="137" text-anchor="middle">Laufzeit</text>
-<rect class="d-cell-provider" x="500" y="152" width="150" height="30" rx="3"/>
-<text class="d-sub" x="575" y="171" text-anchor="middle">Middleware</text>
-<rect class="d-cell-provider" x="500" y="186" width="150" height="30" rx="3"/>
-<text class="d-sub" x="575" y="205" text-anchor="middle">Betriebssystem</text>
-<rect class="d-cell-provider" x="500" y="220" width="150" height="30" rx="3"/>
-<text class="d-sub" x="575" y="239" text-anchor="middle">Virtualisierung</text>
-<rect class="d-cell-provider" x="500" y="254" width="150" height="30" rx="3"/>
-<text class="d-sub" x="575" y="273" text-anchor="middle">Server</text>
-<rect class="d-cell-provider" x="500" y="288" width="150" height="30" rx="3"/>
-<text class="d-sub" x="575" y="307" text-anchor="middle">Speicher</text>
-<rect class="d-cell-provider" x="500" y="322" width="150" height="30" rx="3"/>
-<text class="d-sub" x="575" y="341" text-anchor="middle">Netz</text>
-<rect class="d-tile" x="20" y="372" width="28" height="16" rx="3"/>
-<rect class="d-bar" x="20" y="372" width="4" height="16" rx="2"/>
-<text class="d-sub" x="56" y="384" text-anchor="start">Nutzende</text>
-<rect class="d-cell-provider" x="160" y="372" width="28" height="16" rx="3"/>
-<text class="d-sub" x="196" y="384" text-anchor="start">Anbieter</text>
+<rect class="d-ground" x="0" y="0" width="760" height="424" rx="14"/>
+<text class="d-label" x="104" y="32" text-anchor="middle">EIGENER BETRIEB</text>
+<rect class="d-shadow" x="24" y="51.5" width="160" height="28" rx="8"/>
+<rect class="d-tile" x="24" y="50" width="160" height="28" rx="8"/>
+<text class="d-title-small" x="104" y="68" text-anchor="middle">Daten und Zugriffe</text>
+<rect class="d-shadow" x="24" y="85.5" width="160" height="28" rx="8"/>
+<rect class="d-tile" x="24" y="84" width="160" height="28" rx="8"/>
+<text class="d-title-small" x="104" y="102" text-anchor="middle">Anwendung</text>
+<rect class="d-shadow" x="24" y="119.5" width="160" height="28" rx="8"/>
+<rect class="d-tile" x="24" y="118" width="160" height="28" rx="8"/>
+<text class="d-title-small" x="104" y="136" text-anchor="middle">Laufzeit</text>
+<rect class="d-shadow" x="24" y="153.5" width="160" height="28" rx="8"/>
+<rect class="d-tile" x="24" y="152" width="160" height="28" rx="8"/>
+<text class="d-title-small" x="104" y="170" text-anchor="middle">Middleware</text>
+<rect class="d-shadow" x="24" y="187.5" width="160" height="28" rx="8"/>
+<rect class="d-tile" x="24" y="186" width="160" height="28" rx="8"/>
+<text class="d-title-small" x="104" y="204" text-anchor="middle">Betriebssystem</text>
+<rect class="d-shadow" x="24" y="221.5" width="160" height="28" rx="8"/>
+<rect class="d-tile" x="24" y="220" width="160" height="28" rx="8"/>
+<text class="d-title-small" x="104" y="238" text-anchor="middle">Virtualisierung</text>
+<rect class="d-shadow" x="24" y="255.5" width="160" height="28" rx="8"/>
+<rect class="d-tile" x="24" y="254" width="160" height="28" rx="8"/>
+<text class="d-title-small" x="104" y="272" text-anchor="middle">Server</text>
+<rect class="d-shadow" x="24" y="289.5" width="160" height="28" rx="8"/>
+<rect class="d-tile" x="24" y="288" width="160" height="28" rx="8"/>
+<text class="d-title-small" x="104" y="306" text-anchor="middle">Speicher</text>
+<rect class="d-shadow" x="24" y="323.5" width="160" height="28" rx="8"/>
+<rect class="d-tile" x="24" y="322" width="160" height="28" rx="8"/>
+<text class="d-title-small" x="104" y="340" text-anchor="middle">Netz</text>
+<text class="d-label" x="288" y="32" text-anchor="middle">IAAS</text>
+<rect class="d-band d-band-2" x="208" y="220" width="160" height="130" rx="12"/>
+<rect class="d-shadow" x="208" y="51.5" width="160" height="28" rx="8"/>
+<rect class="d-tile" x="208" y="50" width="160" height="28" rx="8"/>
+<text class="d-title-small" x="288" y="68" text-anchor="middle">Daten und Zugriffe</text>
+<rect class="d-shadow" x="208" y="85.5" width="160" height="28" rx="8"/>
+<rect class="d-tile" x="208" y="84" width="160" height="28" rx="8"/>
+<text class="d-title-small" x="288" y="102" text-anchor="middle">Anwendung</text>
+<rect class="d-shadow" x="208" y="119.5" width="160" height="28" rx="8"/>
+<rect class="d-tile" x="208" y="118" width="160" height="28" rx="8"/>
+<text class="d-title-small" x="288" y="136" text-anchor="middle">Laufzeit</text>
+<rect class="d-shadow" x="208" y="153.5" width="160" height="28" rx="8"/>
+<rect class="d-tile" x="208" y="152" width="160" height="28" rx="8"/>
+<text class="d-title-small" x="288" y="170" text-anchor="middle">Middleware</text>
+<rect class="d-shadow" x="208" y="187.5" width="160" height="28" rx="8"/>
+<rect class="d-tile" x="208" y="186" width="160" height="28" rx="8"/>
+<text class="d-title-small" x="288" y="204" text-anchor="middle">Betriebssystem</text>
+<text class="d-sub" x="288" y="238" text-anchor="middle">Virtualisierung</text>
+<text class="d-sub" x="288" y="272" text-anchor="middle">Server</text>
+<text class="d-sub" x="288" y="306" text-anchor="middle">Speicher</text>
+<text class="d-sub" x="288" y="340" text-anchor="middle">Netz</text>
+<text class="d-label" x="472" y="32" text-anchor="middle">PAAS</text>
+<rect class="d-band d-band-2" x="392" y="118" width="160" height="232" rx="12"/>
+<rect class="d-shadow" x="392" y="51.5" width="160" height="28" rx="8"/>
+<rect class="d-tile" x="392" y="50" width="160" height="28" rx="8"/>
+<text class="d-title-small" x="472" y="68" text-anchor="middle">Daten und Zugriffe</text>
+<rect class="d-shadow" x="392" y="85.5" width="160" height="28" rx="8"/>
+<rect class="d-tile" x="392" y="84" width="160" height="28" rx="8"/>
+<text class="d-title-small" x="472" y="102" text-anchor="middle">Anwendung</text>
+<text class="d-sub" x="472" y="136" text-anchor="middle">Laufzeit</text>
+<text class="d-sub" x="472" y="170" text-anchor="middle">Middleware</text>
+<text class="d-sub" x="472" y="204" text-anchor="middle">Betriebssystem</text>
+<text class="d-sub" x="472" y="238" text-anchor="middle">Virtualisierung</text>
+<text class="d-sub" x="472" y="272" text-anchor="middle">Server</text>
+<text class="d-sub" x="472" y="306" text-anchor="middle">Speicher</text>
+<text class="d-sub" x="472" y="340" text-anchor="middle">Netz</text>
+<text class="d-label" x="656" y="32" text-anchor="middle">SAAS</text>
+<rect class="d-band d-band-2" x="576" y="84" width="160" height="266" rx="12"/>
+<rect class="d-shadow" x="576" y="51.5" width="160" height="28" rx="8"/>
+<rect class="d-tile" x="576" y="50" width="160" height="28" rx="8"/>
+<text class="d-title-small" x="656" y="68" text-anchor="middle">Daten und Zugriffe</text>
+<text class="d-sub" x="656" y="102" text-anchor="middle">Anwendung</text>
+<text class="d-sub" x="656" y="136" text-anchor="middle">Laufzeit</text>
+<text class="d-sub" x="656" y="170" text-anchor="middle">Middleware</text>
+<text class="d-sub" x="656" y="204" text-anchor="middle">Betriebssystem</text>
+<text class="d-sub" x="656" y="238" text-anchor="middle">Virtualisierung</text>
+<text class="d-sub" x="656" y="272" text-anchor="middle">Server</text>
+<text class="d-sub" x="656" y="306" text-anchor="middle">Speicher</text>
+<text class="d-sub" x="656" y="340" text-anchor="middle">Netz</text>
+<rect class="d-shadow" x="24" y="375.5" width="87" height="28" rx="8"/>
+<rect class="d-tile" x="24" y="374" width="87" height="28" rx="8"/>
+<text class="d-title-small" x="67.5" y="392" text-anchor="middle">Nutzende</text>
+<rect class="d-band d-band-2" x="127" y="374" width="74" height="28" rx="8"/>
+<text class="d-sub" x="164" y="392" text-anchor="middle">Anbieter</text>
 </svg>

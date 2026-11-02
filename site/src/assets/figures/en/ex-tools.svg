@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 576" role="img" aria-labelledby="ex-tools-en-title ex-tools-en-desc">
+<title id="ex-tools-en-title">The tools of the platform</title>
+<desc id="ex-tools-en-desc">At the top the front-end with Helm, Gitea and kubeseal. Helm installs Argo CD once with bootstrap-argocd.sh into the namespace argocd. Argo CD polls your platform repo in Gitea every minute. It renders folders such as webshop/ and members/ with Kustomize, which brings the web shop and the members into the namespaces velo and gemeinde. It renders charts with Helm, which brings Prometheus, Alertmanager, Grafana, Loki and Alloy into the namespace monitoring and the Sealed Secrets controller into kube-system. kubeseal encrypts a Secret, and seal-secrets.sh puts it into your repo as a SealedSecret. Notice that Helm on the front-end only installs Argo CD. Argo CD brings everything else from Git into the cluster.</desc>
+<defs><marker id="ex-tools-en-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"/></marker><marker id="ex-tools-en-head-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head d-head-accent" d="M 0 1 L 9 5 L 0 9 z"/></marker></defs>
+<rect class="d-ground" x="0" y="0" width="760" height="576" rx="14"/>
+<rect class="d-band d-band-2" x="16" y="16" width="728" height="128" rx="12"/>
+<text class="d-label d-label-blue" x="32" y="40" text-anchor="start">FRONT-END</text>
+<rect class="d-band d-band-3" x="16" y="192" width="312" height="128" rx="12"/>
+<text class="d-label d-label-violet" x="32" y="216" text-anchor="start">NAMESPACE</text>
+<text class="d-sub" x="121.378" y="216" text-anchor="start"><tspan class="d-code">argocd</tspan></text>
+<rect class="d-band d-band-3" x="416" y="192" width="328" height="128" rx="12"/>
+<text class="d-label d-label-violet" x="432" y="216" text-anchor="start">NAMESPACES</text>
+<text class="d-sub" x="530.1868" y="216" text-anchor="start"><tspan class="d-code">velo, gemeinde</tspan></text>
+<rect class="d-band d-band-3" x="16" y="368" width="504" height="192" rx="12"/>
+<text class="d-label d-label-violet" x="32" y="392" text-anchor="start">NAMESPACE</text>
+<text class="d-sub" x="121.378" y="392" text-anchor="start"><tspan class="d-code">monitoring</tspan></text>
+<text class="d-sub" x="504" y="392" text-anchor="end">charts <tspan class="d-code">kube-prometheus-stack, loki, alloy</tspan></text>
+<rect class="d-band d-band-3" x="544" y="368" width="200" height="112" rx="12"/>
+<text class="d-label d-label-violet" x="560" y="392" text-anchor="start">NAMESPACE</text>
+<text class="d-sub" x="649.378" y="392" text-anchor="start"><tspan class="d-code">kube-system</tspan></text>
+<path class="d-arrow d-arrow-accent" d="M 124 128 L 124 190" marker-end="url(#ex-tools-en-head-accent)"/>
+<text class="d-sub" x="132" y="166" text-anchor="start">installs once</text>
+<path class="d-arrow d-arrow-accent" d="M 300 232 L 300 130" marker-end="url(#ex-tools-en-head-accent)"/>
+<text class="d-sub" x="308" y="166" text-anchor="start">polls every minute</text>
+<path class="d-arrow" d="M 520 92 L 434 92" marker-end="url(#ex-tools-en-head)"/>
+<text class="d-sub" x="476" y="84" text-anchor="middle">SealedSecret</text>
+<path class="d-arrow d-arrow-accent" d="M 312 268 L 414 268" marker-end="url(#ex-tools-en-head-accent)"/>
+<text class="d-sub" x="372" y="260" text-anchor="middle">Kustomize</text>
+<path class="d-arrow d-arrow-accent" d="M 176 304 L 176 366" marker-end="url(#ex-tools-en-head-accent)"/>
+<text class="d-sub" x="184" y="354" text-anchor="start">Helm charts</text>
+<path class="d-arrow d-arrow-accent" d="M 280 304 L 280 336 L 644 336 L 644 366" marker-end="url(#ex-tools-en-head-accent)"/>
+<text class="d-sub" x="652" y="356" text-anchor="start">Helm chart</text>
+<rect class="d-shadow" x="32" y="57.5" width="184" height="72" rx="10"/>
+<rect class="d-tile" x="32" y="56" width="184" height="72" rx="10"/>
+<g class="d-icon" transform="translate(44 83) scale(0.75)"><circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M4.2 6l2.3 1.8M17.5 16.2l2.3 1.8M4.2 18l2.3-1.8M17.5 7.8 19.8 6M2.5 12h3M18.5 12h3"/></g>
+<text class="d-title" x="72" y="82" text-anchor="start">Helm</text>
+<text class="d-sub" x="72" y="97" text-anchor="start">package manager</text>
+<text class="d-code" x="72" y="112" text-anchor="start">bootstrap-argocd.sh</text>
+<rect class="d-shadow" x="248" y="57.5" width="184" height="72" rx="10"/>
+<rect class="d-tile" x="248" y="56" width="184" height="72" rx="10"/>
+<g class="d-icon" transform="translate(260 83) scale(0.75)"><circle cx="6" cy="6" r="2.5"/><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="9" r="2.5"/><path d="M6 8.5v7M18 11.5c0 3-6 2-10.5 5"/></g>
+<text class="d-title" x="288" y="89" text-anchor="start">Gitea</text>
+<text class="d-sub" x="288" y="105" text-anchor="start">your platform repo</text>
+<rect class="d-shadow" x="520" y="57.5" width="208" height="72" rx="10"/>
+<rect class="d-tile" x="520" y="56" width="208" height="72" rx="10"/>
+<g class="d-icon" transform="translate(532 83) scale(0.75)"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></g>
+<text class="d-title" x="560" y="82" text-anchor="start">kubeseal</text>
+<text class="d-sub" x="560" y="97" text-anchor="start">encrypts Secrets</text>
+<text class="d-code" x="560" y="112" text-anchor="start">seal-secrets.sh</text>
+<rect class="d-shadow" x="32" y="233.5" width="280" height="72" rx="10"/>
+<rect class="d-tile d-tile-accent" x="32" y="232" width="280" height="72" rx="10"/>
+<g class="d-icon d-icon-accent" transform="translate(44 259) scale(0.75)"><path d="M20 12a8 8 0 0 1-14.3 4.9M4 12A8 8 0 0 1 18.3 7.1"/><path d="M18.5 3v4.3h-4.3M5.5 21v-4.3h4.3"/></g>
+<text class="d-title" x="72" y="258" text-anchor="start">Argo CD</text>
+<text class="d-sub" x="72" y="273" text-anchor="start">keeps the cluster in line with Git</text>
+<text class="d-code" x="72" y="288" text-anchor="start">argo-cd 10.11.6</text>
+<rect class="d-shadow" x="432" y="233.5" width="136" height="72" rx="10"/>
+<rect class="d-tile" x="432" y="232" width="136" height="72" rx="10"/>
+<text class="d-title" x="500" y="265" text-anchor="middle">Web shop</text>
+<text class="d-code" x="500" y="281" text-anchor="middle">webshop/</text>
+<rect class="d-shadow" x="592" y="233.5" width="136" height="72" rx="10"/>
+<rect class="d-tile" x="592" y="232" width="136" height="72" rx="10"/>
+<text class="d-title" x="660" y="265" text-anchor="middle">Members</text>
+<text class="d-code" x="660" y="281" text-anchor="middle">members/</text>
+<rect class="d-shadow" x="32" y="409.5" width="141.33333333333334" height="56" rx="10"/>
+<rect class="d-tile" x="32" y="408" width="141.33333333333334" height="56" rx="10"/>
+<g class="d-icon" transform="translate(44 427) scale(0.75)"><path d="M4 20h16"/><path d="M7 16v-4M12 16V8M17 16v-7"/></g>
+<text class="d-title" x="72" y="433" text-anchor="start">Prometheus</text>
+<text class="d-sub" x="72" y="449" text-anchor="start">scrapes metrics</text>
+<rect class="d-shadow" x="197.33333333333334" y="409.5" width="141.33333333333334" height="56" rx="10"/>
+<rect class="d-tile" x="197.33333333333334" y="408" width="141.33333333333334" height="56" rx="10"/>
+<g class="d-icon" transform="translate(209.33333333333334 427) scale(0.75)"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/></g>
+<text class="d-title" x="237.33333333333334" y="433" text-anchor="start">Alertmanager</text>
+<text class="d-sub" x="237.33333333333334" y="449" text-anchor="start">groups alerts</text>
+<rect class="d-shadow" x="362.6666666666667" y="409.5" width="141.33333333333334" height="56" rx="10"/>
+<rect class="d-tile" x="362.6666666666667" y="408" width="141.33333333333334" height="56" rx="10"/>
+<g class="d-icon" transform="translate(374.6666666666667 427) scale(0.75)"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></g>
+<text class="d-title" x="402.6666666666667" y="433" text-anchor="start">Grafana</text>
+<text class="d-sub" x="402.6666666666667" y="449" text-anchor="start">dashboards</text>
+<rect class="d-shadow" x="32" y="489.5" width="224" height="56" rx="10"/>
+<rect class="d-tile" x="32" y="488" width="224" height="56" rx="10"/>
+<g class="d-icon" transform="translate(44 507) scale(0.75)"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></g>
+<text class="d-title" x="72" y="513" text-anchor="start">Loki</text>
+<text class="d-sub" x="72" y="529" text-anchor="start">stores logs</text>
+<rect class="d-shadow" x="280" y="489.5" width="224" height="56" rx="10"/>
+<rect class="d-tile" x="280" y="488" width="224" height="56" rx="10"/>
+<g class="d-icon" transform="translate(292 507) scale(0.75)"><path d="M20 12a8 8 0 0 1-14.3 4.9M4 12A8 8 0 0 1 18.3 7.1"/><path d="M18.5 3v4.3h-4.3M5.5 21v-4.3h4.3"/></g>
+<text class="d-title" x="320" y="513" text-anchor="start">Alloy</text>
+<text class="d-sub" x="320" y="529" text-anchor="start">collects the pod logs</text>
+<rect class="d-shadow" x="560" y="409.5" width="168" height="56" rx="10"/>
+<rect class="d-tile" x="560" y="408" width="168" height="56" rx="10"/>
+<g class="d-icon" transform="translate(572 427) scale(0.75)"><path d="M12 3 19 6v5.5c0 4.4-3 8-7 9.5-4-1.5-7-5.1-7-9.5V6z"/></g>
+<text class="d-title" x="600" y="433" text-anchor="start">Sealed Secrets</text>
+<text class="d-sub" x="600" y="449" text-anchor="start">opens SealedSecrets</text>
+</svg>
