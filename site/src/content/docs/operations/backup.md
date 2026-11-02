@@ -56,8 +56,7 @@ Sichere vor dem Neubau den Schlüssel von Sealed Secrets, sonst kann der neue Cl
 
 ```bash
 mkdir -p ~/backup/k3s && chmod 700 ~/backup ~/backup/k3s
-kubectl -n kube-system get secret -l sealedsecrets.bitnami.com/sealed-secrets-key -o yaml > ~/backup/k3s/sealed-secrets-key.yaml
-cd ~/platform && git add -A && git commit -m "k3s mit etcd und Snapshots" && git push
+(umask 077; kubectl -n kube-system get secret -l sealedsecrets.bitnami.com/sealed-secrets-key -o yaml > ~/backup/k3s/sealed-secrets-key.yaml)
 cd ~/platform/tofu
 export OPENNEBULA_USERNAME=oneadmin
 export OPENNEBULA_PASSWORD=$(cut -d: -f2- ~/.one/one_auth)
@@ -74,7 +73,7 @@ kubectl apply -f ~/backup/k3s/sealed-secrets-key.yaml
 ~/cc/platform/bootstrap-argocd.sh
 ```
 
-Im Lab dauerte `tofu apply` für diesen Neubau mit dem ganzen Stack aus Teil 5 484 Sekunden, viel länger als der Neubau des leeren Clusters in Kapitel 4.2. Einen grossen Teil davon warteten die alten VMs auf ihr Herunterfahren. OpenNebula hielt den neuen Server zudem in `pending` und meldete «Not enough capacity on datastores». Die freie Disk eines Knotens war noch der alte Wert. `onehost forceupdate` löste das sofort. Nach dem Bootstrap rollte Argo CD alles aus, und nach wenigen Minuten waren alle elf Applications synchron und gesund, auch das entschlüsselte Passwort von Grafana. Ollama lud sein Modell neu. Verloren waren die Daten in den Volumes, also die Metriken, die Logs und das Audit-Log des Triage-Dienstes.
+Im Lab dauerte `tofu apply` für diesen Neubau mit dem ganzen Stack aus Teil 5 484 Sekunden, viel länger als der Neubau des leeren Clusters in Kapitel 4.2. Einen grossen Teil davon warteten die alten VMs auf ihr Herunterfahren. OpenNebula hielt eine der neuen VMs zudem in `pending` und meldete «Not enough capacity on datastores». Die freie Disk eines Knotens war noch der alte Wert. `onevm show <id> | grep SCHED_MESSAGE` zeigt den Grund, nach `onehost forceupdate` lief die VM etwa eine Minute später. Das Skript schreibt das neue Passwort von Argo CD nach `~/cc-lab/argocd-admin.pass` und nicht auf den Bildschirm, so landet es in keinem Screenshot. Nach dem Bootstrap rollte Argo CD alles aus, und nach wenigen Minuten waren alle elf Applications synchron und gesund, auch das entschlüsselte Passwort von Grafana. Ollama lud sein Modell neu. Verloren waren die Daten in den Volumes, also die Metriken, die Logs und das Audit-Log des Triage-Dienstes.
 
 ## Snapshots sichern
 
@@ -84,7 +83,11 @@ Ein Snapshot auf dem Server hilft nicht, wenn der Server selbst verloren ist. Da
 
 Ubuntu 26.04 bringt kein cron mit. Ein Timer von systemd startet das Skript alle sechs Stunden, eine halbe Stunde nach den Snapshots von k3s.
 
+Direkt nach dem Neubau hat k3s noch keinen Snapshot, der erste entsteht erst zur nächsten vollen sechsten Stunde. Leg deshalb vor der ersten Kopie einen von Hand an.
+
 ```bash
+source /etc/cc-lab.env
+ssh root@$CC_K3S_SERVER_IP k3s etcd-snapshot save
 sudo ~/cc/platform/operations/install-backup-timer.sh
 sudo systemctl start cc-backup-k3s.service
 ls ~/backup/k3s/snapshots
@@ -131,27 +134,36 @@ Die VMs der Mitglieder sichert OpenNebula selbst. Backups landen in einem Datast
 
 ::code{file="platform/operations/backup-datastore.sh"}
 
-Seit Kapitel 4.2 laufen in OpenNebula nur noch die beiden VMs von k3s. Diese sicherst du nicht so, ihr Zustand steckt in Git und in den Snapshots von etcd. Zum Üben startest du als `praxis-admin` die VM `praxis-1` aus der Vorlage `ubuntu` mit 1 GB, mehr hat ein Knoten neben k3s nicht frei. Diese VM sicherst du und stellst sie wieder her. Machst du den Zusatzauftrag von Meilenstein 4 mit einem eigenen Mitglied, kann es stattdessen dessen VM sein.
+Seit Kapitel 4.2 laufen in OpenNebula nur noch die beiden VMs von k3s. Diese sicherst du nicht so, ihr Zustand steckt in Git und in den Snapshots von etcd. Zum Üben startest du als `praxis-admin` die VM `praxis-1` aus der Vorlage `ubuntu` mit 1 GB, mehr hat ein Knoten neben k3s nicht frei. Diese VM sicherst du und stellst sie wieder her. Damit du die Wiederherstellung prüfen kannst, legst du vor dem Backup eine Testdatei an. `onevm show` zeigt die Adresse der VM. Machst du den Zusatzauftrag von Meilenstein 4 mit einem eigenen Mitglied, kann es stattdessen dessen VM sein.
 
 Ein Backup von Hand startet `onevm backup`, auch bei einer laufenden VM. Im Lab dauerte das Backup einer VM mit 1 GB Speicher und Ubuntu 26.04 elf Sekunden, das Backup-Image war 1004 MB gross.
 
 ```bash
+ONE_AUTH=~/cc-lab/tenants/praxis.auth onetemplate instantiate ubuntu --name praxis-1
+ssh root@<adresse-der-vm> 'echo vor dem Backup > /root/testdatei.txt'
 ~/cc/platform/operations/backup-datastore.sh
 onevm backup -d backups <vm>
 oneimage list
 ```
 
-Regelmässige Backups übernimmt ein Backup-Job. Das Skript legt einen an, der jede Nacht um 2 Uhr sichert und sieben Backups behält.
+Regelmässige Backups übernimmt ein Backup-Job. Das Skript legt einen an, der jede Nacht sichert, ohne weitere Angaben um 2 Uhr mit sieben Backups. Uhrzeit und Anzahl kannst du mitgeben, für Meilenstein 4 die Werte aus deinen [persönlichen Werten](../../start/parameters/). Die Uhrzeit gilt in der Zeitzone des Front-ends, `timedatectl` zeigt sie.
+
+```bash
+~/cc/platform/operations/backup-job.sh praxis-nightly <vm> <stunde> <anzahl>
+onebackupjob list
+```
 
 ::code{file="platform/operations/backup-job.sh"}
 
-Zur Wiederherstellung macht `oneimage restore` aus einem Backup eine neue Vorlage mit einem neuen Image. Im Lab enthielt die neue VM wieder die Testdatei, die vor dem Backup angelegt worden war, gut anderthalb Minuten nach dem Befehl. Vorlage, Image und VM gehören danach `oneadmin`, `onevm chown` gibt die VM dem Mitglied zurück.
+Zur Wiederherstellung macht `oneimage restore` aus einem Backup eine neue Vorlage mit einem neuen Image. Im Lab enthielt die neue VM wieder die Testdatei, die vor dem Backup angelegt worden war, gut anderthalb Minuten nach dem Befehl. Vorlage, Image und VM gehören danach `oneadmin`, `onevm chown` gibt die VM dem Mitglied zurück. Die neue VM hat eine neue Nummer. Damit der Backup-Job sie weiter sichert, trägst du sie in den Job ein.
 
 ```bash
 onevm terminate --hard <vm>
 oneimage restore -d default <backup-image>
 onetemplate instantiate <neue-vorlage> --name <name>
 onevm chown <neue-vm> <benutzer> <gruppe>
+echo 'BACKUP_VMS="<neue-vm>"' > /tmp/job.tpl
+onebackupjob update praxis-nightly /tmp/job.tpl --append
 ```
 
 Backups zählen zur Quota des Datastores. Ein Mitglied mit vielen grossen Backups braucht dort Platz, und der Platz kostet Geld, das in Kapitel 6.4 wieder auftaucht.

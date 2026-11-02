@@ -571,8 +571,8 @@ QUESTIONS = {
          "Show the backup of your member's VM and work out the worst RPO from the job's schedule."),
         ("Zeige ein SealedSecret in Git und erkläre, warum es dort liegen darf.",
          "Show a SealedSecret in Git and explain why it may live there."),
-        ("Zeige den Preis deines Mitglieds pro Monat und erkläre, welcher Posten der Vollkosten am meisten ausmacht.",
-         "Show your member's monthly price and explain which item of the full cost weighs most."),
+        ("Zeige den Showback eines Mitglieds für einen Monat und erkläre, welcher Posten der Vollkosten aus Kapitel 6.4 am meisten ausmacht.",
+         "Show the showback of a member for one month and explain which item of the full cost in chapter 6.4 weighs most."),
     ],
 }
 

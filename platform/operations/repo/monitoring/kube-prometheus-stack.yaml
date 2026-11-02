@@ -69,7 +69,7 @@ grafana:
   service:
     type: NodePort
     nodePort: 30300
-  # The password lives in a secret that make-secrets.sh creates, not in Git
+  # The password comes from the SealedSecret in secrets/, the controller decrypts it in the cluster
   admin:
     existingSecret: grafana-admin
     userKey: admin-user

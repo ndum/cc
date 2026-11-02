@@ -206,12 +206,13 @@ sed -i "s#http://FRONTEND:3000#http://$CC_FE_IP:3000#" apps/*.yaml
 git status
 ```
 
-Hat ein Mitglied in deinem Repo ein eigenes Label am Namespace, etwa `ai: allowed` aus Kapitel 5.5, muss es als Merge-Patch formuliert sein. Ein Patch mit `op: add` auf `/metadata/labels` ersetzt alle Labels, und der Namespace verliert das Profil. Im Lab passierte genau das mit `velo`. Pushe die Änderungen und warte, bis der Controller läuft. Installiere dann `kubeseal` und versiegle das Passwort.
+Hat ein Mitglied in deinem Repo ein eigenes Label am Namespace, etwa `ai: allowed` aus Kapitel 5.5, muss es als Merge-Patch formuliert sein. Ein Patch mit `op: add` auf `/metadata/labels` ersetzt alle Labels, und der Namespace verliert das Profil. Im Lab passierte genau das mit `velo`. Pushe die Änderungen und warte, bis der Controller läuft. Argo CD legt ihn erst bei der nächsten Abfrage an, im Lab nach knapp drei Minuten, die Schleife wartet darauf. Bis der Ordner `secrets` im Repo liegt, zeigt die Application `secrets` den Zustand `Unknown` mit «app path does not exist», das ist erwartet. Installiere dann `kubeseal` und versiegle das Passwort.
 
 ::code{file="platform/operations/seal-secrets.sh"}
 
 ```bash
 git add -A && git commit -m "Sealed Secrets, Profil restricted für Mitglieder" && git push
+until kubectl -n kube-system get deploy sealed-secrets-controller >/dev/null 2>&1; do sleep 10; done
 kubectl -n kube-system rollout status deploy sealed-secrets-controller
 sudo ~/cc/platform/operations/install-kubeseal.sh
 ~/cc/platform/operations/seal-secrets.sh
@@ -226,7 +227,7 @@ kubectl -n kube-system rollout restart deploy sealed-secrets-controller
 kubectl -n monitoring get secret grafana-admin -o jsonpath='{.metadata.ownerReferences[0].kind}'
 ```
 
-Die letzte Zeile gibt `SealedSecret` aus. Ohne den privaten Schlüssel des Controllers ist das SealedSecret in Git wertlos, auch für dich. Kapitel 6.2 sichert ihn darum mit.
+Die letzte Zeile gibt `SealedSecret` aus, sobald Argo CD das SealedSecret übernommen hat, im Lab nach gut eineinhalb Minuten. Bis dahin bleibt sie leer. Der Neustart des Controllers ist nur nötig, wenn das SealedSecret vor der Annotation ankam. Ohne den privaten Schlüssel des Controllers ist das SealedSecret in Git wertlos, auch für dich. Kapitel 6.2 sichert ihn darum mit.
 
 ## Updates
 

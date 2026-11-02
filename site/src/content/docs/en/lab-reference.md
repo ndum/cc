@@ -79,10 +79,10 @@ These files live in your user's home directory on the front-end, and only you ma
 | `~/cc-lab/grafana.pass` | password of `admin` in Grafana | [5.1](../observability/metrics/) |
 | `~/backup/k3s/` | etcd snapshots, the k3s token and the Sealed Secrets key | [6.2](../operations/backup/) |
 
-The password of `admin` in Argo CD is stored in the cluster itself.
+The bootstrap script stores the password of `admin` in Argo CD in a file.
 
 ```bash
-kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath='{.data.password}' | base64 -d; echo
+cat ~/cc-lab/argocd-admin.pass
 ```
 
 The front-end also has `~/cc` with the course repo, `~/platform` with your platform repo and `~/cc-reports` with the reports of the checks.

@@ -19,7 +19,7 @@ Everything runs in your own lab with your personal parameters from chapter 0.3. 
 4. k3s runs with etcd and snapshots, and a timer copies the snapshots to the front-end.
 5. The backup datastore exists, and a backup job backs up a VM every night at the time from your [personal values](../../start/parameters/) and keeps as many backups as they ask for.
 6. You have restored the VM from its backup.
-7. A table lists RPO and RTO of the four members with reasons, and the check `m4` is green.
+7. A table lists RPO and RTO of the four members with reasons, as in the exercise "RPO and RTO" in chapter 6.2, and the check `m4` is green.
 
 The documentation has a screenshot for each requirement with one or two sentences about it, plus the report of the check `m4` and the table of RPO and RTO. For the backup, the VM `praxis-1` from chapter 6.2 is enough. If you do advanced task A, it can be the VM of your own member instead.
 

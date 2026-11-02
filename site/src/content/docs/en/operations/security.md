@@ -206,12 +206,13 @@ sed -i "s#http://FRONTEND:3000#http://$CC_FE_IP:3000#" apps/*.yaml
 git status
 ```
 
-If a member in your repo has a label of its own on its namespace, such as `ai: allowed` from chapter 5.5, it has to be written as a merge patch. A patch with `op: add` on `/metadata/labels` replaces all labels, and the namespace loses its profile. In the lab, exactly that happened to `velo`. Push the changes and wait until the controller runs. Then install `kubeseal` and seal the password.
+If a member in your repo has a label of its own on its namespace, such as `ai: allowed` from chapter 5.5, it has to be written as a merge patch. A patch with `op: add` on `/metadata/labels` replaces all labels, and the namespace loses its profile. In the lab, exactly that happened to `velo`. Push the changes and wait until the controller runs. Argo CD only creates it at its next poll, in the lab after almost three minutes, and the loop waits for it. Until the folder `secrets` is in the repo, the application `secrets` shows `Unknown` with "app path does not exist", which is expected. Then install `kubeseal` and seal the password.
 
 ::code{file="platform/operations/seal-secrets.sh"}
 
 ```bash
 git add -A && git commit -m "Sealed Secrets, restricted profile for members" && git push
+until kubectl -n kube-system get deploy sealed-secrets-controller >/dev/null 2>&1; do sleep 10; done
 kubectl -n kube-system rollout status deploy sealed-secrets-controller
 sudo ~/cc/platform/operations/install-kubeseal.sh
 ~/cc/platform/operations/seal-secrets.sh
@@ -226,7 +227,7 @@ kubectl -n kube-system rollout restart deploy sealed-secrets-controller
 kubectl -n monitoring get secret grafana-admin -o jsonpath='{.metadata.ownerReferences[0].kind}'
 ```
 
-The last line prints `SealedSecret`. Without the controller's private key, the SealedSecret in Git is worthless, to you as well. Chapter 6.2 therefore backs it up too.
+The last line prints `SealedSecret` once Argo CD has synced the SealedSecret, in the lab after a good minute and a half. Until then it stays empty. The restart of the controller is only needed when the SealedSecret arrived before the annotation. Without the controller's private key, the SealedSecret in Git is worthless, to you as well. Chapter 6.2 therefore backs it up too.
 
 ## Updates
 

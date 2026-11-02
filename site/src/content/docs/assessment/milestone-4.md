@@ -19,7 +19,7 @@ Alles läuft in deinem eigenen Lab mit deinen persönlichen Parametern aus Kapit
 4. k3s läuft mit etcd und Snapshots, und ein Timer kopiert die Snapshots auf das Front-end.
 5. Der Backup-Datastore ist angelegt, und ein Backup-Job sichert eine VM jede Nacht zur Zeit aus deinen [persönlichen Werten](../../start/parameters/) und behält so viele Backups, wie sie verlangen.
 6. Du hast die VM aus ihrem Backup wiederhergestellt.
-7. Eine Tabelle nennt RPO und RTO der vier Mitglieder mit Begründung, der Check `m4` ist grün.
+7. Eine Tabelle nennt RPO und RTO der vier Mitglieder mit Begründung, wie in der Übung «RPO und RTO» in Kapitel 6.2, der Check `m4` ist grün.
 
 Die Dokumentation zeigt zu jeder Anforderung einen Screenshot mit einem oder zwei Sätzen dazu und enthält den Bericht des Checks `m4` und die Tabelle mit RPO und RTO. Für die Sicherung genügt die VM `praxis-1` aus Kapitel 6.2. Machst du Zusatzauftrag A, kann es stattdessen die VM deines eigenen Mitglieds sein.
 

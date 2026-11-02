@@ -15,7 +15,10 @@ mkdir -p "$dest/snapshots"
 chmod 0700 ~/backup "$dest"
 kubectl -n kube-system get secret -l sealedsecrets.bitnami.com/sealed-secrets-key -o yaml > "$dest/sealed-secrets-key.yaml"
 chmod 0600 "$dest/sealed-secrets-key.yaml"
-scp -q -p "root@$CC_K3S_SERVER_IP:/var/lib/rancher/k3s/server/db/snapshots/*" "$dest/snapshots/"
+# Right after a rebuild the server has no snapshot yet, token and key are still worth copying
+if ssh "root@$CC_K3S_SERVER_IP" 'ls /var/lib/rancher/k3s/server/db/snapshots/* >/dev/null 2>&1'; then
+  scp -q -p "root@$CC_K3S_SERVER_IP:/var/lib/rancher/k3s/server/db/snapshots/*" "$dest/snapshots/"
+fi
 scp -q -p "root@$CC_K3S_SERVER_IP:/var/lib/rancher/k3s/server/token" "$dest/token"
 chmod 0600 "$dest/token"
 # k3s keeps eight snapshots on the server, the front-end keeps the last seven days
