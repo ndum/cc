@@ -3,7 +3,7 @@ title: Competence grid for part 4
 description: What you can do after part 4 and how to check it yourself.
 sidebar:
   label: Competence grid
-  order: 6
+  order: 7
 ---
 
 Use this grid to judge whether you can build your platform from code and explain it. Read each row and solve the task next to it without looking anything up. If it comes easily, you have reached the goal. If not, the link in the last column takes you to the right place. Within the Swiss framework curriculum, part 4 mainly serves the competences B12.3 (target configurations), B12.4 (configuration management) and B14.1 (introducing software and releases). With the web shop it also prepares part 5.
@@ -21,5 +21,8 @@ Use this grid to judge whether you can build your platform from code and explain
 | justify where the Git server runs | Explain why Gitea runs on the front-end and not in the cluster. | [GitOps with Argo CD](../gitops/#gitea-on-the-front-end) |
 | limit and separate namespaces with a template | Show the municipality's quota at its limit and the separation by the NetworkPolicy. | [Platform templates](../templates/#at-the-limit) |
 | handle a request as a pull request | Add a member by pull request and explain what you look for in the review. | [Platform templates](../templates/#the-municipalitys-request) |
+| plan and time a rebuild of the platform (advanced) | Explain what `tofu destroy` deletes, what the teardown leaves alone and what comes back from Git afterwards. | [Advanced tasks](../advanced/#code-state-and-manual-work) |
+| restrict a member to its namespace with an AppProject (advanced) | Explain which rules an AppProject sets and where an application gets its project. | [Advanced tasks](../advanced/#appprojects) |
+| protect the branch `main` in Gitea (advanced) | Name the settings that enforce a review and who can get around them in your Gitea. | [Advanced tasks](../advanced/#branch-protection-in-gitea) |
 
-With this part you complete [milestone 2](../../assessment/milestone-2/). You hand in milestones 1 and 2 together as hand-in 1. In part 5 you watch the web shop, let it grow under load and, as an advanced task, run a local language model.
+With this part you complete [milestone 2](../../assessment/milestone-2/). Rows marked as advanced belong to an advanced task, not to the base. You hand in milestones 1 and 2 together as hand-in 1. In part 5 you watch the web shop, let it grow under load and, as an advanced task, run a local language model.

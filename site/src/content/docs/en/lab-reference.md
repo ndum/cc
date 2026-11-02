@@ -53,8 +53,7 @@ From the client you log in to the front-end with `ssh mmuster-fe`, as set up in 
 | Prometheus | 30090 | k3s-server | tunnel `-L 9090:<CC_K3S_SERVER_IP>:30090` | [5.1](../observability/metrics/) |
 | Alertmanager | 30093 | k3s-server | tunnel `-L 9093:<CC_K3S_SERVER_IP>:30093` | [5.3](../observability/slo/) |
 | Grafana | 30300 | k3s-server | tunnel `-L 3000:<CC_K3S_SERVER_IP>:30300` | [5.1](../observability/metrics/) |
-| Triage service | 30880 | k3s-server | tunnel `-L 8880:<CC_K3S_SERVER_IP>:30880` | [5.6](../observability/triage/) |
-| Ollama | 11434 | k3s-agent | `kubectl -n ai port-forward svc/ollama 11434:11434` on the front-end | [5.5](../observability/ai/) |
+| Language model and triage service | as in your solution | k3s | as in your solution, for example through a tunnel | [5.5](../observability/advanced/) |
 
 You open a tunnel in the client's terminal, and one connection can carry several `-L` options. While it stays open, the service answers at `http://localhost:<local-port>/` in the client's browser.
 

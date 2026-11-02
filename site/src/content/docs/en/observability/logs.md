@@ -28,6 +28,8 @@ Loki collects logs centrally and keeps them beyond the end of a pod. A full-text
 
 Alloy from Grafana runs as a DaemonSet, with one pod per node. Each of them reads the logs of the pods on its node, adds labels and sends them to Loki. Both came into your repo with the copy in chapter 5.1, as two applications in `apps/loki.yaml`.
 
+![The path of the logs in the cluster. Two nodes of the cluster, k3s-server and k3s-agent. On each node the pods write their logs to stdout and stderr. Alloy runs as a DaemonSet with one pod per node, reads the logs of the pods on its node and sends them to Loki with the labels namespace, pod, container and app. Loki runs as a single process, indexes only the labels and keeps the logs for three days. In Grafana you query Loki under "Explore" with LogQL. A query such as {namespace="velo", app="webshop"} |= "404" first selects the streams by their labels and then searches the text. It also finds lines of pods that no longer exist.](../../../../assets/figures/en/p5c2-logs.svg)
+
 ::code{file="platform/observability/repo/monitoring/loki.yaml"}
 
 Here Loki runs as a single process and stores its data on the disk of a node. That is enough for a lab. In production you would spread Loki over several processes and keep the data in object storage. Loki deletes logs older than three days.

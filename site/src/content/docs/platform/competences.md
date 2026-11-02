@@ -3,7 +3,7 @@ title: Kompetenzraster für Teil 4
 description: Was du nach Teil 4 kannst und wie du es selbst prüfst.
 sidebar:
   label: Kompetenzraster
-  order: 6
+  order: 7
 ---
 
 Mit diesem Raster schätzt du ein, ob du deine Plattform aus Code bauen und erklären kannst. Lies jede Zeile und löse die Prüfaufgabe daneben, ohne nachzuschauen. Fällt sie dir leicht, hast du das Ziel erreicht. Wenn nicht, führt dich der Link in der letzten Spalte zur passenden Stelle. Im Rahmenlehrplan dient Teil 4 vor allem den Kompetenzen B12.3 (Soll-Konfigurationen), B12.4 (Konfigurationsmanagement) und B14.1 (Einführung von Software und Releases). Mit dem Webshop bereitet er zudem Teil 5 vor.
@@ -21,5 +21,8 @@ Mit diesem Raster schätzt du ein, ob du deine Plattform aus Code bauen und erkl
 | begründen, wo der Git-Server läuft | Erkläre, warum Gitea auf dem Front-end und nicht im Cluster läuft. | [GitOps mit Argo CD](../gitops/#gitea-auf-dem-front-end) |
 | Namespaces mit einer Vorlage begrenzen und trennen | Zeige die Quota der Gemeinde an ihrer Grenze und die Trennung durch die NetworkPolicy. | [Plattform-Vorlagen](../templates/#an-der-grenze) |
 | einen Antrag als Pull Request bearbeiten | Lege ein Mitglied per Pull Request an und erkläre, worauf du beim Prüfen achtest. | [Plattform-Vorlagen](../templates/#der-antrag-der-gemeinde) |
+| einen Neubau der Plattform planen und messen (Zusatz) | Erkläre, was `tofu destroy` löscht, was der Abriss stehen lässt und was danach aus Git zurückkommt. | [Zusatzaufträge](../advanced/#code-state-und-handarbeit) |
+| ein Mitglied mit einem AppProject auf seinen Namespace beschränken (Zusatz) | Erkläre, welche Regeln ein AppProject setzt und wo eine Application ihr Projekt bekommt. | [Zusatzaufträge](../advanced/#appprojects) |
+| den Branch `main` in Gitea schützen (Zusatz) | Nenne die Einstellungen, die ein Review erzwingen. Sag, wer sie in deinem Gitea umgehen kann. | [Zusatzaufträge](../advanced/#branch-schutz-in-gitea) |
 
-Mit diesem Teil schliesst du [Meilenstein 2](../../assessment/milestone-2/) ab. Die Meilensteine 1 und 2 gibst du zusammen als Abgabe 1 ab. In Teil 5 beobachtest du den Webshop, lässt ihn unter Last wachsen und betreibst als Zusatz ein lokales Sprachmodell.
+Mit diesem Teil schliesst du [Meilenstein 2](../../assessment/milestone-2/) ab. Zeilen mit dem Vermerk «Zusatz» gehören zu einem Zusatzauftrag und nicht zur Basis. Die Meilensteine 1 und 2 gibst du zusammen als Abgabe 1 ab. In Teil 5 beobachtest du den Webshop, lässt ihn unter Last wachsen und betreibst als Zusatz ein lokales Sprachmodell.

@@ -50,11 +50,13 @@ In Meilenstein 3 gilt das Ziel aus deinen [persönlichen Werten](../../start/par
 | 1 Stunde | zeigt, dass das Problem anhält und das Budget wirklich angreift |
 | 5 Minuten | zeigt, ob es jetzt noch besteht. Nach der Behebung endet der Alert darum bald |
 
+![Fehlerbudget und Burn Rate des Webshops. Oben die Zahlen des Webshops. Das SLO verlangt 99,5 % der Anfragen ohne Serverfehler über 7 Tage, das Fehlerbudget beträgt 0,5 % der Anfragen. Bei einer Burn Rate von 1 reicht das Budget genau 7 Tage, bei 14,4 ist es nach 12 Stunden weg. Darunter ein schematischer Verlauf bei gleichmässigem Verkehr. Ab dem Beginn der Fehler steigt die Burn Rate im Fenster über fünf Minuten schnell über die Schwelle von 14,4, also 7,2 % Fehler. Im Fenster über eine Stunde steigt sie langsam. Der Alert feuert erst, wenn beide Fenster zwei Minuten lang über der Schwelle liegen. Sobald die Behebung wirkt, fällt das kurze Fenster und der Alert endet, obwohl das lange Fenster noch hoch ist.](../../../assets/figures/de/p5c3-budget.svg)
+
 Im Lab war die Wirkung des langen Fensters gut zu sehen. Ein Lasttest hatte vorher zehntausende gute Anfragen erzeugt. Als danach jede achte Anfrage scheiterte, lag der Anteil über fünf Minuten sofort bei 12 %, der über eine Stunde aber lange bei 3 bis 4 %. Der Alert löste erst nach rund 25 Minuten aus, nachdem der Fehleranteil weiter gestiegen war.
 
 ## Symptome und Ursachen
 
-Die drei Alerts des Webshops melden Symptome, also das, was die Kundschaft merkt. Neben `WebshopErrorBudgetBurn` sind das `WebshopSlow` und `WebshopDown`. Ursachen wie eine volle Disk, ein Pod in einer Neustartschleife oder ein Knoten ohne Speicher bringt kube-prometheus-stack als eigene Regeln mit, etwa `KubePodCrashLooping` oder `KubePersistentVolumeFillingUp`. Im Lab meldete Prometheus `KubePersistentVolumeFillingUp`, als die Disk des Agents zu 87 % voll war. Den Grund beschreibt das Zusatzkapitel 5.5.
+Die drei Alerts des Webshops melden Symptome, also das, was die Kundschaft merkt. Neben `WebshopErrorBudgetBurn` sind das `WebshopSlow` und `WebshopDown`. Ursachen wie eine volle Disk, ein Pod in einer Neustartschleife oder ein Knoten ohne Speicher bringt kube-prometheus-stack als eigene Regeln mit, etwa `KubePodCrashLooping` oder `KubePersistentVolumeFillingUp`. Im Lab meldete Prometheus `KubePersistentVolumeFillingUp`, als die Disk des Agents nach dem Download des Images von Ollama für die [Zusatzaufträge](../advanced/#speicher-und-last) zu 87 % voll war. Die Volumes von local-path liegen auf derselben Disk wie die Images.
 
 Für Symptome darf man Menschen wecken, denn sie betreffen die Kundschaft sicher. Ursachen gehören in Tickets und Dashboards. Ein Alert, auf den niemand reagieren muss, gehört gelöscht, sonst lernt das Team, Alerts zu übersehen.
 
@@ -69,13 +71,11 @@ route:
   group_wait: 30s
   group_interval: 5m
   repeat_interval: 4h
-  routes:
-    - receiver: triage
-      matchers:
-        - alertname =~ "Webshop.*"
+receivers:
+  - name: "null"
 ```
 
-Alerts des Webshops gehen an den Empfänger `triage`, den Dienst aus dem Zusatzkapitel 5.6. Die Weiterleitung gehört zur Basis, die Arbeit mit dem Dienst selbst ist ein Zusatzauftrag von Meilenstein 3. Alle anderen Alerts landen vorerst bei `null` und erscheinen nur in der Oberfläche von Alertmanager auf Port 30093. `group_wait` wartet 30 Sekunden auf weitere Alerts derselben Gruppe, `repeat_interval` wiederholt einen offenen Alert erst nach vier Stunden.
+In der Basis gehen alle Alerts an den Empfänger `null`, der nichts verschickt. Sie erscheinen nur in der Oberfläche von Alertmanager auf Port 30093. Einen eigenen Empfänger mit einer Route richtest du in Zusatzauftrag B aus [Kapitel 5.5](../advanced/#auftrag-b--triage-mit-freigabe) ein. `group_wait` wartet 30 Sekunden auf weitere Alerts derselben Gruppe, `repeat_interval` wiederholt einen offenen Alert erst nach vier Stunden.
 
 ## Einen Alert auslösen
 
@@ -96,7 +96,7 @@ In Prometheus unter «Alerts» wechselt `WebshopErrorBudgetBurn` zuerst auf `pen
 Löse den Alert wie oben aus, beobachte ihn in Prometheus und Alertmanager und stelle den alten Stand wieder her. Notiere die Zeiten.
 
 :::solution
-Nach dem Push steigt `webshop:error_ratio:rate5m` innerhalb weniger Minuten über 7,2 %. Wie lange `webshop:error_ratio:rate1h` braucht, hängt vom Verkehr der letzten Stunde ab. Ohne vorherigen Lasttest geht es schneller. Alertmanager zeigt den Alert mit dem Empfänger `triage`. Nach dem Revert fällt der Anteil über fünf Minuten. Der Alert endet, obwohl der Anteil über eine Stunde noch hoch ist.
+Nach dem Push steigt `webshop:error_ratio:rate5m` innerhalb weniger Minuten über 7,2 %. Wie lange `webshop:error_ratio:rate1h` braucht, hängt vom Verkehr der letzten Stunde ab. Ohne vorherigen Lasttest geht es schneller. Alertmanager zeigt den Alert in seiner Oberfläche. Nach dem Revert fällt der Anteil über fünf Minuten. Der Alert endet, obwohl der Anteil über eine Stunde noch hoch ist.
 :::
 ::::
 

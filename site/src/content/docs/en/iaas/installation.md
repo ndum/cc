@@ -210,7 +210,7 @@ The first run reports `changed=2` on both nodes because htop was installed and `
 Install OpenNebula 7.4 with OneDeploy, set up the CLI for your user, check the hosts with `onehost list`, log in to the web interface and upload the report of the check `install` to your hand-in repo.
 
 :::solution
-The check ends with "8 of 8 base checks passed". `onehost list` shows both nodes with `on` in the column `STAT`. If it shows `err` instead, `onehost show` with the host's name explains why in the section `MONITORING`, often a missing SSH connection from the front-end to the node.
+The check ends with "8 of 8 base checks passed". `onehost list` shows both nodes with `on` in the column `STAT`. If it shows `err` instead, `onehost show` with the host's name explains why in the section `MONITORING INFORMATION`, often a missing SSH connection from the front-end to the node.
 :::
 ::::
 

@@ -7,7 +7,7 @@ description: Der Auftrag des dritten Meilensteins mit den sieben Anforderungen d
 «Vor der Saison will der Vorstand drei Dinge sehen», schreibt Simone Wyss. «Dass ihr merkt, wenn der Webshop leidet, bevor die Kundschaft es tut. Dass er am Samstag mitwächst. Und was unser eigenes Sprachmodell im Betrieb wirklich taugt.»
 :::
 
-Meilenstein 3 umfasst Teil 5. In der Basis überwachst du Plattform und Webshop, legst ein SLO mit Alert fest und lässt den Shop unter Last wachsen. In den Zusatzaufträgen betreibst du ein lokales Sprachmodell, setzt es mit Freigabe in der Triage ein und verbesserst die Fragen an das Modell. Meilenstein 3 ist eine Einzelarbeit und gehört mit Meilenstein 4 zur Abgabe 2.
+Meilenstein 3 umfasst Teil 5. In der Basis überwachst du Plattform und Webshop, legst ein SLO mit Alert fest und lässt den Shop unter Last wachsen. In den Zusatzaufträgen betreibst du ein lokales Sprachmodell, baust einen eigenen Triage-Dienst mit Freigabe und verbesserst die Fragen an das Modell. Meilenstein 3 ist eine Einzelarbeit und gehört mit Meilenstein 4 zur Abgabe 2.
 
 ## Basis
 
@@ -25,19 +25,19 @@ Die Dokumentation zeigt zu jeder Anforderung einen Screenshot mit einem oder zwe
 
 ## Zusatzaufträge
 
-Die drei Zusatzaufträge drehen sich um das lokale Sprachmodell. Rechne mit vier bis sechs Stunden. Jeder Auftrag gibt 0 bis 3 Punkte nach den [Stufen der Zusatzaufträge](../#stufen-der-zusatzaufträge).
+Die drei Zusatzaufträge drehen sich um das lokale Sprachmodell und bauen aufeinander auf. Rechne mit vier bis sechs Stunden. [Kapitel 5.5](../../observability/advanced/) erklärt die Konzepte und nennt zu jedem Auftrag die Anforderungen. Jeder Auftrag gibt 0 bis 3 Punkte nach den [Stufen der Zusatzaufträge](../#stufen-der-zusatzaufträge).
 
 ### A · Ein lokales Sprachmodell
 
-Ollama läuft mit `llama3.2:3b` auf deiner Plattform. Du misst die Tokens pro Sekunde und erklärst, wovon sie abhängen. Ein Mitglied hat Zugriff auf das Modell, ein anderes nicht. [Kapitel 5.5](../../observability/ai/) zeigt den Weg.
+Ein lokales Sprachmodell läuft als Dienst deiner Plattform. Du misst die Tokens pro Sekunde und erklärst, wovon sie abhängen. Ein Mitglied hat Zugriff auf das Modell, ein anderes nicht. Die Anforderungen stehen in [Kapitel 5.5](../../observability/advanced/#auftrag-a--ein-lokales-sprachmodell).
 
 ### B · Triage mit Freigabe
 
-Der Triage-Dienst bekommt Alerts und schlägt Ursache und Aktion vor. Du gibst einen Vorschlag frei und lehnst einen anderen ab, das Audit-Log zeigt beide Entscheidungen. In der Dokumentation beurteilst du beide Vorschläge kritisch und hältst fest, was daran stimmte und was falsch war. [Kapitel 5.6](../../observability/triage/) zeigt den Dienst und seine Schutzmassnahmen.
+Dein eigener Triage-Dienst bekommt die Alerts des Webshops, fragt das Modell aus Auftrag A und schlägt Ursache und Aktion vor. Eine Aktion läuft nur nach einer Freigabe, der Dienst hat minimale Rechte und schreibt ein Audit-Log. Du gibst einen Vorschlag frei und lehnst einen anderen ab, das Audit-Log zeigt beide Entscheidungen. In der Dokumentation beurteilst du beide Vorschläge kritisch und hältst fest, was daran stimmte und was falsch war. Die Anforderungen stehen in [Kapitel 5.5](../../observability/advanced/#auftrag-b--triage-mit-freigabe).
 
 ### C · Bessere Fragen an das Modell
 
-Mit `EXTRA_INSTRUCTIONS` ergänzt du die Frage, die der Triage-Dienst an das Modell stellt. Du vergleichst die Vorschläge zum selben Alert vorher und nachher und hältst das gemessene Ergebnis fest, etwa die Dauer und ob die vorgeschlagene Aktion zum Fehler passt. [Kapitel 5.6](../../observability/triage/) beschreibt die Frage an das Modell.
+Du verbesserst die Frage, die dein Triage-Dienst an das Modell stellt. Du vergleichst die Vorschläge zum selben Alert vorher und nachher und hältst das gemessene Ergebnis fest, etwa die Dauer und ob die vorgeschlagene Aktion zum Fehler passt. Die Anforderungen stehen in [Kapitel 5.5](../../observability/advanced/#auftrag-c--bessere-fragen-an-das-modell).
 
 ## Zusatzaufträge zeigen
 
@@ -45,7 +45,7 @@ Die Zusatzaufträge zeigst du live im Unterricht oder in einem Screencast von h�
 
 ## Abgabe
 
-Im Ordner `m3/` deines Abgabe-Repos liegen die Dokumentation mit den Screenshots und der Zeichnung sowie `platform/`, eine Kopie deines Repos `platform` aus Gitea ohne den Ordner `.git`, ohne State und ohne Passwörter. Für Auftrag B kommt `audit.jsonl` dazu, das Audit-Log des Triage-Dienstes, für die Vorführung der Screencast oder ein Link darauf.
+Im Ordner `m3/` deines Abgabe-Repos liegen die Dokumentation mit den Screenshots und der Zeichnung sowie `platform/`, eine Kopie deines Repos `platform` aus Gitea ohne den Ordner `.git`, ohne State und ohne Passwörter. Für Auftrag B kommt das Audit-Log deines Triage-Dienstes dazu, für die Vorführung der Screencast oder ein Link darauf. Liegt der Code deines Triage-Dienstes nicht im Plattform-Repo, legst du ihn in den Ordner `m3/triage/`.
 
 Die Berichte der Checks legst du in `reports/`. Wie das Repo aufgebaut ist und wie du einen Tag setzt, steht in der [Übersicht](../).
 

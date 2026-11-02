@@ -65,6 +65,8 @@ onetemplate list
 
 Ein Image ist für alle VMs gleich, jede VM braucht aber ihre eigene Adresse, ihren Namen und die Schlüssel ihrer Benutzer. Diese Angaben gibt OpenNebula der VM beim Start mit. Es hängt sie als kleines virtuelles CD-Laufwerk an die VM. Das Paket `one-context` im Image liest sie beim ersten Start und richtet die VM danach ein. Dieses Prinzip heisst Kontextualisierung.
 
+![Eine VM aus Image, Vorlage und Kontext. Oben liegen auf dem Front-end das Image ubuntu-26.04 im Datastore default und die Vorlage ubuntu. Deren DISK verweist auf das Image. onetemplate instantiate ubuntu --name web-1 legt daraus die VM web-1 auf einem Knoten an. Dabei kopiert OpenNebula das Image als Disk in den Datastore system des Knotens und hängt die Werte aus CONTEXT als CD-Laufwerk mit context.sh an. Beim ersten Start liest one-context diese Datei und richtet die VM ein. NETWORK gibt ihr Adresse, Gateway, DNS und MTU aus cc-net. SET_HOSTNAME macht den Namen der VM zum Hostnamen, SSH_PUBLIC_KEY legt den Schlüssel von oneadmin in authorized_keys von root ab. Achte darauf, dass das Image für alle VMs gleich bleibt. Adresse, Name und Schlüssel bekommt jede VM erst über den Kontext.](../../../assets/figures/de/p2c4-template.svg)
+
 | Angabe | Wirkung in der VM |
 |---|---|
 | `NETWORK = "YES"` | Adresse, Gateway, DNS und MTU aus dem Netz `cc-net` |

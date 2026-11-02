@@ -35,6 +35,8 @@ Bis auf den Strompreis sind die Zahlen Annahmen für den Fall. Der Strompreis is
 
 Die Arbeit macht drei Viertel der Kosten aus, der Strom keine 5 %. Das ist für kleine Plattformen typisch. Sparen lässt sich darum vor allem Arbeitszeit, etwa mit Automatisierung durch OpenTofu und GitOps, mit Self-Service und mit wenigen, gut dokumentierten Abläufen.
 
+![Die Vollkosten von Wolkenwerk pro Jahr. Waagrechte Balken für die vier Posten der Vollkostenrechnung, nach Grösse sortiert. Die Arbeit kostet 13’000 Franken im Jahr, die Hardware 1’800, die übrigen Posten 1’500 und der Strom 828 Franken. Zusammen sind es 17’128 Franken. Die Arbeit macht drei Viertel der Kosten aus, der Strom keine 5 %.](../../../assets/figures/de/p6c4-cost.svg)
+
 ## Ein Preis für das neue Mitglied
 
 Die einfachste Verteilung folgt den reservierten Ressourcen. Die Knoten haben zusammen 8 CPU und 14,4 GB, die OpenNebula vergeben kann. Ein neues Mitglied hat einen Namespace mit 1 CPU und 1 GB in der Quota und eine VM mit einer halben CPU und 1 GB. Es reserviert damit 1,5 von 8 CPU oder 18,8 % sowie 2 von 14,4 GB oder 13,9 %. Im Mittel sind das 16,3 % der Kosten.
@@ -43,13 +45,9 @@ Die einfachste Verteilung folgt den reservierten Ressourcen. Die Knoten haben zu
 17’128 × 0,1632 ≈ 2’795 Franken pro Jahr ≈ 233 Franken pro Monat
 ```
 
-Mit den Preisen aus Kapitel 3.3 kostete dasselbe Mitglied rund 86 Franken im Monat, 35 für die VM und 51 für den Namespace, gerechnet mit denselben Preisen pro CPU und MB. Die Preise des Showbacks decken nur gut einen Drittel. Falsch sind sie deshalb nicht. Das Showback macht den Verbrauch sichtbar, ein Preis muss dagegen die Vollkosten decken. Ein Vorschlag an den Vorstand könnte einen Grundbeitrag pro Mitglied für die Arbeit vorsehen und den Verbrauch dazu nach Showback abrechnen. Ob Wolkenwerk den Mitgliedern die Kosten wirklich verrechnet oder nur zeigt, ist ein Entscheid der Genossenschaft. Die FinOps Foundation unterscheidet dafür Showback und Chargeback.
+Mit den Preisen aus Kapitel 3.3 kostete dasselbe Mitglied rund 86 Franken im Monat, 35 für die VM und 51 für den Namespace, gerechnet mit denselben Preisen pro CPU und MB. Die Preise des Showbacks decken nur gut einen Drittel. Falsch sind sie deshalb nicht. Der Showback macht den Verbrauch sichtbar, ein Preis muss dagegen die Vollkosten decken. Ein Vorschlag an den Vorstand könnte einen Grundbeitrag pro Mitglied für die Arbeit vorsehen und den Verbrauch dazu nach Showback abrechnen. Ob Wolkenwerk den Mitgliedern die Kosten wirklich verrechnet oder nur zeigt, ist ein Entscheid der Genossenschaft. Die FinOps Foundation unterscheidet dafür Showback und Chargeback.
 
 Die Rechnung nimmt an, dass die Plattform voll belegt ist. Tatsächlich belegen die VMs von k3s allein 12 der 14,4 GB. Kapazität, die kein Mitglied bucht, bezahlen die übrigen Mitglieder mit.
-
-:::note[Zusatzauftrag]
-Das Kostenmodell für dein eigenes Mitglied gehört zu den Zusatzaufträgen von Meilenstein 4. Du rechnest es wie oben mit der Quota und der VM deines Mitglieds und vergleichst es mit dem Showback.
-:::
 
 ## Right-Sizing
 
@@ -78,9 +76,9 @@ Im Lab ergab sich nach einem Lasttest dieses Bild.
 | ai | 1,02 | 0,22 | 2’112 MiB | 3’391 MiB |
 | probe | 0,05 | 0 | 64 MiB | 21 MiB |
 
-Die Messung stammt aus dem Lab des Kurses. Dort lief auch das Mitglied `probe` aus dem Zusatzauftrag von Meilenstein 4. Ohne diesen Zusatzauftrag fehlt die Zeile bei dir, mit ihm steht dort der Namespace deines Mitglieds.
+Die Messung stammt aus dem Lab des Kurses. Dort liefen auch Ollama im Namespace `ai` aus den Zusatzaufträgen von Meilenstein 3 und das Mitglied `probe` aus Zusatzauftrag A von Meilenstein 4. Ohne diese Zusatzaufträge fehlen die beiden Zeilen bei dir, mit ihnen stehen dort deine eigenen Namespaces.
 
-Die drei Zeilen zeigen unterschiedliche Fälle. Beim Webshop lag der Verbrauch über den Requests, weil das HPA die Pods nach Auslastung der Requests skaliert. Die Requests sind dort ein Werkzeug der Skalierung. Dass der Verbrauch darüber liegt, ist kein Fehler. Ollama reservierte viermal mehr CPU, als es brauchte, aber ein Drittel zu wenig Speicher. Mit dem geladenen Modell nutzte es 3,3 GiB bei einem Request von 2 GiB. Wird der Speicher auf dem Node knapp, beendet Kubernetes zuerst Pods, die mehr nutzen, als sie reserviert haben. Ein besserer Request wäre etwa 0,5 CPU und 3,5 GiB Speicher. Das Limit von 4 GiB lässt dann nur noch wenig Luft. Wer den Request erhöht, prüft deshalb auch das Limit und ob der Agent neben Loki und den Pods der Mitglieder den Platz hat. Die Änderung gehört in `ai/ollama.yaml` und damit in einen Pull Request.
+Die drei Zeilen zeigen unterschiedliche Fälle. Beim Webshop lag der Verbrauch über den Requests, weil das HPA die Pods nach Auslastung der Requests skaliert. Die Requests sind dort ein Werkzeug der Skalierung. Dass der Verbrauch darüber liegt, ist kein Fehler. Ollama reservierte viermal mehr CPU, als es brauchte, aber ein Drittel zu wenig Speicher. Mit dem geladenen Modell nutzte es 3,3 GiB bei einem Request von 2 GiB. Wird der Speicher auf dem Node knapp, beendet Kubernetes zuerst Pods, die mehr nutzen, als sie reserviert haben. Ein besserer Request wäre etwa 0,5 CPU und 3,5 GiB Speicher. Das Limit von 4 GiB lässt dann nur noch wenig Luft. Wer den Request erhöht, prüft deshalb auch das Limit und ob der Agent neben Loki und den Pods der Mitglieder den Platz hat. Die Änderung gehört in das Manifest von Ollama im Plattform-Repo und damit in einen Pull Request.
 
 Eine Stunde ist für solche Entscheide zu kurz. Ein Samstag im Frühling sieht anders aus als ein Dienstag im Januar. Grafana zeigt dieselben Abfragen über Wochen. Erst mit solchen Werten lohnt sich eine Änderung.
 
@@ -103,7 +101,7 @@ Auch der Stromverbrauch hängt von der Belegung ab. Ein Server im Leerlauf brauc
 OpenCost rechnet mit Preisen pro CPU und GB die Kosten eines Clusters pro Namespace, Deployment und Pod aus und zeigt ungenutzte Reservierungen. Es läuft im Cluster und liest aus Prometheus. Für den Kurs genügen die Abfragen oben und die Rechnung in einer Tabelle.
 
 ::::exercise[Kostenmodell]
-Erstelle das Kostenmodell für eines der vier Mitglieder mit seiner Quota und seinen VMs. Machst du den Zusatzauftrag von Meilenstein 4, rechnest du es für dein eigenes Mitglied. Rechne mit den Vollkosten oben oder mit eigenen begründeten Annahmen und vergleiche das Ergebnis mit dem Showback aus Kapitel 3.3.
+Erstelle das Kostenmodell für eines der vier Mitglieder mit seiner Quota und seinen VMs. Machst du Zusatzauftrag C aus Kapitel 6.5, rechnest du es für dein eigenes Mitglied. Rechne mit den Vollkosten oben oder mit eigenen begründeten Annahmen und vergleiche das Ergebnis mit dem Showback aus Kapitel 3.3.
 
 :::solution
 Das Modell nennt die Ressourcen des Mitglieds aus Quota und VM, den Anteil an der Kapazität, den Preis pro Monat aus den Vollkosten und den Betrag aus dem Showback. Den Unterschied erklärt es mit der Arbeit, die im Showback fehlt. Dazu kommt ein Vorschlag für die Verrechnung, etwa Grundbeitrag plus Verbrauch. Eigene Annahmen sind erlaubt, wenn sie begründet sind.
@@ -114,7 +112,7 @@ Das Modell nennt die Ressourcen des Mitglieds aus Quota und VM, den Anteil an de
 Vergleiche Requests und Verbrauch der Namespaces in deinem Lab über mindestens einen Tag und passe einen Request über einen Pull Request an. Begründe den neuen Wert.
 
 :::solution
-Die Abfragen zeigen pro Namespace Reservierung und Verbrauch. Ein guter Kandidat ist Ollama mit zu viel CPU und zu wenig Speicher. Der neue Wert liegt beim Speicher etwas über dem gemessenen Maximum, bei der CPU nahe am 95. Perzentil. Beim Webshop bleiben die Requests klein, weil das HPA darauf rechnet.
+Die Abfragen zeigen pro Namespace Reservierung und Verbrauch. Läuft Ollama aus Meilenstein 3, ist es ein guter Kandidat mit zu viel CPU und zu wenig Speicher. Der neue Wert liegt beim Speicher etwas über dem gemessenen Maximum, bei der CPU nahe am 95. Perzentil. Beim Webshop bleiben die Requests klein, weil das HPA darauf rechnet.
 :::
 ::::
 

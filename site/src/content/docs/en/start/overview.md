@@ -30,7 +30,7 @@ In this module you build a small cloud in your own lab and run it the way a plat
 | 2 Building IaaS | You install OpenNebula with Ansible, bring the nodes into service as hosts, set up networks, images and templates, and start your first VMs. | a running IaaS cloud |
 | 3 Tenants and self-service | You split the cloud into groups with quotas, charge usage back with showback, give the members self-service and let a service grow with OneFlow. | four members with their own resources, milestone 1 |
 | 4 Platform as code | You create a Kubernetes cluster with OpenTofu, roll out the web shop from Git with Argo CD and give the members namespaces from a template. | a platform you can rebuild from code, milestone 2 |
-| 5 Observability, scaling and AI | You monitor everything with Prometheus, Grafana and Loki, set an SLO, let the web shop scale on its own and run a local language model that sorts alerts. | a monitored platform, milestone 3 with the local language model in the advanced tasks |
+| 5 Observability, scaling and AI | You monitor everything with Prometheus, Grafana and Loki, set an SLO and let the web shop scale on its own. In the advanced tasks you run a local language model that sorts alerts. | a monitored platform, milestone 3 with the local language model in the advanced tasks |
 | 6 Operations | You harden the platform, back it up and restore it, write an SLA, work out the cost and put a fifth member of your own design into service. | a cloud ready for operation, milestone 4 |
 
 Each part adds a layer of the [target architecture](#the-target-architecture). The milestones close parts 3, 4, 5 and 6, and your grade comes from them.
@@ -49,9 +49,9 @@ The first four members need different things. Praxis Rosenweg, a medical practic
 
 ## The target architecture
 
-By the end of the course you run a cloud in four layers. At the bottom are your three servers on smartlearn. On them OpenNebula provides the infrastructure, with tenants, quotas and an internal network for your members' VMs. With OpenTofu you create two VMs in it that run the Kubernetes cluster k3s. That cluster carries the services of the platform. Argo CD deploys the members' apps from a Git repo, Prometheus and Loki watch everything, and Ollama offers a local language model that suggests a cause and an action when an alert fires. At the top, the members use this cloud. The figure leaves out the client because it is not part of the cloud. You work on every layer from it.
+By the end of the course you run a cloud in four layers. At the bottom are your three servers on smartlearn. On them OpenNebula provides the infrastructure, with tenants, quotas and an internal network for your members' VMs. With OpenTofu you create two VMs in it that run the Kubernetes cluster k3s. That cluster carries the services of the platform. Argo CD deploys the members' apps from a Git repo, and Prometheus and Loki watch everything. The advanced tasks add a local language model that suggests a cause and an action when an alert fires. At the top, the members use this cloud. The figure leaves out the client because it is not part of the cloud. You work on every layer from it.
 
-![The target architecture of the course. Four layers on top of each other. The infrastructure is the front-end and two nodes with Ubuntu on smartlearn, set up with prepare.sh. On it OpenNebula provides the IaaS with oned, Sunstone, tenants and networks, installed with Ansible and OneDeploy, and the VMs run with KVM on the nodes. Above that runs the platform k3s, created by OpenTofu, with Argo CD, the web shop, Ollama, the AI triage, Prometheus, Grafana and Loki, and Argo CD pulls the apps from a Git repo. At the top the members of Wolkenwerk Bern use the cloud. Every layer names the parts of the course that build it.](../../../../assets/figures/en/p0c1-architecture.svg)
+![The target architecture of the course. Four layers on top of each other. The infrastructure is the front-end and two nodes with Ubuntu on smartlearn or a hypervisor of your own, set up with prepare.sh. On it OpenNebula provides the IaaS with oned, Sunstone, tenants and networks, installed with Ansible and OneDeploy, and the VMs run with KVM on the nodes. Above that runs the platform k3s, created by OpenTofu, with Argo CD, Prometheus, Grafana, Loki, the web shop, Ollama and the AI triage, and Argo CD pulls the apps from a Git repo. Ollama and the AI triage are marked as advanced because you build them in the advanced tasks of part 5. At the top the members of Wolkenwerk Bern use the cloud. Every layer names the parts of the course that build it.](../../../../assets/figures/en/p0c1-architecture.svg)
 
 Every part of the course builds a layer or extends one. The header line of each layer names the parts that build it and, on the right, the tool that creates it. The preparation script sets up the servers, Ansible with OneDeploy the IaaS, OpenTofu the VMs of k3s, and Argo CD pulls the apps from a Git repo.
 
@@ -65,7 +65,7 @@ Every milestone is individual work in two parts. You prove the base with documen
 
 You may use AI assistants to write code, configuration and scripts. Two rules apply. First, the documentation of every milestone states what you used an AI assistant for. Second, you must be able to explain everything you hand in. Your instructor asks questions during the showing, and a solution you cannot explain does not count as yours.
 
-From part 5 on, the course itself runs a local language model on your platform. There you put a small model to work in operations and check where its suggestions hold and where they do not.
+In the advanced tasks of part 5 you run a local language model on your platform. There you put a small model to work in operations and check where its suggestions hold and where they do not.
 
 ::::exercise[Warm-up]
 Read the description of the four members again. For each member, write one sentence on what it needs most from a cloud.

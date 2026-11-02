@@ -42,7 +42,7 @@ Since part 4, the desired state of the platform has been in Git. A new cluster g
 
 The Gitea repo lives on the front-end, like the state, the snapshots and the backups. If the front-end fails, all four are gone at once. That violates the 3-2-1 rule. One copy belongs on another system, such as your instructor's computer or storage offsite.
 
-![Where the data lives and how it is backed up. On the left the k3s cluster and the nodes. On k3s-server, etcd writes a snapshot every six hours and keeps eight of them. A timer copies the snapshots to ~/backup/k3s on the front-end every six hours, together with the k3s token and the Sealed Secrets key. The volumes on k3s-agent with metrics, logs and the audit log are not backed up. The member VMs live in the datastores of the nodes, and a backup job backs them up every night at 2:00 to the backup datastore backups on the front-end and keeps seven backups. The front-end also holds the repo platform in Gitea and the working copy ~/platform with the OpenTofu state. An off-site copy is missing, so the lab breaks the 3-2-1 rule. If the front-end fails, everything is gone at once.](../../../../assets/figures/en/p6c2-backup.svg)
+![Where the data lives and how it is backed up. On the left the k3s cluster and the nodes. On k3s-server, etcd writes a snapshot every six hours and keeps eight of them. A timer copies the snapshots to ~/backup/k3s on the front-end every six hours, together with the k3s token and the Sealed Secrets key. The volumes on k3s-agent with metrics and logs are not backed up. The member VMs live in the datastores of the nodes, and a backup job backs them up every night at 2:00 to the backup datastore backups on the front-end and keeps seven backups. The front-end also holds the repo platform in Gitea and the working copy ~/platform with the OpenTofu state. An off-site copy is missing, so the lab breaks the 3-2-1 rule. If the front-end fails, everything is gone at once.](../../../../assets/figures/en/p6c2-backup.svg)
 
 ## The cluster with etcd
 
@@ -73,7 +73,7 @@ kubectl apply -f ~/backup/k3s/sealed-secrets-key.yaml
 ~/cc/platform/bootstrap-argocd.sh
 ```
 
-In the lab, with the whole stack of part 5, `tofu apply` took 484 seconds for this rebuild, much longer than the rebuild of the empty cluster in chapter 4.2. The old VMs spent much of that time waiting to shut down. OpenNebula also held one of the new VMs in `pending` and reported "Not enough capacity on datastores", because it still had the old value for one node's free disk space. `onevm show <id> | grep SCHED_MESSAGE` shows the reason, and after `onehost forceupdate` the VM ran about a minute later. The script writes the new Argo CD password to `~/cc-lab/argocd-admin.pass` instead of the terminal, so it does not end up in a screenshot. After the bootstrap, Argo CD rolled out everything. A few minutes later all eleven applications were synced and healthy, and the Grafana password was decrypted again. Ollama reloaded its model. What was lost was the data in the volumes, meaning the metrics, the logs and the triage service's audit log.
+In the lab, with the whole stack of part 5, `tofu apply` took 484 seconds for this rebuild, much longer than the rebuild of the empty cluster in chapter 4.2. The old VMs spent much of that time waiting to shut down. OpenNebula also held one of the new VMs in `pending` and reported "Not enough capacity on datastores", because it still had the old value for one node's free disk space. `onevm show <id> | grep SCHED_MESSAGE` shows the reason, and after `onehost forceupdate` the VM ran about a minute later. The script writes the new Argo CD password to `~/cc-lab/argocd-admin.pass` instead of the terminal, so it does not end up in a screenshot. After the bootstrap, Argo CD rolled out everything. A few minutes later all applications were synced and healthy, and the Grafana password was decrypted again. What was lost was the data in the volumes, meaning the metrics and the logs. The course lab also ran Ollama and a triage service from the advanced tasks of milestone 3. Ollama reloaded its model, and the triage service's audit log was gone.
 
 ## Saving the snapshots
 
@@ -93,40 +93,7 @@ sudo systemctl start cc-backup-k3s.service
 ls ~/backup/k3s/snapshots
 ```
 
-That makes the RPO of the cluster six hours. Anything changed in that time through `kubectl` instead of Git would be gone after a restore.
-
-## Restoring the cluster
-
-:::note[Advanced task]
-Restoring from a snapshot with the time measured is one of the advanced tasks of milestone 4. Switching to etcd, the snapshots and their copy to the front-end belong to the base.
-:::
-
-The drill simulates a serious operator error. Someone deletes the namespace `argocd` and with it the GitOps control. First take a snapshot and copy it.
-
-```bash
-ssh root@$CC_K3S_SERVER_IP k3s etcd-snapshot save --name vor-uebung
-~/cc/platform/operations/backup-k3s.sh
-kubectl delete namespace argocd
-```
-
-To restore, you stop k3s, reset the database to the snapshot and start k3s again. `--cluster-reset` makes the server the only member of a new etcd cluster with the content of the snapshot.
-
-```bash
-snap=$(ls ~/backup/k3s/snapshots | grep vor-uebung | tail -1)
-scp ~/backup/k3s/snapshots/$snap root@$CC_K3S_SERVER_IP:/root/
-ssh root@$CC_K3S_SERVER_IP "systemctl stop k3s && k3s server --cluster-reset --cluster-reset-restore-path=/root/$snap && systemctl start k3s"
-kubectl get namespace argocd
-```
-
-In the lab, the API was back after 13 seconds, and so were the namespace `argocd` and all applications. A problem only showed up afterwards. Controllers such as Argo CD and the Prometheus operator watch the cluster continuously and remember the last state they saw. After the reset, that state no longer matched. Argo CD stopped picking up new commits, and the operator reported watch errors. Restarting the controllers fixed both.
-
-```bash
-kubectl -n argocd rollout restart deployment,statefulset
-kubectl -n monitoring rollout restart deployment,statefulset
-kubectl -n kube-system rollout restart deploy sealed-secrets-controller
-```
-
-Only then is the restore complete. Verify it with the check `platform` and with a small commit that Argo CD has to pick up.
+That makes the RPO of the cluster six hours. Anything changed in that time through `kubectl` instead of Git would be gone after a restore. Restoring from a snapshot is part of advanced task B in [chapter 6.5](../advanced/#restoring-from-a-snapshot).
 
 ## VMs in OpenNebula
 
@@ -134,7 +101,7 @@ OpenNebula backs up the member VMs itself. Backups go to a datastore of type `BA
 
 ::code{file="platform/operations/backup-datastore.sh"}
 
-Since chapter 4.2 only the two k3s VMs run in OpenNebula. You do not back them up this way, since their state lives in Git and in the etcd snapshots. To practice, start the VM `praxis-1` from the template `ubuntu` with 1 GB as `praxis-admin`. A node has no more memory to spare next to k3s. You back up this VM and restore it. So that you can check the restore, create a test file before the backup. `onevm show` shows the address of the VM. If you do the advanced task of milestone 4 with a member of your own, you can use that member's VM instead.
+Since chapter 4.2 only the two k3s VMs run in OpenNebula. You do not back them up this way, since their state lives in Git and in the etcd snapshots. To practice, start the VM `praxis-1` from the template `ubuntu` with 1 GB as `praxis-admin`. A node has no more memory to spare next to k3s. You back up this VM and restore it. So that you can check the restore, create a test file before the backup. `onevm show` shows the address of the VM. If you do advanced task A from [chapter 6.5](../advanced/#task-a--a-member-of-your-own), you can use the VM of your own member instead.
 
 `onevm backup` starts a backup by hand, even for a running VM. In the lab, backing up a VM with 1 GB of memory and Ubuntu 26.04 took eleven seconds, and the backup image was 1004 MB.
 
@@ -173,7 +140,7 @@ Backups count against the datastore quota. A member with many large backups need
 Velero backs up namespaces together with their volumes into object storage and restores single namespaces without resetting the whole cluster. It would need storage such as MinIO and more components on the tight nodes. For the course, Git, the etcd snapshots and the OpenNebula backups are enough.
 
 ::::exercise[RPO and RTO]
-Set an RPO and an RTO for the four members. Check whether the platform meets them with snapshots every six hours and nightly backups. If you do the advanced task of milestone 4, add your own member.
+Set an RPO and an RTO for the four members. Check whether the platform meets them with snapshots every six hours and nightly backups. If you do the advanced tasks from chapter 6.5, add your own member.
 
 :::solution
 One possible setting is the fiduciary office with an RPO of four hours and an RTO of four hours at the end of the month, the practice with an RPO of 24 hours and an RTO of one working day, the web shop with an RPO of 24 hours and an RTO of one hour on Saturdays, the municipality with an RPO of 24 hours and an RTO of four hours during counter hours. The nightly VM backups reach an RPO of 24 hours, so the fiduciary office would need more frequent ones. An RTO of one hour requires a practiced restore. In the lab, rebuilding the cluster took a good ten minutes, restoring from the snapshot less than one.
@@ -181,10 +148,10 @@ One possible setting is the fiduciary office with an RPO of four hours and an RT
 ::::
 
 ::::exercise[Lab]
-Rebuild the cluster with etcd, set up the snapshot copies and a backup job, and restore the VM `praxis-1` from its backup. For the advanced task, also restore the namespace `argocd` from the snapshot. Measure the times.
+Rebuild the cluster with etcd, set up the snapshot copies and a backup job, and restore the VM `praxis-1` from its backup. Measure the times.
 
 :::solution
-On the server, `k3s etcd-snapshot ls` shows the snapshots. `~/backup/k3s` holds snapshots, token and key, and `systemctl list-timers cc-backup-k3s.timer` shows the timer's next run. `onebackupjob list` shows the job, and `oneimage list` an image of type `BK`. Afterwards the VM is back, with the advanced task Argo CD as well. The check `operations` reports the backup checks as passed. The times are in the range of the lab, about two minutes for the VM and under a minute for the snapshot.
+On the server, `k3s etcd-snapshot ls` shows the snapshots. `~/backup/k3s` holds snapshots, token and key, and `systemctl list-timers cc-backup-k3s.timer` shows the timer's next run. `onebackupjob list` shows the job, and `oneimage list` an image of type `BK`. Afterwards the VM is back. The check `operations` reports the backup checks as passed. The times are in the range of the lab, a few minutes for the rebuild and about two minutes for the VM.
 :::
 ::::
 

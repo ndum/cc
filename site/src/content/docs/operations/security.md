@@ -59,7 +59,7 @@ Härten heisst, alles abzuschalten oder abzuschotten, was nicht gebraucht wird. 
 
 Danach nimmt SSH nur noch Schlüssel an. Direkt als `root` kann sich niemand mehr anmelden. Ein Passwort lässt sich erraten oder abfangen, ein privater Schlüssel verlässt den Client nie. Die Firewall ist eine eigene Tabelle von nftables. Sie lässt die Knoten und cc-net alles erreichen, alle anderen Rechner nur SSH und die Weboberfläche. Die Tabelle `cc_gateway` mit der NAT für cc-net aus Kapitel 0.4 bleibt unberührt. Sicherheitsupdates installiert Ubuntu mit `unattended-upgrades` jeden Tag selbst. Das Skript sorgt dafür, dass dieser Dienst läuft.
 
-![Die Schutzschichten von Front-end und Cluster. In der Mitte das Front-end. Seine Firewall, die Tabelle cc_firewall von nftables, weist alles ab, was sie nicht ausdrücklich erlaubt. Der Client und andere Rechner erreichen nur SSH auf Port 22 und die Weboberfläche auf Port 2616. SSH nimmt nur Schlüssel an und lässt root nicht direkt herein. Die Knoten und cc-net erreichen alles, auch Gitea auf Port 3000, die API auf Port 2633 und die Exporter auf den Ports 9100 und 9925. Jeden Tag installiert unattended-upgrades die Sicherheitsupdates. Rechts der Cluster. Pod Security Admission verlangt in den Namespaces der Mitglieder das Profil restricted. NetworkPolicies trennen die Mitglieder, der Triage-Dienst darf in velo nur get und patch auf Deployments ausführen. Ein SealedSecret kommt verschlüsselt aus Gitea, nur der Controller von Sealed Secrets in kube-system kann es entschlüsseln.](../../../assets/figures/de/p6c1-security.svg)
+![Die Schutzschichten von Front-end und Cluster. In der Mitte das Front-end. Seine Firewall, die Tabelle cc_firewall von nftables, weist alles ab, was sie nicht ausdrücklich erlaubt. Der Client und andere Rechner erreichen nur SSH auf Port 22 und die Weboberfläche auf Port 2616. SSH nimmt nur Schlüssel an und lässt root nicht direkt herein. Die Knoten und cc-net erreichen alles, auch Gitea auf Port 3000, die API auf Port 2633 und die Exporter auf den Ports 9100 und 9925. Jeden Tag installiert unattended-upgrades die Sicherheitsupdates. Rechts der Cluster. Pod Security Admission verlangt in den Namespaces der Mitglieder das Profil restricted. NetworkPolicies trennen die Mitglieder, Prometheus darf in allen Namespaces nur lesen. Ein SealedSecret kommt verschlüsselt aus Gitea, nur der Controller von Sealed Secrets in kube-system kann es mit seinem Schlüssel entschlüsseln.](../../../assets/figures/de/p6c1-security.svg)
 
 Prüfe vorher, dass du dich vom Client aus mit deinem Schlüssel anmelden kannst. Lass die bestehende Verbindung offen, bis eine neue Anmeldung mit dem Schlüssel klappt. Das Skript startest du auf dem Front-end, den Versuch ohne Schlüssel vom Client aus.
 
@@ -111,7 +111,7 @@ Die Plattform trennt Rechte seit Teil 3 auf mehreren Ebenen. Auf jeder Ebene bek
 | OpenNebula | Gruppen, Quotas und das VDC wolkenwerk | 3.1, 3.2 |
 | Kubernetes | ein Namespace pro Mitglied mit Quota | 4.5 |
 | Netz im Cluster | NetworkPolicy, Zugriff auf das Modell nur mit Label | 4.5, 5.5 |
-| Automatisierung | eigene Rolle des Triage-Dienstes, nur `get` und `patch` in `velo` | 5.6 |
+| Automatisierung | eigene Rolle pro Dienst, etwa für Prometheus nur lesende Rechte | 5.1 |
 | Änderungen | Pull Requests in Gitea, Argo CD liest nur | 4.4 |
 
 ### Rollen in Kubernetes
@@ -129,33 +129,26 @@ Rechte vergibst du in zwei Schritten. Eine Rolle zählt auf, welche Verben auf w
 
 Ein RoleBinding darf auf eine ClusterRole verweisen und gibt deren Rechte dann nur in seinem eigenen Namespace. Auf diese Weise dienen die eingebauten ClusterRoles `view`, `edit` und `admin` als Vorlagen. Bekäme die Gemeinde Zugriff auf ihren Namespace, reichte ein RoleBinding in `gemeinde`, das ihre Gruppe an `edit` bindet. RBAC kennt nur Erlaubnisse. Was keine Regel erlaubt, ist verboten. Die Rechte aus mehreren Bindings zählen zusammen.
 
-### Der Triage-Dienst als Beispiel
+### Prometheus als Beispiel
 
-Der Triage-Dienst aus Kapitel 5.6 läuft im Namespace `ai` unter dem ServiceAccount `triage`. Er soll den Webshop neu starten können und sonst nichts.
-
-::code{file="platform/observability/repo/ai/triage-rbac.yaml"}
-
-Die Role liegt in `velo` und erlaubt `get` und `patch` auf Deployments der Gruppe `apps`. Für einen Neustart genügt das, weil er nur eine Anmerkung im Pod-Template des Deployments setzt. Das RoleBinding liegt ebenfalls in `velo` und nennt als Subject den ServiceAccount aus `ai`. Subject und Binding dürfen in verschiedenen Namespaces liegen, die Rechte gelten immer im Namespace des Bindings. Der Dienst kann darum weder Secrets lesen noch Deployments löschen noch etwas in `gemeinde` anfassen.
-
-Dieses Vorgehen heisst Least Privilege. Jede Identität bekommt die kleinsten Rechte, mit denen sie ihre Aufgabe erfüllt ([RBAC Good Practices](https://kubernetes.io/docs/concepts/security/rbac-good-practices/)). Bringt jemand den Dienst unter seine Kontrolle, etwa über eine manipulierte Meldung, die das Modell zu einem falschen Vorschlag verleitet, bleibt der Schaden auf Neustarts in `velo` begrenzt.
-
-Mit `kubectl auth can-i` prüfst du, ob die Regeln greifen. Die Option `--as` stellt die Frage im Namen eines anderen Subjects. Ein ServiceAccount heisst dabei `system:serviceaccount:<namespace>:<name>` ([kubectl auth can-i](https://kubernetes.io/docs/reference/kubectl/generated/kubectl_auth/kubectl_auth_can-i/)). Kapitel 5.6 hat einzelne Verben geprüft, mit `--list` siehst du alle Rechte in einem Namespace auf einmal.
+Prometheus aus Kapitel 5.1 läuft im Namespace `monitoring` unter einem eigenen ServiceAccount. Um seine Ziele zu finden, muss es Pods, Services und Endpoints in allen Namespaces lesen. Ändern muss es nichts. Das Chart kube-prometheus-stack legt dafür eine ClusterRole an, die auf diesen Ressourcen nur die Verben `get`, `list` und `watch` erlaubt. Ein ClusterRoleBinding verbindet den ServiceAccount mit ihr. Die Rechte gelten darum in jedem Namespace, aber nur zum Lesen.
 
 ```bash
-kubectl auth can-i --list -n velo --as=system:serviceaccount:ai:triage
+kubectl get clusterrolebinding -o wide | grep prometheus
+kubectl get clusterrole monitoring-kube-prometheus-prometheus -o yaml
 ```
 
-```text
-Resources                                       Non-Resource URLs                      Resource Names   Verbs
-selfsubjectreviews.authentication.k8s.io        []                                     []               [create]
-selfsubjectaccessreviews.authorization.k8s.io   []                                     []               [create]
-selfsubjectrulesreviews.authorization.k8s.io    []                                     []               [create]
-deployments.apps                                []                                     []               [get patch]
-                                                [/.well-known/openid-configuration/]   []               [get]
-...
+Die erste Zeile zeigt das Binding mit dem ServiceAccount, die zweite die Regeln der Rolle. Ihre Namen bildet das Chart aus dem Namen `monitoring`, unter dem Argo CD es installiert. Secrets kommen in den Regeln nicht vor. Prometheus kann also kein Passwort lesen, auch das von Grafana nicht.
+
+Dieses Vorgehen heisst Least Privilege. Jede Identität bekommt die kleinsten Rechte, mit denen sie ihre Aufgabe erfüllt ([RBAC Good Practices](https://kubernetes.io/docs/concepts/security/rbac-good-practices/)). Bringt jemand Prometheus unter seine Kontrolle, kann er Objekte im Cluster lesen, aber nichts ändern oder löschen. Ein Dienst, der handeln soll, braucht dagegen eine Role mit den wenigen Verben, die er braucht, in genau dem Namespace, in dem er handelt. Der Triage-Dienst der Zusatzaufträge in Kapitel 5.5 ist ein solcher Fall.
+
+Mit `kubectl auth can-i` prüfst du, ob die Regeln greifen. Die Option `--as` stellt die Frage im Namen eines anderen Subjects. Ein ServiceAccount heisst dabei `system:serviceaccount:<namespace>:<name>` ([kubectl auth can-i](https://kubernetes.io/docs/reference/kubectl/generated/kubectl_auth/kubectl_auth_can-i/)). Mit `--list` siehst du alle Rechte in einem Namespace auf einmal.
+
+```bash
+kubectl auth can-i --list -n velo --as=system:serviceaccount:monitoring:monitoring-kube-prometheus-prometheus
 ```
 
-Die Zeile `deployments.apps` stammt aus der Role `triage`. Die drei Zeilen darüber und die URLs darunter bekommt jedes angemeldete Subject über eingebaute ClusterRoles wie `system:basic-user` und `system:discovery`, damit es seine eigenen Rechte abfragen und die API erkunden kann.
+Für `pods`, `services` und `endpoints` stehen nur die Verben `get`, `list` und `watch`. Zeilen wie `selfsubjectaccessreviews` und URLs wie `/.well-known/openid-configuration/` bekommt jedes angemeldete Subject über eingebaute ClusterRoles wie `system:basic-user` und `system:discovery`. Damit kann es seine eigenen Rechte abfragen und die API erkunden.
 
 ### Konten mit allen Rechten
 
@@ -250,19 +243,19 @@ Vom Client aus scheitert `ssh -o PubkeyAuthentication=no`. Auf dem Front-end zei
 ::::
 
 ::::exercise[Rechte prüfen]
-Prüfe mit `kubectl auth can-i` und `--as=system:serviceaccount:ai:triage`, ob der Triage-Dienst Deployments in `velo` lesen und löschen, Deployments in `gemeinde` patchen und Secrets in `velo` lesen darf. Überlege danach, welche Regel die Role `triage` zusätzlich bräuchte, damit der Dienst die Logs der Pods in `velo` lesen kann. Ändere im Lab nichts.
+Prüfe mit `kubectl auth can-i` und `--as=system:serviceaccount:monitoring:monitoring-kube-prometheus-prometheus`, ob Prometheus Pods in `velo` lesen und löschen, Deployments in `gemeinde` ändern und Secrets in `velo` lesen darf. Überlege danach, warum Prometheus keine Role in einem Namespace hat, sondern eine ClusterRole. Ändere im Lab nichts.
 
 :::solution
 Nur die erste Frage beantwortet kubectl mit `yes`.
 
 ```bash
-kubectl auth can-i get deployments -n velo --as=system:serviceaccount:ai:triage      # yes
-kubectl auth can-i delete deployments -n velo --as=system:serviceaccount:ai:triage   # no
-kubectl auth can-i patch deployments -n gemeinde --as=system:serviceaccount:ai:triage  # no
-kubectl auth can-i get secrets -n velo --as=system:serviceaccount:ai:triage          # no
+kubectl auth can-i get pods -n velo --as=system:serviceaccount:monitoring:monitoring-kube-prometheus-prometheus                # yes
+kubectl auth can-i delete pods -n velo --as=system:serviceaccount:monitoring:monitoring-kube-prometheus-prometheus             # no
+kubectl auth can-i patch deployments -n gemeinde --as=system:serviceaccount:monitoring:monitoring-kube-prometheus-prometheus   # no
+kubectl auth can-i get secrets -n velo --as=system:serviceaccount:monitoring:monitoring-kube-prometheus-prometheus             # no
 ```
 
-Löschen fehlt in der Liste der Verben. In `gemeinde` gibt es kein RoleBinding für den Dienst. Secrets sind eine andere Ressource. Für die Logs bräuchte die Role eine zweite Regel mit der API-Gruppe `""`, der Ressource `pods/log` und dem Verb `get`, dazu `list` auf `pods`, damit der Dienst die Namen der Pods findet. `kubectl auth can-i get pods/log -n velo` mit derselben Option `--as` antwortet heute `no`. Die neue Regel gehörte in die Datei im Plattform-Repo, von dort würde Argo CD sie anwenden.
+Löschen und Ändern fehlen in der Liste der Verben, Secrets sind eine andere Ressource. Prometheus findet seine Ziele in allen Namespaces, auch in denen, die ein neues Mitglied später bekommt. Eine Role müsste in jedem Namespace einzeln entstehen. Die ClusterRole mit ihrem ClusterRoleBinding deckt alle auf einmal ab, bleibt aber auf lesende Verben beschränkt.
 :::
 ::::
 

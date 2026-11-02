@@ -17,8 +17,12 @@ Mit diesem Raster schätzt du ein, ob deine Cloud für mehrere Mitglieder bereit
 | Showback und Chargeback unterscheiden | Erkläre den Unterschied in zwei Sätzen für den Vorstand. | [Showback](../showback/#showback-und-chargeback) |
 | die Kosten einer VM berechnen | Rechne die Kosten einer VM pro Stunde und pro Monat aus ihren Preisen nach. | [Showback](../showback/#die-kosten-einer-vm) |
 | Self-Service mit gemeinsamen Vorlagen einrichten | Zeige, was ein Gruppenadmin an der Vorlage `ubuntu` ändern darf und was nicht. | [Self-Service](../self-service/#die-grenzen-eines-mitglieds) |
-| einen Dienst mit OneFlow beschreiben (Zusatz) | Erkläre am Dienst der Treuhand die Rolle, die Kardinalität, die Grenzen `min_vms` und `max_vms` sowie `cooldown`. | [Elastizität mit OneFlow](../oneflow/#dienste-und-rollen) |
-| Regeln für die Elastizität schreiben und beobachten (Zusatz) | Zeige, wie der Dienst unter Last wächst. Erkläre, warum er nicht auf drei VMs wächst. | [Elastizität mit OneFlow](../oneflow/#wachsen-unter-last) |
-| Elastizität nach Zeitplan einsetzen (Zusatz) | Schreibe eine Regel, die den Dienst jeden Montag um 7 Uhr auf zwei VMs setzt. | [Elastizität mit OneFlow](../oneflow/#wachsen-nach-zeitplan) |
+| einen Dienst mit OneFlow beschreiben (Zusatz) | Erkläre an deinem Dienst der Treuhand die Rolle, die Kardinalität, die Grenzen `min_vms` und `max_vms` sowie `cooldown`. | [Zusatzaufträge](../advanced/#dienste-und-rollen) |
+| Regeln für die Elastizität nach Last begründen (Zusatz) | Erkläre, warum eine Rolle mit einer VM unter Volllast und einer leeren VM bei einer Schwelle von 60 % nicht weiter wächst. | [Zusatzaufträge](../advanced/#regeln-nach-last) |
+| Elastizität nach Zeitplan einsetzen (Zusatz) | Schreibe eine Regel, die den Dienst jeden Montag um 7 Uhr auf zwei VMs setzt. | [Zusatzaufträge](../advanced/#regeln-nach-zeitplan) |
+| einen monatlichen Bericht mit einem Timer planen (Zusatz) | Erkläre, wann dein Timer abläuft und was geschieht, wenn das Front-end zu diesem Zeitpunkt ausgeschaltet ist. | [Zusatzaufträge](../advanced/#timer-von-systemd) |
+| die Kostendeckung aus dem Showback berechnen (Zusatz) | Berechne aus dem Showback eines Monats die Kostendeckung der Genossenschaft und nenne deine Annahmen. | [Zusatzaufträge](../advanced/#kostendeckung) |
+| die Folgen eines Knotenausfalls beurteilen (Zusatz) | Erkläre, was mit den VMs der Mitglieder bei einem Ausfall eines Knotens geschieht und warum sie im Lab nicht auf dem anderen Knoten starten. | [Zusatzaufträge](../advanced/#folgen-eines-ausfalls) |
+| eine Platzierung der VMs vorschlagen (Zusatz) | Begründe für Wolkenwerk, ob Packing oder Striping besser passt. Nenne, was eine VM-Gruppe mit `ANTI_AFFINED` daran ändert. | [Zusatzaufträge](../advanced/#platzierung-und-ausfall) |
 
-Mit diesem Teil schliesst du [Meilenstein 1](../../assessment/milestone-1/) ab. Zeilen mit dem Vermerk «Zusatz» gehören zu einem Zusatzauftrag und nicht zur Basis. In Teil 4 baust du auf dieser Cloud eine Plattform per Code.
+Mit diesem Teil schliesst du [Meilenstein 1](../../assessment/milestone-1/) ab. Zeilen mit dem Vermerk «Zusatz» gehören zu einem Zusatzauftrag aus [Kapitel 3.5](../advanced/) und nicht zur Basis. In Teil 4 baust du auf dieser Cloud eine Plattform per Code.

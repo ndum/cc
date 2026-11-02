@@ -44,9 +44,9 @@ Die Adressen, Ports und Befehle für diese Schritte stehen in der [Lab-Referenz]
 | Eine VM bleibt `pending` mit «Not enough capacity on datastores» | Das Monitoring der Knoten zeigt noch den alten freien Platz | `onehost forceupdate` | [6.2](../operations/backup/) |
 | Ein Mitglied sieht `cc-net` nicht | Die Gruppe ist noch im VDC `default`, oder der Cluster fehlt im VDC | `onevdc show wolkenwerk`, `make-tenants.sh` noch einmal | [3.1](../tenants/groups/) |
 | Ein Mitglied kann keine VM mehr starten | Seine Quota ist ausgeschöpft | `onegroup show <gruppe>`, VMs aufräumen oder Quota bewusst anpassen | [3.2](../tenants/quotas/) |
-| `Not authorized to perform CREATE DOCUMENT` beim Start eines Dienstes | Die Gruppe darf keine Dokumente anlegen | `oneacl create "@<gid> DOCUMENT/* CREATE"` | [3.5](../tenants/oneflow/) |
+| `Not authorized to perform CREATE DOCUMENT` beim Start eines Dienstes | Die Gruppe darf keine Dokumente anlegen | `oneacl create "@<gid> DOCUMENT/* CREATE"` | [3.5](../tenants/advanced/) |
 | `oneshowback list` zeigt Kosten 0 | VM vor dem Eintragen der Preise gestartet, oder `calculate` fehlt | VM neu starten, nach einer Weile `oneshowback calculate` | [3.3](../tenants/showback/) |
-| Der Dienst von OneFlow wächst nicht | Last zu kurz, oder OneFlow nimmt das Mittel aller VMs der Rolle | `oneflow show`, mindestens drei Minuten Last, in allen VMs der Rolle Last erzeugen | [3.5](../tenants/oneflow/) |
+| Der Dienst von OneFlow wächst nicht | Last zu kurz, oder OneFlow nimmt das Mittel aller VMs der Rolle | `oneflow show`, mindestens drei Minuten Last, in allen VMs der Rolle Last erzeugen | [3.5](../tenants/advanced/) |
 | Eine wiederhergestellte VM gehört `oneadmin` | `oneimage restore` legt neue Objekte an | `onevm chown <vm> <benutzer> <gruppe>` | [6.2](../operations/backup/) |
 
 ## Netz
@@ -71,7 +71,7 @@ Die Adressen, Ports und Befehle für diese Schritte stehen in der [Lab-Referenz]
 | Nodes werden nicht `Ready` | Das Startskript läuft noch oder ist gescheitert | `ssh root@<server> journalctl -u one-context`, `systemctl status k3s`, notfalls `tofu apply -replace` | [4.3](../platform/kubernetes/) |
 | SSH oder kubectl verweigern nach einem Neubau | Alter Schlüssel in `known_hosts`, alte kubeconfig | `ssh-keygen -R <adresse>`, kubeconfig mit `get-kubeconfig.sh` neu holen | [4.3](../platform/kubernetes/) |
 | Ein Node ist `NotReady` | k3s läuft auf dieser VM nicht, oder die VM ist aus | `onevm list`, `ssh root@<adresse> systemctl status k3s` oder `k3s-agent` | [4.3](../platform/kubernetes/) |
-| Die Disk des Agents ist voll, `KubePersistentVolumeFillingUp` | Die Disk der VM ist zu klein für das Image von Ollama | `disk_size` auf 30 GB, `tofu apply` | [5.5](../observability/ai/) |
+| Die Disk des Agents ist voll, `KubePersistentVolumeFillingUp` | Die Disk der VM ist zu klein für das Image von Ollama | `disk_size` auf 30 GB, `tofu apply` | [5.5](../observability/advanced/) |
 
 ## GitOps
 
@@ -105,19 +105,18 @@ Die Adressen, Ports und Befehle für diese Schritte stehen in der [Lab-Referenz]
 
 | Symptom | Ursache | Was hilft | Kapitel |
 |---|---|---|---|
-| Der Job `pull-model` scheitert | Ollama ist noch nicht bereit | warten, der Job versucht es bis zu zehnmal | [5.5](../observability/ai/) |
-| Das Modell antwortet sehr langsam | Die VM sieht kein AVX2, weil `host-passthrough` fehlt | Block `cpumodel` in `main.tf`, VM neu starten | [5.5](../observability/ai/) |
-| Der Triage-Dienst zeigt keinen Vorschlag | Die Route in Alertmanager fehlt, oder der Alert ist nicht `firing` | Oberfläche von Alertmanager auf Port 30093, Logs des Dienstes | [5.6](../observability/triage/) |
-| Der Alert eines neuen Mitglieds erreicht den Triage-Dienst nicht | Das Label `triage: "true"` fehlt an der Regel | Regel prüfen, Werte von Alertmanager aus den Ergänzungen von Teil 6 | [6.3](../operations/sla/) |
+| Das Modell antwortet sehr langsam | Die VM sieht kein AVX2, weil `host-passthrough` fehlt | Block `cpumodel` in `main.tf`, VM neu starten | [5.5](../observability/advanced/) |
+| Dein Triage-Dienst bekommt keine Alerts | Alertmanager hat keine Route zu deinem Empfänger, oder der Alert ist nicht `firing` | Oberfläche von Alertmanager auf Port 30093, Logs des Dienstes | [5.5](../observability/advanced/) |
+| Der Alert eines neuen Mitglieds erreicht deinen Triage-Dienst nicht | Die Route in Alertmanager erfasst die Labels der neuen Regel nicht | Labels der Regel mit der Route vergleichen, etwa mit `amtool config routes test` | [6.5](../operations/advanced/) |
 
 ## Betrieb
 
 | Symptom | Ursache | Was hilft | Kapitel |
 |---|---|---|---|
-| Ein Namespace hat das Profil `restricted` nicht | Ein Patch mit `op: add` auf `/metadata/labels` hat alle Labels ersetzt | Label als Merge-Patch setzen | [5.5](../observability/ai/), [6.1](../operations/security/) |
+| Ein Namespace hat das Profil `restricted` nicht | Ein Patch mit `op: add` auf `/metadata/labels` hat alle Labels ersetzt | Label als Merge-Patch setzen | [5.5](../observability/advanced/), [6.1](../operations/security/) |
 | Ein SealedSecret meldet «not managed by SealedSecret» | Das Secret gab es schon, bevor der Controller kam | Annotation `sealedsecrets.bitnami.com/managed=true`, Controller neu starten | [6.1](../operations/security/) |
 | Die Application `secrets` bleibt bei einem Fehler | Der Controller von Sealed Secrets läuft noch nicht | warten, die Application versucht es erneut | [6.1](../operations/security/) |
 | `crontab: command not found` | Ubuntu 26.04 bringt kein cron mit | den Timer mit `install-backup-timer.sh` einrichten | [6.2](../operations/backup/) |
 | Neue Snapshots kommen nicht auf dem Front-end an | Der Timer `cc-backup-k3s.timer` ist nicht aktiv | `systemctl list-timers`, Timer aktivieren | [6.2](../operations/backup/) |
-| Argo CD übernimmt nach einem Restore keine Commits | Die Controller arbeiten mit dem alten Stand | Controller in `argocd` und `monitoring` neu starten | [6.2](../operations/backup/) |
+| Argo CD übernimmt nach einem Restore keine Commits | Die Controller arbeiten mit dem alten Stand | Controller in `argocd` und `monitoring` neu starten | [6.5](../operations/advanced/) |
 | Der Knoten lagert aus, alle VMs werden langsam | Die VM eines Mitglieds ist zu gross für den freien Speicher | VM mit höchstens 1 GB | [6.4](../operations/cost/) |

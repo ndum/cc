@@ -63,6 +63,8 @@ OpenNebula prüft jeden Auftrag in einer festen Reihenfolge, wie die [Dokumentat
 
 Wer einem Mitglied etwas verbieten will, ändert deshalb die ACLs oder die Rechte der Objekte. Ein Reiter, der in der Ansicht fehlt, hält niemanden auf, der die CLI oder die API benutzt.
 
+![Rollen und Ansichten in Sunstone. Links steht das Plattform-Team als oneadmin mit der Ansicht admin. Es betreibt Knoten, Netze und Datastores, legt die Mitglieder mit ihren Admins an, setzt Quotas und Preise und pflegt die gemeinsame Vorlage ubuntu. Rechts steht das Mitglied praxis. Sein Gruppenadmin praxis-admin hat die Ansicht groupadmin. Er legt die Benutzer der Gruppe an, verwaltet alle VMs der Gruppe, setzt die Quotas seiner Benutzer und kopiert Vorlagen. Die Vorlage ubuntu darf er nicht ändern. Die MPA praxis-mpa hat die Ansicht cloud. Sie startet VMs aus fertigen Vorlagen und passt höchstens Grösse und Disks an. Ihre VMs zählen gegen die Quota der Gruppe. Achte auf die Zeile unten. Eine Ansicht blendet nur Reiter aus. Ob ein Auftrag erlaubt ist, entscheiden die Rechte und die ACLs.](../../../assets/figures/de/p3c4-roles.svg)
+
 ## Benutzer in der Gruppe
 
 Ein Gruppenadmin legt die Benutzer seines Mitglieds selbst an. Neue Benutzer landen in seiner Gruppe, ihre VMs zählen gegen die Quota der Gruppe.
@@ -80,7 +82,7 @@ Die MPA meldet sich danach in Sunstone an, bekommt die Ansicht `cloud` und start
 
 Ein Servicekatalog ist die Liste der Dienste, die ein Anbieter fertig anbietet, jeweils mit festgelegtem Inhalt, Preis und Zuständigkeit. Wer etwas braucht, wählt aus dem Katalog, statt einen Wunsch frei zu formulieren. Für den Anbieter heisst das, dass er nur betreibt, was er geprüft und beschrieben hat.
 
-In OpenNebula bilden die gemeinsamen Vorlagen diesen Katalog. Die Vorlage `ubuntu` legt Image, Grösse, Netz und Kontext fest und trägt seit Kapitel 3.3 ihren Preis. Die Dienstvorlagen von OneFlow aus Kapitel 3.5 ergänzen den Katalog um Dienste aus mehreren VMs. Laut der [Dokumentation der Cloud-Ansicht](https://docs.opennebula.io/7.4/product/control_plane_configuration/graphical_user_interface/cloud_view/) wählen Benutzer dort eine Vorlage aus, die die Administration vorbereitet hat. Vor dem Start passen sie höchstens Grösse und Disks an. Der Katalog ist die Schnittstelle zwischen Plattform-Team und Mitglied. Mit jedem Eintrag sagt das Plattform-Team zu, ihn zu pflegen, deshalb nimmt es nur auf, was es auch betreiben kann.
+In OpenNebula bilden die gemeinsamen Vorlagen diesen Katalog. Die Vorlage `ubuntu` legt Image, Grösse, Netz und Kontext fest und trägt seit Kapitel 3.3 ihren Preis. Die Dienstvorlagen von OneFlow aus [Kapitel 3.5](../advanced/#dienste-und-rollen) ergänzen den Katalog um Dienste aus mehreren VMs. Laut der [Dokumentation der Cloud-Ansicht](https://docs.opennebula.io/7.4/product/control_plane_configuration/graphical_user_interface/cloud_view/) wählen Benutzer dort eine Vorlage aus, die die Administration vorbereitet hat. Vor dem Start passen sie höchstens Grösse und Disks an. Der Katalog ist die Schnittstelle zwischen Plattform-Team und Mitglied. Mit jedem Eintrag sagt das Plattform-Team zu, ihn zu pflegen, deshalb nimmt es nur auf, was es auch betreiben kann.
 
 ## Die Grenzen eines Mitglieds
 

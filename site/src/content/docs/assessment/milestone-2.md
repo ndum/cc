@@ -25,19 +25,19 @@ Die Dokumentation zeigt zu jeder Anforderung einen Screenshot mit einem oder zwe
 
 ## Zusatzaufträge
 
-Für die drei Zusatzaufträge rechnest du mit vier bis sechs Stunden. Jeder gibt 0 bis 3 Punkte nach den [Stufen der Zusatzaufträge](../#stufen-der-zusatzaufträge).
+Für die drei Zusatzaufträge rechnest du mit vier bis sechs Stunden. Jeder gibt 0 bis 3 Punkte nach den [Stufen der Zusatzaufträge](../#stufen-der-zusatzaufträge). Die Begriffe dazu und die Anforderungen an jeden Auftrag stehen in [Kapitel 4.6](../../platform/advanced/).
 
 ### A · Neubau der Plattform
 
-Du reisst den Cluster mit `tofu destroy` ab und baust ihn mit `tofu apply` und dem Bootstrap von Argo CD neu auf. Du misst die Zeit und zeigst, dass alles aus Git wieder steht. Dabei erklärst du, was State und Drift für den Neubau bedeuten. [Kapitel 4.2](../../platform/opentofu/) zeigt die Befehle. Im Lab dauerte der Neubau mit dem Stand von Teil 4 knapp drei Minuten, bis der Webshop wieder lief. Starte den Neubau deshalb früh in der Vorführung und erkläre den Code, während er läuft.
+Du reisst den Cluster mit `tofu destroy` ab und baust ihn mit `tofu apply` und dem Bootstrap von Argo CD neu auf. Du misst die Zeit und zeigst, dass alles aus Git wieder steht. Dabei erklärst du, was State und Drift für den Neubau bedeuten. [Kapitel 4.6](../../platform/advanced/#auftrag-a--neubau-der-plattform) beschreibt den Auftrag. Im Lab dauerte der Neubau mit dem Stand von Teil 4 knapp drei Minuten, bis der Webshop wieder lief. Starte den Neubau deshalb früh in der Vorführung und erkläre den Code, während er läuft.
 
 ### B · Ein eigenes Mitglied
 
-Ein weiteres Mitglied nach deiner Wahl bekommt per Pull Request einen Namespace aus der Vorlage mit eigenen, begründeten Grenzen. Dazu legst du in Argo CD ein AppProject an, das nur den Namespace dieses Mitglieds erlaubt. [Kapitel 4.5](../../platform/templates/) zeigt die Vorlage, [Kapitel 4.4](../../platform/gitops/) Argo CD.
+Ein weiteres Mitglied nach deiner Wahl bekommt per Pull Request einen Namespace aus der Vorlage mit eigenen, begründeten Grenzen. Dazu legst du in Argo CD ein AppProject an, das nur den Namespace dieses Mitglieds erlaubt. [Kapitel 4.6](../../platform/advanced/#auftrag-b--ein-eigenes-mitglied) beschreibt den Auftrag, die Vorlage kennst du aus Kapitel 4.5.
 
 ### C · Schutz des Branches
 
-In Gitea schützt du den Branch `main` so, dass Änderungen nur über einen Pull Request mit Review hineinkommen. Du zeigst, dass Gitea einen direkten Push abweist. [Kapitel 4.4](../../platform/gitops/) beschreibt Gitea und das Repo `platform`.
+In Gitea schützt du den Branch `main` so, dass Änderungen nur über einen Pull Request mit Review hineinkommen. Du zeigst, dass Gitea einen direkten Push abweist. [Kapitel 4.6](../../platform/advanced/#auftrag-c--schutz-des-branches) beschreibt den Auftrag.
 
 ## Zusatzaufträge zeigen
 

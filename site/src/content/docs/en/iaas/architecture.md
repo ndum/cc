@@ -22,7 +22,7 @@ After this chapter you can:
 
 OpenNebula consists of a front-end that manages the cloud and nodes that run the VMs. The nodes need no OpenNebula service of their own. The front-end controls them over SSH with small driver programs.
 
-![The building blocks of OpenNebula. Three areas side by side. On the left Sunstone, the CLI and OpenTofu reach the front-end through the API. In the middle oned on the front-end manages all objects, stores them in MariaDB, lets the scheduler pick nodes and receives states from onemonitord. The drivers for hosts, VMs, transfer, networks and datastores carry out the jobs. On the right the nodes work with libvirt and KVM, and the drivers reach them over SSH.](../../../../assets/figures/en/p2c1-architecture.svg)
+![The building blocks of OpenNebula in three areas stacked on top of each other. At the top Sunstone, the CLI and OpenTofu reach oned through the API on port 2633. In the middle oned on the front-end manages all objects, stores them in MariaDB, lets the scheduler pick nodes and receives states from onemonitord. The drivers for hosts, VMs, transfer, networks and datastores carry out the jobs. At the bottom the two nodes work with libvirt and KVM, and their datastore 0 holds the disks of running VMs. Notice that no OpenNebula service runs on the nodes. The drivers reach them over SSH.](../../../../assets/figures/en/p2c1-architecture.svg)
 
 The core is the service `oned`. It accepts all requests through its API, manages the state of every object and stores it in a database, MariaDB in the course. The scheduler is a driver of `oned` and picks a node with enough free capacity for every new VM. `onemonitord` regularly queries the state of the nodes and VMs.
 

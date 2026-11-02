@@ -41,6 +41,8 @@ lscpu | grep -iE 'virtualization|model name'
 
 In your lab the hypervisors stack up. Your nodes run as VMs on smartlearn, and on the nodes KVM runs the VMs of your cloud. For this to work, the outer hypervisor has to pass the virtualization features of the CPU on to the nodes. This principle is called nested virtualization. It costs some performance, especially when a VM switches to the hypervisor often, but it is good enough for a lab. In production the nodes of a cloud run directly on the hardware.
 
+![Hypervisors and nested virtualization. Three stacks side by side, each standing on its hardware. A type 1 hypervisor such as ESXi, Hyper-V or KVM runs directly on the hardware, and the VMs run on top of it. A type 2 hypervisor such as VirtualBox or VMware Workstation runs as a program inside an operating system. The lab nests three levels. The nodes run as VMs on smartlearn or on a hypervisor of your own, and on the nodes KVM runs the VMs of your cloud. The nodes are VMs and hypervisors at the same time.](../../../../assets/figures/en/p1c3-hypervisors.svg)
+
 ## CPU models
 
 A hypervisor does not necessarily show a VM the real CPU. It can present a generic model that looks the same on many machines. That makes it easier to move a running VM to another node with a different CPU. In exchange, the generic model is missing some instructions. In QEMU these include the AVX2 vector instructions that programs use for computations.

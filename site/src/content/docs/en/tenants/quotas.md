@@ -49,7 +49,7 @@ Groups and users without a limit of their own fall back to default quotas. `oneg
 
 ## The quotas of the members
 
-The members pay and need different amounts. The fiduciary office needs room for up to three VMs for its service from chapter 3.5.
+The members pay and need different amounts. The fiduciary office gets more room than the others because it needs more at the end of the month. If you let its service grow in [advanced task A](../advanced/#task-a--elasticity-with-oneflow), every VM of the service counts against this quota.
 
 | Member | Group | VMs | CPU | Memory |
 |---|---|---|---|---|
@@ -94,6 +94,8 @@ A quota limits how much a tenant may reserve. It says nothing about whether the 
 For CPU, overcommitment carries little risk. When several virtual CPUs share one core, the hypervisor splits the compute time, and all VMs slow down but keep running. The template `ubuntu` already does this on a small scale. With `VCPU = 1` it gives the VM a full virtual core, but with `CPU = 0.5` it reserves only half of one. Memory has no such slack. If the VMs together need more memory than the node has, the host has to swap or kill processes, and a VM can crash. This is why CPU is overcommitted more readily than memory. The sum of the memory quotas should match the capacity of the nodes.
 
 A quota also only limits how much is reserved. It does not control how hard a VM actually works its CPU, so on an overcommitted node a VM under full load can slow down the others despite the quotas. Less overcommitment or a separate node helps most against this kind of noisy neighbor.
+
+![Quota, reservation and use. The group praxis has the course values and the VMs praxis-1 and praxis-2 from the template ubuntu. For CPU the quota allows 1.5. On the nodes the VMs reserve 1.0, 0.5 each. Under load they use up to 2.0, because each VM has a full virtual CPU. For memory the quota allows 2048 MB. The two VMs reserve exactly that with 1024 MB each and use at most as much, less when idle. Notice that the quota only counts what is reserved and does not limit how hard the VMs work their CPU. With 2 of 2 VMs, OpenNebula rejects a third VM.](../../../../assets/figures/en/p3c2-quota.svg)
 
 ## Quotas in Kubernetes
 

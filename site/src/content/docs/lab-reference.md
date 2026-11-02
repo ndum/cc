@@ -53,8 +53,7 @@ Am Front-end meldest du dich vom Client aus mit `ssh mmuster-fe` an, so wie in [
 | Prometheus | 30090 | k3s-server | Tunnel `-L 9090:<CC_K3S_SERVER_IP>:30090` | [5.1](../observability/metrics/) |
 | Alertmanager | 30093 | k3s-server | Tunnel `-L 9093:<CC_K3S_SERVER_IP>:30093` | [5.3](../observability/slo/) |
 | Grafana | 30300 | k3s-server | Tunnel `-L 3000:<CC_K3S_SERVER_IP>:30300` | [5.1](../observability/metrics/) |
-| Triage-Dienst | 30880 | k3s-server | Tunnel `-L 8880:<CC_K3S_SERVER_IP>:30880` | [5.6](../observability/triage/) |
-| Ollama | 11434 | k3s-agent | `kubectl -n ai port-forward svc/ollama 11434:11434` auf dem Front-end | [5.5](../observability/ai/) |
+| Sprachmodell und Triage-Dienst | nach deiner Lösung | k3s | nach deiner Lösung, etwa über einen Tunnel | [5.5](../observability/advanced/) |
 
 Einen Tunnel öffnest du im Terminal des Clients. Mehrere `-L` lassen sich in einer Verbindung kombinieren. Solange sie offen ist, erreichst du den Dienst im Browser des Clients unter `http://localhost:<lokaler-port>/`.
 

@@ -1,6 +1,6 @@
 ---
 title: SLA and operations concept
-description: What an SLA covers, which availability the platform can honestly promise, an operations concept for a small cooperative and a postmortem drafted by the local model.
+description: What an SLA covers, which availability the platform can honestly promise, an operations concept for a small cooperative and blameless postmortems.
 sidebar:
   order: 3
 ---
@@ -15,8 +15,7 @@ After this chapter you can:
 - Name the parts of an SLA and draft one for a member
 - Derive from the architecture which availability is realistic
 - Write an operations concept for a small organization
-- Write a blameless postmortem
-- Check a language model's draft against the facts
+- Explain the purpose and structure of a blameless postmortem
 :::
 
 ## SLA, SLO and SLI
@@ -67,82 +66,21 @@ An operations concept describes how operations are organized, so they do not dep
 
 Instructions for a recurring incident are called a runbook. A runbook describes symptoms, first checks and measures, for example for the alert `WebshopErrorBudgetBurn`. A good runbook can be followed by someone who did not build the system.
 
-## An alert for a new member
+The time from the start of an incident until the service runs again is the time to restore. Its mean over many incidents is the MTTR (mean time to restore). The figure shows the phases of an incident on a timeline.
 
-:::note[Advanced task]
-This section belongs to the advanced task of milestone 4 with a member of your own. You do not need it for the base.
-:::
-
-Since chapter 6.1, Alertmanager sends every alert with the label `triage: "true"` to the triage service. Before, it only sent the web shop's alerts. A new member therefore brings its own rules, as a `PrometheusRule` in its folder of the platform repo. The example watches the app `web` of a daycare center in the namespace `kita`.
-
-```yaml
-apiVersion: monitoring.coreos.com/v1
-kind: PrometheusRule
-metadata:
-  name: kita
-spec:
-  groups:
-    - name: kita
-      rules:
-        - alert: KitaWebDown
-          expr: kube_deployment_status_replicas_available{namespace="kita", deployment="web"} < 1
-          for: 2m
-          labels:
-            severity: critical
-            triage: "true"
-          annotations:
-            summary: The daycare website has no running pod
-```
-
-Name the file something like `members/kita/alerts.yaml` and list it under `resources` in the member's `kustomization.yaml`. The metric carries the labels `namespace` and `deployment`. The triage service builds its target from them, in this example `kita/web`, and fetches the log lines of that namespace.
-
-You fire the alert through Git by setting `replicas: 0` in the app and pushing. In the course lab the alert came two minutes after the last pod was gone. The triage service proposed a restart, and the team rejected it, because a restart starts no pod while Git asks for zero. The fault is only fixed once `replicas: 1` is back in Git.
-
-Since chapter 5.6 the service may only touch `velo/webshop`. For a new member the context therefore says `(deployment not readable)`, and an approval would fail with `is not in ALLOWED_TARGETS`. If you want it to read and restart the deployment, extend `ALLOWED_TARGETS` in `ai/triage.yaml` and create a `Role` with a `RoleBinding` in the member's namespace, as in `ai/triage-rbac.yaml`. Whether that makes sense is your decision, based on the member's protection needs.
+![The timeline of an incident. An incident on a timeline in five phases. After the incident starts, Prometheus detects it and sends an alert. The team then assesses the incident with the logs in Loki and the latest commits in Git and fixes it with git revert, which Argo CD rolls out, until the service runs again. It then informs the affected members and later writes a blameless postmortem with a timeline and measures. Below the axis are the time to the alert and the time to restore. The mean of the time to restore over many incidents is the MTTR.](../../../../assets/figures/en/p6c3-incident.svg)
 
 ## Postmortems
 
-:::note[Advanced task]
-The postmortem drafted by the local model is one of the advanced tasks of milestone 4. You do not need it for the base.
-:::
-
 After an incident, the team writes a postmortem. It records what happened, what the impact was, which causes contributed and which measures prevent a repeat. Postmortems come from the operation of large services, and Google's [book on site reliability engineering](https://sre.google/sre-book/postmortem-culture/) describes them at length. A postmortem does not look for culprits. It assumes that everyone involved acted reasonably with the information they had, and asks which systems and processes made the failure possible.
 
-The timeline is the most important part, and it is tedious to collect. At Wolkenwerk the facts are in three places. The alerts are in Prometheus, the decisions in the triage service's audit log and the changes in Git. The course script collects them and builds the timeline itself, without the model. The local model from chapter 5.5 only writes the text around it.
-
-::code{file="case/postmortem/postmortem.py" lines="94-103"}
-
-The question to the model asks for a blameless postmortem based only on the facts supplied. If a fact is missing, the model is to say so instead of guessing.
-
-::code{file="case/postmortem/postmortem.py" lines="118-125"}
-
-```bash
-~/cc/case/postmortem/postmortem.py --hours 1 > ~/postmortem-entwurf.md
-```
-
-In the lab, an incident ran as in chapter 5.3. `FAIL_PERCENT` was set to 60 through Git, and the alert came a few minutes after the change took effect. The triage service proposed a restart, the team rejected it and took back the change with `git revert`. The model needed 33 seconds for the draft. The timeline was correct, since it came from the data. The model's text, on the other hand, contained several errors.
-
-- The downtime it stated was about one hour, while the errors lasted around ten minutes.
-- It blamed the switch to etcd for a delay of the snapshots that never happened.
-- It praised the same switch as a gain in stability, without any fact showing it.
-- It invented owners such as "Teamleiter A" and listed measures under "what went badly".
-- The right cause, `FAIL_PERCENT` at 60, came from the triage service's proposal.
-
-A second draft covering half an hour stated 13 minutes of impact. In the next sentence it wrote that users noticed no failures, although 60% of requests failed. A draft saves typing, but it looks like a finished report even when its statements are wrong. Check every statement against the timeline before you pass the draft on.
+The timeline is the most important part, and it is tedious to collect. At Wolkenwerk the alerts are in Prometheus and the changes in Git. Every measure names a role as its owner rather than a person. Advanced task C in [chapter 6.5](../advanced/#a-postmortem-from-data) shows how the local model drafts a postmortem from such a timeline and where it goes wrong.
 
 ::::exercise[SLA]
-Draft a one-page SLA for one of the four members, for example the fiduciary office. Justify the availability with the architecture of your lab and the support hours with the means of a small cooperative. If you do the advanced task of milestone 4, write the SLA for your own member and base it on the restore time you measured in chapter 6.2.
+Draft a one-page SLA for one of the four members, for example the fiduciary office. Justify the availability with the architecture of your lab and the support hours with the means of a small cooperative. If you do advanced task B from chapter 6.5, write the SLA for your own member and base it on the restore time you measured.
 
 :::solution
 A good SLA names the service and its limits, an availability with period and exceptions, such as 99% per month during office hours excluding announced maintenance, support hours with response times, RPO and RTO from chapter 6.2, the location of the data in Switzerland, the member's duties and a consequence when missed. The reasoning mentions the single k3s server and the missing on-call service. A promise of 99.9% without more servers and an on-call service would not be honest.
-:::
-::::
-
-::::exercise[Postmortem]
-This exercise belongs to the advanced tasks of milestone 4. Trigger an incident as in chapter 5.3, decide on the triage service's proposal, fix the fault through Git and let the model write a draft. Correct it and mark every change.
-
-:::solution
-The draft holds a timeline with commit, alert, proposal, decision and revert. The correction checks every number and every cause against that timeline, removes invented people and facts and adds measures with a role as owner, such as reviewing environment variables in the pull request. The finished postmortem names no guilty person.
 :::
 ::::
 

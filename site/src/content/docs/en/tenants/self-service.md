@@ -63,6 +63,8 @@ OpenNebula checks every request in a fixed order, as the [documentation on permi
 
 To stop a member from doing something, you therefore change the ACLs or the permissions of the objects. A tab missing from a view does not stop anyone who uses the CLI or the API.
 
+![Roles and views in Sunstone. On the left is the platform team as oneadmin with the view admin. It runs the nodes, networks and datastores, creates the members with their admins, sets quotas and prices and maintains the shared template ubuntu. On the right is the member praxis. Its group admin praxis-admin has the view groupadmin and creates the users of the group, manages all VMs of the group, sets the quotas of their users and copies templates, but may not change the template ubuntu. The medical assistant praxis-mpa has the view cloud. This account starts VMs from ready-made templates and at most adjusts size and disks, and these VMs count against the group's quota. Look at the line at the bottom. A view only hides tabs. Permissions and ACLs decide whether a request is allowed.](../../../../assets/figures/en/p3c4-roles.svg)
+
 ## Users in the group
 
 A member's group admin creates the member's users. New users land in the admin's group, and their VMs count against the group's quota.
@@ -80,7 +82,7 @@ The medical assistant then logs in to Sunstone, gets the view `cloud` and starts
 
 A service catalog is the list of services a provider offers ready-made, each with a defined scope, price and owner. Whoever needs something picks it from the catalog instead of describing a wish in free form. For the provider this means it only runs what it has tested and documented.
 
-In OpenNebula the shared templates form this catalog. The template `ubuntu` fixes image, size, network and context, and since chapter 3.3 it carries its price as well. The OneFlow service templates from chapter 3.5 add services made of several VMs. According to the [Cloud View documentation](https://docs.opennebula.io/7.4/product/control_plane_configuration/graphical_user_interface/cloud_view/), users there select one of the templates the administrators prepared and at most adjust capacity and disks before they start it. The catalog is the interface between the platform team and the members. Every entry is a promise to maintain it, so the platform team only adds what it can actually run.
+In OpenNebula the shared templates form this catalog. The template `ubuntu` fixes image, size, network and context, and since chapter 3.3 it carries its price as well. The OneFlow service templates from [chapter 3.5](../advanced/#services-and-roles) add services made of several VMs. According to the [Cloud View documentation](https://docs.opennebula.io/7.4/product/control_plane_configuration/graphical_user_interface/cloud_view/), users there select one of the templates the administrators prepared and at most adjust capacity and disks before they start it. The catalog is the interface between the platform team and the members. Every entry is a promise to maintain it, so the platform team only adds what it can actually run.
 
 ## The limits of a member
 

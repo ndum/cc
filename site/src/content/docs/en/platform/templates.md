@@ -83,6 +83,8 @@ Instead of writing an application for every member, you let an ApplicationSet ge
 
 The `git` generator looks for folders under `members` in the repo and creates an application `member-<folder>` for each. When a folder is added, a namespace appears. When a folder disappears, Argo CD deletes the namespace and everything in it, thanks to `prune`. By default, the ApplicationSet checks every three minutes, and `requeueAfterSeconds: 60` shortens that to one minute.
 
+![A namespace from the template. At the top is the template templates/member, a Kustomize component with the namespace member, a ResourceQuota with requests.cpu 1, a LimitRange with a default of 250m per container and a NetworkPolicy that only lets in its own namespace and kube-system. In the middle, the folder members/velo sets the namespace velo and replaces requests.cpu with 2 through a patch. The ApplicationSet members reads the folder with its git generator and creates the application member-velo. Argo CD renders it with Kustomize, and the objects in the cluster are at the bottom. Notice the differences from the template. The namespace is called velo and the quota allows 2 CPUs, while everything else comes unchanged from the template.](../../../../assets/figures/en/p4c5-kustomize.svg)
+
 ```bash
 kubectl -n argocd get applicationsets
 kubectl -n argocd get applications
@@ -150,14 +152,6 @@ Roll out the template for the bike shop, request the municipality's namespace as
 
 :::solution
 `kubectl -n argocd get applications` shows `member-velo` and `member-gemeinde` as `Synced` and `Healthy`. `kubectl -n velo describe resourcequota member` shows `requests.cpu` with a limit of 2, while the municipality has the template's limit of 1. The deployment `fill` stops at 8 pods. A test pod in `gemeinde` gets "Connection refused" from the web shop in `velo`.
-:::
-::::
-
-::::exercise[A member of your own]
-Treuhand Aaregg wants a namespace for a small service that receives receipts. It needs little CPU but 1.5 GB of memory and storage for files. Create the member and justify your values.
-
-:::solution
-A folder `members/treuhand` with `namespace: treuhand` and patches for the quota and the LimitRange, for example `requests.memory` to `2Gi`, `limits.memory` to `3Gi` and the LimitRange `max` to at least `2Gi`, so that a single container may get 1.5 GB. The two PersistentVolumeClaims that the template's quota allows are enough for the storage. The justification names the needs of the service and checks whether the sum of all quotas fits the memory of the two VMs.
 :::
 ::::
 

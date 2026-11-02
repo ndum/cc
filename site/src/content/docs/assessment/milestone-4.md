@@ -25,32 +25,19 @@ Die Dokumentation zeigt zu jeder Anforderung einen Screenshot mit einem oder zwe
 
 ## Zusatzaufträge
 
-Für die drei Zusatzaufträge rechnest du mit vier bis sechs Stunden. Jeder gibt 0 bis 3 Punkte nach den [Stufen der Zusatzaufträge](../#stufen-der-zusatzaufträge). Die Aufträge B und C bauen auf dem Mitglied aus Auftrag A auf.
+Für die drei Zusatzaufträge rechnest du mit vier bis sechs Stunden. Jeder gibt 0 bis 3 Punkte nach den [Stufen der Zusatzaufträge](../#stufen-der-zusatzaufträge). Die Aufträge B und C bauen auf dem Mitglied aus Auftrag A auf. Die Konzepte dazu und die Anforderungen an jeden Auftrag stehen in [Kapitel 6.5](../../operations/advanced/).
 
 ### A · Ein eigenes Mitglied
 
-Du bringst ein fünftes Mitglied von Wolkenwerk durchgehend auf deine Plattform. In OpenNebula bekommt es eine Gruppe mit Admin, VDC, Quota und Preisen, dazu eine VM. Im Cluster erhält es über einen Pull Request in Gitea einen Namespace aus der Vorlage mit seiner Anwendung, die Argo CD ausrollt. Eine Alert-Regel mit dem Label `triage: "true"` überwacht die Anwendung. Du löst den Alert über Git aus, entscheidest über den Vorschlag des Triage-Dienstes und behebst den Fehler. [Kapitel 6.3](../../operations/sla/#ein-alert-für-ein-neues-mitglied) zeigt den Weg.
-
-Du wählst das Mitglied frei. Es soll eine kleine Organisation aus der Region sein, die zu einer Genossenschaft wie Wolkenwerk passt, mit einem Dienst auf einer VM und einer Anwendung im Cluster. In der Dokumentation beschreibst du es in wenigen Sätzen mit seinem Schutzbedarf. Falls dir keine Idee kommt, findest du in der Tabelle einige Vorschläge.
-
-| Idee | Was sie braucht |
-|---|---|
-| Kindertagesstätte | Anmeldungen mit Daten von Kindern, eine Website für Eltern |
-| Musikschule | Stundenplan und Abrechnung, Spitzen zu Semesterbeginn |
-| Physiotherapie | Termine und Behandlungsnotizen unter Berufsgeheimnis |
-| Quartierverein | Website und Mitgliederliste, kleines Budget |
-| Bäckerei mit Bestellungen | Bestellungen bis 18 Uhr, Spitzen vor Feiertagen |
-| Architekturbüro | grosse Pläne, Backups wichtiger als Verfügbarkeit |
-
-Die Anwendung im Cluster muss das Profil `restricted` erfüllen, etwa eine statische Website mit `nginxinc/nginx-unprivileged` oder eine kleine eigene App. Die VM darf höchstens 1 GB Arbeitsspeicher haben, mehr haben die Knoten neben k3s nicht frei. Im Lab lief eine VM mit 1 GB neben dem Server von k3s. Der Knoten lagerte dafür rund 200 MB aus.
+Du bringst ein fünftes Mitglied von Wolkenwerk, das du selbst entwirfst, durchgehend auf deine Plattform. In der Dokumentation beschreibst du es in wenigen Sätzen mit seinem Schutzbedarf. In OpenNebula bekommt es eine Gruppe mit Admin, VDC, Quota und Preisen, dazu eine VM mit höchstens 1 GB Arbeitsspeicher. Im Cluster erhält es über einen Pull Request in Gitea einen Namespace aus der Vorlage mit seiner Anwendung, die Argo CD ausrollt und die das Profil `restricted` erfüllt. Eine Alert-Regel überwacht die Anwendung, Alertmanager schickt ihren Alert an deinen Triage-Dienst aus Zusatzauftrag B von Meilenstein 3. Du löst den Alert über Git aus, entscheidest über den Vorschlag des Triage-Dienstes und behebst den Fehler. Ideen für das Mitglied und die Anforderungen stehen in [Kapitel 6.5](../../operations/advanced/#auftrag-a--ein-eigenes-mitglied).
 
 ### B · Cluster wiederherstellen und SLA
 
-Du stellst den Cluster aus einem Snapshot von etcd wieder her und misst die Zeit bis zum laufenden Zustand. Mit dieser Zeit und der Architektur deines Labs schreibst du ein SLA für dein Mitglied mit Verfügbarkeit, Supportzeiten, RPO und RTO. Die Wiederherstellung darfst du vor der Vorführung machen und in der Vorführung mit ihren Spuren zeigen, etwa dem Snapshot, den Zeiten und dem Zustand danach. [Kapitel 6.2](../../operations/backup/) zeigt die Wiederherstellung, [Kapitel 6.3](../../operations/sla/) das SLA.
+Du stellst den Cluster aus einem Snapshot von etcd wieder her und misst die Zeit bis zum laufenden Zustand. Mit dieser Zeit und der Architektur deines Labs schreibst du ein SLA für dein Mitglied mit Verfügbarkeit, Supportzeiten, RPO und RTO. Die Wiederherstellung darfst du vor der Vorführung machen und in der Vorführung mit ihren Spuren zeigen, etwa dem Snapshot, den Zeiten und dem Zustand danach. Die Anforderungen stehen in [Kapitel 6.5](../../operations/advanced/#auftrag-b--cluster-wiederherstellen-und-sla), die Teile eines SLA in [Kapitel 6.3](../../operations/sla/).
 
 ### C · Postmortem und Kostenmodell
 
-Zum Vorfall aus Auftrag A schreibt das lokale Modell aus der Zeitleiste einen Entwurf des Postmortems. Du korrigierst ihn und hältst fest, was stimmte, was falsch war und was du geändert hast. Dazu rechnest du ein Kostenmodell für dein Mitglied mit dem Preis pro Monat, dem Vergleich mit dem Showback und einem Vorschlag zum Right-Sizing. [Kapitel 6.3](../../operations/sla/) beschreibt Postmortems, [Kapitel 6.4](../../operations/cost/) die Kosten.
+Zum Vorfall aus Auftrag A schreibt das lokale Modell aus der Zeitlinie einen Entwurf des Postmortems. Die Zeitlinie baust du ohne Modell aus den Daten auf. Du korrigierst den Entwurf und hältst fest, was stimmte, was falsch war und was du geändert hast. Dazu rechnest du ein Kostenmodell für dein Mitglied mit dem Preis pro Monat, dem Vergleich mit dem Showback und einem Vorschlag zum Right-Sizing. Die Anforderungen stehen in [Kapitel 6.5](../../operations/advanced/#auftrag-c--postmortem-und-kostenmodell), die Vollkosten in [Kapitel 6.4](../../operations/cost/).
 
 ## Zusatzaufträge zeigen
 
@@ -58,7 +45,7 @@ Die Zusatzaufträge zeigst du live im Unterricht oder in einem Screencast von h�
 
 ## Abgabe
 
-Im Ordner `m4/` deines Abgabe-Repos liegen die Dokumentation mit den Screenshots und der Tabelle mit RPO und RTO sowie `platform/`, eine Kopie deines Repos `platform` aus Gitea ohne den Ordner `.git`, ohne State und ohne Passwörter. SealedSecrets dürfen drin sein. Für Auftrag A kommt `audit.jsonl` dazu, das Audit-Log des Triage-Dienstes, für Auftrag C `postmortem-entwurf.md` vom Modell und `postmortem.md` mit deiner Korrektur, für die Vorführung der Screencast oder ein Link darauf.
+Im Ordner `m4/` deines Abgabe-Repos liegen die Dokumentation mit den Screenshots und der Tabelle mit RPO und RTO sowie `platform/`, eine Kopie deines Repos `platform` aus Gitea ohne den Ordner `.git`, ohne State und ohne Passwörter. SealedSecrets dürfen drin sein. Für Auftrag A kommt das Audit-Log deines Triage-Dienstes dazu, für Auftrag C `postmortem-entwurf.md` vom Modell und `postmortem.md` mit deiner Korrektur, für die Vorführung der Screencast oder ein Link darauf. Eigene Skripte, etwa für die Zeitlinie, legst du dazu, falls sie nicht im Plattform-Repo stehen.
 
 Das Token von k3s, den Schlüssel von Sealed Secrets und die Backups gibst du nicht ab. Die Berichte der Checks legst du in `reports/`. Wie das Repo aufgebaut ist und wie du einen Tag setzt, steht in der [Übersicht](../).
 

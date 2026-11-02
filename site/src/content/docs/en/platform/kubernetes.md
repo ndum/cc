@@ -178,14 +178,6 @@ The ReplicaSet now counts only one matching pod and creates a new one right away
 :::
 ::::
 
-::::exercise[Rebuild]
-Rebuild the cluster with `tofu destroy` and `tofu apply`. What do you have to do on the front-end afterwards so that kubectl works again, and why?
-
-:::solution
-The new VMs have new SSH host keys, and k3s has new certificates. `ssh-keygen -R` removes the old keys of both addresses from `~/.ssh/known_hosts`, otherwise SSH refuses the connection. Then `get-kubeconfig.sh` fetches the new kubeconfig, since the old one no longer fits the cluster.
-:::
-::::
-
 ::::exercise[Address ranges]
 In the test setup the lab VMs were in `10.42.0.0/24`, and k3s first ran with its default ranges. What happens to a packet from a pod to the front-end at `10.42.0.10`, and where do you change that?
 

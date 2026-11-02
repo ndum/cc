@@ -36,6 +36,8 @@ Die am häufigsten zitierte Definition stammt vom amerikanischen National Instit
 | Rapid elasticity | Ressourcen wachsen und schrumpfen schnell, teils automatisch, mit dem Bedarf. | Der Webshop skaliert unter Last (Kapitel 5.4), OneFlow vergrössert Dienste (Kapitel 3.5). |
 | Measured service | Der Verbrauch wird gemessen und ist für Anbieter und Nutzende sichtbar. | Showback pro Mitglied (Kapitel 3.3), Metriken in Prometheus (Kapitel 5.1) |
 
+![Die fünf Merkmale einer Cloud bei Wolkenwerk Bern. In der Mitte steht die Cloud von Wolkenwerk Bern auf drei Servern. Fünf Karten rundherum zeigen die Merkmale einer Cloud nach NIST mit je einem Beispiel aus dem Lab. Ein Mitglied startet selbst eine VM in Sunstone (On-demand self-service). Weboberfläche, API und SSH sind über das Netz erreichbar (Broad network access). Alle Mitglieder teilen sich einen Pool (Resource pooling). Der Webshop skaliert unter Last (Rapid elasticity). Der Showback zeigt jedem Mitglied seinen Verbrauch (Measured service). Erst mit allen fünf Merkmalen bilden die drei Server eine Cloud.](../../../assets/figures/de/p1c1-characteristics.svg)
+
 Fehlt eines der Merkmale, spricht man streng genommen nicht von einer Cloud. Auch eine effiziente Virtualisierungsplattform ist keine Cloud, wenn nur das Betriebsteam darauf VMs anlegt, denn ihr fehlt der Self-Service.
 
 ## Die Grösse spielt keine Rolle

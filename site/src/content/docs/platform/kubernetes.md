@@ -178,14 +178,6 @@ Das ReplicaSet zählt nur noch einen passenden Pod und legt sofort einen neuen a
 :::
 ::::
 
-::::exercise[Neu bauen]
-Baue den Cluster mit `tofu destroy` und `tofu apply` neu. Was musst du danach auf dem Front-end tun, damit kubectl wieder funktioniert? Begründe deine Antwort.
-
-:::solution
-Die neuen VMs haben neue Schlüssel für SSH. Auch die Zertifikate von k3s sind neu. `ssh-keygen -R` entfernt die alten Schlüssel der beiden Adressen aus `~/.ssh/known_hosts`, sonst verweigert SSH die Verbindung. Danach holt `get-kubeconfig.sh` die neue kubeconfig, die alte passt nicht mehr zum Cluster.
-:::
-::::
-
 ::::exercise[Adressbereiche]
 Im Testaufbau lagen die Lab-VMs im Netz `10.42.0.0/24`. Zuerst lief k3s dort mit seinen Standardbereichen. Was passiert mit einem Paket von einem Pod an das Front-end `10.42.0.10` und wo änderst du das?
 

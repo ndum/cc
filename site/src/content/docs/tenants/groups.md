@@ -37,7 +37,7 @@ Ein VDC (Virtual Data Center) ist ein Ausschnitt der Infrastruktur, den OpenNebu
 
 ## Gruppen und Gruppenadmins
 
-`onegroup create` legt eine Gruppe an und auf Wunsch gleich einen Admin dazu. `--resources` bestimmt, welche Objekte die Benutzer der Gruppe selbst erstellen dürfen. Im Lab sind das VMs, Images, Vorlagen und Dokumente. Die Dokumente braucht OneFlow in Kapitel 3.5, denn OpenNebula speichert einen Dienst als Dokument.
+`onegroup create` legt eine Gruppe an und auf Wunsch gleich einen Admin dazu. `--resources` bestimmt, welche Objekte die Benutzer der Gruppe selbst erstellen dürfen. Im Lab sind das VMs, Images, Vorlagen und Dokumente. Die Dokumente braucht OneFlow in [Kapitel 3.5](../advanced/#dienste-und-rollen), denn OpenNebula speichert einen Dienst als Dokument.
 
 Das Skript `lab/tenants/make-tenants.sh` legt die vier Mitglieder an. Es erzeugt zufällige Passwörter für die Gruppenadmins und speichert sie in `~/cc-lab/tenants/`, wo nur dein Benutzer sie lesen kann.
 

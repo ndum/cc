@@ -83,6 +83,8 @@ Statt für jedes Mitglied eine Application zu schreiben, lässt du sie von einem
 
 Der Generator `git` durchsucht das Repo nach Ordnern unter `members` und erzeugt für jeden eine Application `member-<ordner>`. Kommt ein Ordner dazu, entsteht ein Namespace. Verschwindet er, löscht Argo CD dank `prune` den Namespace mit allem darin. Das ApplicationSet prüft das Repo normalerweise alle drei Minuten, `requeueAfterSeconds: 60` verkürzt das auf eine Minute.
 
+![Ein Namespace aus der Vorlage. Oben liegt die Vorlage templates/member, eine Component von Kustomize mit dem Namespace member, einer ResourceQuota mit requests.cpu 1, einer LimitRange mit dem Standard 250m pro Container und einer NetworkPolicy, die nur den eigenen Namespace und kube-system durchlässt. In der Mitte setzt der Ordner members/velo den Namespace velo und ersetzt mit einem Patch requests.cpu durch 2. Das ApplicationSet members liest den Ordner mit dem Generator git und erzeugt die Application member-velo. Argo CD rendert sie mit Kustomize, unten stehen die Objekte im Cluster. Achte auf die Unterschiede zur Vorlage. Der Namespace heisst velo und die Quota erlaubt 2 CPU, alles andere kommt unverändert aus der Vorlage.](../../../assets/figures/de/p4c5-kustomize.svg)
+
 ```bash
 kubectl -n argocd get applicationsets
 kubectl -n argocd get applications
@@ -150,14 +152,6 @@ Rolle die Vorlage für das Veloatelier aus, beantrage den Namespace der Gemeinde
 
 :::solution
 `kubectl -n argocd get applications` zeigt `member-velo` und `member-gemeinde` als `Synced` und `Healthy`. `kubectl -n velo describe resourcequota member` zeigt `requests.cpu` mit der Grenze 2, die Gemeinde hat die Grenze 1 der Vorlage. Das Deployment `fill` bleibt bei 8 Pods stehen. Ein Test-Pod in `gemeinde` bekommt vom Webshop in `velo` «Connection refused».
-:::
-::::
-
-::::exercise[Eigenes Mitglied]
-Die Treuhand Aaregg will einen Namespace für einen kleinen Dienst, der Belege entgegennimmt. Er braucht wenig CPU, aber 1,5 GB Speicher und Speicherplatz für Dateien. Lege das Mitglied an und begründe deine Werte.
-
-:::solution
-Ein Ordner `members/treuhand` mit `namespace: treuhand` und Patches für Quota und LimitRange, etwa `requests.memory` auf `2Gi`, `limits.memory` auf `3Gi` und `max` der LimitRange auf mindestens `2Gi`, damit ein einzelner Container 1,5 GB bekommen darf. Die zwei PersistentVolumeClaims, die die Quota der Vorlage erlaubt, reichen für den Speicherplatz. Die Begründung nennt den Bedarf des Dienstes und prüft, ob die Summe aller Quotas zum Speicher der beiden VMs passt.
 :::
 ::::
 

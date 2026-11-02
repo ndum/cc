@@ -7,7 +7,7 @@ description: The assignment of the third milestone with the seven base requireme
 "Before the season the board wants to see three things," Simone Wyss writes. "That you notice when the web shop suffers before customers do. That it grows with the load on Saturdays. And how good our own language model really is in operations."
 :::
 
-Milestone 3 covers part 5. In the base you monitor the platform and the web shop, set an SLO with an alert and let the shop grow under load. In the advanced tasks you run a local language model, use it in triage with approval and improve the questions you ask it. Milestone 3 is individual work and belongs with milestone 4 to hand-in 2.
+Milestone 3 covers part 5. In the base you monitor the platform and the web shop, set an SLO with an alert and let the shop grow under load. In the advanced tasks you run a local language model, build a triage service of your own with approval and improve the questions you ask the model. Milestone 3 is individual work and belongs with milestone 4 to hand-in 2.
 
 ## Base
 
@@ -25,19 +25,19 @@ The documentation has a screenshot for each requirement with one or two sentence
 
 ## Advanced tasks
 
-The three advanced tasks are about the local language model. Plan four to six hours. Each task is worth 0 to 3 points by the [levels of the advanced tasks](../#levels-of-the-advanced-tasks).
+The three advanced tasks are about the local language model, and each builds on the one before. Plan four to six hours. [Chapter 5.5](../../observability/advanced/) explains the concepts and lists the requirements of each task. Each task is worth 0 to 3 points by the [levels of the advanced tasks](../#levels-of-the-advanced-tasks).
 
 ### A · A local language model
 
-Ollama runs with `llama3.2:3b` on your platform. You measure the tokens per second and explain what they depend on. One member has access to the model, another does not. [Chapter 5.5](../../observability/ai/) shows the way.
+A local language model runs as a service of your platform. You measure the tokens per second and explain what they depend on. One member has access to the model, another does not. The requirements are in [chapter 5.5](../../observability/advanced/#task-a--a-local-language-model).
 
 ### B · Triage with approval
 
-The triage service receives alerts and proposes a cause and an action. You approve one proposal and reject another, and the audit log shows both decisions. In the documentation you assess both proposals critically and record what was right and what was wrong in them. [Chapter 5.6](../../observability/triage/) shows the service and its safeguards.
+A triage service of your own receives the web shop alerts, asks the model from task A and proposes a cause and an action. An action only runs after an approval, and the service has minimal rights and writes an audit log. You approve one proposal and reject another, and the audit log shows both decisions. In the documentation you assess both proposals critically and record what was right and what was wrong in them. The requirements are in [chapter 5.5](../../observability/advanced/#task-b--triage-with-approval).
 
 ### C · Better questions to the model
 
-With `EXTRA_INSTRUCTIONS` you extend the question the triage service asks the model. You compare the proposals for the same alert before and after and record the measured result, for example the duration and whether the proposed action fits the fault. [Chapter 5.6](../../observability/triage/) describes the question to the model.
+You improve the question your triage service asks the model. You compare the proposals for the same alert before and after and record the measured result, for example the duration and whether the proposed action fits the fault. The requirements are in [chapter 5.5](../../observability/advanced/#task-c--better-questions-to-the-model).
 
 ## Showing the advanced tasks
 
@@ -45,7 +45,7 @@ You show the advanced tasks live in class or in a screencast of at most ten minu
 
 ## Hand-in
 
-The folder `m3/` of your hand-in repo holds the documentation with the screenshots and the drawing, and `platform/`, a copy of your repo `platform` from Gitea without the `.git` folder, without state and without passwords. Task B adds `audit.jsonl`, the audit log of the triage service, and the showing adds the screencast or a link to it.
+The folder `m3/` of your hand-in repo holds the documentation with the screenshots and the drawing, and `platform/`, a copy of your repo `platform` from Gitea without the `.git` folder, without state and without passwords. Task B adds the audit log of your triage service, and the showing adds the screencast or a link to it. If the code of your triage service is not in the platform repo, put it into the folder `m3/triage/`.
 
 You put the reports of the checks in `reports/`. The [overview](../) describes how the repo is structured and how you set a tag.
 

@@ -36,6 +36,8 @@ The most widely cited definition comes from the US National Institute of Standar
 | Rapid elasticity | Resources grow and shrink quickly with demand, partly on their own. | The web shop scales under load (chapter 5.4), and OneFlow grows services (chapter 3.5). |
 | Measured service | Usage is measured and visible to both provider and users. | Showback per member (chapter 3.3), metrics in Prometheus (chapter 5.1) |
 
+![The five characteristics of a cloud at Wolkenwerk Bern. The cloud of Wolkenwerk Bern on three servers sits in the middle. Five cards around it show the characteristics of a cloud according to NIST, each with an example from the lab. A member starts a VM in Sunstone on its own (On-demand self-service). The web interface, the API and SSH are reachable over the network (Broad network access). All members share one pool (Resource pooling). The web shop scales under load (Rapid elasticity). Showback shows every member its usage (Measured service). Only with all five characteristics do the three servers form a cloud.](../../../../assets/figures/en/p1c1-characteristics.svg)
+
 If one of the characteristics is missing, it is strictly speaking not a cloud. Even an efficient virtualization platform is not a cloud if only the operations team creates VMs on it, because self-service is missing.
 
 ## Size does not matter

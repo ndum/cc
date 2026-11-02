@@ -210,7 +210,7 @@ Der erste Lauf meldet bei beiden Knoten `changed=2`, weil htop neu installiert u
 Installiere OpenNebula 7.4 mit OneDeploy, richte die CLI für deinen Benutzer ein, prüfe die Hosts mit `onehost list`, melde dich an der Weboberfläche an und lade den Bericht des Checks `install` in dein Abgabe-Repo.
 
 :::solution
-Der Check endet mit «8 von 8 Prüfungen der Basis erfüllt». `onehost list` zeigt beide Knoten mit `on` in der Spalte `STAT`. Steht dort `err`, nennt `onehost show` mit dem Namen des Hosts den Grund im Abschnitt `MONITORING`, oft eine fehlende SSH-Verbindung vom Front-end zum Knoten.
+Der Check endet mit «8 von 8 Prüfungen der Basis erfüllt». `onehost list` zeigt beide Knoten mit `on` in der Spalte `STAT`. Steht dort `err`, nennt `onehost show` mit dem Namen des Hosts den Grund im Abschnitt `MONITORING INFORMATION`, oft eine fehlende SSH-Verbindung vom Front-end zum Knoten.
 :::
 ::::
 

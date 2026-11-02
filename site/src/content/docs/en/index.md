@@ -11,7 +11,7 @@ hero:
       icon: right-arrow
 ---
 
-In this course you build and run a cloud of your own. On three virtual machines you set up OpenNebula as the infrastructure, split it among tenants, provision a Kubernetes cluster on top of it from code, and monitor everything with Prometheus, Grafana and Loki. A local language model runs as a service on your own platform and helps with operations without sending data anywhere else.
+In this course you build and run a cloud of your own. On three virtual machines you set up OpenNebula as the infrastructure, split it among tenants, provision a Kubernetes cluster on top of it from code, and monitor everything with Prometheus, Grafana and Loki. In the advanced tasks you also run a local language model as a service on your platform, which helps with operations without sending data anywhere else.
 
 Every chapter follows one case. The cooperative Wolkenwerk Bern runs a shared cloud for its members, among them a medical practice, a fiduciary office, a bike shop with a web shop and a small municipality. You are the platform team, and in every part Simone Wyss, the managing director, brings you a new assignment.
 

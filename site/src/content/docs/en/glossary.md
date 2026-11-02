@@ -25,7 +25,7 @@ The glossary explains the terms of the course briefly and points to the chapter 
 | Datastore | A storage location in OpenNebula. `default` holds the images, `system` the disks of running VMs, `files` smaller files. | [2.4](../iaas/images/) |
 | Deployment | Keeps a number of identical pods running and replaces them during an update. | [4.3](../platform/kubernetes/) |
 | Drift | A difference between the actual state and the code, for example after a manual change. `tofu plan` shows it. | [4.1](../platform/iac/) |
-| Elasticity | Resources grow with the load and shrink again, following rules and without manual work. | [3.5](../tenants/oneflow/) |
+| Elasticity | Resources grow with the load and shrink again, following rules and without manual work. | [3.5](../tenants/advanced/) |
 | Error budget | The share of failures an SLO allows. For the web shop that is 0.5% of requests over seven days. | [5.3](../observability/slo/) |
 | etcd | A distributed database for the state of a cluster. In part 6 it replaces SQLite so k3s can write snapshots. | [6.2](../operations/backup/) |
 | Exporter | A program that offers the metrics of a system in the Prometheus format, such as node_exporter on port 9100. | [5.1](../observability/metrics/) |
@@ -48,7 +48,7 @@ The glossary explains the terms of the course briefly and points to the chapter 
 | k3s | A lightweight Kubernetes distribution in a single program. A server contains the control plane, an agent only runs pods. | [4.3](../platform/kubernetes/) |
 | Kustomize | Builds the objects for each member from a template and small adjustments without copying the template. | [4.5](../platform/templates/) |
 | KVM | The hypervisor in the Linux kernel. It uses the virtualization features of the CPU and runs the VMs on the nodes. | [0.2](../start/lab/) |
-| Language model | A model that generates text token by token. It writes likely text and does not check whether it is true. | [5.5](../observability/ai/) |
+| Language model | A model that generates text token by token. It writes likely text and does not check whether it is true. | [5.5](../observability/advanced/) |
 | LimitRange | Sets defaults and upper limits for the requests and limits of each container in a namespace. | [4.5](../platform/templates/) |
 | LogQL | The query language of Loki. A query first selects streams by labels and then filters the text. | [5.2](../observability/logs/) |
 | Loki | Collects logs centrally and keeps them after a pod is gone. It indexes only a few labels, not the text. | [5.2](../observability/logs/) |
@@ -58,9 +58,9 @@ The glossary explains the terms of the course briefly and points to the chapter 
 | NetworkPolicy | Defines who may reach a pod over the cluster network. Without a policy, every pod reaches every other. | [4.5](../platform/templates/) |
 | nftables | The packet filter of Linux. In the course it holds the NAT of the gateway and the firewall of the front-end, each in a table of its own. | [6.1](../operations/security/) |
 | Node | A VM on which OpenNebula runs the virtual machines of the members. The course has two nodes with KVM. | [0.2](../start/lab/) |
-| Ollama | Loads open language models and serves them through an HTTP interface. In the course it runs in the namespace `ai`. | [5.5](../observability/ai/) |
+| Ollama | Loads open language models and serves them through an HTTP interface. In the advanced tasks of part 5 it can provide the local language model of the platform. | [5.5](../observability/advanced/) |
 | OneDeploy | The collection of Ansible playbooks the OpenNebula project uses to install a cloud from a front-end and nodes. | [2.2](../iaas/installation/) |
-| OneFlow | Manages services made of several VMs in roles and adjusts the number of VMs by rules. | [3.5](../tenants/oneflow/) |
+| OneFlow | Manages services made of several VMs in roles and adjusts the number of VMs by rules. | [3.5](../tenants/advanced/) |
 | OpenNebula | A free platform for private clouds. It manages nodes, networks, storage and virtual machines and assigns them to tenants. | [2.2](../iaas/installation/) |
 | OpenTofu | An infrastructure-as-code tool and a free fork of Terraform. In the course it creates the k3s VMs in OpenNebula. | [4.2](../platform/opentofu/) |
 | PaaS | Platform as a service. The provider also runs the operating system and runtime, and the users bring only their application. | [1.2](../basics/models/) |
@@ -95,6 +95,6 @@ The glossary explains the terms of the course briefly and points to the chapter 
 | Sunstone | The OpenNebula web interface on port 2616 of the front-end, for the platform team and the members. | [2.1](../iaas/architecture/) |
 | Template | Describes a VM in OpenNebula that you can start as many times as you like, such as `ubuntu` in the course. | [2.4](../iaas/images/) |
 | Tenant | An organization that shares a cloud with others and sees only its own resources. | [3.1](../tenants/groups/) |
-| Triage | The first assessment of an alert. In the course a service uses the local model to propose a cause and an action from a fixed list, and a person approves it. | [5.6](../observability/triage/) |
+| Triage | The first assessment of an alert. In the advanced tasks you build a service that uses the local model to propose a cause and an action from a fixed list, and a person approves it. | [5.5](../observability/advanced/) |
 | VDC | Virtual data center. A slice of the infrastructure that OpenNebula assigns to one or more groups. | [3.1](../tenants/groups/) |
 | VXLAN | A way to carry a network for VMs inside UDP packets across an existing network. In the course it connects the VMs of your cloud through the front-end and the nodes. | [2.3](../iaas/networks/) |

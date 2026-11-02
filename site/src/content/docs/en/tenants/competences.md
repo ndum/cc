@@ -17,8 +17,12 @@ Use this grid to judge whether your cloud is ready for several members and wheth
 | tell showback from chargeback | Explain the difference in two sentences for the board. | [Showback](../showback/#showback-and-chargeback) |
 | calculate the cost of a VM | Work out the cost of a VM per hour and per month from its prices. | [Showback](../showback/#the-cost-of-a-vm) |
 | set up self-service with shared templates | Show what a group admin may change on the template `ubuntu` and what not. | [Self-service](../self-service/#the-limits-of-a-member) |
-| describe a service with OneFlow (advanced) | Explain role, cardinality, `min_vms`, `max_vms` and `cooldown` using the fiduciary office's service. | [Elasticity with OneFlow](../oneflow/#services-and-roles) |
-| write and observe elasticity rules (advanced) | Show how the service grows under load and explain why it does not grow to three VMs. | [Elasticity with OneFlow](../oneflow/#growing-under-load) |
-| use elasticity by schedule (advanced) | Write a rule that sets the service to two VMs every Monday at 7 a.m. | [Elasticity with OneFlow](../oneflow/#growing-by-schedule) |
+| describe a service with OneFlow (advanced) | Explain role, cardinality, `min_vms`, `max_vms` and `cooldown` using your service for the fiduciary office. | [Advanced tasks](../advanced/#services-and-roles) |
+| justify elasticity rules by load (advanced) | Explain why a role with one VM at full load and one idle VM does not grow any further at a threshold of 60%. | [Advanced tasks](../advanced/#rules-by-load) |
+| use elasticity by schedule (advanced) | Write a rule that sets the service to two VMs every Monday at 7 a.m. | [Advanced tasks](../advanced/#rules-by-schedule) |
+| plan a monthly report with a timer (advanced) | Explain when your timer elapses and what happens if the front-end is off at that moment. | [Advanced tasks](../advanced/#timers-in-systemd) |
+| calculate the cost coverage from the showback (advanced) | Calculate the cooperative's cost coverage from the showback of one month and state your assumptions. | [Advanced tasks](../advanced/#cost-coverage) |
+| assess the consequences of a node failure (advanced) | Explain what happens to the members' VMs when a node fails and why they do not start on the other node in the lab. | [Advanced tasks](../advanced/#consequences-of-a-failure) |
+| propose a placement of the VMs (advanced) | Justify for Wolkenwerk whether packing or striping fits better. Name what a VM group with `ANTI_AFFINED` changes about it. | [Advanced tasks](../advanced/#placement-and-failures) |
 
-With this part you complete [milestone 1](../../assessment/milestone-1/). Rows marked as advanced belong to an advanced task, not to the base. In part 4 you build a platform as code on top of this cloud.
+With this part you complete [milestone 1](../../assessment/milestone-1/). Rows marked as advanced belong to an advanced task in [chapter 3.5](../advanced/), not to the base. In part 4 you build a platform as code on top of this cloud.

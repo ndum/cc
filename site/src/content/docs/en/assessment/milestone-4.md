@@ -25,32 +25,19 @@ The documentation has a screenshot for each requirement with one or two sentence
 
 ## Advanced tasks
 
-Plan four to six hours for the three advanced tasks. Each one is worth 0 to 3 points by the [levels of the advanced tasks](../#levels-of-the-advanced-tasks). Tasks B and C build on the member from task A.
+Plan four to six hours for the three advanced tasks. Each one is worth 0 to 3 points by the [levels of the advanced tasks](../#levels-of-the-advanced-tasks). Tasks B and C build on the member from task A. The concepts and the requirements of each task are in [chapter 6.5](../../operations/advanced/).
 
 ### A · A member of your own
 
-You bring a fifth member of Wolkenwerk onto your platform end to end. In OpenNebula it gets a group with an admin, VDC, quota and prices, and a VM. In the cluster it gets a namespace from the template through a pull request in Gitea, with its application rolled out by Argo CD. An alert rule with the label `triage: "true"` watches the application. You fire the alert through Git, decide on the triage service's proposal and fix the fault. [Chapter 6.3](../../operations/sla/#an-alert-for-a-new-member) shows the way.
-
-You choose the member freely. It should be a small organization from the region that fits a cooperative like Wolkenwerk, with a service on a VM and an application in the cluster. In the documentation you describe it in a few sentences, with its protection needs. If no idea comes to mind, the table has some suggestions.
-
-| Idea | What it needs |
-|---|---|
-| Daycare center | registrations with children's data, a website for parents |
-| Music school | timetable and billing, peaks at the start of each semester |
-| Physiotherapy practice | appointments and treatment notes under professional secrecy |
-| Neighborhood association | website and member list, small budget |
-| Bakery with orders | orders until 6 p.m., peaks before holidays |
-| Architecture firm | large plans, backups matter more than availability |
-
-The application in the cluster must meet the profile `restricted`, for example a static website with `nginxinc/nginx-unprivileged` or a small app of your own. The VM may have at most 1 GB of memory, because that is all the nodes have left next to k3s. In the lab, a VM with 1 GB ran next to the k3s server, and the node swapped out around 200 MB for it.
+You bring a fifth member of Wolkenwerk that you design yourself onto your platform end to end. In the documentation you describe it in a few sentences, with its protection needs. In OpenNebula it gets a group with an admin, VDC, quota and prices, and a VM with at most 1 GB of memory. In the cluster it gets a namespace from the template through a pull request in Gitea, with its application rolled out by Argo CD and meeting the profile `restricted`. An alert rule watches the application, and Alertmanager sends its alert to your triage service from advanced task B of milestone 3. You fire the alert through Git, decide on the triage service's proposal and fix the fault. Ideas for the member and the requirements are in [chapter 6.5](../../operations/advanced/#task-a--a-member-of-your-own).
 
 ### B · Cluster restore and SLA
 
-You restore the cluster from an etcd snapshot and measure the time until it runs again. Based on that time and the architecture of your lab you write an SLA for your member with availability, support hours, RPO and RTO. You may do the restore before the showing and show it there by its traces, such as the snapshot, the times and the state afterwards. [Chapter 6.2](../../operations/backup/) shows the restore, [chapter 6.3](../../operations/sla/) the SLA.
+You restore the cluster from an etcd snapshot and measure the time until it runs again. Based on that time and the architecture of your lab you write an SLA for your member with availability, support hours, RPO and RTO. You may do the restore before the showing and show it there by its traces, such as the snapshot, the times and the state afterwards. The requirements are in [chapter 6.5](../../operations/advanced/#task-b--cluster-restore-and-sla), the parts of an SLA in [chapter 6.3](../../operations/sla/).
 
 ### C · Postmortem and cost model
 
-For the incident from task A, the local model drafts a postmortem from the timeline. You correct it and record what was right, what was wrong and what you changed. You also work out a cost model for your member with the monthly price, a comparison with the showback and a right-sizing proposal. [Chapter 6.3](../../operations/sla/) covers postmortems, [chapter 6.4](../../operations/cost/) the costs.
+For the incident from task A, the local model drafts a postmortem from the timeline. You build the timeline from the data without the model. You correct the draft and record what was right, what was wrong and what you changed. You also work out a cost model for your member with the monthly price, a comparison with the showback and a right-sizing proposal. The requirements are in [chapter 6.5](../../operations/advanced/#task-c--postmortem-and-cost-model), the full cost in [chapter 6.4](../../operations/cost/).
 
 ## Showing the advanced tasks
 
@@ -58,7 +45,7 @@ You show the advanced tasks live in class or in a screencast of at most ten minu
 
 ## Hand-in
 
-The folder `m4/` of your hand-in repo holds the documentation with the screenshots and the table of RPO and RTO, and `platform/`, a copy of your repo `platform` from Gitea without the `.git` folder, without state and without passwords. SealedSecrets may stay in it. Task A adds `audit.jsonl`, the audit log of the triage service, task C adds `postmortem-entwurf.md` from the model and `postmortem.md` with your correction, and the showing adds the screencast or a link to it.
+The folder `m4/` of your hand-in repo holds the documentation with the screenshots and the table of RPO and RTO, and `platform/`, a copy of your repo `platform` from Gitea without the `.git` folder, without state and without passwords. SealedSecrets may stay in it. Task A adds the audit log of your triage service, task C adds `postmortem-entwurf.md` from the model and `postmortem.md` with your correction, and the showing adds the screencast or a link to it. Add scripts of your own, for example for the timeline, if they are not in the platform repo.
 
 You do not hand in the k3s token, the Sealed Secrets key or the backups. You put the reports of the checks in `reports/`. The [overview](../) describes how the repo is structured and how you set a tag.
 

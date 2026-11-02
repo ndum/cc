@@ -25,19 +25,19 @@ Die Dokumentation zeigt zu jeder Anforderung einen Screenshot mit einem oder zwe
 
 ## Zusatzaufträge
 
-Für die drei Zusatzaufträge rechnest du mit vier bis sechs Stunden. Jeder gibt 0 bis 3 Punkte nach den [Stufen der Zusatzaufträge](../#stufen-der-zusatzaufträge).
+Für die drei Zusatzaufträge rechnest du mit vier bis sechs Stunden. Jeder gibt 0 bis 3 Punkte nach den [Stufen der Zusatzaufträge](../#stufen-der-zusatzaufträge). [Kapitel 3.5](../../tenants/advanced/) erklärt die Konzepte dazu und nennt für jeden Auftrag die Anforderungen an deine Lösung.
 
 ### A · Elastizität mit OneFlow
 
-Die Treuhand betreibt ihren Dienst in OneFlow mit Regeln für die Elastizität. Du zeigst, wie der Dienst unter Last wächst und danach wieder schrumpft. Dazu begründest du, warum du die Regeln so gesetzt hast. [Kapitel 3.5](../../tenants/oneflow/) zeigt den Weg. Starte die Last vor der Vorführung, das Wachsen braucht einige Minuten.
+Die Treuhand betreibt einen Dienst in OneFlow, der nach Last und nach Zeitplan wächst und danach wieder schrumpft. Du zeigst, wie der Dienst unter Last wächst und ohne Last wieder schrumpft. Dazu begründest du, warum du die Regeln so gesetzt hast. [Auftrag A in Kapitel 3.5](../../tenants/advanced/#auftrag-a--elastizität-mit-oneflow) nennt die Anforderungen. Starte die Last vor der Vorführung, das Wachsen braucht einige Minuten.
 
 ### B · Showback als Bericht
 
-Ein eigenes Skript mit einem eigenen systemd-Timer legt den Showback des vergangenen Monats als CSV ab. OpenNebula 7.4 bringt den Timer `opennebula-showback.timer` schon mit, er berechnet den Showback täglich. Deinen Timer nennst du deshalb so, dass sein Name `showback` enthält, aber nicht mit `opennebula-` beginnt. Aus dem CSV berechnest du, ob die Preise die Kosten der Genossenschaft decken. [Kapitel 3.3](../../tenants/showback/) erklärt Preise und Showback.
+Ein eigenes Skript mit einem eigenen systemd-Timer legt den Showback des vergangenen Monats als CSV ab. OpenNebula 7.4 bringt den Timer `opennebula-showback.timer` schon mit, er berechnet den Showback täglich. Deinen Timer nennst du deshalb so, dass sein Name `showback` enthält, aber nicht mit `opennebula-` beginnt. Aus dem CSV berechnest du, ob die Preise die Kosten der Genossenschaft decken. [Auftrag B in Kapitel 3.5](../../tenants/advanced/#auftrag-b--showback-als-bericht) nennt die Anforderungen, [Kapitel 3.3](../../tenants/showback/) erklärt Preise und Showback.
 
 ### C · Ausfall eines Knotens
 
-Du schaltest einen Knoten aus und zeigst, was mit den VMs der Mitglieder geschieht. Daraus leitest du einen Vorschlag für die Platzierung der VMs ab, etwa Packing oder Striping. Diesen Vorschlag begründest du für die Mitglieder von Wolkenwerk. [Kapitel 2.5](../../iaas/hosts/) beschreibt Scheduler, Wartung und Ausfall.
+Du schaltest einen Knoten aus und zeigst, was mit den VMs der Mitglieder geschieht. Daraus leitest du einen Vorschlag für die Platzierung der VMs ab, etwa Packing oder Striping. Diesen Vorschlag begründest du für die Mitglieder von Wolkenwerk. [Auftrag C in Kapitel 3.5](../../tenants/advanced/#auftrag-c--ausfall-eines-knotens) nennt die Anforderungen, [Kapitel 2.5](../../iaas/hosts/) beschreibt Scheduler, Wartung und Ausfall.
 
 ## Zusatzaufträge zeigen
 

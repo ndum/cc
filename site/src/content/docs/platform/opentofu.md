@@ -21,7 +21,7 @@ Nach diesem Kapitel kannst du:
 
 ## Platz auf den Knoten
 
-Der Kubernetes-Cluster von Teil 4 läuft auf zwei VMs mit je 6 GB Arbeitsspeicher, auf jedem Knoten eine. So viel braucht er spätestens in Teil 5, wenn Prometheus, Loki und ein lokales Sprachmodell dazukommen. Jeder Knoten hat 8 GB, davon meldet OpenNebula 7,2 GB für VMs. `onehost list` zeigt das in der Spalte `ALLOCATED_MEM`.
+Der Kubernetes-Cluster von Teil 4 läuft auf zwei VMs mit je 6 GB Arbeitsspeicher, auf jedem Knoten eine. So viel braucht er spätestens in Teil 5 mit Prometheus und Loki. Ein lokales Sprachmodell aus den Zusatzaufträgen braucht zusätzlich Platz. Jeder Knoten hat 8 GB, davon meldet OpenNebula 7,2 GB für VMs. `onehost list` zeigt das in der Spalte `ALLOCATED_MEM`.
 
 OpenNebula reserviert für jede VM den ganzen Speicher aus ihrer Vorlage auf ihrem Knoten, auch wenn die VM ihn gerade nicht braucht. Neben dem Cluster bleiben auf jedem Knoten 1,2 GB frei, genug für eine einzige VM mit 1 GB. Die drei Webserver aus Teil 2, die VMs der Praxis und der Dienst der Treuhand aus Teil 3 belegen zusammen 6 GB. Mit ihnen startet der Cluster nicht, OpenNebula fände keinen Knoten mit 6 GB frei.
 
@@ -163,18 +163,7 @@ Plan: 0 to add, 1 to change, 0 to destroy.
 tofu apply -replace='opennebula_virtual_machine.k3s["k3s-agent"]'
 ```
 
-:::note[Zusatzauftrag]
-Zu den Zusatzaufträgen von Meilenstein 2 gehört der ganze Neubau mit `tofu destroy` und `tofu apply`, gefolgt vom Bootstrap aus Kapitel 4.4. Für die Basis genügen die VMs aus OpenTofu und ein Plan ohne Änderungen.
-:::
-
-Ob der Code alles beschreibt, zeigt erst ein ganzer Neubau. `tofu destroy` löscht alles, was im State steht, `tofu apply` baut es wieder auf.
-
-```bash
-tofu destroy
-tofu apply
-```
-
-Netz und Image bleiben stehen, weil der Code sie nur liest. Im Lab waren beide VMs samt Kubernetes etwa zwei Minuten nach dem Neubau bereit. Das gilt für den leeren Cluster von Teil 4. In Teil 6, mit Monitoring und Modell, dauert ein Neubau deutlich länger. Wie das Startskript Kubernetes installiert, zeigt Kapitel 4.3.
+Ob der Code alles beschreibt, zeigt erst ein ganzer Neubau. `tofu destroy` löscht alles, was im State steht, `tofu apply` baut es wieder auf. Für den leeren Cluster von Teil 4 dauerte das im Lab etwa zwei Minuten. Die Basis verlangt nur die VMs aus OpenTofu und einen Plan ohne Änderungen. Den Neubau der ganzen Plattform planst und misst du im Zusatzauftrag A in [Kapitel 4.6](../advanced/#auftrag-a--neubau-der-plattform). Wie das Startskript Kubernetes installiert, zeigt Kapitel 4.3.
 
 ::::exercise[Lab]
 Räume die Knoten auf, installiere die Werkzeuge und lege die beiden VMs mit OpenTofu an. Zeige mit `tofu plan`, dass danach keine Änderungen offen sind.

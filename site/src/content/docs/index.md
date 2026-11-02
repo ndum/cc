@@ -11,7 +11,7 @@ hero:
       icon: right-arrow
 ---
 
-In diesem Kurs baust und betreibst du eine eigene Cloud. Auf drei virtuellen Maschinen richtest du OpenNebula als Infrastruktur ein, teilst sie in Mandanten auf, stellst darauf per Code einen Kubernetes-Cluster bereit und überwachst alles mit Prometheus, Grafana und Loki. Ein lokales Sprachmodell läuft als Dienst auf deiner eigenen Plattform und hilft beim Betrieb, ohne dass Daten das Haus verlassen.
+In diesem Kurs baust und betreibst du eine eigene Cloud. Auf drei virtuellen Maschinen richtest du OpenNebula als Infrastruktur ein, teilst sie in Mandanten auf, stellst darauf per Code einen Kubernetes-Cluster bereit und überwachst alles mit Prometheus, Grafana und Loki. In den Zusatzaufträgen betreibst du zudem ein lokales Sprachmodell als Dienst auf deiner Plattform. Es hilft beim Betrieb, ohne dass Daten das Haus verlassen.
 
 Alle Kapitel folgen einem Fall. Die Genossenschaft Wolkenwerk Bern betreibt eine gemeinsame Cloud für ihre Mitglieder, darunter eine Hausarztpraxis, ein Treuhandbüro, ein Velogeschäft mit Webshop und eine kleine Gemeinde. Die Geschäftsführerin Simone Wyss bringt in jedem Teil einen neuen Auftrag für dich als Plattform-Team.
 

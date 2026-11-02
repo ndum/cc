@@ -44,9 +44,9 @@ The addresses, ports and commands for these steps are in the [lab reference](../
 | A VM stays `pending` with "Not enough capacity on datastores" | The node monitoring still shows the old free space | `onehost forceupdate` | [6.2](../operations/backup/) |
 | A member cannot see `cc-net` | The group is still in the VDC `default`, or the cluster is missing from the VDC | `onevdc show wolkenwerk`, run `make-tenants.sh` again | [3.1](../tenants/groups/) |
 | A member can no longer start a VM | Its quota is used up | `onegroup show <group>`, clean up VMs or change the quota on purpose | [3.2](../tenants/quotas/) |
-| `Not authorized to perform CREATE DOCUMENT` when starting a service | The group may not create documents | `oneacl create "@<gid> DOCUMENT/* CREATE"` | [3.5](../tenants/oneflow/) |
+| `Not authorized to perform CREATE DOCUMENT` when starting a service | The group may not create documents | `oneacl create "@<gid> DOCUMENT/* CREATE"` | [3.5](../tenants/advanced/) |
 | `oneshowback list` shows a cost of 0 | The VM started before the prices were set, or `calculate` is missing | Restart the VM, run `oneshowback calculate` after a while | [3.3](../tenants/showback/) |
-| The OneFlow service does not grow | The load was too short, or OneFlow averages over all VMs of the role | `oneflow show`, at least three minutes of load, load in every VM of the role | [3.5](../tenants/oneflow/) |
+| The OneFlow service does not grow | The load was too short, or OneFlow averages over all VMs of the role | `oneflow show`, at least three minutes of load, load in every VM of the role | [3.5](../tenants/advanced/) |
 | A restored VM belongs to `oneadmin` | `oneimage restore` creates new objects | `onevm chown <vm> <user> <group>` | [6.2](../operations/backup/) |
 
 ## Network
@@ -71,7 +71,7 @@ The addresses, ports and commands for these steps are in the [lab reference](../
 | Nodes do not become `Ready` | The start script is still running or failed | `ssh root@<server> journalctl -u one-context`, `systemctl status k3s`, if needed `tofu apply -replace` | [4.3](../platform/kubernetes/) |
 | SSH or kubectl refuse after a rebuild | An old key in `known_hosts`, an old kubeconfig | `ssh-keygen -R <address>`, fetch the kubeconfig again with `get-kubeconfig.sh` | [4.3](../platform/kubernetes/) |
 | A node is `NotReady` | k3s is not running on that VM, or the VM is off | `onevm list`, `ssh root@<address> systemctl status k3s` or `k3s-agent` | [4.3](../platform/kubernetes/) |
-| The agent's disk is full, `KubePersistentVolumeFillingUp` | The VM's disk is too small for the Ollama image | Set `disk_size` to 30 GB, `tofu apply` | [5.5](../observability/ai/) |
+| The agent's disk is full, `KubePersistentVolumeFillingUp` | The VM's disk is too small for the Ollama image | Set `disk_size` to 30 GB, `tofu apply` | [5.5](../observability/advanced/) |
 
 ## GitOps
 
@@ -105,19 +105,18 @@ The addresses, ports and commands for these steps are in the [lab reference](../
 
 | Symptom | Cause | Fix | Chapter |
 |---|---|---|---|
-| The `pull-model` job fails | Ollama is not ready yet | Wait, the job retries up to ten times | [5.5](../observability/ai/) |
-| The model answers very slowly | The VM sees no AVX2 because `host-passthrough` is missing | Add the `cpumodel` block in `main.tf`, restart the VM | [5.5](../observability/ai/) |
-| The triage service shows no proposal | The Alertmanager route is missing, or the alert is not `firing` | Alertmanager UI on port 30093, logs of the service | [5.6](../observability/triage/) |
-| A new member's alert does not reach the triage service | The rule lacks the label `triage: "true"` | Check the rule, take the Alertmanager values from the additions of part 6 | [6.3](../operations/sla/) |
+| The model answers very slowly | The VM sees no AVX2 because `host-passthrough` is missing | Add the `cpumodel` block in `main.tf`, restart the VM | [5.5](../observability/advanced/) |
+| Your triage service gets no alerts | Alertmanager has no route to your receiver, or the alert is not `firing` | Alertmanager UI on port 30093, logs of the service | [5.5](../observability/advanced/) |
+| A new member's alert does not reach your triage service | The Alertmanager route does not match the labels of the new rule | Compare the labels of the rule with the route, for example with `amtool config routes test` | [6.5](../operations/advanced/) |
 
 ## Operations
 
 | Symptom | Cause | Fix | Chapter |
 |---|---|---|---|
-| A namespace lacks the `restricted` profile | A patch with `op: add` on `/metadata/labels` replaced all labels | Set the label with a merge patch | [5.5](../observability/ai/), [6.1](../operations/security/) |
+| A namespace lacks the `restricted` profile | A patch with `op: add` on `/metadata/labels` replaced all labels | Set the label with a merge patch | [5.5](../observability/advanced/), [6.1](../operations/security/) |
 | A SealedSecret reports "not managed by SealedSecret" | The secret existed before the controller arrived | Annotate with `sealedsecrets.bitnami.com/managed=true`, restart the controller | [6.1](../operations/security/) |
 | The `secrets` Application stays in an error state | The Sealed Secrets controller is not running yet | Wait, the Application retries | [6.1](../operations/security/) |
 | `crontab: command not found` | Ubuntu 26.04 ships without cron | Set up the timer with `install-backup-timer.sh` | [6.2](../operations/backup/) |
 | New snapshots do not arrive on the front-end | The `cc-backup-k3s.timer` timer is not active | `systemctl list-timers`, enable the timer | [6.2](../operations/backup/) |
-| Argo CD ignores new commits after a restore | The controllers are working with the old state | Restart the controllers in `argocd` and `monitoring` | [6.2](../operations/backup/) |
+| Argo CD ignores new commits after a restore | The controllers are working with the old state | Restart the controllers in `argocd` and `monitoring` | [6.5](../operations/advanced/) |
 | The node swaps and every VM slows down | A member's VM is too large for the free memory | Keep the VM at 1 GB or less | [6.4](../operations/cost/) |

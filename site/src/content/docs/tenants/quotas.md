@@ -49,7 +49,7 @@ Für alle Gruppen und Benutzer ohne eigene Grenze gelten Standardquotas. `onegro
 
 ## Die Quotas der Mitglieder
 
-Die Mitglieder zahlen und brauchen unterschiedlich viel. Die Treuhand braucht für ihren Dienst aus Kapitel 3.5 Platz für bis zu drei VMs.
+Die Mitglieder zahlen und brauchen unterschiedlich viel. Die Treuhand bekommt mehr Platz als die anderen, weil sie Ende Monat mehr braucht. Lässt du ihren Dienst im [Zusatzauftrag A](../advanced/#auftrag-a--elastizität-mit-oneflow) wachsen, zählt jede seiner VMs gegen diese Quota.
 
 | Mitglied | Gruppe | VMs | CPU | Arbeitsspeicher |
 |---|---|---|---|---|
@@ -94,6 +94,8 @@ Eine Quota begrenzt, wie viel ein Mandant reservieren darf. Ob die Hardware dies
 Bei der CPU ist Überbuchung wenig riskant. Teilen sich mehrere virtuelle CPUs einen Kern, verteilt der Hypervisor die Rechenzeit. Alle VMs werden langsamer, laufen aber weiter. Die Vorlage `ubuntu` überbucht bereits im Kleinen. Sie gibt der VM mit `VCPU = 1` einen ganzen virtuellen Kern, reserviert mit `CPU = 0.5` aber nur einen halben. Beim Arbeitsspeicher fehlt dieser Spielraum. Brauchen die VMs zusammen mehr Speicher, als der Knoten hat, muss der Host auslagern oder Prozesse beenden. Dabei kann auch eine VM abstürzen. Deshalb überbucht man die CPU eher als den Arbeitsspeicher. Die Summe der Speicherquotas sollte zur Kapazität der Knoten passen.
 
 Eine Quota begrenzt ausserdem nur, wie viel reserviert ist. Wie stark eine VM ihre CPU tatsächlich auslastet, regelt sie nicht. Auf einem überbuchten Knoten kann eine VM unter Volllast die anderen deshalb trotz Quota bremsen. Gegen diese Form des lauten Nachbarn hilft vor allem weniger Überbuchung oder ein eigener Knoten.
+
+![Quota, Reservierung und Nutzung. Die Gruppe praxis hat die Werte des Kurses und die VMs praxis-1 und praxis-2 aus der Vorlage ubuntu. Bei der CPU erlaubt die Quota 1,5. Auf den Knoten reservieren die VMs 1,0, je 0,5 pro VM. Unter Last nutzen sie bis 2,0, weil jede VM eine ganze virtuelle CPU hat. Beim Arbeitsspeicher erlaubt die Quota 2048 MB. Die beiden VMs reservieren mit je 1024 MB genau so viel und nutzen höchstens so viel, im Leerlauf weniger. Achte darauf, dass die Quota nur zählt, was reserviert ist. Wie stark die VMs ihre CPU auslasten, begrenzt sie nicht. Mit 2 von 2 VMs lehnt OpenNebula eine dritte VM ab.](../../../assets/figures/de/p3c2-quota.svg)
 
 ## Quotas in Kubernetes
 

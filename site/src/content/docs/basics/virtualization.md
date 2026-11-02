@@ -41,6 +41,8 @@ lscpu | grep -iE 'virtualization|model name'
 
 In deinem Lab stapeln sich die Hypervisoren. Deine Knoten laufen als VMs auf smartlearn. Auf ihnen führt KVM wiederum die VMs deiner Cloud aus. Damit das funktioniert, muss der äussere Hypervisor die Virtualisierungsfunktionen der CPU an die Knoten weitergeben. Dieses Prinzip heisst verschachtelte Virtualisierung. Es kostet etwas Leistung, besonders bei vielen Wechseln zwischen VM und Hypervisor, reicht für ein Lab aber gut aus. In Produktion laufen die Knoten einer Cloud direkt auf der Hardware.
 
+![Hypervisoren und verschachtelte Virtualisierung. Drei Stapel nebeneinander, jeder steht auf seiner Hardware. Ein Hypervisor vom Typ 1 wie ESXi, Hyper-V oder KVM läuft direkt auf der Hardware. Die VMs laufen darauf. Ein Hypervisor vom Typ 2 wie VirtualBox oder VMware Workstation läuft als Programm in einem Betriebssystem. Im Lab sind drei Ebenen verschachtelt. Auf smartlearn oder einem eigenen Hypervisor laufen die Knoten als VMs. Auf den Knoten führt KVM die VMs deiner Cloud aus. Die Knoten sind also VMs und zugleich Hypervisoren.](../../../assets/figures/de/p1c3-hypervisors.svg)
+
 ## CPU-Modelle
 
 Ein Hypervisor zeigt einer VM nicht zwingend die echte CPU. Er kann ihr ein allgemeines Modell vorspielen, das auf vielen Rechnern gleich aussieht. Das erleichtert es, eine VM im laufenden Betrieb auf einen anderen Knoten mit anderer CPU zu verschieben. Dafür fehlen dem allgemeinen Modell manche Befehle. Bei QEMU sind das zum Beispiel die Vektorbefehle AVX2, die Programme für Berechnungen nutzen.

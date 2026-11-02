@@ -21,7 +21,7 @@ After this chapter you can:
 
 ## Room on the nodes
 
-The Kubernetes cluster of part 4 runs on two VMs with 6 GB of memory each, one per node. It needs that much by part 5 at the latest, when Prometheus, Loki and a local language model are added. Each node has 8 GB, and OpenNebula reports 7.2 GB of it for VMs. `onehost list` shows this in the column `ALLOCATED_MEM`.
+The Kubernetes cluster of part 4 runs on two VMs with 6 GB of memory each, one per node. It needs that much by part 5 at the latest, when Prometheus and Loki are added, and a local language model from the advanced tasks needs room on top. Each node has 8 GB, and OpenNebula reports 7.2 GB of it for VMs. `onehost list` shows this in the column `ALLOCATED_MEM`.
 
 OpenNebula reserves the full memory of a VM's template on its node, even when the VM does not use it at the moment. With the cluster in place, each node has 1.2 GB left, enough for a single VM with 1 GB. The three web servers of part 2 plus the practice's VMs and the fiduciary office's service of part 3 take 6 GB together. With them running, the cluster does not start, because OpenNebula finds no node with 6 GB free.
 
@@ -163,18 +163,7 @@ Plan: 0 to add, 1 to change, 0 to destroy.
 tofu apply -replace='opennebula_virtual_machine.k3s["k3s-agent"]'
 ```
 
-:::note[Advanced task]
-The full rebuild with `tofu destroy`, `tofu apply` and the bootstrap from chapter 4.4 is one of the advanced tasks of milestone 2. For the base, the VMs from OpenTofu and a plan without changes are enough.
-:::
-
-Only a full rebuild shows whether the code describes everything. `tofu destroy` deletes everything in the state, and `tofu apply` builds it again.
-
-```bash
-tofu destroy
-tofu apply
-```
-
-The network and the image stay, because the code only reads them. In the lab, both VMs were ready with Kubernetes about two minutes after the rebuild. That holds for the empty cluster of part 4. In part 6, with monitoring and the model, a rebuild takes much longer. Chapter 4.3 shows how the start script installs Kubernetes.
+Only a full rebuild shows whether the code describes everything. `tofu destroy` deletes everything in the state, and `tofu apply` builds it again. For the empty cluster of part 4 this took about two minutes in the lab. The base only asks for the VMs from OpenTofu and a plan without changes. Planning and timing a rebuild of the whole platform is advanced task A in [chapter 4.6](../advanced/#task-a--rebuilding-the-platform). Chapter 4.3 shows how the start script installs Kubernetes.
 
 ::::exercise[Lab]
 Clean up the nodes, install the tools and create the two VMs with OpenTofu. Show with `tofu plan` that no changes are left.

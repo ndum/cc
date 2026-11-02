@@ -25,19 +25,19 @@ The documentation has a screenshot for each requirement with one or two sentence
 
 ## Advanced tasks
 
-Plan four to six hours for the three advanced tasks. Each one is worth 0 to 3 points by the [levels of the advanced tasks](../#levels-of-the-advanced-tasks).
+Plan four to six hours for the three advanced tasks. Each one is worth 0 to 3 points by the [levels of the advanced tasks](../#levels-of-the-advanced-tasks). [Chapter 4.6](../../platform/advanced/) explains the concepts behind them and lists the requirements of each task.
 
 ### A · Rebuilding the platform
 
-You tear the cluster down with `tofu destroy` and rebuild it with `tofu apply` and the Argo CD bootstrap. You measure the time and show that everything from Git is back. While doing so you explain what state and drift mean for a rebuild. [Chapter 4.2](../../platform/opentofu/) has the commands. In the lab, with the platform as it stood after part 4, the rebuild took just under three minutes until the web shop ran again. Start the rebuild early in the showing and explain the code while it runs.
+You tear the cluster down with `tofu destroy` and rebuild it with `tofu apply` and the Argo CD bootstrap. You measure the time and show that everything from Git is back. While doing so you explain what state and drift mean for a rebuild. [Chapter 4.6](../../platform/advanced/#task-a--rebuilding-the-platform) describes the task. In the lab, with the platform as it stood after part 4, the rebuild took just under three minutes until the web shop ran again. Start the rebuild early in the showing and explain the code while it runs.
 
 ### B · A member of your own
 
-One more member of your choice gets a namespace from the template through a pull request, with limits of your own that you justify. You also create an Argo CD AppProject that allows only this member's namespace. [Chapter 4.5](../../platform/templates/) shows the template, [chapter 4.4](../../platform/gitops/) Argo CD.
+One more member of your choice gets a namespace from the template through a pull request, with limits of your own that you justify. You also create an Argo CD AppProject that allows only this member's namespace. [Chapter 4.6](../../platform/advanced/#task-b--a-member-of-your-own) describes the task, and you know the template from chapter 4.5.
 
 ### C · Branch protection
 
-In Gitea you protect the branch `main` so that changes only get in through a reviewed pull request. You show that Gitea rejects a direct push. [Chapter 4.4](../../platform/gitops/) covers Gitea and the repo `platform`.
+In Gitea you protect the branch `main` so that changes only get in through a reviewed pull request. You show that Gitea rejects a direct push. [Chapter 4.6](../../platform/advanced/#task-c--branch-protection) describes the task.
 
 ## Showing the advanced tasks
 

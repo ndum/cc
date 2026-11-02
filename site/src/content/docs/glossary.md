@@ -23,7 +23,7 @@ Das Glossar erklärt die Fachbegriffe des Kurses kurz und verweist auf das Kapit
 | Datastore | Ein Speicherort von OpenNebula. `default` hält die Images, `system` die Disks laufender VMs, `files` kleinere Dateien. | [2.4](../iaas/images/) |
 | Deployment | Hält eine Zahl gleicher Pods am Laufen und tauscht sie bei einem Update aus. | [4.3](../platform/kubernetes/) |
 | Drift | Eine Abweichung des Ist-Zustands vom Code, etwa nach einer Änderung von Hand. `tofu plan` zeigt sie. | [4.1](../platform/iac/) |
-| Elastizität | Ressourcen wachsen mit der Last und schrumpfen wieder, nach Regeln und ohne Eingriff von Hand. | [3.5](../tenants/oneflow/) |
+| Elastizität | Ressourcen wachsen mit der Last und schrumpfen wieder, nach Regeln und ohne Eingriff von Hand. | [3.5](../tenants/advanced/) |
 | etcd | Eine verteilte Datenbank für den Zustand eines Clusters. Im Kurs ersetzt sie in Teil 6 SQLite, damit k3s Snapshots schreiben kann. | [6.2](../operations/backup/) |
 | Exporter | Ein Programm, das Messwerte eines Systems im Format von Prometheus anbietet, etwa node_exporter auf Port 9100. | [5.1](../observability/metrics/) |
 | Fehlerbudget | Der Anteil an Fehlern, den ein SLO erlaubt. Beim Webshop sind das 0,5 % der Anfragen über sieben Tage. | [5.3](../observability/slo/) |
@@ -56,9 +56,9 @@ Das Glossar erklärt die Fachbegriffe des Kurses kurz und verweist auf das Kapit
 | Nested Virtualization | Verschachtelte Virtualisierung. Eine VM reicht die Virtualisierungsfunktionen der CPU an ihr eigenes Betriebssystem weiter, sodass darin wieder VMs laufen. | [0.2](../start/lab/) |
 | NetworkPolicy | Legt fest, wer einen Pod im Netz des Clusters ansprechen darf. Ohne Regel erreicht jeder Pod jeden anderen. | [4.5](../platform/templates/) |
 | nftables | Das Paketfilter-Werkzeug von Linux. Im Kurs hält es die NAT des Gateways und die Firewall des Front-ends in je einer eigenen Tabelle. | [6.1](../operations/security/) |
-| Ollama | Lädt offene Sprachmodelle und bietet sie über eine HTTP-Schnittstelle an. Im Kurs läuft es im Namespace `ai`. | [5.5](../observability/ai/) |
+| Ollama | Lädt offene Sprachmodelle und bietet sie über eine HTTP-Schnittstelle an. In den Zusatzaufträgen von Teil 5 kann es das lokale Sprachmodell der Plattform bereitstellen. | [5.5](../observability/advanced/) |
 | OneDeploy | Die Sammlung von Ansible-Playbooks, mit der das OpenNebula-Projekt eine Cloud aus Front-end und Knoten installiert. | [2.2](../iaas/installation/) |
-| OneFlow | Verwaltet in OpenNebula Dienste aus mehreren VMs in Rollen und passt die Zahl der VMs nach Regeln an. | [3.5](../tenants/oneflow/) |
+| OneFlow | Verwaltet in OpenNebula Dienste aus mehreren VMs in Rollen und passt die Zahl der VMs nach Regeln an. | [3.5](../tenants/advanced/) |
 | OpenNebula | Eine freie Plattform für Private Clouds. Sie verwaltet Knoten, Netze, Speicher und virtuelle Maschinen und teilt sie an Mandanten zu. | [2.2](../iaas/installation/) |
 | OpenTofu | Ein Werkzeug für Infrastructure as Code, ein freier Fork von Terraform. Im Kurs legt es die VMs von k3s in OpenNebula an. | [4.2](../platform/opentofu/) |
 | PaaS | Platform as a Service. Der Anbieter betreibt auch Betriebssystem und Laufzeitumgebung, die Nutzenden bringen nur ihre Anwendung. | [1.2](../basics/models/) |
@@ -89,11 +89,11 @@ Das Glossar erklärt die Fachbegriffe des Kurses kurz und verweist auf das Kapit
 | SLI | Service Level Indicator. Eine Messung, wie gut ein Dienst aus Sicht der Kundschaft arbeitet, meist als Anteil guter Ereignisse. | [5.3](../observability/slo/) |
 | SLO | Service Level Objective. Das interne Ziel für einen SLI über einen Zeitraum, beim Webshop 99,5 % der Anfragen ohne Serverfehler über sieben Tage. | [5.3](../observability/slo/) |
 | Snapshot | Eine Kopie der Datenbank von k3s zu einem Zeitpunkt. Mit ihr und dem Token des Servers lässt sich der Cluster auf diesen Stand zurücksetzen. | [6.2](../operations/backup/) |
-| Sprachmodell | Ein Modell, das Text Token für Token erzeugt. Es schreibt wahrscheinliche Texte und prüft nicht, ob sie stimmen. | [5.5](../observability/ai/) |
+| Sprachmodell | Ein Modell, das Text Token für Token erzeugt. Es schreibt wahrscheinliche Texte und prüft nicht, ob sie stimmen. | [5.5](../observability/advanced/) |
 | SSH-Schlüssel | Ein Paar aus privatem und öffentlichem Schlüssel, mit dem du dich ohne Passwort an einem Server anmeldest. | [0.5](../start/tools/) |
 | State | Die Datei, in der OpenTofu festhält, welches Objekt in OpenNebula zu welchem Block im Code gehört. Sie enthält geheime Werte und gehört nicht in Git. | [4.1](../platform/iac/) |
 | Sunstone | Die Weboberfläche von OpenNebula auf Port 2616 des Front-ends, für das Plattform-Team und die Mitglieder. | [2.1](../iaas/architecture/) |
-| Triage | Die erste Einschätzung eines Alerts. Im Kurs schlägt ein Dienst mit dem lokalen Modell eine Ursache und eine Aktion aus einer festen Liste vor, ein Mensch gibt sie frei. | [5.6](../observability/triage/) |
+| Triage | Die erste Einschätzung eines Alerts. In den Zusatzaufträgen baust du einen Dienst, der mit dem lokalen Modell eine Ursache und eine Aktion aus einer festen Liste vorschlägt. Ein Mensch gibt sie frei. | [5.5](../observability/advanced/) |
 | VDC | Virtual Data Center. Ein Ausschnitt der Infrastruktur, den OpenNebula einer oder mehreren Gruppen zuteilt. | [3.1](../tenants/groups/) |
 | Vollkosten | Alle Kosten eines Dienstes, neben Hardware und Strom auch Arbeit und weitere Posten. Bei einer kleinen Plattform macht die Arbeit den grössten Teil aus. | [6.4](../operations/cost/) |
 | Vorlage | Beschreibt in OpenNebula eine VM, aus der du beliebig viele VMs startest, im Kurs etwa `ubuntu`. | [2.4](../iaas/images/) |

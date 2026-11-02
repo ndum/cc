@@ -35,6 +35,8 @@ Except for the electricity price, the numbers are assumptions for the case. The 
 
 Labor makes up three quarters of the cost, power less than 5%. That is typical for small platforms. The savings therefore lie mostly in working time, through automation with OpenTofu and GitOps, self-service and a few well-documented procedures.
 
+![The full cost of Wolkenwerk per year. Horizontal bars for the four items of the full cost calculation, sorted by size. Labor costs 13,000 francs a year, hardware 1,800, other items 1,500 and power 828 francs, 17,128 francs in total. Labor makes up three quarters of the cost, power less than 5%.](../../../../assets/figures/en/p6c4-cost.svg)
+
 ## A price for the new member
 
 The simplest split follows the reserved resources. Together the nodes have 8 CPUs and 14.4 GB that OpenNebula can allocate. A new member has a namespace with 1 CPU and 1 GB in its quota and a VM with half a CPU and 1 GB. It thus reserves 1.5 of 8 CPUs, or 18.8%, and 2 of 14.4 GB, or 13.9%. On average that is 16.3% of the cost.
@@ -46,10 +48,6 @@ The simplest split follows the reserved resources. Together the nodes have 8 CPU
 With the prices from chapter 3.3, the same member cost around 86 francs a month, 35 for the VM and 51 for the namespace, calculated with the same prices per CPU and MB. The showback prices cover only a good third. That does not make them wrong. Showback makes consumption visible, while a price has to cover the full cost. A proposal to the board could combine a base fee per member for the labor with consumption billed by showback. Whether Wolkenwerk actually charges the members or only shows them the cost is the cooperative's decision. The FinOps Foundation distinguishes showback and chargeback for this.
 
 The calculation assumes the platform is fully booked. In fact, the k3s VMs alone take 12 of the 14.4 GB. Capacity that no member books is paid for by the other members.
-
-:::note[Advanced task]
-The cost model for your own member is one of the advanced tasks of milestone 4. You calculate it as above with your member's quota and VM and compare it with the showback.
-:::
 
 ## Right-sizing
 
@@ -78,9 +76,9 @@ In the lab, after a load test, the picture looked like this.
 | ai | 1.02 | 0.22 | 2,112 MiB | 3,391 MiB |
 | probe | 0.05 | 0 | 64 MiB | 21 MiB |
 
-The measurement comes from the course lab. It also ran the member `probe` from the advanced task of milestone 4. Without that task the row is missing in your lab, with it you see the namespace of your member there.
+The measurement comes from the course lab. It also ran Ollama in the namespace `ai` from the advanced tasks of milestone 3 and the member `probe` from advanced task A of milestone 4. Without these tasks both rows are missing in your lab, with them you see your own namespaces there.
 
-The three rows show different cases. For the web shop, use was above the requests because the HPA scales the pods by utilization of the requests. There the requests are a tool for scaling, and use above them is no mistake. Ollama reserved four times more CPU than it needed, but a third too little memory. With the model loaded it used 3.3 GiB against a request of 2 GiB. When memory gets tight on the node, Kubernetes first evicts pods that use more than they reserved. A better request would be about 0.5 CPU and 3.5 GiB of memory. The limit of 4 GiB then leaves little headroom. If you raise the request, also check the limit and whether the agent has room for it next to Loki and the members' pods. The change belongs in `ai/ollama.yaml` and thus in a pull request.
+The three rows show different cases. For the web shop, use was above the requests because the HPA scales the pods by utilization of the requests. There the requests are a tool for scaling, and use above them is no mistake. Ollama reserved four times more CPU than it needed, but a third too little memory. With the model loaded it used 3.3 GiB against a request of 2 GiB. When memory gets tight on the node, Kubernetes first evicts pods that use more than they reserved. A better request would be about 0.5 CPU and 3.5 GiB of memory. The limit of 4 GiB then leaves little headroom. If you raise the request, also check the limit and whether the agent has room for it next to Loki and the members' pods. The change belongs in the Ollama manifest of the platform repo and thus in a pull request.
 
 One hour is too short for such decisions. A Saturday in spring looks different from a Tuesday in January. Grafana shows the same queries over weeks, and a change is only worthwhile with numbers like those.
 
@@ -103,7 +101,7 @@ Power also depends on utilization. An idle server draws a large part of its peak
 OpenCost uses prices per CPU and GB to calculate the cost of a cluster per namespace, deployment and pod, and it shows unused reservations. It runs in the cluster and reads from Prometheus. For the course, the queries above and the calculation in a table are enough.
 
 ::::exercise[Cost model]
-Create the cost model for one of the four members with its quota and its VMs. If you do the advanced task of milestone 4, calculate it for your own member. Use the full cost above or justified assumptions of your own, and compare the result with the showback from chapter 3.3.
+Create the cost model for one of the four members with its quota and its VMs. If you do advanced task C from chapter 6.5, calculate it for your own member. Use the full cost above or justified assumptions of your own, and compare the result with the showback from chapter 3.3.
 
 :::solution
 The model names the member's resources from quota and VM, its share of capacity, the monthly price from the full cost and the amount from showback. It explains the difference with the labor that showback leaves out, and it proposes a way of billing, such as a base fee plus consumption. Assumptions of your own are allowed if they are justified.
@@ -114,7 +112,7 @@ The model names the member's resources from quota and VM, its share of capacity,
 Compare requests and use of the namespaces in your lab over at least one day and adjust one request through a pull request. Justify the new value.
 
 :::solution
-The queries show reservation and use per namespace. A good candidate is Ollama with too much CPU and too little memory. For memory, the new value lies a little above the measured maximum, for CPU close to the 95th percentile. For the web shop the requests stay small, because the HPA calculates with them.
+The queries show reservation and use per namespace. If Ollama runs from milestone 3, it is a good candidate with too much CPU and too little memory. For memory, the new value lies a little above the measured maximum, for CPU close to the 95th percentile. For the web shop the requests stay small, because the HPA calculates with them.
 :::
 ::::
 

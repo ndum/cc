@@ -25,19 +25,19 @@ The documentation has a screenshot for each requirement with one or two sentence
 
 ## Advanced tasks
 
-Plan four to six hours for the three advanced tasks. Each one is worth 0 to 3 points by the [levels of the advanced tasks](../#levels-of-the-advanced-tasks).
+Plan four to six hours for the three advanced tasks. Each one is worth 0 to 3 points by the [levels of the advanced tasks](../#levels-of-the-advanced-tasks). [Chapter 3.5](../../tenants/advanced/) explains the concepts behind them and lists the requirements for your solution to each task.
 
 ### A · Elasticity with OneFlow
 
-The fiduciary office runs its service in OneFlow with elasticity rules. You show the service growing under load and shrinking again afterwards, and you justify the rules you set. [Chapter 3.5](../../tenants/oneflow/) shows the way. Start the load before the showing, since growing takes a few minutes.
+The fiduciary office runs a OneFlow service that grows by load and by schedule and shrinks again afterwards. You show the service growing under load and shrinking again without load, and you justify the rules you set. [Task A in chapter 3.5](../../tenants/advanced/#task-a--elasticity-with-oneflow) lists the requirements. Start the load before the showing, since growing takes a few minutes.
 
 ### B · Showback as a report
 
-A script and a systemd timer of your own store the showback of the past month as CSV. OpenNebula 7.4 already ships the timer `opennebula-showback.timer`, which calculates the showback daily. Give your timer a name that contains `showback` but does not start with `opennebula-`. From the CSV you calculate whether the prices cover the cooperative's costs. [Chapter 3.3](../../tenants/showback/) explains prices and showback.
+A script and a systemd timer of your own store the showback of the past month as CSV. OpenNebula 7.4 already ships the timer `opennebula-showback.timer`, which calculates the showback daily. Give your timer a name that contains `showback` but does not start with `opennebula-`. From the CSV you calculate whether the prices cover the cooperative's costs. [Task B in chapter 3.5](../../tenants/advanced/#task-b--showback-as-a-report) lists the requirements, and [chapter 3.3](../../tenants/showback/) explains prices and showback.
 
 ### C · Failure of a node
 
-You power off a node and show what happens to the members' VMs. From that you derive a proposal for placing the VMs, for example packing or striping, and justify it for the members of Wolkenwerk. [Chapter 2.5](../../iaas/hosts/) covers the scheduler, maintenance and failure.
+You power off a node and show what happens to the members' VMs. From that you derive a proposal for placing the VMs, for example packing or striping, and justify it for the members of Wolkenwerk. [Task C in chapter 3.5](../../tenants/advanced/#task-c--failure-of-a-node) lists the requirements, and [chapter 2.5](../../iaas/hosts/) covers the scheduler, maintenance and failure.
 
 ## Showing the advanced tasks
 

@@ -70,7 +70,9 @@ In the lab, `/etc/one/schedulers/rank.conf` contains the entry `DEFAULT_SCHED` w
 | `unkn` | monitoring can no longer reach the VM | node failure |
 | `done` | terminated, `onevm list` no longer shows the VM | `onevm terminate` |
 
-The difference between `poff` and `unde` matters for capacity. A powered-off VM keeps its place on the node, while a VM in `unde` frees it and goes through the scheduler and `prol` again at its next start. When a VM ends up in `fail`, its log in `/var/log/one/<id>.log` shows the cause, and `onevm recover` brings it back afterwards.
+The difference between `poff` and `unde` matters for capacity. A powered-off VM keeps its place on the node, while a VM in `unde` frees it and goes through the scheduler and `prol` again at its next start. `onevm resume` starts the VM again from both states. When a VM ends up in `fail`, its log in `/var/log/one/<id>.log` shows the cause, and `onevm recover` brings it back afterwards.
+
+![The states of a VM with the short form that onevm list shows in the column STAT. onetemplate instantiate creates a VM in pend, where it waits for the scheduler. Once the scheduler has picked a node, OpenNebula copies the disks there in prol. In boot the hypervisor creates the VM, which then runs in runn. onevm migrate moves a running VM to another node. onevm poweroff switches it off to poff, and its disks stay on the node. onevm undeploy takes it to unde, with the disks back on the front-end. onevm resume starts the VM again from both states, from poff directly through boot and from unde through pend. onevm terminate ends it in done. An error while copying, booting or migrating leads to fail, and after a look at the log onevm recover brings the VM back. If its node fails, the VM shows unkn. Notice the difference between poff and unde. Only in unde does a VM free its place on the node.](../../../../assets/figures/en/p2c5-states.svg)
 
 ## Migration
 
