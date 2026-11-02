@@ -121,6 +121,8 @@ Bevor ein solches Skript VMs anderswo startet, muss es sicherstellen, dass der a
 
 Im Lab fehlen gemeinsamer Speicher und dieser Hook bewusst, damit es mit drei Servern auskommt. Ein Ausfall trifft die Mitglieder deshalb so lange, bis der Knoten wieder läuft.
 
+OneFlow kennt den Zustand eines Knotens nicht. Bis OpenNebula einen ausgefallenen Knoten erkennt, vergehen einige Minuten. In dieser Zeit meldet es dessen VMs noch als laufend. Die Regeln eines Dienstes arbeiten dann mit falschen Werten. Fällt die Last scheinbar, verkleinert OneFlow die Rolle und beendet dabei ihre ältesten VMs, auch eine gesunde VM auf dem anderen Knoten. Steht eine VM danach auf `unkn`, wechselt der Dienst in den Zustand `WARNING`. Solange er dort steht, wertet OneFlow keine Regel aus und ersetzt auch keine VM. Im Lab hatte der Dienst der Treuhand so einige Minuten lang keine einzige VM, die arbeitete. Holst du eine VM mit `onevm recover --recreate` auf den anderen Knoten, bleibt ihr alter Ordner im System-Datastore des ausgefallenen Knotens liegen. OpenNebula kennt ihn danach nicht mehr, du räumst ihn selbst weg, sobald der Knoten zurück ist.
+
 ## Platzierung und Ausfall
 
 Wo eine neue VM läuft, entscheidet der Scheduler nach den Regeln aus [Kapitel 2.5](../../iaas/hosts/#platzierung-durch-den-scheduler). Im Lab verteilt Striping die VMs auf beide Knoten. Packing füllt zuerst einen Knoten, damit sich leere Knoten ausschalten lassen. Fällt ein Knoten aus, trifft es mit Packing aber mehr VMs auf einmal. Die Strategie in `/etc/one/schedulers/rank.conf` gilt für alle VMs ohne eigene Regel. Mit `SCHED_RANK` und `SCHED_REQUIREMENTS` in einer Vorlage bekommen einzelne Mitglieder oder Dienste eigene Regeln.

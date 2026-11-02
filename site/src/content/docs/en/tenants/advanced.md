@@ -121,6 +121,8 @@ Before such a script starts VMs elsewhere, it has to make sure that the failed h
 
 The lab deliberately has neither shared storage nor this hook, so that three servers are enough. A failure therefore hits the members until the node runs again.
 
+OneFlow does not know the state of a node. It takes OpenNebula a few minutes to detect a failed node, and until then it still reports the node's VMs as running, so the rules of a service work with wrong values. If the load seems to drop, OneFlow shrinks the role by terminating its oldest VMs, even a healthy VM on the other node. Once a VM shows `unkn`, the service changes to the state `WARNING`. As long as it stays there, OneFlow evaluates no rule and replaces no VM either. In the lab the service of the fiduciary office was left without a single working VM for several minutes. If you bring a VM back on the other node with `onevm recover --recreate`, its old folder stays in the system datastore of the failed node. OpenNebula no longer knows about it, so you clean it up yourself once the node is back.
+
 ## Placement and failures
 
 The scheduler decides where a new VM runs, following the rules from [chapter 2.5](../../iaas/hosts/#placement-by-the-scheduler). In the lab, striping spreads the VMs over both nodes. Packing fills one node first so that empty nodes can be switched off, but then a failure hits more VMs at once. The policy in `/etc/one/schedulers/rank.conf` applies to every VM without a rule of its own. With `SCHED_RANK` and `SCHED_REQUIREMENTS` in a template, single members or services get their own rules.
