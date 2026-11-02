@@ -8,7 +8,7 @@ sidebar:
 :::goals
 After this chapter you can:
 
-- Decide whether your computer can carry the lab
+- Decide whether your PC can carry the lab
 - Create the three VMs with Hyper-V
 - Turn on nested virtualization in VMware, VirtualBox and Proxmox
 :::
@@ -17,7 +17,7 @@ After this chapter you can:
 
 This supplement is not part of the default way of the course, which runs on smartlearn. A hypervisor of your own makes sense if you want to work outside school without access to smartlearn. This way is at your own risk, and your instructor mainly supports the default way.
 
-Your computer needs at least 32 GB of RAM, better 48 GB, an x86 CPU with virtualization and about 200 GB of free disk space. A Mac with an Apple processor is not suitable because the lab is tested on x86 processors.
+Your PC needs at least 32 GB of RAM, better 48 GB, an x86 CPU with virtualization and about 200 GB of free disk space. A Mac with an Apple processor is not suitable because the lab is tested on x86 processors.
 
 Whatever the hypervisor, the same requirements apply as on smartlearn:
 
@@ -25,6 +25,8 @@ Whatever the hypervisor, the same requirements apply as on smartlearn:
 2. Nested virtualization on both nodes
 3. One shared network with fixed addresses from which the VMs reach the internet
 4. Ubuntu Server 26.04 with the settings from chapter 0.2
+
+You need no client as on smartlearn, your PC takes its role. You log in to the servers over SSH directly from your PC and open the web interfaces in its browser. Wherever the course mentions the client, read it as your PC.
 
 ## Hyper-V
 
@@ -34,11 +36,11 @@ On Windows 11 Pro, Education and Enterprise, Hyper-V is the easiest way. Turn on
 powershell -ExecutionPolicy Bypass -File new-lab.ps1 -Code mmuster -Iso "$env:USERPROFILE\Downloads\ubuntu-26.04-live-server-amd64.iso"
 ```
 
-The script gives the front-end 16 GB of RAM, the nodes 8 GB and every VM four virtual CPUs. It turns on nested virtualization along with the fixed memory it requires and the Secure Boot certificate Ubuntu needs.
+The script gives the front-end 16 GB of RAM, the nodes 8 GB and every VM four virtual CPUs. It turns on nested virtualization, which requires fixed memory, and picks the Secure Boot template for third-party systems, without which Ubuntu does not start.
 
 ::code{file="lab/hyperv/new-lab.ps1" lines="48-52"}
 
-The script creates the lab network 192.168.210.0/24 with NAT, and the computer itself is the gateway 192.168.210.1. At the end it prints the addresses from your code, the same as the generator in chapter 0.3, which you enter when you install Ubuntu. Under Hyper-V no DNS answers on .1, so enter the DNS the script names. Windows 11 Home does not include Hyper-V.
+The script creates the lab network 192.168.210.0/24 with NAT, and your PC itself is the gateway 192.168.210.1. At the end it prints the addresses from your code, the same as the generator in chapter 0.3, which you enter when you install Ubuntu. Under Hyper-V no DNS answers on .1, so enter the DNS the script names. Windows 11 Home does not include Hyper-V.
 
 ## VMware
 

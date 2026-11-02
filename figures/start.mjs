@@ -168,13 +168,15 @@ function architecture(lang) {
 
 const LAB = {
   de: {
-    title: 'Das Lab mit drei VMs und zwei Netzen',
+    title: 'Das Lab mit drei Servern, dem Client und zwei Netzen',
     desc:
-      'Das Front-end und zwei Knoten hängen im Labnetz mit festen Adressen. Auf jedem Knoten laufen ' +
-      'VMs der Cloud. Diese VMs und das Front-end teilen ein internes VXLAN-Netz. Das Front-end ist ' +
-      'dessen Gateway und leitet den Verkehr mit NAT ins Internet.',
+      'Front-end, zwei Knoten und der Client hängen im Labnetz. Vom Client aus erreichst du die Server ' +
+      'per SSH und ihre Weboberflächen im Browser. Auf jedem Knoten laufen VMs der Cloud. Diese VMs ' +
+      'und das Front-end teilen ein internes VXLAN-Netz. Das Front-end ist dessen Gateway und leitet ' +
+      'den Verkehr mit NAT ins Internet.',
     internet: 'Internet',
     fe: ['Front-end', 'Gateway, Weboberfläche'],
+    client: ['Client', 'Kali, Browser und SSH'],
     nodes: ['Knoten 1', 'Knoten 2'],
     kvm: 'KVM',
     vm: 'VM',
@@ -182,13 +184,15 @@ const LAB = {
     innerNet: 'internes Netz (VXLAN), zum Beispiel 172.28.217.0/24',
   },
   en: {
-    title: 'The lab with three VMs and two networks',
+    title: 'The lab with three servers, the client and two networks',
     desc:
-      'The front-end and two nodes sit on the lab network with fixed addresses. VMs of the cloud run ' +
-      'on every node. These VMs and the front-end share an internal VXLAN network. The front-end is ' +
-      'its gateway and forwards its traffic to the internet with NAT.',
+      'The front-end, two nodes and the client sit on the lab network. From the client you reach the ' +
+      'servers over SSH and their web interfaces in the browser. VMs of the cloud run on every node. ' +
+      'These VMs and the front-end share an internal VXLAN network. The front-end is its gateway and ' +
+      'forwards its traffic to the internet with NAT.',
     internet: 'Internet',
     fe: ['Front-end', 'gateway, web interface'],
+    client: ['Client', 'Kali, browser and SSH'],
     nodes: ['Node 1', 'Node 2'],
     kvm: 'KVM',
     vm: 'VM',
@@ -213,7 +217,10 @@ function labMap(lang) {
   body.push(line([[190, 116], [620, 116]]));
   body.push(line([[190, 116], [190, 140]]));
   nodes.forEach((n) => body.push(line([[n.x + 90, 116], [n.x + 90, 140]])));
-  body.push(note(620, 108, t.labNet, 'end'));
+  body.push(note(250, 108, t.labNet, 'start'));
+  // The client works on the servers over the lab network
+  body.push(tile(470, 12, 200, 56, ...t.client));
+  body.push(line([[570, 68], [570, 116]]));
   // Front-end and nodes
   body.push(tile(40, 140, 200, 56, ...t.fe, { accent: true }));
   const vms = [];

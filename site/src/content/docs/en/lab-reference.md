@@ -32,15 +32,16 @@ All three VMs have the same file `/etc/cc-lab.env`. Scripts and checks read it w
 | `k3s-server` | `CC_K3S_SERVER_IP` | control plane with etcd, also runs pods |
 | `k3s-agent` | `CC_K3S_AGENT_IP` | node for pods, Ollama among them |
 | Member VMs | from `CC_GUEST_FIRST` | leases from `cc-net`, shown by `onevnet show cc-net` |
+| Client | 192.168.210.10 on smartlearn | Kali Linux with a browser and a terminal, where you work, with your own hypervisor your PC takes this role |
 
-From your own computer you log in to the front-end with `ssh mmuster-fe`, as set up in [chapter 0.5](../start/tools/). The VMs in `cc-net` can only be reached from the front-end, for example with `ssh root@$CC_K3S_SERVER_IP`.
+From the client you log in to the front-end with `ssh mmuster-fe`, as set up in [chapter 0.5](../start/tools/). On smartlearn the client is the Kali VM, with your own hypervisor it is your PC. You reach the VMs in `cc-net` only from the front-end, for example with `ssh root@$CC_K3S_SERVER_IP`.
 
 ## Services and ports
 
 | Service | Port | Runs on | How to reach it | Chapter |
 |---|---|---|---|---|
 | SSH | 22 | all VMs | `ssh mmuster-fe`, with keys only after hardening | [0.5](../start/tools/), [6.1](../operations/security/) |
-| Sunstone | 2616 | front-end | `http://<CC_FE_IP>:2616/` in the browser | [2.2](../iaas/installation/) |
+| Sunstone | 2616 | front-end | `http://<CC_FE_IP>:2616/` in the client's browser | [2.2](../iaas/installation/) |
 | OpenNebula API | 2633 | front-end | CLI and OpenTofu on the front-end | [4.2](../platform/opentofu/) |
 | Gitea | 3000 | front-end | `http://<CC_FE_IP>:3000/` before hardening, through a tunnel to the front-end afterwards | [4.4](../platform/gitops/) |
 | OpenNebula exporter | 9925 | front-end | Prometheus in the cluster | [5.1](../observability/metrics/) |
@@ -55,13 +56,13 @@ From your own computer you log in to the front-end with `ssh mmuster-fe`, as set
 | Triage service | 30880 | k3s-server | tunnel `-L 8880:<CC_K3S_SERVER_IP>:30880` | [5.6](../observability/triage/) |
 | Ollama | 11434 | k3s-agent | `kubectl -n ai port-forward svc/ollama 11434:11434` on the front-end | [5.5](../observability/ai/) |
 
-You open a tunnel from your own computer, and one connection can carry several `-L` options. While it stays open, the service answers at `http://localhost:<local-port>/`.
+You open a tunnel in the client's terminal, and one connection can carry several `-L` options. While it stays open, the service answers at `http://localhost:<local-port>/` in the client's browser.
 
 ```bash
 ssh -L 8080:<CC_K3S_SERVER_IP>:30080 -L 3000:<CC_K3S_SERVER_IP>:30300 mmuster-fe
 ```
 
-To reach Gitea after hardening, forward a free local port to port 3000 of the front-end yourself, for example with `-L 3001:localhost:3000`, since Grafana already takes local port 3000.
+To reach Gitea after hardening, forward a free local port to port 3000 of the front-end, for example with `-L 3001:localhost:3000`. Grafana already takes local port 3000.
 
 ## Access files
 

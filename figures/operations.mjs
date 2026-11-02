@@ -103,15 +103,15 @@ const SECURITY = {
     title: 'Die Schutzschichten von Front-end und Cluster',
     desc:
       'In der Mitte das Front-end. Seine Firewall, die Tabelle cc_firewall von nftables, weist alles ab, ' +
-      'was sie nicht ausdrücklich erlaubt. Andere Rechner erreichen nur SSH auf Port 22 und die ' +
-      'Weboberfläche auf Port 2616, SSH nimmt nur Schlüssel an und lässt root nicht direkt herein. Die ' +
+      'was sie nicht ausdrücklich erlaubt. Der Client und andere Rechner erreichen nur SSH auf Port 22 ' +
+      'und die Weboberfläche auf Port 2616. SSH nimmt nur Schlüssel an und lässt root nicht direkt herein. Die ' +
       'Knoten und cc-net erreichen alles, auch Gitea auf Port 3000, die API auf Port 2633 und die Exporter ' +
       'auf den Ports 9100 und 9925. unattended-upgrades installiert jeden Tag Sicherheitsupdates. Rechts ' +
       'der Cluster. Pod Security Admission verlangt in den Namespaces der Mitglieder das Profil restricted, ' +
-      'NetworkPolicies trennen die Mitglieder, und der Triage-Dienst darf nur get und patch auf Deployments ' +
+      'NetworkPolicies trennen die Mitglieder. Der Triage-Dienst darf nur get und patch auf Deployments ' +
       'in velo. Ein SealedSecret kommt verschlüsselt aus Gitea, nur der Controller von Sealed Secrets in ' +
       'kube-system kann es entschlüsseln.',
-    outside: ['Andere Rechner', 'ausserhalb des Labs'],
+    outside: ['Client, andere Rechner', 'ausserhalb der Cloud'],
     inside: ['Knoten, cc-net', 'Knoten 1, 2 und VMs'],
     all: 'alles',
     fe: 'Front-end',
@@ -135,14 +135,14 @@ const SECURITY = {
     title: 'The protection layers of front-end and cluster',
     desc:
       'In the middle the front-end. Its firewall, the nftables table cc_firewall, drops everything it does ' +
-      'not explicitly allow. Other hosts reach only SSH on port 22 and the web interface on port 2616, and ' +
+      'not explicitly allow. The client and other hosts reach only SSH on port 22 and the web interface on port 2616, and ' +
       'SSH accepts only keys and does not let root log in directly. The nodes and cc-net reach everything, ' +
       'including Gitea on port 3000, the API on port 2633 and the exporters on ports 9100 and 9925. ' +
       'unattended-upgrades installs security updates every day. On the right the cluster. Pod Security ' +
       'Admission enforces the profile restricted in the member namespaces, NetworkPolicies separate the ' +
       'members, and the triage service may only get and patch deployments in velo. A SealedSecret comes ' +
       'encrypted from Gitea, and only the Sealed Secrets controller in kube-system can decrypt it.',
-    outside: ['Other hosts', 'outside the lab'],
+    outside: ['Client, other hosts', 'outside the cloud'],
     inside: ['Nodes, cc-net', 'nodes 1, 2 and VMs'],
     all: 'all',
     fe: 'Front-end',

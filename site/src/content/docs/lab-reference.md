@@ -5,7 +5,7 @@ sidebar:
   order: 2
 ---
 
-Diese Seite fasst zusammen, was du im Betrieb deines Labs immer wieder nachschlägst. Die Beispiele verwenden den Code `mmuster`. Setze überall deine eigenen Werte aus `/etc/cc-lab.env` ein. Die Kapitel in der letzten Spalte erklären, warum etwas so ist.
+Diese Seite fasst zusammen, was du im Betrieb deines Labs immer wieder nachschlägst. Die Beispiele verwenden den Code `mmuster`. Setze überall deine eigenen Werte aus `/etc/cc-lab.env` ein. In den Kapiteln der letzten Spalte findest du die Begründungen.
 
 ## Die Datei cc-lab.env
 
@@ -32,15 +32,16 @@ Alle drei VMs haben dieselbe Datei `/etc/cc-lab.env`. Skripte und Checks lesen s
 | `k3s-server` | `CC_K3S_SERVER_IP` | Control Plane mit etcd, führt auch Pods aus |
 | `k3s-agent` | `CC_K3S_AGENT_IP` | Node für Pods, unter anderem Ollama |
 | VMs der Mitglieder | ab `CC_GUEST_FIRST` | Leases aus `cc-net`, `onevnet show cc-net` zeigt sie |
+| Client | 192.168.210.10 auf smartlearn | Kali Linux mit Browser und Terminal, von hier aus arbeitest du, mit eigenem Hypervisor übernimmt dein PC diese Rolle |
 
-Vom eigenen Rechner meldest du dich mit `ssh mmuster-fe` am Front-end an, so wie in [Kapitel 0.5](../start/tools/) eingerichtet. Die VMs in `cc-net` erreichst du nur vom Front-end aus, etwa mit `ssh root@$CC_K3S_SERVER_IP`.
+Am Front-end meldest du dich vom Client aus mit `ssh mmuster-fe` an, so wie in [Kapitel 0.5](../start/tools/) eingerichtet. Der Client ist auf smartlearn die Kali-VM, mit eigenem Hypervisor dein PC. Die VMs in `cc-net` erreichst du nur vom Front-end aus, etwa mit `ssh root@$CC_K3S_SERVER_IP`.
 
 ## Dienste und Ports
 
 | Dienst | Port | Läuft auf | So erreichst du ihn | Kapitel |
 |---|---|---|---|---|
 | SSH | 22 | allen VMs | `ssh mmuster-fe`, nach der Härtung nur mit Schlüssel | [0.5](../start/tools/), [6.1](../operations/security/) |
-| Sunstone | 2616 | Front-end | `http://<CC_FE_IP>:2616/` im Browser | [2.2](../iaas/installation/) |
+| Sunstone | 2616 | Front-end | `http://<CC_FE_IP>:2616/` im Browser des Clients | [2.2](../iaas/installation/) |
 | API von OpenNebula | 2633 | Front-end | CLI und OpenTofu auf dem Front-end | [4.2](../platform/opentofu/) |
 | Gitea | 3000 | Front-end | vor der Härtung `http://<CC_FE_IP>:3000/`, danach über einen Tunnel auf das Front-end | [4.4](../platform/gitops/) |
 | OpenNebula-Exporter | 9925 | Front-end | Prometheus im Cluster | [5.1](../observability/metrics/) |
@@ -55,17 +56,17 @@ Vom eigenen Rechner meldest du dich mit `ssh mmuster-fe` am Front-end an, so wie
 | Triage-Dienst | 30880 | k3s-server | Tunnel `-L 8880:<CC_K3S_SERVER_IP>:30880` | [5.6](../observability/triage/) |
 | Ollama | 11434 | k3s-agent | `kubectl -n ai port-forward svc/ollama 11434:11434` auf dem Front-end | [5.5](../observability/ai/) |
 
-Einen Tunnel öffnest du vom eigenen Rechner aus. Mehrere `-L` lassen sich in einer Verbindung kombinieren. Solange sie offen ist, erreichst du den Dienst unter `http://localhost:<lokaler-port>/`.
+Einen Tunnel öffnest du im Terminal des Clients. Mehrere `-L` lassen sich in einer Verbindung kombinieren. Solange sie offen ist, erreichst du den Dienst im Browser des Clients unter `http://localhost:<lokaler-port>/`.
 
 ```bash
 ssh -L 8080:<CC_K3S_SERVER_IP>:30080 -L 3000:<CC_K3S_SERVER_IP>:30300 mmuster-fe
 ```
 
-Für Gitea nach der Härtung leitest du einen freien lokalen Port auf Port 3000 des Front-ends selbst weiter, etwa mit `-L 3001:localhost:3000`, weil Grafana den lokalen Port 3000 schon belegt.
+Für Gitea nach der Härtung leitest du einen freien lokalen Port auf Port 3000 des Front-ends weiter, etwa mit `-L 3001:localhost:3000`. Den lokalen Port 3000 belegt schon Grafana.
 
 ## Zugangsdateien
 
-Diese Dateien liegen im Home-Verzeichnis deines Benutzers auf dem Front-end. Nur du darfst sie lesen. Ihr Inhalt gehört nie in Git, nicht in einen Screencast und nicht in einen Chat mit einem KI-Assistenten.
+Diese Dateien liegen im Home-Verzeichnis deines Benutzers auf dem Front-end. Nur du darfst sie lesen. Ihr Inhalt gehört weder in Git noch in einen Screencast oder in einen Chat mit einem KI-Assistenten.
 
 | Datei | Inhalt | Kapitel |
 |---|---|---|
@@ -110,7 +111,7 @@ Weitere Ordner auf dem Front-end sind `~/cc` mit dem Kursrepo, `~/platform` mit 
 
 ### OpenTofu
 
-Im Ordner `~/platform/tofu`, nachdem du `OPENNEBULA_USERNAME` und `OPENNEBULA_PASSWORD` wie in [Kapitel 4.2](../platform/opentofu/) gesetzt hast.
+Diese Befehle führst du im Ordner `~/platform/tofu` aus, nachdem du `OPENNEBULA_USERNAME` und `OPENNEBULA_PASSWORD` wie in [Kapitel 4.2](../platform/opentofu/) gesetzt hast.
 
 | Befehl | Zweck |
 |---|---|

@@ -8,16 +8,16 @@ sidebar:
 :::goals
 Nach diesem Kapitel kannst du:
 
-- Entscheiden, ob dein Rechner das Lab tragen kann
+- Entscheiden, ob dein PC das Lab tragen kann
 - Die drei VMs mit Hyper-V anlegen
 - Verschachtelte Virtualisierung in VMware, VirtualBox und Proxmox einschalten
 :::
 
 ## Voraussetzungen
 
-Diese Ergänzung gehört nicht zum Standardweg des Kurses, der auf smartlearn läuft. Ein eigener Hypervisor lohnt sich, wenn du auch ausserhalb der Schule ohne Netzzugang zu smartlearn arbeiten willst. Dieser Weg geht auf eigenes Risiko, und deine Dozentin oder dein Dozent hilft vor allem beim Standardweg.
+Diese Ergänzung gehört nicht zum Standardweg des Kurses, der auf smartlearn läuft. Ein eigener Hypervisor lohnt sich, wenn du auch ausserhalb der Schule ohne Netzzugang zu smartlearn arbeiten willst. Dieser Weg geht auf eigenes Risiko. Deine Dozentin oder dein Dozent hilft vor allem beim Standardweg.
 
-Dein Rechner braucht mindestens 32 GB RAM, besser 48 GB, dazu eine x86-CPU mit Virtualisierung und rund 200 GB freien Speicher. Ein Mac mit Apple-Prozessor eignet sich nicht, weil das Lab auf x86-Prozessoren getestet ist.
+Dein PC braucht mindestens 32 GB RAM, besser 48 GB, dazu eine x86-CPU mit Virtualisierung und rund 200 GB freien Speicher. Ein Mac mit Apple-Prozessor eignet sich nicht, weil das Lab auf x86-Prozessoren getestet ist.
 
 Unabhängig vom Hypervisor gelten dieselben Anforderungen wie auf smartlearn:
 
@@ -26,19 +26,21 @@ Unabhängig vom Hypervisor gelten dieselben Anforderungen wie auf smartlearn:
 3. Ein gemeinsames Netz mit festen Adressen, aus dem die VMs ins Internet kommen
 4. Ubuntu Server 26.04 mit den Einstellungen aus Kapitel 0.2
 
+Einen Client wie auf smartlearn brauchst du nicht, dein PC übernimmt seine Rolle. Du meldest dich von ihm aus direkt per SSH an den Servern an und öffnest die Weboberflächen in seinem Browser. Wo der Kurs vom Client spricht, ist dein PC gemeint.
+
 ## Hyper-V
 
-Unter Windows 11 Pro, Education und Enterprise ist Hyper-V der einfachste Weg. Aktiviere Hyper-V in den Windows-Features, starte den Rechner neu und lade das ISO von Ubuntu Server 26.04 LTS von [ubuntu.com](https://ubuntu.com/download/server) herunter. Das Skript `lab/hyperv/new-lab.ps1` legt danach ein internes Netz mit NAT und die drei VMs an. Starte es in einer PowerShell als Administrator, mit deinem persönlichen Code und dem Pfad zum ISO.
+Unter Windows 11 Pro, Education und Enterprise ist Hyper-V der einfachste Weg. Aktiviere Hyper-V in den Windows-Features, starte den PC neu und lade das ISO von Ubuntu Server 26.04 LTS von [ubuntu.com](https://ubuntu.com/download/server) herunter. Das Skript `lab/hyperv/new-lab.ps1` legt danach ein internes Netz mit NAT und die drei VMs an. Starte es in einer PowerShell als Administrator, mit deinem persönlichen Code und dem Pfad zum ISO.
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File new-lab.ps1 -Code mmuster -Iso "$env:USERPROFILE\Downloads\ubuntu-26.04-live-server-amd64.iso"
 ```
 
-Das Skript gibt dem Front-end 16 GB RAM, den Knoten 8 GB und jeder VM vier virtuelle CPUs. Es schaltet die verschachtelte Virtualisierung ein, dazu den festen Speicher, den sie verlangt, und das Zertifikat für Secure Boot mit Ubuntu.
+Das Skript gibt dem Front-end 16 GB RAM, den Knoten 8 GB und jeder VM vier virtuelle CPUs. Es schaltet die verschachtelte Virtualisierung ein, die festen Arbeitsspeicher verlangt. Für Secure Boot wählt es die Vorlage für fremde Systeme, sonst startet Ubuntu nicht.
 
 ::code{file="lab/hyperv/new-lab.ps1" lines="48-52"}
 
-Das Skript legt das Labnetz 192.168.210.0/24 mit NAT an, der Rechner selbst ist das Gateway 192.168.210.1. Am Ende zeigt es die Adressen aus deinem Code, dieselben wie der Generator in Kapitel 0.3, die du bei der Installation von Ubuntu einträgst. Auf .1 antwortet unter Hyper-V kein DNS, trag deshalb den DNS ein, den das Skript nennt. Windows 11 Home enthält kein Hyper-V.
+Das Skript legt das Labnetz 192.168.210.0/24 mit NAT an, dein PC selbst ist das Gateway 192.168.210.1. Am Ende zeigt es die Adressen aus deinem Code, dieselben wie der Generator in Kapitel 0.3, die du bei der Installation von Ubuntu einträgst. Auf .1 antwortet unter Hyper-V kein DNS, trag deshalb den DNS ein, den das Skript nennt. Windows 11 Home enthält kein Hyper-V.
 
 ## VMware
 

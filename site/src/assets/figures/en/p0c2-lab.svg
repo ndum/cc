@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 340" role="img" aria-labelledby="p0c2-lab-en-title p0c2-lab-en-desc">
-<title id="p0c2-lab-en-title">The lab with three VMs and two networks</title>
-<desc id="p0c2-lab-en-desc">The front-end and two nodes sit on the lab network with fixed addresses. VMs of the cloud run on every node. These VMs and the front-end share an internal VXLAN network. The front-end is its gateway and forwards its traffic to the internet with NAT.</desc>
+<title id="p0c2-lab-en-title">The lab with three servers, the client and two networks</title>
+<desc id="p0c2-lab-en-desc">The front-end, two nodes and the client sit on the lab network. From the client you reach the servers over SSH and their web interfaces in the browser. VMs of the cloud run on every node. These VMs and the front-end share an internal VXLAN network. The front-end is its gateway and forwards its traffic to the internet with NAT.</desc>
 <defs><marker id="p0c2-lab-en-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"/></marker></defs>
 <rect class="d-tile" x="40" y="20" width="200" height="40" rx="4"/>
 <text class="d-title" x="140" y="45" text-anchor="middle">Internet</text>
@@ -10,7 +10,11 @@
 <path class="d-line" d="M 190 116 L 190 140"/>
 <path class="d-line" d="M 380 116 L 380 140"/>
 <path class="d-line" d="M 600 116 L 600 140"/>
-<text class="d-sub" x="620" y="108" text-anchor="end">lab network, fixed addresses</text>
+<text class="d-sub" x="250" y="108" text-anchor="start">lab network, fixed addresses</text>
+<rect class="d-tile" x="470" y="12" width="200" height="56" rx="4"/>
+<text class="d-title" x="570" y="37" text-anchor="middle">Client</text>
+<text class="d-sub" x="570" y="54" text-anchor="middle">Kali, browser and SSH</text>
+<path class="d-line" d="M 570 68 L 570 116"/>
 <rect class="d-tile" x="40" y="140" width="200" height="56" rx="4"/>
 <rect class="d-bar" x="40" y="140" width="4" height="56" rx="2"/>
 <text class="d-title" x="140" y="165" text-anchor="middle">Front-end</text>

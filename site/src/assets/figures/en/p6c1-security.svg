@@ -1,10 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 896 332" role="img" aria-labelledby="p6c1-security-en-title p6c1-security-en-desc">
 <title id="p6c1-security-en-title">The protection layers of front-end and cluster</title>
-<desc id="p6c1-security-en-desc">In the middle the front-end. Its firewall, the nftables table cc_firewall, drops everything it does not explicitly allow. Other hosts reach only SSH on port 22 and the web interface on port 2616, and SSH accepts only keys and does not let root log in directly. The nodes and cc-net reach everything, including Gitea on port 3000, the API on port 2633 and the exporters on ports 9100 and 9925. unattended-upgrades installs security updates every day. On the right the cluster. Pod Security Admission enforces the profile restricted in the member namespaces, NetworkPolicies separate the members, and the triage service may only get and patch deployments in velo. A SealedSecret comes encrypted from Gitea, and only the Sealed Secrets controller in kube-system can decrypt it.</desc>
+<desc id="p6c1-security-en-desc">In the middle the front-end. Its firewall, the nftables table cc_firewall, drops everything it does not explicitly allow. The client and other hosts reach only SSH on port 22 and the web interface on port 2616, and SSH accepts only keys and does not let root log in directly. The nodes and cc-net reach everything, including Gitea on port 3000, the API on port 2633 and the exporters on ports 9100 and 9925. unattended-upgrades installs security updates every day. On the right the cluster. Pod Security Admission enforces the profile restricted in the member namespaces, NetworkPolicies separate the members, and the triage service may only get and patch deployments in velo. A SealedSecret comes encrypted from Gitea, and only the Sealed Secrets controller in kube-system can decrypt it.</desc>
 <defs><marker id="p6c1-security-en-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"/></marker></defs>
 <rect class="d-tile" x="16" y="90" width="176" height="50" rx="4"/>
-<text class="d-title" x="104" y="112" text-anchor="middle">Other hosts</text>
-<text class="d-sub" x="104" y="129" text-anchor="middle">outside the lab</text>
+<text class="d-title" x="104" y="112" text-anchor="middle">Client, other hosts</text>
+<text class="d-sub" x="104" y="129" text-anchor="middle">outside the cloud</text>
 <rect class="d-tile" x="16" y="180" width="176" height="50" rx="4"/>
 <text class="d-title" x="104" y="202" text-anchor="middle">Nodes, cc-net</text>
 <text class="d-sub" x="104" y="219" text-anchor="middle">nodes 1, 2 and VMs</text>

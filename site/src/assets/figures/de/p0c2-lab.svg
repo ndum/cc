@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 340" role="img" aria-labelledby="p0c2-lab-de-title p0c2-lab-de-desc">
-<title id="p0c2-lab-de-title">Das Lab mit drei VMs und zwei Netzen</title>
-<desc id="p0c2-lab-de-desc">Das Front-end und zwei Knoten hängen im Labnetz mit festen Adressen. Auf jedem Knoten laufen VMs der Cloud. Diese VMs und das Front-end teilen ein internes VXLAN-Netz. Das Front-end ist dessen Gateway und leitet den Verkehr mit NAT ins Internet.</desc>
+<title id="p0c2-lab-de-title">Das Lab mit drei Servern, dem Client und zwei Netzen</title>
+<desc id="p0c2-lab-de-desc">Front-end, zwei Knoten und der Client hängen im Labnetz. Vom Client aus erreichst du die Server per SSH und ihre Weboberflächen im Browser. Auf jedem Knoten laufen VMs der Cloud. Diese VMs und das Front-end teilen ein internes VXLAN-Netz. Das Front-end ist dessen Gateway und leitet den Verkehr mit NAT ins Internet.</desc>
 <defs><marker id="p0c2-lab-de-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"/></marker></defs>
 <rect class="d-tile" x="40" y="20" width="200" height="40" rx="4"/>
 <text class="d-title" x="140" y="45" text-anchor="middle">Internet</text>
@@ -10,7 +10,11 @@
 <path class="d-line" d="M 190 116 L 190 140"/>
 <path class="d-line" d="M 380 116 L 380 140"/>
 <path class="d-line" d="M 600 116 L 600 140"/>
-<text class="d-sub" x="620" y="108" text-anchor="end">Labnetz, feste Adressen</text>
+<text class="d-sub" x="250" y="108" text-anchor="start">Labnetz, feste Adressen</text>
+<rect class="d-tile" x="470" y="12" width="200" height="56" rx="4"/>
+<text class="d-title" x="570" y="37" text-anchor="middle">Client</text>
+<text class="d-sub" x="570" y="54" text-anchor="middle">Kali, Browser und SSH</text>
+<path class="d-line" d="M 570 68 L 570 116"/>
 <rect class="d-tile" x="40" y="140" width="200" height="56" rx="4"/>
 <rect class="d-bar" x="40" y="140" width="4" height="56" rx="2"/>
 <text class="d-title" x="140" y="165" text-anchor="middle">Front-end</text>

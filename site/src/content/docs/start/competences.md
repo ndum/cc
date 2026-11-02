@@ -13,13 +13,15 @@ Mit diesem Raster schätzt du ein, ob du für die nächsten Teile bereit bist. L
 | erklären, wie der Kurs aufgebaut ist und wie meine Note entsteht | Nenne die zwei Abgaben und rechne aus, welche Note eine vollständige Basis ergibt. | [Kursüberblick](../overview/#leistungsbeurteilung) |
 | die Mitglieder von Wolkenwerk Bern und ihre Anforderungen nennen | Nenne zu jedem Mitglied die Anforderung, die es von den anderen unterscheidet. | [Kursüberblick](../overview/#der-fall) |
 | KI-Werkzeuge nach den Regeln des Kurses einsetzen | Nenne die zwei Regeln für KI-Assistenten in den Nachweisen. | [Kursüberblick](../overview/#ki-werkzeuge) |
-| die drei VMs des Labs und ihre beiden Netze beschreiben | Zeichne das Lab mit Front-end, Knoten, Labnetz und internem Netz aus dem Gedächtnis. | [Das Lab](../lab/#zwei-netze) |
+| die VMs des Labs und ihre beiden Netze beschreiben | Zeichne das Lab mit Front-end, Knoten, Client, Labnetz und internem Netz aus dem Gedächtnis. | [Das Lab](../lab/#zwei-netze) |
+| erklären, wozu ich auf smartlearn den Client brauche | Erkläre, warum du die Konsole eines Servers nur bis zur ersten SSH-Verbindung brauchst. | [Das Lab](../lab/#der-client) |
 | prüfen, ob eine VM verschachtelte Virtualisierung unterstützt | Zeige auf einem Knoten, dass die CPU `vmx` oder `svm` anbietet. | [Das Lab](../lab/#verschachtelte-virtualisierung) |
-| meine persönlichen Parameter erzeugen und erklären | Zeige `/etc/cc-lab.env` auf allen drei VMs und erkläre, wo `CC_GUEST_NET` und `CC_VNI` im Kurs vorkommen. | [Persönliche Parameter](../parameters/#die-werte) |
-| eine VM für ihre Rolle vorbereiten | Führe `prepare.sh` auf einem Knoten noch einmal aus und erkläre, was es prüft. | [VMs vorbereiten](../prepare/#das-vorbereitungsskript) |
+| den Servern ihre Adressen geben | Erkläre, warum die Adresse aus `ip addr add` einen Neustart nicht übersteht und wie netplan sie festhält. | [Persönliche Parameter](../parameters/#die-adressen-eintragen) |
+| meine persönlichen Parameter erzeugen und erklären | Zeige `/etc/cc-lab.env` auf allen drei Servern und erkläre, wo `CC_GUEST_NET` und `CC_VNI` im Kurs vorkommen. | [Persönliche Parameter](../parameters/#die-werte) |
+| einen Server für seine Rolle vorbereiten | Führe `prepare.sh` auf einem Knoten noch einmal aus und erkläre, was es prüft. | [VMs vorbereiten](../prepare/#das-vorbereitungsskript) |
 | das Gateway des internen Netzes prüfen | Erkläre die Ausgabe von `sudo cc-gateway status`. | [VMs vorbereiten](../prepare/#das-gateway) |
-| ohne Passwort per SSH auf alle VMs zugreifen | Melde dich mit `ssh` und dem Namen aus deiner SSH-Konfiguration am Front-end an und von dort an einem Knoten. | [Werkzeuge](../tools/#ssh-vom-front-end-auf-die-knoten) |
+| vom Client aus ohne Passwort per SSH auf alle Server zugreifen | Melde dich am Client mit `ssh` und dem Namen aus deiner SSH-Konfiguration am Front-end an und von dort an einem Knoten. | [Werkzeuge](../tools/#ssh-vom-front-end-auf-die-knoten) |
 | einen Check starten und seinen Bericht lesen | Starte den Check `start` und erkläre, was der Hash am Ende belegt und was nicht. | [Werkzeuge](../tools/#der-erste-check) |
 | einen Screencast der Zusatzaufträge nach den Regeln der Meilensteine aufnehmen | Zähle auf, was in den ersten 30 Sekunden eines Screencasts zu sehen ist. | [Werkzeuge](../tools/#screencasts) |
 
-Für Teil 2 brauchst du drei vorbereitete VMs, die der Check `start` ohne `[!!]` bestätigt.
+Für Teil 2 brauchst du drei vorbereitete Server, die der Check `start` ohne `[!!]` bestätigt.
