@@ -97,7 +97,7 @@ python3 ~/cc/checks/check.py start
 
 Jede Zeile des Berichts beginnt mit `[ok]` oder `[!!]`. Unter einer Zeile mit `[!!]` steht ein Hinweis, wo du suchen kannst. Das Skript speichert den Bericht in `~/cc-reports/`. Am Ende steht ein Hash über den ganzen Bericht. Wer den Bericht nachträglich von Hand ändert, macht diesen Hash ungültig. Weil das Skript öffentlich ist, beweist der Hash aber nicht, dass der Check wirklich gelaufen ist. Dafür braucht es deine Screenshots und die Vorführung der Zusatzaufträge.
 
-::code{file="checks/check.py" lines="731-736"}
+::code{file="checks/check.py" lines="747-752"}
 
 Kopiere den Bericht in dein Abgabe-Repo in den Ordner `reports/` und lade ihn mit einem Commit hoch.
 

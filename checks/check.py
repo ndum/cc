@@ -265,8 +265,10 @@ def check_tenants(env, report):
     report.check(any(r.get("GNAME") in MEMBERS and float(r.get("TOTAL_COST") or 0) > 0 for r in records),
                  tr("Showback weist einem Mitglied Kosten zu", "Showback assigns costs to a member"),
                  tr("VM eines Mitglieds starten, später oneshowback calculate, Kapitel 3.3", "Start a VM of a member, later oneshowback calculate, chapter 3.3"))
-    with report.extra():
-        check_oneflow(report)
+    # The check m1 shows these traces under the heading of the advanced tasks instead
+    if report.milestone != "m1":
+        with report.extra():
+            check_oneflow(report)
 
 
 def flow_documents(*args):
@@ -501,12 +503,15 @@ def check_operations(env, report):
     images = as_list(((one_json("oneimage", "list") or {}).get("IMAGE_POOL") or {}).get("IMAGE"))
     # Image type 6 is a backup
     report.check(any(i.get("TYPE") == "6" for i in images), tr("Es gibt ein Backup einer VM", "There is a backup of a VM"))
-    with report.extra():
-        check_new_member(report, members)
+    # The check m4 shows these traces under the heading of the advanced tasks instead
+    if report.milestone != "m4":
+        with report.extra():
+            check_new_member(report)
 
 
-def check_new_member(report, members):
-    """Advanced task A of milestone 4, the fifth member of the student's own design"""
+def check_new_member(report):
+    """Advanced task A of milestone 4, the fifth member of the student's own design.
+    The four members of the case never count, not even when an advanced task of milestone 2 gave one of them a namespace"""
     groups = as_list(((one_json("onegroup", "list") or {}).get("GROUP_POOL") or {}).get("GROUP"))
     new = [g for g in groups if g.get("NAME") not in set(MEMBERS) | {"oneadmin", "users"}]
     quotas = [((one_json("onegroup", "show", g.get("NAME")) or {}).get("GROUP", {}).get("VM_QUOTA") or {}).get("VM") or {} for g in new]
@@ -516,13 +521,21 @@ def check_new_member(report, members):
     vms = as_list(((one_json("onevm", "list") or {}).get("VM_POOL") or {}).get("VM"))
     report.check(any(v.get("GNAME") in {g.get("NAME") for g in new} and v.get("LCM_STATE") == "3" for v in vms),
                  tr("Eine VM des neuen Mitglieds läuft", "A VM of the new member runs"))
-    others = [n for n in members if n not in ("velo", "gemeinde")]
-    running = [n for n in others if any((d.get("status", {}).get("readyReplicas") or 0) > 0
+    # A namespace from the template carries its ResourceQuota member, however its Application is named.
+    # If one of them has the name of a new group, only those count, so an own member of milestone 2 does not stand in for it
+    quotas = (kube_json("get", "resourcequota", "-A") or {}).get("items", [])
+    spaces = sorted({q["metadata"]["namespace"] for q in quotas if q["metadata"]["name"] == "member"} - set(MEMBERS))
+    spaces = [n for n in spaces if n in {g.get("NAME") for g in new}] or spaces
+    running = [n for n in spaces if any((d.get("status", {}).get("readyReplicas") or 0) > 0
                                         for d in (kube_json("get", "deployments", "-n", n) or {}).get("items", []))]
     report.check(bool(running), tr("Das neue Mitglied hat einen Namespace mit einer laufenden App", "The new member has a namespace with a running app"),
                  tr("Zusatzauftrag A in Kapitel 6.5, Ordner in members/ mit Vorlage und App", "advanced task A in chapter 6.5, folder in members/ with the template and an app"))
-    rules = json.dumps(kube_json("get", "prometheusrules", "-A") or {})
-    report.check(any(f'namespace=\\"{n}\\"' in rules for n in others), tr("Eine Alert-Regel überwacht das neue Mitglied", "An alert rule watches the new member"),
+    # An alert rule counts when it lies in the namespace of the member or names it in its expression
+    rules = (kube_json("get", "prometheusrules", "-A") or {}).get("items", [])
+    alerts = [(r["metadata"]["namespace"], str(rule.get("expr", ""))) for r in rules
+              for group in r.get("spec", {}).get("groups", []) for rule in group.get("rules", []) if rule.get("alert")]
+    report.check(any(namespace in spaces or any(re.search(rf'namespace\s*=~?\s*"{re.escape(n)}"', expr) for n in spaces) for namespace, expr in alerts),
+                 tr("Eine Alert-Regel überwacht das neue Mitglied", "An alert rule watches the new member"),
                  tr("Zusatzauftrag A in Kapitel 6.5, wie Kapitel 5.3", "advanced task A in chapter 6.5, as in chapter 5.3"))
 
 
@@ -612,6 +625,7 @@ def mebibytes(value):
 def check_advanced(milestone, env, report):
     """Traces of the advanced tasks that a script can see, the showing decides the points"""
     if milestone == "m1":
+        check_oneflow(report)
         # OpenNebula ships opennebula-showback.timer itself, only a timer of the student's own counts,
         # as a system unit or as a user unit that lingers
         listing = run("systemctl", "list-timers", "--all")[1] + "\n" + run("systemctl", "--user", "list-timers", "--all")[1]
@@ -633,6 +647,8 @@ def check_advanced(milestone, env, report):
         report.check(code == 200 and body.strip() not in ("", "[]"), tr("main ist in Gitea geschützt", "main is protected in Gitea"), tr("Zusatzauftrag C in Kapitel 4.6", "advanced task C in chapter 4.6"))
     elif milestone == "m3":
         check_ai(env, report)
+    elif milestone == "m4":
+        check_new_member(report)
 
 
 def check_milestone(milestone, part):

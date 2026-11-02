@@ -199,7 +199,9 @@ sed -i "s#http://FRONTEND:3000#http://$CC_FE_IP:3000#" apps/*.yaml
 git status
 ```
 
-Hat ein Mitglied in deinem Repo ein eigenes Label am Namespace, etwa `ai: allowed` aus Kapitel 5.5, muss es als Merge-Patch formuliert sein. Ein Patch mit `op: add` auf `/metadata/labels` ersetzt alle Labels. Der Namespace verliert dabei das Profil, im Lab passierte das mit `velo`. Pushe die Änderungen und warte, bis der Controller läuft. Argo CD legt ihn erst bei der nächsten Abfrage des Repos an, im Lab nach knapp drei Minuten. Die Schleife mit `until` wartet darauf. Bis der Ordner `secrets` im Repo liegt, zeigt die Application `secrets` den Zustand `Unknown` mit «app path does not exist». Das ist an dieser Stelle normal. Installiere dann `kubeseal` und versiegle das Passwort.
+`git status` zeigt die zwei neuen Applications und drei geänderte Dateien, die Vorlage des Namespace, den Webshop und die Vorlage für k3s. Die Werte von kube-prometheus-stack aus Teil 5 lässt die Kopie unberührt. Eine Route zum Triage-Dienst aus Zusatzauftrag B von Meilenstein 3 bleibt also erhalten. Hast du eine der drei Dateien selbst angepasst, zeigt `git diff`, was die Kopie überschrieben hat.
+
+Hat ein Mitglied in deinem Repo ein eigenes Label am Namespace, etwa `ai: allowed` aus Kapitel 5.5, muss es als Merge-Patch formuliert sein. Ein Patch mit `op: add` auf `/metadata/labels` ersetzt alle Labels. Der Namespace verliert dabei das Profil, im Lab passierte das mit `velo`. Pushe die Änderungen und warte, bis der Controller läuft. Argo CD legt ihn erst bei der nächsten Abfrage des Repos an, im Lab nach zwei bis drei Minuten. Die Schleife mit `until` wartet darauf. Bis der Ordner `secrets` im Repo liegt, zeigt die Application `secrets` den Zustand `Unknown` mit «app path does not exist». Das ist an dieser Stelle normal. Installiere dann `kubeseal` und versiegle das Passwort.
 
 ::code{file="platform/operations/seal-secrets.sh"}
 
@@ -220,7 +222,7 @@ kubectl -n kube-system rollout restart deploy sealed-secrets-controller
 kubectl -n monitoring get secret grafana-admin -o jsonpath='{.metadata.ownerReferences[0].kind}'
 ```
 
-Die letzte Zeile gibt `SealedSecret` aus, sobald Argo CD das SealedSecret übernommen hat, im Lab nach gut eineinhalb Minuten. Bis dahin bleibt sie leer. Der Neustart des Controllers ist nur nötig, wenn das SealedSecret vor der Annotation ankam. Ohne den privaten Schlüssel des Controllers ist das SealedSecret in Git wertlos, auch für dich. Kapitel 6.2 sichert ihn darum mit.
+Die letzte Zeile gibt `SealedSecret` aus, sobald Argo CD das SealedSecret übernommen hat, im Lab nach 40 Sekunden bis gut eineinhalb Minuten. Bis dahin bleibt sie leer. Der Neustart des Controllers ist nur nötig, wenn das SealedSecret vor der Annotation ankam. Ohne den privaten Schlüssel des Controllers ist das SealedSecret in Git wertlos, auch für dich. Kapitel 6.2 sichert ihn darum mit.
 
 ## Updates
 

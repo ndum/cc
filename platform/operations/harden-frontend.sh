@@ -23,6 +23,8 @@ KbdInteractiveAuthentication no
 PermitRootLogin no
 CONF
 sshd -t
+# An update of OpenSSH can change the unit of ssh, systemd loads it first instead of printing a warning
+systemctl daemon-reload
 systemctl reload ssh
 
 # A table of its own for incoming traffic, the NAT table of cc-gateway stays untouched.

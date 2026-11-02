@@ -73,7 +73,7 @@ kubectl apply -f ~/backup/k3s/sealed-secrets-key.yaml
 ~/cc/platform/bootstrap-argocd.sh
 ```
 
-Mit dem ganzen Stack aus Teil 5 dauerte `tofu apply` für diesen Neubau im Lab 484 Sekunden, viel länger als der Neubau des leeren Clusters in Kapitel 4.2. Einen grossen Teil der Zeit warteten die alten VMs auf ihr Herunterfahren. OpenNebula hielt zudem eine der neuen VMs in `pending` und meldete «Not enough capacity on datastores». Für die freie Disk eines Knotens kannte OpenNebula noch den alten Wert. `onevm show <id> | grep SCHED_MESSAGE` zeigt den Grund. Nach `onehost forceupdate` lief die VM etwa eine Minute später. Das neue Passwort von Argo CD schreibt das Skript nach `~/cc-lab/argocd-admin.pass` statt auf den Bildschirm, damit es in keinem Screenshot landet. Nach dem Bootstrap rollte Argo CD alles aus. Wenige Minuten später waren alle Applications synchron und gesund, auch das Passwort von Grafana war wieder entschlüsselt. Verloren waren die Daten in den Volumes, also die Metriken und die Logs. Im Lab des Kurses liefen auch Ollama und ein Triage-Dienst aus den Zusatzaufträgen von Meilenstein 3. Ollama lud sein Modell neu, das Audit-Log des Triage-Dienstes war weg.
+Mit dem ganzen Stack aus Teil 5 dauerte `tofu apply` für diesen Neubau im Lab knapp drei Minuten. Davon warteten die alten VMs 104 Sekunden auf ihr Herunterfahren. OpenNebula hielt zudem eine der neuen VMs in `pending` und meldete «Not enough capacity on datastores». Für die freie Disk eines Knotens kannte OpenNebula noch den alten Wert. `onevm show <id> | grep SCHED_MESSAGE` zeigt den Grund. Nach `onehost forceupdate` lief die VM eine halbe Minute später. Das neue Passwort von Argo CD schreibt das Skript nach `~/cc-lab/argocd-admin.pass` statt auf den Bildschirm, damit es in keinem Screenshot landet. Nach dem Bootstrap rollte Argo CD alles aus. Der Webshop antwortete 50 Sekunden später, nach gut eineinhalb Minuten waren alle Applications synchron und gesund. Auch das Passwort von Grafana war wieder entschlüsselt. Vom Start von `tofu apply` an vergingen gut fünf Minuten. Verloren waren die Daten in den Volumes, also die Metriken und die Logs. Im Lab des Kurses liefen auch Ollama und ein Triage-Dienst aus den Zusatzaufträgen von Meilenstein 3. Ollama lud sein Modell neu, das Audit-Log des Triage-Dienstes war weg.
 
 ## Snapshots sichern
 
@@ -103,15 +103,17 @@ Die VMs der Mitglieder sichert OpenNebula selbst. Backups landen in einem Datast
 
 Seit Kapitel 4.2 laufen in OpenNebula nur noch die beiden VMs von k3s. Diese beiden sicherst du nicht auf diesem Weg, ihr Zustand steckt in Git und in den Snapshots von etcd. Zum Üben startest du als `praxis-admin` die VM `praxis-1` aus der Vorlage `ubuntu` mit 1 GB. Mehr Speicher hat ein Knoten neben k3s nicht frei. Diese VM sicherst du und stellst sie wieder her. Damit du die Wiederherstellung prüfen kannst, legst du vor dem Backup eine Testdatei an. `onevm show` zeigt die Adresse der VM. Machst du Zusatzauftrag A aus [Kapitel 6.5](../advanced/#auftrag-a--ein-eigenes-mitglied), kannst du stattdessen die VM deines eigenen Mitglieds nehmen.
 
-Ein Backup von Hand startet `onevm backup`, auch bei einer laufenden VM. Das Backup einer VM mit 1 GB Speicher und Ubuntu 26.04 dauerte im Lab elf Sekunden. Das Backup-Image war 1004 MB gross.
+Ein Backup von Hand startet `onevm backup`, auch bei einer laufenden VM. Das Backup einer VM mit 1 GB Speicher und Ubuntu 26.04 dauerte im Lab sechs bis elf Sekunden. Das Backup-Image war 1004 MB gross.
 
 ```bash
 ONE_AUTH=~/cc-lab/tenants/praxis.auth onetemplate instantiate ubuntu --name praxis-1
-ssh root@<adresse-der-vm> 'echo vor dem Backup > /root/testdatei.txt'
+ssh root@<adresse-der-vm> 'echo vor dem Backup > /root/testdatei.txt && sync'
 ~/cc/platform/operations/backup-datastore.sh
 onevm backup -d backups <vm>
 oneimage list
 ```
+
+Bei einer laufenden VM enthält das Backup nur, was schon auf ihrer Disk steht. Ubuntu schreibt Änderungen an der Root-Partition erst nach bis zu 30 Sekunden auf die Disk, `sync` erzwingt es sofort. Ohne `sync` fehlte die Testdatei im Lab nach der Wiederherstellung, das Backup war sieben Sekunden nach dem Anlegen gelaufen. Eine Datenbank in der VM hält ebenfalls Daten im Arbeitsspeicher. Ihr Backup ist dann so vollständig wie nach einem Stromausfall. OpenNebula friert das Dateisystem vor dem Backup nicht ein, `onebackupjob show` zeigt dafür die Einstellung `FS_FREEZE="NONE"`.
 
 Regelmässige Backups übernimmt ein Backup-Job. Das Skript legt einen an, der jede Nacht sichert. Ohne weitere Angaben läuft er um 2 Uhr und behält sieben Backups. Uhrzeit und Anzahl kannst du mitgeben, für Meilenstein 4 die Zahlen aus deinen [persönlichen Werten](../../start/parameters/). Die Uhrzeit gilt in der Zeitzone des Front-ends, die `timedatectl` anzeigt.
 
@@ -122,7 +124,9 @@ onebackupjob list
 
 ::code{file="platform/operations/backup-job.sh"}
 
-Zur Wiederherstellung macht `oneimage restore` aus einem Backup eine neue Vorlage mit einem neuen Image. Gut anderthalb Minuten nach dem Befehl enthielt die neue VM im Lab wieder die Testdatei von vor dem Backup. Vorlage, Image und VM gehören danach `oneadmin`. Mit `onevm chown` gibst du die VM dem Mitglied zurück. Die neue VM hat eine neue Nummer. Damit der Backup-Job sie weiter sichert, trägst du sie in den Job ein.
+Steht eine VM in einem Backup-Job, lehnt `onevm backup` sie ab. Ein Backup ausser der Reihe startest du dann mit `onebackupjob backup praxis-nightly`, es sichert alle VMs des Jobs.
+
+Zur Wiederherstellung macht `oneimage restore` aus einem Backup eine neue Vorlage mit einem neuen Image. Im Lab enthielt die neue VM 20 Sekunden bis eine Minute nach dem Befehl wieder die Testdatei von vor dem Backup. Vorlage, Image und VM gehören danach `oneadmin`. Mit `onevm chown` gibst du die VM dem Mitglied zurück. Die neue VM hat eine neue Nummer. Damit der Backup-Job sie weiter sichert, trägst du sie in den Job ein.
 
 ```bash
 onevm terminate --hard <vm>
@@ -133,25 +137,37 @@ echo 'BACKUP_VMS="<neue-vm>"' > /tmp/job.tpl
 onebackupjob update praxis-nightly /tmp/job.tpl --append
 ```
 
+Ihr erstes eigenes Backup bekommt die neue VM in der nächsten Nacht. Willst du nicht so lange warten, holt `onebackupjob backup praxis-nightly` es sofort nach.
+
 Backups zählen zur Quota des Datastores. Ein Mitglied mit vielen grossen Backups braucht dort Platz. Dieser Platz kostet Geld, Kapitel 6.4 kommt darauf zurück.
 
 ## Ausblick
 
 Velero sichert Namespaces samt ihren Volumes in einen Objektspeicher und stellt einzelne Namespaces wieder her, ohne den ganzen Cluster zurückzusetzen. Es bräuchte einen Speicher wie MinIO und weitere Komponenten auf den knappen Knoten. Für den Kurs genügen Git, die Snapshots von etcd und die Backups von OpenNebula.
 
+## Der Check von Teil 6
+
+Der Check dieses Teils prüft aus Kapitel 6.1 das gehärtete Front-end, also SSH nur mit Schlüssel, die Firewall und die automatischen Updates. Für die erste Prüfung versucht er selbst, sich ohne Schlüssel am Front-end anzumelden. Dazu kommen die Applications `sealed-secrets` und `secrets`, das Passwort von Grafana aus dem SealedSecret und das Profil `restricted` in allen Namespaces der Mitglieder. Aus diesem Kapitel prüft er die Snapshots von etcd, ihre Kopie mit Token und Schlüssel auf dem Front-end, den Timer, den Backup-Datastore, einen Backup-Job mit Zeitplan und ein Backup einer VM. Starte ihn auf dem Front-end, sobald der Backup-Job steht.
+
+```bash
+python3 ~/cc/checks/check.py operations
+```
+
+Die vier Zeilen zum neuen Mitglied mit `[+!!]` gehören zum Zusatzauftrag A in Kapitel 6.5 und zählen nicht zur Basis.
+
 ::::exercise[RPO und RTO]
 Lege für die vier Mitglieder ein RPO und ein RTO fest. Prüfe, ob die Plattform sie mit den Snapshots alle sechs Stunden und den nächtlichen Backups erreicht. Machst du die Zusatzaufträge aus Kapitel 6.5, ergänzt du dein eigenes Mitglied.
 
 :::solution
-Eine mögliche Festlegung ist die Treuhand mit RPO vier Stunden und RTO vier Stunden am Monatsende, die Praxis mit RPO 24 Stunden und RTO einem Arbeitstag, der Webshop mit RPO 24 Stunden und RTO einer Stunde am Samstag, die Gemeinde mit RPO 24 Stunden und RTO vier Stunden zu den Schalterzeiten. Die nächtlichen Backups der VMs erreichen ein RPO von 24 Stunden, die Treuhand bräuchte häufigere. Ein RTO von einer Stunde verlangt eine geübte Wiederherstellung. Im Lab dauerte der Neubau des Clusters gut zehn Minuten, die Wiederherstellung aus dem Snapshot unter einer Minute.
+Eine mögliche Festlegung ist die Treuhand mit RPO vier Stunden und RTO vier Stunden am Monatsende, die Praxis mit RPO 24 Stunden und RTO einem Arbeitstag, der Webshop mit RPO 24 Stunden und RTO einer Stunde am Samstag, die Gemeinde mit RPO 24 Stunden und RTO vier Stunden zu den Schalterzeiten. Die nächtlichen Backups der VMs erreichen ein RPO von 24 Stunden, die Treuhand bräuchte häufigere. Ein RTO von einer Stunde verlangt eine geübte Wiederherstellung. Im Lab dauerte der Neubau des Clusters gut fünf Minuten, die Wiederherstellung aus dem Snapshot unter einer Minute.
 :::
 ::::
 
 ::::exercise[Lab]
-Baue den Cluster mit etcd neu, richte die Sicherung der Snapshots und einen Backup-Job ein und stelle die VM `praxis-1` aus ihrem Backup wieder her. Miss die Zeiten.
+Baue den Cluster mit etcd neu, richte die Sicherung der Snapshots und einen Backup-Job ein und stelle die VM `praxis-1` aus ihrem Backup wieder her. Miss die Zeiten. Lass zum Schluss den Check `operations` laufen und lade seinen Bericht in dein Abgabe-Repo.
 
 :::solution
-Auf dem Server zeigt `k3s etcd-snapshot ls` die Snapshots. In `~/backup/k3s` liegen Snapshots, Token und Schlüssel. Den nächsten Lauf des Timers zeigt `systemctl list-timers cc-backup-k3s.timer`. `onebackupjob list` zeigt den Job, `oneimage list` ein Image vom Typ `BK`. Danach ist die VM zurück. Der Check `operations` meldet die Prüfungen zum Backup als erfüllt. Die Zeiten liegen im Bereich des Labs, einige Minuten für den Neubau und rund zwei Minuten für die VM.
+Auf dem Server zeigt `k3s etcd-snapshot ls` die Snapshots. In `~/backup/k3s` liegen Snapshots, Token und Schlüssel. Den nächsten Lauf des Timers zeigt `systemctl list-timers cc-backup-k3s.timer`. `onebackupjob list` zeigt den Job, `oneimage list` ein Image vom Typ `BK`. Danach ist die VM zurück und enthält die Testdatei. Die Zeiten liegen im Bereich des Labs, gut fünf Minuten für den Neubau und unter einer Minute für die VM. Der Check endet mit «14 von 14 Prüfungen der Basis erfüllt» und «0 von 4 Prüfungen der Zusatzaufträge erfüllt».
 :::
 ::::
 

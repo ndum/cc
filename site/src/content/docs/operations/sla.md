@@ -44,7 +44,7 @@ Ein SLA regelt mehr als eine Prozentzahl.
 | 99,5 % | 3,6 Stunden | 1,83 Tage |
 | 99,9 % | 43 Minuten | 8,8 Stunden |
 
-Was die Plattform zusagen kann, folgt aus ihrer Architektur. Das Lab hat ein Front-end, einen Server von k3s und zwei Knoten. Fällt der Server von k3s aus, steht der Webshop, bis die VM neu gebaut ist. Im Lab dauerte es mit dem ganzen Stack gut zehn Minuten, bis der Webshop wieder lief. Das setzt voraus, dass jemand sofort reagiert. Fällt ein Knoten aus, sind seine VMs weg, bis er wieder läuft oder sie auf dem anderen Knoten neu entstehen. Dazu kommt, dass das Plattform-Team einer kleinen Genossenschaft zu Bürozeiten arbeitet. Ohne Pikettdienst wird ein Ausfall am Samstagabend erst am Montag behoben.
+Was die Plattform zusagen kann, folgt aus ihrer Architektur. Das Lab hat ein Front-end, einen Server von k3s und zwei Knoten. Fällt der Server von k3s aus, steht der Webshop, bis die VM neu gebaut ist. Im Lab dauerte es mit dem ganzen Stack knapp fünf Minuten, bis der Webshop wieder lief. Das setzt voraus, dass jemand sofort reagiert. Fällt ein Knoten aus, sind seine VMs weg, bis er wieder läuft oder sie auf dem anderen Knoten neu entstehen. Dazu kommt, dass das Plattform-Team einer kleinen Genossenschaft zu Bürozeiten arbeitet. Ohne Pikettdienst wird ein Ausfall am Samstagabend erst am Montag behoben.
 
 Ehrlich sind darum Zusagen wie 99 % zu Bürozeiten mit einer Reaktionszeit von vier Stunden. Mehr verlangt mehr Aufwand, etwa drei Server für k3s, einen Pikettdienst oder ein zweites Rechenzentrum. Das kostet entsprechend mehr. Kapitel 6.4 rechnet den Preis aus.
 
