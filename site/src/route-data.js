@@ -1,6 +1,7 @@
 // Numbers the parts and their chapters in the navigation, such as «2 IaaS aufbauen» and
 // «2.2 Installation mit OneDeploy», so a reference to chapter 1.4 is easy to find. The page
-// titles keep their wording. Competence grids and the groups without a part stay unnumbered.
+// titles keep their wording. The competence grid closes a part with the next number, the groups
+// without a part stay unnumbered.
 import { defineRouteMiddleware } from '@astrojs/starlight/route-data';
 
 const PARTS = ['start', 'basics', 'iaas', 'tenants', 'platform', 'observability', 'operations'];
@@ -19,7 +20,7 @@ export const onRequest = defineRouteMiddleware((context) => {
     let part = -1;
     let chapter = 0;
     for (const link of group.entries) {
-      if (link.type !== 'link' || link.href.endsWith('/competences/')) continue;
+      if (link.type !== 'link') continue;
       const number = partOf(link.href);
       if (number < 0) continue;
       part = number;
