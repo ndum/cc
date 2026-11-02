@@ -12,6 +12,7 @@ import html
 import json
 import os
 import random
+import signal
 import socket
 import threading
 import time
@@ -24,6 +25,9 @@ SHOP_NAME = os.environ.get("SHOP_NAME", "Veloatelier Matte")
 WORK_MS = int(os.environ.get("WORK_MS", "0"))
 # Share of shop requests answered with an error, part 5 uses it to break the service level on purpose
 FAIL_PERCENT = float(os.environ.get("FAIL_PERCENT", "0"))
+# Seconds the shop keeps answering after SIGTERM. Kubernetes takes the pod out of its Service at the
+# same moment, the short wait lets the ingress notice before the shop stops
+DRAIN_SECONDS = 2
 
 PRODUCTS = [
     {"id": 1, "name": "Stadtvelo Aare", "price": 890},
@@ -132,5 +136,14 @@ class Handler(BaseHTTPRequestHandler):
 
 
 if __name__ == "__main__":
+    server = ThreadingHTTPServer(("", PORT), Handler)
+
+    def stop(signum, frame):
+        # shutdown() has to run in another thread than serve_forever()
+        print(f"Stopping in {DRAIN_SECONDS} s", flush=True)
+        threading.Timer(DRAIN_SECONDS, server.shutdown).start()
+
+    signal.signal(signal.SIGTERM, stop)
     print(f"{SHOP_NAME} {VERSION} listens on port {PORT}", flush=True)
-    ThreadingHTTPServer(("", PORT), Handler).serve_forever()
+    server.serve_forever()
+    server.server_close()

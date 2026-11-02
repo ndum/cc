@@ -146,6 +146,10 @@ Argo CD first rolls out `root` and finds the application `webshop` in it, which 
 
 In the lab, all applications were `Synced` and `Healthy` 5 to 15 seconds after the bootstrap. Here Argo CD polls Gitea every minute, as set by `timeout.reconciliation` in the values. Without that setting, the interval would be three minutes.
 
+In its web interface, Argo CD shows each application as a tree of its objects.
+
+![The application webshop in Argo CD. At the top it shows Healthy and Synced with the commit of main, below it the tree. Lines lead from the application to the service, the deployment and the ingress, and the deployment leads through its ReplicaSet to the two pods. A heart and a check mark show the health and the sync state of every object.](../../../../assets/screenshots/argocd-webshop-tree.png)
+
 ## Access from the client
 
 The cluster sits in the internal network `cc-net`, which only the front-end can reach. So that the browser of the client can open Argo CD and the web shop, you forward two ports through SSH in the terminal of the client. The addresses come from your parameters.
@@ -167,7 +171,7 @@ kubectl -n velo delete deployment webshop
 kubectl -n velo get deployment webshop
 ```
 
-In the lab the deployment was back to two pods after about a second on the first try, and the deleted deployment returned after three seconds. Its pods only ran again after a good 40 seconds. A web shop pod takes 30 seconds to stop. The program ignores the signal to stop, so Kubernetes waits for the full grace period. Until then the old pods count against the quota of the namespace `velo` from chapter 4.5. After the test with four pods its 2 CPUs of limits are used up, and `kubectl -n velo get events` reports "exceeded quota". If you repeat it, Argo CD waits a little longer each time, so that self-heal and a person do not take turns forever. A change through Git takes longer, because Argo CD only learns about it at its next poll.
+In the lab the deployment was back to two pods after about a second on the first try, and the two extra pods had stopped after two seconds. The deleted deployment returned after one to three seconds, and its pods ran a few seconds later. After the signal to stop, a web shop pod still answers requests for two seconds, so Traefik can take it off its list before it stops. If you repeat it, Argo CD waits a little longer each time, so that self-heal and a person do not take turns forever. In the lab the deployment only came back after 15 seconds on the third try. A change through Git takes longer, because Argo CD only learns about it at its next poll.
 
 ```bash
 cd ~/platform

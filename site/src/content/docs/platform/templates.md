@@ -116,6 +116,12 @@ git push -u origin gemeinde
 
 In Gitea erscheint danach der Vorschlag, einen Pull Request für den Branch `gemeinde` zu öffnen. Als Plattform-Team prüfst du, ob das Mitglied nur seinen Namen setzt oder auch die Vorlage ändert. Ein Antrag, der `templates/member` ändert, betrifft alle Mitglieder und braucht mehr Aufmerksamkeit. Ist alles in Ordnung, führst du den Pull Request zusammen und holst den neuen Stand.
 
+Nach dem Zusammenführen steht der Pull Request in Gitea auf «Merged», der Reiter «Files Changed» zeigt seinen Diff.
+
+![Der Pull Request #1 der Gemeinde in Gitea. Oben steht Merged, platform hat den Branch gemeinde in main zusammengeführt. Der Verlauf zeigt die Beschreibung, den Commit, den Merge und das Löschen des Branches.](../../../assets/screenshots/gitea-pr-conversation.png)
+
+![Der Reiter Files Changed desselben Pull Requests. Der Antrag fügt nur die Datei members/gemeinde/kustomization.yaml mit sechs Zeilen hinzu, die Vorlage templates/member bleibt unberührt.](../../../assets/screenshots/gitea-pr-files.png)
+
 ```bash
 git switch main
 git pull
@@ -124,6 +130,10 @@ kubectl -n argocd get applications
 ```
 
 Im Lab stand der Namespace `gemeinde` mit Quota, LimitRange und NetworkPolicy zehn Sekunden nach dem Zusammenführen. Weil das ApplicationSet nur jede Minute nachschaut, kann es auch eine gute Minute dauern. Niemand hat dafür `kubectl apply` ausgeführt.
+
+Argo CD führt die Gemeinde danach als eigene Application.
+
+![Die Applications in Argo CD nach dem Pull Request der Gemeinde. member-gemeinde und member-velo stammen aus dem ApplicationSet, root und webshop aus Kapitel 4.4. Alle vier sind Healthy und Synced mit dem Branch main.](../../../assets/screenshots/argocd-apps-base.png)
 
 Für Meilenstein 2 bekommt die Gemeinde die Grenzen aus deinen [persönlichen Werten](../../start/parameters/). Du ergänzt ihre Datei in einem zweiten Pull Request um einen Patch wie beim Veloatelier. Ein Patch darf mehrere Operationen enthalten, je eine Zeile `- op: replace` für `limits.cpu` und für `limits.memory`. Mit kleineren Grenzen stoppt der Test unten früher, im Lab mit 1 CPU schon nach vier Pods.
 

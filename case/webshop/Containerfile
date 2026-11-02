@@ -5,6 +5,11 @@ LABEL org.opencontainers.image.title="webshop" \
       org.opencontainers.image.source="https://github.com/ndum/cc" \
       org.opencontainers.image.licenses="MIT"
 
+# tini runs as the first process and passes signals on. Python is then an ordinary process and stops
+# on SIGTERM even while it is still starting, before the shop has set its own handler
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends tini \
+    && rm -rf /var/lib/apt/lists/*
+
 WORKDIR /app
 COPY app.py load.py ./
 
@@ -12,4 +17,5 @@ COPY app.py load.py ./
 USER 10001
 ENV PYTHONUNBUFFERED=1 PORT=8080
 EXPOSE 8080
+ENTRYPOINT ["/usr/bin/tini", "--"]
 CMD ["python3", "/app/app.py"]

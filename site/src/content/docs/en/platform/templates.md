@@ -116,6 +116,12 @@ git push -u origin gemeinde
 
 Gitea then offers to open a pull request for the branch `gemeinde`. As the platform team you review the change and check whether the member only sets its name or also changes the template. A request that changes `templates/member` affects every member and deserves closer attention. If everything is fine, you merge the pull request and pull the new state.
 
+After the merge the pull request shows "Merged" in Gitea, and the "Files Changed" tab shows its diff.
+
+![Pull request #1 of the municipality in Gitea. At the top it says Merged, platform merged the branch gemeinde into main. The history shows the description, the commit, the merge and the deletion of the branch.](../../../../assets/screenshots/gitea-pr-conversation.png)
+
+![The Files Changed tab of the same pull request. The request only adds the file members/gemeinde/kustomization.yaml with six lines and leaves the template templates/member untouched.](../../../../assets/screenshots/gitea-pr-files.png)
+
 ```bash
 git switch main
 git pull
@@ -124,6 +130,10 @@ kubectl -n argocd get applications
 ```
 
 In the lab, the namespace `gemeinde` with its quota, LimitRange and NetworkPolicy was in place ten seconds after the merge. Since the ApplicationSet only looks once a minute, it can also take a good minute. Nobody ran `kubectl apply` for it.
+
+Argo CD then lists the municipality as an application of its own.
+
+![The applications in Argo CD after the municipality's pull request. member-gemeinde and member-velo come from the ApplicationSet, root and webshop from chapter 4.4. All four are Healthy and Synced with the branch main.](../../../../assets/screenshots/argocd-apps-base.png)
 
 For milestone 2 the municipality gets the limits from your [personal values](../../start/parameters/). In a second pull request you add a patch to its file as for the bike shop. One patch may hold several operations, one `- op: replace` each for `limits.cpu` and for `limits.memory`. With smaller limits the test below stops earlier, in the lab with 1 CPU already after four pods.
 

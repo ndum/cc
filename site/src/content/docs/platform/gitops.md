@@ -146,6 +146,10 @@ Argo CD rollt also zuerst `root` aus und findet darin die Application `webshop`,
 
 Im Lab waren alle Applications 5 bis 15 Sekunden nach dem Bootstrap `Synced` und `Healthy`. Argo CD fragt Gitea hier jede Minute ab, das legt `timeout.reconciliation` in den Werten fest. Ohne diese Einstellung wären es drei Minuten.
 
+In der Weboberfläche zeigt Argo CD jede Application als Baum ihrer Objekte.
+
+![Die Application webshop in Argo CD. Oben stehen Healthy und Synced mit dem Commit von main, darunter der Baum. Von der Application führen Linien zum Service, zum Deployment und zum Ingress, das Deployment führt über sein ReplicaSet zu den zwei Pods. Herz und Haken zeigen bei jedem Objekt Zustand und Abgleich.](../../../assets/screenshots/argocd-webshop-tree.png)
+
 ## Zugriff vom Client
 
 Der Cluster liegt im internen Netz `cc-net`, das nur vom Front-end aus erreichbar ist. Damit der Browser des Clients Argo CD und den Webshop öffnen kann, leitest du im Terminal des Clients zwei Ports durch SSH weiter. Die Adressen stehen in deinen Parametern.
@@ -167,7 +171,7 @@ kubectl -n velo delete deployment webshop
 kubectl -n velo get deployment webshop
 ```
 
-Im Lab stand das Deployment beim ersten Versuch nach etwa einer Sekunde wieder auf zwei Pods. Das gelöschte Deployment war nach drei Sekunden zurück, seine Pods liefen aber erst nach gut 40 Sekunden. Ein Pod des Webshops braucht 30 Sekunden, bis er beendet ist. Das Programm reagiert nicht auf das Signal zum Beenden und Kubernetes wartet die volle Frist ab. Bis dahin zählen die alten Pods zur Quota des Namespaces `velo` aus Kapitel 4.5. Nach dem Test mit vier Pods sind deren 2 CPU bei den Limits voll und `kubectl -n velo get events` meldet «exceeded quota». Wiederholst du den Versuch, wartet Argo CD jedes Mal etwas länger, damit sich Self-Heal und ein Mensch nicht endlos abwechseln. Eine Änderung über Git dauert länger, weil Argo CD erst bei der nächsten Abfrage davon erfährt.
+Im Lab stand das Deployment beim ersten Versuch nach etwa einer Sekunde wieder auf zwei Pods. Die zwei zusätzlichen Pods waren nach zwei Sekunden beendet. Das gelöschte Deployment war nach einer bis drei Sekunden zurück und seine Pods liefen wenige Sekunden später. Nach dem Signal zum Beenden beantwortet ein Pod des Webshops noch zwei Sekunden lang Anfragen. So kann Traefik ihn aus seiner Liste nehmen, bevor er sich beendet. Wiederholst du den Versuch, wartet Argo CD jedes Mal etwas länger, damit sich Self-Heal und ein Mensch nicht endlos abwechseln. Im Lab kam das Deployment beim dritten Versuch erst nach 15 Sekunden zurück. Eine Änderung über Git dauert länger, weil Argo CD erst bei der nächsten Abfrage davon erfährt.
 
 ```bash
 cd ~/platform
