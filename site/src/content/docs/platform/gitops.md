@@ -161,13 +161,13 @@ Solange die Verbindung offen ist, zeigt `http://localhost:8080/` die Oberfläche
 Self-Heal siehst du am schnellsten, wenn du gegen Git arbeitest.
 
 ```bash
-kubectl -n velo scale deployment webshop --replicas=5
+kubectl -n velo scale deployment webshop --replicas=4
 kubectl -n velo get deployment webshop
 kubectl -n velo delete deployment webshop
 kubectl -n velo get deployment webshop
 ```
 
-Im Lab stand das Deployment nach etwa einer Sekunde wieder auf zwei Pods, und das gelöschte Deployment war nach drei Sekunden zurück. Eine Änderung über Git dauert länger, weil Argo CD erst bei der nächsten Abfrage davon erfährt.
+Im Lab stand das Deployment beim ersten Versuch nach etwa einer Sekunde wieder auf zwei Pods, und das gelöschte Deployment war nach drei Sekunden zurück. Wiederholst du den Versuch, wartet Argo CD jedes Mal etwas länger, damit sich Self-Heal und ein Mensch nicht endlos abwechseln. Eine Änderung über Git dauert länger, weil Argo CD erst bei der nächsten Abfrage davon erfährt.
 
 ```bash
 cd ~/platform
@@ -176,13 +176,13 @@ git commit -am "Webshop mit drei Pods für die Saison"
 git push
 ```
 
-Im Lab lief der dritte Pod 83 Sekunden nach dem Push. Ein Webhook von Gitea an Argo CD würde den Abgleich sofort auslösen, das Lab kommt mit der Abfrage jede Minute aus.
+Im Lab lief der dritte Pod ein bis gut zwei Minuten nach dem Push, denn Argo CD fragt jede Minute ab und verschiebt die Abfrage um einen zufälligen Anteil. Ein Webhook von Gitea an Argo CD würde den Abgleich sofort auslösen, das Lab kommt mit der Abfrage jede Minute aus.
 
 ::::exercise[Lab]
 Installiere Gitea, lege das Repo an, rolle Argo CD aus und öffne Webshop und Argo CD im Browser deines Rechners. Ändere die Zahl der Pods über Git.
 
 :::solution
-`kubectl -n argocd get applications` zeigt `root` und `webshop` als `Synced` und `Healthy`, später auch `member-velo` aus Kapitel 4.5. Der Webshop zeigt die Velos und unten den Namen des Pods, der geantwortet hat. Nach einem Push mit `replicas: 3` zeigt `kubectl -n velo get pods` innerhalb von ein bis zwei Minuten drei Pods, und in Argo CD erscheint der neue Commit bei der Application.
+`kubectl -n argocd get applications` zeigt `root`, `webshop` und `member-velo` als `Synced` und `Healthy`. `member-velo` kommt schon mit dem ersten Push, Kapitel 4.5 erklärt es. Der Webshop zeigt die Velos und unten den Namen des Pods, der geantwortet hat. Nach einem Push mit `replicas: 3` zeigt `kubectl -n velo get pods` innerhalb von ein bis zwei Minuten drei Pods, und in Argo CD erscheint der neue Commit bei der Application.
 :::
 ::::
 

@@ -52,6 +52,13 @@ Ohne Regel erreicht jeder Pod im Cluster jeden anderen, auch über Namespaces hi
 
 `podSelector: {}` meint alle Pods des Namespaces. Sie nehmen nur Verbindungen von Pods im eigenen Namespace und aus `kube-system` an, wo Traefik läuft. Im Lab bekam ein Pod im Namespace `default` vom Webshop «Connection refused», ein Pod in `velo` erreichte ihn. Ein frisch gestarteter Pod scheiterte dabei mit seinen ersten zwei Anfragen. Der Controller braucht nach dem Start eines Pods einige Sekunden, bis er dessen Adresse in seine Regeln aufgenommen hat.
 
+```bash
+kubectl -n default run np-test --rm -i --restart=Never --image=busybox:1.37 -- sh -c "sleep 5; wget -qO- -T 5 http://webshop.velo/healthz"
+kubectl -n velo run np-test --rm -i --restart=Never --image=busybox:1.37 -- sh -c "sleep 5; wget -qO- -T 5 http://webshop.velo/healthz"
+```
+
+Das `sleep 5` gibt dem Controller Zeit, den neuen Pod in seine Regeln aufzunehmen.
+
 ## Kustomize
 
 Die vier Dateien bilden die Vorlage in `templates/member`. Kustomize, in kubectl und Argo CD eingebaut, setzt daraus für jedes Mitglied die passenden Objekte zusammen, ohne die Vorlage zu kopieren.
@@ -116,6 +123,8 @@ kubectl -n argocd get applications
 
 Im Lab stand der Namespace `gemeinde` mit Quota, LimitRange und NetworkPolicy wenige Minuten nach dem Zusammenführen. Niemand hat dafür `kubectl apply` ausgeführt.
 
+Für Meilenstein 2 bekommt die Gemeinde die Grenzen aus deinen [persönlichen Werten](../../start/parameters/). Du ergänzt ihre Datei in einem zweiten Pull Request um einen Patch wie beim Veloatelier. Ein Patch darf mehrere Operationen enthalten, je eine Zeile `- op: replace` für `limits.cpu` und für `limits.memory`. Mit kleineren Grenzen stoppt der Test unten früher, im Lab mit 1 CPU schon nach vier Pods.
+
 ## An der Grenze
 
 Was die Quota bewirkt, zeigt ein Deployment, das zu viel will.
@@ -125,9 +134,10 @@ kubectl -n gemeinde create deployment fill --image=busybox:1.37 --replicas=12 --
 kubectl -n gemeinde get deployment fill
 kubectl -n gemeinde get events --field-selector reason=FailedCreate
 kubectl -n gemeinde delete deployment fill
+kubectl -n gemeinde wait --for=delete pod -l app=fill --timeout=60s
 ```
 
-Im Lab liefen 8 von 12 Pods. Jeder Pod bekam von der LimitRange ein Limit von `250m` CPU, nach acht Pods war die Quota von zwei CPU erreicht.
+Im Lab liefen mit den Werten der Vorlage 8 von 12 Pods. Jeder Pod bekam von der LimitRange ein Limit von `250m` CPU, nach acht Pods war die Quota von zwei CPU erreicht.
 
 ```text
 Error creating: pods "fill-56886798df-vjq4b" is forbidden: exceeded quota: member, requested: limits.cpu=250m, used: limits.cpu=2, limited: limits.cpu=2

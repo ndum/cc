@@ -52,6 +52,13 @@ Without a rule, every pod in the cluster can reach every other pod, across names
 
 `podSelector: {}` means all pods of the namespace. They only accept connections from pods in their own namespace and from `kube-system`, where Traefik runs. In the lab, a pod in the namespace `default` got "Connection refused" from the web shop, while a pod in `velo` reached it. A freshly started pod failed its first two requests, though. After a pod starts, the controller needs a few seconds to add its address to its rules.
 
+```bash
+kubectl -n default run np-test --rm -i --restart=Never --image=busybox:1.37 -- sh -c "sleep 5; wget -qO- -T 5 http://webshop.velo/healthz"
+kubectl -n velo run np-test --rm -i --restart=Never --image=busybox:1.37 -- sh -c "sleep 5; wget -qO- -T 5 http://webshop.velo/healthz"
+```
+
+The `sleep 5` gives the controller time to add the new pod to its rules.
+
 ## Kustomize
 
 The four files make up the template in `templates/member`. Kustomize, which is built into kubectl and Argo CD, assembles the right objects for each member from it without copying the template.
@@ -116,6 +123,8 @@ kubectl -n argocd get applications
 
 In the lab, the namespace `gemeinde` with its quota, LimitRange and NetworkPolicy was in place a few minutes after the merge. Nobody ran `kubectl apply` for it.
 
+For milestone 2 the municipality gets the limits from your [personal values](../../start/parameters/). In a second pull request you add a patch to its file as for the bike shop. One patch may hold several operations, one `- op: replace` each for `limits.cpu` and for `limits.memory`. With smaller limits the test below stops earlier, in the lab with 1 CPU already after four pods.
+
 ## At the limit
 
 A deployment that asks for too much shows what the quota does.
@@ -125,9 +134,10 @@ kubectl -n gemeinde create deployment fill --image=busybox:1.37 --replicas=12 --
 kubectl -n gemeinde get deployment fill
 kubectl -n gemeinde get events --field-selector reason=FailedCreate
 kubectl -n gemeinde delete deployment fill
+kubectl -n gemeinde wait --for=delete pod -l app=fill --timeout=60s
 ```
 
-In the lab, 8 of 12 pods ran. Each pod got a limit of `250m` CPU from the LimitRange, and after eight pods the quota of two CPUs was used up.
+In the lab, 8 of 12 pods ran with the values of the template. Each pod got a limit of `250m` CPU from the LimitRange, and after eight pods the quota of two CPUs was used up.
 
 ```text
 Error creating: pods "fill-56886798df-vjq4b" is forbidden: exceeded quota: member, requested: limits.cpu=250m, used: limits.cpu=2, limited: limits.cpu=2

@@ -16,7 +16,7 @@ Everything runs in your own lab with your personal parameters from chapter 0.3. 
 1. The two cluster VMs come from OpenTofu in your repo `platform`, `tofu plan` shows no changes afterwards, and the state is not in Git.
 2. k3s runs with a server, an agent and host-gw routing, and kubectl works from the front-end.
 3. Gitea runs on the front-end with the private repo `wolkenwerk/platform`, and Argo CD reads it with a read-only token.
-4. Argo CD rolls out the web shop from Git, and you show self-heal and a change through a pull request.
+4. Argo CD rolls out the web shop from Git, and you show self-heal and a change through Git.
 5. The namespaces `velo` and `gemeinde` come from the template with ResourceQuota, LimitRange and NetworkPolicy.
 6. The municipality's ResourceQuota uses your [personal values](../../start/parameters/) and arrives through a pull request.
 7. You show the quota at its limit and the separation of the namespaces by the NetworkPolicy, and the check `m2` is green.

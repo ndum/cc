@@ -62,7 +62,7 @@ The code of the platform lives in a repo of its own. Its template is `platform/r
 ```bash
 cp -r ~/cc/platform/repo ~/platform
 cd ~/platform/tofu
-ls
+ls -a
 ```
 
 The folder `tofu/` holds the configuration, split into files. OpenTofu reads every `.tf` file of a folder together, the split is only for clarity.
@@ -140,7 +140,7 @@ tofu state show 'opennebula_virtual_machine.k3s["k3s-server"]'
 tofu output
 ```
 
-`tofu state list` shows the three resources OpenTofu manages, and `tofu state show` lists every attribute of a VM as OpenNebula reports it. The state lives in `terraform.tfstate`. Open the file and you find the token in plain text. That is why the `.gitignore` of the repo excludes the state and the folder `.terraform`.
+`tofu state list` shows the three resources OpenTofu manages and the two data sources it only reads, and `tofu state show` lists every attribute of a VM as OpenNebula reports it. The state lives in `terraform.tfstate`. Open the file and you find the token in plain text. That is why the `.gitignore` of the repo excludes the state and the folder `.terraform`.
 
 ## Changing, replacing and rebuilding
 

@@ -16,7 +16,7 @@ Alles läuft in deinem eigenen Lab mit deinen persönlichen Parametern aus Kapit
 1. Die beiden VMs des Clusters entstehen mit OpenTofu aus deinem Repo `platform`, `tofu plan` zeigt danach keine Änderungen, und der State liegt nicht in Git.
 2. k3s läuft mit Server und Agent und dem Routing host-gw, kubectl arbeitet vom Front-end aus.
 3. Gitea läuft auf dem Front-end mit dem privaten Repo `wolkenwerk/platform`, Argo CD liest es mit einem Token, das nur lesen darf.
-4. Argo CD rollt den Webshop aus Git aus, du zeigst Self-Heal und eine Änderung über einen Pull Request.
+4. Argo CD rollt den Webshop aus Git aus, du zeigst Self-Heal und eine Änderung über Git.
 5. Die Namespaces `velo` und `gemeinde` entstehen aus der Vorlage mit ResourceQuota, LimitRange und NetworkPolicy.
 6. Die ResourceQuota der Gemeinde hat die Werte aus deinen [persönlichen Werten](../../start/parameters/) und kommt über einen Pull Request.
 7. Du zeigst die Quota an ihrer Grenze und die Trennung der Namespaces durch die NetworkPolicy, der Check `m2` ist grün.
