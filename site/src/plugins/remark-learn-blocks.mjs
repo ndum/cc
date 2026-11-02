@@ -8,6 +8,8 @@
  *   :::exercise[Level]                exercise, the label names the level
  *   :::selfcheck                      self-check questions
  *   :::solution[Optional title]       collapsible <details>, code allowed inside
+ *   :::selfhost[Optional title]       collapsed <details> with steps that only a lab on an own
+ *                                     hypervisor needs, so that smartlearn users can skip them
  *   :::tabs[Optional accessible name]
  *   ::tab{label="Template"}           starts a tab panel (leaf directive, no closing line)
  *   :::
@@ -39,6 +41,8 @@ const DEFAULT_LABELS = {
     files: 'Dateien',
     quiz: 'Test',
     question: 'Frage',
+    selfhost: 'Eigener Hypervisor',
+    selfhostHint: 'Auf smartlearn überspringst du diesen Teil.',
   },
   en: {
     assignment: 'Assignment',
@@ -52,6 +56,8 @@ const DEFAULT_LABELS = {
     files: 'Files',
     quiz: 'Test',
     question: 'Question',
+    selfhost: 'Own hypervisor',
+    selfhostHint: 'On smartlearn you skip this part.',
   },
 };
 
@@ -98,6 +104,7 @@ export default function remarkLearnBlocks(options = {}) {
       if (node.type === 'containerDirective') {
         if (node.name === 'tabs') return void transformTabs(node, file, t);
         if (node.name === 'solution') return void transformSolution(node, t);
+        if (node.name === 'selfhost') return void transformSelfhost(node, t);
         if (node.name === 'quiz') return void transformQuiz(node, file, t, `lt-box-${++boxCount}`);
         // transformQuiz already turned the questions of a quiz into boxes
         if (node.name === 'question') {
@@ -107,7 +114,7 @@ export default function remarkLearnBlocks(options = {}) {
         if (BOXES.has(node.name)) return void transformBox(node, t, `lt-box-${++boxCount}`);
         if (STARLIGHT_ASIDES.has(node.name)) return;
         file.fail(
-          `Unknown directive ":::${node.name}". Known: assignment, goals, deepdive, exercise, selfcheck, solution, ` +
+          `Unknown directive ":::${node.name}". Known: assignment, goals, deepdive, exercise, selfcheck, solution, selfhost, ` +
             `tabs, quiz (and Starlight's note, tip, caution, danger).`,
           node,
         );
@@ -192,6 +199,17 @@ function transformSolution(node, t) {
     data: { hName: 'summary' },
     // A solution's label already says what it is, so it replaces the kind word
     children: label ?? [{ type: 'text', value: t.solution }],
+  });
+}
+
+/** Steps for an own hypervisor stay closed, smartlearn users read the summary and move on */
+function transformSelfhost(node, t) {
+  const label = takeLabel(node);
+  node.data = { hName: 'details', hProperties: { className: ['lt-box', 'lt-selfhost'] } };
+  node.children.unshift({
+    type: 'ltTitle',
+    data: { hName: 'summary' },
+    children: titleChildren(t.selfhost, label ?? [{ type: 'text', value: t.selfhostHint }]),
   });
 }
 
