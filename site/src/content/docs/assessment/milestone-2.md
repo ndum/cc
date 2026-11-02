@@ -21,7 +21,7 @@ Alles läuft in deinem eigenen Lab mit deinen persönlichen Parametern aus Kapit
 6. Die ResourceQuota der Gemeinde hat die Grenzen aus deinen [persönlichen Werten](../../start/parameters/) und kommt über einen Pull Request.
 7. Du zeigst die Quota an ihrer Grenze und die Trennung der Namespaces durch die NetworkPolicy, der Check `m2` ist grün.
 
-Die Dokumentation zeigt zu jeder Anforderung einen Screenshot mit einem oder zwei Sätzen dazu und enthält den Bericht des Checks `m2`. Für den Pull Request genügt ein Screenshot aus Gitea mit dem Diff und dem Merge.
+Die Dokumentation zeigt zu jeder Anforderung einen Screenshot mit einem oder zwei Sätzen dazu und enthält den Bericht des Checks `m2`. Diesen Bericht erzeugt `python3 ~/cc/checks/check.py m2` auf dem Front-end. Für den Pull Request genügt ein Screenshot aus Gitea mit dem Diff und dem Merge.
 
 ## Zusatzaufträge
 

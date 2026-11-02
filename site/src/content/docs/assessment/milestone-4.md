@@ -21,7 +21,7 @@ Alles läuft in deinem eigenen Lab mit deinen persönlichen Parametern aus Kapit
 6. Du hast die VM aus ihrem Backup wiederhergestellt.
 7. Eine Tabelle nennt RPO und RTO der vier Mitglieder mit Begründung, wie in der Übung «RPO und RTO» in Kapitel 6.2, der Check `m4` ist grün.
 
-Die Dokumentation zeigt zu jeder Anforderung einen Screenshot mit einem oder zwei Sätzen dazu und enthält den Bericht des Checks `m4` und die Tabelle mit RPO und RTO. Für die Sicherung genügt die VM `praxis-1` aus Kapitel 6.2. Machst du Zusatzauftrag A, kann es stattdessen die VM deines eigenen Mitglieds sein.
+Die Dokumentation zeigt zu jeder Anforderung einen Screenshot mit einem oder zwei Sätzen dazu und enthält den Bericht des Checks `m4` und die Tabelle mit RPO und RTO. Den Bericht erzeugt `python3 ~/cc/checks/check.py m4` auf dem Front-end. Für die Sicherung genügt die VM `praxis-1` aus Kapitel 6.2. Machst du Zusatzauftrag A, kann es stattdessen die VM deines eigenen Mitglieds sein.
 
 ## Zusatzaufträge
 

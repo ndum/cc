@@ -21,7 +21,7 @@ Everything runs in your own lab with your personal parameters from chapter 0.3. 
 6. You have restored the VM from its backup.
 7. A table lists RPO and RTO of the four members with reasons, as in the exercise "RPO and RTO" in chapter 6.2, and the check `m4` is green.
 
-The documentation has a screenshot for each requirement with one or two sentences about it, plus the report of the check `m4` and the table of RPO and RTO. For the backup, the VM `praxis-1` from chapter 6.2 is enough. If you do advanced task A, it can be the VM of your own member instead.
+The documentation has a screenshot for each requirement with one or two sentences about it, plus the report of the check `m4`, which `python3 ~/cc/checks/check.py m4` writes on the front-end, and the table of RPO and RTO. For the backup, the VM `praxis-1` from chapter 6.2 is enough. If you do advanced task A, it can be the VM of your own member instead.
 
 ## Advanced tasks
 

@@ -143,7 +143,7 @@ kubectl get services -A
 kubectl top nodes
 ```
 
-In the lab both nodes were `Ready` about two minutes after `tofu apply`. The pods of CoreDNS, Traefik, local-path and metrics-server ran with addresses from `10.52.0.0/16`, and the services had addresses from `10.53.0.0/16`. Traefik was a service of type LoadBalancer on both VM addresses.
+In the lab both nodes were `Ready` half a minute to two minutes after `tofu apply`. The pods of CoreDNS, Traefik, local-path and metrics-server ran with addresses from `10.52.0.0/16`, and the services had addresses from `10.53.0.0/16`. Traefik was a service of type LoadBalancer on both VM addresses.
 
 A short test shows whether a pod on the agent can resolve names and reach the internet.
 
@@ -157,7 +157,7 @@ kubectl run test --rm -it --restart=Never --image=busybox:1.37 \
 Fetch the kubeconfig and show that both nodes are `Ready` and that pods on the agent resolve names. Note how long it takes from `tofu apply` to `Ready`.
 
 :::solution
-`kubectl get nodes` shows `k3s-server` with the role `control-plane` and `k3s-agent` without a role, both `Ready` with version `v1.36.5+k3s1`. The test pod resolves `kubernetes.default.svc.cluster.local` to `10.53.0.1` and loads the page. In the lab it took about two minutes, longer on slower nodes.
+`kubectl get nodes` shows `k3s-server` with the role `control-plane` and `k3s-agent` without a role, both `Ready` with version `v1.36.5+k3s1`. The test pod resolves `kubernetes.default.svc.cluster.local` to `10.53.0.1` and loads the page. In the lab it took half a minute to two minutes, longer on slower nodes.
 :::
 ::::
 
@@ -174,7 +174,7 @@ kubectl get replicasets,endpointslices
 Predict what happens to the number of pods, their names and addresses, the ReplicaSet and the service when you delete one of the pods with `kubectl delete pod <name>`. Check your prediction with the same commands, then clean up with `kubectl delete deployment,service uebung`. What would be different if the VM `k3s-agent` failed instead of the pod?
 
 :::solution
-The ReplicaSet now counts only one matching pod and creates a new one right away. Its name starts the same way, `uebung-` plus the ReplicaSet hash, but ends differently, and it has a new address, on the other node if the scheduler decides so. The ReplicaSet stays the same because the template has not changed. The service keeps its address and name, and in its EndpointSlice the new pod's address replaces the old one. If `k3s-agent` fails, `kubectl get nodes` shows it as `NotReady` in under a minute. After five minutes Kubernetes evicts its pods. They stay visible as `Terminating` until the node comes back, but the ReplicaSet starts replacements on `k3s-server` if its capacity covers the requests. If `k3s-server` fails instead, the pods on the agent keep running, but without the API server nothing replaces a pod.
+The ReplicaSet now counts only one matching pod and creates a new one right away. Still, `kubectl delete pod` only returns after about 30 seconds. `sleep` runs as the first process in the container and ignores the signal to stop, so Kubernetes waits for the grace period of 30 seconds. The new pod's name starts the same way, `uebung-` plus the ReplicaSet hash, but ends differently, and it has a new address, on the other node if the scheduler decides so. The ReplicaSet stays the same because the template has not changed. The service keeps its address and name, and in its EndpointSlice the new pod's address replaces the old one. If `k3s-agent` fails, `kubectl get nodes` shows it as `NotReady` in under a minute. After five minutes Kubernetes evicts its pods. They stay visible as `Terminating` until the node comes back, but the ReplicaSet starts replacements on `k3s-server` if its capacity covers the requests. If `k3s-server` fails instead, the pods on the agent keep running, but without the API server nothing replaces a pod.
 :::
 ::::
 

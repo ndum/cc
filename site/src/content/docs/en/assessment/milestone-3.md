@@ -21,7 +21,7 @@ Everything runs in your own lab with your personal parameters from chapter 0.3. 
 6. The web shop grows under load with the HPA up to your personal maximum and shrinks again, and you show the load test in the dashboard.
 7. A drawing of your own shows the path of a metric from the exporter to the dashboard and the path of an alert, and the check `m3` is green.
 
-The documentation has a screenshot for each requirement with one or two sentences about it, plus the report of the check `m3` and your drawing. Depending on the traffic of the last hour, the burn rate alert takes ten minutes or more. The HPA only shrinks after five minutes. Leave time for these waits when you take the screenshots.
+The documentation has a screenshot for each requirement with one or two sentences about it, plus the report of the check `m3`, which `python3 ~/cc/checks/check.py m3` writes on the front-end, and your drawing. Depending on the traffic of the last hour, the burn rate alert takes ten minutes or more. The HPA only shrinks after five minutes. Leave time for these waits when you take the screenshots.
 
 ## Advanced tasks
 

@@ -144,7 +144,7 @@ Argo CD first rolls out `root` and finds the application `webshop` in it, which 
 | `selfHeal: true` | whatever someone changes in the cluster by hand, Argo CD resets to the state in Git |
 | `CreateNamespace=true` | Argo CD creates the namespace if it is missing |
 
-In the lab, all applications were `Synced` and `Healthy` five seconds after the bootstrap. Here Argo CD polls Gitea every minute, as set by `timeout.reconciliation` in the values. Without that setting, the interval would be three minutes.
+In the lab, all applications were `Synced` and `Healthy` 5 to 15 seconds after the bootstrap. Here Argo CD polls Gitea every minute, as set by `timeout.reconciliation` in the values. Without that setting, the interval would be three minutes.
 
 ## Access from the client
 
@@ -167,7 +167,7 @@ kubectl -n velo delete deployment webshop
 kubectl -n velo get deployment webshop
 ```
 
-In the lab the deployment was back to two pods after about a second on the first try, and the deleted deployment returned after three seconds. If you repeat it, Argo CD waits a little longer each time, so that self-heal and a person do not take turns forever. A change through Git takes longer, because Argo CD only learns about it at its next poll.
+In the lab the deployment was back to two pods after about a second on the first try, and the deleted deployment returned after three seconds. Its pods only ran again after a good 40 seconds. A web shop pod takes 30 seconds to stop. The program ignores the signal to stop, so Kubernetes waits for the full grace period. Until then the old pods count against the quota of the namespace `velo` from chapter 4.5. After the test with four pods its 2 CPUs of limits are used up, and `kubectl -n velo get events` reports "exceeded quota". If you repeat it, Argo CD waits a little longer each time, so that self-heal and a person do not take turns forever. A change through Git takes longer, because Argo CD only learns about it at its next poll.
 
 ```bash
 cd ~/platform
@@ -176,13 +176,13 @@ git commit -am "Web shop with three pods for the season"
 git push
 ```
 
-In the lab the third pod was running one to a good two minutes after the push, because Argo CD polls every minute and shifts each poll by a random amount. A webhook from Gitea to Argo CD would trigger the sync at once. For the lab, polling every minute is enough.
+In the lab the third pod was running 40 seconds to a good two minutes after the push, because Argo CD polls every minute and shifts each poll by a random amount. A webhook from Gitea to Argo CD would trigger the sync at once. For the lab, polling every minute is enough.
 
 ::::exercise[Lab]
 Install Gitea, create the repo, roll out Argo CD and open the web shop and Argo CD in the browser of the client. Change the number of pods through Git.
 
 :::solution
-`kubectl -n argocd get applications` shows `root`, `webshop` and `member-velo` as `Synced` and `Healthy`. `member-velo` already comes with the first push, chapter 4.5 explains it. The web shop shows the bikes and, at the bottom, the name of the pod that answered. After a push with `replicas: 3`, `kubectl -n velo get pods` shows three pods within one or two minutes, and Argo CD shows the new commit on the application.
+`kubectl -n argocd get applications` shows `root`, `webshop` and `member-velo` as `Synced` and `Healthy`. `member-velo` already comes with the first push, chapter 4.5 explains it. The web shop shows the bikes and, at the bottom, the name of the pod that answered. After a push with `replicas: 3`, `kubectl -n velo get pods` shows three pods after a good two minutes at most, and Argo CD shows the new commit on the application.
 :::
 ::::
 

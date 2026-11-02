@@ -21,7 +21,7 @@ Alles läuft in deinem eigenen Lab mit deinen persönlichen Parametern aus Kapit
 6. Der Webshop wächst unter Last mit dem HPA bis zu deiner persönlichen Obergrenze und schrumpft wieder, du zeigst den Lasttest im Dashboard.
 7. Eine eigene Zeichnung zeigt den Weg einer Metrik vom Exporter bis ins Dashboard und den Weg eines Alerts, der Check `m3` ist grün.
 
-Die Dokumentation zeigt zu jeder Anforderung einen Screenshot mit einem oder zwei Sätzen dazu und enthält den Bericht des Checks `m3` und deine Zeichnung. Der Alert nach Burn Rate braucht je nach Verkehr der letzten Stunde zehn Minuten oder mehr. Der HPA schrumpft erst nach fünf Minuten. Plane diese Wartezeiten für die Screenshots ein.
+Die Dokumentation zeigt zu jeder Anforderung einen Screenshot mit einem oder zwei Sätzen dazu und enthält den Bericht des Checks `m3` und deine Zeichnung. Den Bericht erzeugt `python3 ~/cc/checks/check.py m3` auf dem Front-end. Der Alert nach Burn Rate braucht je nach Verkehr der letzten Stunde zehn Minuten oder mehr. Der HPA schrumpft erst nach fünf Minuten. Plane diese Wartezeiten für die Screenshots ein.
 
 ## Zusatzaufträge
 

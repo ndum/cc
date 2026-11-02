@@ -86,7 +86,7 @@ A protected branch turns the review into a rule that Gitea enforces itself, in t
 
 A review needs a second person. In Gitea, the author of a pull request cannot approve it. In the lab you play both roles, so you need a second account with write access. Since nobody can sign up on their own, an administrator creates it.
 
-The account `platform` is the administrator of your Gitea and owns the organization `wolkenwerk`. Repository administrators can merge a pull request without the required approvals with "Force merge", unless the setting "Administrators must follow branch protection rules" is turned on. Whether the platform team keeps this back door is a trade-off.
+The account `platform` is the administrator of your Gitea and owns the organization `wolkenwerk`. Repository administrators can merge a pull request even without the required approvals, unless the setting "Administrators must follow branch protection rules" is turned on. Gitea 28 also has a list of accounts that may bypass the rule, "Allow selected users or teams to bypass branch protection". The setting for administrators does not restrict these accounts. Whether the platform team keeps such back doors is a trade-off.
 
 The protection also applies in an emergency. If the web shop fails on a Saturday and the fix waits for a review, the outage lasts longer. Teams therefore often keep a documented emergency path that they use rarely and review afterwards. The course asks for the same kind of trade-off. Parts 5 and 6 send changes straight to `main` with `git push`. With a protected branch they can only go through pull requests or through an exception you define yourself. Argo CD only reads the repo and does not notice the protection.
 

@@ -143,7 +143,7 @@ kubectl get services -A
 kubectl top nodes
 ```
 
-Im Lab waren beide Nodes etwa zwei Minuten nach `tofu apply` `Ready`. Die Pods von CoreDNS, Traefik, local-path und metrics-server liefen mit Adressen aus `10.52.0.0/16`, die Services hatten Adressen aus `10.53.0.0/16`. Traefik stand als Service vom Typ LoadBalancer auf beiden Adressen der VMs.
+Im Lab waren beide Nodes eine halbe bis zwei Minuten nach `tofu apply` `Ready`. Die Pods von CoreDNS, Traefik, local-path und metrics-server liefen mit Adressen aus `10.52.0.0/16`, die Services hatten Adressen aus `10.53.0.0/16`. Traefik stand als Service vom Typ LoadBalancer auf beiden Adressen der VMs.
 
 Ein kurzer Test zeigt, ob ein Pod auf dem Agent Namen auflösen und ins Internet kann.
 
@@ -157,7 +157,7 @@ kubectl run test --rm -it --restart=Never --image=busybox:1.37 \
 Hole die kubeconfig und zeige, dass beide Nodes `Ready` sind und Pods auf dem Agent Namen auflösen. Notiere, wie lange es von `tofu apply` bis `Ready` dauert.
 
 :::solution
-`kubectl get nodes` zeigt `k3s-server` mit der Rolle `control-plane` und `k3s-agent` ohne Rolle, beide `Ready` mit der Version `v1.36.5+k3s1`. Der Test-Pod löst `kubernetes.default.svc.cluster.local` zu `10.53.0.1` auf und lädt die Seite. Im Lab dauerte es etwa zwei Minuten, auf langsameren Knoten länger.
+`kubectl get nodes` zeigt `k3s-server` mit der Rolle `control-plane` und `k3s-agent` ohne Rolle, beide `Ready` mit der Version `v1.36.5+k3s1`. Der Test-Pod löst `kubernetes.default.svc.cluster.local` zu `10.53.0.1` auf und lädt die Seite. Im Lab dauerte es eine halbe bis zwei Minuten, auf langsameren Knoten länger.
 :::
 ::::
 
@@ -174,7 +174,7 @@ kubectl get replicasets,endpointslices
 Sag voraus, was mit der Zahl der Pods, ihren Namen und Adressen, dem ReplicaSet und dem Service geschieht, wenn du einen der Pods mit `kubectl delete pod <name>` löschst. Prüfe deine Vorhersage mit denselben Befehlen und räume danach mit `kubectl delete deployment,service uebung` auf. Was wäre anders, wenn statt des Pods die VM `k3s-agent` ausfiele?
 
 :::solution
-Das ReplicaSet zählt nur noch einen passenden Pod und legt sofort einen neuen an. Der Name des neuen Pods beginnt wieder mit `uebung-` und dem Hash des ReplicaSets, endet aber anders. Auch seine Adresse ist neu. Je nach Entscheid des Schedulers läuft er auf dem anderen Node. Das ReplicaSet bleibt dasselbe, weil sich die Vorlage nicht geändert hat. Der Service behält Adresse und Namen, in seiner EndpointSlice ersetzt die Adresse des neuen Pods die alte. Fällt `k3s-agent` aus, zeigt `kubectl get nodes` ihn nach weniger als einer Minute als `NotReady`. Nach fünf Minuten räumt Kubernetes seine Pods. Sie bleiben als `Terminating` sichtbar, bis der Node zurück ist, aber das ReplicaSet startet Ersatz auf `k3s-server`, wenn dessen Kapazität für die Requests reicht. Fällt dagegen `k3s-server` aus, laufen die Pods auf dem Agent weiter, doch ohne API-Server ersetzt niemand einen Pod.
+Das ReplicaSet zählt nur noch einen passenden Pod und legt sofort einen neuen an. `kubectl delete pod` kehrt trotzdem erst nach etwa 30 Sekunden zurück. `sleep` läuft als erster Prozess im Container und reagiert nicht auf das Signal zum Beenden, darum wartet Kubernetes die Frist von 30 Sekunden ab. Der Name des neuen Pods beginnt wieder mit `uebung-` und dem Hash des ReplicaSets, endet aber anders. Auch seine Adresse ist neu. Je nach Entscheid des Schedulers läuft er auf dem anderen Node. Das ReplicaSet bleibt dasselbe, weil sich die Vorlage nicht geändert hat. Der Service behält Adresse und Namen, in seiner EndpointSlice ersetzt die Adresse des neuen Pods die alte. Fällt `k3s-agent` aus, zeigt `kubectl get nodes` ihn nach weniger als einer Minute als `NotReady`. Nach fünf Minuten räumt Kubernetes seine Pods. Sie bleiben als `Terminating` sichtbar, bis der Node zurück ist, aber das ReplicaSet startet Ersatz auf `k3s-server`, wenn dessen Kapazität für die Requests reicht. Fällt dagegen `k3s-server` aus, laufen die Pods auf dem Agent weiter, doch ohne API-Server ersetzt niemand einen Pod.
 :::
 ::::
 

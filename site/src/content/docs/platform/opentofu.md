@@ -40,7 +40,7 @@ onehost list
 Hast du im Zusatzkapitel 3.5 den Dienst der Treuhand gestartet, entfernst du ihn zuerst, sonst startet OneFlow seine VM gleich wieder. Danach beendet die Schleife jede VM, die `onevm list` zeigt, egal wie du sie in den Teilen 2 und 3 genannt hast. `oneadmin` darf die VMs aller Mitglieder beenden. Am Ende zeigt `onehost list` auf beiden Knoten `0K / 7.2G`.
 
 :::note[Zusatzaufträge von Meilenstein 1 live zeigen]
-Die Basis von Meilenstein 1 belegst du mit der Dokumentation, dafür brauchst du die alten VMs nicht mehr. Wer die Zusatzaufträge von Meilenstein 1 im Unterricht live zeigt statt im Screencast, nimmt den Cluster für die Vorführung von den Knoten. `onevm undeploy k3s-server` und `onevm undeploy k3s-agent` stoppen die VMs und geben Speicher und CPU frei, ihre Disks bleiben erhalten. Danach startest du die VMs, die du für die Zusatzaufträge brauchst, mit den Befehlen aus Teil 3 neu, zeigst die Aufträge und beendest die VMs wieder. `onevm resume` bringt den Cluster zurück. Im Lab dauerte `undeploy` knapp zwei Minuten, nach `resume` antwortete der Webshop aus Kapitel 4.4 nach etwa 45 Sekunden wieder. `onevm poweroff` reicht dafür nicht, weil eine ausgeschaltete VM ihren Platz auf dem Knoten behält.
+Die Basis von Meilenstein 1 belegst du mit der Dokumentation, dafür brauchst du die alten VMs nicht mehr. Wer die Zusatzaufträge von Meilenstein 1 im Unterricht live zeigt statt im Screencast, nimmt den Cluster für die Vorführung von den Knoten. `onevm undeploy k3s-server` und `onevm undeploy k3s-agent` stoppen die VMs und geben Speicher und CPU frei, ihre Disks bleiben erhalten. Danach startest du die VMs, die du für die Zusatzaufträge brauchst, mit den Befehlen aus Teil 3 neu, zeigst die Aufträge und beendest die VMs wieder. `onevm resume` bringt den Cluster zurück. Im Lab dauerte `undeploy` knapp zwei Minuten, nach `resume` antwortete der Webshop aus Kapitel 4.4 nach etwa 45 Sekunden wieder. Argo CD zeigte die Application `root` danach noch gut drei Minuten als `Degraded`, weil das ApplicationSet `members` beim Start das Repo nicht lesen konnte. Der Repo-Server von Argo CD lief da noch nicht, danach erholte sich das ApplicationSet von selbst. `onevm poweroff` reicht dafür nicht, weil eine ausgeschaltete VM ihren Platz auf dem Knoten behält.
 :::
 
 ## Werkzeuge
@@ -162,6 +162,8 @@ Plan: 0 to add, 1 to change, 0 to destroy.
 ```bash
 tofu apply -replace='opennebula_virtual_machine.k3s["k3s-agent"]'
 ```
+
+Im Lab dauerte das knapp zwei Minuten, weil OpenNebula die alte VM zuerst herunterfährt. War der alte Agent dem Cluster schon beigetreten, lehnt der Server den neuen ab. k3s merkt sich für jeden Namen eines Nodes ein Passwort, das die neue VM nicht kennt. Der neue Agent meldet dann «Node password rejected, duplicate hostname» und bleibt `NotReady`. Lösche in diesem Fall den alten Node mit `kubectl delete node k3s-agent`, sobald kubectl aus Kapitel 4.3 läuft. Im Lab trat der neue Agent danach innert Sekunden bei.
 
 Ob der Code alles beschreibt, zeigt erst ein ganzer Neubau. `tofu destroy` löscht alles, was im State steht, `tofu apply` baut es wieder auf. Für den leeren Cluster von Teil 4 dauerte das im Lab etwa zwei Minuten. Die Basis verlangt nur die VMs aus OpenTofu und einen Plan ohne Änderungen. Den Neubau der ganzen Plattform planst und misst du im Zusatzauftrag A in [Kapitel 4.6](../advanced/#auftrag-a--neubau-der-plattform). Wie das Startskript Kubernetes installiert, zeigt Kapitel 4.3.
 

@@ -36,7 +36,7 @@ A ResourceQuota limits what all pods of a namespace may request together.
 
 ::code{file="platform/repo/templates/member/resourcequota.yaml"}
 
-Requests are what the scheduler reserves for a container, like the `CPU` column of a VM in OpenNebula. Limits are the ceiling a container never exceeds. One CPU is one core, and `250m` is a quarter of it. `services.nodeports: "0"` stops members from opening their own ports on the nodes. Their way out is the ingress.
+Requests are what the scheduler reserves for a container, like the `CPU` column of a VM in OpenNebula. Limits are the ceiling a container never exceeds. One CPU is one core, and `250m` is a quarter of it. `services.nodeports: "0"` and `services.loadbalancers: "0"` stop members from opening their own ports on the nodes. Without the second line, ServiceLB opened a port on both nodes in the lab for a service of type LoadBalancer without a node port. The members' way out is the ingress.
 
 ## LimitRange
 
@@ -123,7 +123,7 @@ kubectl get namespace gemeinde
 kubectl -n argocd get applications
 ```
 
-In the lab, the namespace `gemeinde` with its quota, LimitRange and NetworkPolicy was in place a few minutes after the merge. Nobody ran `kubectl apply` for it.
+In the lab, the namespace `gemeinde` with its quota, LimitRange and NetworkPolicy was in place ten seconds after the merge. Since the ApplicationSet only looks once a minute, it can also take a good minute. Nobody ran `kubectl apply` for it.
 
 For milestone 2 the municipality gets the limits from your [personal values](../../start/parameters/). In a second pull request you add a patch to its file as for the bike shop. One patch may hold several operations, one `- op: replace` each for `limits.cpu` and for `limits.memory`. With smaller limits the test below stops earlier, in the lab with 1 CPU already after four pods.
 
@@ -147,11 +147,19 @@ Error creating: pods "fill-56886798df-vjq4b" is forbidden: exceeded quota: membe
 
 As with the quota in OpenNebula, the other members are not affected. The bike shop's web shop keeps running, whatever the municipality starts.
 
+## The check of part 4
+
+The check of this part tests the three tools and the two VMs in the OpenTofu state, the cluster with the addresses of its pods, Gitea with the repo, the applications in Argo CD, the web shop behind Traefik and the member namespaces with their quota, LimitRange and NetworkPolicy. Run it on the front-end once the municipality's namespace is in place.
+
+```bash
+python3 ~/cc/checks/check.py platform
+```
+
 ::::exercise[Lab]
-Roll out the template for the bike shop, request the municipality's namespace as a pull request and accept it. Show the quota at its limit and the separation by the NetworkPolicy.
+Roll out the template for the bike shop, request the municipality's namespace as a pull request and accept it. Show the quota at its limit and the separation by the NetworkPolicy. Finally run the check `platform` and add its report to your hand-in repo.
 
 :::solution
-`kubectl -n argocd get applications` shows `member-velo` and `member-gemeinde` as `Synced` and `Healthy`. `kubectl -n velo describe resourcequota member` shows `requests.cpu` with a limit of 2, while the municipality has the template's limit of 1. The deployment `fill` stops at 8 pods. A test pod in `gemeinde` gets "Connection refused" from the web shop in `velo`.
+`kubectl -n argocd get applications` shows `member-velo` and `member-gemeinde` as `Synced` and `Healthy`. `kubectl -n velo describe resourcequota member` shows `requests.cpu` with a limit of 2, while the municipality has the template's limit of 1. With the values of the template the deployment `fill` stops at 8 pods, with the limits from your personal values at 4 or 6 pods. A test pod in `gemeinde` gets "Connection refused" from the web shop in `velo`. The check ends with "19 of 19 base checks passed".
 :::
 ::::
 

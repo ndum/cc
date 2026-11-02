@@ -40,7 +40,7 @@ onehost list
 If you started the fiduciary office's service in the advanced chapter 3.5, remove it first, otherwise OneFlow starts its VM again right away. Then the loop terminates every VM that `onevm list` shows, whatever names you gave them in parts 2 and 3. `oneadmin` may terminate the VMs of every member. At the end, `onehost list` shows `0K / 7.2G` on both nodes.
 
 :::note[Showing the advanced tasks of milestone 1 live]
-You prove the base of milestone 1 with the documentation, so you no longer need the old VMs for it. If you show the advanced tasks of milestone 1 live in class instead of in a screencast, take the cluster off the nodes for the demo. `onevm undeploy k3s-server` and `onevm undeploy k3s-agent` stop the VMs and release their memory and CPU while keeping their disks. Then you start the VMs the advanced tasks need with the commands of part 3, show the tasks and terminate the VMs again. `onevm resume` brings the cluster back. In the lab, `undeploy` took a little under two minutes, and after `resume` the web shop of chapter 4.4 answered again after about 45 seconds. `onevm poweroff` is not enough, because a VM that is powered off keeps its place on the node.
+You prove the base of milestone 1 with the documentation, so you no longer need the old VMs for it. If you show the advanced tasks of milestone 1 live in class instead of in a screencast, take the cluster off the nodes for the demo. `onevm undeploy k3s-server` and `onevm undeploy k3s-agent` stop the VMs and release their memory and CPU while keeping their disks. Then you start the VMs the advanced tasks need with the commands of part 3, show the tasks and terminate the VMs again. `onevm resume` brings the cluster back. In the lab, `undeploy` took a little under two minutes, and after `resume` the web shop of chapter 4.4 answered again after about 45 seconds. Argo CD then showed the application `root` as `Degraded` for a good three minutes, because the ApplicationSet `members` could not read the repo at startup. The repo server of Argo CD was not running yet, and the ApplicationSet recovered by itself afterwards. `onevm poweroff` is not enough, because a VM that is powered off keeps its place on the node.
 :::
 
 ## Tools
@@ -162,6 +162,8 @@ Plan: 0 to add, 1 to change, 0 to destroy.
 ```bash
 tofu apply -replace='opennebula_virtual_machine.k3s["k3s-agent"]'
 ```
+
+In the lab this took a little under two minutes, because OpenNebula shuts the old VM down first. If the old agent had already joined the cluster, the server turns the new one away. k3s keeps a password for every node name, and the new VM does not know it. The new agent then logs "Node password rejected, duplicate hostname" and stays `NotReady`. In that case delete the old node with `kubectl delete node k3s-agent` once kubectl works after chapter 4.3. In the lab the new agent joined within seconds after that.
 
 Only a full rebuild shows whether the code describes everything. `tofu destroy` deletes everything in the state, and `tofu apply` builds it again. For the empty cluster of part 4 this took about two minutes in the lab. The base only asks for the VMs from OpenTofu and a plan without changes. Planning and timing a rebuild of the whole platform is advanced task A in [chapter 4.6](../advanced/#task-a--rebuilding-the-platform). Chapter 4.3 shows how the start script installs Kubernetes.
 

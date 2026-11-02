@@ -11,4 +11,6 @@ spec:
     limits.memory: 2Gi
     pods: "10"
     services.nodeports: "0"
+    # ServiceLB of k3s would open the port of a LoadBalancer service on every node, even without a node port
+    services.loadbalancers: "0"
     persistentvolumeclaims: "2"

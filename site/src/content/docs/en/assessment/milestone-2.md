@@ -21,7 +21,7 @@ Everything runs in your own lab with your personal parameters from chapter 0.3. 
 6. The municipality's ResourceQuota uses your [personal values](../../start/parameters/) and arrives through a pull request.
 7. You show the quota at its limit and the separation of the namespaces by the NetworkPolicy, and the check `m2` is green.
 
-The documentation has a screenshot for each requirement with one or two sentences about it, plus the report of the check `m2`. For a pull request, a screenshot from Gitea with the diff and the merge is enough.
+The documentation has a screenshot for each requirement with one or two sentences about it, plus the report of the check `m2`, which `python3 ~/cc/checks/check.py m2` writes on the front-end. For a pull request, a screenshot from Gitea with the diff and the merge is enough.
 
 ## Advanced tasks
 

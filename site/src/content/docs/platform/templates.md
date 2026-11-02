@@ -36,7 +36,7 @@ Eine ResourceQuota begrenzt, was alle Pods eines Namespaces zusammen anfordern d
 
 ::code{file="platform/repo/templates/member/resourcequota.yaml"}
 
-Requests sind, was der Scheduler für einen Container reserviert, wie die Spalte `CPU` einer VM in OpenNebula. Limits sind die Obergrenze, die ein Container nie überschreitet. Eine CPU entspricht einem Kern, `250m` einem Viertel davon. `services.nodeports: "0"` verbietet Mitgliedern, eigene Ports auf den Nodes zu öffnen. Ihr Weg nach aussen ist der Ingress.
+Requests sind, was der Scheduler für einen Container reserviert, wie die Spalte `CPU` einer VM in OpenNebula. Limits sind die Obergrenze, die ein Container nie überschreitet. Eine CPU entspricht einem Kern, `250m` einem Viertel davon. `services.nodeports: "0"` und `services.loadbalancers: "0"` verbieten Mitgliedern, eigene Ports auf den Nodes zu öffnen. Ohne die zweite Zeile öffnete ServiceLB im Lab für einen Service vom Typ LoadBalancer ohne NodePort trotzdem einen Port auf beiden Nodes. Der Weg der Mitglieder nach aussen ist der Ingress.
 
 ## LimitRange
 
@@ -123,7 +123,7 @@ kubectl get namespace gemeinde
 kubectl -n argocd get applications
 ```
 
-Im Lab stand der Namespace `gemeinde` mit Quota, LimitRange und NetworkPolicy wenige Minuten nach dem Zusammenführen. Niemand hat dafür `kubectl apply` ausgeführt.
+Im Lab stand der Namespace `gemeinde` mit Quota, LimitRange und NetworkPolicy zehn Sekunden nach dem Zusammenführen. Weil das ApplicationSet nur jede Minute nachschaut, kann es auch eine gute Minute dauern. Niemand hat dafür `kubectl apply` ausgeführt.
 
 Für Meilenstein 2 bekommt die Gemeinde die Grenzen aus deinen [persönlichen Werten](../../start/parameters/). Du ergänzt ihre Datei in einem zweiten Pull Request um einen Patch wie beim Veloatelier. Ein Patch darf mehrere Operationen enthalten, je eine Zeile `- op: replace` für `limits.cpu` und für `limits.memory`. Mit kleineren Grenzen stoppt der Test unten früher, im Lab mit 1 CPU schon nach vier Pods.
 
@@ -147,11 +147,19 @@ Error creating: pods "fill-56886798df-vjq4b" is forbidden: exceeded quota: membe
 
 Wie bei der Quota in OpenNebula bleiben die anderen Mitglieder unberührt. Der Webshop des Veloateliers läuft weiter, egal was die Gemeinde startet.
 
+## Der Check von Teil 4
+
+Der Check dieses Teils prüft die drei Werkzeuge und die zwei VMs im State von OpenTofu. Dazu kommen der Cluster mit den Adressen der Pods, Gitea mit dem Repo, die Applications in Argo CD, der Webshop hinter Traefik und die Namespaces der Mitglieder mit Quota, LimitRange und NetworkPolicy. Starte ihn auf dem Front-end, sobald der Namespace der Gemeinde steht.
+
+```bash
+python3 ~/cc/checks/check.py platform
+```
+
 ::::exercise[Lab]
-Rolle die Vorlage für das Veloatelier aus, beantrage den Namespace der Gemeinde als Pull Request und nimm ihn an. Zeige die Quota an ihrer Grenze und die Trennung durch die NetworkPolicy.
+Rolle die Vorlage für das Veloatelier aus, beantrage den Namespace der Gemeinde als Pull Request und nimm ihn an. Zeige die Quota an ihrer Grenze und die Trennung durch die NetworkPolicy. Lass zum Schluss den Check `platform` laufen und lade seinen Bericht in dein Abgabe-Repo.
 
 :::solution
-`kubectl -n argocd get applications` zeigt `member-velo` und `member-gemeinde` als `Synced` und `Healthy`. `kubectl -n velo describe resourcequota member` zeigt `requests.cpu` mit der Grenze 2, die Gemeinde hat die Grenze 1 der Vorlage. Das Deployment `fill` bleibt bei 8 Pods stehen. Ein Test-Pod in `gemeinde` bekommt vom Webshop in `velo` «Connection refused».
+`kubectl -n argocd get applications` zeigt `member-velo` und `member-gemeinde` als `Synced` und `Healthy`. `kubectl -n velo describe resourcequota member` zeigt `requests.cpu` mit der Grenze 2, die Gemeinde hat die Grenze 1 der Vorlage. Mit den Werten der Vorlage bleibt das Deployment `fill` bei 8 Pods stehen, mit den Limits aus deinen persönlichen Werten bei 4 oder 6 Pods. Ein Test-Pod in `gemeinde` bekommt vom Webshop in `velo` «Connection refused». Der Check endet mit «19 von 19 Prüfungen der Basis erfüllt».
 :::
 ::::
 
