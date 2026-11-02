@@ -6,7 +6,7 @@ sidebar:
   order: 6
 ---
 
-Use this grid to judge whether you can build your platform from code and explain it. Read each row and solve the task next to it without looking anything up. If it comes easily, you have reached the goal. If not, the link in the last column takes you to the right place. Within the Swiss framework curriculum, part 4 mainly serves the competences B12.3 (target configurations), B12.4 (configuration management) and B14.1 (introducing software and releases), and with the web shop it prepares part 5.
+Use this grid to judge whether you can build your platform from code and explain it. Read each row and solve the task next to it without looking anything up. If it comes easily, you have reached the goal. If not, the link in the last column takes you to the right place. Within the Swiss framework curriculum, part 4 mainly serves the competences B12.3 (target configurations), B12.4 (configuration management) and B14.1 (introducing software and releases). With the web shop it also prepares part 5.
 
 | I can … | Task | Look up |
 |---|---|---|

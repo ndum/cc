@@ -28,11 +28,11 @@ The service models describe which part of the stack, from the hardware up to the
 | Platform as a Service (PaaS) | additionally the operating system, runtime and tools | application and data | the Kubernetes platform to which the bike shop deploys its web shop |
 | Software as a Service (SaaS) | the finished application | only their data and settings | the local language model as a service with an API |
 
-With every step the provider takes on more work, and the users give up more control. The practice can set up a VM from IaaS any way it likes, but it has to take care of operating system updates itself. On a PaaS the platform team takes care of that, and in return it decides which runtimes and versions are available.
+With every step the provider takes on more work, and the users give up more control. The practice can set up a VM from IaaS any way it likes, but it has to take care of operating system updates itself. On a PaaS the platform team handles these updates, and in return it decides which runtimes and versions are available.
 
 ## Shared responsibility
 
-The figure shows the layers of an IT service and who runs them in each model. This picture is called the shared responsibility model. Data and the access to it stay with the users in every model. Even when an application comes as SaaS, the users decide who sees which data in it.
+The figure shows the layers of an IT service and who runs them in each model. This split is called the shared responsibility model. Data and the access to it stay with the users in every model. Even when an application comes as SaaS, the users decide who sees which data in it.
 
 ![Shared responsibility in the service models. Four columns for running it yourself, IaaS, PaaS and SaaS show nine layers from network and hardware up to data and access. Running it yourself, the users operate every layer. With IaaS the provider takes over network, storage, servers and virtualization, with PaaS also the operating system, middleware and runtime, with SaaS the application as well. Data and access always stay with the users.](../../../../assets/figures/en/p1c2-responsibility.svg)
 
@@ -47,11 +47,11 @@ The deployment models describe who may use a cloud and who owns it.
 | Public cloud | the public, all customers of a provider | large providers with data centers on several continents |
 | Hybrid cloud | one organization combining two or more of these models | an own private cloud that adds resources from a public cloud at peak times |
 
-Wolkenwerk Bern is a community cloud. The members share one infrastructure because they have similar requirements. They want their data in Switzerland and under their own control, and none of them could run such a cloud alone. Technically a community cloud looks like a private cloud. The difference is that several organizations use it together and decide about it together.
+Wolkenwerk Bern is a community cloud. The members share one infrastructure because they have similar requirements. They want their data in Switzerland and under their own control, and none of them could run such a cloud alone. Technically a community cloud looks like a private cloud. The difference is that several organizations use it and govern it together.
 
 ## Public clouds
 
-Public clouds offer hundreds of services worldwide, available at once and billed by usage. For many organizations they are the easiest way into the cloud. This course deliberately does not rebuild a public cloud. It shows how the services underneath work by having you run them yourself. Once you have built a cloud of your own, you also understand the offerings of the large providers better, what they can do and where their limits are.
+Public clouds offer hundreds of services worldwide, available at once and billed by usage. For many organizations they are the easiest way into the cloud. This course deliberately does not rebuild a public cloud. You get to know the services underneath by running them yourself. Once you have built a cloud of your own, you can better judge what the offerings of the large providers can do and where their limits are.
 
 ::::exercise[Responsibility]
 Praxis Rosenweg gets a VM from OpenNebula from Wolkenwerk Bern and runs its practice software on it. Who is responsible for each of the following, the practice or the platform team?
@@ -75,6 +75,6 @@ Praxis Rosenweg gets a VM from OpenNebula from Wolkenwerk Bern and runs its prac
 Gemeinde Hinterbüel asks whether Wolkenwerk Bern is a public cloud. Answer in three sentences and name the right deployment model with a reason.
 
 :::solution
-No, Wolkenwerk Bern is not open to the public, only to the members of the cooperative. Since several organizations with shared requirements use and carry it together, it is a community cloud. Technically it works like a private cloud.
+No, the cloud of Wolkenwerk Bern is open only to the members of the cooperative. Since several organizations with shared requirements use and support it together, it is a community cloud. Technically it works like a private cloud.
 :::
 ::::

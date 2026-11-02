@@ -4,20 +4,20 @@ description: Der Auftrag des vierten Meilensteins mit den sieben Anforderungen d
 ---
 
 :::assignment
-«Die fünfte Organisation hat ja gesagt», schreibt Simone Wyss. «Jetzt brauchen wir alles, was der Vorstand verlangt hat. Eine Einschätzung des Schutzbedarfs, ein SLA, einen Preis, und dass sie sicher und mit Backup auf unserer Plattform läuft. Und wenn bei ihr etwas schiefgeht, will ich danach einen ehrlichen Bericht.»
+«Die fünfte Organisation hat ja gesagt», schreibt Simone Wyss. «Jetzt brauchen wir alles, was der Vorstand verlangt hat. Eine Einschätzung des Schutzbedarfs, ein SLA und einen Preis. Sie soll sicher und mit Backup auf unserer Plattform laufen. Und wenn bei ihr etwas schiefgeht, will ich danach einen ehrlichen Bericht.»
 :::
 
 Meilenstein 4 umfasst Teil 6. In der Basis härtest du die Plattform, sicherst Cluster und VMs, stellst eine VM wieder her und legst RPO und RTO der vier Mitglieder fest. In den Zusatzaufträgen entwirfst du ein fünftes Mitglied von Wolkenwerk Bern selbst, bringst es auf deine Plattform, gibst ihm ein SLA und einen Preis und schreibst nach einem Vorfall ein Postmortem. Meilenstein 4 ist eine Einzelarbeit und gehört mit Meilenstein 3 zur Abgabe 2.
 
 ## Basis
 
-Alles läuft in deinem eigenen Lab mit deinen persönlichen Parametern aus Kapitel 0.3. Die Basis verlangt sieben Anforderungen.
+Alles läuft in deinem eigenen Lab mit deinen persönlichen Parametern aus Kapitel 0.3. Die Basis umfasst sieben Anforderungen.
 
-1. Das Front-end ist mit der Firewall gehärtet, und SSH nimmt nur noch Schlüssel an.
+1. Das Front-end ist mit der Firewall gehärtet, SSH nimmt nur noch Schlüssel an.
 2. Das Passwort von Grafana kommt als SealedSecret aus Git.
-3. Die Namespaces der Mitglieder laufen mit dem Profil `restricted` der Pod Security, und du zeigst einen abgewiesenen Pod.
-4. Der Cluster k3s läuft mit etcd und Snapshots und ein Timer kopiert die Snapshots auf das Front-end.
-5. Der Backup-Datastore ist angelegt, und ein Backup-Job sichert eine VM jede Nacht zur Zeit aus deinen [persönlichen Werten](../../start/parameters/) und behält so viele Backups, wie sie verlangen.
+3. Die Namespaces der Mitglieder laufen mit dem Profil `restricted` der Pod Security, du zeigst einen abgewiesenen Pod.
+4. Der Cluster k3s läuft mit etcd und Snapshots, ein Timer kopiert die Snapshots auf das Front-end.
+5. Der Backup-Datastore ist angelegt. Ein Backup-Job sichert eine VM jede Nacht zur Zeit aus deinen [persönlichen Werten](../../start/parameters/) und behält so viele Backups, wie sie verlangen.
 6. Du hast die VM aus ihrem Backup wiederhergestellt.
 7. Eine Tabelle nennt RPO und RTO der vier Mitglieder mit Begründung, wie in der Übung «RPO und RTO» in Kapitel 6.2, der Check `m4` ist grün.
 
@@ -29,9 +29,9 @@ Für die drei Zusatzaufträge rechnest du mit vier bis sechs Stunden. Jeder gibt
 
 ### A · Ein eigenes Mitglied
 
-Du bringst ein fünftes Mitglied von Wolkenwerk durchgehend auf deine Plattform. In OpenNebula bekommt es eine Gruppe mit Admin, VDC, Quota und Preisen und eine VM. Im Cluster bekommt es über einen Pull Request in Gitea einen Namespace aus der Vorlage mit seiner Anwendung, die Argo CD ausrollt. Eine Alert-Regel mit dem Label `triage: "true"` überwacht die Anwendung. Du löst den Alert über Git aus, entscheidest über den Vorschlag des Triage-Dienstes und behebst den Fehler. [Kapitel 6.3](../../operations/sla/#ein-alert-für-ein-neues-mitglied) zeigt den Weg.
+Du bringst ein fünftes Mitglied von Wolkenwerk durchgehend auf deine Plattform. In OpenNebula bekommt es eine Gruppe mit Admin, VDC, Quota und Preisen, dazu eine VM. Im Cluster erhält es über einen Pull Request in Gitea einen Namespace aus der Vorlage mit seiner Anwendung, die Argo CD ausrollt. Eine Alert-Regel mit dem Label `triage: "true"` überwacht die Anwendung. Du löst den Alert über Git aus, entscheidest über den Vorschlag des Triage-Dienstes und behebst den Fehler. [Kapitel 6.3](../../operations/sla/#ein-alert-für-ein-neues-mitglied) zeigt den Weg.
 
-Du wählst das Mitglied frei. Es soll eine kleine Organisation aus der Region sein, die zu einer Genossenschaft wie Wolkenwerk passt, mit einem Dienst auf einer VM und einer Anwendung im Cluster. In der Dokumentation beschreibst du es in wenigen Sätzen mit seinem Schutzbedarf. Falls dir keine Idee kommt, hilft die Liste.
+Du wählst das Mitglied frei. Es soll eine kleine Organisation aus der Region sein, die zu einer Genossenschaft wie Wolkenwerk passt, mit einem Dienst auf einer VM und einer Anwendung im Cluster. In der Dokumentation beschreibst du es in wenigen Sätzen mit seinem Schutzbedarf. Falls dir keine Idee kommt, findest du in der Tabelle einige Vorschläge.
 
 | Idee | Was sie braucht |
 |---|---|
@@ -42,7 +42,7 @@ Du wählst das Mitglied frei. Es soll eine kleine Organisation aus der Region se
 | Bäckerei mit Bestellungen | Bestellungen bis 18 Uhr, Spitzen vor Feiertagen |
 | Architekturbüro | grosse Pläne, Backups wichtiger als Verfügbarkeit |
 
-Die Anwendung im Cluster muss das Profil `restricted` erfüllen, etwa eine statische Website mit `nginxinc/nginx-unprivileged` oder eine kleine eigene App. Die VM darf höchstens 1 GB Arbeitsspeicher haben, mehr haben die Knoten neben k3s nicht frei. Im Lab lief eine VM mit 1 GB neben dem Server von k3s, und der Knoten lagerte dafür rund 200 MB aus.
+Die Anwendung im Cluster muss das Profil `restricted` erfüllen, etwa eine statische Website mit `nginxinc/nginx-unprivileged` oder eine kleine eigene App. Die VM darf höchstens 1 GB Arbeitsspeicher haben, mehr haben die Knoten neben k3s nicht frei. Im Lab lief eine VM mit 1 GB neben dem Server von k3s. Der Knoten lagerte dafür rund 200 MB aus.
 
 ### B · Cluster wiederherstellen und SLA
 
@@ -58,7 +58,7 @@ Die Zusatzaufträge zeigst du live im Unterricht oder in einem Screencast von h�
 
 ## Abgabe
 
-Im Ordner `m4/` deines Abgabe-Repos liegen die Dokumentation mit den Screenshots und der Tabelle mit RPO und RTO und `platform/`, eine Kopie deines Repos `platform` aus Gitea ohne den Ordner `.git`, ohne State und ohne Passwörter. SealedSecrets dürfen drin sein. Für Auftrag A kommt `audit.jsonl` dazu, das Audit-Log des Triage-Dienstes, für Auftrag C `postmortem-entwurf.md` vom Modell und `postmortem.md` mit deiner Korrektur, für die Vorführung der Screencast oder ein Link darauf.
+Im Ordner `m4/` deines Abgabe-Repos liegen die Dokumentation mit den Screenshots und der Tabelle mit RPO und RTO sowie `platform/`, eine Kopie deines Repos `platform` aus Gitea ohne den Ordner `.git`, ohne State und ohne Passwörter. SealedSecrets dürfen drin sein. Für Auftrag A kommt `audit.jsonl` dazu, das Audit-Log des Triage-Dienstes, für Auftrag C `postmortem-entwurf.md` vom Modell und `postmortem.md` mit deiner Korrektur, für die Vorführung der Screencast oder ein Link darauf.
 
 Das Token von k3s, den Schlüssel von Sealed Secrets und die Backups gibst du nicht ab. Die Berichte der Checks legst du in `reports/`. Wie das Repo aufgebaut ist und wie du einen Tag setzt, steht in der [Übersicht](../).
 
@@ -82,4 +82,4 @@ Das Token von k3s, den Schlüssel von Sealed Secrets und die Backups gibst du ni
 | C · Postmortem korrigiert, Kostenmodell für das Mitglied | 3 |
 | **Zusatz** | **9** |
 
-Meilenstein 4 gibt zusammen höchstens 30 Punkte. Eine Anforderung der Basis gibt 3 Punkte, wenn Bericht und Screenshot sie belegen, und 1 Punkt, wenn sie nur teilweise erfüllt ist. Beantwortest du eine der zwei Fragen nicht oder falsch, bekommt der Zusatzauftrag, zu dem sie gehört, höchstens 1 Punkt.
+Meilenstein 4 gibt zusammen höchstens 30 Punkte. Eine Anforderung der Basis gibt 3 Punkte, wenn Bericht und Screenshot sie belegen. Für eine nur teilweise erfüllte Anforderung gibt es 1 Punkt. Beantwortest du eine der zwei Fragen nicht oder falsch, bekommt der Zusatzauftrag, zu dem sie gehört, höchstens 1 Punkt.

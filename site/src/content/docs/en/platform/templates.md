@@ -21,7 +21,7 @@ After this chapter you can:
 
 ## Templates
 
-A platform team does not build an environment by hand for every team. It offers a tested path that others follow on their own, often called a golden path. The template defines what every member gets, and the member requests its space instead of waiting for an appointment. In part 3, OpenNebula played this role with groups, a VDC and quotas. In the cluster, namespaces and three kinds of objects take over.
+A platform team offers a tested path that other teams follow on their own, often called a golden path. It then no longer has to build an environment by hand for every team. The template defines what every member gets, and the member requests its space instead of waiting for an appointment. In part 3, groups, a VDC and quotas did this job in OpenNebula. In the cluster, namespaces and three kinds of objects take over.
 
 | Part 3 in OpenNebula | Part 4 in Kubernetes |
 |---|---|
@@ -36,7 +36,7 @@ A ResourceQuota limits what all pods of a namespace may request together.
 
 ::code{file="platform/repo/templates/member/resourcequota.yaml"}
 
-Requests are what the scheduler reserves for a container, like the `CPU` column of a VM in OpenNebula. Limits are the ceiling a container never exceeds. One CPU is one core, and `250m` is a quarter of it. `services.nodeports: "0"` stops members from opening ports on the nodes themselves, their way out is the ingress.
+Requests are what the scheduler reserves for a container, like the `CPU` column of a VM in OpenNebula. Limits are the ceiling a container never exceeds. One CPU is one core, and `250m` is a quarter of it. `services.nodeports: "0"` stops members from opening their own ports on the nodes. Their way out is the ingress.
 
 ## LimitRange
 
@@ -46,7 +46,7 @@ Once a quota limits CPU and memory, Kubernetes rejects every pod without request
 
 ## NetworkPolicy
 
-Without a rule, every pod in the cluster can reach every other pod, across namespaces too. A NetworkPolicy defines who may talk to a pod. k3s enforces such rules with its built-in controller.
+Without a rule, every pod in the cluster can reach every other pod, across namespaces too. A NetworkPolicy defines who may talk to a pod. In k3s, a built-in controller enforces such rules.
 
 ::code{file="platform/repo/templates/member/networkpolicy.yaml"}
 
@@ -61,7 +61,7 @@ The `sleep 5` gives the controller time to add the new pod to its rules.
 
 ## Kustomize
 
-The four files make up the template in `templates/member`. Kustomize, which is built into kubectl and Argo CD, assembles the right objects for each member from it without copying the template.
+Together with a fourth file for the namespace, these three files make up the template in `templates/member`. Kustomize, which is built into kubectl and Argo CD, assembles the right objects for each member from it without copying the template.
 
 ::code{file="platform/repo/templates/member/kustomization.yaml"}
 
@@ -73,11 +73,11 @@ A member is a folder in `members` with a single file. The line `namespace` sets 
 kubectl kustomize ~/platform/members/velo
 ```
 
-The command prints the finished objects without changing anything. That is how you check a member before it lands in Git.
+The command prints the finished objects without changing anything. Use it to check a member before it lands in Git.
 
 ## ApplicationSet
 
-Writing an application by hand for every member would be manual work again. An ApplicationSet generates applications from a pattern.
+Instead of writing an application for every member, you let an ApplicationSet generate them from a pattern.
 
 ::code{file="platform/repo/apps/members.yaml"}
 
@@ -92,7 +92,7 @@ kubectl -n velo describe resourcequota member
 
 ## The municipality's request
 
-The municipality requests its namespace with a pull request. In practice the member works in its own branch or fork, in the lab you play both sides.
+The municipality requests its namespace with a pull request. In practice the member works in its own branch or fork. In the lab you play both sides.
 
 ```bash
 cd ~/platform
@@ -112,7 +112,7 @@ git commit -m "Namespace for Gemeinde Hinterbüel"
 git push -u origin gemeinde
 ```
 
-Gitea then offers to open a pull request for the branch `gemeinde`. As the platform team you review the change. Does the member only set its name, or does it also change the template? A request that changes `templates/member` affects every member and deserves closer attention. If everything is fine, you merge the pull request and pull the new state.
+Gitea then offers to open a pull request for the branch `gemeinde`. As the platform team you review the change and check whether the member only sets its name or also changes the template. A request that changes `templates/member` affects every member and deserves closer attention. If everything is fine, you merge the pull request and pull the new state.
 
 ```bash
 git switch main
@@ -157,7 +157,7 @@ Roll out the template for the bike shop, request the municipality's namespace as
 Treuhand Aaregg wants a namespace for a small service that receives receipts. It needs little CPU but 1.5 GB of memory and storage for files. Create the member and justify your values.
 
 :::solution
-A folder `members/treuhand` with `namespace: treuhand` and patches for the quota, for example `requests.memory` to `2Gi`, `limits.memory` to `3Gi` and the LimitRange `max` to at least `2Gi`, so that a single container may get 1.5 GB. The two PersistentVolumeClaims of the template are enough for the storage. The justification names the needs of the service and checks whether the sum of all quotas fits the memory of the two VMs.
+A folder `members/treuhand` with `namespace: treuhand` and patches for the quota and the LimitRange, for example `requests.memory` to `2Gi`, `limits.memory` to `3Gi` and the LimitRange `max` to at least `2Gi`, so that a single container may get 1.5 GB. The two PersistentVolumeClaims that the template's quota allows are enough for the storage. The justification names the needs of the service and checks whether the sum of all quotas fits the memory of the two VMs.
 :::
 ::::
 

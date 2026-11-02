@@ -14,7 +14,7 @@ After this chapter you can:
 
 - Assess a member's protection needs for confidentiality, integrity and availability
 - Harden the front-end with SSH keys, a firewall and automatic updates
-- Explain how TLS protects a connection and where the lab relies on SSH tunnels instead
+- Explain how TLS protects a connection and where you use SSH tunnels in the lab instead
 - Define and check the rights of a ServiceAccount with a Role and a RoleBinding
 - Require the restricted profile for member pods with Pod Security Admission
 - Store secrets encrypted in Git
@@ -25,7 +25,7 @@ The chapters of part 6 build on your lab as it stands after part 5.
 
 ## Protection needs
 
-Security costs time and convenience, so it starts with the question of what needs protecting. The protection needs of data and services are assessed against three goals.
+Security costs time and convenience. Before you plan any measures, you work out what needs protecting. The protection needs of data and services are assessed against three goals.
 
 | Goal | Question | Example at Wolkenwerk |
 |---|---|---|
@@ -33,13 +33,13 @@ Security costs time and convenience, so it starts with the question of what need
 | Integrity | Does the data stay correct and complete? | bookkeeping of Treuhand Aaregg |
 | Availability | Is the service there when it is needed? | counter services of Gemeinde Hinterbüel |
 
-Three levels are common, normal, high and very high. What counts is the damage a loss would cause, to people, to the member and to Wolkenwerk. Under Art. 5 of the Swiss data protection act, health data is particularly sensitive, and doctors are bound by professional secrecy under Art. 321 of the Swiss criminal code. Chapter 1.4 introduced both. For the practice, confidentiality is therefore very high. For the bike shop's web shop, availability on Saturdays matters most.
+The usual levels are normal, high and very high. The level depends on the damage a loss would cause to people, to the member and to Wolkenwerk. Under Art. 5 of the Swiss data protection act, health data is particularly sensitive, and doctors are bound by professional secrecy under Art. 321 of the Swiss criminal code. Chapter 1.4 introduced both. For the practice, confidentiality is therefore very high. For the bike shop's web shop, availability on Saturdays matters most.
 
-Measures follow from the protection needs. The platform needs a baseline for everyone, and members with high needs get more, such as a VM of their own instead of a namespace, or more frequent backups.
+The measures follow from the protection needs. The platform needs a baseline for everyone, and members with high needs get more, such as a VM of their own instead of a namespace, or more frequent backups.
 
 ## The attack surface of the lab
 
-Only what can be reached can be attacked. After part 5, your front-end accepts connections on several ports.
+The attack surface is everything an attacker can reach over the network. After part 5, your front-end accepts connections on several ports.
 
 | Port | Service | Who needs it |
 |---|---|---|
@@ -49,7 +49,7 @@ Only what can be reached can be attacked. After part 5, your front-end accepts c
 | 3000 | Gitea | Argo CD in the cluster, you through a tunnel |
 | 9100, 9925 | exporters for Prometheus | Prometheus in the cluster |
 
-The nodes and the VMs in cc-net talk to the front-end on further ports, for example for OpenNebula's monitoring and for VXLAN. From outside the lab you only need SSH and the web interface. A firewall can turn away everything else.
+The nodes and the VMs in cc-net talk to the front-end on further ports, for example for OpenNebula's monitoring and for VXLAN. From any other machine, only SSH and the web interface are needed. That includes the client you work from, the Kali VM on smartlearn or your PC if you run your own hypervisor. A firewall can turn away everything else.
 
 ## Hardening the front-end
 
@@ -57,30 +57,30 @@ Hardening means switching off or shielding everything that is not needed. The co
 
 ::code{file="platform/operations/harden-frontend.sh"}
 
-Afterwards, SSH accepts keys only, and `root` cannot log in directly. A password can be guessed or intercepted, while a private key never leaves your computer. The firewall is an nftables table of its own. It lets the nodes and cc-net reach everything and allows only SSH and the web interface from anywhere else. The `cc_gateway` table with the NAT for cc-net from chapter 0.4 stays untouched. Ubuntu installs security updates daily with `unattended-upgrades`, and the script makes sure it runs.
+Afterwards, SSH accepts keys only, and nobody can log in directly as `root`. A password can be guessed or intercepted, while a private key never leaves the client. The firewall is an nftables table of its own. It lets the nodes and cc-net reach everything and allows only SSH and the web interface from any other machine. The `cc_gateway` table with the NAT for cc-net from chapter 0.4 stays untouched. Ubuntu installs security updates daily with `unattended-upgrades`, and the script makes sure that service runs.
 
-![The protection layers of front-end and cluster. In the middle the front-end. Its firewall, the nftables table cc_firewall, drops everything it does not explicitly allow. Other hosts reach only SSH on port 22 and the web interface on port 2616, and SSH accepts only keys and does not let root log in directly. The nodes and cc-net reach everything, including Gitea on port 3000, the API on port 2633 and the exporters on ports 9100 and 9925. unattended-upgrades installs security updates every day. On the right the cluster. Pod Security Admission enforces the profile restricted in the member namespaces, NetworkPolicies separate the members, and the triage service may only get and patch deployments in velo. A SealedSecret comes encrypted from Gitea, and only the Sealed Secrets controller in kube-system can decrypt it.](../../../../assets/figures/en/p6c1-security.svg)
+![The protection layers of front-end and cluster. In the middle the front-end. Its firewall, the nftables table cc_firewall, drops everything it does not explicitly allow. The client and other hosts reach only SSH on port 22 and the web interface on port 2616, and SSH accepts only keys and does not let root log in directly. The nodes and cc-net reach everything, including Gitea on port 3000, the API on port 2633 and the exporters on ports 9100 and 9925. Every day, unattended-upgrades installs security updates. On the right the cluster. Pod Security Admission enforces the profile restricted in the member namespaces, NetworkPolicies separate the members, and the triage service may only get and patch deployments in velo. A SealedSecret comes encrypted from Gitea, and only the Sealed Secrets controller in kube-system can decrypt it.](../../../../assets/figures/en/p6c1-security.svg)
 
-First check that you can log in with your key. Keep the first connection open until a second one with the key works.
+First check that you can log in from the client with your key. Keep the existing connection open until a new login with the key works. You run the script on the front-end and the attempt without a key from the client.
 
 ```bash
 sudo ~/cc/platform/operations/harden-frontend.sh
 ssh -o PubkeyAuthentication=no mmuster-fe
 ```
 
-The second connection fails with `Permission denied (publickey)`. In the lab, the web interface answered as before, Gitea could no longer be reached from the instructor's computer, and all targets in Prometheus stayed `up`.
+The attempt without a key fails with `Permission denied (publickey)`. In the lab, the web interface answered as before and all targets in Prometheus stayed `up`, but Gitea could no longer be reached from the client.
 
-From now on you reach Gitea through a tunnel. The tunnel to Grafana already uses local port 3000, so pick another one, for example `ssh -L 3001:localhost:3000 mmuster-fe`, and open `http://localhost:3001/`.
+From now on you open Gitea through a tunnel from the client. The tunnel to Grafana already uses local port 3000 there, so pick another port, for example with `ssh -L 3001:localhost:3000 mmuster-fe`. Then open `http://localhost:3001/` in the client's browser.
 
 ## Transport encryption
 
-The firewall decides who can reach a service. It does nothing about what happens to the data on the way. Almost every web interface in the lab speaks plain HTTP, Sunstone on port 2616, Gitea on port 3000, Argo CD, Grafana and the web shop. Anyone who can read the traffic between browser and service sees passwords, session cookies and content in plain text. The same goes for the token in `~/.git-credentials` that Git uses to push to the `platform` repo, and for the connection over which Argo CD fetches the repo from Gitea.
+The firewall decides who can reach a service. It does nothing about what happens to the data on the way. Almost every web interface in the lab speaks plain HTTP, including Sunstone on port 2616, Gitea on port 3000, Argo CD, Grafana and the web shop. Anyone who can read the traffic between browser and service sees passwords, session cookies and content in plain text. The same goes for the token in `~/.git-credentials` that Git uses to push to the `platform` repo. The connection over which Argo CD fetches the repo from Gitea is not encrypted either.
 
-TLS (Transport Layer Security) protects a connection in three ways. Encryption keeps the content confidential. Every block sent carries an authentication tag, so the receiver notices if anything was changed in transit, which protects integrity. And the server proves its identity with a certificate, so the client knows it is talking to the right server and not to someone in between. The current version, TLS 1.3, is specified in [RFC 8446](https://www.rfc-editor.org/rfc/rfc8446).
+TLS (Transport Layer Security) protects a connection in three ways. Encryption keeps the content confidential. Every block sent carries an authentication tag that lets the receiver detect any change in transit, which protects integrity. The server also proves its identity with a certificate. This tells the other side, a browser for example, whether it is talking to the right server or to someone in between. The current version, TLS 1.3, is specified in [RFC 8446](https://www.rfc-editor.org/rfc/rfc8446).
 
-A certificate binds a public key to a name, such as the server's hostname or IP address. It is signed by a certificate authority (CA). The client keeps a list of CAs it trusts and checks that the certificate comes from one of them, has not expired and matches the address it asked for. During the handshake, the server then proves that it holds the private key belonging to the certificate. An attacker can copy the certificate but cannot provide that proof.
+A certificate binds a public key to a name, such as the server's hostname or IP address. It is signed by a certificate authority (CA). Browsers and other programs keep a list of CAs they trust. When they connect, they check that the certificate comes from one of these CAs, has not expired and matches the address they asked for. During the handshake, the server then proves that it holds the private key belonging to the certificate. An attacker can copy the certificate but cannot provide that proof.
 
-You can see this in the lab with the Kubernetes API on port 6443. When k3s is installed, it creates its own CAs and uses them to issue the API server's certificate ([k3s documentation](https://docs.k3s.io/cli/certificate)). Your kubeconfig contains that CA's certificate, which is why kubectl trusts the server without any public CA involved. With `openssl s_client` you can check the connection by hand, on the front-end and without changing anything.
+You can see this in the lab with the Kubernetes API on port 6443. When k3s is installed, it creates its own CAs and uses them to issue the API server's certificate ([k3s documentation](https://docs.k3s.io/cli/certificate)). Your kubeconfig contains that CA's certificate, which is why kubectl trusts the server without any public CA involved. On the front-end you can check the connection by hand with `openssl s_client`. The command changes nothing.
 
 ```bash
 server=$(kubectl config view -o jsonpath='{.clusters[0].cluster.server}')
@@ -98,13 +98,13 @@ Verify return code: 0 (ok)
 
 The number after `k3s-server-ca@` is the time k3s created the CA, so yours will differ. Without `-CAfile`, openssl reports `Verify return code: 19 (self-signed certificate in certificate chain)`. The connection is still encrypted, but openssl does not know the k3s CA and cannot confirm that the server is genuine.
 
-Plain HTTP is acceptable for the web interfaces in the lab because hardly any of them is exposed. After hardening, other hosts can only reach SSH and Sunstone. You open Gitea, Argo CD, Grafana and the web shop through SSH tunnels, and SSH encrypts the connection itself and authenticates the server with its host key. Behind the tunnel, the traffic stays on the front-end or in cc-net, which only the lab's nodes and VMs can reach. Sunstone is the exception. Its login crosses the classroom network in plain text. That is acceptable for a practice environment with test data, but not for the practice's patient data.
+Plain HTTP is acceptable for the web interfaces in the lab because hardly any of them is exposed. After hardening, the client and every other host can only reach SSH and Sunstone. You open Gitea, Argo CD, Grafana and the web shop through SSH tunnels from the client. SSH encrypts the connection itself and authenticates the server with its host key. Behind the tunnel, the traffic stays on the front-end or in cc-net, which only the lab's nodes and VMs can reach. Sunstone is the exception. Its login crosses the lab network in plain text. That is acceptable for a training environment with test data, but not for the patient data of the medical practice.
 
-A production setup puts every service behind TLS. Web interfaces usually sit behind a reverse proxy such as nginx or Traefik, which terminates TLS and passes requests on to the service, and Sunstone would be handled that way. Inside the cluster, an [Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/) with a `tls` section does the job, and k3s already ships Traefik as its ingress controller. Gitea can also serve HTTPS itself ([Gitea documentation](https://docs.gitea.com/administration/https-setup)). The certificates come either from an internal CA, whose certificate then has to be installed on every device of the members, or from a public CA such as Let's Encrypt. Let's Encrypt issues certificates for free and automatically through the ACME protocol, with the server proving that it controls the domain ([How It Works](https://letsencrypt.org/how-it-works/)). That requires a public domain name. With HTTPS, the token in `~/.git-credentials` would no longer cross the network in plain text. On disk it stays readable, so only your user may read the file, and `ls -l ~/.git-credentials` shows `-rw-------`.
+A production setup puts every service behind TLS. Web interfaces such as Sunstone usually sit behind a reverse proxy like nginx or Traefik, which terminates TLS and passes requests on to the service. Inside the cluster, an [Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/) with a `tls` section does the job, and k3s already ships Traefik as its ingress controller. Gitea can also serve HTTPS itself ([Gitea documentation](https://docs.gitea.com/administration/https-setup)). The certificates come either from an internal CA, whose certificate then has to be installed on every device of the members, or from a public CA such as Let's Encrypt. Let's Encrypt issues certificates for free and automatically through the ACME protocol, with the server proving that it controls the domain ([How It Works](https://letsencrypt.org/how-it-works/)). That requires a public domain name. With HTTPS, the token in `~/.git-credentials` would no longer cross the network in plain text. On disk it stays readable, so only your user may read the file, and `ls -l ~/.git-credentials` shows `-rw-------`.
 
 ## Rights on the platform
 
-Since part 3, the platform has separated rights on several levels. The principle is always the same, every role gets only what it needs for its work.
+Since part 3, the platform has separated rights on several levels. On each of them, a role gets only what it needs for its work.
 
 | Level | Mechanism | Chapter |
 |---|---|---|
@@ -135,7 +135,7 @@ The triage service from chapter 5.6 runs in the namespace `ai` under the Service
 
 ::code{file="platform/observability/repo/ai/triage-rbac.yaml"}
 
-The Role lives in `velo` and allows `get` and `patch` on deployments in the `apps` group. That is enough for a restart, which only sets an annotation in the deployment's pod template. The RoleBinding lives in `velo` too and names the ServiceAccount from `ai` as its subject. Subject and binding may sit in different namespaces, and the rights always apply in the binding's namespace. So the service can neither read secrets nor delete deployments nor touch anything in `gemeinde`.
+The Role lives in `velo` and allows `get` and `patch` on deployments in the `apps` group. That is enough for a restart, which only sets an annotation in the deployment's pod template. The RoleBinding lives in `velo` too and names the ServiceAccount from `ai` as its subject. Subject and binding may sit in different namespaces, and the rights always apply in the binding's namespace. The service therefore can neither read secrets nor delete deployments nor touch anything in `gemeinde`.
 
 This approach is called least privilege. Every identity gets the smallest set of rights that lets it do its job ([RBAC good practices](https://kubernetes.io/docs/concepts/security/rbac-good-practices/)). If someone takes control of the service, for example with a crafted alert that leads the model to a wrong suggestion, the damage is limited to restarts in `velo`.
 
@@ -159,7 +159,7 @@ The `deployments.apps` line comes from the Role `triage`. Every authenticated su
 
 ### Accounts with full rights
 
-Other accounts on the platform may do far more. The Argo CD application controller is bound through a ClusterRoleBinding to a ClusterRole that allows every verb on every resource, because it has to create arbitrary objects from Git anywhere in the cluster. The real boundary is therefore Git. Whoever may push to `main` of `wolkenwerk/platform` changes the whole cluster through Argo CD.
+Other accounts on the platform may do far more. The Argo CD application controller is bound through a ClusterRoleBinding to a ClusterRole that allows every verb on every resource, because it has to create arbitrary objects from Git anywhere in the cluster. The boundary therefore lies in Git. Whoever may push to `main` of `wolkenwerk/platform` changes the whole cluster through Argo CD.
 
 The `oneadmin` account and your kubeconfig may do everything as well. `kubectl auth whoami` shows that your kubeconfig identifies you as `system:admin` in the group `system:masters`. Members of this group bypass every RBAC check. That is also why `--as` works for you, since taking on another identity is a right of its own, with the verb `impersonate`. In the lab you are the whole platform team. In a real team, each person would get an account of their own with suitable roles, and administrator rights would be limited to a few people.
 
@@ -177,7 +177,7 @@ The member template sets `restricted` in three modes. `enforce` rejects pods, `w
 
 ::code{file="platform/operations/repo/templates/member/namespace.yaml"}
 
-A pod only meets `restricted` if it does not run as `root`, cannot gain additional privileges, drops all kernel capabilities and uses the runtime's seccomp profile. The web shop already ran as an ordinary user, and it lacked the other three settings.
+A pod only meets `restricted` if it does not run as `root`, cannot gain additional privileges, drops all kernel capabilities and uses the runtime's seccomp profile. The web shop already ran as an ordinary user but lacked the other three settings.
 
 ::code{file="platform/operations/repo/webshop/deployment.yaml" lines="16-29"}
 
@@ -192,9 +192,9 @@ With a Deployment the error is less visible. Argo CD reports the Deployment as s
 
 ## Secrets in Git
 
-In part 5 you created the Grafana password by hand as a Secret, because a Secret in Git is only Base64 encoded and therefore readable. That leaves it out of Git, though, and after a rebuild you have to remember it. Sealed Secrets closes this gap. A controller in the cluster creates a key pair. With the public key, `kubeseal` encrypts a Secret into a SealedSecret, which may go into Git. Only the controller can decrypt it again with its private key.
+In part 5 you created the Grafana password by hand as a Secret, because a Secret in Git is only Base64 encoded and therefore readable. That leaves it out of Git, though, and after a rebuild you have to remember it yourself. With Sealed Secrets, the password can live in Git after all. A controller in the cluster creates a key pair. With the public key, `kubeseal` encrypts a Secret into a SealedSecret, which may go into Git. Only the controller can decrypt it again with its private key.
 
-A SealedSecret is bound to its name and namespace. Copying it into another namespace to read it there gets you nothing. This binding is called `strict` and is the default.
+A SealedSecret is bound to its name and namespace. If someone copies it into another namespace to read it there, the controller does not decrypt it. This binding is called `strict` and is the default.
 
 First copy the additions of part 6 into your platform repo. They bring the application for the controller, the application `secrets`, the `restricted` profile in the template, the adjusted web shop and the k3s template for chapter 6.2.
 
@@ -206,7 +206,7 @@ sed -i "s#http://FRONTEND:3000#http://$CC_FE_IP:3000#" apps/*.yaml
 git status
 ```
 
-If a member in your repo has a label of its own on its namespace, such as `ai: allowed` from chapter 5.5, it has to be written as a merge patch. A patch with `op: add` on `/metadata/labels` replaces all labels, and the namespace loses its profile. In the lab, exactly that happened to `velo`. Push the changes and wait until the controller runs. Argo CD only creates it at its next poll, in the lab after almost three minutes, and the loop waits for it. Until the folder `secrets` is in the repo, the application `secrets` shows `Unknown` with "app path does not exist", which is expected. Then install `kubeseal` and seal the password.
+If a member in your repo has a label of its own on its namespace, such as `ai: allowed` from chapter 5.5, it has to be written as a merge patch. A patch with `op: add` on `/metadata/labels` replaces all labels, and the namespace loses its profile. In the lab this happened to `velo`. Push the changes and wait until the controller runs. Argo CD only creates it at its next poll of the repo, in the lab after almost three minutes. The `until` loop waits for it. Until the folder `secrets` is in the repo, the application `secrets` shows `Unknown` with "app path does not exist", which is normal at this point. Then install `kubeseal` and seal the password.
 
 ::code{file="platform/operations/seal-secrets.sh"}
 
@@ -231,13 +231,13 @@ The last line prints `SealedSecret` once Argo CD has synced the SealedSecret, in
 
 ## Updates
 
-The front-end and the k3s VMs get Ubuntu's security updates automatically. A reboot, for a new kernel for example, does not happen on its own. `/var/run/reboot-required` shows when one is needed. You update the platform software yourself, OpenNebula through its packages, k3s through the variable `k3s_version` and a rebuild, and the charts through their versions in Git. Each of these versions is in Git, so you can trace what ran when.
+The front-end and the k3s VMs get Ubuntu's security updates automatically. A reboot, for a new kernel for example, does not happen on its own. If the file `/var/run/reboot-required` exists, one is needed. You update the platform software yourself, OpenNebula through its packages, k3s through the variable `k3s_version` and a rebuild, and the charts through their versions in Git. Because each of these versions is in Git, you can trace what ran when.
 
 ::::exercise[Protection needs]
 Take your assessment of the four members from chapter 1.4 and check which measures of this chapter contribute to which protection goal. If you do the advanced task of milestone 4, also assess your own member for confidentiality, integrity and availability, and justify each level in one sentence.
 
 :::solution
-The assessment from chapter 1.4 still holds, for example the practice with very high confidentiality, high integrity and high availability. The firewall, key-only access and the profile `restricted` protect the confidentiality and integrity of every member. Sealed Secrets keep passwords out of plain text in Git. For the practice's very high confidentiality that is not enough on its own, because the web interfaces in the lab run without TLS. A member of your own such as a daycare center with data on children would have very high confidentiality, high integrity and normal availability, because registrations can wait a day. Other levels are right as long as the reasoning holds.
+The assessment from chapter 1.4 still holds, for example the practice with very high confidentiality, high integrity and high availability. The firewall, key-only access and the profile `restricted` protect the confidentiality and integrity of every member. Sealed Secrets keep passwords out of plain text in Git. For the practice's very high confidentiality that is not enough on its own, because the web interfaces in the lab run without TLS. A member of your own such as a daycare center with data on children would have very high confidentiality, high integrity and normal availability, because registrations can wait a day. Other levels are just as right if you justify them soundly.
 :::
 ::::
 
@@ -245,7 +245,7 @@ The assessment from chapter 1.4 still holds, for example the practice with very 
 Harden your front-end, move the Grafana password into a SealedSecret and set the `restricted` profile for all members. Show that a pod without security settings is rejected.
 
 :::solution
-`ssh -o PubkeyAuthentication=no` fails, `systemctl is-active cc-firewall` shows `active`, and `kubectl get ns velo --show-labels` shows the label `pod-security.kubernetes.io/enforce=restricted`. `kubectl -n velo run test --image=busybox -- sleep 5` ends with `forbidden: violates PodSecurity`. The first checks of the check `operations` are green.
+From the client, `ssh -o PubkeyAuthentication=no` fails. On the front-end, `systemctl is-active cc-firewall` shows `active`, and `kubectl get ns velo --show-labels` shows the label `pod-security.kubernetes.io/enforce=restricted`. `kubectl -n velo run test --image=busybox -- sleep 5` ends with `forbidden: violates PodSecurity`. The first checks of the check `operations` are green.
 :::
 ::::
 
@@ -253,7 +253,7 @@ Harden your front-end, move the Grafana password into a SealedSecret and set the
 Use `kubectl auth can-i` with `--as=system:serviceaccount:ai:triage` to find out whether the triage service may read and delete deployments in `velo`, patch deployments in `gemeinde` and read secrets in `velo`. Then work out which rule the Role `triage` would additionally need so that the service can read the logs of the pods in `velo`. Do not change anything in the lab.
 
 :::solution
-kubectl answers `yes` only to the first question.
+Only the first question gets a `yes` from kubectl.
 
 ```bash
 kubectl auth can-i get deployments -n velo --as=system:serviceaccount:ai:triage      # yes

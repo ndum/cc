@@ -109,7 +109,7 @@ function scrape(lang) {
 
 const TRIAGE = {
   de: {
-    title: 'Vom Alert zur Aktion',
+    title: 'Der Ablauf der Triage',
     desc:
       'Prometheus wertet die Regel WebshopErrorBudgetBurn aus und schickt den Alert an Alertmanager. ' +
       'Alertmanager leitet Alerts, deren alertname mit Webshop beginnt, als Webhook an den Triage-Dienst ' +
@@ -136,7 +136,7 @@ const TRIAGE = {
     footer: 'Der Dienst schreibt jeden Schritt ins Audit-Log, vom Alert über den Vorschlag bis zur Entscheidung.',
   },
   en: {
-    title: 'From alert to action',
+    title: 'The flow of the triage',
     desc:
       'Prometheus evaluates the rule WebshopErrorBudgetBurn and sends the alert to Alertmanager. ' +
       'Alertmanager routes alerts whose alertname starts with Webshop as a webhook to the triage service ' +

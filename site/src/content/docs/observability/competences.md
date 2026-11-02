@@ -23,4 +23,4 @@ Mit diesem Raster schätzt du ein, ob du deine Plattform beobachten, skalieren u
 | einen Vorschlag des Modells prüfen (Zusatz) | Beurteile einen Vorschlag des Triage-Dienstes und entscheide begründet. | [KI-Triage mit Freigabe](../triage/#im-lab) |
 | Risiken eines Modells im Betrieb einschätzen (Zusatz) | Nenne die Schutzmassnahmen des Triage-Dienstes und wogegen sie schützen. | [KI-Triage mit Freigabe](../triage/#schutzmassnahmen) |
 
-Mit diesem Teil schliesst du [Meilenstein 3](../../assessment/milestone-3/) ab. Zeilen mit dem Vermerk «Zusatz» gehören zu einem Zusatzauftrag und nicht zur Basis. In Teil 6 geht es um Sicherheit, Sicherung, Service Levels und Kosten, und als Zusatz bringst du ein eigenes Mitglied auf die Plattform.
+Mit diesem Teil schliesst du [Meilenstein 3](../../assessment/milestone-3/) ab. Zeilen mit dem Vermerk «Zusatz» gehören zu einem Zusatzauftrag und nicht zur Basis. In Teil 6 geht es um Sicherheit, Sicherung, Service Levels und Kosten. Als Zusatz bringst du dort ein eigenes Mitglied auf die Plattform.

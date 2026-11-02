@@ -20,13 +20,13 @@ After this chapter you can:
 
 ## The building blocks
 
-OpenNebula consists of a front-end that manages the cloud and of nodes on which the VMs run. No OpenNebula service of its own runs on the nodes. The front-end controls them over SSH with small driver programs.
+OpenNebula consists of a front-end that manages the cloud and nodes that run the VMs. The nodes need no OpenNebula service of their own. The front-end controls them over SSH with small driver programs.
 
 ![The building blocks of OpenNebula. Three areas side by side. On the left Sunstone, the CLI and OpenTofu reach the front-end through the API. In the middle oned on the front-end manages all objects, stores them in MariaDB, lets the scheduler pick nodes and receives states from onemonitord. The drivers for hosts, VMs, transfer, networks and datastores carry out the jobs. On the right the nodes work with libvirt and KVM, and the drivers reach them over SSH.](../../../../assets/figures/en/p2c1-architecture.svg)
 
-The core is the service `oned`. It accepts all requests through its API, manages the state of every object and stores it in a database, MariaDB in the course. The scheduler is a driver of `oned` and picks a node with enough free capacity for every new VM. `onemonitord` regularly checks how the nodes and VMs are doing.
+The core is the service `oned`. It accepts all requests through its API, manages the state of every object and stores it in a database, MariaDB in the course. The scheduler is a driver of `oned` and picks a node with enough free capacity for every new VM. `onemonitord` regularly queries the state of the nodes and VMs.
 
-The actual work is done by drivers that `oned` calls for each kind of job:
+Drivers do the actual work. `oned` calls them for each kind of job:
 
 | Driver | Job | In the lab |
 |---|---|---|
@@ -38,7 +38,7 @@ The actual work is done by drivers that `oned` calls for each kind of job:
 
 ## The path of a VM
 
-When you start a VM in Sunstone, Sunstone sends the request to the API of `oned`. `oned` creates the VM in the database, and the scheduler picks a node. The TM driver copies the image to the datastore on the node over SSH, the VNM driver sets up the network there, and the VMM driver has libvirt start the VM with KVM. From then on `onemonitord` reports its state continuously. Chapter 2.2 shows which services and ports run on the front-end for this.
+When you start a VM in Sunstone, Sunstone sends the request to the API of `oned`. `oned` creates the VM in the database, and the scheduler picks a node. The TM driver copies the image over SSH to the datastore on that node, and the VNM driver sets up the network there. Finally the VMM driver has libvirt start the VM with KVM. From then on `onemonitord` keeps reporting its state. Chapter 2.2 shows which services and ports run on the front-end for this.
 
 ## The objects
 
@@ -57,13 +57,13 @@ In OpenNebula you work with objects. Each has a number, a name, an owner, a grou
 
 ## Access
 
-You access OpenNebula in three ways, and all three talk to the same API of `oned`. The web interface Sunstone is good for exploring and for the members. The CLI on the front-end is the fastest way for the platform team and for scripts. Tools such as OpenTofu use the API directly, and from part 4 on you create VMs from code with it.
+You access OpenNebula in three ways, and all three talk to the same API of `oned`. The web interface Sunstone is good for exploring and for the members. The CLI on the front-end is the fastest way for the platform team and for scripts. Tools such as OpenTofu use the API directly. From part 4 on you create VMs from code with OpenTofu.
 
 ::::exercise[Classifying]
 Assign the building blocks `oned`, KVM, MariaDB, scheduler, libvirt, Sunstone, `onemonitord` and datastore 0 with the disks of running VMs to the front-end or the nodes.
 
 :::solution
-`oned`, MariaDB, the scheduler, Sunstone and `onemonitord` run on the front-end. KVM and libvirt run on the nodes, and datastore 0 with the disks of running VMs lives there too, because the transfer driver `ssh` copies them there.
+`oned`, MariaDB, the scheduler, Sunstone and `onemonitord` run on the front-end. KVM and libvirt run on the nodes. Datastore 0 with the disks of running VMs is on the nodes as well, because the transfer driver `ssh` copies the disks there.
 :::
 ::::
 

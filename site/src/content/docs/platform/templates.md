@@ -21,7 +21,7 @@ Nach diesem Kapitel kannst du:
 
 ## Vorlagen
 
-Ein Plattform-Team baut nicht für jedes Team eine Umgebung von Hand. Es bietet einen geprüften Weg an, den andere selbst gehen, oft Golden Path genannt. Die Vorlage legt fest, was jedes Mitglied bekommt, und das Mitglied beantragt seinen Platz, statt auf einen Termin zu warten. In Teil 3 hat OpenNebula diese Rolle mit Gruppen, VDC und Quotas gespielt. Im Cluster übernehmen sie Namespaces und drei Arten von Objekten.
+Ein Plattform-Team bietet einen geprüften Weg an, den andere Teams selbst gehen, oft Golden Path genannt. Es muss dann nicht für jedes Team eine Umgebung von Hand bauen. Die Vorlage legt fest, was jedes Mitglied bekommt. Das Mitglied beantragt seinen Platz, statt auf einen Termin zu warten. In Teil 3 lösten Gruppen, VDC und Quotas in OpenNebula diese Aufgabe. Im Cluster übernehmen das Namespaces und drei Arten von Objekten.
 
 | Teil 3 in OpenNebula | Teil 4 in Kubernetes |
 |---|---|
@@ -36,7 +36,7 @@ Eine ResourceQuota begrenzt, was alle Pods eines Namespaces zusammen anfordern d
 
 ::code{file="platform/repo/templates/member/resourcequota.yaml"}
 
-Requests sind, was der Scheduler für einen Container reserviert, wie die Spalte `CPU` einer VM in OpenNebula. Limits sind die Obergrenze, die ein Container nie überschreitet. Eine CPU entspricht einem Kern, `250m` einem Viertel davon. `services.nodeports: "0"` verbietet Mitgliedern, eigene Ports auf den Nodes zu öffnen, ihr Weg nach aussen ist der Ingress.
+Requests sind, was der Scheduler für einen Container reserviert, wie die Spalte `CPU` einer VM in OpenNebula. Limits sind die Obergrenze, die ein Container nie überschreitet. Eine CPU entspricht einem Kern, `250m` einem Viertel davon. `services.nodeports: "0"` verbietet Mitgliedern, eigene Ports auf den Nodes zu öffnen. Ihr Weg nach aussen ist der Ingress.
 
 ## LimitRange
 
@@ -46,7 +46,7 @@ Sobald eine Quota CPU und Speicher begrenzt, lehnt Kubernetes jeden Pod ohne Req
 
 ## NetworkPolicy
 
-Ohne Regel erreicht jeder Pod im Cluster jeden anderen, auch über Namespaces hinweg. Eine NetworkPolicy legt fest, wer einen Pod ansprechen darf. k3s setzt solche Regeln mit seinem eingebauten Controller durch.
+Ohne Regel erreicht jeder Pod im Cluster jeden anderen, auch über Namespaces hinweg. Eine NetworkPolicy legt fest, wer einen Pod ansprechen darf. In k3s setzt ein eingebauter Controller solche Regeln durch.
 
 ::code{file="platform/repo/templates/member/networkpolicy.yaml"}
 
@@ -61,11 +61,11 @@ Das `sleep 5` gibt dem Controller Zeit, den neuen Pod in seine Regeln aufzunehme
 
 ## Kustomize
 
-Die vier Dateien bilden die Vorlage in `templates/member`. Kustomize, in kubectl und Argo CD eingebaut, setzt daraus für jedes Mitglied die passenden Objekte zusammen, ohne die Vorlage zu kopieren.
+Zusammen mit einer vierten Datei für den Namespace bilden diese drei Dateien die Vorlage in `templates/member`. Kustomize, in kubectl und Argo CD eingebaut, setzt daraus für jedes Mitglied die passenden Objekte zusammen, ohne die Vorlage zu kopieren.
 
 ::code{file="platform/repo/templates/member/kustomization.yaml"}
 
-Ein Mitglied ist ein Ordner in `members` mit einer einzigen Datei. Die Zeile `namespace` setzt den Namespace aller Objekte und benennt das Objekt Namespace der Vorlage gleich mit um. Das Veloatelier braucht für den Webshop mehr CPU als die Vorlage gibt, ein Patch ersetzt diesen einen Wert.
+Ein Mitglied ist ein Ordner in `members` mit einer einzigen Datei. Die Zeile `namespace` setzt den Namespace aller Objekte und benennt das Objekt Namespace der Vorlage gleich mit um. Das Veloatelier braucht für den Webshop mehr CPU, als die Vorlage vorsieht. Ein Patch ersetzt diesen einen Wert.
 
 ::code{file="platform/repo/members/velo/kustomization.yaml"}
 
@@ -73,15 +73,15 @@ Ein Mitglied ist ein Ordner in `members` mit einer einzigen Datei. Die Zeile `na
 kubectl kustomize ~/platform/members/velo
 ```
 
-Der Befehl zeigt die fertigen Objekte, ohne etwas zu ändern. So prüfst du ein Mitglied, bevor es in Git landet.
+Der Befehl zeigt die fertigen Objekte, ohne etwas zu ändern. Damit prüfst du ein Mitglied, bevor es in Git landet.
 
 ## ApplicationSet
 
-Für jedes Mitglied von Hand eine Application zu schreiben, wäre wieder Handarbeit. Ein ApplicationSet erzeugt Applications nach einem Muster.
+Statt für jedes Mitglied eine Application zu schreiben, lässt du sie von einem ApplicationSet nach einem Muster erzeugen.
 
 ::code{file="platform/repo/apps/members.yaml"}
 
-Der Generator `git` durchsucht das Repo nach Ordnern unter `members` und erzeugt für jeden eine Application `member-<ordner>`. Kommt ein Ordner dazu, entsteht ein Namespace. Verschwindet er, löscht Argo CD dank `prune` den Namespace mit allem darin. Das ApplicationSet schaut normalerweise alle drei Minuten nach, `requeueAfterSeconds: 60` verkürzt das auf eine Minute.
+Der Generator `git` durchsucht das Repo nach Ordnern unter `members` und erzeugt für jeden eine Application `member-<ordner>`. Kommt ein Ordner dazu, entsteht ein Namespace. Verschwindet er, löscht Argo CD dank `prune` den Namespace mit allem darin. Das ApplicationSet prüft das Repo normalerweise alle drei Minuten, `requeueAfterSeconds: 60` verkürzt das auf eine Minute.
 
 ```bash
 kubectl -n argocd get applicationsets
@@ -92,7 +92,7 @@ kubectl -n velo describe resourcequota member
 
 ## Der Antrag der Gemeinde
 
-Die Gemeinde beantragt ihren Namespace mit einem Pull Request. In der Praxis arbeitet das Mitglied in einem eigenen Branch oder Fork, im Lab spielst du beide Seiten.
+Die Gemeinde beantragt ihren Namespace mit einem Pull Request. In der Praxis arbeitet das Mitglied in einem eigenen Branch oder Fork. Im Lab spielst du beide Seiten.
 
 ```bash
 cd ~/platform
@@ -112,7 +112,7 @@ git commit -m "Namespace für die Gemeinde Hinterbüel"
 git push -u origin gemeinde
 ```
 
-In Gitea erscheint danach der Vorschlag, einen Pull Request für den Branch `gemeinde` zu öffnen. Als Plattform-Team prüfst du die Änderung. Setzt das Mitglied nur seinen Namen, oder ändert es auch die Vorlage? Ein Antrag, der `templates/member` ändert, betrifft alle Mitglieder und braucht mehr Aufmerksamkeit. Ist alles in Ordnung, führst du den Pull Request zusammen und holst den neuen Stand.
+In Gitea erscheint danach der Vorschlag, einen Pull Request für den Branch `gemeinde` zu öffnen. Als Plattform-Team prüfst du, ob das Mitglied nur seinen Namen setzt oder auch die Vorlage ändert. Ein Antrag, der `templates/member` ändert, betrifft alle Mitglieder und braucht mehr Aufmerksamkeit. Ist alles in Ordnung, führst du den Pull Request zusammen und holst den neuen Stand.
 
 ```bash
 git switch main
@@ -127,7 +127,7 @@ Für Meilenstein 2 bekommt die Gemeinde die Grenzen aus deinen [persönlichen We
 
 ## An der Grenze
 
-Was die Quota bewirkt, zeigt ein Deployment, das zu viel will.
+Was die Quota bewirkt, zeigt ein Deployment, das zu viel anfordert.
 
 ```bash
 kubectl -n gemeinde create deployment fill --image=busybox:1.37 --replicas=12 -- sleep 3600
@@ -157,7 +157,7 @@ Rolle die Vorlage für das Veloatelier aus, beantrage den Namespace der Gemeinde
 Die Treuhand Aaregg will einen Namespace für einen kleinen Dienst, der Belege entgegennimmt. Er braucht wenig CPU, aber 1,5 GB Speicher und Speicherplatz für Dateien. Lege das Mitglied an und begründe deine Werte.
 
 :::solution
-Ein Ordner `members/treuhand` mit `namespace: treuhand` und Patches für die Quota, etwa `requests.memory` auf `2Gi`, `limits.memory` auf `3Gi` und `max` der LimitRange auf mindestens `2Gi`, damit ein einzelner Container 1,5 GB bekommen darf. Die zwei PersistentVolumeClaims der Vorlage reichen für den Speicherplatz. Die Begründung nennt den Bedarf des Dienstes und prüft, ob die Summe aller Quotas zum Speicher der beiden VMs passt.
+Ein Ordner `members/treuhand` mit `namespace: treuhand` und Patches für Quota und LimitRange, etwa `requests.memory` auf `2Gi`, `limits.memory` auf `3Gi` und `max` der LimitRange auf mindestens `2Gi`, damit ein einzelner Container 1,5 GB bekommen darf. Die zwei PersistentVolumeClaims, die die Quota der Vorlage erlaubt, reichen für den Speicherplatz. Die Begründung nennt den Bedarf des Dienstes und prüft, ob die Summe aller Quotas zum Speicher der beiden VMs passt.
 :::
 ::::
 
@@ -165,6 +165,6 @@ Ein Ordner `members/treuhand` mit `namespace: treuhand` und Patches für die Quo
 Zähle die Quotas der Mitglieder zusammen und vergleiche sie mit dem, was der Cluster hat. Ist es ein Fehler, wenn die Summe grösser ist?
 
 :::solution
-Mit Velo und Gemeinde sind es 3 CPU Requests und 2 Gi Speicher Requests, die Limits 4 CPU und 4 Gi. Die zwei VMs haben 8 vCPU und 12 GB, davon braucht k3s selbst einen Teil. Eine grössere Summe der Limits ist kein Fehler, solange nicht alle gleichzeitig an ihre Grenze gehen, genau wie bei den Quotas in Kapitel 3.2. Bei den Requests wäre Überbuchen riskanter, denn der Scheduler startet keinen Pod mehr, wenn die reservierten Werte die Nodes füllen.
+Mit Velo und Gemeinde ergeben die Requests zusammen 3 CPU und 2 Gi Speicher, die Limits 4 CPU und 4 Gi. Die zwei VMs haben 8 vCPU und 12 GB, davon braucht k3s selbst einen Teil. Eine grössere Summe der Limits ist kein Fehler, solange nicht alle gleichzeitig an ihre Grenze gehen, genau wie bei den Quotas in Kapitel 3.2. Bei den Requests wäre Überbuchen riskanter, denn der Scheduler startet keinen Pod mehr, wenn die reservierten Werte die Nodes füllen.
 :::
 ::::

@@ -5,18 +5,19 @@ sidebar:
   order: 1
 ---
 
-Das Glossar erklärt die Fachbegriffe des Kurses kurz und verweist auf das Kapitel, das sie einführt. Viele Begriffe des Cloud Computing bleiben auch auf den deutschen Seiten englisch, etwa Front-end, Deployment oder Snapshot. So findest du sie in der Dokumentation, in Fehlermeldungen und in den Werkzeugen wieder.
+Das Glossar erklärt die Fachbegriffe des Kurses kurz und verweist auf das Kapitel, das sie einführt. Viele Begriffe des Cloud Computing bleiben auch auf den deutschen Seiten englisch, etwa Front-end, Deployment oder Snapshot, damit du sie in Dokumentationen, Fehlermeldungen und Werkzeugen wiedererkennst.
 
 | Begriff | Bedeutung | Kapitel |
 |---|---|---|
 | Alertmanager | Nimmt die auslösenden Alerts von Prometheus entgegen, fasst ähnliche zusammen, unterdrückt Wiederholungen und leitet sie an Empfänger wie einen Webhook weiter. | [5.3](../observability/slo/) |
 | Alloy | Der Agent, der auf jedem Node die Logs der Pods liest und an Loki schickt. | [5.2](../observability/logs/) |
 | Ansible | Ein Werkzeug, das Server über SSH in einen beschriebenen Zielzustand bringt. Ein zweiter Lauf ändert nur, was noch nicht stimmt. | [2.2](../iaas/installation/) |
-| Application | Ein Objekt von Argo CD, das sagt, welcher Ordner welches Repos in welchen Namespace gehört. | [4.4](../platform/gitops/) |
+| Application | Ein Objekt von Argo CD, das festlegt, welcher Ordner welches Repos in welchen Namespace gehört. | [4.4](../platform/gitops/) |
 | ApplicationSet | Erzeugt Applications nach einem Muster, im Kurs eine pro Ordner unter `members`. | [4.5](../platform/templates/) |
 | Argo CD | Ein Satz von Controllern im Cluster, der Manifeste aus Git liest, mit dem Cluster vergleicht und ihn an Git angleicht. | [4.4](../platform/gitops/) |
 | Burn Rate | Wie schnell ein Dienst sein Fehlerbudget verbraucht. Bei einer Burn Rate von 1 ist das Budget genau am Ende des Zeitraums aufgebraucht. | [5.3](../observability/slo/) |
 | Chargeback | Der Verbrauch wird dem Budget des Bereichs belastet, der ihn verursacht hat. | [3.3](../tenants/showback/) |
+| Client | Die VM, von der aus du auf smartlearn arbeitest, ein Kali-Linux-Desktop mit einem Browser für die Weboberflächen und einem Terminal für SSH zu den Servern. Mit eigenem Hypervisor übernimmt dein PC diese Rolle. | [0.2](../start/lab/) |
 | Container | Ein Prozess mit eigener Sicht auf Dateisystem, Netz und Prozesse. Er teilt den Kernel mit dem Rechner und bringt nur seine Anwendung mit. | [1.3](../basics/virtualization/) |
 | Control Plane | Der Teil von Kubernetes, der den Cluster steuert, mit API-Server, Scheduler, Controllern und Datenbank. In k3s läuft sie auf dem Server. | [4.3](../platform/kubernetes/) |
 | Datastore | Ein Speicherort von OpenNebula. `default` hält die Images, `system` die Disks laufender VMs, `files` kleinere Dateien. | [2.4](../iaas/images/) |
@@ -29,7 +30,7 @@ Das Glossar erklärt die Fachbegriffe des Kurses kurz und verweist auf das Kapit
 | Front-end | Die VM, auf der OpenNebula die Cloud verwaltet, mit dem Dienst `oned`, dem Scheduler und der Weboberfläche. Im Kurs ist sie auch das Gateway des internen Netzes. | [0.2](../start/lab/) |
 | Gateway | Der Rechner, über den die VMs eines Netzes andere Netze erreichen. Im Kurs leitet das Front-end den Verkehr des internen Netzes mit NAT ins Internet. | [0.2](../start/lab/) |
 | Gitea | Ein schlanker Git-Server mit Weboberfläche und Pull Requests. Im Kurs läuft er auf dem Front-end und hält das Repo `platform`. | [4.4](../platform/gitops/) |
-| GitOps | Der Soll-Zustand liegt versioniert in Git, ein Agent im Cluster holt ihn sich und gleicht laufend ab. Wer etwas ändern will, ändert Git. | [4.4](../platform/gitops/) |
+| GitOps | Der Soll-Zustand liegt versioniert in Git, ein Agent im Cluster holt ihn sich und gleicht laufend ab. Änderungen machst du deshalb in Git. | [4.4](../platform/gitops/) |
 | Grafana | Zeigt Abfragen an Prometheus und Loki als Dashboards. | [5.1](../observability/metrics/) |
 | Gruppe | Fasst in OpenNebula die Benutzer eines Mandanten zusammen. Ein Gruppenadmin verwaltet die Leute seines Mitglieds selbst. | [3.1](../tenants/groups/) |
 | Härten | Alles abschalten oder abschotten, was nicht gebraucht wird, im Kurs mit SSH nur über Schlüssel, einer Firewall und automatischen Updates. | [6.1](../operations/security/) |
@@ -88,7 +89,7 @@ Das Glossar erklärt die Fachbegriffe des Kurses kurz und verweist auf das Kapit
 | SLI | Service Level Indicator. Eine Messung, wie gut ein Dienst aus Sicht der Kundschaft arbeitet, meist als Anteil guter Ereignisse. | [5.3](../observability/slo/) |
 | SLO | Service Level Objective. Das interne Ziel für einen SLI über einen Zeitraum, beim Webshop 99,5 % der Anfragen ohne Serverfehler über sieben Tage. | [5.3](../observability/slo/) |
 | Snapshot | Eine Kopie der Datenbank von k3s zu einem Zeitpunkt. Mit ihr und dem Token des Servers lässt sich der Cluster auf diesen Stand zurücksetzen. | [6.2](../operations/backup/) |
-| Sprachmodell | Ein Modell, das Text Token für Token erzeugt. Es schreibt wahrscheinliche Texte, keine geprüften Aussagen. | [5.5](../observability/ai/) |
+| Sprachmodell | Ein Modell, das Text Token für Token erzeugt. Es schreibt wahrscheinliche Texte und prüft nicht, ob sie stimmen. | [5.5](../observability/ai/) |
 | SSH-Schlüssel | Ein Paar aus privatem und öffentlichem Schlüssel, mit dem du dich ohne Passwort an einem Server anmeldest. | [0.5](../start/tools/) |
 | State | Die Datei, in der OpenTofu festhält, welches Objekt in OpenNebula zu welchem Block im Code gehört. Sie enthält geheime Werte und gehört nicht in Git. | [4.1](../platform/iac/) |
 | Sunstone | Die Weboberfläche von OpenNebula auf Port 2616 des Front-ends, für das Plattform-Team und die Mitglieder. | [2.1](../iaas/architecture/) |

@@ -20,21 +20,21 @@ After this chapter you can:
 
 ## Logs and metrics
 
-Metrics are numbers at fixed intervals. They show that 5 % of the requests fail, but not which ones and with what message. Logs are lines of text a program writes when something happens. They hold the details but take more storage. In Kubernetes, every container writes its logs to standard output and standard error, and the node stores them as files. `kubectl logs` reads these files, but only as long as the pod exists. Once it is replaced, its logs are gone.
+Metrics are numbers at fixed intervals. They show that 5% of the requests fail, but not which ones and with what message. Logs are lines of text a program writes when something happens. They hold the details but take more storage. In Kubernetes, every container writes its logs to standard output and standard error, and the node stores them as files. `kubectl logs` reads these files, but only as long as the pod exists. Once it is replaced, its logs are gone.
 
 ## Loki and Alloy
 
-Loki collects logs centrally and keeps them beyond the end of a pod. Unlike a full-text search engine, Loki builds no index over the text, only over a few labels such as namespace and pod. It searches the text only when you query. That keeps Loki small but means you narrow down by labels before you search.
+Loki collects logs centrally and keeps them beyond the end of a pod. A full-text search engine indexes all of the text. Loki only indexes a few labels such as namespace and pod and searches the text when you run a query. This keeps Loki small, but every search has to start by narrowing down with labels.
 
-Alloy from Grafana runs as a DaemonSet, that is with one pod per node. Each one reads the logs of the pods on its node, adds labels and sends them to Loki. Both came into your repo with the copy in chapter 5.1, as two applications in `apps/loki.yaml`.
+Alloy from Grafana runs as a DaemonSet, with one pod per node. Each of them reads the logs of the pods on its node, adds labels and sends them to Loki. Both came into your repo with the copy in chapter 5.1, as two applications in `apps/loki.yaml`.
 
 ::code{file="platform/observability/repo/monitoring/loki.yaml"}
 
-Loki runs as a single process and stores its data on the disk of a node. That is enough for a lab. In production you would spread Loki over several processes and keep the data in object storage. After three days, Loki deletes old logs.
+Here Loki runs as a single process and stores its data on the disk of a node. That is enough for a lab. In production you would spread Loki over several processes and keep the data in object storage. Loki deletes logs older than three days.
 
 ::code{file="platform/observability/repo/monitoring/alloy.yaml"}
 
-The Alloy configuration is a chain. `discovery.kubernetes` finds the pods of its own node, `discovery.relabel` turns Kubernetes details into the labels `namespace`, `pod`, `container` and `app`, `loki.source.kubernetes` reads the logs, and `loki.write` sends them to Loki. In the test setup, a configuration with a block written on one line failed with "expected TERMINATOR". Alloy wants every attribute on a line of its own.
+The Alloy configuration is a chain of four components. `discovery.kubernetes` finds the pods of its own node. `discovery.relabel` turns Kubernetes details into the labels `namespace`, `pod`, `container` and `app`. `loki.source.kubernetes` reads the logs, and `loki.write` sends them to Loki. In the test setup, a configuration with a block written on one line failed with "expected TERMINATOR". Alloy wants every attribute on a line of its own.
 
 In the lab, Loki and Alloy were ready 80 seconds after the push.
 
@@ -54,7 +54,7 @@ You write queries in Grafana under "Explore" with the data source Loki. A query 
 | `{namespace="velo"} != "/healthz"` | everything except the Kubernetes probes |
 | `sum by (pod) (count_over_time({namespace="velo"} \|= " 404 " [5m]))` | number of lines with 404 per pod in five minutes |
 
-`|=` filters by text, `|~` by a regular expression, `!=` excludes. `count_over_time` turns lines into a number. This is how logs become metrics for dashboards and alerts.
+`|=` filters by text, `|~` by a regular expression, and `!=` excludes lines with the text. `count_over_time` counts the lines in a time window and turns logs into a metric you can use in dashboards and alerts.
 
 In the lab, 20 requests for a page that does not exist produced lines with `404`.
 
@@ -66,11 +66,11 @@ for i in $(seq 20); do curl -s -o /dev/null http://<server-address>/warenkorb; d
 10.52.1.10 "GET /warenkorb HTTP/1.1" 404 -
 ```
 
-The query with `count_over_time` then showed for each pod how many of these requests it had answered. Traefik spreads the requests across the pods.
+Traefik spreads the requests across the pods. The query with `count_over_time` then showed how many of these requests each pod had answered.
 
 ## Labels in moderation
 
-In Loki, every combination of labels is a stream of its own. Labels such as namespace, pod or app have few values and work well. An address, an order number or a path as a label would create thousands of streams and slow Loki down. Whatever changes often stays in the text and is found with `|=`.
+In Loki, every combination of labels is a stream of its own. Labels such as namespace, pod or app have few values and work well. An IP address, an order number or a path as a label would create thousands of streams and slow Loki down. Whatever changes often stays in the text and is found with `|=`.
 
 ::::exercise[Lab]
 Roll out Loki and Alloy, create requests with `404` and find them in Grafana. Count them per pod.
@@ -81,7 +81,7 @@ Roll out Loki and Alloy, create requests with `404` and find them in Grafana. Co
 ::::
 
 ::::exercise[Finding the error]
-First stage the fault as if you were a colleague. The command sets the variable `FAIL_PERCENT` in the web shop deployment to `30`, so the shop answers three out of ten requests with an error.
+First stage the fault as if you were someone else on the team. The command sets the variable `FAIL_PERCENT` in the web shop deployment to `30`, so the shop answers three out of ten requests with an error.
 
 ```bash
 cd ~/platform
@@ -90,17 +90,17 @@ git commit -am "Tune the web shop"
 git push
 ```
 
-Wait until Argo CD has picked up the change and call the shop a few times. Find in the logs what customers experience and in the Git history who did it. Then restore the old state.
+Once Argo CD has picked up the change, call the shop a few times. Use the logs to find out what customers experience and the Git history to find out who did it. Then restore the old state.
 
 :::solution
-`{namespace="velo", app="webshop"} |= "error"` shows lines like `error: simulated failure on /`, next to lines with status `500`. The time of the first line matches the commit that `git log -p webshop/deployment.yaml` shows. `git revert` followed by `git push` restores the old state, and Argo CD rolls it out. The logs show what happens, Git shows who changed what.
+`{namespace="velo", app="webshop"} |= "error"` shows lines like `error: simulated failure on /`, next to lines with status `500`. `git log -p webshop/deployment.yaml` shows the commit with its author and the change, and its time matches the first error line. `git revert` followed by `git push` restores the old state, and Argo CD rolls it out.
 :::
 ::::
 
 ::::exercise[One label too many]
-A colleague suggests setting the customer's address as a label in Alloy, so that you can search for a customer faster. What do you answer?
+A colleague suggests setting the customer's IP address as a label in Alloy, so that you can search for a customer faster. What do you answer?
 
 :::solution
-Every address would be a stream of its own, thousands with many customers. Loki would get slower and need more storage. The address is in the text anyway, and `{namespace="velo"} |= "10.52.1.10"` finds it. Data protection matters too, since an address is personal data and needs a purpose and a retention period.
+Every address would be a stream of its own, thousands with many customers. Loki would get slower and need more storage. The address is in the text anyway, and `{namespace="velo"} |= "10.52.1.10"` finds it. Data protection matters too. An IP address is personal data, and storing it needs a purpose and a retention period.
 :::
 ::::

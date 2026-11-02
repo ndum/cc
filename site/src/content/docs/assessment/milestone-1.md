@@ -11,15 +11,15 @@ Meilenstein 1 umfasst Teil 0 bis Teil 3. In der Basis baust du in deinem Lab die
 
 ## Basis
 
-Alles läuft in deinem eigenen Lab mit deinen persönlichen Parametern aus Kapitel 0.3. Die Basis verlangt sieben Anforderungen.
+Alles läuft in deinem eigenen Lab mit deinen persönlichen Parametern aus Kapitel 0.3. Die Basis umfasst sieben Anforderungen.
 
 1. Die drei VMs sind vorbereitet, der Check `start` ist grün.
 2. OpenNebula 7.4 läuft mit beiden Knoten, der Check `install` ist grün.
 3. Das Netz `cc-net` ist aus deinen Parametern angelegt, eine VM aus der Vorlage `ubuntu` läuft mit SSH und Zugang zum Internet, der Check `iaas` ist grün.
 4. Du leerst einen Knoten für die Wartung, nimmst ihn wieder in Betrieb und verschiebst eine VM live.
-5. Die vier Mitglieder haben Gruppen mit Admins im VDC `wolkenwerk`, und ein Mitglied sieht die VMs eines anderen nicht.
-6. Die Quotas der Mitglieder sind gesetzt, die Gemeinde hat die Quota aus deinen [persönlichen Werten](../../start/parameters/), und du zeigst die Meldung an der Grenze.
-7. Die Vorlage `ubuntu` hat Preise, der Showback eines Monats liegt als CSV vor, und ein Benutzer eines Mitglieds startet eine VM im Self-Service.
+5. Die vier Mitglieder haben Gruppen mit Admins im VDC `wolkenwerk`, ein Mitglied sieht die VMs eines anderen nicht.
+6. Die Quotas der Mitglieder sind gesetzt, die Gemeinde hat die Quota aus deinen [persönlichen Werten](../../start/parameters/). Du zeigst die Meldung an der Grenze.
+7. Die Vorlage `ubuntu` hat Preise, der Showback eines Monats liegt als CSV vor. Ein Benutzer eines Mitglieds startet eine VM im Self-Service.
 
 Die Dokumentation zeigt zu jeder Anforderung einen Screenshot mit einem oder zwei Sätzen dazu und enthält den Bericht des Checks `m1`. Mach die Screenshots, bevor du mit Kapitel 4.2 beginnst. Dort entfernst du die VMs von Teil 2 und 3, weil der Kubernetes-Cluster ihren Platz braucht.
 
@@ -29,7 +29,7 @@ Für die drei Zusatzaufträge rechnest du mit vier bis sechs Stunden. Jeder gibt
 
 ### A · Elastizität mit OneFlow
 
-Die Treuhand betreibt ihren Dienst in OneFlow mit Regeln für die Elastizität. Du zeigst, wie der Dienst unter Last wächst und danach wieder schrumpft, und erklärst, warum deine Regeln so sind, wie sie sind. [Kapitel 3.5](../../tenants/oneflow/) zeigt den Weg. Starte die Last vor der Vorführung, das Wachsen braucht einige Minuten.
+Die Treuhand betreibt ihren Dienst in OneFlow mit Regeln für die Elastizität. Du zeigst, wie der Dienst unter Last wächst und danach wieder schrumpft. Dazu begründest du, warum du die Regeln so gesetzt hast. [Kapitel 3.5](../../tenants/oneflow/) zeigt den Weg. Starte die Last vor der Vorführung, das Wachsen braucht einige Minuten.
 
 ### B · Showback als Bericht
 
@@ -37,13 +37,13 @@ Ein eigenes Skript mit einem eigenen systemd-Timer legt den Showback des vergang
 
 ### C · Ausfall eines Knotens
 
-Du schaltest einen Knoten aus und zeigst, was mit den VMs der Mitglieder geschieht. Daraus leitest du einen Vorschlag für die Platzierung der VMs ab, etwa Packing oder Striping, und begründest ihn für die Mitglieder von Wolkenwerk. [Kapitel 2.5](../../iaas/hosts/) beschreibt Scheduler, Wartung und Ausfall.
+Du schaltest einen Knoten aus und zeigst, was mit den VMs der Mitglieder geschieht. Daraus leitest du einen Vorschlag für die Platzierung der VMs ab, etwa Packing oder Striping. Diesen Vorschlag begründest du für die Mitglieder von Wolkenwerk. [Kapitel 2.5](../../iaas/hosts/) beschreibt Scheduler, Wartung und Ausfall.
 
 ## Zusatzaufträge zeigen
 
 Die Zusatzaufträge zeigst du live im Unterricht oder in einem Screencast von höchstens zehn Minuten. Für die Vorführung im Unterricht vereinbarst du selbst einen Termin mit deiner Dozentin oder deinem Dozenten. Sie muss bis zur Abgabe 1 stattfinden. Der Screencast beginnt mit `cat /etc/cc-lab.env` und dem Bericht des Checks `m1` mit Hash und deinen zwei Fragen, die du in der Vorführung beantwortest.
 
-Nach Kapitel 4.2 belegt der Kubernetes-Cluster die Knoten. Zeigst du Auftrag A oder C danach live, zeigt [Kapitel 4.2](../../platform/opentofu/#platz-auf-den-knoten), wie du den Cluster dafür vorübergehend von den Knoten nimmst.
+Nach Kapitel 4.2 belegt der Kubernetes-Cluster die Knoten. Führst du Auftrag A oder C danach live vor, nimmst du den Cluster dafür vorübergehend von den Knoten. Wie das geht, steht in [Kapitel 4.2](../../platform/opentofu/#platz-auf-den-knoten).
 
 ## Abgabe
 
@@ -71,4 +71,4 @@ Die Berichte der Checks legst du in `reports/`. Wie das Repo aufgebaut ist und w
 | C · Ausfall eines Knotens und Vorschlag zur Platzierung | 3 |
 | **Zusatz** | **9** |
 
-Meilenstein 1 gibt zusammen höchstens 30 Punkte. Eine Anforderung der Basis gibt 3 Punkte, wenn Bericht und Screenshot sie belegen, und 1 Punkt, wenn sie nur teilweise erfüllt ist. Beantwortest du eine der zwei Fragen nicht oder falsch, bekommt der Zusatzauftrag, zu dem sie gehört, höchstens 1 Punkt.
+Meilenstein 1 gibt zusammen höchstens 30 Punkte. Eine Anforderung der Basis gibt 3 Punkte, wenn Bericht und Screenshot sie belegen. Für eine nur teilweise erfüllte Anforderung gibt es 1 Punkt. Beantwortest du eine der zwei Fragen nicht oder falsch, bekommt der Zusatzauftrag, zu dem sie gehört, höchstens 1 Punkt.

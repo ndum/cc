@@ -3,14 +3,14 @@ title: Leistungsbeurteilung
 description: Wie die vier Meilensteine zwei Noten ergeben, was Basis und Zusatzaufträge verlangen, wie du die Basis dokumentierst und die Zusatzaufträge zeigst und wie dein Abgabe-Repo aufgebaut ist.
 ---
 
-Deine Modulnote setzt sich aus vier Meilensteinen zusammen. Je zwei davon gibst du gemeinsam ab, und jede Abgabe ergibt eine Note.
+Deine Modulnote setzt sich aus vier Meilensteinen zusammen. Je zwei davon gibst du gemeinsam ab. Jede Abgabe ergibt eine Note.
 
 | Abgabe | Meilensteine | Gewicht |
 |---|---|---|
 | Abgabe 1 | Meilenstein 1 IaaS für Wolkenwerk und Meilenstein 2 Plattform per Code | 50 % |
 | Abgabe 2 | Meilenstein 3 Observability, Skalierung und KI und Meilenstein 4 Betrieb und ein eigenes Mitglied | 50 % |
 
-Die Modulnote ist der Durchschnitt der beiden Noten. Die Termine der Abgaben, den Weg der Abgabe und die Regeln zu Verspätungen erhältst du von deiner Dozentin oder deinem Dozenten.
+Die Modulnote ist der Durchschnitt der beiden Noten. Die Termine der Abgaben, den Weg der Abgabe und die Regeln zu Verspätungen erfährst du von deiner Dozentin oder deinem Dozenten.
 
 ## Punkte und Note
 
@@ -28,13 +28,13 @@ Jeder Meilenstein gibt höchstens 30 Punkte, 21 für die Basis und 9 für die Zu
 
 ## Die Meilensteine
 
-Jeder Meilenstein ist eine Einzelarbeit in deinem eigenen Lab. Die Aufträge der Meilensteine erscheinen mit den Teilen, zu denen sie gehören. [Meilenstein 1](milestone-1/) gehört zu Teil 0 bis Teil 3, [Meilenstein 2](milestone-2/) zu Teil 4, [Meilenstein 3](milestone-3/) zu Teil 5 und [Meilenstein 4](milestone-4/) zu Teil 6. Jeder Meilenstein hat zwei Teile, die Basis mit sieben Anforderungen und drei Zusatzaufträge, die über die Basis hinausgehen.
+Jeder Meilenstein ist eine Einzelarbeit in deinem eigenen Lab. Sein Auftrag erscheint zusammen mit den Teilen des Kurses, zu denen er gehört. [Meilenstein 1](milestone-1/) gehört zu Teil 0 bis Teil 3, [Meilenstein 2](milestone-2/) zu Teil 4, [Meilenstein 3](milestone-3/) zu Teil 5 und [Meilenstein 4](milestone-4/) zu Teil 6. Jeder Meilenstein besteht aus der Basis mit sieben Anforderungen und aus drei Zusatzaufträgen, die darüber hinausgehen.
 
-Hilfe unter Studierenden ist erlaubt, und eine Lösung zu besprechen, gehört zum Lernen. Deine persönlichen Werte, dein Bericht und deine Antworten auf die Fragen zeigen, ob die Lösung in deinem Lab läuft und ob du sie verstehst.
+Hilfe unter Studierenden ist erlaubt. Eine Lösung miteinander zu besprechen gehört zum Lernen. Deine persönlichen Werte, dein Bericht und deine Antworten auf die Fragen zeigen, ob die Lösung in deinem Lab läuft und ob du sie verstehst.
 
 ## Basis
 
-Die Basis umfasst die Arbeit, die du mit den Kapiteln und ihren Skripten im Unterricht und im Selbststudium erledigst. Jeder Meilenstein nennt sieben Anforderungen, und jede gibt 0 bis 3 Punkte.
+Die Basis umfasst die Arbeit, die du mit den Kapiteln und ihren Skripten im Unterricht und im Selbststudium erledigst. Jeder Meilenstein nennt sieben Anforderungen. Jede davon gibt 0 bis 3 Punkte.
 
 | Punkte | Stand |
 |---|---|
@@ -42,7 +42,7 @@ Die Basis umfasst die Arbeit, die du mit den Kapiteln und ihren Skripten im Unte
 | 1 | die Anforderung ist nur teilweise erfüllt, etwa zeigt der Screenshot sie, aber der Check ist rot |
 | 0 | die Anforderung fehlt |
 
-Einige Anforderungen prüft kein Check, etwa eine Zeichnung oder eine Tabelle mit RPO und RTO. Diese belegst du allein mit der Dokumentation. Der Check des Meilensteins zeigt die Anforderungen der Basis mit `[ok]` oder `[!!]` und zählt nur sie. Spuren der Zusatzaufträge zeigt er mit `[+ok]` oder `[+!!]` in einer eigenen Zählung, die für die Basis nicht zählt.
+Einige Anforderungen prüft kein Check, etwa eine Zeichnung oder eine Tabelle mit RPO und RTO. Diese belegst du allein mit der Dokumentation. Der Check des Meilensteins zeigt die Anforderungen der Basis mit `[ok]` oder `[!!]` und zählt nur sie. Spuren der Zusatzaufträge markiert er mit `[+ok]` oder `[+!!]` und zählt sie getrennt. Diese Zählung geht nicht in die Basis ein.
 
 ## Dokumentation
 
@@ -65,7 +65,7 @@ Jeder Zusatzauftrag wird nach denselben Stufen bewertet.
 
 ## Zusatzaufträge zeigen
 
-Die Zusatzaufträge eines Meilensteins zeigst du in einer Vorführung, entweder live im Unterricht oder in einem Screencast von höchstens zehn Minuten. Für eine Vorführung im Unterricht gehst du selbst auf deine Dozentin oder deinen Dozenten zu und vereinbarst einen Termin. Die Vorführung muss bis zur Abgabe stattgefunden haben, zu der der Meilenstein gehört, ein Screencast liegt bis dahin im Abgabe-Repo. Was später kommt, zählt nicht mehr.
+Die Zusatzaufträge eines Meilensteins zeigst du in einer Vorführung, entweder live im Unterricht oder in einem Screencast von höchstens zehn Minuten. Für eine Vorführung im Unterricht gehst du selbst auf deine Dozentin oder deinen Dozenten zu und vereinbarst einen Termin. Die Vorführung muss bis zur Abgabe stattgefunden haben, zu der der Meilenstein gehört, ein Screencast liegt bis dahin im Abgabe-Repo. Eine spätere Vorführung oder ein Screencast, der erst danach im Repo liegt, zählt nicht mehr.
 
 Der Screencast ist eine einzige Aufnahme ohne Schnitt. Er beginnt mit `cat /etc/cc-lab.env` und dem Bericht des Checks des Meilensteins mit seinem Hash und deinen zwei Fragen. Danach führst du die Zusatzaufträge in deinem Lab vor. Die Regeln stehen auch in [Kapitel 0.5](../start/tools/#screencasts).
 

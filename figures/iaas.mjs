@@ -16,8 +16,8 @@ const TEXT = {
     title: 'Wie OneDeploy das Lab einrichtet',
     desc:
       'Ansible auf dem Front-end liest das Inventar und die Playbooks von OneDeploy. Es richtet das ' +
-      'Front-end lokal ein, mit oned, Scheduler und FireEdge, und die beiden Knoten über SSH, mit KVM ' +
-      'und libvirt.',
+      'Front-end lokal ein, mit oned, Scheduler und FireEdge. Die beiden Knoten richtet es über SSH ein, ' +
+      'mit KVM und libvirt.',
     input: 'Eingaben',
     inventory: ['Inventar', 'inventory.yml'],
     onedeploy: ['OneDeploy', 'Playbooks, Rollen'],
@@ -170,8 +170,8 @@ const PATH = {
       'das äussere Paket brauchen 36 Byte, der Ethernet-Kopf im Rahmen der VM weitere 14. Für das IP-Paket der ' +
       'VM bleiben so höchstens 1450 der 1500 Byte, darum die MTU 1450. Rechts ' +
       'packt cc-vxlan auf dem Front-end den Rahmen aus und gibt ihn an die Bridge cc-br mit der Adresse des ' +
-      'Gateways. Die NAT-Regel in der nftables-Tabelle cc_gateway ersetzt die Absenderadresse, und das Paket ' +
-      'geht über das Labnetz ins Internet.',
+      'Gateways. Die NAT-Regel in der nftables-Tabelle cc_gateway ersetzt die Absenderadresse. Danach ' +
+      'geht das Paket über das Labnetz ins Internet.',
     node: 'Knoten 1',
     vm: ['VM', 'MTU 1450'],
     nodeBridge: ['Bridge', 'ccbr<CC_VNI>'],

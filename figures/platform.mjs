@@ -295,8 +295,8 @@ const TREE = {
   de: {
     title: 'App of Apps im Plattform-Repo',
     desc:
-      'Die Application root wird einmal beim Bootstrap angewendet und zeigt auf den Ordner apps. Darin liegen die ' +
-      'Application webshop, die den Ordner webshop in den Namespace velo bringt, und das ApplicationSet members. ' +
+      'Die Application root wird einmal beim Bootstrap angewendet und zeigt auf den Ordner apps. Darin liegen das ' +
+      'ApplicationSet members und die Application webshop, die den Ordner webshop in den Namespace velo bringt. ' +
       'Das ApplicationSet erzeugt für jeden Ordner unter members eine Application, etwa member-velo und ' +
       'member-gemeinde.',
     boot: 'Bootstrap',

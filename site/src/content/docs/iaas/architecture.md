@@ -1,12 +1,12 @@
 ---
 title: Architektur von OpenNebula
-description: Die Bausteine von OpenNebula auf Front-end und Knoten, die Objekte, mit denen du arbeitest, und die Wege, über die du auf die Cloud zugreifst.
+description: Die Bausteine von OpenNebula auf Front-end und Knoten, seine Objekte und die drei Wege, über die du auf die Cloud zugreifst.
 sidebar:
   order: 1
 ---
 
 :::assignment
-«Bevor du installierst, will ich verstehen, was wir da betreiben», schreibt Simone Wyss. «Was läuft wo, und wer redet mit wem? Wenn nachts etwas ausfällt, muss das Plattform-Team das wissen.»
+«Bevor du installierst, will ich verstehen, was wir da betreiben», schreibt Simone Wyss. «Was läuft wo und wer redet mit wem? Wenn nachts etwas ausfällt, muss das Plattform-Team das wissen.»
 :::
 
 :::goals
@@ -20,11 +20,11 @@ Nach diesem Kapitel kannst du:
 
 ## Die Bausteine
 
-OpenNebula besteht aus einem Front-end, das die Cloud verwaltet, und aus Knoten, auf denen die VMs laufen. Auf den Knoten läuft kein eigener Dienst von OpenNebula. Das Front-end steuert sie über SSH und kleine Treiberprogramme.
+OpenNebula besteht aus einem Front-end und aus Knoten. Das Front-end verwaltet die Cloud, auf den Knoten laufen die VMs. Einen eigenen Dienst von OpenNebula brauchen die Knoten nicht, das Front-end steuert sie über SSH und kleine Treiberprogramme.
 
 ![Die Bausteine von OpenNebula. Drei Bereiche nebeneinander. Links greifen Sunstone, die CLI und OpenTofu über die API auf das Front-end zu. In der Mitte verwaltet oned auf dem Front-end alle Objekte, speichert sie in MariaDB, lässt den Scheduler Knoten wählen und erhält Zustände von onemonitord. Die Treiber für Hosts, VMs, Transfer, Netze und Datastores führen die Aufträge aus. Rechts arbeiten die Knoten mit libvirt und KVM, die Treiber erreichen sie über SSH.](../../../assets/figures/de/p2c1-architecture.svg)
 
-Der Kern ist der Dienst `oned`. Er nimmt alle Aufträge über seine API entgegen, verwaltet den Zustand jedes Objekts und speichert ihn in einer Datenbank, im Kurs MariaDB. Der Scheduler ist ein Treiber von `oned` und wählt für jede neue VM einen Knoten mit genug freier Kapazität. `onemonitord` fragt regelmässig ab, wie es den Knoten und VMs geht.
+Der Kern ist der Dienst `oned`. Er nimmt alle Aufträge über seine API entgegen, verwaltet den Zustand jedes Objekts und speichert ihn in einer Datenbank, im Kurs MariaDB. Der Scheduler ist ein Treiber von `oned` und wählt für jede neue VM einen Knoten mit genug freier Kapazität. `onemonitord` fragt regelmässig den Zustand der Knoten und VMs ab.
 
 Die eigentliche Arbeit erledigen Treiber, die `oned` für jede Art von Aufgabe aufruft:
 
@@ -38,7 +38,7 @@ Die eigentliche Arbeit erledigen Treiber, die `oned` für jede Art von Aufgabe a
 
 ## Der Weg einer VM
 
-Startest du in Sunstone eine VM, schickt Sunstone den Auftrag an die API von `oned`. `oned` legt die VM in der Datenbank an, und der Scheduler wählt einen Knoten. Der TM-Treiber kopiert das Image über SSH in den Datastore auf dem Knoten, der VNM-Treiber richtet dort das Netz ein, und der VMM-Treiber lässt libvirt die VM mit KVM starten. `onemonitord` meldet danach laufend ihren Zustand. In Kapitel 2.2 siehst du, welche Dienste und Ports dazu auf dem Front-end laufen.
+Startest du in Sunstone eine VM, schickt Sunstone den Auftrag an die API von `oned`. `oned` legt die VM in der Datenbank an und der Scheduler wählt einen Knoten. Der TM-Treiber kopiert das Image über SSH in den Datastore auf diesem Knoten, der VNM-Treiber richtet dort das Netz ein. Zuletzt lässt der VMM-Treiber libvirt die VM mit KVM starten. Von da an meldet `onemonitord` laufend ihren Zustand. Welche Dienste und Ports dazu auf dem Front-end laufen, zeigt Kapitel 2.2.
 
 ## Die Objekte
 
@@ -57,13 +57,13 @@ In OpenNebula arbeitest du mit Objekten. Jedes hat eine Nummer, einen Namen, ein
 
 ## Zugang
 
-Auf OpenNebula greifst du auf drei Wegen zu, und alle drei sprechen mit derselben API von `oned`. Die Weboberfläche Sunstone eignet sich zum Erkunden und für die Mitglieder. Die CLI auf dem Front-end ist der schnellste Weg für das Plattform-Team und für Skripte. Die API selbst nutzen Werkzeuge wie OpenTofu, mit dem du ab Teil 4 VMs aus Code anlegst.
+Auf OpenNebula greifst du auf drei Wegen zu. Alle drei sprechen mit derselben API von `oned`. Die Weboberfläche Sunstone eignet sich zum Erkunden und für die Mitglieder. Die CLI auf dem Front-end ist der schnellste Weg für das Plattform-Team und für Skripte. Die API selbst nutzen Werkzeuge wie OpenTofu, mit dem du ab Teil 4 VMs aus Code anlegst.
 
 ::::exercise[Einordnen]
-Ordne die Bausteine `oned`, KVM, MariaDB, Scheduler, libvirt, Sunstone, `onemonitord` und den Datastore 0 mit den Disks laufender VMs dem Front-end oder den Knoten zu.
+Ordne die Bausteine `oned`, `onemonitord`, KVM, MariaDB, Scheduler, libvirt, Sunstone und den Datastore 0 mit den Disks laufender VMs dem Front-end oder den Knoten zu.
 
 :::solution
-Auf dem Front-end laufen `oned`, MariaDB, der Scheduler, Sunstone und `onemonitord`. Auf den Knoten laufen KVM und libvirt, und dort liegt auch der Datastore 0 mit den Disks der laufenden VMs, weil der Transfertreiber `ssh` sie dorthin kopiert.
+Auf dem Front-end laufen `oned`, MariaDB, der Scheduler, Sunstone und `onemonitord`. Auf den Knoten laufen KVM und libvirt. Dort liegt auch der Datastore 0 mit den Disks der laufenden VMs, weil der Transfertreiber `ssh` sie dorthin kopiert.
 :::
 ::::
 

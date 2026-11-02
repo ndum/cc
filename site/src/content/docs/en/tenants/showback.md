@@ -20,13 +20,13 @@ After this chapter you can:
 
 ## Showback and chargeback
 
-Whoever shares a cloud wants to know who uses how much of it. The FinOps Foundation distinguishes two ways. Showback shows every unit what it has used, without any money changing hands. Chargeback charges this usage to the unit's budget. Showback is the first step, because only when the numbers are right and everybody understands them can you base an invoice on them. Whether an organisation introduces chargeback afterwards depends on its accounting.
+Anyone who shares a cloud wants to know who uses how much of it. The FinOps Foundation distinguishes two approaches. Showback shows every business unit what it has used, without any money changing hands. Chargeback charges this usage to the unit's budget. Showback comes first, because only when the numbers are right and everybody understands them can you base an invoice on them. Whether an organization introduces chargeback afterwards depends on its accounting.
 
 Wolkenwerk Bern starts with showback. The members see their costs every month, and the board decides later how the cooperative charges them.
 
 ## Prices in the template
 
-OpenNebula calculates with three prices per hour that are stored in the template. `CPU_COST` applies per CPU of the template, `MEMORY_COST` per MB of memory and `DISK_COST` per MB of disk. The prices in the lab are invented for the case and meant in Swiss francs.
+OpenNebula works with three hourly prices stored in the template. `CPU_COST` applies per CPU of the template, `MEMORY_COST` per MB of memory and `DISK_COST` per MB of disk. The prices in the lab are made up for the case and are meant in Swiss francs.
 
 ::code{file="lab/tenants/costs.tpl"}
 
@@ -35,11 +35,11 @@ onetemplate update ubuntu --append ~/cc/lab/tenants/costs.tpl
 onetemplate show ubuntu | grep COST
 ```
 
-A VM takes the prices from the template when it starts. VMs started before therefore cost nothing. A reboot with `onevm reboot` is not enough. In the lab you terminate the members' VMs with `onevm terminate` after adding the prices and start them again from the template.
+A VM takes the prices from the template when it starts. VMs that were started earlier therefore cost nothing, and a reboot with `onevm reboot` does not change that. In the lab you terminate the members' VMs with `onevm terminate` after adding the prices and start them again from the template.
 
 ## Calculating costs
 
-`oneshowback calculate` calculates the costs of all VMs from their running time and stores them per month. OpenNebula ships the timer `opennebula-showback.timer` for this, which starts the calculation every day. For the exercises you start it yourself so that you do not have to wait until midnight. `oneshowback list` then shows owner, group, month, hours, running time and cost per VM. With `-g` you only see one member.
+`oneshowback calculate` calculates the costs of all VMs from their running time and stores them per month. OpenNebula ships the timer `opennebula-showback.timer`, which runs this calculation every day. For the exercises you start it yourself so that you do not have to wait until midnight. `oneshowback list` then shows owner, group, month, hours, running time and cost per VM. With `-g` you only see one member.
 
 ```bash
 oneshowback calculate
@@ -48,7 +48,7 @@ oneshowback list -g treuhand
 oneshowback list --csv > ~/cc-lab/showback.csv
 ```
 
-A group admin only sees the VMs of its own group with `oneshowback list`. So every member can check its own costs without seeing those of the others.
+With `oneshowback list` a group admin only sees the VMs of their own group. Each member can therefore check its own costs without seeing those of the others.
 
 ## The cost of a VM
 
@@ -58,9 +58,9 @@ A VM from the template `ubuntu` has 0.5 CPU, 1024 MB of memory and a disk of 358
 0.5 × 0.05 + 1024 × 0.00002 + 3584 × 0.000001 = 0.025 + 0.0205 + 0.0036 ≈ 0.049
 ```
 
-Over 30 days with 720 hours that makes about 35 francs. The cost depends on the running time, a stopped VM costs nothing in this model. That is why it pays for the members to stop VMs they do not need.
+Over 30 days, or 720 hours, that comes to about 35 francs. The cost follows the time a VM holds resources on a host. A VM switched off with `onevm poweroff` therefore keeps costing. Only `onevm undeploy` takes it off the host, and then it costs nothing in this model. It pays for the members to take VMs they do not need for a while off the host that way.
 
-In the end the prices have to cover the cooperative's costs. These include the hardware over its lifetime, power, licences, backup and the work of the platform team, including the reserve for maintenance from chapter 2.5. A simple approach divides the yearly costs by the capacity that can be sold in a year. Chapter 6.4 calculates with all costs, and in the advanced task of milestone 4 also for a member of your own.
+In the end the prices have to cover the cooperative's costs. These include the hardware over its lifetime, power, licenses, backup and the work of the platform team, as well as the reserve for maintenance from chapter 2.5. A simple approach divides the yearly costs by the capacity that can be sold in a year. Chapter 6.4 works with all the costs, and the advanced task of milestone 4 does the same for a member of your own.
 
 ::::exercise[Lab]
 Add the prices to the template. As `praxis-admin`, terminate the VM `praxis-1` with `onevm terminate` and start it again from the template under the same name. Also start the VM `treuhand-1` as `treuhand-admin`. Calculate the showback after one hour, and carry on with chapter 3.4 in the meantime. Export the list as CSV to your hand-in repo.
@@ -74,6 +74,6 @@ Add the prices to the template. As `praxis-admin`, terminate the VM `praxis-1` w
 The two nodes cost 7,000 francs together and run for five years. Power, backup and work cost 6,000 francs a year. On average 10 VMs from the template `ubuntu` are in use. Do the lab prices cover the costs? What would you propose to the board?
 
 :::solution
-The costs per year are 7,000 / 5 + 6,000 = 7,400 francs. 10 VMs at 35 francs a month bring in 4,200 francs a year. So the prices cover only a little more than half. Either the prices rise to about 1.8 times, or utilisation has to grow. A fixed base fee per member for the work of the platform team would be another option.
+The costs per year are 7,000 / 5 + 6,000 = 7,400 francs. 10 VMs at 35 francs a month bring in 4,200 francs a year. So the prices cover only a little more than half. Either the prices go up to about 1.8 times their current level, or utilization has to grow. A fixed base fee per member for the work of the platform team would be another option.
 :::
 ::::

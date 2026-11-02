@@ -21,7 +21,7 @@ After this chapter you can:
 
 ## The purpose of monitoring
 
-Monitoring should show what is broken and why. Customers notice what is broken too, for example a slow shop. The why needs a look inside, for example full disks or a node without free memory. Google's book "Site Reliability Engineering" names four signals worth measuring for every service.
+Monitoring should show what is broken and why. Customers often notice that something is wrong, for example when the shop is slow. The reason only shows up inside the system, such as full disks or a node without free memory. Google's book "Site Reliability Engineering" names four golden signals worth measuring for every service.
 
 | Signal | Question | For the web shop |
 |---|---|---|
@@ -48,7 +48,7 @@ Prometheus pulls the values itself, usually every 15 to 30 seconds. Every target
 
 ## The stack
 
-kube-prometheus-stack is a Helm chart of the Prometheus community. It brings Prometheus, Alertmanager, Grafana, the Prometheus Operator, kube-state-metrics for the state of the cluster objects and node-exporter for the nodes. The operator adds types of its own. A ServiceMonitor tells Prometheus which services to scrape, a ScrapeConfig names targets outside the cluster, and a PrometheusRule holds rules.
+kube-prometheus-stack is a Helm chart of the Prometheus community. It contains Prometheus, Alertmanager, Grafana, the Prometheus Operator, kube-state-metrics for the state of the cluster objects and node-exporter for the nodes. The operator adds resource types of its own. A ServiceMonitor tells Prometheus which services to scrape, a ScrapeConfig names targets outside the cluster, and a PrometheusRule holds rules.
 
 Like the web shop, the stack comes from Git. The additions for part 5 are in the course repo under `platform/observability/repo`. You copy them over your platform repo and replace the placeholders with your addresses.
 
@@ -75,11 +75,11 @@ The application `monitoring` takes the chart from the community repo and the val
 
 ::code{file="platform/observability/repo/monitoring/kube-prometheus-stack.yaml"}
 
-k3s runs scheduler, controller manager and proxy in a single process. The monitors the chart ships for them would find nothing and stay red, so they are off.
+k3s runs scheduler, controller manager and proxy in a single process. The monitors the chart ships for them would find nothing and stay red, so they are switched off.
 
 ## OpenNebula as a target
 
-For the IaaS layer, OpenNebula ships exporters of its own in the package `opennebula-prometheus-kvm`. On the front-end, the OpenNebula exporter on port 9925 reports hosts, VMs and datastores as OpenNebula sees them. On the front-end and on both nodes, node_exporter on port 9100 shows the operating system, and on the nodes the libvirt exporter on port 9926 shows the VMs as KVM sees them. Do not install the package `opennebula-prometheus`, it would bring a second Prometheus.
+For the IaaS layer, OpenNebula ships exporters of its own in the package `opennebula-prometheus-kvm`. The OpenNebula exporter runs on the front-end and reports hosts, VMs and datastores on port 9925 as OpenNebula sees them. On the front-end and on both nodes, node_exporter on port 9100 reports the values of the operating system. The nodes also run the libvirt exporter on port 9926, which shows the VMs as KVM sees them. Do not install the package `opennebula-prometheus`. It would bring a second Prometheus.
 
 ::code{file="platform/observability/install-exporters.sh"}
 
@@ -87,7 +87,7 @@ For the IaaS layer, OpenNebula ships exporters of its own in the package `openne
 ~/cc/platform/observability/install-exporters.sh
 ```
 
-In the lab all six targets reported `ok`. The OpenNebula exporter needed about half a minute after starting before it knew the hosts. Prometheus reaches the exporters through three ScrapeConfigs with the addresses of your parameters. The jobs of the targets outside the cluster only appeared in Prometheus a good five minutes after the push, once the config reloader had taken over the ScrapeConfigs.
+In the lab all six targets reported `ok`. The OpenNebula exporter needed about half a minute after starting before it knew the hosts. Prometheus reaches the exporters through three ScrapeConfigs with the addresses of your parameters. The jobs of the targets outside the cluster only appeared in Prometheus a good five minutes after the push, once the config reloader had picked up the ScrapeConfigs.
 
 ![What Prometheus scrapes. On the left the k3s cluster. Prometheus runs in the namespace monitoring and scrapes the metrics in the cluster from the web shop in the namespace velo, from kube-state-metrics and from node-exporter on k3s-server and k3s-agent. Outside the cluster it scrapes the OpenNebula exporter on port 9925 and node_exporter on port 9100 on the front-end, and node_exporter on port 9100 and the libvirt exporter on port 9926 on both nodes. Grafana queries Prometheus with PromQL. Inside the cluster Prometheus finds its targets through ServiceMonitors, outside through three ScrapeConfigs.](../../../../assets/figures/en/p5c1-scrape.svg)
 
@@ -99,11 +99,11 @@ For the web shop, a ServiceMonitor next to its deployment is enough. Prometheus 
 
 ::code{file="platform/observability/repo/webshop/servicemonitor.yaml"}
 
-So far, the member NetworkPolicy of chapter 4.5 only admitted the own namespace and `kube-system`. Without a change, Prometheus would not reach `/metrics`. The new version of the template also admits the namespace `monitoring`.
+So far, the member NetworkPolicy of chapter 4.5 only admitted traffic from the member's own namespace and `kube-system`. Without a change, Prometheus would not reach `/metrics`. The new version of the template also admits the namespace `monitoring`.
 
 ::code{file="platform/observability/repo/templates/member/networkpolicy.yaml"}
 
-Now you push everything. Argo CD rolls out the stack, in the lab it was synced and healthy 161 seconds after the push.
+Once you have pushed everything, Argo CD rolls out the stack. In the lab it was synced and healthy 161 seconds after the push.
 
 ```bash
 git add .
@@ -114,13 +114,13 @@ kubectl -n monitoring get pods
 
 ## PromQL
 
-You reach Prometheus and Grafana from your computer through a tunnel again, Prometheus on port 30090 and Grafana on port 30300 of the server.
+Like Argo CD, you reach Prometheus and Grafana through a tunnel, Prometheus on port 30090 and Grafana on port 30300 of the server. You open the tunnel from the client, which is the Kali VM on smartlearn and your PC with an own hypervisor.
 
 ```bash
 ssh -L 9090:<server-address>:30090 -L 3000:<server-address>:30300 mmuster-fe
 ```
 
-At `http://localhost:9090/targets`, Prometheus lists every target with its state. In the lab all of them were `up`, including the jobs `opennebula`, `opennebula-hosts`, `opennebula-libvirt` and `webshop`. Under "Query" you try out queries.
+In the browser of the client, `http://localhost:9090/targets` lists every target with its state. All of them were `up` in the lab, including the OpenNebula jobs `opennebula`, `opennebula-hosts` and `opennebula-libvirt` and the job `webshop`. Under "Query" you try out queries.
 
 | Query | Result |
 |---|---|
@@ -128,21 +128,21 @@ At `http://localhost:9090/targets`, Prometheus lists every target with its state
 | `opennebula_host_mem_usage_bytes / opennebula_host_mem_total_bytes` | share of each node's memory taken by VMs |
 | `rate(webshop_requests_total[5m])` | requests per second, averaged over five minutes |
 | `sum by (code) (rate(webshop_requests_total[5m]))` | the same, added up by status code |
-| `histogram_quantile(0.95, sum by (le) (rate(webshop_request_duration_seconds_bucket[5m])))` | time within which 95 % of the requests are answered |
+| `histogram_quantile(0.95, sum by (le) (rate(webshop_request_duration_seconds_bucket[5m])))` | time within which 95% of the requests are answered |
 
-A counter on its own says little, it has been rising since the pod started. `rate()` turns it into a change per second and also copes with restarts, when the counter drops to zero. `sum by` combines time series and keeps only the labels you name. In the lab, the k3s VMs took 83 % of the memory OpenNebula can hand out on each node.
+A counter on its own says little, because it only rises from the moment the pod starts. `rate()` turns it into a change per second and also copes with restarts, when the counter drops to zero. `sum by` combines time series and keeps only the labels you name. According to the second query, the k3s VMs took 83% of the memory OpenNebula can hand out on each node in the lab.
 
 ## Grafana
 
-Grafana shows queries as dashboards. At `http://localhost:3000/` you sign in as `admin` with the password from `~/cc-lab/grafana.pass`. The chart brings dashboards for Kubernetes, such as "Kubernetes / Compute Resources / Namespace (Pods)". On top comes a dashboard of the platform team from Git, `monitoring/config/dashboard-wolkenwerk.yaml`. It shows OpenNebula hosts and VMs, traffic, errors and response time of the web shop, CPU per namespace and the members' memory against their quota. Grafana loads every config map with the label `grafana_dashboard` on its own.
+Grafana shows queries as dashboards. In the browser of the client, you sign in at `http://localhost:3000/` as `admin`, with the password from `~/cc-lab/grafana.pass` on the front-end. The chart brings dashboards for Kubernetes, such as "Kubernetes / Compute Resources / Namespace (Pods)". The platform team adds a dashboard of its own from Git, `monitoring/config/dashboard-wolkenwerk.yaml`. It shows OpenNebula hosts and VMs, traffic, errors and response time of the web shop, CPU per namespace and the members' memory against their quota. Grafana loads every ConfigMap with the label `grafana_dashboard` by itself.
 
-Grafana does not store your own changes, because the dashboard comes from a ConfigMap and Grafana has no volume. A panel of your own that stays therefore belongs in Git. In `monitoring/config/dashboard-wolkenwerk.yaml` copy an existing panel, give it a new `id`, your own `title`, your query in `expr` and a free place in `gridPos`, and push the change. The panel menu shows the JSON of a panel you designed in Grafana under "Inspect" and "Panel JSON".
+Changes you make in Grafana itself are lost, because the dashboard comes from a ConfigMap and Grafana has no volume. A panel you want to keep therefore belongs in Git. Copy an existing panel in `monitoring/config/dashboard-wolkenwerk.yaml`, give it a new `id`, your own `title`, your query in `expr` and a free place in `gridPos`, and push the change. For a panel you designed in Grafana, the panel menu shows its JSON under "Inspect" and "Panel JSON".
 
 ::::exercise[Lab]
 Roll out the stack, install the exporters and show in Prometheus that all targets are `up`. Open the dashboard "Wolkenwerk platform" and create traffic on the web shop with `curl`.
 
 :::solution
-`kubectl -n argocd get applications` shows `monitoring` and `monitoring-config` as `Synced` and `Healthy`. Under targets you find the job `opennebula` with one target, `opennebula-hosts` with three, `opennebula-libvirt` with two and `webshop` with one target per pod. After a few `curl http://<server-address>/`, the dashboard shows requests with code 200.
+`kubectl -n argocd get applications` shows `monitoring` and `monitoring-config` as `Synced` and `Healthy`. Under Targets you find the job `opennebula` with one target, `opennebula-hosts` with three, `opennebula-libvirt` with two and `webshop` with one target per pod. After a few `curl http://<server-address>/`, the dashboard shows requests with code 200.
 :::
 ::::
 
@@ -150,7 +150,7 @@ Roll out the stack, install the exporters and show in Prometheus that all target
 Gemeinde Hinterbüel wants to know how many VMs are running in OpenNebula right now and how much CPU they claim in total. Write the queries.
 
 :::solution
-`count(opennebula_vm_state == 3)` counts the VMs in the active state, the exporter describes the states in the help text of its metric. `sum(opennebula_host_cpu_usage_ratio)` adds up the CPU OpenNebula has allocated to VMs on all nodes. For the real load instead of the allocation, use `sum(rate(opennebula_libvirt_cpu_seconds_total[5m]))` from the nodes.
+`count(opennebula_vm_state == 3)` counts the VMs in the active state. The help text of the metric says which number stands for which state. `sum(opennebula_host_cpu_usage_ratio)` adds up the CPU OpenNebula has allocated to VMs on all nodes. For the real load instead of the allocation, use `sum(rate(opennebula_libvirt_cpu_seconds_total[5m]))` from the nodes.
 :::
 ::::
 

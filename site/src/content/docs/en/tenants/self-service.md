@@ -1,6 +1,6 @@
 ---
 title: Self-service
-description: The Sunstone views for members and group admins, shared templates, own copies and users, and what a member may change itself.
+description: The Sunstone views for members and group admins, shared templates and private copies, users in a group and what a member may change on its own.
 sidebar:
   order: 4
 ---
@@ -20,9 +20,9 @@ After this chapter you can:
 
 ## Self-service
 
-In [chapter 1.1](../../basics/characteristics/) on-demand self-service is one of the five characteristics of a cloud. The NIST definition in [SP 800-145](https://csrc.nist.gov/pubs/sp/800/145/final) requires that consumers provision computing power and storage on their own and as needed, without any human interaction on the provider's side. A member gets resources when it needs them and does not wait for a ticket to reach the platform team.
+In [chapter 1.1](../../basics/characteristics/), on-demand self-service is one of the five characteristics of a cloud. The NIST definition in [SP 800-145](https://csrc.nist.gov/pubs/sp/800/145/final) requires that consumers can provision computing power and storage on their own and as needed, without any human interaction on the provider's side. So a member gets resources when it needs them, without waiting for the platform team to work through a ticket.
 
-The platform team sets the frame with the groups, VDC and quotas of chapters 3.1 and 3.2 and with shared templates. Within this frame the members act on their own.
+The platform team sets the framework with the groups, the VDC and the quotas from chapters 3.1 and 3.2, and with shared templates. Within this framework the members act on their own.
 
 ## Duties of the platform team and the members
 
@@ -32,7 +32,7 @@ For the platform team this means fewer individual requests and more time spent o
 
 ## Sunstone views
 
-Sunstone does not show everybody the same. Which view someone gets is stored in the template of their group. `onegroup create` set these values for the members.
+Sunstone does not show everybody the same thing. The template of a user's group defines which view they get. `onegroup create` set these values for the members.
 
 ```text
 FIREEDGE=[
@@ -49,23 +49,23 @@ FIREEDGE=[
 | `groupadmin` | group admins | in addition images, networks, users of the group, service templates, security groups and backups |
 | `admin` | the platform team | everything, including hosts, clusters, datastores and VDCs |
 
-OpenNebula 7.4 ships these four views, and the [views documentation](https://docs.opennebula.io/7.4/product/cloud_system_administration/multitenancy/fireedge_sunstone_views/) describes them. The view `cloud` is meant for end users who only start VMs from ready-made templates. If a group has no values of its own, the assignment in `sunstone-views.yaml` in the same folder applies. There the group `oneadmin` gets all four views and everybody else gets `user` and `cloud`.
+OpenNebula 7.4 ships these four views, and the [views documentation](https://docs.opennebula.io/7.4/product/cloud_system_administration/multitenancy/fireedge_sunstone_views/) describes them. The view `cloud` is meant for end users who only start VMs from ready-made templates.
 
-The views live on the front-end in `/etc/one/fireedge/sunstone/views/`. Every view is a folder with one file per tab. If you want to take a tab away from a view, you adapt these files.
+The views live on the front-end in `/etc/one/fireedge/sunstone/views/`. Every view is a folder with one file per tab. If you want to take a tab away from a view, you adapt these files. If a group has no values of its own, the assignment in `sunstone-views.yaml` in the same folder applies. There the group `oneadmin` gets all four views and everybody else gets `user` and `cloud`.
 
-Log in to Sunstone at `http://<front-end>:2616` as `praxis-admin`. You see the view `groupadmin` with the practice's VMs and the template `ubuntu`. Hosts and datastores are missing, they stay with the platform team.
+Open Sunstone in the browser of the client (the Kali VM on smartlearn, your PC with an own hypervisor) at `http://<front-end>:2616` and log in as `praxis-admin`. You see the view `groupadmin` with the practice's VMs and the template `ubuntu`. Hosts and datastores are missing because they remain the platform team's business.
 
 ## ACLs behind the views
 
-A view only hides tabs and buttons. It makes the interface easier to use, but it is not a security boundary. For every action Sunstone calls the same OpenNebula API as the CLI, and only there is the request allowed or refused.
+A view only hides tabs and buttons, which makes the interface easier to use. It is not a security boundary, because for every action Sunstone calls the same OpenNebula API as the CLI. Only the API decides whether a request is allowed.
 
 OpenNebula checks every request in a fixed order, as the [documentation on permissions and ACLs](https://docs.opennebula.io/7.4/product/cloud_system_administration/multitenancy/chmod/) describes. The user `oneadmin` and the group `oneadmin` may do anything. For VMs, networks, images, templates and documents, the object's permissions for owner, group and others come next, such as the `chmod 604` of the template `ubuntu`. If they do not settle it, OpenNebula walks through the ACLs from chapter 3.1 until a rule allows the request. ACLs only grant rights and never take any away. If no rule allows the request, OpenNebula refuses it.
 
-So if you want to forbid a member something, you change the ACLs or the permissions of the objects. A tab missing from a view does not stop anyone who uses the CLI or the API.
+To stop a member from doing something, you therefore change the ACLs or the permissions of the objects. A tab missing from a view does not stop anyone who uses the CLI or the API.
 
 ## Users in the group
 
-A group admin creates the users of its member itself. New users land in its group and count against its quota.
+A member's group admin creates the member's users. New users land in the admin's group, and their VMs count against the group's quota.
 
 ```bash
 export ONE_AUTH=~/cc-lab/tenants/praxis.auth
@@ -84,23 +84,23 @@ In OpenNebula the shared templates form this catalog. The template `ubuntu` fixe
 
 ## The limits of a member
 
-The template `ubuntu` belongs to `oneadmin`, and thanks to `chmod 604` the members may only use it. An attempt to change it fails.
+The template `ubuntu` belongs to `oneadmin`, and `chmod 604` lets the members only use it. An attempt to change it fails with this message:
 
 ```text
 [one.template.update] User [2] : Not authorized to perform MANAGE TEMPLATE [1].
 ```
 
-The members may create templates, though, since their group allows it from chapter 3.1. If the practice needs a larger VM, it copies the template and changes its copy.
+The members may create templates of their own, though, because their group has allowed it since chapter 3.1. If the practice needs a larger VM, it copies the template and changes the copy.
 
 ```bash
 onetemplate clone ubuntu praxis-gross
 onetemplate update praxis-gross
 ```
 
-The copy takes over everything, including the prices from chapter 3.3, and belongs to the practice. Whatever it puts in there is still limited by its quota. This splits the work. The platform team maintains a few shared templates, networks and images, and the members set themselves up within their quota.
+The copy takes over everything, including the prices from chapter 3.3, and belongs to the practice. Whatever the practice puts in it is still limited by its quota. The platform team only has to maintain a few shared templates, networks and images, and the members set up everything else themselves within their quota.
 
 ::::exercise[Lab]
-With two VMs the practice's quota from chapter 3.2 is full. So first delete the VM `praxis-2` as `praxis-admin` with `onevm terminate`. Sunstone sets the CPU of a new VM to 1, which just fits next to `praxis-1` into the practice's 1.5 CPU. Then create the user `praxis-mpa`, log in with it in Sunstone and start a VM. Check as `praxis-admin` that you see it, and delete it.
+With two VMs the practice's quota from chapter 3.2 is full. So first delete the VM `praxis-2` as `praxis-admin` with `onevm terminate`. Sunstone sets the CPU of a new VM to 1, which just fits next to `praxis-1` into the practice's 1.5 CPU. Then create the user `praxis-mpa`, log in to Sunstone as this user in the browser of the client and start a VM. As `praxis-admin`, check that you can see it, then delete it.
 
 :::solution
 `oneuser create praxis-mpa <password>` creates the user in the group `praxis`. In Sunstone the view `cloud` shows the template `ubuntu`, and the VM only starts as long as the practice's quota has room. As `praxis-admin`, `onevm list` shows the VM with the owner `praxis-mpa`, and `onevm terminate` deletes it.
@@ -111,12 +111,12 @@ With two VMs the practice's quota from chapter 3.2 is full. So first delete the 
 Gemeinde Hinterbüel wants its users to start VMs but not upload images of their own. How do you implement that?
 
 :::solution
-The group `gemeinde` only gets the resources `VM`, `TEMPLATE` and `DOCUMENT` instead of `IMAGE` as well. For an existing group you delete the group's ACL with `oneacl delete` and create it again without `IMAGE`. The view `cloud` has no tab for images anyway, but the ACL also prevents uploads through the CLI.
+The group `gemeinde` only gets the resources `VM+TEMPLATE+DOCUMENT`, without `IMAGE`. For an existing group you delete the group's ACL with `oneacl delete` and create it again without `IMAGE`. The view `cloud` has no tab for images anyway, but the ACL also prevents uploads through the CLI.
 :::
 ::::
 
 ::::exercise[Responsibility]
-The practice wants its medical assistant to have at most one VM at a time. It would also like a Windows template for all members. Who implements what, and with which means?
+The practice wants its medical assistant to have at most one VM at a time. It would also like a Windows template for all members. Who implements what, and with which tools?
 
 :::solution
 The limit for the medical assistant is a user quota with `VMS = 1`. `praxis-admin` sets it with `oneuser quota praxis-mpa`, because a group admin may manage the users of their group. A template for all members belongs in the shared catalog and so with the platform team. It decides whether it can maintain the image and cover the licenses, creates the template as `oneadmin` and shares it with `chmod 604`. The practice could create a template of its own, but that template would belong to the practice and not to the catalog the platform team maintains.

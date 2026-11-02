@@ -6,7 +6,7 @@ sidebar:
   order: 5
 ---
 
-Use this grid to judge whether you have mastered the basics. Read each row and solve the task next to it without looking anything up. If it comes easily, you have reached the goal. If not, the link in the last column takes you to the right place. Within the Swiss framework curriculum, part 1 mainly serves the competences B7.1 (ICT architecture), B9.1 and B9.2 (security concepts and protection needs), A1.5 (legal foundations) and B14.7 (charging for ICT services).
+Use this grid to judge whether you have mastered the basics. Read each row and solve the task next to it without looking anything up. If it comes easily, you have reached the goal. If not, the link in the last column takes you to the right place. In the Swiss framework curriculum, part 1 mainly relates to the competences B7.1 (ICT architecture), B9.1 and B9.2 (security concepts and protection needs), A1.5 (legal foundations) and B14.7 (charging for ICT services).
 
 | I can … | Task | Look up |
 |---|---|---|

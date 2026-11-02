@@ -14,7 +14,7 @@ Nach diesem Kapitel kannst du:
 
 - Die Zustände eines Hosts lesen und ändern
 - Reale und zugeteilte Kapazität unterscheiden und Überbuchung erklären
-- Beschreiben, nach welchen Regeln der Scheduler einen Knoten wählt, und die Zustände einer VM lesen
+- Die Regeln des Schedulers für die Wahl eines Knotens beschreiben und die Zustände einer VM lesen
 - VMs mit und ohne Unterbruch auf einen anderen Knoten verschieben
 - Einen Knoten für die Wartung leeren und wieder in Betrieb nehmen
 - Beschreiben, was beim Ausfall eines Knotens mit seinen VMs geschieht
@@ -39,24 +39,24 @@ Nach diesem Kapitel kannst du:
 onehost show <knoten> | sed -n '/HOST SHARES/,/LOCAL SYSTEM/p'
 ```
 
-Der Scheduler plant mit der reservierten Kapazität. Ist ein Knoten voll reserviert, startet dort keine VM mehr, auch wenn er eigentlich noch Luft hätte. Mit den Werten `RESERVED_CPU` und `RESERVED_MEM` im Host kann das Plattform-Team die Kapazität anpassen. Ein positiver Wert hält Reserve frei, ein negativer Wert erlaubt Überbuchung. Überbuchung nutzt den Umstand, dass selten alle VMs gleichzeitig voll arbeiten, und senkt so die Kosten. Arbeiten doch alle gleichzeitig, werden alle langsamer. Beim Arbeitsspeicher ist Überbuchung heikler als bei der CPU, weil fehlender Speicher VMs abstürzen lässt statt sie nur zu verlangsamen.
+Der Scheduler plant mit der reservierten Kapazität. Ist ein Knoten voll reserviert, startet dort keine VM mehr, auch wenn er real noch Luft hätte. Mit den Werten `RESERVED_CPU` und `RESERVED_MEM` im Host kann das Plattform-Team die Kapazität anpassen. Ein positiver Wert hält Reserve frei, ein negativer Wert erlaubt Überbuchung. Überbuchung senkt die Kosten, weil selten alle VMs gleichzeitig voll arbeiten. Arbeiten doch alle gleichzeitig, werden alle langsamer. Beim Arbeitsspeicher ist Überbuchung heikler als bei der CPU, weil VMs bei fehlendem Speicher abstürzen. Fehlende CPU-Zeit bremst sie nur.
 
 ## Platzierung durch den Scheduler
 
-Eine neue VM wartet, bis der Scheduler ihr einen Knoten zuweist. OpenNebula 7.4 nutzt dafür standardmässig den [Rank Scheduler](https://docs.opennebula.io/7.4/product/cloud_system_administration/scheduler/rank_scheduler/), der in zwei Schritten arbeitet. Zuerst filtert er. Er streicht jeden Knoten, der die Bedingung `SCHED_REQUIREMENTS` der VM nicht erfüllt oder zu wenig freie CPU oder zu wenig freien Arbeitsspeicher hat, gemessen an der reservierten Kapazität. Auf dieselbe Weise prüft er Datastores und Netze. Danach ordnet er die übrigen Knoten nach dem Ausdruck `SCHED_RANK` und nimmt den Knoten mit dem höchsten Wert. Beide Ausdrücke kannst du in einer Vorlage setzen, etwa damit eine VM nur auf Knoten mit einer bestimmten Eigenschaft startet. Fehlt `SCHED_RANK`, gilt die Strategie der Installation. Die Dokumentation nennt dafür diese Strategien.
+Eine neue VM wartet, bis der Scheduler ihr einen Knoten zuweist. OpenNebula 7.4 nutzt dafür standardmässig den [Rank Scheduler](https://docs.opennebula.io/7.4/product/cloud_system_administration/scheduler/rank_scheduler/), der in zwei Schritten arbeitet. Zuerst filtert er und streicht jeden Knoten, der die Bedingung `SCHED_REQUIREMENTS` der VM nicht erfüllt oder zu wenig freie CPU oder zu wenig freien Arbeitsspeicher hat, gemessen an der reservierten Kapazität. Auf dieselbe Weise prüft er Datastores und Netze. Danach ordnet er die übrigen Knoten nach dem Ausdruck `SCHED_RANK` und nimmt den Knoten mit dem höchsten Wert. Beide Ausdrücke kannst du in einer Vorlage setzen, etwa damit eine VM nur auf Knoten mit einer bestimmten Eigenschaft startet. Fehlt `SCHED_RANK`, gilt die Strategie der Installation. Die Dokumentation nennt vier Strategien.
 
 | Strategie | Rang | Wirkung |
 |---|---|---|
-| Packing | `RUNNING_VMS` | füllt zuerst Knoten, auf denen schon VMs laufen, und lässt andere leer |
+| Packing | `RUNNING_VMS` | füllt zuerst Knoten mit laufenden VMs und lässt andere leer |
 | Striping | `- RUNNING_VMS` | verteilt die VMs auf möglichst viele Knoten |
 | Load-aware | `FREE_CPU` | bevorzugt Knoten, deren CPU gerade am wenigsten belastet ist |
 | Fixed | `PRIORITY` | folgt einer Priorität, die das Plattform-Team bei Host oder Cluster setzt |
 
-Im Lab steht in `/etc/one/schedulers/rank.conf` der Eintrag `DEFAULT_SCHED` mit `POLICY = 1`, also Striping, so wie das Paket von OpenNebula die Datei ausliefert. Deshalb verteilen sich deine VMs auf beide Knoten. Packing braucht weniger Knoten, die übrigen lassen sich ausschalten. Striping hält auf jedem Knoten Reserve frei, und ein Ausfall trifft weniger VMs. Neben dem Rank Scheduler bringt OpenNebula 7.4 den [Distributed Resource Scheduler](https://docs.opennebula.io/7.4/product/cloud_system_administration/scheduler/drs/) mit. Er berücksichtigt die tatsächliche Auslastung der Knoten und schlägt Migrationen vor, die das Plattform-Team prüft oder automatisch ausführen lässt.
+Im Lab steht in `/etc/one/schedulers/rank.conf` der Eintrag `DEFAULT_SCHED` mit `POLICY = 1`, also Striping, so wie das Paket von OpenNebula die Datei ausliefert. Deshalb verteilen sich deine VMs auf beide Knoten. Packing braucht weniger Knoten, die übrigen lassen sich ausschalten. Striping hält auf jedem Knoten Reserve frei. Fällt ein Knoten aus, trifft es weniger VMs. Neben dem Rank Scheduler bringt OpenNebula 7.4 den [Distributed Resource Scheduler](https://docs.opennebula.io/7.4/product/cloud_system_administration/scheduler/drs/) mit. Er berücksichtigt die tatsächliche Auslastung der Knoten und schlägt Migrationen vor, die das Plattform-Team prüft oder automatisch ausführen lässt.
 
 ## Lebenszyklus einer VM
 
-`onevm list` zeigt in der Spalte `STAT` den Zustand jeder VM in einer Kurzform. Die [Referenz der Zustände](https://docs.opennebula.io/7.4/product/operation_references/configuration_references/vm_states/) kennt sehr viele davon, im Alltag begegnen dir vor allem die folgenden.
+`onevm list` zeigt in der Spalte `STAT` den Zustand jeder VM in einer Kurzform. Die [Referenz der Zustände](https://docs.opennebula.io/7.4/product/operation_references/configuration_references/vm_states/) führt sehr viele davon auf, im Alltag begegnen dir vor allem die folgenden.
 
 | Zustand | Bedeutung | Auslöser |
 |---|---|---|
@@ -74,7 +74,7 @@ Der Unterschied zwischen `poff` und `unde` zählt für die Kapazität. Eine ausg
 
 ## Migration
 
-Mit `onevm migrate` verschiebst du eine VM auf einen anderen Knoten. Ohne weitere Option hält OpenNebula die VM kurz an, kopiert ihren Arbeitsspeicher und ihre Disk und lässt sie auf dem Ziel weiterlaufen. Mit `--live` läuft die VM während der Migration weiter, und nur der letzte Teil des Arbeitsspeichers wird in einem sehr kurzen Moment übertragen. Im Lab dauerte die Migration einer kleinen VM ohne Option 7 Sekunden und mit `--live` 10 Sekunden.
+Mit `onevm migrate` verschiebst du eine VM auf einen anderen Knoten. Ohne weitere Option hält OpenNebula die VM kurz an, kopiert ihren Arbeitsspeicher und ihre Disk und lässt sie auf dem Ziel weiterlaufen. Mit `--live` läuft die VM während der Migration weiter. Nur der letzte Teil des Arbeitsspeichers folgt am Schluss in einem sehr kurzen Moment. Im Lab dauerte die Migration einer kleinen VM ohne Option 7 Sekunden und mit `--live` 10 Sekunden.
 
 ```bash
 onevm migrate --live web-1 <anderer-knoten>
@@ -97,9 +97,9 @@ Die Wartung klappt nur, wenn die übrigen Knoten genug Kapazität für alle VMs 
 
 ## Ausfall eines Knotens
 
-Fällt ein Knoten aus, laufen seine VMs nicht mehr. `onehost list` zeigt den Knoten nach einiger Zeit als `err`, seine VMs als `unkn`. Im Lab liegen die Disks laufender VMs im Datastore `system` des Knotens selbst. Solange der Knoten aus ist, kommt niemand an diese Disks, und die VMs lassen sich nicht auf einem anderen Knoten starten.
+Fällt ein Knoten aus, laufen seine VMs nicht mehr. Nach einiger Zeit zeigt `onehost list` den Knoten als `err` und `onevm list` seine VMs als `unkn`. Im Lab liegen die Disks laufender VMs im Datastore `system` des Knotens selbst. Solange der Knoten aus ist, kommt niemand an diese Disks, die VMs lassen sich also auch nicht auf einem anderen Knoten starten.
 
-Für eine Cloud, die Ausfälle verkraftet, braucht es deshalb gemeinsamen Speicher, den alle Knoten erreichen, etwa Ceph oder ein NFS-Server, und eine Regel, die VMs eines ausgefallenen Knotens automatisch auf einem anderen neu startet. OpenNebula bietet dafür Hooks. Im Lab fehlt beides bewusst, damit es mit drei VMs auskommt. In Teil 6 gehört diese Lücke zur Beurteilung der Verfügbarkeit.
+Eine Cloud, die Ausfälle verkraftet, braucht deshalb gemeinsamen Speicher, den alle Knoten erreichen, etwa Ceph oder einen NFS-Server. Dazu kommt eine Regel, die VMs eines ausgefallenen Knotens automatisch auf einem anderen neu startet. OpenNebula bietet dafür Hooks. Im Lab fehlt beides bewusst, damit es mit dem Front-end und zwei Knoten auskommt. In Teil 6 beurteilst du die Verfügbarkeit, diese Lücke gehört dazu.
 
 ::::exercise[Wartung]
 Starte zwei VMs aus der Vorlage `ubuntu`, leere einen Knoten, auf dem eine davon läuft, nimm ihn offline und danach wieder in Betrieb. Verschiebe zum Schluss eine VM live zurück. Notiere die Befehle in der richtigen Reihenfolge.
@@ -114,7 +114,7 @@ Starte zwei VMs aus der Vorlage `ubuntu`, leere einen Knoten, auf dem eine davon
 ::::
 
 ::::exercise[Kapazität]
-Die Gemeinde Hinterbüel will wissen, ob zwei Knoten reichen, wenn einer zur Wartung ausfällt. Berechne mit `onehost show`, wie viele VMs aus der Vorlage `ubuntu` auf einem Knoten allein Platz haben, und begründe, ob Überbuchung beim Arbeitsspeicher eine gute Idee wäre.
+Die Gemeinde Hinterbüel will wissen, ob zwei Knoten reichen, wenn einer zur Wartung ausfällt. Berechne mit `onehost show`, wie viele VMs aus der Vorlage `ubuntu` auf einem einzelnen Knoten Platz haben. Begründe auch, ob Überbuchung beim Arbeitsspeicher eine gute Idee wäre.
 
 :::solution
 Ein Knoten mit 7,2 GB und 400 Hundertsteln CPU trägt sieben VMs mit je 1 GB und 50 Hundertsteln, der Arbeitsspeicher setzt die Grenze. Über beide Knoten verteilt dürfen es also nicht mehr als sieben sein, wenn einer allein alle tragen soll. Überbuchung beim Arbeitsspeicher wäre riskant, weil VMs bei fehlendem Speicher abstürzen und gerade während der Wartung alle auf einem Knoten laufen.
@@ -122,9 +122,9 @@ Ein Knoten mit 7,2 GB und 400 Hundertsteln CPU trägt sieben VMs mit je 1 GB und
 ::::
 
 ::::exercise[Strategie des Schedulers]
-Die Gemeinde Hinterbüel möchte nachts Strom sparen und Knoten ausschalten, auf denen keine VMs laufen. Welche Strategie des Schedulers passt dazu, wo würdest du sie einstellen, und was nimmt die Gemeinde damit in Kauf?
+Die Gemeinde Hinterbüel möchte nachts Strom sparen und Knoten ausschalten, auf denen keine VMs laufen. Welche Strategie des Schedulers passt dazu, wo würdest du sie einstellen und was nimmt die Gemeinde damit in Kauf?
 
 :::solution
-Packing passt, weil es zuerst die Knoten füllt, auf denen schon VMs laufen, und andere leer lässt. Eingestellt wird es in `/etc/one/schedulers/rank.conf` mit `POLICY = 0` im Eintrag `DEFAULT_SCHED`, für einzelne VMs auch mit `SCHED_RANK = "RUNNING_VMS"` in der Vorlage. Dafür laufen mehr VMs auf demselben Knoten. Fällt er aus, trifft es mehr VMs, und Lastspitzen dieser VMs bremsen sich gegenseitig. Packing wirkt nur auf neue Platzierungen, bestehende VMs verschiebt es nicht.
+Packing passt, weil es zuerst die Knoten mit laufenden VMs füllt und andere leer lässt. Du stellst es in `/etc/one/schedulers/rank.conf` mit `POLICY = 0` im Eintrag `DEFAULT_SCHED` ein, für einzelne VMs auch mit `SCHED_RANK = "RUNNING_VMS"` in der Vorlage. Dafür nimmt die Gemeinde in Kauf, dass mehr VMs auf demselben Knoten laufen. Fällt er aus, trifft es mehr VMs. Ausserdem bremsen sich die Lastspitzen dieser VMs gegenseitig. Packing wirkt nur auf neue Platzierungen, bestehende VMs verschiebt es nicht.
 :::
 ::::

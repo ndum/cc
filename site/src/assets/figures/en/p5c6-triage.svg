@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 888 366" role="img" aria-labelledby="p5c6-triage-en-title p5c6-triage-en-desc">
-<title id="p5c6-triage-en-title">From alert to action</title>
+<title id="p5c6-triage-en-title">The flow of the triage</title>
 <desc id="p5c6-triage-en-desc">Prometheus evaluates the rule WebshopErrorBudgetBurn and sends the alert to Alertmanager. Alertmanager routes alerts whose alertname starts with Webshop as a webhook to the triage service in the namespace ai. The service fetches the error lines of the last 15 minutes from Loki and the state of the deployment from the Kubernetes API and asks Ollama with llama3.2:3b. It shows the proposal on a web page on port 30880. A person approves it with their name or rejects it. Only an approved action runs, only restart and only on velo/webshop. Every step lands in the audit log.</desc>
 <defs><marker id="p5c6-triage-en-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"/></marker></defs>
 <text class="d-label" x="452" y="46" text-anchor="end">CONTEXT</text>

@@ -21,7 +21,7 @@ After this chapter you can:
 
 ## GitOps
 
-With OpenTofu you describe the VMs in code, but you still run the code yourself. GitOps goes one step further. The CNCF working group OpenGitOps sums it up in four principles.
+With OpenTofu you describe the VMs in code, but you still run the code yourself. With GitOps, software inside the system takes over that part. The CNCF working group OpenGitOps sums it up in four principles.
 
 | Principle | Meaning |
 |---|---|
@@ -32,13 +32,13 @@ With OpenTofu you describe the VMs in code, but you still run the code yourself.
 
 The difference from a classic rollout is the direction. With a push approach, a pipeline or a person with rights logs in to the cluster and applies changes. With GitOps, nobody but the agent in the cluster needs those rights. Whoever wants a change edits Git, and the Git history doubles as the log of every change.
 
-![The GitOps loop. The platform team sends a change with git push to Gitea on the front-end, or opens a pull request that is merged after review. Argo CD in the k3s cluster polls the repo wolkenwerk/platform every minute with read-only access. It compares the desired state from Git with the live state, for example for the web shop in the namespace velo, and applies the differences. If someone changes the cluster by hand with kubectl scale, self-heal reverts the change. Pay attention to the direction of the arrows. Nothing is pushed into the cluster, Argo CD pulls the desired state itself.](../../../../assets/figures/en/p4c4-gitops.svg)
+![The GitOps loop. The platform team sends a change with git push to Gitea on the front-end, or opens a pull request that is merged after review. Argo CD in the k3s cluster polls the repo wolkenwerk/platform every minute with read-only access. It compares the desired state from Git with the live state, for example for the web shop in the namespace velo, and applies the differences. If someone changes the cluster by hand with kubectl scale, self-heal reverts the change. Pay attention to the direction of the arrows. Argo CD pulls the desired state itself, nobody pushes it into the cluster.](../../../../assets/figures/en/p4c4-gitops.svg)
 
 ## Gitea on the front-end
 
 Argo CD, the agent of this chapter, needs a Git repo it can reach from the cluster. The platform team runs its own Gitea for that. Gitea is a lightweight Git server with a web interface, users, organizations and pull requests, under the MIT license.
 
-Gitea runs on the front-end, not in the cluster. In the advanced task of milestone 2 you rebuild the cluster, and in chapter 6.2 you rebuild it for etcd anyway. If the desired state lived in a Gitea inside the same cluster, it would be gone after `tofu destroy`, and the new cluster would not know what to roll out. A tool that restores a system must not depend on the system it restores. The front-end has enough memory, and it has to run anyway for OpenNebula to run.
+Gitea runs on the front-end, outside the cluster. You rebuild the cluster in the advanced task of milestone 2, and in any case in chapter 6.2, when it moves to etcd. If the desired state lived in a Gitea inside the same cluster, it would be gone after `tofu destroy`, and the new cluster would not know what to roll out. The desired state a cluster is rebuilt from therefore does not belong in that cluster. The front-end has enough memory and runs anyway, because OpenNebula needs it.
 
 ::code{file="platform/gitea/install-gitea.sh"}
 
@@ -46,7 +46,7 @@ Gitea runs on the front-end, not in the cluster. In the advanced task of milesto
 sudo ~/cc/platform/gitea/install-gitea.sh
 ```
 
-The script verifies the checksum of the program, creates the system user `git` and writes the configuration itself, so no install wizard in the browser is needed. Gitea stores its data in SQLite and runs as a systemd service. Nobody can sign up on their own, and without signing in you see nothing. In the browser, Gitea is on port 3000 of the front-end, and you sign in as `platform` with the password from `~/cc-lab/gitea/platform.pass`.
+The script verifies the checksum of the program, creates the system user `git` and writes the configuration itself, so no install wizard in the browser is needed. Gitea stores its data in SQLite and runs as a systemd service. Nobody can sign up on their own, and without signing in you see nothing. In the browser of the client (the Kali VM on smartlearn, your PC with your own hypervisor), Gitea is on port 3000 of the front-end. You sign in as `platform` with the password from `~/cc-lab/gitea/platform.pass`.
 
 ## The repo platform
 
@@ -84,7 +84,7 @@ git remote add origin "http://$CC_FE_IP:3000/wolkenwerk/platform.git"
 git push -u origin main
 ```
 
-Before the commit, `git status` shows no OpenTofu state, because `.gitignore` keeps it out. Afterwards, Gitea shows the folders `tofu`, `apps`, `webshop`, `templates` and `members`.
+Before the commit, `git status` shows no OpenTofu state, because `.gitignore` keeps it out. After the push, Gitea shows the folders `tofu`, `apps`, `webshop`, `templates` and `members`.
 
 ## The web shop
 
@@ -123,7 +123,7 @@ kubectl -n argocd get pods
 kubectl -n argocd get applications
 ```
 
-The token reaches Argo CD as a secret with the label `argocd.argoproj.io/secret-type=repository`. In the lab, a first attempt with `kubectl create secret --from-file` failed. The secret contained the line break at the end of the file, and Gitea answered "authentication required". So the script strips the line break first.
+The token reaches Argo CD as a secret with the label `argocd.argoproj.io/secret-type=repository`. In the lab, a first attempt with `kubectl create secret --from-file` failed. The secret contained the line break at the end of the file, and Gitea answered "authentication required". The script therefore strips the line break first.
 
 ## App of apps
 
@@ -133,7 +133,7 @@ The first application is called `root`. It points to the folder `apps` in the re
 
 ::code{file="platform/repo/apps/webshop.yaml"}
 
-Argo CD first rolls out `root` and finds the application `webshop` in it, which brings the folder `webshop` into the namespace `velo`. A new application only needs a new file in `apps`, and from then on you no longer work with `kubectl`. This pattern is called app of apps.
+Argo CD first rolls out `root` and finds the application `webshop` in it, which brings the folder `webshop` into the namespace `velo`. Adding an application only takes a new file in `apps`, and you no longer need `kubectl` for it. This pattern is called app of apps.
 
 ![App of apps in the platform repo. The bootstrap script applies the application root once, and root points to the folder apps. That folder holds the application webshop, which brings the folder webshop into the namespace velo, and the ApplicationSet members from chapter 4.5. The ApplicationSet generates a separate application for every folder under members, such as member-velo and member-gemeinde. Notice that only root enters the cluster by hand, and everything else comes from files in Git.](../../../../assets/figures/en/p4c4-app-of-apps.svg)
 
@@ -144,11 +144,11 @@ Argo CD first rolls out `root` and finds the application `webshop` in it, which 
 | `selfHeal: true` | whatever someone changes in the cluster by hand, Argo CD resets to the state in Git |
 | `CreateNamespace=true` | Argo CD creates the namespace if it is missing |
 
-In the lab, all applications were `Synced` and `Healthy` five seconds after the bootstrap. Here Argo CD polls Gitea every minute, the setting `timeout.reconciliation` in the values. Without it, the interval would be three minutes.
+In the lab, all applications were `Synced` and `Healthy` five seconds after the bootstrap. Here Argo CD polls Gitea every minute, as set by `timeout.reconciliation` in the values. Without that setting, the interval would be three minutes.
 
-## Access from your computer
+## Access from the client
 
-The cluster sits in the internal network `cc-net`, which only the front-end reaches. For the browser on your computer you forward two ports through SSH, with the addresses of your parameters.
+The cluster sits in the internal network `cc-net`, which only the front-end can reach. So that the browser of the client can open Argo CD and the web shop, you forward two ports through SSH in the terminal of the client. The addresses come from your parameters.
 
 ```bash
 ssh -L 8080:<server-address>:30080 -L 8081:<server-address>:80 mmuster-fe
@@ -158,7 +158,7 @@ While the connection is open, `http://localhost:8080/` shows the Argo CD interfa
 
 ## Showing reconciliation
 
-You see self-heal fastest when you work against Git.
+You see self-heal fastest when you change the cluster without going through Git.
 
 ```bash
 kubectl -n velo scale deployment webshop --replicas=4
@@ -176,10 +176,10 @@ git commit -am "Web shop with three pods for the season"
 git push
 ```
 
-In the lab the third pod was running one to a good two minutes after the push, because Argo CD polls every minute and shifts each poll by a random amount. A webhook from Gitea to Argo CD would trigger the sync at once, the lab gets by with polling every minute.
+In the lab the third pod was running one to a good two minutes after the push, because Argo CD polls every minute and shifts each poll by a random amount. A webhook from Gitea to Argo CD would trigger the sync at once. For the lab, polling every minute is enough.
 
 ::::exercise[Lab]
-Install Gitea, create the repo, roll out Argo CD and open the web shop and Argo CD in the browser of your computer. Change the number of pods through Git.
+Install Gitea, create the repo, roll out Argo CD and open the web shop and Argo CD in the browser of the client. Change the number of pods through Git.
 
 :::solution
 `kubectl -n argocd get applications` shows `root`, `webshop` and `member-velo` as `Synced` and `Healthy`. `member-velo` already comes with the first push, chapter 4.5 explains it. The web shop shows the bikes and, at the bottom, the name of the pod that answered. After a push with `replicas: 3`, `kubectl -n velo get pods` shows three pods within one or two minutes, and Argo CD shows the new commit on the application.

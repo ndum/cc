@@ -21,13 +21,13 @@ Nach diesem Kapitel kannst du:
 
 ## Platz auf den Knoten
 
-Der Kubernetes-Cluster von Teil 4 läuft auf zwei VMs mit je 6 GB Arbeitsspeicher, auf jedem Knoten eine. So viel braucht er spätestens in Teil 5, wenn Prometheus, Loki und ein lokales Sprachmodell dazukommen. Jeder Knoten hat 8 GB, und OpenNebula meldet davon 7,2 GB für VMs, `onehost list` zeigt das in der Spalte `ALLOCATED_MEM`.
+Der Kubernetes-Cluster von Teil 4 läuft auf zwei VMs mit je 6 GB Arbeitsspeicher, auf jedem Knoten eine. So viel braucht er spätestens in Teil 5, wenn Prometheus, Loki und ein lokales Sprachmodell dazukommen. Jeder Knoten hat 8 GB, davon meldet OpenNebula 7,2 GB für VMs. `onehost list` zeigt das in der Spalte `ALLOCATED_MEM`.
 
-OpenNebula reserviert für jede VM den ganzen Speicher aus ihrer Vorlage auf ihrem Knoten, auch wenn die VM ihn gerade nicht braucht. Nach dem Cluster bleiben also auf jedem Knoten 1,2 GB, genug für eine einzige VM mit 1 GB. Die drei Webserver aus Teil 2, die VMs der Praxis und der Dienst der Treuhand aus Teil 3 belegen zusammen 6 GB. Mit ihnen startet der Cluster nicht, OpenNebula fände keinen Knoten mit 6 GB frei.
+OpenNebula reserviert für jede VM den ganzen Speicher aus ihrer Vorlage auf ihrem Knoten, auch wenn die VM ihn gerade nicht braucht. Neben dem Cluster bleiben auf jedem Knoten 1,2 GB frei, genug für eine einzige VM mit 1 GB. Die drei Webserver aus Teil 2, die VMs der Praxis und der Dienst der Treuhand aus Teil 3 belegen zusammen 6 GB. Mit ihnen startet der Cluster nicht, OpenNebula fände keinen Knoten mit 6 GB frei.
 
 ![Der Speicher eines Knotens. Ein Balken zeigt die 8 GB eines Knotens. 0,8 GB bleiben dem Host, die übrigen 7,2 GB meldet OpenNebula für VMs. Davon reserviert die k3s-VM 6 GB, auf einem Knoten der Server, auf dem anderen der Agent. Frei bleiben 1,2 GB. Achte darauf, dass daneben nur noch eine VM mit 1 GB Platz hat, weil OpenNebula den ganzen Speicher jeder VM reserviert.](../../../assets/figures/de/p4c2-memory.svg)
 
-Darum räumst du vor diesem Kapitel auf. Mache vorher die Screenshots für die Dokumentation von Meilenstein 1, denn danach fehlen die VMs, die sie zeigen. Zeigst du die Zusatzaufträge von Meilenstein 1 im Screencast, nimmst du ihn ebenfalls vorher auf. Die Gruppen, Quotas, Preise und Vorlagen aus Teil 3 bleiben bestehen, du entfernst nur die laufenden VMs.
+Darum räumst du als Erstes auf. Mache vorher die Screenshots für die Dokumentation von Meilenstein 1, denn danach fehlen die VMs, die sie zeigen. Zeigst du die Zusatzaufträge von Meilenstein 1 im Screencast, nimmst du ihn ebenfalls vorher auf. Die Gruppen, Quotas, Preise und Vorlagen aus Teil 3 bleiben bestehen, du entfernst nur die laufenden VMs.
 
 ```bash
 oneflow list
@@ -40,12 +40,12 @@ onehost list
 Hast du im Zusatzkapitel 3.5 den Dienst der Treuhand gestartet, entfernst du ihn zuerst, sonst startet OneFlow seine VM gleich wieder. Danach beendet die Schleife jede VM, die `onevm list` zeigt, egal wie du sie in den Teilen 2 und 3 genannt hast. `oneadmin` darf die VMs aller Mitglieder beenden. Am Ende zeigt `onehost list` auf beiden Knoten `0K / 7.2G`.
 
 :::note[Zusatzaufträge von Meilenstein 1 live zeigen]
-Die Basis von Meilenstein 1 belegst du mit der Dokumentation, dafür brauchst du die alten VMs nicht mehr. Wer die Zusatzaufträge von Meilenstein 1 im Unterricht live zeigt statt im Screencast, nimmt den Cluster für die Vorführung von den Knoten. `onevm undeploy k3s-server` und `onevm undeploy k3s-agent` stoppen die VMs und geben Speicher und CPU frei, ihre Disks bleiben erhalten. Danach startest du die VMs, die du für die Zusatzaufträge brauchst, mit den Befehlen aus Teil 3 neu, zeigst die Aufträge und beendest die VMs wieder. `onevm resume` bringt den Cluster zurück. Im Lab dauerte `undeploy` knapp zwei Minuten, nach `resume` antwortete der Webshop aus Kapitel 4.4 nach etwa 45 Sekunden wieder. `onevm poweroff` reicht dafür nicht, eine ausgeschaltete VM behält ihren Platz auf dem Knoten.
+Die Basis von Meilenstein 1 belegst du mit der Dokumentation, dafür brauchst du die alten VMs nicht mehr. Wer die Zusatzaufträge von Meilenstein 1 im Unterricht live zeigt statt im Screencast, nimmt den Cluster für die Vorführung von den Knoten. `onevm undeploy k3s-server` und `onevm undeploy k3s-agent` stoppen die VMs und geben Speicher und CPU frei, ihre Disks bleiben erhalten. Danach startest du die VMs, die du für die Zusatzaufträge brauchst, mit den Befehlen aus Teil 3 neu, zeigst die Aufträge und beendest die VMs wieder. `onevm resume` bringt den Cluster zurück. Im Lab dauerte `undeploy` knapp zwei Minuten, nach `resume` antwortete der Webshop aus Kapitel 4.4 nach etwa 45 Sekunden wieder. `onevm poweroff` reicht dafür nicht, weil eine ausgeschaltete VM ihren Platz auf dem Knoten behält.
 :::
 
 ## Werkzeuge
 
-Auf dem Front-end brauchst du drei Werkzeuge. OpenTofu legt die VMs an, kubectl spricht mit Kubernetes, und Helm installiert Pakete in Kubernetes. Das Skript holt alle drei aus den offiziellen Paketquellen, damit `apt upgrade` sie später aktualisiert.
+Auf dem Front-end brauchst du drei Werkzeuge. OpenTofu legt die VMs an und kubectl spricht mit Kubernetes. Helm installiert Pakete in den Cluster. Das Skript holt alle drei aus den offiziellen Paketquellen, damit `apt upgrade` sie später aktualisiert.
 
 ::code{file="platform/install-tools.sh"}
 
@@ -53,7 +53,7 @@ Auf dem Front-end brauchst du drei Werkzeuge. OpenTofu legt die VMs an, kubectl 
 sudo ~/cc/platform/install-tools.sh
 ```
 
-Im Lab waren das OpenTofu 1.13.2, kubectl 1.36.6 und Helm 4.3.0. OpenTofu ist ein Fork von Terraform unter der Linux Foundation mit der freien Lizenz MPL 2.0. Die Sprache und die meisten Provider sind dieselben, wer Terraform kennt, kann OpenTofu lesen.
+Im Lab waren das OpenTofu 1.13.2, kubectl 1.36.6 und Helm 4.3.0. OpenTofu ist ein Fork von Terraform unter der Linux Foundation mit der freien Lizenz MPL 2.0. Die Sprache und die meisten Provider sind dieselben. Wer Terraform kennt, kann OpenTofu lesen.
 
 ## Das Plattform-Repo
 
@@ -101,9 +101,9 @@ export OPENNEBULA_PASSWORD=$(cut -d: -f2- ~/.one/one_auth)
 | `data` | etwas, das schon existiert und nur gelesen wird, hier das Netz `cc-net` und das Image `ubuntu-26.04` aus Teil 2 |
 | `resource "opennebula_virtual_machine"` | die VMs, dank `for_each` eine pro Eintrag in `local.nodes` |
 
-Eine Data Source verbindet den Code mit dem, was du von Hand gebaut hast, ohne es zu übernehmen. OpenTofu liest die Nummer von `cc-net`, legt das Netz aber nie an oder löscht es.
+Eine Data Source verbindet den Code mit dem, was du von Hand gebaut hast, ohne es zu übernehmen. OpenTofu liest die Nummer von `cc-net`, legt das Netz aber nie an und löscht es nie.
 
-Die Adressen der VMs kommen aus deinen persönlichen Parametern, `CC_K3S_SERVER_IP` und `CC_K3S_AGENT_IP` in `/etc/cc-lab.env`. Ein kleines Skript schreibt sie in `terraform.tfvars`, die Datei, aus der OpenTofu Variablen liest.
+Die Adressen der VMs kommen aus deinen persönlichen Parametern. In `/etc/cc-lab.env` heissen sie `CC_K3S_SERVER_IP` und `CC_K3S_AGENT_IP`. Ein kleines Skript schreibt sie in `terraform.tfvars`, die Datei, aus der OpenTofu Variablen liest.
 
 ```bash
 ./make-tfvars.sh > terraform.tfvars
@@ -140,7 +140,7 @@ tofu state show 'opennebula_virtual_machine.k3s["k3s-server"]'
 tofu output
 ```
 
-`tofu state list` zeigt die drei Ressourcen, die OpenTofu verwaltet, und die zwei Data Sources, die es nur liest, `tofu state show` alle Attribute einer VM, so wie OpenNebula sie meldet. Der State liegt in `terraform.tfstate`. Öffnest du die Datei, findest du das Token im Klartext. Die Datei `.gitignore` im Repo schliesst darum den State und den Ordner `.terraform` aus.
+`tofu state list` zeigt die drei verwalteten Ressourcen und die zwei Data Sources, die OpenTofu nur liest. `tofu state show` listet alle Attribute einer VM so auf, wie OpenNebula sie meldet. Der State liegt in `terraform.tfstate`. Öffnest du die Datei, findest du das Token im Klartext. Die Datei `.gitignore` im Repo schliesst darum den State und den Ordner `.terraform` aus.
 
 ## Ändern, ersetzen und neu bauen
 
@@ -164,17 +164,17 @@ tofu apply -replace='opennebula_virtual_machine.k3s["k3s-agent"]'
 ```
 
 :::note[Zusatzauftrag]
-Der ganze Neubau mit `tofu destroy`, `tofu apply` und dem Bootstrap aus Kapitel 4.4 gehört zu den Zusatzaufträgen von Meilenstein 2. Für die Basis genügen die VMs aus OpenTofu und ein Plan ohne Änderungen.
+Zu den Zusatzaufträgen von Meilenstein 2 gehört der ganze Neubau mit `tofu destroy` und `tofu apply`, gefolgt vom Bootstrap aus Kapitel 4.4. Für die Basis genügen die VMs aus OpenTofu und ein Plan ohne Änderungen.
 :::
 
-Am meisten sagt der ganze Neubau. `tofu destroy` löscht alles, was im State steht, `tofu apply` baut es wieder auf.
+Ob der Code alles beschreibt, zeigt erst ein ganzer Neubau. `tofu destroy` löscht alles, was im State steht, `tofu apply` baut es wieder auf.
 
 ```bash
 tofu destroy
 tofu apply
 ```
 
-Netz und Image bleiben stehen, weil der Code sie nur liest. Im Lab waren nach dem Neubau beide VMs nach etwa zwei Minuten bereit, mit Kubernetes darauf. Das gilt für den leeren Cluster von Teil 4, mit Monitoring und Modell in Teil 6 dauert ein Neubau deutlich länger. Wie das Startskript das macht, zeigt Kapitel 4.3.
+Netz und Image bleiben stehen, weil der Code sie nur liest. Im Lab waren beide VMs samt Kubernetes etwa zwei Minuten nach dem Neubau bereit. Das gilt für den leeren Cluster von Teil 4. In Teil 6, mit Monitoring und Modell, dauert ein Neubau deutlich länger. Wie das Startskript Kubernetes installiert, zeigt Kapitel 4.3.
 
 ::::exercise[Lab]
 Räume die Knoten auf, installiere die Werkzeuge und lege die beiden VMs mit OpenTofu an. Zeige mit `tofu plan`, dass danach keine Änderungen offen sind.
@@ -188,14 +188,14 @@ Nach dem Aufräumen zeigt `onehost list` auf beiden Knoten `0K / 7.2G`. `tofu ap
 Erzeuge eine Drift, indem du eine der beiden VMs in Sunstone oder mit der CLI änderst. Zeige sie mit `tofu plan` und behebe sie. Welche Änderung von Hand würde OpenTofu nicht bemerken?
 
 :::solution
-Ein neuer Name, wie oben, erscheint als `~ name` im Plan, `tofu apply` macht ihn rückgängig. OpenTofu vergleicht aber nur die Attribute, die der Provider kennt. Was jemand in der VM selbst ändert, etwa ein Paket per SSH installiert oder eine Datei löscht, bleibt unsichtbar. Für den Inhalt der VMs sorgt das Startskript, und im Cluster übernimmt das in Kapitel 4.4 Argo CD.
+Ein neuer Name, wie oben, erscheint als `~ name` im Plan, `tofu apply` macht ihn rückgängig. OpenTofu vergleicht aber nur die Attribute, die der Provider kennt. Änderungen in der VM selbst bleiben unsichtbar, etwa ein per SSH installiertes Paket oder eine gelöschte Datei. Für den Inhalt der VMs sorgt das Startskript. Im Cluster übernimmt diese Aufgabe ab Kapitel 4.4 Argo CD.
 :::
 ::::
 
 ::::exercise[Variable]
-Die Treuhand fragt, ob der Cluster mit weniger Speicher auskäme, damit daneben wieder eine VM für sie Platz hat. Wo änderst du das, und welche Folgen hat es?
+Die Treuhand fragt, ob der Cluster mit weniger Speicher auskäme, damit daneben wieder eine VM für sie Platz hat. Wo änderst du das und welche Folgen hat es?
 
 :::solution
-`variables.tf` hat die Variable `memory` mit 6144. In `terraform.tfvars` setzt du etwa `memory = 5120`, dann zeigt der Plan eine Änderung an beiden VMs. Jeder Knoten hätte danach 2,2 GB frei, genug für zwei kleine VMs. In Teil 5 brauchen Prometheus, Loki und das lokale Modell aber den Speicher, im Test lag der Server mit allem bei 3,4 GB und das Modell brauchte 2,7 GB auf dem Agent. Die spätere Messung über eine Stunde mit Anfragen ergab bis 3,3 GiB, Kapitel 6.4 zeigt die Messung. Die Entscheidung gehört begründet in die Dokumentation.
+In `variables.tf` steht die Variable `memory` mit dem Wert 6144. In `terraform.tfvars` setzt du etwa `memory = 5120`, dann zeigt der Plan eine Änderung an beiden VMs. Jeder Knoten hätte danach 2,2 GB frei, genug für zwei kleine VMs. In Teil 5 brauchen Prometheus, Loki und das lokale Modell aber diesen Speicher. Im Test lag der Server mit allem bei 3,4 GB, das Modell brauchte auf dem Agent 2,7 GB. Eine spätere Messung über eine Stunde mit Anfragen ergab für das Modell bis 3,3 GiB, wie Kapitel 6.4 zeigt. Deine Entscheidung begründest du in der Dokumentation.
 :::
 ::::

@@ -6,7 +6,7 @@ sidebar:
 ---
 
 :::assignment
-"Things kick off at ten on Saturdays," Veloatelier Matte writes. "During the week the shop gets by with little, on Saturday it should grow without one of you sitting next to it."
+"Things kick off at ten on Saturdays," Veloatelier Matte writes. "During the week the shop gets by with little. On Saturday it should grow without one of you sitting next to it."
 :::
 
 :::goals
@@ -27,17 +27,17 @@ The HorizontalPodAutoscaler (HPA) adjusts the number of pods of a deployment to 
 desired pods = ceil(current pods × current utilization / target)
 ```
 
-Two pods at 120 % with a target of 60 % make four pods. The HPA takes the values from the metrics-server that k3s ships.
+Two pods at 120% with a target of 60% make four pods. The HPA takes the values from the metrics-server that k3s ships.
 
-![The control loop of the HorizontalPodAutoscaler. The metrics-server of k3s measures the CPU of the web shop pods. The HorizontalPodAutoscaler compares the average utilization with the target of 60 % of the request and computes pods times utilization divided by target, rounded up, so two pods at 120 % give four pods. It stays between 2 and 6 pods and sets replicas in the deployment webshop in the namespace velo. Every pod has a request of 50m and a limit of 250m. Below, the ResourceQuota member caps the limits at 2 CPU. Six pods need 1.5 CPU, and the rest is left for the extra pods of a rollout.](../../../../assets/figures/en/p5c4-hpa.svg)
+![The control loop of the HorizontalPodAutoscaler. The metrics-server of k3s measures the CPU of the web shop pods. The HorizontalPodAutoscaler compares the average utilization with the target of 60% of the request and computes pods times utilization divided by target, rounded up, so two pods at 120% give four pods. It stays between 2 and 6 pods and sets replicas in the deployment webshop in the namespace velo. Every pod has a request of 50m and a limit of 250m. Below, the ResourceQuota member caps the limits at 2 CPU. Six pods need 1.5 CPU, and the rest is left for the extra pods of a rollout.](../../../../assets/figures/en/p5c4-hpa.svg)
 
 ::code{file="platform/observability/repo/webshop/hpa.yaml"}
 
-The web shop grows between two and six pods. When shrinking, the HPA waits five minutes and takes the highest recommendation of that period. A shop that is briefly quiet between two waves does not lose its pods right away. In milestone 3 you set `maxReplicas` in `webshop/hpa.yaml` through Git to the maximum from your [personal values](../../start/parameters/).
+The web shop runs with two to six pods. When shrinking, the HPA waits five minutes and takes the highest recommendation of that period. If the shop is briefly quiet between two waves, it does not lose its pods right away. In milestone 3 you set `maxReplicas` in `webshop/hpa.yaml` through Git to the maximum from your [personal values](../../start/parameters/).
 
 ## Two controllers for one number
 
-So far, the number of pods was in Git, the number from chapter 4.4. With the HPA there would be two controllers for the same number. The HPA would raise it to six and Argo CD with self-heal would reset it to three, again and again. The deployment in `observability/repo/webshop` therefore has no `replicas` anymore. If the field is missing in Git, Argo CD leaves it alone, and the HPA decides on its own. During the switch the deployment dropped to one pod for about 15 seconds in the lab until the HPA raised it back to its minimum.
+So far, the number of pods was in Git, the number from chapter 4.4. With the HPA there would be two controllers for the same number. The HPA would raise it to six and Argo CD with self-heal would reset it to three, again and again. The deployment in `observability/repo/webshop` therefore has no `replicas` anymore. If the field is missing in Git, Argo CD leaves it alone, and the HPA sets the number by itself. During the switch the deployment dropped to one pod for about 15 seconds in the lab until the HPA raised it back to its minimum.
 
 ::code{file="platform/observability/repo/webshop/deployment.yaml"}
 
@@ -45,7 +45,7 @@ So far, the number of pods was in Git, the number from chapter 4.4. With the HPA
 
 ## The load test
 
-The web shop image contains a load generator, `load.py`. It sends requests with several threads as fast as the shop answers and prints throughput, errors and response time every ten seconds. You start it as a pod in the namespace `default` and send the load through Traefik, just as customers arrive.
+The web shop image contains a load generator, `load.py`. It sends requests with several threads as fast as the shop answers and prints throughput, errors and response time every ten seconds. You start it as a pod in the namespace `default` and send the load through Traefik, the same way customers come in.
 
 ```bash
 kubectl run load --restart=Never --image=ghcr.io/ndum/cc/webshop:1.0.0 -- \
@@ -56,7 +56,7 @@ kubectl logs load
 
 `--watch` keeps running until you stop it with Ctrl+C. You see the output of the generator afterwards with `kubectl logs load`, or you open a second terminal for it.
 
-In the lab, the HPA showed 200 % and two pods after 30 seconds, and after 60 seconds six pods ran at 500 % of their request each, which is the limit of `250m`. The generator reported about 135 requests per second, and 95 % of the requests came back within about 300 ms. After the load ended, the shop first stayed at six pods because of the five-minute wait and then shrank to two.
+In the lab, the HPA showed 200% and two pods after 30 seconds, and after 60 seconds six pods ran at 500% of their request each, which is the limit of `250m`. The generator reported about 135 requests per second, and 95% of the requests came back within about 300 ms. After the load ended, the shop first stayed at six pods because of the five-minute wait and then shrank to two.
 
 ## Limits
 
@@ -74,7 +74,7 @@ The quota of chapter 4.5 protects the other members, but it also limits growth. 
 
 ### The rollout
 
-With six pods at the edge of the quota, someone changed a variable of the deployment. During a rollout, Kubernetes starts extra pods before it has ended all old ones, by default up to 25 % more. There was no room in the quota for these pods, and the rollout got stuck with two new and three old pods. A quota therefore needs headroom for the extra pods of a rollout. With `250m`, six pods plus two extra pods fit into 2 CPUs.
+With six pods at the edge of the quota, someone changed a variable of the deployment. During a rollout, Kubernetes starts extra pods before it has ended all old ones, by default up to 25% more. There was no room in the quota for these pods, and the rollout got stuck with two new and three old pods. A quota therefore needs headroom for the extra pods of a rollout. With `250m`, six pods plus two extra pods fit into 2 CPUs.
 
 ### The bottleneck elsewhere
 
@@ -91,13 +91,13 @@ When the quota was raised in the first attempt, six pods ran instead of four, bu
 | Limit | `max_vms` and the group quota | `maxReplicas` and the ResourceQuota |
 | Schedule | `scheduled_policies` with cron | not in the HPA, for example a CronJob that changes `minReplicas` |
 
-Containers start faster than VMs, so the HPA reacts sooner. The basic idea is the same, a rule measures, compares with a target and changes the number within fixed limits. Both systems run on the same hardware. Six pods only help if the two cluster VMs have the CPU.
+Containers start faster than VMs, so the HPA reacts sooner than OneFlow. In both systems a rule measures, compares with a target and changes the number within fixed limits. Both run on the same hardware. Six pods only help if the two cluster VMs have enough CPU.
 
 ::::exercise[Lab]
 Check with `kubectl -n velo get hpa webshop` that the HPA from chapter 5.1 is running, run the load test and note when the shop grows and when it shrinks. Show in the dashboard of chapter 5.1 how traffic and response time behave.
 
 :::solution
-`kubectl -n velo get hpa webshop --watch` shows the utilization rising and the pods growing from two to six, within a minute in the lab. In the dashboard, requests per second go up, and the response time rises too but stayed below the 0.5 s limit of chapter 5.3 in the lab. After the end, the shop stays at six pods for five minutes and then drops to two.
+`kubectl -n velo get hpa webshop --watch` shows the utilization rising and the pods growing from two to six, within a minute in the lab. In the dashboard, requests per second go up and so does the response time, which stayed below the 0.5 s limit of chapter 5.3 in the lab. After the end, the shop stays at six pods for five minutes and then drops to two.
 :::
 ::::
 
@@ -105,7 +105,7 @@ Check with `kubectl -n velo get hpa webshop` that the HPA from chapter 5.1 is ru
 The bike shop wants up to ten pods on Saturdays. What do you have to change in the repo, and what do you check before accepting the pull request?
 
 :::solution
-`maxReplicas: 10` in `webshop/hpa.yaml` and a higher quota for `limits.cpu` in `members/velo`. Ten pods at `250m` need 2.5 CPUs, closer to 3 with headroom for the rollout. You check whether the two VMs can carry the requests and whether the sum of all members' quotas is still reasonable, as in chapter 4.5.
+`maxReplicas: 10` in `webshop/hpa.yaml` and a higher quota for `limits.cpu` in `members/velo`. Ten pods at `250m` need 2.5 CPUs, closer to 3 with headroom for the rollout. Before accepting, you check whether the two VMs can carry the requests and whether the sum of all members' quotas is still reasonable, as in chapter 4.5.
 :::
 ::::
 
@@ -113,6 +113,6 @@ The bike shop wants up to ten pods on Saturdays. What do you have to change in t
 The bike shop knows that the load starts at ten on Saturdays. How do you prepare the shop so that it doesn't wait for the first wave to grow?
 
 :::solution
-A CronJob that sets the HPA's `minReplicas` to four at 9:45 on Saturdays and back in the evening works like the scheduled rule in OneFlow. Since the repo is the source, the change either goes to Git as a planned commit, or `minReplicas` is excluded from comparison in Argo CD. Otherwise self-heal resets the value at once.
+A CronJob that sets the HPA's `minReplicas` to four at 9:45 on Saturdays and back in the evening works like the scheduled rule in OneFlow. Since the repo is the source, the change either goes to Git as a planned commit, or `minReplicas` is excluded from the comparison with Git in Argo CD. Otherwise self-heal resets the value at once.
 :::
 ::::

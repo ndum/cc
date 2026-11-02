@@ -14,8 +14,8 @@ Mit diesem Raster schätzt du ein, ob deine IaaS steht und du sie verstehst. Lie
 | den Weg einer VM vom Auftrag bis zum Start beschreiben | Erkläre die fünf Schritte mit dem beteiligten Baustein. | [Architektur](../architecture/#der-weg-einer-vm) |
 | Ansible und OneDeploy erklären und OpenNebula installieren | Zeige `onehost list` mit zwei Knoten `on` und erkläre, was ein zweiter Lauf von OneDeploy ändern würde. | [Installation](../installation/) |
 | die installierten Dienste und ihre Ports zuordnen | Ordne drei Ports aus `sudo ss -ltnp` einem Dienst zu. | [Installation](../installation/#die-installierten-dienste) |
-| das interne Netz anlegen und VXLAN erklären | Erkläre, warum die VMs MTU 1450 haben und wie das Gateway zum Netz gehört. | [Virtuelle Netze](../networks/#vxlan) |
-| eine Vorlage lesen und anpassen | Erkläre `CPU`, `VCPU` und `CPU_MODEL` in der Vorlage `ubuntu`. | [Images, Vorlagen und Kontext](../images/#vorlagen) |
+| das interne Netz anlegen und VXLAN erklären | Erkläre, warum die VMs die MTU 1450 haben und wie das Gateway zum Netz gehört. | [Virtuelle Netze](../networks/#vxlan) |
+| eine Vorlage lesen und anpassen | Erkläre in der Vorlage `ubuntu` die Angaben `CPU` und `VCPU` sowie `CPU_MODEL`. | [Images, Vorlagen und Kontext](../images/#vorlagen) |
 | die Kontextualisierung erklären | Nenne vier Angaben im Kontext und ihre Wirkung in der VM. | [Images, Vorlagen und Kontext](../images/#kontextualisierung) |
 | eine VM starten und prüfen | Starte eine VM, melde dich per SSH an und zeige den Bericht des Checks `iaas`. | [Images, Vorlagen und Kontext](../images/#deine-erste-vm) |
 | reale und zugeteilte Kapazität unterscheiden | Lies in `onehost show` beide Werte ab und erkläre den Unterschied. | [Hosts betreiben](../hosts/#kapazität-und-überbuchung) |

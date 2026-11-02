@@ -21,7 +21,7 @@ After this chapter you can:
 
 ## SLA, SLO and SLI
 
-Chapter 5.3 set an SLO for the web shop, 99.5 % of requests without a server error over seven days. An SLO is an internal goal of the platform team. A service level agreement (SLA) is an agreement with the member, and missing it has consequences, such as a credit. The SLA is therefore looser than the SLO. That leaves room to notice and fix a missed SLO before the SLA breaks.
+Chapter 5.3 set an SLO for the web shop, 99.5% of requests without a server error over seven days. An SLO is an internal goal of the platform team. A service level agreement (SLA), by contrast, is an agreement with the member, and missing it has consequences, such as a credit. The SLA is therefore set looser than the SLO. A missed SLO can then be noticed and fixed before the SLA breaks.
 
 An SLA covers more than a percentage.
 
@@ -37,17 +37,17 @@ An SLA covers more than a percentage.
 
 ## Availability in numbers
 
-Percentages sound alike but differ a lot. The table converts them into allowed downtime.
+99% and 99.9% sound alike but allow very different amounts of downtime. The table shows how much downtime each value allows.
 
 | Availability | per 30 days | per year |
 |---|---|---|
-| 99 % | 7.2 hours | 3.65 days |
-| 99.5 % | 3.6 hours | 1.83 days |
-| 99.9 % | 43 minutes | 8.8 hours |
+| 99% | 7.2 hours | 3.65 days |
+| 99.5% | 3.6 hours | 1.83 days |
+| 99.9% | 43 minutes | 8.8 hours |
 
-What the platform can promise follows from its architecture. The lab has one front-end, one k3s server and two nodes. If the k3s server fails, the web shop is down until the VM is rebuilt. In the lab that took a good ten minutes until the web shop ran again, with the whole stack and provided someone reacts at once. If a node fails, its VMs are gone until it runs again or they are recreated on the other node. And the platform team of a small cooperative works office hours. Without an on-call service, an outage on Saturday evening gets fixed on Monday.
+What the platform can promise follows from its architecture. The lab has one front-end, one k3s server and two nodes. If the k3s server fails, the web shop is down until the VM is rebuilt. In the lab, with the whole stack, it took a good ten minutes until the web shop ran again. That assumes someone reacts at once. If a node fails, its VMs are gone until it runs again or they are recreated on the other node. On top of that, the platform team of a small cooperative works office hours. Without an on-call service, an outage on Saturday evening only gets fixed on Monday.
 
-Honest promises are therefore along the lines of 99 % during office hours with a response time of four hours. More takes more effort, such as three k3s servers, an on-call service or a second data center, and it costs accordingly. Chapter 6.4 works out the price.
+Honest promises are therefore along the lines of 99% during office hours with a response time of four hours. More takes more effort, such as three k3s servers, an on-call service or a second data center, and it costs accordingly. Chapter 6.4 works out the price.
 
 ## The operations concept
 
@@ -73,7 +73,7 @@ Instructions for a recurring incident are called a runbook. A runbook describes 
 This section belongs to the advanced task of milestone 4 with a member of your own. You do not need it for the base.
 :::
 
-Since chapter 6.1, Alertmanager sends not only the web shop's alerts to the triage service but every alert with the label `triage: "true"`. A new member therefore brings its own rules, as a `PrometheusRule` in its folder of the platform repo. The example watches the app `web` of a daycare center in the namespace `kita`.
+Since chapter 6.1, Alertmanager sends every alert with the label `triage: "true"` to the triage service. Before, it only sent the web shop's alerts. A new member therefore brings its own rules, as a `PrometheusRule` in its folder of the platform repo. The example watches the app `web` of a daycare center in the namespace `kita`.
 
 ```yaml
 apiVersion: monitoring.coreos.com/v1
@@ -94,7 +94,7 @@ spec:
             summary: The daycare website has no running pod
 ```
 
-Name the file something like `members/kita/alerts.yaml` and list it under `resources` in the member's `kustomization.yaml`. The metric carries the labels `namespace` and `deployment`. The triage service builds its target from them, here `kita/web`, and fetches the log lines of that namespace.
+Name the file something like `members/kita/alerts.yaml` and list it under `resources` in the member's `kustomization.yaml`. The metric carries the labels `namespace` and `deployment`. The triage service builds its target from them, in this example `kita/web`, and fetches the log lines of that namespace.
 
 You fire the alert through Git by setting `replicas: 0` in the app and pushing. In the course lab the alert came two minutes after the last pod was gone. The triage service proposed a restart, and the team rejected it, because a restart starts no pod while Git asks for zero. The fault is only fixed once `replicas: 1` is back in Git.
 
@@ -106,9 +106,9 @@ Since chapter 5.6 the service may only touch `velo/webshop`. For a new member th
 The postmortem drafted by the local model is one of the advanced tasks of milestone 4. You do not need it for the base.
 :::
 
-After an incident, the team writes a postmortem. It records what happened, what the impact was, which causes contributed and which measures prevent a repeat. The practice comes from running large services, and Google's [book on site reliability engineering](https://sre.google/sre-book/postmortem-culture/) describes it at length. A postmortem does not look for culprits. It assumes that everyone involved acted reasonably with the information they had, and asks which systems and processes made the failure possible.
+After an incident, the team writes a postmortem. It records what happened, what the impact was, which causes contributed and which measures prevent a repeat. Postmortems come from the operation of large services, and Google's [book on site reliability engineering](https://sre.google/sre-book/postmortem-culture/) describes them at length. A postmortem does not look for culprits. It assumes that everyone involved acted reasonably with the information they had, and asks which systems and processes made the failure possible.
 
-The timeline is the most important part, and it is tedious to collect. At Wolkenwerk the facts are in three places, the alerts in Prometheus, the decisions in the triage service's audit log and the changes in Git. The course script collects them and builds the timeline itself, without the model. The local model from chapter 5.5 only writes the text around it.
+The timeline is the most important part, and it is tedious to collect. At Wolkenwerk the facts are in three places. The alerts are in Prometheus, the decisions in the triage service's audit log and the changes in Git. The course script collects them and builds the timeline itself, without the model. The local model from chapter 5.5 only writes the text around it.
 
 ::code{file="case/postmortem/postmortem.py" lines="94-103"}
 
@@ -120,21 +120,21 @@ The question to the model asks for a blameless postmortem based only on the fact
 ~/cc/case/postmortem/postmortem.py --hours 1 > ~/postmortem-entwurf.md
 ```
 
-In the lab, an incident ran as in chapter 5.3. `FAIL_PERCENT` was set to 60 through Git, the alert came a few minutes after the change took effect, the triage service proposed a restart, the team rejected it and took back the change with `git revert`. The model needed 33 seconds for the draft. The timeline was correct, since it came from the data. The model's text, on the other hand, contained several errors.
+In the lab, an incident ran as in chapter 5.3. `FAIL_PERCENT` was set to 60 through Git, and the alert came a few minutes after the change took effect. The triage service proposed a restart, the team rejected it and took back the change with `git revert`. The model needed 33 seconds for the draft. The timeline was correct, since it came from the data. The model's text, on the other hand, contained several errors.
 
-- It stated about one hour of downtime, while the errors lasted around ten minutes.
+- The downtime it stated was about one hour, while the errors lasted around ten minutes.
 - It blamed the switch to etcd for a delay of the snapshots that never happened.
-- It praised that switch as a gain in stability, without any fact showing it.
+- It praised the same switch as a gain in stability, without any fact showing it.
 - It invented owners such as "Teamleiter A" and listed measures under "what went badly".
-- It took the right cause, `FAIL_PERCENT` at 60, from the triage service's proposal.
+- The right cause, `FAIL_PERCENT` at 60, came from the triage service's proposal.
 
-A second draft covering half an hour stated 13 minutes of impact and wrote in the next sentence that users noticed no failures, although 60 % of requests failed. A draft saves typing, but every statement has to be checked against the timeline. Passing it on unchecked spreads claims that look like a report.
+A second draft covering half an hour stated 13 minutes of impact. In the next sentence it wrote that users noticed no failures, although 60% of requests failed. A draft saves typing, but it looks like a finished report even when its statements are wrong. Check every statement against the timeline before you pass the draft on.
 
 ::::exercise[SLA]
 Draft a one-page SLA for one of the four members, for example the fiduciary office. Justify the availability with the architecture of your lab and the support hours with the means of a small cooperative. If you do the advanced task of milestone 4, write the SLA for your own member and base it on the restore time you measured in chapter 6.2.
 
 :::solution
-A good SLA names the service and its limits, an availability with period and exceptions, such as 99 % per month during office hours excluding announced maintenance, support hours with response times, RPO and RTO from chapter 6.2, the location of the data in Switzerland, the member's duties and a consequence when missed. The reasoning mentions the single k3s server and the missing on-call service. A promise above 99.9 % without more servers and on-call would not be honest.
+A good SLA names the service and its limits, an availability with period and exceptions, such as 99% per month during office hours excluding announced maintenance, support hours with response times, RPO and RTO from chapter 6.2, the location of the data in Switzerland, the member's duties and a consequence when missed. The reasoning mentions the single k3s server and the missing on-call service. A promise of 99.9% without more servers and an on-call service would not be honest.
 :::
 ::::
 

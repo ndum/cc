@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 740 264" role="img" aria-labelledby="p2c2-deploy-de-title p2c2-deploy-de-desc">
 <title id="p2c2-deploy-de-title">Wie OneDeploy das Lab einrichtet</title>
-<desc id="p2c2-deploy-de-desc">Ansible auf dem Front-end liest das Inventar und die Playbooks von OneDeploy. Es richtet das Front-end lokal ein, mit oned, Scheduler und FireEdge, und die beiden Knoten über SSH, mit KVM und libvirt.</desc>
+<desc id="p2c2-deploy-de-desc">Ansible auf dem Front-end liest das Inventar und die Playbooks von OneDeploy. Es richtet das Front-end lokal ein, mit oned, Scheduler und FireEdge. Die beiden Knoten richtet es über SSH ein, mit KVM und libvirt.</desc>
 <defs><marker id="p2c2-deploy-de-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"/></marker></defs>
 <rect class="d-band d-band-1" x="20" y="20" width="184" height="224" rx="6"/>
 <text class="d-label" x="36" y="44" text-anchor="start">EINGABEN</text>

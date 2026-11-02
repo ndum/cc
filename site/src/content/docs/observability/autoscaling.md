@@ -1,12 +1,12 @@
 ---
 title: Autoscaling
-description: Requests und Limits, der HorizontalPodAutoscaler mit CPU, ein Lasttest auf den Webshop, die Grenzen durch Quotas und Rollouts und der Vergleich mit der Elastizität von OneFlow.
+description: Requests und Limits, der HorizontalPodAutoscaler mit CPU, ein Lasttest auf den Webshop, die Grenzen durch Quotas und Rollouts sowie der Vergleich mit der Elastizität von OneFlow.
 sidebar:
   order: 4
 ---
 
 :::assignment
-«Samstags um zehn geht es los», schreibt das Veloatelier Matte. «Unter der Woche reicht der Shop mit wenig, am Samstag soll er wachsen, ohne dass jemand von euch daneben sitzt.»
+«Samstags um zehn geht es los», schreibt das Veloatelier Matte. «Unter der Woche kommt der Shop mit wenig aus. Am Samstag soll er wachsen, ohne dass jemand von euch daneben sitzt.»
 :::
 
 :::goals
@@ -33,11 +33,11 @@ Zwei Pods mit 120 % bei einem Ziel von 60 % ergeben vier Pods. Die Werte holt de
 
 ::code{file="platform/observability/repo/webshop/hpa.yaml"}
 
-Der Webshop wächst zwischen zwei und sechs Pods. Beim Schrumpfen wartet der HPA fünf Minuten und nimmt die höchste Empfehlung dieser Zeit. Ein Shop, der zwischen zwei Wellen kurz ruhig ist, verliert so nicht gleich seine Pods. In Meilenstein 3 setzt du `maxReplicas` in `webshop/hpa.yaml` über Git auf die Obergrenze aus deinen [persönlichen Werten](../../start/parameters/).
+Der Webshop läuft mit zwei bis sechs Pods. Beim Schrumpfen wartet der HPA fünf Minuten und nimmt die höchste Empfehlung dieser Zeit. Ist der Shop zwischen zwei Wellen kurz ruhig, verliert er deshalb nicht gleich seine Pods. In Meilenstein 3 setzt du `maxReplicas` in `webshop/hpa.yaml` über Git auf die Obergrenze aus deinen [persönlichen Werten](../../start/parameters/).
 
 ## Zwei Steuerungen für eine Zahl
 
-Bisher stand die Zahl der Pods in Git, die Zahl aus Kapitel 4.4. Mit dem HPA gäbe es zwei Steuerungen für dieselbe Zahl. Der HPA würde auf sechs erhöhen, Argo CD mit Self-Heal auf drei zurücksetzen, und so fort. Das Deployment in `observability/repo/webshop` hat darum kein `replicas` mehr. Fehlt das Feld in Git, rührt Argo CD es nicht an, und der HPA bestimmt allein. Beim Wechsel fiel das Deployment im Lab für etwa 15 Sekunden auf einen Pod, bis der HPA es wieder auf sein Minimum hob.
+Bisher stand die Zahl der Pods in Git, die Zahl aus Kapitel 4.4. Mit dem HPA gäbe es zwei Steuerungen für dieselbe Zahl. Der HPA würde auf sechs erhöhen, Argo CD mit Self-Heal wieder auf drei zurücksetzen, immer im Wechsel. Das Deployment in `observability/repo/webshop` hat darum kein `replicas` mehr. Fehlt das Feld in Git, rührt Argo CD es nicht an. Die Zahl bestimmt dann allein der HPA. Beim Wechsel fiel das Deployment im Lab für etwa 15 Sekunden auf einen Pod, bis der HPA es wieder auf sein Minimum hob.
 
 ::code{file="platform/observability/repo/webshop/deployment.yaml"}
 
@@ -45,7 +45,7 @@ Bisher stand die Zahl der Pods in Git, die Zahl aus Kapitel 4.4. Mit dem HPA gä
 
 ## Der Lasttest
 
-Das Image des Webshops enthält einen Lastgenerator, `load.py`. Er schickt mit mehreren Threads Anfragen, so schnell der Shop antwortet, und gibt alle zehn Sekunden Durchsatz, Fehler und Antwortzeit aus. Du startest ihn als Pod im Namespace `default` und schickst die Last über Traefik, so wie die Kundschaft kommt.
+Das Image des Webshops enthält einen Lastgenerator, `load.py`. Er schickt mit mehreren Threads Anfragen, so schnell der Shop antwortet. Alle zehn Sekunden gibt er Durchsatz, Fehler und Antwortzeit aus. Du startest ihn als Pod im Namespace `default` und schickst die Last über Traefik, auf dem Weg, den auch die Kundschaft nimmt.
 
 ```bash
 kubectl run load --restart=Never --image=ghcr.io/ndum/cc/webshop:1.0.0 -- \
@@ -56,7 +56,7 @@ kubectl logs load
 
 `--watch` läuft weiter, bis du es mit Ctrl+C beendest. Die Ausgabe des Generators siehst du danach mit `kubectl logs load`, oder du öffnest dafür ein zweites Terminal.
 
-Im Lab stand der HPA nach 30 Sekunden bei 200 % und zwei Pods, nach 60 Sekunden liefen sechs Pods mit je 500 % ihres Requests, also am Limit von `250m`. Der Generator meldete um 135 Anfragen pro Sekunde, und 95 % der Anfragen kamen in etwa 300 ms zurück. Nach dem Ende der Last blieb der Shop wegen der Wartezeit von fünf Minuten zuerst bei sechs Pods und schrumpfte dann auf zwei.
+Im Lab stand der HPA nach 30 Sekunden bei 200 % und zwei Pods, nach 60 Sekunden liefen sechs Pods mit je 500 % ihres Requests, also am Limit von `250m`. Der Generator meldete rund 135 Anfragen pro Sekunde, davon kamen 95 % in etwa 300 ms zurück. Nach dem Ende der Last blieb der Shop wegen der Wartezeit von fünf Minuten zuerst bei sechs Pods und schrumpfte dann auf zwei.
 
 ## Grenzen
 
@@ -78,7 +78,7 @@ Bei sechs Pods am Limit der Quota änderte jemand eine Variable des Deployments.
 
 ### Der Engpass anderswo
 
-Als die Quota im ersten Versuch erhöht wurde, liefen sechs statt vier Pods, der Durchsatz stieg aber nur von 175 auf 185 Anfragen pro Sekunde. Der Lastgenerator ist ein einzelner Python-Prozess und schafft nicht mehr. Mehr Pods helfen nur, wenn der Shop der Engpass ist. Vor dem Skalieren gehört die Frage, wo die Zeit verloren geht.
+Als die Quota im ersten Versuch erhöht wurde, liefen sechs statt vier Pods, der Durchsatz stieg aber nur von 175 auf 185 Anfragen pro Sekunde. Der Lastgenerator ist ein einzelner Python-Prozess und schafft nicht mehr. Mehr Pods helfen nur, wenn der Shop der Engpass ist. Bevor du skalierst, klärst du deshalb, wo die Zeit verloren geht.
 
 ## Vergleich mit OneFlow
 
@@ -91,21 +91,21 @@ Als die Quota im ersten Versuch erhöht wurde, liefen sechs statt vier Pods, der
 | Grenze | `max_vms` und Quota der Gruppe | `maxReplicas` und ResourceQuota |
 | Zeitplan | `scheduled_policies` mit Cron | nicht im HPA, etwa mit einem CronJob, der `minReplicas` ändert |
 
-Container starten schneller als VMs, darum reagiert der HPA kürzer. Die Grundidee ist dieselbe, eine Regel misst, vergleicht mit einem Ziel und ändert die Zahl innerhalb fester Grenzen. Unter beiden Systemen liegt dieselbe Hardware. Sechs Pods helfen nur, wenn die zwei VMs des Clusters die CPU haben.
+Container starten schneller als VMs, darum reagiert der HPA früher als OneFlow. In beiden Systemen misst eine Regel, vergleicht mit einem Ziel und ändert die Zahl innerhalb fester Grenzen. Beide laufen auf derselben Hardware. Sechs Pods helfen nur, wenn die zwei VMs des Clusters genug CPU haben.
 
 ::::exercise[Lab]
 Prüfe mit `kubectl -n velo get hpa webshop`, dass der HPA aus Kapitel 5.1 läuft, führe den Lasttest durch und notiere, wann der Shop wächst und wann er schrumpft. Zeige im Dashboard aus Kapitel 5.1, wie sich Verkehr und Antwortzeit verhalten.
 
 :::solution
-`kubectl -n velo get hpa webshop --watch` zeigt die Auslastung steigen und die Pods von zwei auf sechs wachsen, im Lab innerhalb einer Minute. Im Dashboard steigen die Anfragen pro Sekunde, und die Antwortzeit steigt, bleibt im Lab aber unter der Grenze von 0,5 s aus Kapitel 5.3. Nach dem Ende bleibt der Shop fünf Minuten bei sechs Pods und fällt dann auf zwei.
+`kubectl -n velo get hpa webshop --watch` zeigt die Auslastung steigen und die Pods von zwei auf sechs wachsen, im Lab innerhalb einer Minute. Im Dashboard steigen die Anfragen pro Sekunde und auch die Antwortzeit. Sie blieb im Lab aber unter der Grenze von 0,5 s aus Kapitel 5.3. Nach dem Ende bleibt der Shop fünf Minuten bei sechs Pods und fällt dann auf zwei.
 :::
 ::::
 
 ::::exercise[Quota und HPA]
-Das Veloatelier will am Samstag bis zu zehn Pods. Was musst du im Repo ändern, und was prüfst du, bevor du den Pull Request annimmst?
+Das Veloatelier will am Samstag bis zu zehn Pods. Was musst du im Repo ändern? Was prüfst du, bevor du den Pull Request annimmst?
 
 :::solution
-`maxReplicas: 10` in `webshop/hpa.yaml` und in `members/velo` eine höhere Quota für `limits.cpu`. Zehn Pods mit `250m` brauchen 2,5 CPU, mit Reserve für den Rollout eher 3. Zu prüfen ist, ob die zwei VMs die Requests tragen und ob die Summe der Quotas aller Mitglieder noch vertretbar ist, wie in Kapitel 4.5.
+`maxReplicas: 10` in `webshop/hpa.yaml` und in `members/velo` eine höhere Quota für `limits.cpu`. Zehn Pods mit `250m` brauchen 2,5 CPU, mit Reserve für den Rollout eher 3. Vor dem Annehmen prüfst du, ob die zwei VMs die Requests tragen und ob die Summe der Quotas aller Mitglieder noch vertretbar ist, wie in Kapitel 4.5.
 :::
 ::::
 
@@ -113,6 +113,6 @@ Das Veloatelier will am Samstag bis zu zehn Pods. Was musst du im Repo ändern, 
 Das Veloatelier weiss, dass die Last samstags um zehn beginnt. Wie bereitest du den Shop vor, damit er nicht erst bei der ersten Welle wächst?
 
 :::solution
-Ein CronJob, der samstags um 9.45 Uhr `minReplicas` des HPA auf vier setzt und am Abend zurück, wirkt wie die Regel nach Zeitplan in OneFlow. Weil das Repo die Quelle ist, gehört die Änderung entweder als geplanter Commit nach Git, oder `minReplicas` wird in Argo CD von der Prüfung ausgenommen. Sonst setzt Self-Heal den Wert gleich wieder zurück.
+Ein CronJob, der samstags um 9.45 Uhr `minReplicas` des HPA auf vier setzt und am Abend zurück, wirkt wie die Regel nach Zeitplan in OneFlow. Weil das Repo die Quelle ist, gehört die Änderung entweder als geplanter Commit nach Git, oder `minReplicas` wird in Argo CD vom Vergleich mit Git ausgenommen. Sonst setzt Self-Heal den Wert gleich wieder zurück.
 :::
 ::::

@@ -28,11 +28,11 @@ Die Servicemodelle sagen, welchen Teil des Stapels von der Hardware bis zur Anwe
 | Platform as a Service (PaaS) | zusätzlich Betriebssystem, Laufzeit und Werkzeuge | Anwendung und Daten | die Kubernetes-Plattform, auf die das Veloatelier seinen Webshop ausrollt |
 | Software as a Service (SaaS) | die fertige Anwendung | nur ihre Daten und Einstellungen | das lokale Sprachmodell als Dienst mit einer API |
 
-Mit jeder Stufe übernimmt der Anbieter mehr Arbeit, und die Nutzenden geben mehr Kontrolle ab. Eine VM aus IaaS kann die Praxis beliebig einrichten, muss sich aber selbst um Updates des Betriebssystems kümmern. Auf einer PaaS kümmert sich das Plattform-Team darum, dafür bestimmt es auch, welche Laufzeiten und Versionen es gibt.
+Mit jeder Stufe übernimmt der Anbieter mehr Arbeit. Im Gegenzug geben die Nutzenden mehr Kontrolle ab. Eine VM aus IaaS kann die Praxis beliebig einrichten, muss sich aber selbst um die Updates des Betriebssystems kümmern. Auf einer PaaS erledigt das Plattform-Team die Updates und bestimmt dafür auch, welche Laufzeiten und Versionen es gibt.
 
 ## Geteilte Verantwortung
 
-Die Abbildung zeigt die Schichten eines IT-Dienstes und wer sie im jeweiligen Modell betreibt. Dieses Bild heisst Modell der geteilten Verantwortung (Shared Responsibility Model). Die Daten und die Zugriffsrechte darauf bleiben in jedem Modell bei den Nutzenden. Auch wer eine Anwendung als SaaS bezieht, entscheidet selbst, wer darin welche Daten sieht.
+Die Abbildung zeigt die Schichten eines IT-Dienstes und wer sie im jeweiligen Modell betreibt. Diese Aufteilung heisst Modell der geteilten Verantwortung (Shared Responsibility Model). Die Daten und die Zugriffsrechte darauf bleiben in jedem Modell bei den Nutzenden. Auch wer eine Anwendung als SaaS bezieht, entscheidet selbst, wer darin welche Daten sieht.
 
 ![Geteilte Verantwortung in den Servicemodellen. Vier Spalten für den eigenen Betrieb, IaaS, PaaS und SaaS zeigen neun Schichten von Netz und Hardware bis zu Daten und Zugriffen. Im eigenen Betrieb betreiben die Nutzenden alle Schichten. Bei IaaS übernimmt der Anbieter Netz, Speicher, Server und Virtualisierung, bei PaaS zusätzlich Betriebssystem, Middleware und Laufzeit, bei SaaS auch die Anwendung. Daten und Zugriffe bleiben immer bei den Nutzenden.](../../../assets/figures/de/p1c2-responsibility.svg)
 
@@ -47,11 +47,11 @@ Die Bereitstellungsmodelle sagen, wer eine Cloud nutzen darf und wem sie gehört
 | Public Cloud | die Öffentlichkeit, alle Kundinnen und Kunden eines Anbieters | grosse Anbieter mit Rechenzentren auf mehreren Kontinenten |
 | Hybrid Cloud | eine Organisation, die zwei oder mehr dieser Modelle verbindet | eigene Private Cloud, die bei Lastspitzen Ressourcen aus einer Public Cloud dazunimmt |
 
-Wolkenwerk Bern ist eine Community Cloud. Die Mitglieder teilen sich eine Infrastruktur, weil sie ähnliche Anforderungen haben. Sie wollen ihre Daten in der Schweiz und unter eigener Kontrolle, und keines der Mitglieder könnte eine solche Cloud allein betreiben. Technisch sieht eine Community Cloud aus wie eine Private Cloud. Der Unterschied liegt darin, dass mehrere Organisationen sie gemeinsam nutzen und gemeinsam über sie bestimmen.
+Wolkenwerk Bern ist eine Community Cloud. Die Mitglieder teilen sich eine Infrastruktur, weil sie ähnliche Anforderungen haben. Sie wollen ihre Daten in der Schweiz und unter eigener Kontrolle haben. Allein könnte keines der Mitglieder eine solche Cloud betreiben. Technisch sieht eine Community Cloud aus wie eine Private Cloud. Der Unterschied liegt darin, dass mehrere Organisationen sie gemeinsam nutzen und über sie bestimmen.
 
 ## Public Clouds
 
-Public Clouds bieten Hunderte von Diensten weltweit an, sofort verfügbar und nach Verbrauch abgerechnet. Für viele Organisationen sind sie der einfachste Weg in die Cloud. Dieser Kurs baut bewusst keine Public Cloud nach. Er zeigt, wie die Dienste darunter funktionieren, indem du sie selbst betreibst. Wer eine eigene Cloud gebaut hat, versteht auch die Angebote der grossen Anbieter besser, ihre Möglichkeiten und ihre Grenzen.
+Public Clouds bieten weltweit Hunderte von Diensten an, sofort verfügbar und nach Verbrauch abgerechnet. Für viele Organisationen sind sie der einfachste Weg in die Cloud. Dieser Kurs baut bewusst keine Public Cloud nach. Du lernst die Dienste darunter kennen, indem du sie selbst betreibst. Wer eine eigene Cloud gebaut hat, kann besser einschätzen, was die Angebote der grossen Anbieter leisten und wo ihre Grenzen liegen.
 
 ::::exercise[Verantwortung]
 Die Praxis Rosenweg bezieht von Wolkenwerk Bern eine VM aus OpenNebula und betreibt darauf ihre Praxissoftware. Wer ist für die folgenden Punkte verantwortlich, die Praxis oder das Plattform-Team?
@@ -75,6 +75,6 @@ Die Praxis Rosenweg bezieht von Wolkenwerk Bern eine VM aus OpenNebula und betre
 Die Gemeinde Hinterbüel fragt, ob Wolkenwerk Bern eine Public Cloud ist. Antworte in drei Sätzen und nenne das richtige Bereitstellungsmodell mit Begründung.
 
 :::solution
-Nein, Wolkenwerk Bern steht nicht der Öffentlichkeit offen, sondern nur den Mitgliedern der Genossenschaft. Weil mehrere Organisationen mit gemeinsamen Anforderungen sie gemeinsam nutzen und tragen, ist sie eine Community Cloud. Technisch funktioniert sie wie eine Private Cloud.
+Nein, die Cloud von Wolkenwerk Bern steht nur den Mitgliedern der Genossenschaft offen. Weil mehrere Organisationen mit gemeinsamen Anforderungen sie zusammen nutzen und tragen, ist sie eine Community Cloud. Technisch funktioniert sie wie eine Private Cloud.
 :::
 ::::

@@ -6,7 +6,7 @@ sidebar:
 ---
 
 :::assignment
-«Was kostet uns der Betrieb wirklich, und was verlangen wir vom neuen Mitglied?», fragt Beat Kläy. «Die Preise aus dem Showback waren ein Anfang. Ich möchte eine Rechnung sehen, die alles enthält, und wissen, ob wir Ressourcen verschwenden.»
+«Was kostet uns der Betrieb wirklich und was verlangen wir vom neuen Mitglied?», fragt Beat Kläy. «Die Preise aus dem Showback waren ein Anfang. Ich möchte eine Rechnung sehen, die alles enthält. Und ich will wissen, ob wir Ressourcen verschwenden.»
 :::
 
 :::goals
@@ -25,27 +25,27 @@ Kapitel 3.3 hat Preise pro Stunde für CPU, Arbeitsspeicher und Disk in die Vorl
 
 | Posten | Annahme | pro Jahr |
 |---|---|---|
-| Hardware | zwei Knoten für 7 000 und ein Front-end für 2 000 Franken, fünf Jahre | 1 800 Franken |
-| Strom | durchschnittlich 300 Watt, 2 628 kWh zu 31,5 Rappen | 828 Franken |
-| Arbeit | 10 % einer Vollzeitstelle zu 130 000 Franken mit Sozialabgaben | 13 000 Franken |
-| Übriges | Internet, Platz im Rack, Kopie der Backups ausser Haus | 1 500 Franken |
-| **Total** | | **17 128 Franken** |
+| Hardware | zwei Knoten für 7’000 und ein Front-end für 2’000 Franken, fünf Jahre | 1’800 Franken |
+| Strom | durchschnittlich 300 Watt, 2’628 kWh zu 31,5 Rappen | 828 Franken |
+| Arbeit | 10 % einer Vollzeitstelle zu 130’000 Franken mit Sozialabgaben | 13’000 Franken |
+| Übriges | Internet, Platz im Rack, Kopie der Backups ausser Haus | 1’500 Franken |
+| **Total** | | **17’128 Franken** |
 
-Bis auf den Strompreis sind die Zahlen Annahmen für den Fall. Der Strompreis ist der Tarif 2026 von Energie Wasser Bern für einen Kleinbetrieb im Profil C2, aus den [offenen Daten der ElCom](https://energy.ld.admin.ch/elcom/electricityprice/observation/351-519-C2-standard-2026). Der Median der Schweiz für dasselbe Profil liegt bei 25,1 Rappen.
+Bis auf den Strompreis sind die Zahlen Annahmen für den Fall. Der Strompreis ist der Tarif 2026 von Energie Wasser Bern für einen Kleinbetrieb im Profil C2. Er stammt aus den [offenen Daten der ElCom](https://energy.ld.admin.ch/elcom/electricityprice/observation/351-519-C2-standard-2026). Der Median der Schweiz für dasselbe Profil liegt bei 25,1 Rappen.
 
-Die Arbeit macht drei Viertel der Kosten aus, der Strom keine 5 %. Das ist für kleine Plattformen typisch. Wer hier sparen will, spart Arbeitszeit, etwa durch Automatisierung mit OpenTofu und GitOps, durch Self-Service und durch wenige, gut dokumentierte Abläufe.
+Die Arbeit macht drei Viertel der Kosten aus, der Strom keine 5 %. Das ist für kleine Plattformen typisch. Sparen lässt sich darum vor allem Arbeitszeit, etwa mit Automatisierung durch OpenTofu und GitOps, mit Self-Service und mit wenigen, gut dokumentierten Abläufen.
 
 ## Ein Preis für das neue Mitglied
 
-Die einfachste Verteilung folgt den reservierten Ressourcen. Die Knoten haben zusammen 8 CPU und 14,4 GB, die OpenNebula vergeben kann. Ein neues Mitglied mit einem Namespace mit 1 CPU und 1 GB in der Quota und einer VM mit einer halben CPU und 1 GB reserviert 1,5 von 8 CPU, also 18,8 %, und 2 von 14,4 GB, also 13,9 %. Im Mittel sind das 16,3 % der Kosten.
+Die einfachste Verteilung folgt den reservierten Ressourcen. Die Knoten haben zusammen 8 CPU und 14,4 GB, die OpenNebula vergeben kann. Ein neues Mitglied hat einen Namespace mit 1 CPU und 1 GB in der Quota und eine VM mit einer halben CPU und 1 GB. Es reserviert damit 1,5 von 8 CPU oder 18,8 % sowie 2 von 14,4 GB oder 13,9 %. Im Mittel sind das 16,3 % der Kosten.
 
 ```text
-17 128 × 0,163 ≈ 2 795 Franken pro Jahr ≈ 233 Franken pro Monat
+17’128 × 0,1632 ≈ 2’795 Franken pro Jahr ≈ 233 Franken pro Monat
 ```
 
-Mit den Preisen aus Kapitel 3.3 kostete dasselbe Mitglied rund 86 Franken im Monat, 35 für die VM und 51 für den Namespace, gerechnet mit denselben Preisen pro CPU und MB. Die Preise des Showbacks decken nur gut einen Drittel. Sie sind aber nicht falsch, sie zeigen den Verbrauch, nicht den Preis. Ein Vorschlag an den Vorstand könnte einen Grundbeitrag pro Mitglied für die Arbeit vorsehen und den Verbrauch dazu nach Showback abrechnen. Ob Wolkenwerk den Mitgliedern die Kosten wirklich verrechnet oder nur zeigt, ist ein Entscheid der Genossenschaft. Die FinOps Foundation unterscheidet dafür Showback und Chargeback.
+Mit den Preisen aus Kapitel 3.3 kostete dasselbe Mitglied rund 86 Franken im Monat, 35 für die VM und 51 für den Namespace, gerechnet mit denselben Preisen pro CPU und MB. Die Preise des Showbacks decken nur gut einen Drittel. Falsch sind sie deshalb nicht. Das Showback macht den Verbrauch sichtbar, ein Preis muss dagegen die Vollkosten decken. Ein Vorschlag an den Vorstand könnte einen Grundbeitrag pro Mitglied für die Arbeit vorsehen und den Verbrauch dazu nach Showback abrechnen. Ob Wolkenwerk den Mitgliedern die Kosten wirklich verrechnet oder nur zeigt, ist ein Entscheid der Genossenschaft. Die FinOps Foundation unterscheidet dafür Showback und Chargeback.
 
-Die Rechnung nimmt an, dass die Plattform voll belegt ist. In Wahrheit belegen die VMs von k3s allein 12 der 14,4 GB. Was die Mitglieder nicht kaufen, tragen die anderen mit.
+Die Rechnung nimmt an, dass die Plattform voll belegt ist. Tatsächlich belegen die VMs von k3s allein 12 der 14,4 GB. Kapazität, die kein Mitglied bucht, bezahlen die übrigen Mitglieder mit.
 
 :::note[Zusatzauftrag]
 Das Kostenmodell für dein eigenes Mitglied gehört zu den Zusatzaufträgen von Meilenstein 4. Du rechnest es wie oben mit der Quota und der VM deines Mitglieds und vergleichst es mit dem Showback.
@@ -53,7 +53,7 @@ Das Kostenmodell für dein eigenes Mitglied gehört zu den Zusatzaufträgen von 
 
 ## Right-Sizing
 
-Eine Quota und die Requests eines Pods reservieren Ressourcen, auch wenn der Pod sie nie nutzt. Right-Sizing heisst, die Reservierung an den gemessenen Verbrauch anzupassen. Prometheus kennt beides. Die erste Abfrage zeigt die Requests pro Namespace, die zweite das 95. Perzentil des tatsächlichen Verbrauchs der letzten Stunde.
+Eine Quota und die Requests eines Pods reservieren Ressourcen, auch wenn der Pod sie nie nutzt. Right-Sizing heisst, die Reservierung an den gemessenen Verbrauch anzupassen. Beides steht in Prometheus. Die erste Abfrage zeigt die Requests pro Namespace, die zweite das 95. Perzentil des tatsächlichen Verbrauchs der letzten Stunde.
 
 ```text
 sum by (namespace) (kube_pod_container_resource_requests{resource="cpu"})
@@ -75,18 +75,18 @@ Im Lab ergab sich nach einem Lasttest dieses Bild.
 | Namespace | CPU reserviert | CPU genutzt, p95 | Speicher reserviert | Speicher genutzt, max |
 |---|---|---|---|---|
 | velo | 0,3 | 0,55 | 384 MiB | 197 MiB |
-| ai | 1,02 | 0,22 | 2 112 MiB | 3 391 MiB |
+| ai | 1,02 | 0,22 | 2’112 MiB | 3’391 MiB |
 | probe | 0,05 | 0 | 64 MiB | 21 MiB |
 
 Die Messung stammt aus dem Lab des Kurses. Dort lief auch das Mitglied `probe` aus dem Zusatzauftrag von Meilenstein 4. Ohne diesen Zusatzauftrag fehlt die Zeile bei dir, mit ihm steht dort der Namespace deines Mitglieds.
 
-Die Zahlen sagen Verschiedenes. Beim Webshop lag der Verbrauch über den Requests, weil das HPA die Pods nach Auslastung der Requests skaliert. Die Requests sind dort ein Werkzeug der Skalierung, kein Fehler. Ollama reservierte viermal mehr CPU, als es brauchte, aber ein Drittel zu wenig Speicher. Mit dem geladenen Modell nutzte es 3,3 GiB bei einem Request von 2 GiB. Wird der Speicher auf dem Node knapp, beendet Kubernetes zuerst Pods, die mehr nutzen, als sie reserviert haben. Ein besserer Request wäre etwa 0,5 CPU und 3,5 GiB Speicher. Das Limit von 4 GiB lässt dann nur noch wenig Luft. Wer den Request erhöht, prüft deshalb auch das Limit und ob der Agent neben Loki und den Pods der Mitglieder den Platz hat. Die Änderung gehört in `ai/ollama.yaml` und damit in einen Pull Request.
+Die drei Zeilen zeigen unterschiedliche Fälle. Beim Webshop lag der Verbrauch über den Requests, weil das HPA die Pods nach Auslastung der Requests skaliert. Die Requests sind dort ein Werkzeug der Skalierung. Dass der Verbrauch darüber liegt, ist kein Fehler. Ollama reservierte viermal mehr CPU, als es brauchte, aber ein Drittel zu wenig Speicher. Mit dem geladenen Modell nutzte es 3,3 GiB bei einem Request von 2 GiB. Wird der Speicher auf dem Node knapp, beendet Kubernetes zuerst Pods, die mehr nutzen, als sie reserviert haben. Ein besserer Request wäre etwa 0,5 CPU und 3,5 GiB Speicher. Das Limit von 4 GiB lässt dann nur noch wenig Luft. Wer den Request erhöht, prüft deshalb auch das Limit und ob der Agent neben Loki und den Pods der Mitglieder den Platz hat. Die Änderung gehört in `ai/ollama.yaml` und damit in einen Pull Request.
 
-Eine Stunde ist für solche Entscheide zu kurz. Ein Samstag im Frühling sieht anders aus als ein Dienstag im Januar. Grafana zeigt dieselben Abfragen über Wochen, und erst dann lohnt sich eine Änderung.
+Eine Stunde ist für solche Entscheide zu kurz. Ein Samstag im Frühling sieht anders aus als ein Dienstag im Januar. Grafana zeigt dieselben Abfragen über Wochen. Erst mit solchen Werten lohnt sich eine Änderung.
 
 ## Ungenutzte Ressourcen
 
-Was läuft und nichts tut, kostet trotzdem. Typisch sind VMs, die nach einem Test weiterlaufen, alte Images und Backups, die niemand mehr braucht, und Namespaces von Projekten, die beendet sind. OpenNebula und Kubernetes zeigen sie.
+Auch Ressourcen, die nichts tun, kosten Geld. Typisch sind Namespaces beendeter Projekte und VMs, die nach einem Test weiterlaufen. Dazu kommen alte Images und Backups, die niemand mehr braucht. Diese Befehle listen sie auf.
 
 ```bash
 onevm list
@@ -96,17 +96,17 @@ kubectl top pods -A --sort-by=cpu | tail
 
 Im Lab nutzte eine VM mit 1 GB Arbeitsspeicher im Leerlauf 253 MB. Der Knoten musste trotzdem das ganze GB bereithalten und lagerte dafür rund 200 MB auf die Disk aus. Eine VM, die nur tagsüber gebraucht wird, lässt sich mit `onevm undeploy` aus Kapitel 4.2 nachts vom Knoten nehmen. Sie belegt dann nur noch ihre Disk.
 
-Auch der Strom hängt an der Belegung. Ein Server im Leerlauf braucht einen grossen Teil seiner Spitzenleistung. Zwei halb leere Knoten verbrauchen darum mehr als ein voller. Eine kleine Genossenschaft kann wenig an der Hardware ändern, aber sie kann ungenutzte VMs entfernen und die Mitglieder mit dem Showback dazu bringen, ihre eigenen aufzuräumen.
+Auch der Stromverbrauch hängt von der Belegung ab. Ein Server im Leerlauf braucht einen grossen Teil seiner Spitzenleistung. Zwei halb leere Knoten verbrauchen darum mehr als ein voller. Eine kleine Genossenschaft kann wenig an der Hardware ändern, aber sie kann ungenutzte VMs entfernen und die Mitglieder mit dem Showback dazu bringen, ihre eigenen aufzuräumen.
 
 ## Ausblick
 
-OpenCost rechnet die Kosten eines Clusters pro Namespace, Deployment und Pod aus, mit Preisen pro CPU und GB, und zeigt ungenutzte Reservierungen. Es läuft im Cluster und liest aus Prometheus. Für den Kurs genügen die Abfragen oben und die Rechnung in einer Tabelle.
+OpenCost rechnet mit Preisen pro CPU und GB die Kosten eines Clusters pro Namespace, Deployment und Pod aus und zeigt ungenutzte Reservierungen. Es läuft im Cluster und liest aus Prometheus. Für den Kurs genügen die Abfragen oben und die Rechnung in einer Tabelle.
 
 ::::exercise[Kostenmodell]
 Erstelle das Kostenmodell für eines der vier Mitglieder mit seiner Quota und seinen VMs. Machst du den Zusatzauftrag von Meilenstein 4, rechnest du es für dein eigenes Mitglied. Rechne mit den Vollkosten oben oder mit eigenen begründeten Annahmen und vergleiche das Ergebnis mit dem Showback aus Kapitel 3.3.
 
 :::solution
-Das Modell nennt die Ressourcen des Mitglieds aus Quota und VM, den Anteil an der Kapazität, den Preis pro Monat aus den Vollkosten und den Betrag aus dem Showback. Es erklärt den Unterschied mit der Arbeit, die im Showback fehlt, und schlägt eine Verrechnung vor, etwa Grundbeitrag plus Verbrauch. Eigene Annahmen sind erlaubt, wenn sie begründet sind.
+Das Modell nennt die Ressourcen des Mitglieds aus Quota und VM, den Anteil an der Kapazität, den Preis pro Monat aus den Vollkosten und den Betrag aus dem Showback. Den Unterschied erklärt es mit der Arbeit, die im Showback fehlt. Dazu kommt ein Vorschlag für die Verrechnung, etwa Grundbeitrag plus Verbrauch. Eigene Annahmen sind erlaubt, wenn sie begründet sind.
 :::
 ::::
 
@@ -114,14 +114,14 @@ Das Modell nennt die Ressourcen des Mitglieds aus Quota und VM, den Anteil an de
 Vergleiche Requests und Verbrauch der Namespaces in deinem Lab über mindestens einen Tag und passe einen Request über einen Pull Request an. Begründe den neuen Wert.
 
 :::solution
-Die Abfragen zeigen pro Namespace Reservierung und Verbrauch. Ein guter Kandidat ist Ollama mit zu viel CPU und zu wenig Speicher. Der neue Wert liegt etwas über dem gemessenen Maximum beim Speicher und nahe am 95. Perzentil bei der CPU. Beim Webshop bleiben die Requests klein, weil das HPA darauf rechnet.
+Die Abfragen zeigen pro Namespace Reservierung und Verbrauch. Ein guter Kandidat ist Ollama mit zu viel CPU und zu wenig Speicher. Der neue Wert liegt beim Speicher etwas über dem gemessenen Maximum, bei der CPU nahe am 95. Perzentil. Beim Webshop bleiben die Requests klein, weil das HPA darauf rechnet.
 :::
 ::::
 
 ::::exercise[Aufräumen]
-Suche in deinem Lab ungenutzte VMs, Images, Backups und Namespaces. Schätze, was sie nach der Rechnung oben im Jahr kosten, und räume auf, was niemand braucht.
+Suche in deinem Lab ungenutzte VMs, Images, Backups und Namespaces. Schätze nach der Rechnung oben, was sie im Jahr kosten. Räume danach auf, was niemand braucht.
 
 :::solution
-`onevm list`, `oneimage list` und `kubectl get ns` zeigen die Kandidaten, etwa VMs aus Tests, Backup-Images alter VMs und Vorlagen aus `oneimage restore`. Eine VM mit einer halben CPU und 1 GB belegt rund 6 % der CPU und 7 % des Speichers, nach der Vollkostenrechnung etwa 1 100 Franken im Jahr. Gelöscht wird nur, was niemand mehr braucht und was nicht als Backup dient.
+Die Kandidaten in OpenNebula zeigen `onevm list` und `oneimage list`, die Namespaces zeigt `kubectl get ns`. Typisch sind VMs aus Tests, Backup-Images alter VMs und Vorlagen aus `oneimage restore`. Eine VM mit einer halben CPU und 1 GB belegt rund 6 % der CPU und 7 % des Speichers, nach der Vollkostenrechnung etwa 1’100 Franken im Jahr. Lösche nur, was niemand mehr braucht und nicht als Backup dient.
 :::
 ::::

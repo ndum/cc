@@ -15,7 +15,7 @@ Mit diesem Raster schätzt du ein, ob du deine Plattform sicher, wiederherstellb
 | Pods auf ein Sicherheitsprofil verpflichten | Zähle auf, was ein Pod für das Profil `restricted` angeben muss. | [Sicherheit](../security/#pod-security-admission) |
 | Secrets sicher in Git ablegen | Erkläre, wer ein SealedSecret entschlüsseln kann und was ohne seinen Schlüssel passiert. | [Sicherheit](../security/#secrets-in-git) |
 | RPO und RTO festlegen | Lege RPO und RTO für den Webshop fest und sage, welche Sicherung sie erreicht. | [Backup und Wiederherstellung](../backup/#rpo-und-rto) |
-| abgrenzen, was Git abdeckt | Nenne drei Dinge, die nach einem Neubau aus Git fehlen. | [Backup und Wiederherstellung](../backup/#grenzen-von-git) |
+| abgrenzen, was Git abdeckt | Nenne drei Dinge, die Git nach einem Neubau nicht zurückbringt. | [Backup und Wiederherstellung](../backup/#grenzen-von-git) |
 | den Cluster aus einem Snapshot wiederherstellen (Zusatz) | Beschreibe die Schritte und was danach noch zu tun ist. | [Backup und Wiederherstellung](../backup/#den-cluster-wiederherstellen) |
 | VMs sichern und wiederherstellen | Sichere eine VM und stelle sie als neue VM wieder her. | [Backup und Wiederherstellung](../backup/#vms-in-opennebula) |
 | eine ehrliche Verfügbarkeit zusagen | Begründe mit der Architektur des Labs, warum 99,9 % nicht realistisch sind. | [SLA und Betriebskonzept](../sla/#verfügbarkeit-in-zahlen) |
@@ -23,4 +23,4 @@ Mit diesem Raster schätzt du ein, ob du deine Plattform sicher, wiederherstellb
 | Vollkosten berechnen und einen Preis ableiten | Rechne aus, welchen Anteil der Kosten ein Mitglied mit 1 CPU und 2 GB trägt. | [Kosten und Ressourceneffizienz](../cost/#ein-preis-für-das-neue-mitglied) |
 | Ressourcen nach Messwerten anpassen | Vergleiche Requests und Verbrauch eines Namespaces und schlage neue Werte vor. | [Kosten und Ressourceneffizienz](../cost/#right-sizing) |
 
-Mit diesem Teil schliesst du [Meilenstein 4](../../assessment/milestone-4/) ab und hast die Inhalte des Kurses durch. Zeilen mit dem Vermerk «Zusatz» gehören zu einem Zusatzauftrag und nicht zur Basis.
+Mit diesem Teil schliesst du [Meilenstein 4](../../assessment/milestone-4/) ab und hast die Inhalte des Kurses durch. Zeilen mit dem Vermerk «Zusatz» gehören zu einem Zusatzauftrag und zählen nicht zur Basis.

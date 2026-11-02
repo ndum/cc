@@ -4,7 +4,7 @@ description: The assignment of the fourth milestone with the seven base requirem
 ---
 
 :::assignment
-"The fifth organization said yes," writes Simone Wyss. "Now we need everything the board asked for. An assessment of the protection needs, an SLA, a price, and that it runs securely and backed up on our platform. And if something goes wrong for them, I want an honest report afterwards."
+"The fifth organization said yes," writes Simone Wyss. "Now we need everything the board asked for. An assessment of the protection needs, an SLA and a price. It has to run securely and with backups on our platform. And if something goes wrong for them, I want an honest report afterwards."
 :::
 
 Milestone 4 covers part 6. In the base you harden the platform, back up the cluster and the VMs, restore a VM and set RPO and RTO for the four members. In the advanced tasks you design a fifth member of Wolkenwerk Bern yourself, bring it onto your platform, give it an SLA and a price, and write a postmortem after an incident. Milestone 4 is individual work and belongs with milestone 3 to hand-in 2.
@@ -31,7 +31,7 @@ Plan four to six hours for the three advanced tasks. Each one is worth 0 to 3 po
 
 You bring a fifth member of Wolkenwerk onto your platform end to end. In OpenNebula it gets a group with an admin, VDC, quota and prices, and a VM. In the cluster it gets a namespace from the template through a pull request in Gitea, with its application rolled out by Argo CD. An alert rule with the label `triage: "true"` watches the application. You fire the alert through Git, decide on the triage service's proposal and fix the fault. [Chapter 6.3](../../operations/sla/#an-alert-for-a-new-member) shows the way.
 
-You choose the member freely. It should be a small organization from the region that fits a cooperative like Wolkenwerk, with a service on a VM and an application in the cluster. In the documentation you describe it in a few sentences, with its protection needs. If no idea comes to mind, the list helps.
+You choose the member freely. It should be a small organization from the region that fits a cooperative like Wolkenwerk, with a service on a VM and an application in the cluster. In the documentation you describe it in a few sentences, with its protection needs. If no idea comes to mind, the table has some suggestions.
 
 | Idea | What it needs |
 |---|---|
@@ -42,7 +42,7 @@ You choose the member freely. It should be a small organization from the region 
 | Bakery with orders | orders until 6 p.m., peaks before holidays |
 | Architecture firm | large plans, backups matter more than availability |
 
-The application in the cluster must meet the profile `restricted`, for example a static website with `nginxinc/nginx-unprivileged` or a small app of your own. The VM may have at most 1 GB of memory, since the nodes have no more free next to k3s. In the lab, a VM with 1 GB ran next to the k3s server, and the node swapped around 200 MB for it.
+The application in the cluster must meet the profile `restricted`, for example a static website with `nginxinc/nginx-unprivileged` or a small app of your own. The VM may have at most 1 GB of memory, because that is all the nodes have left next to k3s. In the lab, a VM with 1 GB ran next to the k3s server, and the node swapped out around 200 MB for it.
 
 ### B · Cluster restore and SLA
 

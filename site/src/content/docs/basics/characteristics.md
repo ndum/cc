@@ -20,9 +20,9 @@ Nach diesem Kapitel kannst du:
 
 ## Cloud als Betriebsmodell
 
-Im Alltag klingt «Cloud» nach einem fernen Rechenzentrum eines grossen Anbieters. Für das Fach ist etwas anderes entscheidend. Eine Cloud ist eine Art, IT-Ressourcen bereitzustellen und zu nutzen. Rechenleistung, Speicher und Netz liegen in einem gemeinsamen Pool, und wer sie braucht, holt sie sich selbst, nutzt sie so lange wie nötig und gibt sie wieder zurück.
+Im Alltag klingt «Cloud» nach einem fernen Rechenzentrum eines grossen Anbieters. Fachleute verstehen darunter eine Art, IT-Ressourcen bereitzustellen und zu nutzen. Rechenleistung, Speicher und Netz liegen in einem gemeinsamen Pool. Wer sie braucht, holt sie sich selbst, nutzt sie so lange wie nötig und gibt sie danach zurück.
 
-Ein gut geführtes Rechenzentrum kann dieselbe Hardware haben wie eine Cloud. Der Unterschied liegt im Weg zur Ressource. Im klassischen Betrieb stellt jemand einen Antrag, das Betriebsteam bestellt oder richtet einen Server ein, und nach Tagen oder Wochen steht er bereit. In einer Cloud stellt die Nutzerin oder der Nutzer die Ressource selbst bereit, in Minuten, über eine Weboberfläche oder eine API.
+Ein gut geführtes Rechenzentrum kann dieselbe Hardware haben wie eine Cloud. Der Unterschied liegt darin, wie man zu einer Ressource kommt. Im klassischen Betrieb stellt jemand einen Antrag, das Betriebsteam bestellt oder richtet einen Server ein. Nach Tagen oder Wochen steht er bereit. In einer Cloud stellt die Nutzerin oder der Nutzer die Ressource selbst bereit, in Minuten, über eine Weboberfläche oder eine API.
 
 ## Die fünf Merkmale nach NIST
 
@@ -36,11 +36,11 @@ Die am häufigsten zitierte Definition stammt vom amerikanischen National Instit
 | Rapid elasticity | Ressourcen wachsen und schrumpfen schnell, teils automatisch, mit dem Bedarf. | Der Webshop skaliert unter Last (Kapitel 5.4), OneFlow vergrössert Dienste (Kapitel 3.5). |
 | Measured service | Der Verbrauch wird gemessen und ist für Anbieter und Nutzende sichtbar. | Showback pro Mitglied (Kapitel 3.3), Metriken in Prometheus (Kapitel 5.1) |
 
-Fehlt eines der Merkmale, spricht man streng genommen nicht von einer Cloud. Eine Virtualisierungsplattform, auf der nur das Betriebsteam VMs anlegt, ist effiziente Virtualisierung, aber keine Cloud, weil der Self-Service fehlt.
+Fehlt eines der Merkmale, spricht man streng genommen nicht von einer Cloud. Auch eine effiziente Virtualisierungsplattform ist keine Cloud, wenn nur das Betriebsteam darauf VMs anlegt, denn ihr fehlt der Self-Service.
 
 ## Die Grösse spielt keine Rolle
 
-Die Definition sagt nichts über die Grösse und nichts über den Besitzer der Hardware. Die drei Server von Wolkenwerk Bern bilden eine Cloud, sobald die Mitglieder selbst Ressourcen beziehen, der Pool von mehreren Mitgliedern geteilt wird, der Verbrauch gemessen wird und Dienste mit der Last wachsen. Genau diese Merkmale baust du im Kurs Schritt für Schritt auf. Teil 2 schafft den Pool und den Zugang über das Netz, Teil 3 den Self-Service und die Messung, Teil 4 und 5 die Elastizität.
+Die Definition sagt nichts über die Grösse und nichts darüber, wem die Hardware gehört. Die drei Server von Wolkenwerk Bern bilden eine Cloud, sobald die Mitglieder selbst Ressourcen beziehen und sich den Pool teilen, der Verbrauch gemessen wird und Dienste mit der Last wachsen. Im Kurs baust du diese Merkmale nacheinander auf. In Teil 2 entstehen der Pool und der Zugang über das Netz, in Teil 3 kommen der Self-Service und die Messung dazu. Die Elastizität folgt in Teil 4 und 5.
 
 ::::exercise[Einordnen]
 Ordne jede Aussage einem der fünf Merkmale zu.
@@ -48,7 +48,7 @@ Ordne jede Aussage einem der fünf Merkmale zu.
 1. «Die Treuhand Aaregg sieht jeden Monat, wie viele CPU-Stunden sie gebraucht hat.»
 2. «Die Praxis Rosenweg startet am Sonntagabend eine neue VM, ohne jemanden anzurufen.»
 3. «Am Samstag laufen vom Webshop acht Kopien statt zwei.»
-4. «Die Gemeinde weiss nicht, auf welchem Knoten ihre VM läuft, und muss es auch nicht wissen.»
+4. «Die Gemeinde weiss nicht, auf welchem Knoten ihre VM läuft. Sie muss es auch nicht wissen.»
 5. «Die Mitglieder erreichen ihre VMs vom Büro und von zu Hause aus.»
 
 :::solution
@@ -61,9 +61,9 @@ Ordne jede Aussage einem der fünf Merkmale zu.
 ::::
 
 ::::exercise[Briefing]
-Schreibe für Beat Kläy fünf Sätze, je einen pro Merkmal, und erkläre darin, was Wolkenwerk Bern von einem klassischen Rechenzentrum unterscheidet.
+Erkläre Beat Kläy in fünf Sätzen, je einem pro Merkmal, was Wolkenwerk Bern von einem klassischen Rechenzentrum unterscheidet.
 
 :::solution
-Mitglieder beziehen ihre Server selbst und in Minuten statt über einen Antrag. Sie erreichen alles über das Netz mit Standardprotokollen. Die drei Server bilden einen gemeinsamen Pool, den sich die Mitglieder teilen. Wer mehr Leistung braucht, bekommt sie kurzfristig und gibt sie danach wieder ab. Jedes Mitglied sieht seinen Verbrauch und bezahlt danach.
+Mitglieder beziehen ihre Server selbst und in Minuten statt über einen Antrag. Sie erreichen alles über das Netz mit Standardprotokollen. Die drei Server bilden einen Pool, den sich alle Mitglieder teilen. Wer mehr Leistung braucht, bekommt sie kurzfristig und gibt sie danach wieder ab. Jedes Mitglied sieht seinen Verbrauch und bezahlt entsprechend.
 :::
 ::::

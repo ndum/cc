@@ -20,9 +20,9 @@ After this chapter you can:
 
 ## Cloud as an operating model
 
-In everyday language "cloud" sounds like a distant data center of a large provider. In the field, something else matters. A cloud is a way of providing and using IT resources. Computing power, storage and network sit in a shared pool, and whoever needs them takes them, uses them as long as needed and gives them back.
+In everyday language "cloud" sounds like a distant data center run by a large provider. In the field, the term means a way of providing and using IT resources. Computing power, storage and network sit in a shared pool. Whoever needs them takes them, uses them as long as needed and gives them back.
 
-A well-run data center can have the same hardware as a cloud. The difference lies in how you get a resource. In classic operations someone files a request, the operations team orders or sets up a server, and after days or weeks it is ready. In a cloud the user provisions the resource themselves, within minutes, through a web interface or an API.
+A well-run data center can have the same hardware as a cloud. The difference is how you get a resource. In classic operations someone files a request, the operations team orders or sets up a server, and after days or weeks it is ready. In a cloud the user provisions the resource themselves, within minutes, through a web interface or an API.
 
 ## The five characteristics according to NIST
 
@@ -36,11 +36,11 @@ The most widely cited definition comes from the US National Institute of Standar
 | Rapid elasticity | Resources grow and shrink quickly with demand, partly on their own. | The web shop scales under load (chapter 5.4), and OneFlow grows services (chapter 3.5). |
 | Measured service | Usage is measured and visible to both provider and users. | Showback per member (chapter 3.3), metrics in Prometheus (chapter 5.1) |
 
-If one of the characteristics is missing, it is strictly speaking not a cloud. A virtualization platform on which only the operations team creates VMs is efficient virtualization, but not a cloud, because self-service is missing.
+If one of the characteristics is missing, it is strictly speaking not a cloud. Even an efficient virtualization platform is not a cloud if only the operations team creates VMs on it, because self-service is missing.
 
 ## Size does not matter
 
-The definition says nothing about size and nothing about who owns the hardware. The three servers of Wolkenwerk Bern form a cloud as soon as the members provision resources themselves, several members share the pool, usage is measured and services grow with the load. These are exactly the characteristics you build step by step in the course. Part 2 creates the pool and the network access, part 3 the self-service and the measurement, parts 4 and 5 the elasticity.
+The definition says nothing about size and nothing about who owns the hardware. The three servers of Wolkenwerk Bern form a cloud as soon as the members provision resources themselves, several members share the pool, usage is measured and services grow with the load. You build these characteristics one at a time during the course. Part 2 sets up the pool and the network access, part 3 adds self-service and measurement, and parts 4 and 5 add elasticity.
 
 ::::exercise[Classifying]
 Match each statement to one of the five characteristics.
@@ -64,6 +64,6 @@ Match each statement to one of the five characteristics.
 Write five sentences for Beat Kläy, one per characteristic, explaining what sets Wolkenwerk Bern apart from a classic data center.
 
 :::solution
-Members get their servers themselves and within minutes instead of through a request. They reach everything over the network with standard protocols. The three servers form a shared pool that the members share. Whoever needs more capacity gets it at short notice and gives it back afterwards. Every member sees its usage and pays accordingly.
+Members get their servers themselves and within minutes instead of through a request. They reach everything over the network with standard protocols. The three servers form one pool that all members share. Whoever needs more capacity gets it at short notice and gives it back afterwards. Every member sees its usage and pays accordingly.
 :::
 ::::

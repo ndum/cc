@@ -6,7 +6,7 @@ sidebar:
   order: 6
 ---
 
-Use this grid to judge whether your cloud is ready for several members and you understand it. Read each row and solve the task next to it without looking anything up. If it comes easily, you have reached the goal. If not, the link in the last column takes you to the right place. Within the Swiss framework curriculum, part 3 mainly serves the competences B12.3 (target configurations) and B14.2 (monitoring in operations) and prepares the cost questions of part 6.
+Use this grid to judge whether your cloud is ready for several members and whether you understand it. Read each row and solve the task next to it without looking anything up. If it comes easily, you have reached the goal. If not, the link in the last column takes you to the right place. In the Swiss framework curriculum, part 3 mainly relates to the competences B12.3 (target configurations) and B14.2 (monitoring in operations) and prepares for the cost questions of part 6.
 
 | I can … | Task | Look up |
 |---|---|---|
@@ -19,6 +19,6 @@ Use this grid to judge whether your cloud is ready for several members and you u
 | set up self-service with shared templates | Show what a group admin may change on the template `ubuntu` and what not. | [Self-service](../self-service/#the-limits-of-a-member) |
 | describe a service with OneFlow (advanced) | Explain role, cardinality, `min_vms`, `max_vms` and `cooldown` using the fiduciary office's service. | [Elasticity with OneFlow](../oneflow/#services-and-roles) |
 | write and observe elasticity rules (advanced) | Show how the service grows under load and explain why it does not grow to three VMs. | [Elasticity with OneFlow](../oneflow/#growing-under-load) |
-| use elasticity by schedule (advanced) | Write a rule that sets the service to two VMs every Monday at 7 o'clock. | [Elasticity with OneFlow](../oneflow/#growing-by-schedule) |
+| use elasticity by schedule (advanced) | Write a rule that sets the service to two VMs every Monday at 7 a.m. | [Elasticity with OneFlow](../oneflow/#growing-by-schedule) |
 
 With this part you complete [milestone 1](../../assessment/milestone-1/). Rows marked as advanced belong to an advanced task, not to the base. In part 4 you build a platform as code on top of this cloud.

@@ -21,7 +21,7 @@ Everything runs in your own lab with your personal parameters from chapter 0.3. 
 6. The members' quotas are set, the municipality has the quota from your [personal values](../../start/parameters/), and you show the message at the limit.
 7. The template `ubuntu` has prices, the showback of a month exists as CSV, and a user of a member starts a VM in self-service.
 
-The documentation has a screenshot for each requirement with one or two sentences about it, plus the report of the check `m1`. Take the screenshots before you start chapter 4.2. That chapter removes the VMs of parts 2 and 3, because the Kubernetes cluster needs their room.
+The documentation has a screenshot for each requirement with one or two sentences about it, plus the report of the check `m1`. Take the screenshots before you start chapter 4.2. In that chapter you remove the VMs of parts 2 and 3 because the Kubernetes cluster needs the room.
 
 ## Advanced tasks
 
@@ -29,7 +29,7 @@ Plan four to six hours for the three advanced tasks. Each one is worth 0 to 3 po
 
 ### A · Elasticity with OneFlow
 
-The fiduciary office runs its service in OneFlow with elasticity rules. You show the service growing under load and shrinking again afterwards, and you explain why your rules are set the way they are. [Chapter 3.5](../../tenants/oneflow/) shows the way. Start the load before the showing, since growing takes a few minutes.
+The fiduciary office runs its service in OneFlow with elasticity rules. You show the service growing under load and shrinking again afterwards, and you justify the rules you set. [Chapter 3.5](../../tenants/oneflow/) shows the way. Start the load before the showing, since growing takes a few minutes.
 
 ### B · Showback as a report
 
@@ -43,7 +43,7 @@ You power off a node and show what happens to the members' VMs. From that you de
 
 You show the advanced tasks live in class or in a screencast of at most ten minutes. For a live showing you book a slot with your instructor yourself. It must take place by hand-in 1. The screencast starts with `cat /etc/cc-lab.env` and the report of the check `m1` with its hash and your two questions, which you answer during the showing.
 
-After chapter 4.2 the Kubernetes cluster takes up the nodes. If you show task A or C live after that, [chapter 4.2](../../platform/opentofu/#room-on-the-nodes) shows how to take the cluster off the nodes for a while.
+After chapter 4.2 the Kubernetes cluster takes up the nodes. If you demonstrate task A or C live after that, take the cluster off the nodes for a while first. [Chapter 4.2](../../platform/opentofu/#room-on-the-nodes) explains how.
 
 ## Hand-in
 

@@ -22,7 +22,7 @@ Nach diesem Kapitel kannst du:
 :::
 
 :::note[Zusatzkapitel]
-Dieses Kapitel gehört zu den Zusatzaufträgen von Meilenstein 1. Für die Basis brauchst du es nicht, und Teil 4 setzt den Dienst der Treuhand nicht voraus.
+Dieses Kapitel gehört zu den Zusatzaufträgen von Meilenstein 1. Für die Basis brauchst du es nicht. Auch Teil 4 setzt den Dienst der Treuhand nicht voraus.
 :::
 
 ## Elastizität
@@ -31,7 +31,7 @@ Rapid Elasticity ist ein weiteres Merkmal aus Kapitel 1.1. Ressourcen wachsen mi
 
 ## Dienste und Rollen
 
-OneFlow verwaltet Dienste aus mehreren VMs. Ein Dienst besteht aus Rollen, etwa einer Datenbank und mehreren Anwendungsservern, und jede Rolle startet ihre VMs aus einer Vorlage. Die Kardinalität ist die Zahl der VMs einer Rolle. `min_vms` und `max_vms` begrenzen sie, und die Regeln für die Elastizität verändern sie innerhalb dieser Grenzen.
+OneFlow verwaltet Dienste aus mehreren VMs. Ein Dienst besteht aus Rollen, etwa einer Datenbank und mehreren Anwendungsservern. Jede Rolle startet ihre VMs aus einer Vorlage. Die Kardinalität ist die Zahl der VMs einer Rolle. `min_vms` und `max_vms` begrenzen sie, innerhalb dieser Grenzen verändern die Regeln für die Elastizität die Kardinalität.
 
 Das Skript `lab/tenants/make-service.sh` schreibt die Dienstvorlage der Treuhand. Sie hat eine Rolle `app` aus der Vorlage `ubuntu`, die mit einer VM beginnt und auf höchstens drei wächst.
 
@@ -48,7 +48,7 @@ Das Skript `lab/tenants/make-service.sh` schreibt die Dienstvorlage der Treuhand
 
 ## Den Dienst starten
 
-Als `oneadmin` legst du die Dienstvorlage an und gibst sie den Mitgliedern zur Nutzung frei. Instanziieren soll sie die Treuhand selbst, damit der Dienst ihr gehört und gegen ihre Quota zählt. Ausserdem hinterlegst du deinen öffentlichen Schlüssel bei `treuhand-admin`, wie in Kapitel 3.1 bei `praxis-admin`. Der Kontext nimmt ihn beim Start jeder VM des Dienstes vom Benutzer, der den Dienst startet.
+Als `oneadmin` legst du die Dienstvorlage an und gibst sie den Mitgliedern zur Nutzung frei. Instanziieren soll sie die Treuhand selbst, damit der Dienst ihr gehört und gegen ihre Quota zählt. Ausserdem hinterlegst du deinen öffentlichen Schlüssel bei `treuhand-admin`, wie in Kapitel 3.1 bei `praxis-admin`. Bei jeder VM des Dienstes übernimmt der Kontext den Schlüssel vom Benutzer, der den Dienst gestartet hat.
 
 ```bash
 ~/cc/lab/tenants/make-service.sh > ~/cc-lab/treuhand-service.json
@@ -65,7 +65,7 @@ oneflow list
 unset ONE_AUTH
 ```
 
-Fehlt der Gruppe das Recht auf Dokumente, meldet OneFlow `Not authorized to perform CREATE DOCUMENT`. Kapitel 3.1 zeigt, wie eine ACL das ergänzt. Nach etwa einer Minute ist der Dienst `RUNNING` mit einer VM. Die VM trägt deinen Schlüssel, weil du ihn oben bei `treuhand-admin` hinterlegt hast.
+Fehlt der Gruppe das Recht, Dokumente anzulegen, meldet OneFlow `Not authorized to perform CREATE DOCUMENT`. Wie eine ACL dieses Recht ergänzt, zeigt Kapitel 3.1. Nach etwa einer Minute steht der Dienst mit einer VM auf `RUNNING`. Die VM trägt deinen Schlüssel, weil du ihn oben bei `treuhand-admin` hinterlegt hast.
 
 ## Wachsen unter Last
 
@@ -76,9 +76,9 @@ ssh root@<adresse-der-vm> 'nohup sh -c "yes > /dev/null" >/dev/null 2>&1 &'
 watch -n 10 oneflow show <dienst>
 ```
 
-Im Lab wuchs die Rolle nach etwa 155 Sekunden von einer auf zwei VMs. Die Regel verlangt zwei Perioden von 30 Sekunden über 60 %, dazu kommen die Zeit, bis die Überwachung neue Werte liefert, und der Start der VM. Danach war der Dienst im Zustand `COOLDOWN`. Nach dem Stopp der Last mit `pkill yes` schrumpfte er nach etwa 345 Sekunden wieder auf eine VM. Die Regel zum Schrumpfen ist absichtlich träger, damit der Dienst nicht hin und her springt. Die CPU-Last bildet OneFlow aus dem Mittel der VMs einer Rolle. Eine VM unter Volllast und eine leere VM ergeben zusammen 50 %, darum wächst der Dienst nicht weiter.
+Im Lab wuchs die Rolle nach etwa 155 Sekunden von einer auf zwei VMs. Die Regel verlangt zwei Perioden von 30 Sekunden über 60 %. Dazu kommen der Start der VM und die Zeit, bis die Überwachung neue Werte liefert. Danach war der Dienst im Zustand `COOLDOWN`. Als die Last mit `pkill yes` gestoppt war, schrumpfte er nach etwa 345 Sekunden wieder auf eine VM. Die Regel zum Schrumpfen ist absichtlich träger, damit der Dienst nicht hin und her springt. Die CPU-Last bildet OneFlow aus dem Mittel der VMs einer Rolle. Eine VM unter Volllast und eine leere VM ergeben im Mittel 50 %, deshalb wächst der Dienst nicht weiter.
 
-Die CPU kommt aus der Überwachung von OpenNebula. Anwendungen können über OneGate auch eigene Werte melden, etwa die Länge einer Warteschlange, und die Regeln können diese Werte verwenden. Die VM braucht dafür ein Token im Kontext und die Adresse von OneGate.
+Den Wert für die CPU liefert die Überwachung von OpenNebula. Anwendungen können über OneGate auch eigene Werte melden, etwa die Länge einer Warteschlange. Auch solche Werte lassen sich in den Regeln verwenden. Die VM braucht dafür ein Token im Kontext und die Adresse von OneGate.
 
 ## Wachsen nach Zeitplan
 
@@ -91,26 +91,26 @@ Die Treuhand weiss im Voraus, wann die Last kommt. Statt auf die Last zu warten,
 ]
 ```
 
-Diese Regeln setzen die Rolle am 28. jedes Monats um 6 Uhr auf drei VMs und am 3. des Folgemonats um 20 Uhr zurück auf eine. Im Lab setzte eine solche Regel mit einem Zeitplan von zwei Minuten die Kardinalität pünktlich von eins auf zwei. Regeln nach Last und nach Zeitplan lassen sich kombinieren. Der Zeitplan deckt die bekannte Spitze ab, die Last fängt das Unerwartete auf.
+Diese Regeln setzen die Rolle am 28. jedes Monats um 6 Uhr auf drei VMs und am 3. des Folgemonats um 20 Uhr zurück auf eine. Im Lab löste eine solche Regel alle zwei Minuten aus und setzte die Kardinalität pünktlich von eins auf zwei. Regeln nach Last und nach Zeitplan lassen sich kombinieren. Der Zeitplan deckt dann die bekannte Spitze am Monatsende ab. Steigt die Last unerwartet, greift die Regel nach Last.
 
-Jede neue VM zählt gegen die Quota der Treuhand. Mit vier VMs, 2 CPU und 4096 MB reicht ihre Quota aus Kapitel 3.2 für die drei VMs des Dienstes und eine weitere VM. Läge `max_vms` über der Quota, würde OpenNebula die zusätzlichen VMs ablehnen wie in Kapitel 3.2. Quota und `max_vms` müssen deshalb zueinander passen.
+Jede neue VM zählt gegen die Quota der Treuhand. Mit vier VMs, 2 CPU und 4096 MB reicht ihre Quota aus Kapitel 3.2 für die drei VMs des Dienstes und eine weitere VM. Läge `max_vms` über der Quota, würde OpenNebula die zusätzlichen VMs wie in Kapitel 3.2 ablehnen. Quota und `max_vms` müssen deshalb zueinander passen.
 
 ::::exercise[Lab]
-Instanziiere den Dienst als `treuhand-admin`, erzeuge Last und notiere die Zeit bis zur zweiten VM und nach dem Stopp der Last die Zeit bis zum Schrumpfen. Lass zum Schluss den Check dieses Teils laufen.
+Instanziiere den Dienst als `treuhand-admin` und erzeuge Last. Notiere die Zeit bis zur zweiten VM und nach dem Stopp der Last die Zeit bis zum Schrumpfen. Lass zum Schluss den Check dieses Teils laufen.
 
 ```bash
 python3 ~/cc/checks/check.py tenants
 ```
 
 :::solution
-`oneflow show` zeigt im Log «Role app scaling up from 1 to 2 nodes» nach zwei bis drei Minuten und den Zustand `COOLDOWN`. Nach dem Stopp der Last folgt «scaling down» nach fünf bis sechs Minuten. Der Check endet mit «21 von 21 Prüfungen erfüllt».
+Nach zwei bis drei Minuten zeigt `oneflow show` im Log «Role app scaling up from 1 to 2 nodes» und den Zustand `COOLDOWN`. Ist die Last gestoppt, folgt nach fünf bis sechs Minuten «scaling down». Der Check meldet «19 von 19 Prüfungen der Basis erfüllt» und «2 von 2 Prüfungen der Zusatzaufträge erfüllt».
 :::
 ::::
 
 ::::exercise[Regeln entwerfen]
-Das Veloatelier Matte hat jeden Samstag von 9 bis 17 Uhr viel Verkehr im Webshop und an Aktionstagen unerwartete Spitzen. Entwirf die Regeln für einen Dienst mit einer Rolle `web` und begründe `min_vms`, `max_vms` und die Quota.
+Das Veloatelier Matte hat jeden Samstag von 9 bis 17 Uhr viel Verkehr im Webshop und an Aktionstagen unerwartete Spitzen. Entwirf die Regeln für einen Dienst mit einer Rolle `web`. Begründe deine Werte für `min_vms` und `max_vms` sowie die Quota.
 
 :::solution
-Eine Regel nach Zeitplan setzt die Kardinalität jeden Samstag um 8.30 Uhr auf zwei (`"30 8 * * 6"`) und eine zweite um 17.30 Uhr zurück auf eins (`"30 17 * * 6"`). Eine Regel nach Last ergänzt eine VM bei `CPU > 70` über zwei Perioden, eine weitere entfernt eine bei `CPU < 20` über vier Perioden. `min_vms` ist 1, `max_vms` 3, und die Quota des Veloateliers muss mindestens drei VMs zulassen, also mehr als die zwei aus Kapitel 3.2.
+Eine Regel nach Zeitplan setzt die Kardinalität jeden Samstag um 8.30 Uhr auf zwei (`"30 8 * * 6"`) und eine zweite um 17.30 Uhr zurück auf eins (`"30 17 * * 6"`). Eine Regel nach Last ergänzt bei `CPU > 70` über zwei Perioden eine VM, eine weitere entfernt bei `CPU < 20` über vier Perioden wieder eine. `min_vms` ist 1 und `max_vms` ist 3. Die Quota des Veloateliers muss deshalb mindestens drei VMs zulassen, mehr als die zwei aus Kapitel 3.2.
 :::
 ::::

@@ -6,7 +6,7 @@ sidebar:
   order: 6
 ---
 
-Mit diesem Raster schätzt du ein, ob du deine Plattform aus Code bauen und erklären kannst. Lies jede Zeile und löse die Prüfaufgabe daneben, ohne nachzuschauen. Fällt sie dir leicht, hast du das Ziel erreicht. Wenn nicht, führt dich der Link in der letzten Spalte zur passenden Stelle. Teil 4 dient im Rahmenlehrplan vor allem den Kompetenzen B12.3 (Soll-Konfigurationen), B12.4 (Konfigurationsmanagement) und B14.1 (Einführung von Software und Releases) und bereitet mit dem Webshop Teil 5 vor.
+Mit diesem Raster schätzt du ein, ob du deine Plattform aus Code bauen und erklären kannst. Lies jede Zeile und löse die Prüfaufgabe daneben, ohne nachzuschauen. Fällt sie dir leicht, hast du das Ziel erreicht. Wenn nicht, führt dich der Link in der letzten Spalte zur passenden Stelle. Im Rahmenlehrplan dient Teil 4 vor allem den Kompetenzen B12.3 (Soll-Konfigurationen), B12.4 (Konfigurationsmanagement) und B14.1 (Einführung von Software und Releases). Mit dem Webshop bereitet er zudem Teil 5 vor.
 
 | Ich kann … | Prüfaufgabe | Nachschlagen |
 |---|---|---|

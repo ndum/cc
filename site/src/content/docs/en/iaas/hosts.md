@@ -39,11 +39,11 @@ After this chapter you can:
 onehost show <node> | sed -n '/HOST SHARES/,/LOCAL SYSTEM/p'
 ```
 
-The scheduler plans with the reserved capacity. Once a node is fully reserved, no further VM starts there, even if it actually has room left. With the values `RESERVED_CPU` and `RESERVED_MEM` on the host, the platform team can adjust the capacity. A positive value keeps a reserve free, a negative value allows overcommitment. Overcommitment relies on the fact that VMs rarely all work at full load at the same time, and it lowers the cost. If they do all work at once, all of them slow down. Overcommitting memory is riskier than overcommitting CPU, because missing memory makes VMs crash instead of just slowing them down.
+The scheduler plans with the reserved capacity. Once a node is fully reserved, no further VM starts there, even if its real usage would leave room. With the values `RESERVED_CPU` and `RESERVED_MEM` on the host, the platform team can adjust the capacity. A positive value keeps a reserve free, a negative value allows overcommitment. Overcommitment lowers the cost because VMs rarely all work at full load at the same time. If they do all work at once, all of them slow down. Overcommitting memory is riskier than overcommitting CPU, because VMs crash when memory runs out. Missing CPU time only slows them down.
 
 ## Placement by the scheduler
 
-A new VM waits until the scheduler assigns it a node. By default OpenNebula 7.4 uses the [Rank Scheduler](https://docs.opennebula.io/7.4/product/cloud_system_administration/scheduler/rank_scheduler/) for this, and it works in two steps. First it filters. Every node that fails the VM's `SCHED_REQUIREMENTS` expression or lacks free CPU or memory, measured against the reserved capacity, drops out. Datastores and networks go through the same check. Then it sorts the remaining nodes by the expression `SCHED_RANK` and takes the one with the highest value. You can set both expressions in a template, for example to start a VM only on nodes with a certain property. Without `SCHED_RANK` the installation's policy applies, and the documentation offers the following policies.
+A new VM waits until the scheduler assigns it a node. By default OpenNebula 7.4 uses the [Rank Scheduler](https://docs.opennebula.io/7.4/product/cloud_system_administration/scheduler/rank_scheduler/) for this, and it works in two steps. First it filters. Every node that fails the VM's `SCHED_REQUIREMENTS` expression or lacks free CPU or memory, measured against the reserved capacity, drops out. Datastores and networks go through the same check. Then it sorts the remaining nodes by the expression `SCHED_RANK` and takes the one with the highest value. You can set both expressions in a template, for example to start a VM only on nodes with a certain property. Without `SCHED_RANK` the installation's policy applies. The documentation names four policies.
 
 | Policy | Rank | Effect |
 |---|---|---|
@@ -74,7 +74,7 @@ The difference between `poff` and `unde` matters for capacity. A powered-off VM 
 
 ## Migration
 
-`onevm migrate` moves a VM to another node. Without further options OpenNebula pauses the VM briefly, copies its memory and disk and lets it continue on the target. With `--live` the VM keeps running during the migration, and only the last part of its memory is transferred in a very short moment. In the lab, migrating a small VM took 7 seconds without the option and 10 seconds with `--live`.
+`onevm migrate` moves a VM to another node. Without further options OpenNebula pauses the VM briefly, copies its memory and disk and lets it continue on the target. With `--live` the VM keeps running during the migration. Only the last part of its memory follows at the end, in a very short moment. In the lab, migrating a small VM took 7 seconds without the option and 10 seconds with `--live`.
 
 ```bash
 onevm migrate --live web-1 <other-node>
@@ -97,9 +97,9 @@ Maintenance only works if the remaining nodes have enough capacity for all VMs. 
 
 ## Failure of a node
 
-When a node fails, its VMs stop running. After a while `onehost list` shows the node as `err` and its VMs as `unkn`. In the lab the disks of running VMs sit in the `system` datastore of the node itself. As long as the node is down, nobody can reach these disks, and the VMs cannot be started on another node.
+When a node fails, its VMs stop running. After a while `onehost list` shows the node as `err`, and `onevm list` shows its VMs as `unkn`. In the lab the disks of running VMs sit in the `system` datastore of the node itself. As long as the node is down, nobody can reach these disks, and the VMs cannot be started on another node.
 
-A cloud that survives failures therefore needs shared storage that all nodes can reach, such as Ceph or an NFS server, and a rule that automatically restarts the VMs of a failed node on another one. OpenNebula offers hooks for that. The lab deliberately lacks both so that it gets by with three VMs. In part 6 this gap is part of the availability assessment.
+A cloud that survives failures therefore needs shared storage that all nodes can reach, such as Ceph or an NFS server, and a rule that automatically restarts the VMs of a failed node on another one. OpenNebula offers hooks for that. The lab deliberately lacks both so that it gets by with the front-end and two nodes. In part 6 this gap is part of the availability assessment.
 
 ::::exercise[Maintenance]
 Start two VMs from the template `ubuntu`, empty a node one of them runs on, take it offline and put it back into service. Finally move one VM back live. Write down the commands in the right order.

@@ -13,11 +13,12 @@ The glossary explains the terms of the course briefly and points to the chapter 
 | Alertmanager | Receives firing alerts from Prometheus, groups similar ones, suppresses repeats and forwards them to receivers such as a webhook. | [5.3](../observability/slo/) |
 | Alloy | The agent that reads the logs of the pods on each node and sends them to Loki. | [5.2](../observability/logs/) |
 | Ansible | A tool that brings servers into a described target state over SSH. A second run changes only what is not yet right. | [2.2](../iaas/installation/) |
-| Application | An Argo CD object that says which folder of which repo belongs in which namespace. | [4.4](../platform/gitops/) |
+| Application | An Argo CD object that defines which folder of which repo belongs in which namespace. | [4.4](../platform/gitops/) |
 | ApplicationSet | Generates Applications from a pattern. In the course it creates one for each folder under `members`. | [4.5](../platform/templates/) |
 | Argo CD | A set of controllers in the cluster that reads manifests from Git, compares them with the cluster and brings the cluster in line with Git. | [4.4](../platform/gitops/) |
 | Burn rate | How fast a service uses up its error budget. At a burn rate of 1, the budget runs out exactly at the end of the period. | [5.3](../observability/slo/) |
 | Chargeback | Usage is charged to the budget of the unit that caused it. | [3.3](../tenants/showback/) |
+| Client | The VM you work from on smartlearn, a Kali Linux desktop with a browser for the web interfaces and a terminal for SSH to the servers. With your own hypervisor, your PC takes this role. | [0.2](../start/lab/) |
 | Container | A process with its own view of the file system, network and processes. It shares the kernel with the host and brings only its application. | [1.3](../basics/virtualization/) |
 | Contextualization | OpenNebula hands a VM its address, name, keys and scripts at boot, and the `one-context` package sets the VM up with them. | [2.4](../iaas/images/) |
 | Control plane | The part of Kubernetes that runs the cluster, with the API server, scheduler, controllers and database. In k3s it runs on the server. | [4.3](../platform/kubernetes/) |
@@ -32,7 +33,7 @@ The glossary explains the terms of the course briefly and points to the chapter 
 | Full cost | All the costs of a service, labor and other items as well as hardware and power. On a small platform, labor is the largest share. | [6.4](../operations/cost/) |
 | Gateway | The machine through which the VMs of a network reach other networks. In the course the front-end forwards the traffic of the internal network to the internet with NAT. | [0.2](../start/lab/) |
 | Gitea | A lightweight Git server with a web interface and pull requests. In the course it runs on the front-end and holds the `platform` repo. | [4.4](../platform/gitops/) |
-| GitOps | The desired state is versioned in Git, and an agent in the cluster pulls it and keeps reconciling. To change something, you change Git. | [4.4](../platform/gitops/) |
+| GitOps | The desired state is versioned in Git, and an agent in the cluster pulls it and keeps reconciling. Changes therefore go through Git. | [4.4](../platform/gitops/) |
 | Grafana | Shows queries against Prometheus and Loki as dashboards. | [5.1](../observability/metrics/) |
 | Group | Brings together the users of a tenant in OpenNebula. A group admin manages the people of their member. | [3.1](../tenants/groups/) |
 | Hardening | Switching off or shielding everything that is not needed. In the course that means SSH with keys only, a firewall and automatic updates. | [6.1](../operations/security/) |
@@ -47,7 +48,7 @@ The glossary explains the terms of the course briefly and points to the chapter 
 | k3s | A lightweight Kubernetes distribution in a single program. A server contains the control plane, an agent only runs pods. | [4.3](../platform/kubernetes/) |
 | Kustomize | Builds the objects for each member from a template and small adjustments without copying the template. | [4.5](../platform/templates/) |
 | KVM | The hypervisor in the Linux kernel. It uses the virtualization features of the CPU and runs the VMs on the nodes. | [0.2](../start/lab/) |
-| Language model | A model that generates text token by token. It writes likely text, not verified statements. | [5.5](../observability/ai/) |
+| Language model | A model that generates text token by token. It writes likely text and does not check whether it is true. | [5.5](../observability/ai/) |
 | LimitRange | Sets defaults and upper limits for the requests and limits of each container in a namespace. | [4.5](../platform/templates/) |
 | LogQL | The query language of Loki. A query first selects streams by labels and then filters the text. | [5.2](../observability/logs/) |
 | Loki | Collects logs centrally and keeps them after a pod is gone. It indexes only a few labels, not the text. | [5.2](../observability/logs/) |

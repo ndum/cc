@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 740 286" role="img" aria-labelledby="p4c4-app-of-apps-de-title p4c4-app-of-apps-de-desc">
 <title id="p4c4-app-of-apps-de-title">App of Apps im Plattform-Repo</title>
-<desc id="p4c4-app-of-apps-de-desc">Die Application root wird einmal beim Bootstrap angewendet und zeigt auf den Ordner apps. Darin liegen die Application webshop, die den Ordner webshop in den Namespace velo bringt, und das ApplicationSet members. Das ApplicationSet erzeugt für jeden Ordner unter members eine Application, etwa member-velo und member-gemeinde.</desc>
+<desc id="p4c4-app-of-apps-de-desc">Die Application root wird einmal beim Bootstrap angewendet und zeigt auf den Ordner apps. Darin liegen das ApplicationSet members und die Application webshop, die den Ordner webshop in den Namespace velo bringt. Das ApplicationSet erzeugt für jeden Ordner unter members eine Application, etwa member-velo und member-gemeinde.</desc>
 <defs><marker id="p4c4-app-of-apps-de-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"/></marker></defs>
 <rect class="d-band d-band-1" x="16" y="16" width="196" height="254" rx="6"/>
 <text class="d-label" x="32" y="40" text-anchor="start">BOOTSTRAP</text>

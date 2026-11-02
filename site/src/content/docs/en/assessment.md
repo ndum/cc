@@ -3,7 +3,7 @@ title: Assessment
 description: How the four milestones make up two grades, what the base and the advanced tasks ask for, how you document the base and show the advanced tasks, and how your hand-in repo is organized.
 ---
 
-Your grade comes from four milestones. You hand in two of them together each time, and each hand-in gives one grade.
+Your module grade comes from four milestones. You hand in two of them together each time, and each hand-in gives one grade.
 
 | Hand-in | Milestones | Weight |
 |---|---|---|
@@ -28,7 +28,7 @@ Each milestone is worth up to 30 points, 21 for the base and 9 for the advanced 
 
 ## The milestones
 
-Every milestone is individual work in your own lab. The assignments of the milestones come with the parts they belong to. [Milestone 1](milestone-1/) belongs to parts 0 to 3, [milestone 2](milestone-2/) to part 4, [milestone 3](milestone-3/) to part 5 and [milestone 4](milestone-4/) to part 6. Each milestone has two parts, a base with seven requirements and three advanced tasks that go beyond it.
+Every milestone is individual work in your own lab. Its assignment comes out together with the parts of the course it belongs to. [Milestone 1](milestone-1/) belongs to parts 0 to 3, [milestone 2](milestone-2/) to part 4, [milestone 3](milestone-3/) to part 5 and [milestone 4](milestone-4/) to part 6. Each milestone consists of a base with seven requirements and three advanced tasks that go beyond it.
 
 Students may help each other, and talking a solution through is part of learning. Your personal values, your report and your answers to the questions show whether the solution runs in your lab and whether you understand it.
 
@@ -42,7 +42,7 @@ The base is the work you do with the chapters and their scripts in class and in 
 | 1 | the requirement is only partly met, for example the screenshot shows it but the check is red |
 | 0 | the requirement is missing |
 
-Some requirements have no check, such as a drawing or a table of RPO and RTO. You prove those with the documentation alone. The milestone check marks the base requirements with `[ok]` or `[!!]` and counts only those. It marks traces of the advanced tasks with `[+ok]` or `[+!!]` in a separate count that does not count for the base.
+Some requirements have no check, such as a drawing or a table of RPO and RTO. You prove those with the documentation alone. The milestone check marks the base requirements with `[ok]` or `[!!]` and counts only those. It marks traces of the advanced tasks with `[+ok]` or `[+!!]` and tallies them separately, outside the base.
 
 ## Documentation
 
@@ -50,7 +50,7 @@ You prove the base with documentation in a format of your choice, Markdown, Word
 
 ## Advanced tasks
 
-Each milestone has three advanced tasks A, B and C. They take more work of your own than the base, so plan four to six hours per milestone. You can pick single tasks, and each one is worth 0 to 3 points on its own. The milestone names the chapters that help with each task.
+Each milestone has three advanced tasks A, B and C. They take more work of your own than the base, so plan four to six hours per milestone. You can pick individual tasks, and each one is worth 0 to 3 points on its own. The milestone names the chapters that help with each task.
 
 ## Levels of the advanced tasks
 
@@ -65,7 +65,7 @@ Every advanced task is graded on the same levels.
 
 ## Showing the advanced tasks
 
-You show the advanced tasks of a milestone in one showing, either live in class or in a screencast of at most ten minutes. For a live showing it is up to you to approach your instructor and book a slot. The showing must take place by the hand-in the milestone belongs to, and a screencast must be in the hand-in repo by then. Anything later no longer counts.
+You show the advanced tasks of a milestone in one showing, either live in class or in a screencast of at most ten minutes. For a live showing it is up to you to approach your instructor and book a slot. The showing must take place by the hand-in the milestone belongs to, and a screencast must be in the hand-in repo by then. A showing after that date, or a screencast added after it, no longer counts.
 
 The screencast is a single recording without cuts. It starts with `cat /etc/cc-lab.env` and the report of the milestone check with its hash and your two questions. Then you demonstrate the advanced tasks in your lab. [Chapter 0.5](../start/tools/#screencasts) lists the rules as well.
 

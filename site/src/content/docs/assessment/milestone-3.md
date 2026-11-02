@@ -11,17 +11,17 @@ Meilenstein 3 umfasst Teil 5. In der Basis überwachst du Plattform und Webshop,
 
 ## Basis
 
-Alles läuft in deinem eigenen Lab mit deinen persönlichen Parametern aus Kapitel 0.3. Die Basis verlangt sieben Anforderungen.
+Alles läuft in deinem eigenen Lab mit deinen persönlichen Parametern aus Kapitel 0.3. Die Basis umfasst sieben Anforderungen.
 
 1. Die Charts kube-prometheus-stack, Loki und Alloy kommen über Argo CD aus deinem Plattform-Repo, das Passwort von Grafana liegt nicht in Git.
-2. Die Exporter von OpenNebula sind installiert, und alle Ziele in Prometheus sind `up`.
-3. Das Dashboard des Kurses läuft, und mindestens ein Panel darin hast du selbst entworfen.
+2. Die Exporter von OpenNebula sind installiert, alle Ziele in Prometheus sind `up`.
+3. Das Dashboard des Kurses läuft, mindestens ein Panel darin hast du selbst entworfen.
 4. Du findest den Fehler eines Deployments mit LogQL in Loki.
 5. Das SLO des Webshops ist mit dem Ziel aus deinen [persönlichen Werten](../../start/parameters/) als Regel hinterlegt, du löst den Alert über Git aus und beendest ihn wieder.
 6. Der Webshop wächst unter Last mit dem HPA bis zu deiner persönlichen Obergrenze und schrumpft wieder, du zeigst den Lasttest im Dashboard.
 7. Eine eigene Zeichnung zeigt den Weg einer Metrik vom Exporter bis ins Dashboard und den Weg eines Alerts, der Check `m3` ist grün.
 
-Die Dokumentation zeigt zu jeder Anforderung einen Screenshot mit einem oder zwei Sätzen dazu und enthält den Bericht des Checks `m3` und deine Zeichnung. Der Alert nach Burn Rate braucht je nach Verkehr der letzten Stunde zehn Minuten oder mehr, und der HPA schrumpft erst nach fünf Minuten. Plane diese Wartezeiten für die Screenshots ein.
+Die Dokumentation zeigt zu jeder Anforderung einen Screenshot mit einem oder zwei Sätzen dazu und enthält den Bericht des Checks `m3` und deine Zeichnung. Der Alert nach Burn Rate braucht je nach Verkehr der letzten Stunde zehn Minuten oder mehr. Der HPA schrumpft erst nach fünf Minuten. Plane diese Wartezeiten für die Screenshots ein.
 
 ## Zusatzaufträge
 
@@ -33,7 +33,7 @@ Ollama läuft mit `llama3.2:3b` auf deiner Plattform. Du misst die Tokens pro Se
 
 ### B · Triage mit Freigabe
 
-Der Triage-Dienst bekommt Alerts und schlägt Ursache und Aktion vor. Du gibst einen Vorschlag frei und lehnst einen anderen ab, das Audit-Log zeigt beide Entscheidungen. In der Dokumentation beurteilst du beide Vorschläge kritisch, mit dem, was stimmte, und dem, was falsch war. [Kapitel 5.6](../../observability/triage/) zeigt den Dienst und seine Schutzmassnahmen.
+Der Triage-Dienst bekommt Alerts und schlägt Ursache und Aktion vor. Du gibst einen Vorschlag frei und lehnst einen anderen ab, das Audit-Log zeigt beide Entscheidungen. In der Dokumentation beurteilst du beide Vorschläge kritisch und hältst fest, was daran stimmte und was falsch war. [Kapitel 5.6](../../observability/triage/) zeigt den Dienst und seine Schutzmassnahmen.
 
 ### C · Bessere Fragen an das Modell
 
@@ -45,7 +45,7 @@ Die Zusatzaufträge zeigst du live im Unterricht oder in einem Screencast von h�
 
 ## Abgabe
 
-Im Ordner `m3/` deines Abgabe-Repos liegen die Dokumentation mit den Screenshots und der Zeichnung und `platform/`, eine Kopie deines Repos `platform` aus Gitea ohne den Ordner `.git`, ohne State und ohne Passwörter. Für Auftrag B kommt `audit.jsonl` dazu, das Audit-Log des Triage-Dienstes, für die Vorführung der Screencast oder ein Link darauf.
+Im Ordner `m3/` deines Abgabe-Repos liegen die Dokumentation mit den Screenshots und der Zeichnung sowie `platform/`, eine Kopie deines Repos `platform` aus Gitea ohne den Ordner `.git`, ohne State und ohne Passwörter. Für Auftrag B kommt `audit.jsonl` dazu, das Audit-Log des Triage-Dienstes, für die Vorführung der Screencast oder ein Link darauf.
 
 Die Berichte der Checks legst du in `reports/`. Wie das Repo aufgebaut ist und wie du einen Tag setzt, steht in der [Übersicht](../).
 
@@ -69,4 +69,4 @@ Die Berichte der Checks legst du in `reports/`. Wie das Repo aufgebaut ist und w
 | C · Bessere Fragen mit gemessenem Vergleich | 3 |
 | **Zusatz** | **9** |
 
-Meilenstein 3 gibt zusammen höchstens 30 Punkte. Eine Anforderung der Basis gibt 3 Punkte, wenn Bericht und Screenshot sie belegen, und 1 Punkt, wenn sie nur teilweise erfüllt ist. Beantwortest du eine der zwei Fragen nicht oder falsch, bekommt der Zusatzauftrag, zu dem sie gehört, höchstens 1 Punkt.
+Meilenstein 3 gibt zusammen höchstens 30 Punkte. Eine Anforderung der Basis gibt 3 Punkte, wenn Bericht und Screenshot sie belegen. Für eine nur teilweise erfüllte Anforderung gibt es 1 Punkt. Beantwortest du eine der zwei Fragen nicht oder falsch, bekommt der Zusatzauftrag, zu dem sie gehört, höchstens 1 Punkt.

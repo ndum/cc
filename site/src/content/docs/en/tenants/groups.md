@@ -6,7 +6,7 @@ sidebar:
 ---
 
 :::assignment
-"From next month all four members want to get going," Simone Wyss writes. "But Praxis Rosenweg must not see anything of the bike shop's web shop, and the other way round. And I don't want a phone call for every new VM."
+"Starting next month, all four members want to get going," Simone Wyss writes. "But Praxis Rosenweg must not see anything of the bike shop's web shop, and vice versa. And I don't want a phone call for every new VM."
 :::
 
 :::goals
@@ -21,23 +21,23 @@ After this chapter you can:
 
 ## Multi-tenancy
 
-So far you have worked alone as `oneadmin` and see everything. A cloud for several organisations needs multi-tenancy. Several tenants share the same hardware but only see their own VMs, images and templates. Every tenant manages its own people, and the platform team decides which resources it may use and how much of them.
+So far you have worked alone as `oneadmin` and seen everything. A cloud for several organizations needs multi-tenancy. The tenants share the same hardware but only see their own VMs, images and templates. Each tenant manages its own people, and the platform team decides which resources it may use and how much of them.
 
 OpenNebula builds this from three building blocks.
 
 | Building block | What it decides | In the lab |
 |---|---|---|
-| Group | who belongs together and shares resources apart from the others | one group per member |
+| Group | who belongs together and shares resources, separate from the other groups | one group per member |
 | Group admin | who may create users in a group and manage all VMs of the group | `praxis-admin`, `treuhand-admin` and so on |
 | VDC | which clusters, hosts, networks and datastores a group may use | the VDC `wolkenwerk` for all members |
 
 A VDC (virtual data center) is a slice of the infrastructure that OpenNebula assigns to one or more groups. Within it the groups only see their own objects, even though they share the same nodes.
 
-![Groups, group admins and the VDC of the members. At the top the VDC wolkenwerk holds the four groups praxis, treuhand, velo and gemeinde, one per member. Every group has a group admin such as praxis-admin who creates the users of the group. Every group may create VMs, images, templates and documents and only sees its own objects. At the bottom is cluster 0 with node 1, node 2, the network cc-net and the datastores. The platform team assigns it to the VDC, so all four groups share the same nodes.](../../../../assets/figures/en/p3c1-tenants.svg)
+![Groups, group admins and the VDC of the members. At the top the VDC wolkenwerk holds the four groups praxis, treuhand, velo and gemeinde, one per member. Each group has a group admin such as praxis-admin who creates the group's users. The groups may create VMs, images, templates and documents and only see their own objects. At the bottom is cluster 0 with node 1, node 2, the network cc-net and the datastores. The platform team assigns it to the VDC, so all four groups share the same nodes.](../../../../assets/figures/en/p3c1-tenants.svg)
 
 ## Groups and group admins
 
-`onegroup create` creates a group and, if you like, an admin with it. `--resources` decides which objects the members of the group may create themselves. In the lab these are VMs, images, templates and documents. OneFlow in chapter 3.5 needs documents, because a service is a document for OpenNebula.
+`onegroup create` creates a group and, if you like, an admin with it. `--resources` decides which objects the users of the group may create themselves. In the lab these are VMs, images, templates and documents. OneFlow in chapter 3.5 needs the documents because OpenNebula stores a service as a document.
 
 The script `lab/tenants/make-tenants.sh` creates the four members. It generates random passwords for the group admins and stores them in `~/cc-lab/tenants/`, where only your user can read them.
 
@@ -49,11 +49,11 @@ onegroup list
 oneuser list
 ```
 
-Every new group first lands in the VDC `default`, which grants all clusters to all groups. The script takes the members out of it and gathers them in the VDC `wolkenwerk`. It assigns cluster 0 to the VDC, which holds both nodes, the network `cc-net` and the datastores. Finally it releases the template `ubuntu` and its image for everybody to use with `chmod 604`. The first digit 6 lets the owner use and manage, the 0 gives the group `oneadmin` nothing extra, and the 4 lets everybody else use it.
+Every new group first lands in the VDC `default`, which grants all clusters to all groups. The script takes the members out of it and gathers them in the VDC `wolkenwerk`. It assigns cluster 0, which holds both nodes, the network `cc-net` and the datastores, to that VDC. Finally it uses `chmod 604` to let everybody use the template `ubuntu` and its image. The first digit 6 lets the owner use and manage the object, the 0 gives the group `oneadmin` no extra rights, and the 4 lets everybody else use it.
 
 ## Working as a member
 
-To see what a member sees, you log in as its admin. The CLI reads user and password from the file that `ONE_AUTH` points to. The loop creates such a file for all four admins, you need them in the next chapters.
+To see what a member sees, you log in as its admin. The CLI reads user and password from the file that `ONE_AUTH` points to. The loop creates such a file for each of the four admins. You will need these files in the next chapters as well.
 
 ```bash
 for m in praxis treuhand velo gemeinde; do
@@ -67,24 +67,24 @@ onevm list
 unset ONE_AUTH
 ```
 
-The practice sees the template `ubuntu` and the network `cc-net`, but no VMs of `oneadmin`. So that it can log in to its VMs over SSH, `praxis-admin` needs a public key too, because the context takes it from the user who starts the VM. As `oneadmin` you store it as in chapter 2.4.
+The practice sees the template `ubuntu` and the network `cc-net`, but no VMs of `oneadmin`. For SSH access to its VMs, `praxis-admin` needs a public key as well, because the context takes the key from the user who starts the VM. As `oneadmin` you add it the same way as in chapter 2.4.
 
 ```bash
 printf 'SSH_PUBLIC_KEY="%s"\n' "$(cat ~/.ssh/id_ed25519.pub)" > /tmp/key.tpl
 oneuser update praxis-admin --append /tmp/key.tpl
 ```
 
-When the practice now starts a VM, the bike shop does not see it. In the lab `onevm list` as `velo-admin` showed no VM at all while two VMs of the practice were running.
+If the practice now starts a VM, the bike shop does not see it. In the lab, `onevm list` as `velo-admin` showed no VM at all while two of the practice's VMs were running.
 
 ## ACLs
 
-Groups and VDCs rest on ACLs (access control lists). Every rule says who may work on which resources with which rights. `oneacl list` shows them as a table of letters, `oneacl create` adds a new rule.
+Groups and VDCs are built on ACLs (access control lists). Each rule says who may work on which resources with which rights. `oneacl list` shows the rules as a table of letters, and `oneacl create` adds a new one.
 
 ```text
 @100 VM+IMAGE+TEMPLATE+DOCUMENT/* CREATE
 ```
 
-`@100` is the group with the number 100, `VM+IMAGE+TEMPLATE+DOCUMENT` are the resources, `/*` means all objects of that kind, and `CREATE` is the right. `onegroup create` made this rule from `--resources`. In `oneacl list` the same rule reads `V--I-T---O---------` with the operation `---c`. If a resource was forgotten, you add it with a rule of your own instead of creating the group again.
+`@100` is the group with the number 100, `VM+IMAGE+TEMPLATE+DOCUMENT` are the resources, `/*` means all objects of that kind, and `CREATE` is the right. `onegroup create` made this rule from the `--resources` option. In `oneacl list` the same rule reads `V--I-T---O---------` with the operation `---c`. If you forgot a resource, you add it with a rule of your own and do not have to create the group again.
 
 ::::exercise[Lab]
 Create the four members, log in as `praxis-admin` and start the VM `praxis-1` from the template `ubuntu`. Show as `velo-admin` that the bike shop does not see this VM.
@@ -95,9 +95,9 @@ After `make-tenants.sh`, `onegroup list` shows the groups `praxis`, `treuhand`, 
 ::::
 
 ::::exercise[Group or VDC]
-Gemeinde Hinterbüel wants to buy a node of its own later that only it uses. Is a group of its own enough for that, or does it need a VDC of its own? Explain.
+Gemeinde Hinterbüel plans to buy a node of its own later, for its use only. Is a separate group enough for that, or does it need its own VDC? Explain.
 
 :::solution
-A group only separates the objects, the municipality's VMs could still run on any node. A VDC of its own with only the new node assigned makes sure the municipality's VMs run only there. So it needs both, the group for the objects and the VDC for the infrastructure.
+A group only separates the objects. The municipality's VMs could still run on any node. Only a VDC of its own that has just the new node assigned makes sure they run there and nowhere else. So it needs both, the group for the objects and the VDC for the infrastructure.
 :::
 ::::

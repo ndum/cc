@@ -24,9 +24,9 @@ After this chapter you can:
 
 You could set up a cloud of three servers by hand. With thirty servers, or with a server that has to be rebuilt after a failure, that becomes slow and error-prone. Configuration management tools therefore describe the desired state of the servers in files and bring the servers into that state. Ansible is one of them, and it is the tool the OpenNebula project uses to automate its installations.
 
-Ansible needs no agent. The target machines only need SSH and Python. Ansible runs on a control machine, the front-end in your lab, connects to the targets, copies small programs over, runs them and deletes them again. This is called a push model because the control machine initiates the changes.
+Ansible needs no agent. The target machines only need SSH and Python. Ansible runs on a control machine, in your lab the front-end. From there it connects to the targets, copies small programs over, runs them and deletes them again. This is called a push model because the control machine initiates the changes.
 
-The key idea is the target state. A shell script says "install package X". An Ansible task says "package X is installed". If that is already true, Ansible does nothing and reports `ok`. If it has to change something, it reports `changed`. This property is called idempotence. A run may be repeated any number of times, and the result stays the same.
+Ansible describes target states. A shell script says "install package X". An Ansible task says "package X is installed". If that is already true, Ansible does nothing and reports `ok`. If it has to change something, it reports `changed`. This property is called idempotence. You can repeat a run as often as you like and get the same result.
 
 ### Terms
 
@@ -46,11 +46,11 @@ The key idea is the target state. A shell script says "install package X". An An
 
 ## OneDeploy
 
-OneDeploy is an Ansible collection by the OpenNebula project. It installs a cloud from a front-end and several nodes, optionally with high availability, Ceph storage or a routed network. The course uses the version `release-1.4.1`, which it is tested with, and only the simplest layout with local storage.
+OneDeploy is an Ansible collection by the OpenNebula project. It installs a cloud from a front-end and several nodes, optionally with high availability, Ceph storage or a routed network. The course is tested with the version `release-1.4.1` and uses only its simplest layout with local storage.
 
-![How OneDeploy sets up the lab. Ansible on the front-end reads the inventory and the playbooks of OneDeploy. It sets up the front-end locally, with oned, the scheduler and FireEdge, and the two nodes over SSH, with KVM and libvirt.](../../../../assets/figures/en/p2c2-deploy.svg)
+![OneDeploy sets up the lab. Ansible on the front-end reads the inventory and the playbooks of OneDeploy. It sets up the front-end locally with oned, the scheduler and FireEdge, and the two nodes over SSH with KVM and libvirt.](../../../../assets/figures/en/p2c2-deploy.svg)
 
-The playbook `opennebula.deploy.main` has two parts. The part `pre` prepares all machines. It checks Python and the machine names, distributes SSH keys and sets up time synchronization and logging. The part `site` then installs OpenNebula in plays for the groups of the inventory:
+The playbook `opennebula.deploy.main` has two parts. The part `pre` prepares all machines. It checks Python and the machine names, distributes SSH keys and sets up time synchronization and logging. The part `site` then installs OpenNebula. It consists of plays for the groups of the inventory:
 
 1. All machines with the role `common`, shared packages and the OpenNebula package source
 2. The front-end with the roles `database`, `opennebula/server`, `gate`, `flow`, `form` and `gui`
@@ -80,7 +80,7 @@ chmod 600 ~/cc-lab/inventory.yml
 
 ::code{file="lab/one-deploy/make-inventory.sh" lines="18-42"}
 
-The group `frontend` holds the front-end, the group `node` the two nodes. Since Ansible runs on the front-end, it reaches it locally instead of over SSH, which is what `ansible_connection: local` says. Values under `vars` apply to all of them. `one_version` sets the version of OpenNebula, and `ds` with `mode: ssh` means the nodes receive images over SSH, so no shared storage is needed. You create the networks for your members' VMs yourself in chapter 2.3, which is why the inventory has none yet.
+The group `frontend` holds the front-end, the group `node` the two nodes. Since Ansible runs on the front-end, it connects to it locally instead of over SSH, as `ansible_connection: local` specifies. Values under `vars` apply to all machines. `one_version` sets the version of OpenNebula, and `ds` with `mode: ssh` means the nodes receive images over SSH, so no shared storage is needed. You create the networks for your members' VMs yourself in chapter 2.3, which is why the inventory has none yet.
 
 Before you install, check that Ansible reaches all three VMs.
 
@@ -91,11 +91,11 @@ ansible -i ../inventory.yml all -m ping
 
 ## A first playbook
 
-The course's example greets you with the name of the cooperative on every node. It installs a package, writes a file with facts about the node and shows the file through a handler.
+The course's example puts a greeting with the name of the cooperative on every node. It installs a package, writes a file with facts about the node and shows the file through a handler.
 
 ::code{file="examples/ansible/motd.yml"}
 
-Run it twice. The first run reports `changed` for both tasks, and the handler runs. You see the greeting itself at your next login on a node or with `cat /etc/motd`. The second run reports `ok` everywhere and `changed=0`, and the handler stays silent because nothing changed. The line `gather_facts: true` is needed because OneDeploy turns off the automatic gathering of facts in its configuration.
+Run it twice. The first run reports `changed` for both tasks, and the handler runs. You see the greeting itself at your next login on a node or with `cat /etc/motd`. The second run reports `ok` everywhere and `changed=0`. This time the handler does not run, because nothing changed. The line `gather_facts: true` is needed because OneDeploy turns off the automatic gathering of facts in its configuration.
 
 ```bash
 cd ~/cc-lab/one-deploy
@@ -143,17 +143,17 @@ On top of that come the user `oneadmin` with an SSH key pair, time synchronizati
 | libvirt | `libvirt-daemon-system` | manages the VMs on the node, with `virtlogd` for the logs and `virtlockd` against disks opened twice |
 | Node package | `opennebula-node-kvm` | creates the user `oneadmin` in the groups `kvm` and `libvirt` and configures libvirt for OpenNebula |
 
-No OpenNebula service of its own runs on the nodes. The key of `oneadmin` from the front-end is listed in their `authorized_keys`.
+The nodes run no OpenNebula service of their own. The key of `oneadmin` from the front-end is listed in their `authorized_keys`.
 
 ### Front-end and nodes working together
 
-When you start a VM, `oned` records it in the database, and the scheduler picks a node with enough free CPU and memory. The front-end then connects to that node as `oneadmin` over SSH. The transfer driver `ssh` copies the VM's image into the node's `system` datastore under `/var/lib/one/datastores/0/`. Then a driver on the node calls libvirt, and libvirt starts the VM with KVM. The drivers are small Ruby and shell programs that the front-end copies to `/var/tmp/one/` on every node. That is what the handler "Sync Remotes" does at the end of a run. `onemonitord` then regularly asks how nodes and VMs are doing, and `oned` shows it in `onehost list` and the web interface.
+When you start a VM, `oned` records it in the database, and the scheduler picks a node with enough free CPU and memory. The front-end then connects to that node as `oneadmin` over SSH. The transfer driver `ssh` copies the VM's image into the node's `system` datastore under `/var/lib/one/datastores/0/`. Then a driver on the node starts the VM through libvirt with KVM. The drivers are small Ruby and shell programs that the front-end copies to `/var/tmp/one/` on every node. That is what the handler "Sync Remotes" does at the end of a run. From then on `onemonitord` regularly queries the state of nodes and VMs, which `oned` shows in `onehost list` and the web interface.
 
 ## Reading a run that stopped
 
 When a run stops, a line further up starts with `fatal:` and the name of the VM, with the message below it. Above that, Ansible shows the task that failed and the file it comes from. Read the message first, then the task. Most of the time the message already explains the problem.
 
-While this course was being developed, the run stopped four times, and each of those stops is handled by the preparation script from [chapter 0.4](../../start/prepare/) today:
+While this course was being developed, the run stopped four times. Today the preparation script from [chapter 0.4](../../start/prepare/) prevents each of these stops:
 
 | Message | Cause | How the course handles it |
 |---|---|---|
@@ -162,7 +162,7 @@ While this course was being developed, the run stopped four times, and each of t
 | `opennebula-fireedge ... Depends nodejs (<= 21)` | Ubuntu offers a newer Node.js than the web interface accepts. | `prepare.sh` makes Node.js come from the OpenNebula repository. |
 | `Failed to set permissions on the temporary files Ansible needs to create when becoming an unprivileged user` | On the front-end Ansible switches to the user `oneadmin` and needs the package acl for that. | `prepare.sh` installs acl on the front-end. |
 
-After a fix, simply start the run again. Since Ansible describes the target state, it skips everything that is already right.
+After a fix, start the run again. Since Ansible describes the target state, it only changes what is not right yet.
 
 ## The CLI as your user
 
@@ -190,7 +190,7 @@ systemctl list-units 'opennebula*' mariadb.service
 sudo ss -ltnp
 ```
 
-You reach the web interface in the browser on port 2616 of the front-end, for example `http://192.168.210.137:2616/`. Log in as `oneadmin` with the password from `~/cc-lab/oneadmin.pass`.
+Open the web interface in the browser of the client, which is the Kali VM on smartlearn or your PC if you run your own hypervisor. It listens on port 2616 of the front-end, for example at `http://192.168.210.137:2616/`. Log in as `oneadmin` with the password from `~/cc-lab/oneadmin.pass`.
 
 The check of this chapter covers the service, the version, both hosts and the web interface.
 

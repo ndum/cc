@@ -5,16 +5,16 @@ sidebar:
   order: 3
 ---
 
-Die Tabellen auf dieser Seite sammeln Probleme, die beim Erproben des Kurses tatsächlich aufgetreten sind. Bevor du nach deinem Symptom suchst, lohnt sich ein festes Vorgehen. Es hilft auch dort, wo keine Tabelle weiterhilft.
+In den Tabellen dieser Seite stehen Probleme, die beim Erproben des Kurses aufgetreten sind. Bevor du darin nach deinem Symptom suchst, geh die Schritte im nächsten Abschnitt durch. Sie helfen auch bei Problemen, die keine Tabelle aufführt.
 
 ## Vorgehen bei einer Störung
 
-1. Halte das Symptom genau fest. Wer meldet was, seit wann, und wie lautet die Fehlermeldung wörtlich?
-2. Grenze die Schicht ein und arbeite dich von unten nach oben. `onehost list` zeigt die Knoten, `onevm list` die VMs, `kubectl get nodes` den Cluster, `kubectl -n argocd get applications` den Abgleich mit Git, und erst danach lohnt der Blick in die Anwendung.
-3. Lies Logs und Ereignisse der betroffenen Schicht, etwa `journalctl -u <dienst>`, `kubectl describe` und `kubectl get events`, Loki in Grafana oder den Abschnitt `MONITORING` in `onehost show`.
+1. Halte das Symptom genau fest. Wer meldet was seit wann? Wie lautet die Fehlermeldung wörtlich?
+2. Grenze die Schicht ein und arbeite dich von unten nach oben. `onehost list` zeigt die Knoten, `onevm list` die VMs, `kubectl get nodes` den Cluster und `kubectl -n argocd get applications` den Abgleich mit Git. Erst danach schaust du dir die Anwendung an.
+3. Lies die Logs und Ereignisse der betroffenen Schicht, etwa mit `journalctl -u <dienst>`, mit `kubectl describe` und `kubectl get events`, über Loki in Grafana oder im Abschnitt `MONITORING` von `onehost show`.
 4. Suche die letzte Änderung. `git log` im Plattform-Repo zeigt, was über Git kam. Denk auch an das, was du oder jemand anderes von Hand geändert hat.
-5. Behebe die Ursache auf dem Weg, auf dem der Zustand entsteht. Was aus Git kommt, korrigierst du in Git, was aus Code kommt, im Code. Eine Änderung von Hand an einem Objekt, das Argo CD verwaltet, setzt Self-Heal sofort zurück.
-6. Prüfe, ob das Symptom weg ist, und lass den Check des Teils laufen. Halte danach in wenigen Sätzen Ursache, Behebung und Vorbeugung fest.
+5. Behebe die Ursache dort, wo der Zustand entsteht. Was aus Git kommt, korrigierst du in Git, was aus Code kommt, im Code. Eine Änderung von Hand an einem Objekt, das Argo CD verwaltet, setzt Self-Heal sofort zurück.
+6. Prüfe, ob das Symptom weg ist. Lass auch den Check des Teils laufen. Halte am Ende in wenigen Sätzen Ursache, Behebung und Vorbeugung fest.
 
 Die Adressen, Ports und Befehle für diese Schritte stehen in der [Lab-Referenz](../lab-reference/).
 
@@ -23,7 +23,7 @@ Die Adressen, Ports und Befehle für diese Schritte stehen in der [Lab-Referenz]
 | Symptom | Ursache | Was hilft | Kapitel |
 |---|---|---|---|
 | VMware meldet «Virtualized Intel VT-x/EPT is not supported on this platform» | Der Hypervisor von Windows läuft, etwa wegen Speicherintegrität, WSL 2 oder Docker Desktop | Hyper-V statt VMware verwenden oder auf smartlearn arbeiten | [Eigener Hypervisor](../extras/own-hypervisor/) |
-| Ein Knoten startet auf dem eigenen Rechner nicht, zu wenig Speicher | Der Laptop hat nicht genug RAM für die Grösse der Knoten | Knoten auf 8 GB stellen | [Eigener Hypervisor](../extras/own-hypervisor/) |
+| Ein Knoten startet auf dem eigenen Rechner nicht, zu wenig Speicher | Der Rechner hat nicht genug RAM für die Grösse der Knoten | Knoten auf 8 GB stellen | [Eigener Hypervisor](../extras/own-hypervisor/) |
 | `git: command not found` | Die minimale Installation von Ubuntu enthält kein Git | `sudo apt install -y git` | [0.2](../start/lab/) |
 | `prepare.sh` meldet «This VM has no address» | Falsche Rolle, oder die Adressen in `/etc/cc-lab.env` passen nicht zur VM | Rolle prüfen, `ip -br a` mit `/etc/cc-lab.env` vergleichen | [0.4](../start/prepare/) |
 | `prepare.sh` meldet «sees no vmx or svm flag» | Verschachtelte Virtualisierung ist für den Knoten ausgeschaltet | Auf smartlearn einschalten, bei Hyper-V `Set-VMProcessor -ExposeVirtualizationExtensions $true` bei ausgeschalteter VM | [1.3](../basics/virtualization/) |
@@ -38,7 +38,7 @@ Die Adressen, Ports und Befehle für diese Schritte stehen in der [Lab-Referenz]
 | «Please make sure each cluster member can resolve all Front-end hostnames» oder «Could not find the requested service rsyslog.service» | `prepare.sh` lief nicht auf allen VMs | `prepare.sh` mit der richtigen Rolle auf jeder VM | [2.2](../iaas/installation/) |
 | «opennebula-fireedge ... Depends nodejs» oder «Failed to set permissions on the temporary files» | Der Pin für Node.js oder das Paket acl fehlt auf dem Front-end | `sudo ~/cc/lab/prepare.sh fe` noch einmal | [2.2](../iaas/installation/) |
 | Ein Host steht in `onehost list` auf `err` | SSH vom Front-end als `oneadmin` zum Knoten klappt nicht, KVM fehlt, oder der Knoten ist ausgefallen | `onehost show <knoten>`, Abschnitt `MONITORING`, auf dem Knoten `ls /dev/kvm` | [2.5](../iaas/hosts/) |
-| Die Weboberfläche lädt nicht | Port 2616 ist vom eigenen Rechner aus nicht erreichbar | Adresse des Front-ends im Labnetz verwenden, auf smartlearn die Freigabe des Ports prüfen | [2.2](../iaas/installation/) |
+| Die Weboberfläche lädt nicht | Port 2616 ist vom Client aus nicht erreichbar | Im Browser des Clients die Adresse des Front-ends im Labnetz verwenden, auf dem Front-end prüfen, ob `opennebula-fireedge` läuft | [2.2](../iaas/installation/) |
 | Befehle wie `onevm list` melden einen Fehler bei der Anmeldung | `~/.one/one_auth` fehlt | Datei wie in 2.2 anlegen | [2.2](../iaas/installation/) |
 | `onetemplate instantiate` findet keinen passenden Host | Knoten gesperrt oder voll reserviert | `onehost list`, `onehost enable`, nicht mehr gebrauchte VMs löschen | [2.5](../iaas/hosts/) |
 | Eine VM bleibt `pending` mit «Not enough capacity on datastores» | Das Monitoring der Knoten zeigt noch den alten freien Platz | `onehost forceupdate` | [6.2](../operations/backup/) |
@@ -57,7 +57,7 @@ Die Adressen, Ports und Befehle für diese Schritte stehen in der [Lab-Referenz]
 | Die VM läuft, SSH auf ihre Adresse hängt | `cc-gateway` läuft nicht, oder Multicast im Netz von smartlearn ist blockiert | `sudo cc-gateway status`, `bridge fdb show dev cc-vxlan` | [2.3](../iaas/networks/) |
 | SSH auf eine VM verlangt ein Passwort | Der Schlüssel war bei `oneadmin` oder beim Gruppenadmin nicht hinterlegt, als die VM startete | Schlüssel mit `oneuser update --append` hinterlegen, VM neu starten | [2.4](../iaas/images/), [3.4](../tenants/self-service/) |
 | Downloads in einer VM brechen ab | MTU 1500 statt 1450 im Netz | `GUEST_MTU` mit `onevnet show cc-net` prüfen, VM neu starten | [2.3](../iaas/networks/) |
-| Nach der Härtung ist Gitea von deinem Rechner nicht mehr erreichbar | Die Firewall lässt von aussen nur SSH und Port 2616 zu | so gewollt, Gitea über einen Tunnel erreichen | [6.1](../operations/security/) |
+| Nach der Härtung ist Gitea vom Client aus nicht mehr erreichbar | Die Firewall lässt von aussen nur SSH und Port 2616 zu | so gewollt, Gitea über einen Tunnel vom Client erreichen | [6.1](../operations/security/) |
 | Nach der Härtung keine Anmeldung mehr | Kein Schlüssel hinterlegt | Über die Konsole von smartlearn anmelden, `/etc/ssh/sshd_config.d/10-cc-hardening.conf` entfernen, Schlüssel eintragen und neu härten | [6.1](../operations/security/) |
 
 ## OpenTofu und k3s

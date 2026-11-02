@@ -5,7 +5,7 @@ sidebar:
   order: 3
 ---
 
-The tables on this page collect problems that actually came up while the course was tried out. Before you search for your symptom, it pays to follow a fixed procedure. It also works where no table helps.
+The tables on this page show problems that came up while the course was tried out. Before you search them for your symptom, go through the steps in the next section. They also help with problems that no table lists.
 
 ## Handling a fault
 
@@ -13,7 +13,7 @@ The tables on this page collect problems that actually came up while the course 
 2. Narrow down the layer and work from the bottom up. `onehost list` shows the nodes, `onevm list` the VMs, `kubectl get nodes` the cluster and `kubectl -n argocd get applications` the sync with Git. Only then is it worth looking at the application.
 3. Read the logs and events of that layer, such as `journalctl -u <service>`, `kubectl describe` and `kubectl get events`, Loki in Grafana or the `MONITORING` section of `onehost show`.
 4. Look for the latest change. `git log` in the platform repo shows what came through Git. Also think of anything you or someone else changed by hand.
-5. Fix the cause where the state comes from. What comes from Git gets fixed in Git, what comes from code gets fixed in the code. A manual change to an object that Argo CD manages is reverted by self-heal right away.
+5. Fix the cause where the state comes from. What comes from Git gets fixed in Git, what comes from code gets fixed in the code. Self-heal immediately reverts a manual change to an object that Argo CD manages.
 6. Check that the symptom is gone and run the check of the part. Then write down cause, fix and prevention in a few sentences.
 
 The addresses, ports and commands for these steps are in the [lab reference](../lab-reference/).
@@ -23,7 +23,7 @@ The addresses, ports and commands for these steps are in the [lab reference](../
 | Symptom | Cause | Fix | Chapter |
 |---|---|---|---|
 | VMware reports "Virtualized Intel VT-x/EPT is not supported on this platform" | The Windows hypervisor is running, for example because of memory integrity, WSL 2 or Docker Desktop | Use Hyper-V instead of VMware or work on smartlearn | [Own hypervisor](../extras/own-hypervisor/) |
-| A node does not start on your own computer for lack of memory | The laptop does not have enough RAM for the size of the nodes | Set the nodes to 8 GB | [Own hypervisor](../extras/own-hypervisor/) |
+| A node does not start on your own computer for lack of memory | The computer does not have enough RAM for the size of the nodes | Set the nodes to 8 GB | [Own hypervisor](../extras/own-hypervisor/) |
 | `git: command not found` | The minimal Ubuntu install has no Git | `sudo apt install -y git` | [0.2](../start/lab/) |
 | `prepare.sh` reports "This VM has no address" | Wrong role, or the addresses in `/etc/cc-lab.env` do not match the VM | Check the role, compare `ip -br a` with `/etc/cc-lab.env` | [0.4](../start/prepare/) |
 | `prepare.sh` reports "sees no vmx or svm flag" | Nested virtualization is off for the node | Turn it on in smartlearn, or on Hyper-V run `Set-VMProcessor -ExposeVirtualizationExtensions $true` with the VM switched off | [1.3](../basics/virtualization/) |
@@ -38,7 +38,7 @@ The addresses, ports and commands for these steps are in the [lab reference](../
 | "Please make sure each cluster member can resolve all Front-end hostnames" or "Could not find the requested service rsyslog.service" | `prepare.sh` did not run on every VM | Run `prepare.sh` with the right role on each VM | [2.2](../iaas/installation/) |
 | "opennebula-fireedge ... Depends nodejs" or "Failed to set permissions on the temporary files" | The Node.js pin or the acl package is missing on the front-end | Run `sudo ~/cc/lab/prepare.sh fe` again | [2.2](../iaas/installation/) |
 | A host shows `err` in `onehost list` | SSH from the front-end as `oneadmin` to the node fails, KVM is missing, or the node is down | `onehost show <node>`, section `MONITORING`, on the node `ls /dev/kvm` | [2.5](../iaas/hosts/) |
-| The web interface does not load | Port 2616 cannot be reached from your computer | Use the front-end's address in the lab network, check the port in smartlearn | [2.2](../iaas/installation/) |
+| The web interface does not load | Port 2616 cannot be reached from the client | Use the front-end's address in the lab network in the client's browser, check on the front-end that `opennebula-fireedge` runs | [2.2](../iaas/installation/) |
 | Commands like `onevm list` fail to log in | `~/.one/one_auth` is missing | Create the file as in 2.2 | [2.2](../iaas/installation/) |
 | `onetemplate instantiate` finds no suitable host | A node is disabled or fully reserved | `onehost list`, `onehost enable`, delete VMs no longer needed | [2.5](../iaas/hosts/) |
 | A VM stays `pending` with "Not enough capacity on datastores" | The node monitoring still shows the old free space | `onehost forceupdate` | [6.2](../operations/backup/) |
@@ -57,7 +57,7 @@ The addresses, ports and commands for these steps are in the [lab reference](../
 | The VM runs, but SSH to its address hangs | `cc-gateway` is not running, or multicast is blocked in the smartlearn network | `sudo cc-gateway status`, `bridge fdb show dev cc-vxlan` | [2.3](../iaas/networks/) |
 | SSH to a VM asks for a password | The key was not stored with `oneadmin` or the group admin when the VM started | Store the key with `oneuser update --append`, restart the VM | [2.4](../iaas/images/), [3.4](../tenants/self-service/) |
 | Downloads inside a VM break off | MTU 1500 instead of 1450 in the network | Check `GUEST_MTU` with `onevnet show cc-net`, restart the VM | [2.3](../iaas/networks/) |
-| After hardening, Gitea can no longer be reached from your computer | The firewall lets in only SSH and port 2616 from outside | That is intended, reach Gitea through a tunnel | [6.1](../operations/security/) |
+| After hardening, Gitea can no longer be reached from the client | The firewall lets in only SSH and port 2616 from outside | That is intended, reach Gitea through a tunnel from the client | [6.1](../operations/security/) |
 | No login possible after hardening | No key was stored | Log in through the smartlearn console, remove `/etc/ssh/sshd_config.d/10-cc-hardening.conf`, add a key and harden again | [6.1](../operations/security/) |
 
 ## OpenTofu and k3s

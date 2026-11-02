@@ -29,7 +29,7 @@ Plan four to six hours for the three advanced tasks. Each one is worth 0 to 3 po
 
 ### A · Rebuilding the platform
 
-You rebuild the cluster with `tofu destroy`, `tofu apply` and the Argo CD bootstrap, measure the time and show that everything from Git is back. Along the way you explain the role of state and drift in a rebuild. [Chapter 4.2](../../platform/opentofu/) has the commands. With the state of part 4, the rebuild in the lab took just under three minutes until the web shop ran, so start it early in the showing and explain the code while it runs.
+You tear the cluster down with `tofu destroy` and rebuild it with `tofu apply` and the Argo CD bootstrap. You measure the time and show that everything from Git is back. While doing so you explain what state and drift mean for a rebuild. [Chapter 4.2](../../platform/opentofu/) has the commands. In the lab, with the platform as it stood after part 4, the rebuild took just under three minutes until the web shop ran again. Start the rebuild early in the showing and explain the code while it runs.
 
 ### B · A member of your own
 
@@ -37,7 +37,7 @@ One more member of your choice gets a namespace from the template through a pull
 
 ### C · Branch protection
 
-In Gitea you protect the branch `main` so that changes only get in through a reviewed pull request. You show that a direct push is rejected. [Chapter 4.4](../../platform/gitops/) covers Gitea and the repo `platform`.
+In Gitea you protect the branch `main` so that changes only get in through a reviewed pull request. You show that Gitea rejects a direct push. [Chapter 4.4](../../platform/gitops/) covers Gitea and the repo `platform`.
 
 ## Showing the advanced tasks
 
@@ -56,7 +56,7 @@ You put the reports of the checks in `reports/`. The [overview](../) describes h
 | Cluster VMs from OpenTofu, plan without changes, state outside Git | 3 |
 | k3s with server, agent and host-gw, kubectl from the front-end | 3 |
 | Gitea with a private repo, read-only token for Argo CD | 3 |
-| Web shop with Argo CD, self-heal and a change through a pull request | 3 |
+| Web shop with Argo CD, self-heal and a change through Git | 3 |
 | Namespaces `velo` and `gemeinde` from the template | 3 |
 | The municipality's ResourceQuota with the personal values through a pull request | 3 |
 | Quota at the limit and NetworkPolicy shown, check `m2` | 3 |

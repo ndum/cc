@@ -2,8 +2,8 @@
 
 Flags patterns the style guide rules out: dashes as separators, semicolons, bold lead-ins,
 horizontal rules, summary headings, emojis, the German sharp s, guillemets in English pages,
-colons in running text, titles built as from-to, teaser, question, indirect question or slogan, and known stock
-phrases. Code blocks, inline code, formulas, front matter and directive lines are skipped. Exit code 1 when a page
+colons in running text, a comma before «und» on German pages, list items that start with a small letter, titles
+built as from-to, teaser, question, indirect question or slogan, and known stock phrases. Code blocks, inline code, formulas, front matter and directive lines are skipped. Exit code 1 when a page
 breaks a rule.
 
     python scripts/check_style.py [paths...]
@@ -38,6 +38,10 @@ TITLE_PATTERNS = [
 ]
 DIRECTIVE_LABEL = re.compile(r"^:{3,}[a-z]+\[(.+)\]")
 FRONT_MATTER_TITLE = re.compile(r"^(title|label):\s*[\"']?(.+?)[\"']?\s*$")
+# German texts never put a comma before «und», a sentence that needs one is rewritten
+COMMA_BEFORE_UND = re.compile(r",\s+und\b")
+# A list item starts with a capital letter, with code or a digit, quotes, bold and links are looked through
+LIST_ITEM = re.compile(r"^\s*(?:[-*+]|\d+\.)\s+(?:\*\*|«|\"|\(|\[)*(\S)")
 
 # Formulaic openers and aphoristic closers that read like generated text
 STOCK_PHRASES = [
@@ -108,6 +112,8 @@ def check(path: Path) -> list[str]:
             field = FRONT_MATTER_TITLE.match(stripped)
             if field:
                 problems.extend(f"{where} {message}" for message in title_problems(field.group(2)))
+            if not english and stripped.startswith("description:") and COMMA_BEFORE_UND.search(stripped):
+                problems.append(f"{where} comma before und")
             continue
         if stripped.startswith("```"):
             in_code = not in_code
@@ -143,6 +149,12 @@ def check(path: Path) -> list[str]:
             problems.append(f"{where} emoji")
         if not english and "ß" in prose:
             problems.append(f"{where} sharp s in Swiss German text")
+        # Inline code stays as a word here, so that "`a`, `b` und `c`" does not read as a comma before und
+        if not english and COMMA_BEFORE_UND.search(re.sub(r"`[^`]*`", "code", line)):
+            problems.append(f"{where} comma before und")
+        item = LIST_ITEM.match(line)
+        if item and item.group(1).islower():
+            problems.append(f"{where} list item starts with a small letter")
         if english and re.search(r"«[^»]*»", prose):
             problems.append(f"{where} guillemets in English text")
         # Colons may end a line before a formula, code or a list, or stand right before a formula

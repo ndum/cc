@@ -6,7 +6,7 @@ sidebar:
   order: 5
 ---
 
-Mit diesem Raster schätzt du ein, ob du die Grundlagen beherrschst. Lies jede Zeile und löse die Prüfaufgabe daneben, ohne nachzuschauen. Fällt sie dir leicht, hast du das Ziel erreicht. Wenn nicht, führt dich der Link in der letzten Spalte zur passenden Stelle. Teil 1 dient im Rahmenlehrplan vor allem den Kompetenzen B7.1 (ICT-Architektur), B9.1 und B9.2 (Sicherheitskonzepte und Schutzbedarf), A1.5 (rechtliche Grundlagen) und B14.7 (Verrechnung von ICT-Dienstleistungen).
+Mit diesem Raster schätzt du ein, ob du die Grundlagen beherrschst. Lies jede Zeile und löse die Prüfaufgabe daneben, ohne nachzuschauen. Fällt sie dir leicht, hast du das Ziel erreicht. Wenn nicht, führt dich der Link in der letzten Spalte zur passenden Stelle. Teil 1 bezieht sich im Rahmenlehrplan vor allem auf die Kompetenzen B7.1 (ICT-Architektur), B9.1 und B9.2 (Sicherheitskonzepte und Schutzbedarf), A1.5 (rechtliche Grundlagen) und B14.7 (Verrechnung von ICT-Dienstleistungen).
 
 | Ich kann … | Prüfaufgabe | Nachschlagen |
 |---|---|---|

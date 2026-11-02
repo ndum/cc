@@ -38,19 +38,19 @@ The image is ready as soon as `oneimage list` shows `rdy` in the column `STAT`.
 
 A raw image holds the disk byte for byte, exactly as it would sit on a physical drive. The format is simple and fast, and every tool can read it. A 30 GB disk takes 30 GB as a raw file, unless the file system supports sparse files and only reserves the parts that were written, as the [QEMU documentation](https://www.qemu.org/docs/master/system/qemu-block-drivers.html) explains.
 
-qcow2 stands for QEMU Copy On Write, version 2. The file only grows with the blocks that were actually written, and it can hold snapshots. A qcow2 file can also point to a backing file, another image it only reads from. When the VM needs a block the file itself does not contain, the block comes from the backing file. When the VM writes a block, it lands in its own file and the backing file stays untouched, as the [qcow2 specification](https://www.qemu.org/docs/master/interop/qcow2.html) describes. Many VMs can share one base image this way, each storing only its own changes. On datastores with shared storage OpenNebula creates new disks like this, with the image as backing file, as shown in the [documentation on NFS datastores](https://docs.opennebula.io/7.4/product/cluster_configuration/storage_system/nas_ds/).
+The name qcow2 stands for QEMU Copy On Write, version 2. The file only grows with the blocks that were actually written, and it can hold snapshots. A qcow2 file can also point to a backing file, another image it only reads from. When the VM needs a block the file itself does not contain, the block comes from the backing file. When the VM writes a block, it lands in its own file and the backing file stays untouched, as the [qcow2 specification](https://www.qemu.org/docs/master/interop/qcow2.html) describes. Many VMs can share one base image this way, each storing only its own changes. On datastores with shared storage OpenNebula creates new disks like this, with the image as backing file, as shown in the [documentation on NFS datastores](https://docs.opennebula.io/7.4/product/cluster_configuration/storage_system/nas_ds/).
 
 Your lab uses qcow2. `oneimage show ubuntu-26.04` shows `FORMAT : qcow2` and a size of 3.5 GB, which is the disk size the VM sees. The file under `SOURCE` only takes about 450 MB in the datastore, which `qemu-img info` on that file confirms. Because the transfer driver `ssh` copies the image to the node, the disk of a lab VM has no backing file. It is a standalone copy. Copying costs some time at startup, but in return the VM runs without access to the front-end's datastore.
 
 ## Persistent images
 
-In OpenNebula an image is either persistent or non-persistent. A non-persistent image serves as a template for disks. Each VM works on its own copy, any number of VMs can use the image at once, and whatever a VM writes to its disk is gone once the VM is terminated. A persistent image keeps its changes after the VM ends, but only one VM at a time may use it, according to the [image documentation](https://docs.opennebula.io/7.4/product/virtual_machines_operation/virtual_machines/images/). `oneimage persistent` and `oneimage nonpersistent` switch between the two.
+In OpenNebula an image is either persistent or non-persistent. A non-persistent image serves as a template for disks. Any number of VMs can use it at once, each on its own copy. Whatever a VM writes to its disk is gone once the VM is terminated. A persistent image keeps its changes after the VM ends, but only one VM at a time may use it, according to the [image documentation](https://docs.opennebula.io/7.4/product/virtual_machines_operation/virtual_machines/images/). `oneimage persistent` and `oneimage nonpersistent` switch between the two.
 
-The image `ubuntu-26.04` is non-persistent, and `oneimage show` lists `PERSISTENT : No`. The column `RVMS` in `oneimage list` tells you how many VMs are using it right now. That is the right choice for system disks, since every VM should start from the same state. Data that has to survive, such as a database, belongs on a second disk from a persistent image. If you want to keep the state of a disk as a new image, `onevm disk-saveas` copies it into the datastore.
+The image `ubuntu-26.04` is non-persistent, and `oneimage show` lists `PERSISTENT : No`. That is the right choice for system disks, since every VM should start from the same state. The column `RVMS` in `oneimage list` tells you how many VMs are using the image right now. Data that has to survive, such as a database, belongs on a second disk from a persistent image. If you want to keep the state of a disk as a new image, `onevm disk-saveas` copies it into the datastore.
 
 ## Templates
 
-A template describes a VM from which you can start any number of VMs. The course provides the template `ubuntu` for small VMs on the internal network.
+A template describes a VM, and you can start any number of VMs from it. The course provides the template `ubuntu` for small VMs on the internal network.
 
 ::code{file="lab/iaas/ubuntu.tpl"}
 
@@ -83,11 +83,11 @@ oneuser update oneadmin --append /tmp/key.tpl
 
 OpenNebula writes the values from `CONTEXT` into a file `context.sh` with lines of the form `NAME='value'` and puts it on an ISO image that the VM sees as a CD drive, as the [VM template reference](https://docs.opennebula.io/7.4/product/operation_references/configuration_references/template/) describes. In the lab this image sits on the node next to the disk in the VM's directory, as `disk.1` with the label `CONTEXT`. OpenNebula's [contextualization packages](https://docs.opennebula.io/7.4/product/virtual_machines_operation/guest_operating_systems/kvm_contextualization/) mount the drive at boot, read the variables and then set up network, host name, keys and scripts. The marketplace images already include these packages.
 
-In public clouds [cloud-init](https://docs.cloud-init.io/en/latest/) usually does this job. cloud-init also sets up a generic VM at first boot with the data of its instance. It fetches that data from a data source, which depending on the cloud is a metadata service on the network or an attached disk. The setup itself typically comes as a YAML file in the `#cloud-config` format. cloud-init also ships a [data source for OpenNebula](https://docs.cloud-init.io/en/latest/reference/datasources/opennebula.html) that reads the same CD drive with `context.sh`, so an image built for cloud-init can be set up in OpenNebula as well. The main difference lies in how the settings are expressed. OpenNebula works with plain variables, cloud-init with a configuration made of modules for packages, files, users and commands.
+In public clouds [cloud-init](https://docs.cloud-init.io/en/latest/) usually does this job. It also sets up a generic VM at first boot with the data of its instance. That data comes from a data source, which depending on the cloud is a metadata service on the network or an attached disk. The setup itself typically comes as a YAML file in the `#cloud-config` format. For OpenNebula there is a separate [cloud-init data source](https://docs.cloud-init.io/en/latest/reference/datasources/opennebula.html) that reads the same CD drive with `context.sh`, so an image built for cloud-init can be set up in OpenNebula as well. The main difference lies in how the settings are expressed. OpenNebula works with plain variables, cloud-init with a configuration made of modules for packages, files, users and commands.
 
 ## Your first VM
 
-Now you start a VM from the template and log in. It usually runs after a few seconds, and SSH is ready after about half a minute.
+You start the first VM from the template `ubuntu` and log in over SSH from the front-end. It usually runs after a few seconds, and SSH is ready after about half a minute.
 
 ```bash
 onetemplate instantiate ubuntu --name web-1
@@ -96,7 +96,7 @@ onevm show web-1 | grep -E 'IP=|HOST'
 ssh root@<address-of-the-vm>
 ```
 
-Inside the VM, `hostname`, `ip -br addr` and `ip link show eth0` show what contextualization has set up. `curl -I https://ubuntu.com` checks whether the VM reaches the internet through the gateway. In Sunstone a click on the VM and then on the console icon opens its screen in the browser.
+Inside the VM you can see what contextualization has set up. `hostname` shows the name, `ip -br addr` the address and `ip link show eth0` the MTU. `curl -I https://ubuntu.com` checks whether the VM reaches the internet through the gateway. In Sunstone, a click on the VM and then on the console icon opens its screen in the browser of the client.
 
 The check of this part covers the network, the template, a running VM, the SSH login, its host name and internet access.
 
@@ -116,7 +116,7 @@ The check ends with "11 of 11 base checks passed". Inside the VM, `hostname` sho
 Treuhand Aaregg needs a larger VM with two CPUs and 2 GB of memory at the end of the month. Create a copy of the template named `ubuntu-medium` and start a VM from it. According to `onehost list`, how many such VMs fit on one node?
 
 :::solution
-`onetemplate clone ubuntu ubuntu-medium`, then `onetemplate update ubuntu-medium` with `CPU = "1"`, `VCPU = "2"` and `MEMORY = "2048"`. A node with 7.2 GB of memory and four cores carries three such VMs, so memory sets the limit, not the CPU.
+`onetemplate clone ubuntu ubuntu-medium`, then `onetemplate update ubuntu-medium` with `CPU = "1"`, `VCPU = "2"` and `MEMORY = "2048"`. A node with 7.2 GB of memory and four cores carries three such VMs. Memory sets the limit, since the CPU would allow four.
 :::
 ::::
 
@@ -124,6 +124,6 @@ Treuhand Aaregg needs a larger VM with two CPUs and 2 GB of memory at the end of
 Praxis Rosenweg wants to run a small database in a VM. The data has to survive even when the VM is terminated and created again. How do you set up the disks, and what speaks against simply making the image `ubuntu-26.04` persistent?
 
 :::solution
-The system disk still comes from the non-persistent image `ubuntu-26.04`. For the data you create an empty persistent image, for example with `oneimage create -d default --name praxis-db --type DATABLOCK --size 2048 --persistent`, and attach it to the VM as a second disk. When the VM is terminated, the data stays in the image, and a new VM can attach it again. If `ubuntu-26.04` were persistent, only one VM could use it, every further VM from the template would fail to start, and every change to that system disk would end up in the shared base image.
+The system disk still comes from the non-persistent image `ubuntu-26.04`. For the data you create an empty persistent image, for example with `oneimage create -d default --name praxis-db --type DATABLOCK --size 2048 --persistent`, and attach it to the VM as a second disk. When the VM is terminated, the data stays in the image, and a new VM can attach it again. If `ubuntu-26.04` were persistent, only one VM could use it and every further VM from the template would fail to start. On top of that, every change to that system disk would end up in the shared base image.
 :::
 ::::
