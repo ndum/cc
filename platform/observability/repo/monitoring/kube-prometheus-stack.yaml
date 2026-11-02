@@ -34,7 +34,7 @@ prometheus:
               storage: 5Gi
 
 alertmanager:
-  # Alerts of the web shop go to the triage service of chapter 5.6, all others nowhere for now
+  # Every alert goes to the receiver null, the advanced tasks add a receiver of their own
   config:
     route:
       receiver: "null"
@@ -42,16 +42,8 @@ alertmanager:
       group_wait: 30s
       group_interval: 5m
       repeat_interval: 4h
-      routes:
-        - receiver: triage
-          matchers:
-            - alertname =~ "Webshop.*"
     receivers:
       - name: "null"
-      - name: triage
-        webhook_configs:
-          - url: http://triage.ai.svc:8080/alert
-            send_resolved: true
   service:
     type: NodePort
     nodePort: 30093

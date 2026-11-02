@@ -6,10 +6,10 @@ Run it on the front-end as the user who works with the lab:
     python3 checks/check.py start      end of chapter 0.5, the three VMs are prepared and connected
     python3 checks/check.py install    chapter 2.2, OpenNebula runs with both nodes
     python3 checks/check.py iaas       chapters 2.3 and 2.4, network, template and a VM in the cloud
-    python3 checks/check.py tenants    chapters 3.1 to 3.5, members, quotas, showback and the OneFlow service
+    python3 checks/check.py tenants    chapters 3.1 to 3.4, members, quotas, showback and self-service, traces of the advanced tasks of 3.5
     python3 checks/check.py platform   chapters 4.2 to 4.5, k3s from OpenTofu, Gitea, Argo CD and member namespaces
-    python3 checks/check.py observability  chapters 5.1 to 5.6, metrics, logs, SLO, autoscaling, local model and triage
-    python3 checks/check.py operations  chapters 6.1 and 6.2 and milestone 4, hardening, Sealed Secrets, backups and the new member
+    python3 checks/check.py observability  chapters 5.1 to 5.4, metrics, logs, SLO and autoscaling
+    python3 checks/check.py operations  chapters 6.1 and 6.2, hardening, Sealed Secrets and backups, traces of the advanced tasks of 6.5
     python3 checks/check.py m1         milestone 1, the check tenants, your personal values and two questions for the screencast
     python3 checks/check.py m2 | m3 | m4  the same for milestones 2 to 4 with the checks platform, observability and operations
 
@@ -268,21 +268,32 @@ def check_tenants(env, report):
         check_oneflow(report)
 
 
-def check_oneflow(report):
-    flow = (one_json("oneflow-template", "show", "treuhand-buchhaltung") or {}).get("DOCUMENT", {})
-    roles = flow.get("TEMPLATE", {}).get("BODY", {}).get("roles", [])
-    report.check(any(role.get("elasticity_policies") for role in roles),
-                 tr("Die Dienstvorlage treuhand-buchhaltung hat Regeln für die Elastizität", "The service template treuhand-buchhaltung has elasticity rules"),
-                 tr("make-service.sh aus Kapitel 3.5", "make-service.sh from chapter 3.5"))
-    code, out = run("oneflow", "list", "--json")
+def flow_documents(*args):
+    """Templates or services of OneFlow as a list, empty when OneFlow does not answer"""
+    code, out = run(*args, "--json")
     try:
-        services = as_list(json.loads(out)) if code == 0 else []
+        data = json.loads(out) if code == 0 else []
     except ValueError:
-        services = []
+        return []
+    if isinstance(data, dict) and "DOCUMENT_POOL" in data:
+        data = (data.get("DOCUMENT_POOL") or {}).get("DOCUMENT")
+    return as_list(data)
+
+
+def check_oneflow(report):
+    """Advanced task A of milestone 1, any design of a service that grows and shrinks counts"""
+    # The service of the fiduciary office counts, whoever owns its template, so a shared catalog works too
+    def elastic(document):
+        roles = document.get("TEMPLATE", {}).get("BODY", {}).get("roles", [])
+        return any(role.get("elasticity_policies") or role.get("scheduled_policies") for role in roles)
+    services = [s for s in flow_documents("oneflow", "list") if s.get("GNAME") == "treuhand"]
+    report.check(any(elastic(s) for s in services),
+                 tr("Ein Dienst der Treuhand hat Regeln für die Elastizität", "A service of the fiduciary office has elasticity rules"),
+                 tr("Zusatzauftrag A in Kapitel 3.5", "advanced task A in chapter 3.5"))
     # State 2 of a service is RUNNING
-    report.check(any(s.get("GNAME") == "treuhand" and str(s.get("TEMPLATE", {}).get("BODY", {}).get("state")) == "2" for s in services),
+    report.check(any(str(s.get("TEMPLATE", {}).get("BODY", {}).get("state")) == "2" for s in services),
                  tr("Ein Dienst der Treuhand läuft", "A service of the fiduciary office runs"),
-                 tr("Als treuhand-admin instanziieren, Kapitel 3.5", "Instantiate it as treuhand-admin, chapter 3.5"))
+                 tr("Zusatzauftrag A in Kapitel 3.5", "advanced task A in chapter 3.5"))
 
 
 def kube_json(*args):
@@ -377,7 +388,7 @@ def check_observability(env, report):
                         tr("get-kubeconfig.sh aus Kapitel 4.3", "get-kubeconfig.sh from chapter 4.3")):
         return
     apps = {a["metadata"]["name"]: a.get("status", {}) for a in (kube_json("get", "applications", "-n", "argocd") or {}).get("items", [])}
-    for name in ("monitoring", "monitoring-config", "loki", "alloy", "ai"):
+    for name in ("monitoring", "monitoring-config", "loki", "alloy"):
         status = apps.get(name, {})
         report.check(status.get("sync", {}).get("status") == "Synced" and status.get("health", {}).get("status") == "Healthy",
                      tr(f"Argo CD hält {name} synchron und gesund", f"Argo CD keeps {name} synced and healthy"),
@@ -395,7 +406,8 @@ def check_observability(env, report):
     report.check("WebshopErrorBudgetBurn" in body, tr("Die Regeln des SLO für den Webshop sind geladen", "The SLO rules of the web shop are loaded"),
                  tr("webshop-slo.yaml, Kapitel 5.3", "webshop-slo.yaml, chapter 5.3"))
     code, body = http(f"http://{server}:30093/api/v2/status")
-    report.check("receiver: triage" in body, tr("Alertmanager schickt die Alerts des Webshops an den Triage-Dienst", "Alertmanager sends the web shop alerts to the triage service"))
+    report.check(code == 200 and '"original"' in body, tr("Alertmanager läuft mit seiner Konfiguration aus Git", "Alertmanager runs with its configuration from Git"),
+                 tr("kube-prometheus-stack.yaml, Kapitel 5.3", "kube-prometheus-stack.yaml, chapter 5.3"))
     pass_file = pathlib.Path.home() / "cc-lab" / "grafana.pass"
     password = pass_file.read_text().strip() if pass_file.exists() else ""
     base = f"http://{server}:30300"
@@ -413,23 +425,19 @@ def check_observability(env, report):
                  tr("Der Webshop hat einen HorizontalPodAutoscaler", "The web shop has a HorizontalPodAutoscaler"),
                  tr("hpa.yaml, Kapitel 5.4", "hpa.yaml, chapter 5.4"))
     with report.extra():
-        check_ai(report)
+        check_ai(env, report)
 
 
-def check_ai(report):
-    code, out = run("kubectl", "-n", "ai", "exec", "deploy/ollama", "--", "ollama", "list", timeout=30)
-    report.check(code == 0 and len(out.splitlines()) > 1, tr("Ollama hat ein Modell geladen", "Ollama has a model loaded"), out.splitlines()[-1] if out else "")
-    code, out = run("kubectl", "-n", "ai", "exec", "deploy/triage", "--", "cat", "/data/audit.jsonl", timeout=30)
-    events = []
-    for line in out.splitlines() if code == 0 else []:
-        try:
-            events.append(json.loads(line).get("event"))
-        except ValueError:
-            pass
-    report.check("proposal" in events, tr("Der Triage-Dienst hat einen Vorschlag gemacht", "The triage service made a proposal"),
-                 tr("Alert des Webshops auslösen, Kapitel 5.6", "Fire a web shop alert, chapter 5.6"))
-    report.check("approved" in events or "rejected" in events, tr("Ein Mensch hat über einen Vorschlag entschieden", "A person decided on a proposal"),
-                 tr("Seite des Triage-Dienstes, Kapitel 5.6", "Page of the triage service, chapter 5.6"))
+def check_ai(env, report):
+    """Advanced tasks of milestone 3, an own triage service shows up as a receiver besides null"""
+    code, body = http(f"http://{env.get('CC_K3S_SERVER_IP')}:30093/api/v2/status")
+    try:
+        config = (json.loads(body).get("config") or {}).get("original", "") if code == 200 else ""
+    except (ValueError, AttributeError):
+        config = ""
+    receivers = set(re.findall(r'name:\s*"?([\w.-]+)"?', config)) - {"null"}
+    report.check(bool(receivers), tr("Alertmanager leitet Alerts an einen eigenen Empfänger weiter", "Alertmanager forwards alerts to a receiver of your own"),
+                 tr("Zusatzauftrag B in Kapitel 5.5", "advanced task B in chapter 5.5"))
 
 
 def check_operations(env, report):
@@ -501,7 +509,7 @@ def check_new_member(report, members):
     quotas = [((one_json("onegroup", "show", g.get("NAME")) or {}).get("GROUP", {}).get("VM_QUOTA") or {}).get("VM") or {} for g in new]
     with_quota = [q for q in quotas if str(q.get("VMS", "-1")).isdigit()]
     report.check(bool(with_quota), tr("Das neue Mitglied hat eine Gruppe mit Quota in OpenNebula", "The new member has a group with a quota in OpenNebula"),
-                 tr("Meilenstein 4, wie Kapitel 3.1 und 3.2", "milestone 4, as in chapters 3.1 and 3.2"))
+                 tr("Zusatzauftrag A in Kapitel 6.5, wie Kapitel 3.1 und 3.2", "advanced task A in chapter 6.5, as in chapters 3.1 and 3.2"))
     vms = as_list(((one_json("onevm", "list") or {}).get("VM_POOL") or {}).get("VM"))
     report.check(any(v.get("GNAME") in {g.get("NAME") for g in new} and v.get("LCM_STATE") == "3" for v in vms),
                  tr("Eine VM des neuen Mitglieds läuft", "A VM of the new member runs"))
@@ -509,10 +517,10 @@ def check_new_member(report, members):
     running = [n for n in others if any((d.get("status", {}).get("readyReplicas") or 0) > 0
                                         for d in (kube_json("get", "deployments", "-n", n) or {}).get("items", []))]
     report.check(bool(running), tr("Das neue Mitglied hat einen Namespace mit einer laufenden App", "The new member has a namespace with a running app"),
-                 tr("Meilenstein 4, Ordner in members/ mit Vorlage und App", "milestone 4, folder in members/ with the template and an app"))
+                 tr("Zusatzauftrag A in Kapitel 6.5, Ordner in members/ mit Vorlage und App", "advanced task A in chapter 6.5, folder in members/ with the template and an app"))
     rules = json.dumps(kube_json("get", "prometheusrules", "-A") or {})
     report.check(any(f'namespace=\\"{n}\\"' in rules for n in others), tr("Eine Alert-Regel überwacht das neue Mitglied", "An alert rule watches the new member"),
-                 tr("Meilenstein 4, wie Kapitel 5.3", "milestone 4, as in chapter 5.3"))
+                 tr("Zusatzauftrag A in Kapitel 6.5, wie Kapitel 5.3", "advanced task A in chapter 6.5, as in chapter 5.3"))
 
 
 # Questions for the screencast of a milestone. The check draws two of each pool with the personal
@@ -553,16 +561,16 @@ QUESTIONS = {
          "Show the current utilization with kubectl get hpa and work out how many pods the HPA would want at twice the load."),
         ("Suche mit LogQL die Fehler des Webshops der letzten Stunde und erkläre, warum die Adresse der Kundschaft kein Label ist.",
          "Find the web shop errors of the last hour with LogQL and explain why the customer address is not a label."),
-        ("Zeige im Audit-Log des Triage-Dienstes einen Vorschlag und begründe, warum du ihn freigegeben oder abgelehnt hast.",
-         "Show a proposal in the triage service's audit log and justify why you approved or rejected it."),
+        ("Zeige im Protokoll deines Triage-Dienstes einen Vorschlag und begründe, warum du ihn freigegeben oder abgelehnt hast.",
+         "Show a proposal in the log of your triage service and justify why you approved or rejected it."),
         ("Zeige, welche Ziele Prometheus ausserhalb des Clusters abholt, und erkläre, wie es sie findet.",
          "Show which targets Prometheus scrapes outside the cluster and explain how it finds them."),
-        ("Zeige Requests und Limits von Ollama und erkläre, was bei zu wenig Speicher auf dem Node geschieht.",
-         "Show the requests and limits of Ollama and explain what happens when the node runs short of memory."),
+        ("Zeige Requests und Limits deines Dienstes für das Sprachmodell und erkläre, was bei zu wenig Speicher auf dem Node geschieht.",
+         "Show the requests and limits of your language model service and explain what happens when the node runs short of memory."),
     ],
     "m4": [
-        ("Zeige mit kubectl auth can-i, was der Triage-Dienst im Namespace deines Mitglieds darf, und begründe deine Wahl.",
-         "Show with kubectl auth can-i what the triage service may do in your member's namespace, and justify your choice."),
+        ("Zeige mit kubectl auth can-i, was dein Triage-Dienst im Namespace deines Mitglieds darf, und begründe deine Wahl.",
+         "Show with kubectl auth can-i what your triage service may do in your member's namespace, and justify your choice."),
         ("Zeige die Regeln der Firewall und erkläre, warum Gitea von aussen nicht erreichbar ist.",
          "Show the firewall rules and explain why Gitea cannot be reached from outside."),
         ("Zeige den letzten Snapshot von etcd auf dem Front-end und erkläre, was bei einer Wiederherstellung verloren geht.",
@@ -601,26 +609,25 @@ def mebibytes(value):
 def check_advanced(milestone, env, report):
     """Traces of the advanced tasks that a script can see, the showing decides the points"""
     if milestone == "m1":
-        # OpenNebula ships opennebula-showback.timer itself, only a timer of the student's own counts
-        timers = [line for line in run("systemctl", "list-timers", "--all")[1].splitlines() if "showback" in line and "opennebula-showback" not in line]
+        # OpenNebula ships opennebula-showback.timer itself, only a timer of the student's own counts,
+        # as a system unit or as a user unit that lingers
+        listing = run("systemctl", "list-timers", "--all")[1] + "\n" + run("systemctl", "--user", "list-timers", "--all")[1]
+        timers = [line for line in listing.splitlines() if "showback" in line and "opennebula-showback" not in line]
         report.check(bool(timers),
-                     tr("Ein Timer erstellt den Showback regelmässig", "A timer creates the showback regularly"), tr("Zusatzauftrag B", "advanced task B"))
+                     tr("Ein Timer erstellt den Showback regelmässig", "A timer creates the showback regularly"), tr("Zusatzauftrag B in Kapitel 3.5", "advanced task B in chapter 3.5"))
     elif milestone == "m2":
-        apps = [a["metadata"]["name"] for a in (kube_json("get", "applications", "-n", "argocd") or {}).get("items", [])]
-        own = [n for n in apps if n.startswith("member-") and n not in ("member-velo", "member-gemeinde")]
-        report.check(bool(own), tr("Ein eigenes Mitglied hat einen Namespace aus der Vorlage", "A member of your own has a namespace from the template"), tr("Zusatzauftrag B", "advanced task B"))
+        # A namespace from the template carries its ResourceQuota member, however its Application is named
+        quotas = (kube_json("get", "resourcequota", "-A") or {}).get("items", [])
+        own = [q["metadata"]["namespace"] for q in quotas
+               if q["metadata"]["name"] == "member" and q["metadata"]["namespace"] not in ("velo", "gemeinde")]
+        report.check(bool(own), tr("Ein eigenes Mitglied hat einen Namespace aus der Vorlage", "A member of your own has a namespace from the template"), tr("Zusatzauftrag B in Kapitel 4.6", "advanced task B in chapter 4.6"))
         projects = (kube_json("get", "appprojects", "-n", "argocd") or {}).get("items", [])
         report.check(any(p["metadata"]["name"] != "default" for p in projects),
-                     tr("Argo CD hat ein eigenes AppProject", "Argo CD has an AppProject of your own"), tr("Zusatzauftrag B", "advanced task B"))
+                     tr("Argo CD hat ein eigenes AppProject", "Argo CD has an AppProject of your own"), tr("Zusatzauftrag B in Kapitel 4.6", "advanced task B in chapter 4.6"))
         token_file = pathlib.Path.home() / "cc-lab" / "gitea" / "platform.token"
         token = token_file.read_text().strip() if token_file.exists() else None
         code, body = http(f"http://{env.get('CC_FE_IP')}:3000/api/v1/repos/wolkenwerk/platform/branch_protections", token)
-        report.check(code == 200 and body.strip() not in ("", "[]"), tr("main ist in Gitea geschützt", "main is protected in Gitea"), tr("Zusatzauftrag C", "advanced task C"))
-    elif milestone == "m3":
-        deploy = kube_json("get", "deployment", "triage", "-n", "ai") or {}
-        env_vars = {e.get("name"): e.get("value") for c in deploy.get("spec", {}).get("template", {}).get("spec", {}).get("containers", []) for e in c.get("env", [])}
-        report.check(bool(env_vars.get("EXTRA_INSTRUCTIONS")), tr("Der Triage-Dienst hat eigene Anweisungen", "The triage service has instructions of your own"),
-                     tr("EXTRA_INSTRUCTIONS in ai/triage.yaml, Zusatzauftrag C", "EXTRA_INSTRUCTIONS in ai/triage.yaml, advanced task C"))
+        report.check(code == 200 and body.strip() not in ("", "[]"), tr("main ist in Gitea geschützt", "main is protected in Gitea"), tr("Zusatzauftrag C in Kapitel 4.6", "advanced task C in chapter 4.6"))
 
 
 def check_milestone(milestone, part):

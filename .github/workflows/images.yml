@@ -6,7 +6,7 @@ on:
   push:
     branches: [main]
     paths: [case/**]
-    tags: [webshop-v*, triage-v*]
+    tags: [webshop-v*]
 
 permissions:
   contents: read
@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        app: [webshop, triage]
+        app: [webshop]
     permissions:
       contents: read
       packages: write
