@@ -89,6 +89,10 @@ For the IaaS layer, OpenNebula ships exporters of its own in the package `openne
 
 In the lab all six targets reported `ok`. The OpenNebula exporter knew the hosts a few seconds to half a minute after starting. Prometheus reaches the exporters through three ScrapeConfigs with the addresses of your parameters. Prometheus only picks up new ScrapeConfigs and ServiceMonitors once the config reloader sees the changed configuration. In the lab the jobs of the targets outside the cluster appeared two to five minutes after the push, and the job `webshop` after almost four minutes.
 
+In Prometheus, "Status › Target health" shows every target with its state.
+
+![The targets in Prometheus under Target health. The three ScrapeConfigs opennebula, opennebula-hosts and opennebula-libvirt collect the values from the front-end and the nodes. Each of the six targets is UP, next to its labels and the time of its last scrape.](../../../../assets/screenshots/prometheus-targets.png)
+
 ![What Prometheus scrapes. On the left the k3s cluster. Prometheus runs in the namespace monitoring and scrapes the metrics in the cluster from the web shop in the namespace velo, from kube-state-metrics and from node-exporter on k3s-server and k3s-agent. Outside the cluster it scrapes the OpenNebula exporter on port 9925 and node_exporter on port 9100 on the front-end, and node_exporter on port 9100 and the libvirt exporter on port 9926 on both nodes. Grafana queries Prometheus with PromQL. Inside the cluster Prometheus finds its targets through ServiceMonitors, outside through three ScrapeConfigs.](../../../../assets/figures/en/p5c1-scrape.svg)
 
 ::code{file="platform/observability/repo/monitoring/config/opennebula.yaml"}

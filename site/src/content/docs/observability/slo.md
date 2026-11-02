@@ -92,6 +92,10 @@ kubectl run load --restart=Never --image=ghcr.io/ndum/cc/webshop:1.0.0 -- \
 
 In Prometheus unter «Alerts» wechselt `WebshopErrorBudgetBurn` zuerst auf `pending` und nach zwei Minuten auf `firing`. Die Last lässt nebenbei den Webshop über den HPA aus Kapitel 5.4 wachsen. Danach stellst du mit `git revert` und `git push` den alten Stand wieder her. Den Pod `load` löschst du erst, wenn der Alert inaktiv ist. Ohne Verkehr bliebe der Anteil im Fenster von fünf Minuten stehen und fiele erst, wenn das Fenster leer ist. Im Lab war der Alert sechs bis sieben Minuten nach dem Revert wieder inaktiv. Bis zu zwei Minuten davon vergingen, bis Argo CD den Revert ausrollte.
 
+![Die Regel WebshopErrorBudgetBurn in Prometheus im Zustand FIRING. Der Ausdruck vergleicht beide Fenster mit dem 14,4-fachen Budget, hier 1 % aus den persönlichen Werten. Darunter stehen die Wartezeit von zwei Minuten, Labels und Beschreibung und der aktive Alert, bei dem gut die Hälfte der Anfragen scheiterte.](../../../assets/screenshots/prometheus-alert-firing.png)
+
+![Die Alerts in Alertmanager. Neben dem Watchdog, der immer feuert und so zeigt, dass die Kette bis Alertmanager funktioniert, steht WebshopErrorBudgetBurn für den Namespace velo. Dazu kommen seine Labels und der Zeitpunkt, seit dem er feuert.](../../../assets/screenshots/alertmanager-firing.png)
+
 ::::exercise[Lab]
 Löse den Alert wie oben aus, beobachte ihn in Prometheus und Alertmanager und stelle den alten Stand wieder her. Notiere die Zeiten.
 
