@@ -33,7 +33,7 @@ Nach diesem Kapitel kannst du:
 
 ## Kapazität und Überbuchung
 
-`onehost show` zeigt für Arbeitsspeicher und CPU zwei Werte. `USED (ALLOCATED)` ist, was die Vorlagen der laufenden VMs reservieren, `USED (REAL)` ist, was sie tatsächlich brauchen. Drei VMs aus der Vorlage `ubuntu` reservieren 3 GB, brauchen im Leerlauf aber rund 2 GB. Die CPU zählt OpenNebula in Hundertsteln eines Kerns, ein Knoten mit vier Kernen hat 400. Eine VM mit `CPU = "0.5"` reserviert 50 davon.
+`onehost show` zeigt für Arbeitsspeicher und CPU zwei Werte. `USED (ALLOCATED)` ist, was die Vorlagen der laufenden VMs reservieren. `USED (REAL)` ist, was der Knoten tatsächlich belegt, seine VMs und sein eigenes System zusammen. Drei VMs aus der Vorlage `ubuntu` reservieren 3 GB, im Leerlauf belegen sie aber nur knapp 2 GB. Das System eines Knotens braucht im Lab rund 0,6 GB dazu. Die CPU zählt OpenNebula in Hundertsteln eines Kerns, ein Knoten mit vier Kernen hat 400. Eine VM mit `CPU = "0.5"` reserviert 50 davon.
 
 ```bash
 onehost show <knoten> | sed -n '/HOST SHARES/,/LOCAL SYSTEM/p'

@@ -680,6 +680,7 @@ def check_milestone(milestone, part):
             report.check(ok, tr(f"Ein Backup-Job läuft um {values['backupHour']} Uhr und behält {values['backupKeep']} Backups",
                                 f"A backup job runs at {values['backupHour']}:00 and keeps {values['backupKeep']} backups"),
                          tr("backup-job.sh aus Kapitel 6.2 anpassen", "adapt backup-job.sh from chapter 6.2"))
+        report.lines += ["", tr(f"Meilenstein {milestone[1]}, Spuren der Zusatzaufträge", f"Milestone {milestone[1]}, traces of the advanced tasks")]
         with report.extra():
             check_advanced(milestone, env, report)
         pool = QUESTIONS[milestone]

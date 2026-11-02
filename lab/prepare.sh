@@ -48,8 +48,8 @@ say "Host name and /etc/hosts"
 hostnamectl set-hostname "$HOST"
 sed -i '/# cc-lab begin/,/# cc-lab end/d' /etc/hosts
 sed -i "/[[:space:]]$HOST\$/d" /etc/hosts
-# The installer names the VM in a line 127.0.1.1, keep it on the new name
-sed -i "s/^127\.0\.1\.1[[:space:]].*/127.0.1.1 $HOST/" /etc/hosts
+# The installer maps the old name to 127.0.1.1, the new name has to resolve to the lab address
+sed -i '/^127\.0\.1\.1[[:space:]]/d' /etc/hosts
 cat >>/etc/hosts <<EOF
 # cc-lab begin
 $CC_FE_IP $CC_FE_HOST

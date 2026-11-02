@@ -69,6 +69,8 @@ The script `lab/one-deploy/install.sh` installs Ansible from the Ubuntu packages
 
 ::code{file="lab/one-deploy/install.sh" lines="16-23"}
 
+While it installs the collections, Git reports a "detached HEAD" state. OneDeploy requires one collection at a fixed version, so Git checks out a tag instead of a branch. The message is not an error. The script has succeeded when it ends with the line `one-deploy release-1.4.1 is ready`.
+
 ## The inventory
 
 The inventory describes your lab for OneDeploy. The script `make-inventory.sh` writes it from your personal parameters, and on its first run it creates a random password for the user `oneadmin`, the administrator of OpenNebula. The password then lives in `~/cc-lab/oneadmin.pass`.
@@ -89,6 +91,8 @@ cd ~/cc-lab/one-deploy
 ansible -i ../inventory.yml all -m ping
 ```
 
+Every VM answers with `SUCCESS` and `ping: pong`. Before that, Ansible warns for each VM that it discovered the Python interpreter on its own. You can ignore this warning.
+
 ## A first playbook
 
 The course's example puts a greeting with the name of the cooperative on every node. It installs a package, writes a file with facts about the node and shows the file through a handler.
@@ -104,7 +108,7 @@ ansible-playbook -i ../inventory.yml ~/cc/examples/ansible/motd.yml
 
 ## Installing OpenNebula
 
-A run of OneDeploy takes a few minutes, a little under two in the course lab and much longer on a slow network. Ansible shows every role and every task with its result per machine.
+A run of OneDeploy takes a few minutes, between one and a half and three in the course lab and much longer on a slow network. Ansible shows every role and every task with its result per machine.
 
 ```bash
 cd ~/cc-lab/one-deploy
@@ -218,6 +222,6 @@ The check ends with "8 of 8 base checks passed". `onehost list` shows both nodes
 Match every port that `sudo ss -ltnp` shows on your front-end to a service from the table. Which ports are reachable only locally, and why does that make sense for the database?
 
 :::solution
-MariaDB on 3306, OneGate on 5030 and the hook manager on 2101 and 2102 listen only locally, on `127.0.0.1`. The database is needed only by `oned` on the same machine. If it were reachable on the network, anyone with its password could read or change all data of the cloud, bypassing the OpenNebula API.
+MariaDB on 3306, OneGate on 5030 and the hook manager on 2101 and 2102 listen only locally, on `127.0.0.1`. The database is needed only by `oned` on the same machine. If it were reachable on the network, anyone with its password could read or change all data of the cloud, bypassing the OpenNebula API. SSH on port 22 and the local DNS cache `systemd-resolved` on port 53 of `127.0.0.53` and `127.0.0.54` belong to Ubuntu, so the table leaves them out.
 :::
 ::::

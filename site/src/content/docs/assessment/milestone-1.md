@@ -21,7 +21,7 @@ Alles läuft in deinem eigenen Lab mit deinen persönlichen Parametern aus Kapit
 6. Die Quotas der Mitglieder sind gesetzt, die Gemeinde hat die Quota aus deinen [persönlichen Werten](../../start/parameters/). Du zeigst die Meldung an der Grenze.
 7. Die Vorlage `ubuntu` hat Preise, der Showback eines Monats liegt als CSV vor. Ein Benutzer eines Mitglieds startet eine VM im Self-Service.
 
-Die Dokumentation zeigt zu jeder Anforderung einen Screenshot mit einem oder zwei Sätzen dazu und enthält den Bericht des Checks `m1`. Mach die Screenshots, bevor du mit Kapitel 4.2 beginnst. Dort entfernst du die VMs von Teil 2 und 3, weil der Kubernetes-Cluster ihren Platz braucht.
+Die Dokumentation zeigt zu jeder Anforderung einen Screenshot mit einem oder zwei Sätzen dazu und enthält den Bericht des Checks `m1`. Diesen Bericht erzeugt `python3 ~/cc/checks/check.py m1` auf dem Front-end. Mach die Screenshots, bevor du mit Kapitel 4.2 beginnst. Dort entfernst du die VMs von Teil 2 und 3, weil der Kubernetes-Cluster ihren Platz braucht.
 
 ## Zusatzaufträge
 

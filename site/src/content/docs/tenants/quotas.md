@@ -105,7 +105,7 @@ In Teil 4 begegnest du derselben Idee wieder. Eine [ResourceQuota](https://kuber
 Setze die Quotas der vier Mitglieder. Starte als `praxis-admin` neben `praxis-1` aus Kapitel 3.1 die VM `praxis-2` und danach eine dritte VM `praxis-3`. Notiere die Meldung und zeige mit `onegroup show praxis` die Nutzung.
 
 :::solution
-`set-quotas.sh` meldet die Werte aller vier Mitglieder. `praxis-2` startet, die dritte VM scheitert mit «limit of 2 reached for VMS quota in VM». `onegroup show praxis` zeigt bei den VMs `2 / 2`, beim Arbeitsspeicher `2G / 2G` und bei der CPU `1 / 1.5`.
+`set-quotas.sh` meldet die Werte aller vier Mitglieder. `praxis-2` startet, die dritte VM scheitert mit «limit of 2 reached for VMS quota in VM». `onegroup show praxis` zeigt bei den VMs `2 / 2`, beim Arbeitsspeicher `2G / 2G` und bei der CPU `1.0 / 1.50`.
 :::
 ::::
 

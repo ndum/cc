@@ -105,7 +105,7 @@ You will meet the same idea again in part 4. A [ResourceQuota](https://kubernete
 Set the quotas of the four members. As `praxis-admin`, start the VM `praxis-2` next to `praxis-1` from chapter 3.1, then a third VM `praxis-3`. Write down the message and show the usage with `onegroup show praxis`.
 
 :::solution
-`set-quotas.sh` reports the values of all four members. `praxis-2` starts, the third VM fails with "limit of 2 reached for VMS quota in VM". `onegroup show praxis` shows `2 / 2` for the VMs, `2G / 2G` for the memory and `1 / 1.5` for the CPU.
+`set-quotas.sh` reports the values of all four members. `praxis-2` starts, the third VM fails with "limit of 2 reached for VMS quota in VM". `onegroup show praxis` shows `2 / 2` for the VMs, `2G / 2G` for the memory and `1.0 / 1.50` for the CPU.
 :::
 ::::
 

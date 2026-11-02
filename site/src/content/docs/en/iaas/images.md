@@ -89,7 +89,7 @@ In public clouds [cloud-init](https://docs.cloud-init.io/en/latest/) usually doe
 
 ## Your first VM
 
-You start the first VM from the template `ubuntu` and log in over SSH from the front-end. It usually runs after a few seconds, and SSH is ready after about half a minute.
+You start the first VM from the template `ubuntu` and log in over SSH from the front-end. It usually runs after a few seconds, and SSH is ready after 10 to 30 seconds.
 
 ```bash
 onetemplate instantiate ubuntu --name web-1

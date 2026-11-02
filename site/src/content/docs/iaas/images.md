@@ -89,7 +89,7 @@ In öffentlichen Clouds übernimmt meist [cloud-init](https://docs.cloud-init.io
 
 ## Deine erste VM
 
-Die erste VM startest du aus der Vorlage `ubuntu` und meldest dich vom Front-end aus per SSH an. Sie läuft meist nach wenigen Sekunden, SSH ist nach etwa einer halben Minute bereit.
+Die erste VM startest du aus der Vorlage `ubuntu` und meldest dich vom Front-end aus per SSH an. Sie läuft meist nach wenigen Sekunden, SSH ist nach 10 bis 30 Sekunden bereit.
 
 ```bash
 onetemplate instantiate ubuntu --name web-1

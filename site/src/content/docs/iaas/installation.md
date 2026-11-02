@@ -69,6 +69,8 @@ Das Skript `lab/one-deploy/install.sh` installiert Ansible aus den Paketen von U
 
 ::code{file="lab/one-deploy/install.sh" lines="16-23"}
 
+Beim Installieren der Collections meldet Git, es sei im Zustand «detached HEAD». OneDeploy verlangt eine Collection in einer festen Version, Git holt dafür einen Tag statt eines Branches. Die Meldung ist deshalb kein Fehler. Das Skript ist erfolgreich, wenn es mit der Zeile `one-deploy release-1.4.1 is ready` endet.
+
 ## Das Inventar
 
 Das Inventar beschreibt dein Lab für OneDeploy. Das Skript `make-inventory.sh` schreibt es aus deinen persönlichen Parametern und erzeugt beim ersten Aufruf ein zufälliges Passwort für den Benutzer `oneadmin`, den Administrator von OpenNebula. Das Passwort liegt danach in `~/cc-lab/oneadmin.pass`.
@@ -89,6 +91,8 @@ cd ~/cc-lab/one-deploy
 ansible -i ../inventory.yml all -m ping
 ```
 
+Jede VM antwortet mit `SUCCESS` und `ping: pong`. Davor warnt Ansible für jede VM, dass es den Python-Interpreter selbst gesucht hat. Diese Warnung kannst du übergehen.
+
 ## Ein erstes Playbook
 
 Das Beispiel des Kurses hinterlegt auf jedem Knoten einen Gruss mit dem Namen der Genossenschaft. Es installiert ein Paket, schreibt eine Datei mit Facts der Knoten und zeigt die Datei über einen Handler an.
@@ -104,7 +108,7 @@ ansible-playbook -i ../inventory.yml ~/cc/examples/ansible/motd.yml
 
 ## OpenNebula installieren
 
-Der Lauf von OneDeploy dauert einige Minuten, im Lab des Kurses knapp zwei, bei einem langsamen Netz deutlich länger. Ansible zeigt dabei jede Rolle und jeden Task mit dem Ergebnis pro Rechner.
+Der Lauf von OneDeploy dauert einige Minuten, im Lab des Kurses zwischen eineinhalb und drei, bei einem langsamen Netz deutlich länger. Ansible zeigt dabei jede Rolle und jeden Task mit dem Ergebnis pro Rechner.
 
 ```bash
 cd ~/cc-lab/one-deploy
@@ -218,6 +222,6 @@ Der Check endet mit «8 von 8 Prüfungen der Basis erfüllt». `onehost list` ze
 Ordne jeden Port, den `sudo ss -ltnp` auf deinem Front-end zeigt, einem Dienst aus der Tabelle zu. Welche Ports sind nur lokal erreichbar und warum ist das bei der Datenbank sinnvoll?
 
 :::solution
-Nur lokal, also auf `127.0.0.1`, warten MariaDB auf 3306, OneGate auf 5030 und der Hook-Manager auf 2101 und 2102. Die Datenbank braucht nur `oned` auf demselben Rechner. Wäre sie im Netz erreichbar, könnte jemand mit ihrem Passwort alle Daten der Cloud lesen oder ändern, an der API von OpenNebula vorbei.
+Nur lokal, also auf `127.0.0.1`, warten MariaDB auf 3306, OneGate auf 5030 und der Hook-Manager auf 2101 und 2102. Die Datenbank braucht nur `oned` auf demselben Rechner. Wäre sie im Netz erreichbar, könnte jemand mit ihrem Passwort alle Daten der Cloud lesen oder ändern, an der API von OpenNebula vorbei. SSH auf Port 22 und der lokale DNS-Cache `systemd-resolved` auf Port 53 der Adressen `127.0.0.53` und `127.0.0.54` gehören zu Ubuntu und fehlen deshalb in der Tabelle.
 :::
 ::::

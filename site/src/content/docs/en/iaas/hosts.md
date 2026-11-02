@@ -33,7 +33,7 @@ After this chapter you can:
 
 ## Capacity and overcommitment
 
-`onehost show` lists two values for memory and CPU. `USED (ALLOCATED)` is what the templates of the running VMs reserve, `USED (REAL)` is what they actually use. Three VMs from the template `ubuntu` reserve 3 GB but use about 2 GB when idle. OpenNebula counts CPU in hundredths of a core, so a node with four cores has 400. A VM with `CPU = "0.5"` reserves 50 of them.
+`onehost show` lists two values for memory and CPU. `USED (ALLOCATED)` is what the templates of the running VMs reserve. `USED (REAL)` is what the node actually uses, its VMs and its own system together. Three VMs from the template `ubuntu` reserve 3 GB but use a little under 2 GB when idle. In the lab the system of a node adds about 0.6 GB. OpenNebula counts CPU in hundredths of a core, so a node with four cores has 400. A VM with `CPU = "0.5"` reserves 50 of them.
 
 ```bash
 onehost show <node> | sed -n '/HOST SHARES/,/LOCAL SYSTEM/p'

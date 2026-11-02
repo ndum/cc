@@ -67,19 +67,19 @@ OneFlow bildet den Wert eines Ausdrucks als Mittel über alle laufenden VMs der 
 
 Nach jeder Änderung steht der Dienst im Zustand `COOLDOWN`. Solange dieser dauert, greift keine weitere Regel, auch nicht die einer anderen Rolle. Die Dauer setzt `cooldown` in der Rolle. Ohne diese Angabe gilt der Standardwert aus `/etc/one/oneflow-server.conf`.
 
-Bis eine neue VM arbeitet, vergeht Zeit. Der Ausdruck muss über alle Perioden gelten, danach startet die VM. Auch die Überwachung liefert neue Werte erst mit Verzögerung. Im Lab des Kurses lief die zweite VM rund zweieinhalb Minuten nach dem Beginn der Last, mit einer Regel über zwei Perioden von 30 Sekunden. Ohne Last schrumpfte der Dienst nach knapp sechs Minuten wieder, weil die Regel zum Schrumpfen absichtlich träger war. Eine träge Regel zum Schrumpfen verhindert, dass der Dienst bei kurzen Schwankungen der Last hin und her springt. Dafür bezahlt die Treuhand die zusätzliche VM etwas länger.
+Bis eine neue VM arbeitet, vergeht Zeit. Der Ausdruck muss über alle Perioden gelten, danach startet die VM. Auch die Überwachung liefert neue Werte erst mit Verzögerung. OneFlow prüft die Regeln zudem nur alle 90 Sekunden, so steht es unter `:autoscaler_interval:` in `/etc/one/oneflow-server.conf`. Eine kürzere Periode wirkt deshalb wie eine von 90 Sekunden. Im Lab des Kurses lief die zweite VM rund zweieinhalb Minuten nach dem Beginn der Last, mit einer Regel über zwei Perioden von 30 Sekunden. Ohne Last schrumpfte der Dienst nach knapp sechs Minuten wieder, weil die Regel zum Schrumpfen absichtlich träger war. Eine träge Regel zum Schrumpfen verhindert, dass der Dienst bei kurzen Schwankungen der Last hin und her springt. Dafür bezahlt die Treuhand die zusätzliche VM etwas länger.
 
 Neben der CPU kann ein Ausdruck auch Werte verwenden, die eine Anwendung selbst meldet, etwa die Länge einer Warteschlange. Die VM meldet sie über OneGate. Dafür braucht sie ein Token im Kontext und muss OneGate über das Netz erreichen. Im Lab hört OneGate nur lokal auf dem Front-end, wie die [Liste der Dienste](../../iaas/installation/#die-installierten-dienste) in Kapitel 2.2 zeigt. Für den Auftrag genügt die CPU.
 
 ## Regeln nach Zeitplan
 
-Die Treuhand weiss im Voraus, wann ihre Last kommt. Eine Regel nach Zeitplan ändert die Kardinalität zu einer festen Zeit, ohne auf die Last zu warten. `recurrence` legt eine wiederkehrende Zeit als Ausdruck im Format von cron fest, `start_time` einen einzelnen Zeitpunkt. Die Änderung bestimmen wie bei den Regeln nach Last `type` und `adjust`. Mit `CARDINALITY` setzt eine Regel die Zahl der VMs auf einen festen Wert. Im Lab löste eine Regel, die alle zwei Minuten galt, pünktlich zur nächsten geraden Minute aus und setzte die Rolle von einer auf zwei VMs.
+Die Treuhand weiss im Voraus, wann ihre Last kommt. Eine Regel nach Zeitplan ändert die Kardinalität zu einer festen Zeit, ohne auf die Last zu warten. `recurrence` legt eine wiederkehrende Zeit als Ausdruck im Format von cron fest, `start_time` einen einzelnen Zeitpunkt. Die Änderung bestimmen wie bei den Regeln nach Last `type` und `adjust`. Mit `CARDINALITY` setzt eine Regel die Zahl der VMs auf einen festen Wert. Im Lab löste eine Regel, die alle zwei Minuten galt, bei der ersten Prüfung nach der geraden Minute aus und setzte die Rolle von einer auf zwei VMs. Eine Regel nach Zeitplan greift also bis zu 90 Sekunden nach ihrer Zeit.
 
 Regeln nach Zeitplan und nach Last lassen sich in derselben Rolle kombinieren. Der Zeitplan deckt die bekannte Spitze am Monatsende ab, die Regel nach Last fängt unerwartete Spitzen auf. Beide ändern dieselbe Kardinalität. Prüfe deshalb, ob deine Regel zum Schrumpfen wieder wegnimmt, was der Zeitplan eben hinzugefügt hat, solange die Last noch fehlt. Überlege dir auch, welche Tage für die Treuhand zum Monatsende gehören und wann der Dienst wieder klein sein soll.
 
 ## Quota und Kapazität
 
-Jede VM des Dienstes zählt gegen die [Quota der Treuhand](../quotas/#die-quotas-der-mitglieder) mit vier VMs, 2 CPU und 4096 MB. Darin laufen auch ihre anderen VMs, etwa `treuhand-1` aus Kapitel 3.3. Will eine Regel mehr VMs starten, als die Quota zulässt, lehnt OpenNebula die zusätzlichen VMs ab wie in Kapitel 3.2. `max_vms`, die Grösse der VMs und die Quota müssen deshalb zusammenpassen.
+Jede VM des Dienstes zählt gegen die [Quota der Treuhand](../quotas/#die-quotas-der-mitglieder) mit vier VMs, 2 CPU und 4096 MB. Darin laufen auch ihre anderen VMs, etwa `treuhand-1` aus Kapitel 3.3. Will eine Regel mehr VMs starten, als die Quota zulässt, lehnt OpenNebula die zusätzlichen VMs ab wie in Kapitel 3.2. Der Dienst steht danach auf `FAILED_SCALING` und keine seiner Regeln greift mehr, bis die Quota wieder Platz hat und jemand `oneflow recover` aufruft. `max_vms`, die Grösse der VMs und die Quota müssen deshalb zusammenpassen.
 
 Die Quota begrenzt nur, was die Treuhand reservieren darf. Ob die Knoten den Platz auch haben, beschreibt Kapitel 3.2 unter [Quota und Überbuchung](../quotas/#quota-und-überbuchung). Ab Kapitel 4.2 belegt zudem der Kubernetes-Cluster die Knoten.
 
@@ -137,7 +137,7 @@ Deine Lösung erfüllt diese Anforderungen:
 
 1. Ein Dienst in OneFlow läuft in der Gruppe `treuhand`, seine VMs zählen gegen die Quota der Treuhand.
 2. Eine Rolle des Dienstes wächst unter Last und schrumpft ohne Last wieder, innerhalb fester Grenzen.
-3. Eine Regel nach Zeitplan vergrössert die Rolle vor dem Monatsende und verkleinert sie danach wieder.
+3. Eine Regel nach Zeitplan vergrössert den Dienst vor dem Monatsende und verkleinert ihn danach wieder, in derselben oder in einer eigenen Rolle.
 4. Die Grenzen der Rolle passen zur Quota der Treuhand, auch neben ihren anderen VMs.
 
 In der Vorführung zeigst du:

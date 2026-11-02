@@ -67,19 +67,19 @@ OneFlow evaluates an expression with the average over all running VMs of the rol
 
 After every change the service waits in the state `COOLDOWN`. During that time no other rule applies, not even one of another role. `cooldown` in the role sets the duration. Without it, the default from `/etc/one/oneflow-server.conf` applies.
 
-A new VM takes time. The expression has to hold for all periods before the VM starts, and monitoring delivers new values only after a delay. In the course lab the second VM ran about two and a half minutes after the load began, with a rule over two periods of 30 seconds. Without load, the service shrank back after almost six minutes because the rule for shrinking was deliberately slower. A slow rule for shrinking keeps the service from flipping back and forth when the load wavers briefly. In return the fiduciary office pays for the extra VM a little longer.
+A new VM takes time. The expression has to hold for all periods before the VM starts, and monitoring delivers new values only after a delay. On top of that, OneFlow checks the rules only every 90 seconds, as `:autoscaler_interval:` in `/etc/one/oneflow-server.conf` sets it, so a shorter period acts like one of 90 seconds. In the course lab the second VM ran about two and a half minutes after the load began, with a rule over two periods of 30 seconds. Without load, the service shrank back after almost six minutes because the rule for shrinking was deliberately slower. A slow rule for shrinking keeps the service from flipping back and forth when the load wavers briefly. In return the fiduciary office pays for the extra VM a little longer.
 
 Besides CPU, an expression can use values that an application reports itself, such as the length of a queue. The VM reports them through OneGate, which requires a token in its context and a network path to OneGate. In the lab OneGate listens only locally on the front-end, as the [list of services](../../iaas/installation/#the-installed-services) in chapter 2.2 shows. CPU is enough for the task.
 
 ## Rules by schedule
 
-The fiduciary office knows in advance when its load comes. A rule by schedule changes the cardinality at a set time without waiting for the load. `recurrence` sets a recurring time as an expression in cron format, and `start_time` sets a single point in time. As with the rules by load, `type` and `adjust` define the change, and with `CARDINALITY` a rule sets the number of VMs to a fixed value. In the lab a rule that fired every two minutes triggered right at the next even minute and took the role from one VM to two.
+The fiduciary office knows in advance when its load comes. A rule by schedule changes the cardinality at a set time without waiting for the load. `recurrence` sets a recurring time as an expression in cron format, and `start_time` sets a single point in time. As with the rules by load, `type` and `adjust` define the change, and with `CARDINALITY` a rule sets the number of VMs to a fixed value. In the lab a rule that fired every two minutes triggered at the first check after the even minute and took the role from one VM to two. A rule by schedule therefore acts up to 90 seconds after its time.
 
 Rules by schedule and by load can be combined in one role. The schedule covers the known peak at the end of the month, and the rule by load catches unexpected peaks. Both change the same cardinality, so check whether your rule for shrinking takes away what the schedule has just added while the load has not arrived yet. Also think about which days count as the end of the month for the fiduciary office and when the service should be small again.
 
 ## Quota and capacity
 
-Every VM of the service counts against the [fiduciary office's quota](../quotas/#the-quotas-of-the-members) of four VMs, 2 CPU and 4096 MB. The office's other VMs share that quota, such as `treuhand-1` from chapter 3.3. If a rule tries to start more VMs than the quota allows, OpenNebula rejects the additional VMs as in chapter 3.2. `max_vms`, the size of the VMs and the quota therefore have to fit together.
+Every VM of the service counts against the [fiduciary office's quota](../quotas/#the-quotas-of-the-members) of four VMs, 2 CPU and 4096 MB. The office's other VMs share that quota, such as `treuhand-1` from chapter 3.3. If a rule tries to start more VMs than the quota allows, OpenNebula rejects the additional VMs as in chapter 3.2. The service then stands in `FAILED_SCALING`, and none of its rules applies any more until the quota has room again and someone runs `oneflow recover`. `max_vms`, the size of the VMs and the quota therefore have to fit together.
 
 The quota only limits what the fiduciary office may reserve. Whether the nodes actually have the room is a separate question, which chapter 3.2 covers under [quotas and overcommitment](../quotas/#quotas-and-overcommitment). From chapter 4.2 on, the Kubernetes cluster takes up the nodes as well.
 
@@ -137,7 +137,7 @@ Your solution meets these requirements:
 
 1. A OneFlow service runs in the group `treuhand`, and its VMs count against the fiduciary office's quota.
 2. A role of the service grows under load and shrinks again without load, within fixed limits.
-3. A rule by schedule enlarges the role before the end of the month and reduces it again afterwards.
+3. A rule by schedule enlarges the service before the end of the month and reduces it again afterwards, in the same role or in one of its own.
 4. The limits of the role fit the fiduciary office's quota, also next to its other VMs.
 
 In the showing you show:

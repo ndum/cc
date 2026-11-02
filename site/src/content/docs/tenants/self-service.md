@@ -101,11 +101,21 @@ onetemplate update praxis-gross
 
 Die Kopie gehört der Praxis und übernimmt alles, auch die Preise aus Kapitel 3.3. Was die Praxis darin einträgt, begrenzt weiterhin ihre Quota. Das Plattform-Team muss so nur wenige gemeinsame Vorlagen, Netze und Images pflegen. Alles Weitere richten die Mitglieder innerhalb ihrer Quota selbst ein.
 
+## Der Check von Teil 3
+
+Der Check dieses Teils prüft die Gruppen mit ihren Admins und Quotas sowie das VDC `wolkenwerk`. Dazu kommen die Freigabe der Vorlage `ubuntu`, ihre Preise und der Showback. Starte ihn erst, wenn du den Showback aus Kapitel 3.3 berechnet hast. Vorher fehlen dem Showback noch die Kosten und der Check meldet dort `[!!]`.
+
+```bash
+python3 ~/cc/checks/check.py tenants
+```
+
+Die zwei Zeilen zu OneFlow mit `[+!!]` gehören zum Zusatzauftrag A in Kapitel 3.5 und zählen nicht zur Basis.
+
 ::::exercise[Lab]
-Mit zwei VMs ist die Quota der Praxis aus Kapitel 3.2 voll. Lösche deshalb zuerst als `praxis-admin` die VM `praxis-2` mit `onevm terminate`. Sunstone setzt die CPU einer neuen VM auf 1, neben `praxis-1` passt sie gerade in die 1,5 CPU der Praxis. Lege dann den Benutzer `praxis-mpa` an, melde dich mit ihm im Browser des Clients bei Sunstone an und starte eine VM. Prüfe als `praxis-admin`, ob du sie siehst. Lösche sie danach.
+Mit zwei VMs ist die Quota der Praxis aus Kapitel 3.2 voll. Lösche deshalb zuerst als `praxis-admin` die VM `praxis-2` mit `onevm terminate`. Sunstone setzt die CPU einer neuen VM auf 1, neben `praxis-1` passt sie gerade in die 1,5 CPU der Praxis. Lege dann den Benutzer `praxis-mpa` an, melde dich mit ihm im Browser des Clients bei Sunstone an und starte eine VM. Prüfe als `praxis-admin`, ob du sie siehst. Lösche sie danach. Lass zum Schluss den Check `tenants` laufen und lade seinen Bericht in dein Abgabe-Repo.
 
 :::solution
-`oneuser create praxis-mpa <passwort>` legt den Benutzer in der Gruppe `praxis` an. In Sunstone zeigt die Ansicht `cloud` die Vorlage `ubuntu`. Die VM startet nur, solange die Quota der Praxis Platz hat. Als `praxis-admin` zeigt `onevm list` die VM mit dem Besitzer `praxis-mpa`, `onevm terminate` löscht sie.
+`oneuser create praxis-mpa <passwort>` legt den Benutzer in der Gruppe `praxis` an. In Sunstone zeigt die Ansicht `cloud` die Vorlage `ubuntu`. Die VM startet nur, solange die Quota der Praxis Platz hat. Als `praxis-admin` zeigt `onevm list` die VM mit dem Besitzer `praxis-mpa`, `onevm terminate` löscht sie. Der Check endet mit «19 von 19 Prüfungen der Basis erfüllt» und «0 von 2 Prüfungen der Zusatzaufträge erfüllt».
 :::
 ::::
 

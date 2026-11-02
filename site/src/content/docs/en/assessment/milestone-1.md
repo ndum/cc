@@ -21,7 +21,7 @@ Everything runs in your own lab with your personal parameters from chapter 0.3. 
 6. The members' quotas are set, the municipality has the quota from your [personal values](../../start/parameters/), and you show the message at the limit.
 7. The template `ubuntu` has prices, the showback of a month exists as CSV, and a user of a member starts a VM in self-service.
 
-The documentation has a screenshot for each requirement with one or two sentences about it, plus the report of the check `m1`. Take the screenshots before you start chapter 4.2. In that chapter you remove the VMs of parts 2 and 3 because the Kubernetes cluster needs the room.
+The documentation has a screenshot for each requirement with one or two sentences about it, plus the report of the check `m1`, which `python3 ~/cc/checks/check.py m1` writes on the front-end. Take the screenshots before you start chapter 4.2. In that chapter you remove the VMs of parts 2 and 3 because the Kubernetes cluster needs the room.
 
 ## Advanced tasks
 
