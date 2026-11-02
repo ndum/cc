@@ -1,31 +1,37 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 812 266" role="img" aria-labelledby="p4c4-gitops-de-title p4c4-gitops-de-desc">
 <title id="p4c4-gitops-de-title">Der Kreislauf von GitOps</title>
 <desc id="p4c4-gitops-de-desc">Das Plattform-Team schickt Änderungen mit git push an Gitea auf dem Front-end oder öffnet einen Pull Request, den jemand prüft und zusammenführt. Argo CD im Cluster holt das Repo wolkenwerk/platform jede Minute mit Leserechten, vergleicht den Soll-Zustand aus Git mit dem Ist-Zustand im Cluster und wendet die Unterschiede an, etwa beim Webshop im Namespace velo. Ändert jemand den Cluster von Hand mit kubectl, setzt Self-Heal die Änderung zurück.</desc>
-<defs><marker id="p4c4-gitops-de-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"/></marker></defs>
-<rect class="d-tile" x="16" y="60" width="150" height="50" rx="4"/>
+<defs><marker id="p4c4-gitops-de-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"/></marker><marker id="p4c4-gitops-de-head-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head d-head-accent" d="M 0 1 L 9 5 L 0 9 z"/></marker></defs>
+<rect class="d-ground" x="0" y="0" width="812" height="266" rx="14"/>
+<rect class="d-shadow" x="16" y="61.5" width="150" height="50" rx="10"/>
+<rect class="d-tile" x="16" y="60" width="150" height="50" rx="10"/>
 <text class="d-title" x="91" y="82" text-anchor="middle">Plattform-Team</text>
-<text class="d-sub" x="91" y="99" text-anchor="middle">Push oder Pull Request</text>
-<rect class="d-band d-band-2" x="180" y="16" width="184" height="234" rx="6"/>
+<text class="d-sub" x="91" y="98" text-anchor="middle">Push oder Pull Request</text>
+<rect class="d-band d-band-2" x="180" y="16" width="184" height="234" rx="12"/>
 <text class="d-label" x="196" y="40" text-anchor="start">FRONT-END</text>
 <text class="d-meta" x="348" y="40" text-anchor="end">Port 3000</text>
-<rect class="d-tile" x="196" y="60" width="152" height="50" rx="4"/>
+<rect class="d-shadow" x="196" y="61.5" width="152" height="50" rx="10"/>
+<rect class="d-tile" x="196" y="60" width="152" height="50" rx="10"/>
 <text class="d-title" x="272" y="82" text-anchor="middle">Pull Request</text>
-<text class="d-sub" x="272" y="99" text-anchor="middle">prüfen, annehmen</text>
-<rect class="d-tile" x="196" y="180" width="152" height="50" rx="4"/>
+<text class="d-sub" x="272" y="98" text-anchor="middle">prüfen, annehmen</text>
+<rect class="d-shadow" x="196" y="181.5" width="152" height="50" rx="10"/>
+<rect class="d-tile" x="196" y="180" width="152" height="50" rx="10"/>
 <text class="d-title" x="272" y="202" text-anchor="middle">Gitea</text>
-<text class="d-code" x="272" y="219" text-anchor="middle">wolkenwerk/platform</text>
-<rect class="d-band d-band-1" x="464" y="16" width="332" height="234" rx="6"/>
+<text class="d-code" x="272" y="218" text-anchor="middle">wolkenwerk/platform</text>
+<rect class="d-band d-band-1" x="464" y="16" width="332" height="234" rx="12"/>
 <text class="d-label" x="480" y="40" text-anchor="start">K3S-CLUSTER</text>
-<rect class="d-tile" x="480" y="60" width="160" height="50" rx="4"/>
+<rect class="d-shadow" x="480" y="61.5" width="160" height="50" rx="10"/>
+<rect class="d-tile" x="480" y="60" width="160" height="50" rx="10"/>
 <text class="d-title" x="560" y="82" text-anchor="middle">Webshop</text>
-<text class="d-sub" x="560" y="99" text-anchor="middle">Namespace velo</text>
-<rect class="d-tile" x="480" y="180" width="160" height="50" rx="4"/>
-<rect class="d-bar" x="480" y="180" width="4" height="50" rx="2"/>
+<text class="d-sub" x="560" y="98" text-anchor="middle">Namespace velo</text>
+<rect class="d-shadow" x="480" y="181.5" width="160" height="50" rx="10"/>
+<rect class="d-tile d-tile-accent" x="480" y="180" width="160" height="50" rx="10"/>
 <text class="d-title" x="560" y="202" text-anchor="middle">Argo CD</text>
-<text class="d-sub" x="560" y="219" text-anchor="middle">vergleicht Soll und Ist</text>
-<rect class="d-tile" x="668" y="60" width="112" height="50" rx="4"/>
+<text class="d-sub" x="560" y="218" text-anchor="middle">vergleicht Soll und Ist</text>
+<rect class="d-shadow" x="668" y="61.5" width="112" height="50" rx="10"/>
+<rect class="d-tile" x="668" y="60" width="112" height="50" rx="10"/>
 <text class="d-title" x="724" y="82" text-anchor="middle">Von Hand</text>
-<text class="d-code" x="724" y="99" text-anchor="middle">kubectl scale</text>
+<text class="d-code" x="724" y="98" text-anchor="middle">kubectl scale</text>
 <path class="d-arrow" d="M 166 85 L 194 85" marker-end="url(#p4c4-gitops-de-head)"/>
 <path class="d-arrow" d="M 86 110 L 86 205 L 194 205" marker-end="url(#p4c4-gitops-de-head)"/>
 <text class="d-code" x="94" y="150" text-anchor="start">git push</text>

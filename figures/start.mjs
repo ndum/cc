@@ -7,7 +7,7 @@ import { mkdirSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { arrow, band, figure, label, line, measure, meta, note, SIZE, strip, tile } from './diagram.mjs';
+import { arrow, band, figure, label, line, measure, meta, note, SIZE, strip, tag, tile } from './diagram.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -170,34 +170,38 @@ const LAB = {
   de: {
     title: 'Das Lab mit drei Servern, dem Client und zwei Netzen',
     desc:
-      'Front-end, zwei Knoten und der Client hängen im Labnetz. Vom Client aus erreichst du die Server ' +
-      'per SSH und ihre Weboberflächen im Browser. Auf jedem Knoten laufen VMs der Cloud. Diese VMs ' +
-      'und das Front-end teilen ein internes VXLAN-Netz. Das Front-end ist dessen Gateway und leitet ' +
-      'den Verkehr mit NAT ins Internet.',
-    internet: 'Internet',
-    fe: ['Front-end', 'Gateway, Weboberfläche'],
-    client: ['Client', 'Kali, Browser und SSH'],
+      'Front-end, zwei Knoten und der Client hängen im Labnetz 192.168.210.0/24, hier mit den Beispieladressen ' +
+      'von mmuster. Das Labnetz erreicht das Internet über das Gateway .1. Vom Client aus erreichst du die Server ' +
+      'per SSH und ihre Weboberflächen im Browser. Auf jedem Knoten laufen VMs der Cloud. Diese VMs und das ' +
+      'Front-end teilen ein internes VXLAN-Netz. Das Front-end ist dessen Gateway und leitet den Verkehr mit NAT ' +
+      'ins Internet.',
+    internet: ['Internet', 'über das Gateway .1'],
+    client: ['Client', 'Kali, Browser, SSH', '192.168.210.10'],
+    fe: ['Front-end', 'OpenNebula, Gateway, NAT', '192.168.210.137'],
     nodes: ['Knoten 1', 'Knoten 2'],
+    nodeIps: ['192.168.210.138', '192.168.210.139'],
     kvm: 'KVM',
     vm: 'VM',
-    labNet: 'Labnetz, feste Adressen',
-    innerNet: 'internes Netz (VXLAN), zum Beispiel 172.28.217.0/24',
+    labNet: 'Labnetz 192.168.210.0/24',
+    innerNet: 'Internes Netz (VXLAN), zum Beispiel 172.28.217.0/24',
   },
   en: {
     title: 'The lab with three servers, the client and two networks',
     desc:
-      'The front-end, two nodes and the client sit on the lab network. From the client you reach the ' +
-      'servers over SSH and their web interfaces in the browser. VMs of the cloud run on every node. ' +
-      'These VMs and the front-end share an internal VXLAN network. The front-end is its gateway and ' +
-      'forwards its traffic to the internet with NAT.',
-    internet: 'Internet',
-    fe: ['Front-end', 'gateway, web interface'],
-    client: ['Client', 'Kali, browser and SSH'],
+      'The front-end, two nodes and the client sit on the lab network 192.168.210.0/24, here with the example ' +
+      'addresses of mmuster. The lab network reaches the internet through the gateway .1. From the client you ' +
+      'reach the servers over SSH and their web interfaces in the browser. VMs of the cloud run on every node. ' +
+      'These VMs and the front-end share an internal VXLAN network. The front-end is its gateway and forwards its ' +
+      'traffic to the internet with NAT.',
+    internet: ['Internet', 'through the gateway .1'],
+    client: ['Client', 'Kali, browser, SSH', '192.168.210.10'],
+    fe: ['Front-end', 'OpenNebula, gateway, NAT', '192.168.210.137'],
     nodes: ['Node 1', 'Node 2'],
+    nodeIps: ['192.168.210.138', '192.168.210.139'],
     kvm: 'KVM',
     vm: 'VM',
-    labNet: 'lab network, fixed addresses',
-    innerNet: 'internal network (VXLAN), for example 172.28.217.0/24',
+    labNet: 'Lab network 192.168.210.0/24',
+    innerNet: 'Internal network (VXLAN), for example 172.28.217.0/24',
   },
 };
 
@@ -205,40 +209,36 @@ function labMap(lang) {
   const t = LAB[lang];
   const id = `p0c2-lab-${lang}`;
   const body = [];
+  const bus = 150;
+  const inner = 372;
   const nodes = [
-    { x: 290, name: t.nodes[0] },
-    { x: 510, name: t.nodes[1] },
+    { x: 256, name: t.nodes[0], ip: t.nodeIps[0] },
+    { x: 506, name: t.nodes[1], ip: t.nodeIps[1] },
   ];
-  // Internet and NAT
-  body.push(tile(40, 20, 200, 40, t.internet));
-  body.push(arrow(id, [[140, 140], [140, 64]]));
-  body.push(note(150, 106, 'NAT', 'start', { code: true }));
-  // Lab network
-  body.push(line([[190, 116], [620, 116]]));
-  body.push(line([[190, 116], [190, 140]]));
-  nodes.forEach((n) => body.push(line([[n.x + 90, 116], [n.x + 90, 140]])));
-  body.push(note(250, 108, t.labNet, 'start'));
-  // The client works on the servers over the lab network
-  body.push(tile(470, 12, 200, 56, ...t.client));
-  body.push(line([[570, 68], [570, 116]]));
-  // Front-end and nodes
-  body.push(tile(40, 140, 200, 56, ...t.fe, { accent: true }));
-  const vms = [];
+  // Node bands first, then the networks, then the cards on top
   nodes.forEach((n) => {
-    body.push(band(n.x, 140, 180, 132, 2));
-    body.push(label(n.x + 12, 160, n.name));
-    body.push(note(n.x + 168, 160, t.kvm, 'end'));
-    [n.x + 12, n.x + 96].forEach((x) => {
-      body.push(tile(x, 178, 72, 40, t.vm));
-      vms.push(x + 36);
-    });
+    body.push(band(n.x, 186, 230, 150, 2));
+    body.push(label(n.x + 16, 210, n.name, 'start', { tone: 'blue' }));
+    body.push(note(n.x + 16, 227, n.ip, 'start', { code: true }));
+    body.push(tag(n.x + 230 - 52, 196, t.kvm));
   });
-  // Internal network
-  body.push(line([[140, 196], [140, 300]], { dashed: true, accent: true }));
-  vms.forEach((x) => body.push(line([[x, 218], [x, 300]], { dashed: true, accent: true })));
-  body.push(line([[140, 300], [vms.at(-1), 300]], { dashed: true, accent: true }));
-  body.push(note(40, 326, t.innerNet));
-  return figure({ id, width: 720, height: 340, title: t.title, desc: t.desc, body });
+  // Lab network with its name, every server and the client hang on it
+  body.push(line([[24, bus], [736, bus]], { accent: true }));
+  body.push(label(24, bus - 10, t.labNet, 'start', { tone: 'blue' }));
+  for (const [x, top] of [[305, 88], [570, 100]]) body.push(line([[x, top], [x, bus]], { accent: true }));
+  for (const x of [122, 371, 621]) body.push(line([[x, bus], [x, 186]], { accent: true }));
+  // Internal network from the front-end to every VM
+  const vms = [];
+  nodes.forEach((n) => [n.x + 16, n.x + 120].forEach((x) => vms.push(x)));
+  body.push(line([[122, 262], [122, inner], [vms.at(-1) + 47, inner]], { dashed: true, tone: 'violet' }));
+  vms.forEach((x) => body.push(line([[x + 47, 284], [x + 47, inner]], { dashed: true, tone: 'violet' })));
+  body.push(label(24, inner + 26, t.innerNet, 'start', { tone: 'violet' }));
+  // Cards
+  body.push(tile(220, 24, 170, 64, t.internet[0], t.internet[1], { icon: 'globe' }));
+  body.push(tile(470, 24, 200, 76, t.client[0], t.client[1], { icon: 'client', detail: t.client[2] }));
+  body.push(tile(24, 186, 196, 76, t.fe[0], t.fe[1], { icon: 'server', detail: t.fe[2] }));
+  vms.forEach((x) => body.push(tile(x, 240, 94, 44, t.vm, '', { icon: 'vm', tone: 'violet' })));
+  return figure({ id, width: 760, height: 420, title: t.title, desc: t.desc, body });
 }
 
 for (const lang of Object.keys(ARCH)) {

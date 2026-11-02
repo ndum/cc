@@ -1,47 +1,56 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 360" role="img" aria-labelledby="p5c1-scrape-de-title p5c1-scrape-de-desc">
 <title id="p5c1-scrape-de-title">Was Prometheus abholt</title>
 <desc id="p5c1-scrape-de-desc">Links der Cluster k3s. Prometheus läuft im Namespace monitoring und holt die Metriken im Cluster vom Webshop im Namespace velo, von kube-state-metrics und von node-exporter auf k3s-server und k3s-agent. Ausserhalb des Clusters holt es auf dem Front-end den OpenNebula-Exporter auf Port 9925 und node_exporter auf Port 9100 ab, auf beiden Knoten node_exporter auf Port 9100 und den Libvirt-Exporter auf Port 9926. Grafana fragt Prometheus mit PromQL ab. Im Cluster findet Prometheus die Ziele über ServiceMonitors, ausserhalb über drei ScrapeConfigs.</desc>
-<defs><marker id="p5c1-scrape-de-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"/></marker></defs>
-<rect class="d-band d-band-2" x="16" y="16" width="440" height="306" rx="6"/>
+<defs><marker id="p5c1-scrape-de-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"/></marker><marker id="p5c1-scrape-de-head-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head d-head-accent" d="M 0 1 L 9 5 L 0 9 z"/></marker></defs>
+<rect class="d-ground" x="0" y="0" width="840" height="360" rx="14"/>
+<rect class="d-band d-band-2" x="16" y="16" width="440" height="306" rx="12"/>
 <text class="d-label" x="32" y="40" text-anchor="start">CLUSTER K3S</text>
 <text class="d-meta" x="440" y="40" text-anchor="end">Namespace monitoring</text>
-<rect class="d-tile" x="32" y="96" width="184" height="50" rx="4"/>
+<rect class="d-shadow" x="32" y="97.5" width="184" height="50" rx="10"/>
+<rect class="d-tile" x="32" y="96" width="184" height="50" rx="10"/>
 <text class="d-title" x="124" y="118" text-anchor="middle">Webshop</text>
-<text class="d-sub" x="124" y="135" text-anchor="middle">Pods in velo, Port 8080</text>
-<rect class="d-tile" x="32" y="162" width="184" height="50" rx="4"/>
+<text class="d-sub" x="124" y="134" text-anchor="middle">Pods in velo, Port 8080</text>
+<rect class="d-shadow" x="32" y="163.5" width="184" height="50" rx="10"/>
+<rect class="d-tile" x="32" y="162" width="184" height="50" rx="10"/>
 <text class="d-title" x="124" y="184" text-anchor="middle">kube-state-metrics</text>
-<text class="d-sub" x="124" y="201" text-anchor="middle">Zustand der Objekte</text>
-<rect class="d-tile" x="32" y="228" width="184" height="50" rx="4"/>
+<text class="d-sub" x="124" y="200" text-anchor="middle">Zustand der Objekte</text>
+<rect class="d-shadow" x="32" y="229.5" width="184" height="50" rx="10"/>
+<rect class="d-tile" x="32" y="228" width="184" height="50" rx="10"/>
 <text class="d-title" x="124" y="250" text-anchor="middle">node-exporter</text>
-<text class="d-sub" x="124" y="267" text-anchor="middle">k3s-server, k3s-agent</text>
-<rect class="d-tile" x="264" y="56" width="176" height="50" rx="4"/>
+<text class="d-sub" x="124" y="266" text-anchor="middle">k3s-server, k3s-agent</text>
+<rect class="d-shadow" x="264" y="57.5" width="176" height="50" rx="10"/>
+<rect class="d-tile" x="264" y="56" width="176" height="50" rx="10"/>
 <text class="d-title" x="352" y="78" text-anchor="middle">Grafana</text>
-<text class="d-sub" x="352" y="95" text-anchor="middle">Port 30300</text>
-<rect class="d-tile" x="264" y="162" width="176" height="50" rx="4"/>
-<rect class="d-bar" x="264" y="162" width="4" height="50" rx="2"/>
+<text class="d-sub" x="352" y="94" text-anchor="middle">Port 30300</text>
+<rect class="d-shadow" x="264" y="163.5" width="176" height="50" rx="10"/>
+<rect class="d-tile d-tile-accent" x="264" y="162" width="176" height="50" rx="10"/>
 <text class="d-title" x="352" y="184" text-anchor="middle">Prometheus</text>
-<text class="d-sub" x="352" y="201" text-anchor="middle">Port 30090</text>
+<text class="d-sub" x="352" y="200" text-anchor="middle">Port 30090</text>
 <path class="d-arrow" d="M 352 106 L 352 160" marker-end="url(#p5c1-scrape-de-head)"/>
 <text class="d-code" x="360" y="138" text-anchor="start">PromQL</text>
 <path class="d-arrow" d="M 264 177 L 240 177 L 240 121 L 218 121" marker-end="url(#p5c1-scrape-de-head)"/>
 <path class="d-arrow" d="M 264 187 L 218 187" marker-end="url(#p5c1-scrape-de-head)"/>
 <path class="d-arrow" d="M 264 197 L 240 197 L 240 253 L 218 253" marker-end="url(#p5c1-scrape-de-head)"/>
-<rect class="d-band d-band-1" x="520" y="16" width="304" height="146" rx="6"/>
+<rect class="d-band d-band-1" x="520" y="16" width="304" height="146" rx="12"/>
 <text class="d-label" x="536" y="40" text-anchor="start">FRONT-END</text>
-<rect class="d-tile" x="536" y="52" width="272" height="46" rx="4"/>
+<rect class="d-shadow" x="536" y="53.5" width="272" height="46" rx="10"/>
+<rect class="d-tile" x="536" y="52" width="272" height="46" rx="10"/>
 <text class="d-title" x="672" y="72" text-anchor="middle">OpenNebula-Exporter</text>
-<text class="d-sub" x="672" y="89" text-anchor="middle">Port 9925</text>
-<rect class="d-tile" x="536" y="104" width="272" height="46" rx="4"/>
+<text class="d-sub" x="672" y="88" text-anchor="middle">Port 9925</text>
+<rect class="d-shadow" x="536" y="105.5" width="272" height="46" rx="10"/>
+<rect class="d-tile" x="536" y="104" width="272" height="46" rx="10"/>
 <text class="d-title" x="672" y="124" text-anchor="middle">node_exporter</text>
-<text class="d-sub" x="672" y="141" text-anchor="middle">Port 9100</text>
-<rect class="d-band d-band-1" x="520" y="176" width="304" height="146" rx="6"/>
+<text class="d-sub" x="672" y="140" text-anchor="middle">Port 9100</text>
+<rect class="d-band d-band-1" x="520" y="176" width="304" height="146" rx="12"/>
 <text class="d-label" x="536" y="200" text-anchor="start">KNOTEN 1 UND 2</text>
-<rect class="d-tile" x="536" y="212" width="272" height="46" rx="4"/>
+<rect class="d-shadow" x="536" y="213.5" width="272" height="46" rx="10"/>
+<rect class="d-tile" x="536" y="212" width="272" height="46" rx="10"/>
 <text class="d-title" x="672" y="232" text-anchor="middle">node_exporter</text>
-<text class="d-sub" x="672" y="249" text-anchor="middle">Port 9100</text>
-<rect class="d-tile" x="536" y="264" width="272" height="46" rx="4"/>
+<text class="d-sub" x="672" y="248" text-anchor="middle">Port 9100</text>
+<rect class="d-shadow" x="536" y="265.5" width="272" height="46" rx="10"/>
+<rect class="d-tile" x="536" y="264" width="272" height="46" rx="10"/>
 <text class="d-title" x="672" y="284" text-anchor="middle">Libvirt-Exporter</text>
-<text class="d-sub" x="672" y="301" text-anchor="middle">Port 9926</text>
+<text class="d-sub" x="672" y="300" text-anchor="middle">Port 9926</text>
 <path class="d-line" d="M 440 187 L 480 187"/>
 <path class="d-line" d="M 480 75 L 480 287"/>
 <path class="d-arrow" d="M 480 75 L 534 75" marker-end="url(#p5c1-scrape-de-head)"/>

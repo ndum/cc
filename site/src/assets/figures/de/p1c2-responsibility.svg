@@ -1,7 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 670 402" role="img" aria-labelledby="p1c2-responsibility-de-title p1c2-responsibility-de-desc">
 <title id="p1c2-responsibility-de-title">Geteilte Verantwortung in den Servicemodellen</title>
 <desc id="p1c2-responsibility-de-desc">Vier Spalten für den eigenen Betrieb, IaaS, PaaS und SaaS zeigen neun Schichten von Netz und Hardware bis zu Daten und Zugriffen. Im eigenen Betrieb betreiben die Nutzenden alle Schichten. Bei IaaS übernimmt der Anbieter Netz, Speicher, Server und Virtualisierung, bei PaaS zusätzlich Betriebssystem, Middleware und Laufzeit, bei SaaS auch die Anwendung. Daten und Zugriffe bleiben immer bei den Nutzenden.</desc>
-<defs><marker id="p1c2-responsibility-de-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"/></marker></defs>
+<defs><marker id="p1c2-responsibility-de-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"/></marker><marker id="p1c2-responsibility-de-head-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head d-head-accent" d="M 0 1 L 9 5 L 0 9 z"/></marker></defs>
+<rect class="d-ground" x="0" y="0" width="670" height="402" rx="14"/>
 <text class="d-label" x="95" y="34" text-anchor="middle">EIGENER BETRIEB</text>
 <rect class="d-tile" x="20" y="50" width="150" height="30" rx="3"/>
 <rect class="d-bar" x="20" y="50" width="4" height="30" rx="2"/>

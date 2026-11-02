@@ -1,45 +1,51 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 312" role="img" aria-labelledby="p6c2-backup-en-title p6c2-backup-en-desc">
 <title id="p6c2-backup-en-title">Where the data lives and how it is backed up</title>
 <desc id="p6c2-backup-en-desc">On the left the k3s cluster and the nodes. etcd on k3s-server writes a snapshot every six hours and keeps eight of them. A timer copies the snapshots to ~/backup/k3s on the front-end every six hours, together with the k3s token and the Sealed Secrets key. The volumes on k3s-agent with metrics, logs and the audit log are not backed up. The member VMs live in the datastores of the nodes, and a backup job backs them up every night at 2:00 to the backup datastore backups on the front-end and keeps seven backups. The front-end also holds the repo platform in Gitea and the working copy ~/platform with the OpenTofu state. An off-site copy is missing, so the lab breaks the 3-2-1 rule. If the front-end fails, everything is gone at once.</desc>
-<defs><marker id="p6c2-backup-en-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"/></marker></defs>
-<rect class="d-band d-band-2" x="16" y="16" width="220" height="160" rx="6"/>
+<defs><marker id="p6c2-backup-en-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"/></marker><marker id="p6c2-backup-en-head-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head d-head-accent" d="M 0 1 L 9 5 L 0 9 z"/></marker></defs>
+<rect class="d-ground" x="0" y="0" width="900" height="312" rx="14"/>
+<rect class="d-band d-band-2" x="16" y="16" width="220" height="160" rx="12"/>
 <text class="d-label" x="32" y="40" text-anchor="start">K3S CLUSTER</text>
-<rect class="d-tile" x="32" y="52" width="188" height="50" rx="4"/>
-<rect class="d-bar" x="32" y="52" width="4" height="50" rx="2"/>
+<rect class="d-shadow" x="32" y="53.5" width="188" height="50" rx="10"/>
+<rect class="d-tile d-tile-accent" x="32" y="52" width="188" height="50" rx="10"/>
 <text class="d-title" x="126" y="74" text-anchor="middle">etcd on k3s-server</text>
-<text class="d-sub" x="126" y="91" text-anchor="middle">snapshot every 6 h, keeps 8</text>
-<rect class="d-tile" x="32" y="112" width="188" height="50" rx="4"/>
+<text class="d-sub" x="126" y="90" text-anchor="middle">snapshot every 6 h, keeps 8</text>
+<rect class="d-shadow" x="32" y="113.5" width="188" height="50" rx="10"/>
+<rect class="d-tile" x="32" y="112" width="188" height="50" rx="10"/>
 <text class="d-title" x="126" y="134" text-anchor="middle">Volumes on k3s-agent</text>
-<text class="d-sub" x="126" y="151" text-anchor="middle">not backed up</text>
-<rect class="d-band d-band-2" x="16" y="196" width="220" height="100" rx="6"/>
+<text class="d-sub" x="126" y="150" text-anchor="middle">not backed up</text>
+<rect class="d-band d-band-2" x="16" y="196" width="220" height="100" rx="12"/>
 <text class="d-label" x="32" y="220" text-anchor="start">NODES 1 AND 2</text>
-<rect class="d-tile" x="32" y="232" width="188" height="50" rx="4"/>
+<rect class="d-shadow" x="32" y="233.5" width="188" height="50" rx="10"/>
+<rect class="d-tile" x="32" y="232" width="188" height="50" rx="10"/>
 <text class="d-title" x="126" y="254" text-anchor="middle">Member VMs</text>
-<text class="d-sub" x="126" y="271" text-anchor="middle">datastores of the nodes</text>
-<rect class="d-band d-band-1" x="340" y="16" width="340" height="280" rx="6"/>
+<text class="d-sub" x="126" y="270" text-anchor="middle">datastores of the nodes</text>
+<rect class="d-band d-band-1" x="340" y="16" width="340" height="280" rx="12"/>
 <text class="d-label" x="356" y="40" text-anchor="start">FRONT-END</text>
-<rect class="d-tile" x="356" y="52" width="308" height="50" rx="4"/>
+<rect class="d-shadow" x="356" y="53.5" width="308" height="50" rx="10"/>
+<rect class="d-tile" x="356" y="52" width="308" height="50" rx="10"/>
 <text class="d-title" x="510" y="74" text-anchor="middle">Gitea</text>
-<text class="d-sub" x="510" y="91" text-anchor="middle">repo platform, port 3000</text>
-<rect class="d-tile" x="356" y="112" width="308" height="50" rx="4"/>
+<text class="d-sub" x="510" y="90" text-anchor="middle">repo platform, port 3000</text>
+<rect class="d-shadow" x="356" y="113.5" width="308" height="50" rx="10"/>
+<rect class="d-tile" x="356" y="112" width="308" height="50" rx="10"/>
 <text class="d-title" x="510" y="134" text-anchor="middle">~/platform</text>
-<text class="d-sub" x="510" y="151" text-anchor="middle">working copy and OpenTofu state</text>
-<rect class="d-tile" x="356" y="172" width="308" height="50" rx="4"/>
-<rect class="d-bar" x="356" y="172" width="4" height="50" rx="2"/>
+<text class="d-sub" x="510" y="150" text-anchor="middle">working copy and OpenTofu state</text>
+<rect class="d-shadow" x="356" y="173.5" width="308" height="50" rx="10"/>
+<rect class="d-tile d-tile-accent" x="356" y="172" width="308" height="50" rx="10"/>
 <text class="d-title" x="510" y="194" text-anchor="middle">~/backup/k3s</text>
-<text class="d-sub" x="510" y="211" text-anchor="middle">snapshots, token, key</text>
-<rect class="d-tile" x="356" y="232" width="308" height="50" rx="4"/>
-<rect class="d-bar" x="356" y="232" width="4" height="50" rx="2"/>
+<text class="d-sub" x="510" y="210" text-anchor="middle">snapshots, token, key</text>
+<rect class="d-shadow" x="356" y="233.5" width="308" height="50" rx="10"/>
+<rect class="d-tile d-tile-accent" x="356" y="232" width="308" height="50" rx="10"/>
 <text class="d-title" x="510" y="254" text-anchor="middle">Backup datastore backups</text>
-<text class="d-sub" x="510" y="271" text-anchor="middle">rsync, seven backups per VM</text>
+<text class="d-sub" x="510" y="270" text-anchor="middle">rsync, seven backups per VM</text>
 <path class="d-arrow" d="M 220 77 L 300 77 L 300 197 L 354 197" marker-end="url(#p6c2-backup-en-head)"/>
 <text class="d-sub" x="288" y="69" text-anchor="middle">timer every 6 h</text>
 <path class="d-arrow" d="M 220 257 L 354 257" marker-end="url(#p6c2-backup-en-head)"/>
 <text class="d-sub" x="288" y="249" text-anchor="middle">backup job 2:00</text>
 <path class="d-line d-line-accent d-dashed" d="M 680 156 L 716 156"/>
-<rect class="d-tile" x="716" y="128" width="168" height="56" rx="4"/>
+<rect class="d-shadow" x="716" y="129.5" width="168" height="56" rx="10"/>
+<rect class="d-tile" x="716" y="128" width="168" height="56" rx="10"/>
 <text class="d-title" x="800" y="153" text-anchor="middle">Off-site copy</text>
-<text class="d-sub" x="800" y="170" text-anchor="middle">missing for 3-2-1</text>
+<text class="d-sub" x="800" y="169" text-anchor="middle">missing for 3-2-1</text>
 <text class="d-sub" x="800" y="212" text-anchor="middle">If the front-end fails,</text>
 <text class="d-sub" x="800" y="228" text-anchor="middle">everything is gone at once.</text>
 </svg>

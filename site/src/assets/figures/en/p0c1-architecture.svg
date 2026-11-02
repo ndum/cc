@@ -1,87 +1,104 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 620" role="img" aria-labelledby="p0c1-architecture-en-title p0c1-architecture-en-desc">
 <title id="p0c1-architecture-en-title">The target architecture of the course</title>
 <desc id="p0c1-architecture-en-desc">Four layers on top of each other. The infrastructure is the front-end and two nodes with Ubuntu on smartlearn, set up with prepare.sh. On it OpenNebula provides the IaaS with oned, Sunstone, tenants and networks, installed with Ansible and OneDeploy, and the VMs run with KVM on the nodes. Above that runs the platform k3s, created by OpenTofu, with Argo CD, the web shop, Ollama, the AI triage, Prometheus, Grafana and Loki, and Argo CD pulls the apps from a Git repo. At the top the members of Wolkenwerk Bern use the cloud. Every layer names the parts of the course that build it.</desc>
-<defs><marker id="p0c1-architecture-en-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"/></marker></defs>
-<rect class="d-band d-band-1" x="16" y="16" width="688" height="96" rx="6"/>
+<defs><marker id="p0c1-architecture-en-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"/></marker><marker id="p0c1-architecture-en-head-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head d-head-accent" d="M 0 1 L 9 5 L 0 9 z"/></marker></defs>
+<rect class="d-ground" x="0" y="0" width="720" height="620" rx="14"/>
+<rect class="d-band d-band-1" x="16" y="16" width="688" height="96" rx="12"/>
 <text class="d-label" x="36" y="40" text-anchor="start">MEMBERS</text>
 <text class="d-meta" x="111.66912" y="40" text-anchor="start">parts 3 and 6</text>
 <text class="d-meta" x="684" y="40" text-anchor="end">self-service through Sunstone and Git</text>
-<rect class="d-tile" x="36" y="52" width="121.6" height="46" rx="4"/>
+<rect class="d-shadow" x="36" y="53.5" width="121.6" height="46" rx="10"/>
+<rect class="d-tile" x="36" y="52" width="121.6" height="46" rx="10"/>
 <text class="d-title" x="96.8" y="72" text-anchor="middle">Practice</text>
-<text class="d-sub" x="96.8" y="89" text-anchor="middle">Rosenweg</text>
-<rect class="d-tile" x="167.6" y="52" width="121.6" height="46" rx="4"/>
+<text class="d-sub" x="96.8" y="88" text-anchor="middle">Rosenweg</text>
+<rect class="d-shadow" x="167.6" y="53.5" width="121.6" height="46" rx="10"/>
+<rect class="d-tile" x="167.6" y="52" width="121.6" height="46" rx="10"/>
 <text class="d-title" x="228.39999999999998" y="72" text-anchor="middle">Fiduciary</text>
-<text class="d-sub" x="228.39999999999998" y="89" text-anchor="middle">Aaregg</text>
-<rect class="d-tile" x="299.2" y="52" width="121.6" height="46" rx="4"/>
+<text class="d-sub" x="228.39999999999998" y="88" text-anchor="middle">Aaregg</text>
+<rect class="d-shadow" x="299.2" y="53.5" width="121.6" height="46" rx="10"/>
+<rect class="d-tile" x="299.2" y="52" width="121.6" height="46" rx="10"/>
 <text class="d-title" x="360" y="72" text-anchor="middle">Bike shop</text>
-<text class="d-sub" x="360" y="89" text-anchor="middle">Matte</text>
-<rect class="d-tile" x="430.79999999999995" y="52" width="121.6" height="46" rx="4"/>
+<text class="d-sub" x="360" y="88" text-anchor="middle">Matte</text>
+<rect class="d-shadow" x="430.79999999999995" y="53.5" width="121.6" height="46" rx="10"/>
+<rect class="d-tile" x="430.79999999999995" y="52" width="121.6" height="46" rx="10"/>
 <text class="d-title" x="491.59999999999997" y="72" text-anchor="middle">Municipality</text>
-<text class="d-sub" x="491.59999999999997" y="89" text-anchor="middle">Hinterbüel</text>
-<rect class="d-tile" x="562.4" y="52" width="121.6" height="46" rx="4"/>
+<text class="d-sub" x="491.59999999999997" y="88" text-anchor="middle">Hinterbüel</text>
+<rect class="d-shadow" x="562.4" y="53.5" width="121.6" height="46" rx="10"/>
+<rect class="d-tile" x="562.4" y="52" width="121.6" height="46" rx="10"/>
 <text class="d-title" x="623.1999999999999" y="72" text-anchor="middle">Member 5</text>
-<text class="d-sub" x="623.1999999999999" y="89" text-anchor="middle">from milestone 4</text>
-<rect class="d-band d-band-2" x="16" y="124" width="688" height="184" rx="6"/>
+<text class="d-sub" x="623.1999999999999" y="88" text-anchor="middle">from milestone 4</text>
+<rect class="d-band d-band-2" x="16" y="124" width="688" height="184" rx="12"/>
 <text class="d-label" x="36" y="148" text-anchor="start">PLATFORM</text>
 <text class="d-meta" x="118.08212" y="148" text-anchor="start">parts 4 and 5</text>
 <text class="d-meta" x="684" y="148" text-anchor="end">built with OpenTofu and Argo CD</text>
-<rect class="d-tile" x="36" y="160" width="154.5" height="46" rx="4"/>
-<rect class="d-bar" x="36" y="160" width="4" height="46" rx="2"/>
+<rect class="d-shadow" x="36" y="161.5" width="154.5" height="46" rx="10"/>
+<rect class="d-tile d-tile-accent" x="36" y="160" width="154.5" height="46" rx="10"/>
 <text class="d-title" x="113.25" y="180" text-anchor="middle">Argo CD</text>
-<text class="d-sub" x="113.25" y="197" text-anchor="middle">GitOps</text>
-<rect class="d-tile" x="200.5" y="160" width="154.5" height="46" rx="4"/>
+<text class="d-sub" x="113.25" y="196" text-anchor="middle">GitOps</text>
+<rect class="d-shadow" x="200.5" y="161.5" width="154.5" height="46" rx="10"/>
+<rect class="d-tile" x="200.5" y="160" width="154.5" height="46" rx="10"/>
 <text class="d-title" x="277.75" y="180" text-anchor="middle">Web shop</text>
-<text class="d-sub" x="277.75" y="197" text-anchor="middle">apps of the members</text>
-<rect class="d-tile" x="365" y="160" width="154.5" height="46" rx="4"/>
-<rect class="d-bar" x="365" y="160" width="4" height="46" rx="2"/>
+<text class="d-sub" x="277.75" y="196" text-anchor="middle">apps of the members</text>
+<rect class="d-shadow" x="365" y="161.5" width="154.5" height="46" rx="10"/>
+<rect class="d-tile d-tile-accent" x="365" y="160" width="154.5" height="46" rx="10"/>
 <text class="d-title" x="442.25" y="180" text-anchor="middle">Ollama</text>
-<text class="d-sub" x="442.25" y="197" text-anchor="middle">AI service</text>
-<rect class="d-tile" x="529.5" y="160" width="154.5" height="46" rx="4"/>
+<text class="d-sub" x="442.25" y="196" text-anchor="middle">AI service</text>
+<rect class="d-shadow" x="529.5" y="161.5" width="154.5" height="46" rx="10"/>
+<rect class="d-tile" x="529.5" y="160" width="154.5" height="46" rx="10"/>
 <text class="d-title" x="606.75" y="180" text-anchor="middle">AI triage</text>
-<text class="d-sub" x="606.75" y="197" text-anchor="middle">with approval</text>
-<rect class="d-tile" x="36" y="214" width="209.33333333333334" height="46" rx="4"/>
+<text class="d-sub" x="606.75" y="196" text-anchor="middle">with approval</text>
+<rect class="d-shadow" x="36" y="215.5" width="209.33333333333334" height="46" rx="10"/>
+<rect class="d-tile" x="36" y="214" width="209.33333333333334" height="46" rx="10"/>
 <text class="d-title" x="140.66666666666669" y="234" text-anchor="middle">Prometheus</text>
-<text class="d-sub" x="140.66666666666669" y="251" text-anchor="middle">metrics, alerts</text>
-<rect class="d-tile" x="255.33333333333334" y="214" width="209.33333333333334" height="46" rx="4"/>
+<text class="d-sub" x="140.66666666666669" y="250" text-anchor="middle">metrics, alerts</text>
+<rect class="d-shadow" x="255.33333333333334" y="215.5" width="209.33333333333334" height="46" rx="10"/>
+<rect class="d-tile" x="255.33333333333334" y="214" width="209.33333333333334" height="46" rx="10"/>
 <text class="d-title" x="360" y="234" text-anchor="middle">Grafana</text>
-<text class="d-sub" x="360" y="251" text-anchor="middle">dashboards</text>
-<rect class="d-tile" x="474.6666666666667" y="214" width="209.33333333333334" height="46" rx="4"/>
+<text class="d-sub" x="360" y="250" text-anchor="middle">dashboards</text>
+<rect class="d-shadow" x="474.6666666666667" y="215.5" width="209.33333333333334" height="46" rx="10"/>
+<rect class="d-tile" x="474.6666666666667" y="214" width="209.33333333333334" height="46" rx="10"/>
 <text class="d-title" x="579.3333333333334" y="234" text-anchor="middle">Loki</text>
-<text class="d-sub" x="579.3333333333334" y="251" text-anchor="middle">logs</text>
-<rect class="d-strip" x="36" y="268" width="648" height="30" rx="4"/>
+<text class="d-sub" x="579.3333333333334" y="250" text-anchor="middle">logs</text>
+<rect class="d-strip" x="36" y="268" width="648" height="30" rx="8"/>
 <text class="d-sub" x="360" y="287" text-anchor="middle">Kubernetes k3s on two VMs from OpenNebula</text>
-<rect class="d-band d-band-3" x="16" y="320" width="688" height="136" rx="6"/>
+<rect class="d-band d-band-3" x="16" y="320" width="688" height="136" rx="12"/>
 <text class="d-label" x="36" y="344" text-anchor="start">IAAS</text>
 <text class="d-meta" x="76.01284000000001" y="344" text-anchor="start">parts 2 and 3</text>
 <text class="d-meta" x="684" y="344" text-anchor="end">installed with Ansible and OneDeploy</text>
-<rect class="d-tile" x="36" y="356" width="154.5" height="46" rx="4"/>
-<rect class="d-bar" x="36" y="356" width="4" height="46" rx="2"/>
+<rect class="d-shadow" x="36" y="357.5" width="154.5" height="46" rx="10"/>
+<rect class="d-tile d-tile-accent" x="36" y="356" width="154.5" height="46" rx="10"/>
 <text class="d-title" x="113.25" y="376" text-anchor="middle">oned</text>
-<text class="d-sub" x="113.25" y="393" text-anchor="middle">API, scheduler</text>
-<rect class="d-tile" x="200.5" y="356" width="154.5" height="46" rx="4"/>
+<text class="d-sub" x="113.25" y="392" text-anchor="middle">API, scheduler</text>
+<rect class="d-shadow" x="200.5" y="357.5" width="154.5" height="46" rx="10"/>
+<rect class="d-tile" x="200.5" y="356" width="154.5" height="46" rx="10"/>
 <text class="d-title" x="277.75" y="376" text-anchor="middle">Sunstone</text>
-<text class="d-sub" x="277.75" y="393" text-anchor="middle">web interface</text>
-<rect class="d-tile" x="365" y="356" width="154.5" height="46" rx="4"/>
+<text class="d-sub" x="277.75" y="392" text-anchor="middle">web interface</text>
+<rect class="d-shadow" x="365" y="357.5" width="154.5" height="46" rx="10"/>
+<rect class="d-tile" x="365" y="356" width="154.5" height="46" rx="10"/>
 <text class="d-title" x="442.25" y="376" text-anchor="middle">Tenants</text>
-<text class="d-sub" x="442.25" y="393" text-anchor="middle">quotas, showback</text>
-<rect class="d-tile" x="529.5" y="356" width="154.5" height="46" rx="4"/>
+<text class="d-sub" x="442.25" y="392" text-anchor="middle">quotas, showback</text>
+<rect class="d-shadow" x="529.5" y="357.5" width="154.5" height="46" rx="10"/>
+<rect class="d-tile" x="529.5" y="356" width="154.5" height="46" rx="10"/>
 <text class="d-title" x="606.75" y="376" text-anchor="middle">Networks</text>
-<text class="d-sub" x="606.75" y="393" text-anchor="middle">VXLAN, NAT</text>
-<rect class="d-strip" x="36" y="410" width="648" height="30" rx="4"/>
+<text class="d-sub" x="606.75" y="392" text-anchor="middle">VXLAN, NAT</text>
+<rect class="d-strip" x="36" y="410" width="648" height="30" rx="8"/>
 <text class="d-sub" x="360" y="429" text-anchor="middle">OpenNebula 7.4, VMs with KVM and libvirt on the nodes</text>
-<rect class="d-band d-band-4" x="16" y="468" width="688" height="136" rx="6"/>
+<rect class="d-band d-band-4" x="16" y="468" width="688" height="136" rx="12"/>
 <text class="d-label" x="36" y="492" text-anchor="start">INFRASTRUCTURE</text>
 <text class="d-meta" x="163.22964000000002" y="492" text-anchor="start">part 0</text>
 <text class="d-meta" x="684" y="492" text-anchor="end">prepared with prepare.sh</text>
-<rect class="d-tile" x="36" y="504" width="209.33333333333334" height="46" rx="4"/>
+<rect class="d-shadow" x="36" y="505.5" width="209.33333333333334" height="46" rx="10"/>
+<rect class="d-tile" x="36" y="504" width="209.33333333333334" height="46" rx="10"/>
 <text class="d-title" x="140.66666666666669" y="524" text-anchor="middle">Front-end</text>
-<text class="d-sub" x="140.66666666666669" y="541" text-anchor="middle">Ubuntu 26.04</text>
-<rect class="d-tile" x="255.33333333333334" y="504" width="209.33333333333334" height="46" rx="4"/>
+<text class="d-sub" x="140.66666666666669" y="540" text-anchor="middle">Ubuntu 26.04</text>
+<rect class="d-shadow" x="255.33333333333334" y="505.5" width="209.33333333333334" height="46" rx="10"/>
+<rect class="d-tile" x="255.33333333333334" y="504" width="209.33333333333334" height="46" rx="10"/>
 <text class="d-title" x="360" y="524" text-anchor="middle">Node 1</text>
-<text class="d-sub" x="360" y="541" text-anchor="middle">Ubuntu 26.04</text>
-<rect class="d-tile" x="474.6666666666667" y="504" width="209.33333333333334" height="46" rx="4"/>
+<text class="d-sub" x="360" y="540" text-anchor="middle">Ubuntu 26.04</text>
+<rect class="d-shadow" x="474.6666666666667" y="505.5" width="209.33333333333334" height="46" rx="10"/>
+<rect class="d-tile" x="474.6666666666667" y="504" width="209.33333333333334" height="46" rx="10"/>
 <text class="d-title" x="579.3333333333334" y="524" text-anchor="middle">Node 2</text>
-<text class="d-sub" x="579.3333333333334" y="541" text-anchor="middle">Ubuntu 26.04</text>
-<rect class="d-strip" x="36" y="558" width="648" height="30" rx="4"/>
+<text class="d-sub" x="579.3333333333334" y="540" text-anchor="middle">Ubuntu 26.04</text>
+<rect class="d-strip" x="36" y="558" width="648" height="30" rx="8"/>
 <text class="d-sub" x="360" y="577" text-anchor="middle">smartlearn or a hypervisor of your own</text>
 </svg>

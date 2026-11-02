@@ -1,25 +1,29 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 392" role="img" aria-labelledby="p5c4-hpa-en-title p5c4-hpa-en-desc">
 <title id="p5c4-hpa-en-title">The control loop of the HorizontalPodAutoscaler</title>
 <desc id="p5c4-hpa-en-desc">A control loop of four parts. The metrics-server of k3s measures the CPU of the web shop pods. The HorizontalPodAutoscaler compares the average utilization with the target of 60 % of the request and computes ceil of pods times utilization divided by target, so two pods at 120 % give four pods. It stays between 2 and 6 pods and sets replicas in the deployment webshop in the namespace velo. Every pod has a request of 50m and a limit of 250m. Below, the ResourceQuota member caps the limits at 2 CPU. Six pods need 1.5 CPU, and the rest is left for the extra pods of a rollout.</desc>
-<defs><marker id="p5c4-hpa-en-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"/></marker></defs>
-<rect class="d-band d-band-1" x="16" y="16" width="728" height="248" rx="6"/>
+<defs><marker id="p5c4-hpa-en-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"/></marker><marker id="p5c4-hpa-en-head-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head d-head-accent" d="M 0 1 L 9 5 L 0 9 z"/></marker></defs>
+<rect class="d-ground" x="0" y="0" width="760" height="392" rx="14"/>
+<rect class="d-band d-band-1" x="16" y="16" width="728" height="248" rx="12"/>
 <text class="d-label" x="32" y="40" text-anchor="start">CONTROL LOOP</text>
-<rect class="d-tile" x="32" y="56" width="220" height="56" rx="4"/>
+<rect class="d-shadow" x="32" y="57.5" width="220" height="56" rx="10"/>
+<rect class="d-tile" x="32" y="56" width="220" height="56" rx="10"/>
 <text class="d-title" x="142" y="81" text-anchor="middle">metrics-server</text>
-<text class="d-sub" x="142" y="98" text-anchor="middle">CPU of the pods, from k3s</text>
-<rect class="d-tile" x="380" y="56" width="340" height="56" rx="4"/>
-<rect class="d-bar" x="380" y="56" width="4" height="56" rx="2"/>
+<text class="d-sub" x="142" y="97" text-anchor="middle">CPU of the pods, from k3s</text>
+<rect class="d-shadow" x="380" y="57.5" width="340" height="56" rx="10"/>
+<rect class="d-tile d-tile-accent" x="380" y="56" width="340" height="56" rx="10"/>
 <text class="d-title" x="550" y="81" text-anchor="middle">HorizontalPodAutoscaler</text>
-<text class="d-sub" x="550" y="98" text-anchor="middle">target 60 % of the request, 2 to 6 pods</text>
-<rect class="d-strip" x="380" y="120" width="340" height="28" rx="4"/>
+<text class="d-sub" x="550" y="97" text-anchor="middle">target 60 % of the request, 2 to 6 pods</text>
+<rect class="d-strip" x="380" y="120" width="340" height="28" rx="8"/>
 <text class="d-sub" x="550" y="138" text-anchor="middle">ceil(pods × utilization / target)</text>
 <text class="d-meta" x="380" y="168" text-anchor="start">example 2 pods × 120 % / 60 % = 4 pods</text>
-<rect class="d-tile" x="380" y="196" width="340" height="52" rx="4"/>
+<rect class="d-shadow" x="380" y="197.5" width="340" height="52" rx="10"/>
+<rect class="d-tile" x="380" y="196" width="340" height="52" rx="10"/>
 <text class="d-title" x="550" y="219" text-anchor="middle">Deployment webshop</text>
-<text class="d-sub" x="550" y="236" text-anchor="middle">namespace velo, no replicas in Git</text>
-<rect class="d-tile" x="32" y="196" width="220" height="52" rx="4"/>
+<text class="d-sub" x="550" y="235" text-anchor="middle">namespace velo, no replicas in Git</text>
+<rect class="d-shadow" x="32" y="197.5" width="220" height="52" rx="10"/>
+<rect class="d-tile" x="32" y="196" width="220" height="52" rx="10"/>
 <text class="d-title" x="142" y="219" text-anchor="middle">Web shop pods</text>
-<text class="d-sub" x="142" y="236" text-anchor="middle">request 50m, limit 250m</text>
+<text class="d-sub" x="142" y="235" text-anchor="middle">request 50m, limit 250m</text>
 <path class="d-arrow" d="M 252 84 L 378 84" marker-end="url(#p5c4-hpa-en-head)"/>
 <text class="d-sub" x="316" y="76" text-anchor="middle">utilization</text>
 <path class="d-arrow" d="M 680 148 L 680 194" marker-end="url(#p5c4-hpa-en-head)"/>
@@ -28,11 +32,12 @@
 <text class="d-sub" x="316" y="214" text-anchor="middle">scales</text>
 <path class="d-arrow" d="M 142 196 L 142 114" marker-end="url(#p5c4-hpa-en-head)"/>
 <text class="d-sub" x="150" y="158" text-anchor="start">measures</text>
-<rect class="d-band d-band-2" x="16" y="280" width="728" height="96" rx="6"/>
+<rect class="d-band d-band-2" x="16" y="280" width="728" height="96" rx="12"/>
 <text class="d-label" x="32" y="304" text-anchor="start">LIMIT</text>
-<rect class="d-tile" x="32" y="316" width="688" height="48" rx="4"/>
+<rect class="d-shadow" x="32" y="317.5" width="688" height="48" rx="10"/>
+<rect class="d-tile" x="32" y="316" width="688" height="48" rx="10"/>
 <text class="d-title" x="376" y="337" text-anchor="middle">ResourceQuota member</text>
-<text class="d-sub" x="376" y="354" text-anchor="middle">limits.cpu 2, six pods need 1.5 CPU, the rest is for a rollout</text>
+<text class="d-sub" x="376" y="353" text-anchor="middle">limits.cpu 2, six pods need 1.5 CPU, the rest is for a rollout</text>
 <path class="d-line d-line-accent d-dashed" d="M 142 316 L 142 250"/>
 <text class="d-sub" x="150" y="290" text-anchor="start">caps</text>
 </svg>

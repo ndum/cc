@@ -1,43 +1,62 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 340" role="img" aria-labelledby="p0c2-lab-en-title p0c2-lab-en-desc">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 420" role="img" aria-labelledby="p0c2-lab-en-title p0c2-lab-en-desc">
 <title id="p0c2-lab-en-title">The lab with three servers, the client and two networks</title>
-<desc id="p0c2-lab-en-desc">The front-end, two nodes and the client sit on the lab network. From the client you reach the servers over SSH and their web interfaces in the browser. VMs of the cloud run on every node. These VMs and the front-end share an internal VXLAN network. The front-end is its gateway and forwards its traffic to the internet with NAT.</desc>
-<defs><marker id="p0c2-lab-en-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"/></marker></defs>
-<rect class="d-tile" x="40" y="20" width="200" height="40" rx="4"/>
-<text class="d-title" x="140" y="45" text-anchor="middle">Internet</text>
-<path class="d-arrow" d="M 140 140 L 140 64" marker-end="url(#p0c2-lab-en-head)"/>
-<text class="d-code" x="150" y="106" text-anchor="start">NAT</text>
-<path class="d-line" d="M 190 116 L 620 116"/>
-<path class="d-line" d="M 190 116 L 190 140"/>
-<path class="d-line" d="M 380 116 L 380 140"/>
-<path class="d-line" d="M 600 116 L 600 140"/>
-<text class="d-sub" x="250" y="108" text-anchor="start">lab network, fixed addresses</text>
-<rect class="d-tile" x="470" y="12" width="200" height="56" rx="4"/>
-<text class="d-title" x="570" y="37" text-anchor="middle">Client</text>
-<text class="d-sub" x="570" y="54" text-anchor="middle">Kali, browser and SSH</text>
-<path class="d-line" d="M 570 68 L 570 116"/>
-<rect class="d-tile" x="40" y="140" width="200" height="56" rx="4"/>
-<rect class="d-bar" x="40" y="140" width="4" height="56" rx="2"/>
-<text class="d-title" x="140" y="165" text-anchor="middle">Front-end</text>
-<text class="d-sub" x="140" y="182" text-anchor="middle">gateway, web interface</text>
-<rect class="d-band d-band-2" x="290" y="140" width="180" height="132" rx="6"/>
-<text class="d-label" x="302" y="160" text-anchor="start">NODE 1</text>
-<text class="d-sub" x="458" y="160" text-anchor="end">KVM</text>
-<rect class="d-tile" x="302" y="178" width="72" height="40" rx="4"/>
-<text class="d-title" x="338" y="203" text-anchor="middle">VM</text>
-<rect class="d-tile" x="386" y="178" width="72" height="40" rx="4"/>
-<text class="d-title" x="422" y="203" text-anchor="middle">VM</text>
-<rect class="d-band d-band-2" x="510" y="140" width="180" height="132" rx="6"/>
-<text class="d-label" x="522" y="160" text-anchor="start">NODE 2</text>
-<text class="d-sub" x="678" y="160" text-anchor="end">KVM</text>
-<rect class="d-tile" x="522" y="178" width="72" height="40" rx="4"/>
-<text class="d-title" x="558" y="203" text-anchor="middle">VM</text>
-<rect class="d-tile" x="606" y="178" width="72" height="40" rx="4"/>
-<text class="d-title" x="642" y="203" text-anchor="middle">VM</text>
-<path class="d-line d-line-accent d-dashed" d="M 140 196 L 140 300"/>
-<path class="d-line d-line-accent d-dashed" d="M 338 218 L 338 300"/>
-<path class="d-line d-line-accent d-dashed" d="M 422 218 L 422 300"/>
-<path class="d-line d-line-accent d-dashed" d="M 558 218 L 558 300"/>
-<path class="d-line d-line-accent d-dashed" d="M 642 218 L 642 300"/>
-<path class="d-line d-line-accent d-dashed" d="M 140 300 L 642 300"/>
-<text class="d-sub" x="40" y="326" text-anchor="start">internal network (VXLAN), for example 172.28.217.0/24</text>
+<desc id="p0c2-lab-en-desc">The front-end, two nodes and the client sit on the lab network 192.168.210.0/24, here with the example addresses of mmuster. The lab network reaches the internet through the gateway .1. From the client you reach the servers over SSH and their web interfaces in the browser. VMs of the cloud run on every node. These VMs and the front-end share an internal VXLAN network. The front-end is its gateway and forwards its traffic to the internet with NAT.</desc>
+<defs><marker id="p0c2-lab-en-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"/></marker><marker id="p0c2-lab-en-head-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head d-head-accent" d="M 0 1 L 9 5 L 0 9 z"/></marker></defs>
+<rect class="d-ground" x="0" y="0" width="760" height="420" rx="14"/>
+<rect class="d-band d-band-2" x="256" y="186" width="230" height="150" rx="12"/>
+<text class="d-label d-label-blue" x="272" y="210" text-anchor="start">NODE 1</text>
+<text class="d-code" x="272" y="227" text-anchor="start">192.168.210.138</text>
+<rect class="d-tag" x="434" y="196" width="40" height="18" rx="9"/>
+<text class="d-tag-text" x="454" y="208.5" text-anchor="middle">KVM</text>
+<rect class="d-band d-band-2" x="506" y="186" width="230" height="150" rx="12"/>
+<text class="d-label d-label-blue" x="522" y="210" text-anchor="start">NODE 2</text>
+<text class="d-code" x="522" y="227" text-anchor="start">192.168.210.139</text>
+<rect class="d-tag" x="684" y="196" width="40" height="18" rx="9"/>
+<text class="d-tag-text" x="704" y="208.5" text-anchor="middle">KVM</text>
+<path class="d-line d-line-accent" d="M 24 150 L 736 150"/>
+<text class="d-label d-label-blue" x="24" y="140" text-anchor="start">LAB NETWORK 192.168.210.0/24</text>
+<path class="d-line d-line-accent" d="M 305 88 L 305 150"/>
+<path class="d-line d-line-accent" d="M 570 100 L 570 150"/>
+<path class="d-line d-line-accent" d="M 122 150 L 122 186"/>
+<path class="d-line d-line-accent" d="M 371 150 L 371 186"/>
+<path class="d-line d-line-accent" d="M 621 150 L 621 186"/>
+<path class="d-line d-line-violet d-dashed" d="M 122 262 L 122 372 L 673 372"/>
+<path class="d-line d-line-violet d-dashed" d="M 319 284 L 319 372"/>
+<path class="d-line d-line-violet d-dashed" d="M 423 284 L 423 372"/>
+<path class="d-line d-line-violet d-dashed" d="M 569 284 L 569 372"/>
+<path class="d-line d-line-violet d-dashed" d="M 673 284 L 673 372"/>
+<text class="d-label d-label-violet" x="24" y="398" text-anchor="start">INTERNAL NETWORK (VXLAN), FOR EXAMPLE 172.28.217.0/24</text>
+<rect class="d-shadow" x="220" y="25.5" width="170" height="64" rx="10"/>
+<rect class="d-tile" x="220" y="24" width="170" height="64" rx="10"/>
+<g class="d-icon" transform="translate(232 47) scale(0.75)"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></g>
+<text class="d-title" x="260" y="53" text-anchor="start">Internet</text>
+<text class="d-sub" x="260" y="69" text-anchor="start">through the gateway .1</text>
+<rect class="d-shadow" x="470" y="25.5" width="200" height="76" rx="10"/>
+<rect class="d-tile" x="470" y="24" width="200" height="76" rx="10"/>
+<g class="d-icon" transform="translate(482 53) scale(0.75)"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></g>
+<text class="d-title" x="510" y="52" text-anchor="start">Client</text>
+<text class="d-sub" x="510" y="67" text-anchor="start">Kali, browser, SSH</text>
+<text class="d-code" x="510" y="82" text-anchor="start">192.168.210.10</text>
+<rect class="d-shadow" x="24" y="187.5" width="196" height="76" rx="10"/>
+<rect class="d-tile" x="24" y="186" width="196" height="76" rx="10"/>
+<g class="d-icon" transform="translate(36 215) scale(0.75)"><rect x="4" y="4" width="16" height="7" rx="1.5"/><rect x="4" y="13" width="16" height="7" rx="1.5"/><path d="M8 7.5h.01M8 16.5h.01"/></g>
+<text class="d-title" x="64" y="214" text-anchor="start">Front-end</text>
+<text class="d-sub" x="64" y="229" text-anchor="start">OpenNebula, gateway, NAT</text>
+<text class="d-code" x="64" y="244" text-anchor="start">192.168.210.137</text>
+<rect class="d-shadow" x="272" y="241.5" width="94" height="44" rx="10"/>
+<rect class="d-tile d-tile-violet" x="272" y="240" width="94" height="44" rx="10"/>
+<g class="d-icon d-icon-violet" transform="translate(284 253) scale(0.75)"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="8.5" y="8.5" width="7" height="7" rx="1"/></g>
+<text class="d-title d-title-violet" x="312" y="266.5" text-anchor="start">VM</text>
+<rect class="d-shadow" x="376" y="241.5" width="94" height="44" rx="10"/>
+<rect class="d-tile d-tile-violet" x="376" y="240" width="94" height="44" rx="10"/>
+<g class="d-icon d-icon-violet" transform="translate(388 253) scale(0.75)"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="8.5" y="8.5" width="7" height="7" rx="1"/></g>
+<text class="d-title d-title-violet" x="416" y="266.5" text-anchor="start">VM</text>
+<rect class="d-shadow" x="522" y="241.5" width="94" height="44" rx="10"/>
+<rect class="d-tile d-tile-violet" x="522" y="240" width="94" height="44" rx="10"/>
+<g class="d-icon d-icon-violet" transform="translate(534 253) scale(0.75)"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="8.5" y="8.5" width="7" height="7" rx="1"/></g>
+<text class="d-title d-title-violet" x="562" y="266.5" text-anchor="start">VM</text>
+<rect class="d-shadow" x="626" y="241.5" width="94" height="44" rx="10"/>
+<rect class="d-tile d-tile-violet" x="626" y="240" width="94" height="44" rx="10"/>
+<g class="d-icon d-icon-violet" transform="translate(638 253) scale(0.75)"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="8.5" y="8.5" width="7" height="7" rx="1"/></g>
+<text class="d-title d-title-violet" x="666" y="266.5" text-anchor="start">VM</text>
 </svg>

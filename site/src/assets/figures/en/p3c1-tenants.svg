@@ -1,82 +1,95 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 490" role="img" aria-labelledby="p3c1-tenants-en-title p3c1-tenants-en-desc">
 <title id="p3c1-tenants-en-title">Groups, group admins and the VDC of the members</title>
 <desc id="p3c1-tenants-en-desc">At the top the VDC wolkenwerk holds the four groups praxis, treuhand, velo and gemeinde, one per member. Every group has a group admin such as praxis-admin who creates the users of the group. Every group may create VMs, images, templates and documents and only sees its own objects. At the bottom is cluster 0 with node 1, node 2, the network cc-net and the datastores, which the platform team assigns to the VDC.</desc>
-<defs><marker id="p3c1-tenants-en-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"/></marker></defs>
-<rect class="d-band d-band-1" x="16" y="16" width="768" height="314" rx="6"/>
+<defs><marker id="p3c1-tenants-en-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"/></marker><marker id="p3c1-tenants-en-head-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head d-head-accent" d="M 0 1 L 9 5 L 0 9 z"/></marker></defs>
+<rect class="d-ground" x="0" y="0" width="800" height="490" rx="14"/>
+<rect class="d-band d-band-1" x="16" y="16" width="768" height="314" rx="12"/>
 <text class="d-label" x="32" y="40" text-anchor="start">VDC WOLKENWERK</text>
 <text class="d-meta" x="768" y="40" text-anchor="end">one group per member</text>
-<rect class="d-band d-band-2" x="32" y="56" width="175" height="234" rx="6"/>
+<rect class="d-band d-band-2" x="32" y="56" width="175" height="234" rx="12"/>
 <text class="d-label" x="44" y="80" text-anchor="start">GROUP</text>
-<rect class="d-tile" x="44" y="92" width="151" height="50" rx="4"/>
-<rect class="d-bar" x="44" y="92" width="4" height="50" rx="2"/>
+<rect class="d-shadow" x="44" y="93.5" width="151" height="50" rx="10"/>
+<rect class="d-tile d-tile-accent" x="44" y="92" width="151" height="50" rx="10"/>
 <text class="d-title" x="119.5" y="114" text-anchor="middle">praxis</text>
-<text class="d-sub" x="119.5" y="131" text-anchor="middle">Praxis Rosenweg</text>
-<rect class="d-tile" x="44" y="158" width="151" height="50" rx="4"/>
+<text class="d-sub" x="119.5" y="130" text-anchor="middle">Praxis Rosenweg</text>
+<rect class="d-shadow" x="44" y="159.5" width="151" height="50" rx="10"/>
+<rect class="d-tile" x="44" y="158" width="151" height="50" rx="10"/>
 <text class="d-title" x="119.5" y="180" text-anchor="middle">praxis-admin</text>
-<text class="d-sub" x="119.5" y="197" text-anchor="middle">group admin</text>
-<rect class="d-tile" x="44" y="224" width="151" height="50" rx="4"/>
+<text class="d-sub" x="119.5" y="196" text-anchor="middle">group admin</text>
+<rect class="d-shadow" x="44" y="225.5" width="151" height="50" rx="10"/>
+<rect class="d-tile" x="44" y="224" width="151" height="50" rx="10"/>
 <text class="d-title" x="119.5" y="246" text-anchor="middle">Users</text>
-<text class="d-sub" x="119.5" y="263" text-anchor="middle">created by the admin</text>
+<text class="d-sub" x="119.5" y="262" text-anchor="middle">created by the admin</text>
 <path class="d-line" d="M 119.5 142 L 119.5 158"/>
 <path class="d-line" d="M 119.5 208 L 119.5 224"/>
-<rect class="d-band d-band-2" x="219" y="56" width="175" height="234" rx="6"/>
+<rect class="d-band d-band-2" x="219" y="56" width="175" height="234" rx="12"/>
 <text class="d-label" x="231" y="80" text-anchor="start">GROUP</text>
-<rect class="d-tile" x="231" y="92" width="151" height="50" rx="4"/>
-<rect class="d-bar" x="231" y="92" width="4" height="50" rx="2"/>
+<rect class="d-shadow" x="231" y="93.5" width="151" height="50" rx="10"/>
+<rect class="d-tile d-tile-accent" x="231" y="92" width="151" height="50" rx="10"/>
 <text class="d-title" x="306.5" y="114" text-anchor="middle">treuhand</text>
-<text class="d-sub" x="306.5" y="131" text-anchor="middle">Treuhand Aaregg</text>
-<rect class="d-tile" x="231" y="158" width="151" height="50" rx="4"/>
+<text class="d-sub" x="306.5" y="130" text-anchor="middle">Treuhand Aaregg</text>
+<rect class="d-shadow" x="231" y="159.5" width="151" height="50" rx="10"/>
+<rect class="d-tile" x="231" y="158" width="151" height="50" rx="10"/>
 <text class="d-title" x="306.5" y="180" text-anchor="middle">treuhand-admin</text>
-<text class="d-sub" x="306.5" y="197" text-anchor="middle">group admin</text>
-<rect class="d-tile" x="231" y="224" width="151" height="50" rx="4"/>
+<text class="d-sub" x="306.5" y="196" text-anchor="middle">group admin</text>
+<rect class="d-shadow" x="231" y="225.5" width="151" height="50" rx="10"/>
+<rect class="d-tile" x="231" y="224" width="151" height="50" rx="10"/>
 <text class="d-title" x="306.5" y="246" text-anchor="middle">Users</text>
-<text class="d-sub" x="306.5" y="263" text-anchor="middle">created by the admin</text>
+<text class="d-sub" x="306.5" y="262" text-anchor="middle">created by the admin</text>
 <path class="d-line" d="M 306.5 142 L 306.5 158"/>
 <path class="d-line" d="M 306.5 208 L 306.5 224"/>
-<rect class="d-band d-band-2" x="406" y="56" width="175" height="234" rx="6"/>
+<rect class="d-band d-band-2" x="406" y="56" width="175" height="234" rx="12"/>
 <text class="d-label" x="418" y="80" text-anchor="start">GROUP</text>
-<rect class="d-tile" x="418" y="92" width="151" height="50" rx="4"/>
-<rect class="d-bar" x="418" y="92" width="4" height="50" rx="2"/>
+<rect class="d-shadow" x="418" y="93.5" width="151" height="50" rx="10"/>
+<rect class="d-tile d-tile-accent" x="418" y="92" width="151" height="50" rx="10"/>
 <text class="d-title" x="493.5" y="114" text-anchor="middle">velo</text>
-<text class="d-sub" x="493.5" y="131" text-anchor="middle">Veloatelier Matte</text>
-<rect class="d-tile" x="418" y="158" width="151" height="50" rx="4"/>
+<text class="d-sub" x="493.5" y="130" text-anchor="middle">Veloatelier Matte</text>
+<rect class="d-shadow" x="418" y="159.5" width="151" height="50" rx="10"/>
+<rect class="d-tile" x="418" y="158" width="151" height="50" rx="10"/>
 <text class="d-title" x="493.5" y="180" text-anchor="middle">velo-admin</text>
-<text class="d-sub" x="493.5" y="197" text-anchor="middle">group admin</text>
-<rect class="d-tile" x="418" y="224" width="151" height="50" rx="4"/>
+<text class="d-sub" x="493.5" y="196" text-anchor="middle">group admin</text>
+<rect class="d-shadow" x="418" y="225.5" width="151" height="50" rx="10"/>
+<rect class="d-tile" x="418" y="224" width="151" height="50" rx="10"/>
 <text class="d-title" x="493.5" y="246" text-anchor="middle">Users</text>
-<text class="d-sub" x="493.5" y="263" text-anchor="middle">created by the admin</text>
+<text class="d-sub" x="493.5" y="262" text-anchor="middle">created by the admin</text>
 <path class="d-line" d="M 493.5 142 L 493.5 158"/>
 <path class="d-line" d="M 493.5 208 L 493.5 224"/>
-<rect class="d-band d-band-2" x="593" y="56" width="175" height="234" rx="6"/>
+<rect class="d-band d-band-2" x="593" y="56" width="175" height="234" rx="12"/>
 <text class="d-label" x="605" y="80" text-anchor="start">GROUP</text>
-<rect class="d-tile" x="605" y="92" width="151" height="50" rx="4"/>
-<rect class="d-bar" x="605" y="92" width="4" height="50" rx="2"/>
+<rect class="d-shadow" x="605" y="93.5" width="151" height="50" rx="10"/>
+<rect class="d-tile d-tile-accent" x="605" y="92" width="151" height="50" rx="10"/>
 <text class="d-title" x="680.5" y="114" text-anchor="middle">gemeinde</text>
-<text class="d-sub" x="680.5" y="131" text-anchor="middle">Gemeinde Hinterbüel</text>
-<rect class="d-tile" x="605" y="158" width="151" height="50" rx="4"/>
+<text class="d-sub" x="680.5" y="130" text-anchor="middle">Gemeinde Hinterbüel</text>
+<rect class="d-shadow" x="605" y="159.5" width="151" height="50" rx="10"/>
+<rect class="d-tile" x="605" y="158" width="151" height="50" rx="10"/>
 <text class="d-title" x="680.5" y="180" text-anchor="middle">gemeinde-admin</text>
-<text class="d-sub" x="680.5" y="197" text-anchor="middle">group admin</text>
-<rect class="d-tile" x="605" y="224" width="151" height="50" rx="4"/>
+<text class="d-sub" x="680.5" y="196" text-anchor="middle">group admin</text>
+<rect class="d-shadow" x="605" y="225.5" width="151" height="50" rx="10"/>
+<rect class="d-tile" x="605" y="224" width="151" height="50" rx="10"/>
 <text class="d-title" x="680.5" y="246" text-anchor="middle">Users</text>
-<text class="d-sub" x="680.5" y="263" text-anchor="middle">created by the admin</text>
+<text class="d-sub" x="680.5" y="262" text-anchor="middle">created by the admin</text>
 <path class="d-line" d="M 680.5 142 L 680.5 158"/>
 <path class="d-line" d="M 680.5 208 L 680.5 224"/>
 <text class="d-sub" x="400" y="314" text-anchor="middle">Every group may create VMs, images, templates and documents and only sees its own objects.</text>
 <path class="d-arrow" d="M 400 368 L 400 332" marker-end="url(#p3c1-tenants-en-head)"/>
 <text class="d-code" x="412" y="355" text-anchor="start">onevdc addcluster</text>
-<rect class="d-band d-band-3" x="16" y="370" width="768" height="104" rx="6"/>
+<rect class="d-band d-band-3" x="16" y="370" width="768" height="104" rx="12"/>
 <text class="d-label" x="32" y="394" text-anchor="start">CLUSTER 0</text>
 <text class="d-meta" x="768" y="394" text-anchor="end">assigned to the VDC</text>
-<rect class="d-tile" x="32" y="408" width="175" height="50" rx="4"/>
+<rect class="d-shadow" x="32" y="409.5" width="175" height="50" rx="10"/>
+<rect class="d-tile" x="32" y="408" width="175" height="50" rx="10"/>
 <text class="d-title" x="119.5" y="430" text-anchor="middle">Node 1</text>
-<text class="d-sub" x="119.5" y="447" text-anchor="middle">KVM</text>
-<rect class="d-tile" x="219" y="408" width="175" height="50" rx="4"/>
+<text class="d-sub" x="119.5" y="446" text-anchor="middle">KVM</text>
+<rect class="d-shadow" x="219" y="409.5" width="175" height="50" rx="10"/>
+<rect class="d-tile" x="219" y="408" width="175" height="50" rx="10"/>
 <text class="d-title" x="306.5" y="430" text-anchor="middle">Node 2</text>
-<text class="d-sub" x="306.5" y="447" text-anchor="middle">KVM</text>
-<rect class="d-tile" x="406" y="408" width="175" height="50" rx="4"/>
+<text class="d-sub" x="306.5" y="446" text-anchor="middle">KVM</text>
+<rect class="d-shadow" x="406" y="409.5" width="175" height="50" rx="10"/>
+<rect class="d-tile" x="406" y="408" width="175" height="50" rx="10"/>
 <text class="d-title" x="493.5" y="430" text-anchor="middle">cc-net</text>
-<text class="d-sub" x="493.5" y="447" text-anchor="middle">internal network</text>
-<rect class="d-tile" x="593" y="408" width="175" height="50" rx="4"/>
+<text class="d-sub" x="493.5" y="446" text-anchor="middle">internal network</text>
+<rect class="d-shadow" x="593" y="409.5" width="175" height="50" rx="10"/>
+<rect class="d-tile" x="593" y="408" width="175" height="50" rx="10"/>
 <text class="d-title" x="680.5" y="430" text-anchor="middle">Datastores</text>
-<text class="d-sub" x="680.5" y="447" text-anchor="middle">images, disks</text>
+<text class="d-sub" x="680.5" y="446" text-anchor="middle">images, disks</text>
 </svg>

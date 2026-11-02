@@ -1,47 +1,53 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 346" role="img" aria-labelledby="p4c3-cluster-de-title p4c3-cluster-de-desc">
 <title id="p4c3-cluster-de-title">Der k3s-Cluster in cc-net</title>
 <desc id="p4c3-cluster-de-desc">Zwei VMs im internen Netz cc-net. k3s-server mit der Adresse CC_K3S_SERVER_IP enthält die Control Plane mit API-Server auf Port 6443 und der Datenbank SQLite und führt auch Pods aus. k3s-agent mit der Adresse CC_K3S_AGENT_IP tritt mit dem Token bei und führt Pods aus. Jeder Node bekommt für seine Pods ein /24 aus 10.52.0.0/16, die Services liegen in 10.53.0.0/16. Mit host-gw hat jeder Node eine Route ins Pod-Netz des anderen über dessen Adresse in cc-net. kubectl auf dem Front-end spricht mit dem API-Server.</desc>
-<defs><marker id="p4c3-cluster-de-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"/></marker></defs>
-<rect class="d-band d-band-1" x="16" y="16" width="160" height="314" rx="6"/>
+<defs><marker id="p4c3-cluster-de-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"/></marker><marker id="p4c3-cluster-de-head-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head d-head-accent" d="M 0 1 L 9 5 L 0 9 z"/></marker></defs>
+<rect class="d-ground" x="0" y="0" width="800" height="346" rx="14"/>
+<rect class="d-band d-band-1" x="16" y="16" width="160" height="314" rx="12"/>
 <text class="d-label" x="28" y="40" text-anchor="start">FRONT-END</text>
-<rect class="d-tile" x="28" y="96" width="136" height="46" rx="4"/>
+<rect class="d-shadow" x="28" y="97.5" width="136" height="46" rx="10"/>
+<rect class="d-tile" x="28" y="96" width="136" height="46" rx="10"/>
 <text class="d-title" x="96" y="116" text-anchor="middle">kubectl</text>
-<text class="d-code" x="96" y="133" text-anchor="middle">~/.kube/config</text>
-<rect class="d-band d-band-1" x="216" y="16" width="568" height="314" rx="6"/>
+<text class="d-code" x="96" y="132" text-anchor="middle">~/.kube/config</text>
+<rect class="d-band d-band-1" x="216" y="16" width="568" height="314" rx="12"/>
 <text class="d-label" x="232" y="40" text-anchor="start">CC-NET</text>
 <text class="d-meta" x="768" y="40" text-anchor="end">CC_GUEST_NET in 172.16.0.0/12</text>
-<rect class="d-band d-band-2" x="232" y="56" width="268" height="212" rx="6"/>
+<rect class="d-band d-band-2" x="232" y="56" width="268" height="212" rx="12"/>
 <text class="d-label" x="248" y="80" text-anchor="start">K3S-SERVER</text>
 <text class="d-meta" x="484" y="80" text-anchor="end">CC_K3S_SERVER_IP</text>
-<rect class="d-tile" x="248" y="152" width="236" height="46" rx="4"/>
+<rect class="d-shadow" x="248" y="153.5" width="236" height="46" rx="10"/>
+<rect class="d-tile" x="248" y="152" width="236" height="46" rx="10"/>
 <text class="d-title" x="366" y="172" text-anchor="middle">Pods</text>
-<text class="d-sub" x="366" y="189" text-anchor="middle">ein /24 aus 10.52.0.0/16</text>
-<rect class="d-strip" x="248" y="208" width="236" height="44" rx="4"/>
+<text class="d-sub" x="366" y="188" text-anchor="middle">ein /24 aus 10.52.0.0/16</text>
+<rect class="d-strip" x="248" y="208" width="236" height="44" rx="8"/>
 <text class="d-sub" x="366" y="234" text-anchor="middle"></text>
 <text class="d-sub" x="366" y="226" text-anchor="middle">Route ins Pod-Netz des Agents</text>
 <text class="d-code" x="366" y="241" text-anchor="middle">über CC_K3S_AGENT_IP</text>
-<rect class="d-band d-band-2" x="516" y="56" width="252" height="212" rx="6"/>
+<rect class="d-band d-band-2" x="516" y="56" width="252" height="212" rx="12"/>
 <text class="d-label" x="532" y="80" text-anchor="start">K3S-AGENT</text>
 <text class="d-meta" x="752" y="80" text-anchor="end">CC_K3S_AGENT_IP</text>
-<rect class="d-tile" x="532" y="152" width="220" height="46" rx="4"/>
+<rect class="d-shadow" x="532" y="153.5" width="220" height="46" rx="10"/>
+<rect class="d-tile" x="532" y="152" width="220" height="46" rx="10"/>
 <text class="d-title" x="642" y="172" text-anchor="middle">Pods</text>
-<text class="d-sub" x="642" y="189" text-anchor="middle">ein /24 aus 10.52.0.0/16</text>
-<rect class="d-strip" x="532" y="208" width="220" height="44" rx="4"/>
+<text class="d-sub" x="642" y="188" text-anchor="middle">ein /24 aus 10.52.0.0/16</text>
+<rect class="d-strip" x="532" y="208" width="220" height="44" rx="8"/>
 <text class="d-sub" x="642" y="234" text-anchor="middle"></text>
 <text class="d-sub" x="642" y="226" text-anchor="middle">Route ins Pod-Netz des Servers</text>
 <text class="d-code" x="642" y="241" text-anchor="middle">über CC_K3S_SERVER_IP</text>
-<rect class="d-tile" x="248" y="96" width="113" height="46" rx="4"/>
-<rect class="d-bar" x="248" y="96" width="4" height="46" rx="2"/>
+<rect class="d-shadow" x="248" y="97.5" width="113" height="46" rx="10"/>
+<rect class="d-tile d-tile-accent" x="248" y="96" width="113" height="46" rx="10"/>
 <text class="d-title" x="304.5" y="116" text-anchor="middle">API-Server</text>
-<text class="d-sub" x="304.5" y="133" text-anchor="middle">Control Plane</text>
-<rect class="d-tile" x="371" y="96" width="113" height="46" rx="4"/>
+<text class="d-sub" x="304.5" y="132" text-anchor="middle">Control Plane</text>
+<rect class="d-shadow" x="371" y="97.5" width="113" height="46" rx="10"/>
+<rect class="d-tile" x="371" y="96" width="113" height="46" rx="10"/>
 <text class="d-title" x="427.5" y="116" text-anchor="middle">Datenbank</text>
-<text class="d-sub" x="427.5" y="133" text-anchor="middle">SQLite</text>
-<rect class="d-tile" x="532" y="96" width="220" height="46" rx="4"/>
+<text class="d-sub" x="427.5" y="132" text-anchor="middle">SQLite</text>
+<rect class="d-shadow" x="532" y="97.5" width="220" height="46" rx="10"/>
+<rect class="d-tile" x="532" y="96" width="220" height="46" rx="10"/>
 <text class="d-title" x="642" y="116" text-anchor="middle">Agent</text>
-<text class="d-sub" x="642" y="133" text-anchor="middle">tritt mit dem Token bei</text>
+<text class="d-sub" x="642" y="132" text-anchor="middle">tritt mit dem Token bei</text>
 <path class="d-line d-line-accent" d="M 484 175 L 532 175"/>
-<rect class="d-strip" x="232" y="284" width="536" height="30" rx="4"/>
+<rect class="d-strip" x="232" y="284" width="536" height="30" rx="8"/>
 <text class="d-sub" x="500" y="303" text-anchor="middle">Services aus 10.53.0.0/16, gültig im ganzen Cluster</text>
 <path class="d-arrow" d="M 164 119 L 246 119" marker-end="url(#p4c3-cluster-de-head)"/>
 <text class="d-code" x="196" y="112" text-anchor="middle">6443</text>

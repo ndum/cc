@@ -165,88 +165,232 @@ lt-tabs {
   max-width: 42rem;
   height: auto;
 }
-/* Diagrams drawn by figures/diagram.mjs, all colours from the theme of the site */
+/* Diagrams drawn by figures/diagram.mjs. The palette is set once for light and once for dark mode,
+   the shapes only use these variables */
+.fig {
+  --fig-ground: #f5f7fa;
+  --fig-card: #ffffff;
+  --fig-card-border: #d8dee8;
+  --fig-shadow: rgb(15 23 42 / 0.07);
+  --fig-title: #0f172a;
+  --fig-sub: #475569;
+  --fig-mono: #1d4ed8;
+  --fig-label: #334155;
+  --fig-line: #94a3b8;
+  --fig-arrow: #475569;
+  --fig-blue: #2563eb;
+  --fig-blue-text: #1d4ed8;
+  --fig-blue-soft: #dbe6fd;
+  --fig-violet: #7c3aed;
+  --fig-violet-text: #6d28d9;
+  --fig-violet-card: #faf7ff;
+  --fig-violet-border: #d9ccf9;
+  --fig-band-1: #eef2f7;
+  --fig-band-1-border: #dde3ec;
+  --fig-band-2: #eaf1fe;
+  --fig-band-2-border: #c9d9fb;
+  --fig-band-3: #f3effe;
+  --fig-band-3-border: #ddd2fb;
+  --fig-band-4: #e7f5f2;
+  --fig-band-4-border: #c3e6de;
+  --fig-teal: #0d9488;
+}
+:root[data-theme='dark'] .fig {
+  --fig-ground: #141b26;
+  --fig-card: #1b2433;
+  --fig-card-border: #2c3a50;
+  --fig-shadow: rgb(0 0 0 / 0.35);
+  --fig-title: #f1f5f9;
+  --fig-sub: #a3adbd;
+  --fig-mono: #93c5fd;
+  --fig-label: #cbd5e1;
+  --fig-line: #64748b;
+  --fig-arrow: #94a3b8;
+  --fig-blue: #60a5fa;
+  --fig-blue-text: #93c5fd;
+  --fig-blue-soft: #1e2f55;
+  --fig-violet: #a78bfa;
+  --fig-violet-text: #c4b5fd;
+  --fig-violet-card: #1e1a33;
+  --fig-violet-border: #4c3d80;
+  --fig-band-1: #182131;
+  --fig-band-1-border: #26324a;
+  --fig-band-2: #16213a;
+  --fig-band-2-border: #2a3b63;
+  --fig-band-3: #1d1a33;
+  --fig-band-3-border: #3b3170;
+  --fig-band-4: #13262a;
+  --fig-band-4-border: #24484c;
+  --fig-teal: #2dd4bf;
+}
 .fig text {
   font-family: var(--__sl-font, system-ui, sans-serif);
 }
+.fig .d-ground {
+  fill: var(--fig-ground);
+}
 .fig .d-band {
-  fill: color-mix(in srgb, var(--sl-color-gray-6) 70%, var(--sl-color-bg));
-  stroke: none;
-}
-.fig .d-band-2 {
-  fill: color-mix(in srgb, var(--sl-color-accent) 6%, var(--sl-color-gray-6));
-}
-.fig .d-band-3 {
-  fill: color-mix(in srgb, var(--sl-color-accent) 10%, var(--sl-color-gray-6));
-}
-.fig .d-band-4 {
-  fill: color-mix(in srgb, var(--sl-color-gray-5) 45%, var(--sl-color-bg));
-}
-.fig .d-tile {
-  fill: var(--sl-color-bg);
-  stroke: color-mix(in srgb, var(--sl-color-gray-4) 70%, var(--sl-color-bg));
+  fill: var(--fig-band-1);
+  stroke: var(--fig-band-1-border);
   stroke-width: 1;
 }
-.fig .d-bar {
-  fill: var(--sl-color-accent);
+.fig .d-band-2 {
+  fill: var(--fig-band-2);
+  stroke: var(--fig-band-2-border);
+}
+.fig .d-band-3 {
+  fill: var(--fig-band-3);
+  stroke: var(--fig-band-3-border);
+}
+.fig .d-band-4 {
+  fill: var(--fig-band-4);
+  stroke: var(--fig-band-4-border);
+}
+.fig .d-shadow {
+  fill: var(--fig-shadow);
+}
+.fig .d-tile {
+  fill: var(--fig-card);
+  stroke: var(--fig-card-border);
+  stroke-width: 1;
+}
+.fig .d-tile-accent {
+  stroke: var(--fig-blue);
+  stroke-width: 1.5;
+}
+.fig .d-tile-violet {
+  fill: var(--fig-violet-card);
+  stroke: var(--fig-violet-border);
 }
 .fig .d-strip {
   fill: none;
-  stroke: color-mix(in srgb, var(--sl-color-gray-4) 70%, var(--sl-color-bg));
+  stroke: var(--fig-card-border);
   stroke-width: 1;
   stroke-dasharray: 3 3;
 }
 .fig .d-title {
-  fill: var(--sl-color-white);
+  fill: var(--fig-title);
   font-size: 13px;
   font-weight: 600;
 }
+.fig .d-title-violet {
+  fill: var(--fig-violet-text);
+}
 .fig .d-title-small {
-  fill: var(--sl-color-white);
+  fill: var(--fig-title);
   font-size: 12px;
   font-weight: 600;
 }
 .fig .d-cell-provider {
-  fill: color-mix(in srgb, var(--sl-color-gray-5) 60%, var(--sl-color-bg));
+  fill: var(--fig-band-1);
   stroke: none;
 }
 .fig .d-sub {
-  fill: var(--sl-color-gray-3);
+  fill: var(--fig-sub);
   font-size: 11px;
 }
 .fig .d-code {
-  fill: var(--sl-color-gray-3);
+  fill: var(--fig-mono);
   font-family: var(--__sl-font-mono, monospace);
   font-size: 11px;
 }
 .fig .d-label {
-  fill: var(--sl-color-gray-1);
+  fill: var(--fig-label);
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.08em;
 }
+.fig .d-label-blue {
+  fill: var(--fig-blue-text);
+}
+.fig .d-label-violet {
+  fill: var(--fig-violet-text);
+}
 .fig .d-meta {
-  fill: var(--sl-color-gray-3);
+  fill: var(--fig-sub);
   font-size: 11px;
+}
+.fig .d-icon {
+  fill: none;
+  stroke: var(--fig-blue);
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.fig .d-icon-violet {
+  stroke: var(--fig-violet);
+}
+.fig .d-tag {
+  fill: var(--fig-blue-soft);
+}
+.fig .d-tag-text {
+  fill: var(--fig-blue-text);
+  font-size: 10.5px;
+  font-weight: 600;
 }
 .fig .d-line {
   fill: none;
-  stroke: var(--sl-color-gray-3);
-  stroke-width: 1.25;
+  stroke: var(--fig-line);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 .fig .d-line-accent {
-  stroke: var(--sl-color-accent);
+  stroke: var(--fig-blue);
+  stroke-width: 2;
+}
+.fig .d-line-violet {
+  stroke: var(--fig-violet);
+  stroke-width: 2;
 }
 .fig .d-dashed {
-  stroke-dasharray: 5 4;
+  stroke-dasharray: 6 5;
 }
 .fig .d-arrow {
   fill: none;
-  stroke: var(--sl-color-gray-2);
-  stroke-width: 1.25;
+  stroke: var(--fig-arrow);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.fig .d-arrow-accent {
+  stroke: var(--fig-blue);
+  stroke-width: 2;
 }
 .fig .d-head {
-  fill: var(--sl-color-gray-2);
+  fill: var(--fig-arrow);
+}
+.fig .d-head-accent {
+  fill: var(--fig-blue);
+}
+/* Fills, axes and grid lines for small charts in the figures */
+.fig .d-fill-blue {
+  fill: var(--fig-blue);
+}
+.fig .d-fill-violet {
+  fill: var(--fig-violet);
+}
+.fig .d-fill-teal {
+  fill: var(--fig-teal);
+}
+.fig .d-fill-soft {
+  fill: var(--fig-band-1);
+  stroke: var(--fig-band-1-border);
+}
+.fig .d-line-teal {
+  stroke: var(--fig-teal);
+  stroke-width: 2;
+}
+.fig .d-axis {
+  fill: none;
+  stroke: var(--fig-line);
+  stroke-width: 1;
+}
+.fig .d-grid {
+  fill: none;
+  stroke: var(--fig-card-border);
+  stroke-width: 1;
+  stroke-dasharray: 2 3;
 }
 
 /* Starlight spaces sibling elements in page content, controls in one row need no gap from that */

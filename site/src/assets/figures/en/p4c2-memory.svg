@@ -1,20 +1,23 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 172" role="img" aria-labelledby="p4c2-memory-en-title p4c2-memory-en-desc">
 <title id="p4c2-memory-en-title">The memory of a node</title>
 <desc id="p4c2-memory-en-desc">A bar for the 8 GB of a node. 0.8 GB stays with the host, and OpenNebula reports 7.2 GB for VMs. Of that the k3s VM reserves 6 GB, and 1.2 GB stays free, enough for a single VM with 1 GB.</desc>
-<defs><marker id="p4c2-memory-en-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"/></marker></defs>
-<rect class="d-band d-band-1" x="16" y="16" width="768" height="140" rx="6"/>
+<defs><marker id="p4c2-memory-en-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"/></marker><marker id="p4c2-memory-en-head-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head d-head-accent" d="M 0 1 L 9 5 L 0 9 z"/></marker></defs>
+<rect class="d-ground" x="0" y="0" width="800" height="172" rx="14"/>
+<rect class="d-band d-band-1" x="16" y="16" width="768" height="140" rx="12"/>
 <text class="d-label" x="40" y="40" text-anchor="start">NODE 1 OR NODE 2</text>
 <text class="d-meta" x="760" y="40" text-anchor="end">8 GB of memory</text>
-<rect class="d-tile" x="40" y="56" width="68" height="50" rx="4"/>
+<rect class="d-shadow" x="40" y="57.5" width="68" height="50" rx="10"/>
+<rect class="d-tile" x="40" y="56" width="68" height="50" rx="10"/>
 <text class="d-title" x="74" y="78" text-anchor="middle">Host</text>
-<text class="d-sub" x="74" y="95" text-anchor="middle">0.8 GB</text>
-<rect class="d-tile" x="112" y="56" width="536" height="50" rx="4"/>
-<rect class="d-bar" x="112" y="56" width="4" height="50" rx="2"/>
+<text class="d-sub" x="74" y="94" text-anchor="middle">0.8 GB</text>
+<rect class="d-shadow" x="112" y="57.5" width="536" height="50" rx="10"/>
+<rect class="d-tile d-tile-accent" x="112" y="56" width="536" height="50" rx="10"/>
 <text class="d-title" x="380" y="78" text-anchor="middle">k3s VM</text>
-<text class="d-sub" x="380" y="95" text-anchor="middle">6 GB, k3s-server or k3s-agent</text>
-<rect class="d-tile" x="652" y="56" width="108" height="50" rx="4"/>
+<text class="d-sub" x="380" y="94" text-anchor="middle">6 GB, k3s-server or k3s-agent</text>
+<rect class="d-shadow" x="652" y="57.5" width="108" height="50" rx="10"/>
+<rect class="d-tile" x="652" y="56" width="108" height="50" rx="10"/>
 <text class="d-title" x="706" y="78" text-anchor="middle">free</text>
-<text class="d-sub" x="706" y="95" text-anchor="middle">1.2 GB</text>
+<text class="d-sub" x="706" y="94" text-anchor="middle">1.2 GB</text>
 <path class="d-line" d="M 112 114 L 112 120 L 760 120 L 760 114"/>
 <text class="d-sub" x="436" y="140" text-anchor="middle">7.2 GB for VMs, ALLOCATED_MEM in onehost list</text>
 </svg>

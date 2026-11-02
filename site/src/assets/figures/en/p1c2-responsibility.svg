@@ -1,7 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 670 402" role="img" aria-labelledby="p1c2-responsibility-en-title p1c2-responsibility-en-desc">
 <title id="p1c2-responsibility-en-title">Shared responsibility in the service models</title>
 <desc id="p1c2-responsibility-en-desc">Four columns for running it yourself, IaaS, PaaS and SaaS show nine layers from network and hardware up to data and access. Running it yourself, the users operate every layer. With IaaS the provider takes over network, storage, servers and virtualization, with PaaS also the operating system, middleware and runtime, with SaaS the application as well. Data and access always stay with the users.</desc>
-<defs><marker id="p1c2-responsibility-en-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"/></marker></defs>
+<defs><marker id="p1c2-responsibility-en-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"/></marker><marker id="p1c2-responsibility-en-head-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head d-head-accent" d="M 0 1 L 9 5 L 0 9 z"/></marker></defs>
+<rect class="d-ground" x="0" y="0" width="670" height="402" rx="14"/>
 <text class="d-label" x="95" y="34" text-anchor="middle">ON PREMISES</text>
 <rect class="d-tile" x="20" y="50" width="150" height="30" rx="3"/>
 <rect class="d-bar" x="20" y="50" width="4" height="30" rx="2"/>
