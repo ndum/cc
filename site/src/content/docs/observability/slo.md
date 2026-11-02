@@ -43,6 +43,8 @@ Die ersten zwei Regeln sind Recording Rules. Prometheus berechnet den Fehlerante
 
 Ein Alert auf «mehr als 0,5 % Fehler» würde bei jeder kurzen Spitze auslösen. Die Burn Rate fragt stattdessen, wie schnell das Budget verbraucht wird. Eine Burn Rate von 1 verbraucht das Budget genau in den 7 Tagen. Bei 14,4 wäre es nach 168 / 14,4 ≈ 12 Stunden weg. Der Alert `WebshopErrorBudgetBurn` löst aus, wenn der Fehleranteil über fünf Minuten und über eine Stunde beide über 14,4 × 0,5 % = 7,2 % liegen, und das während zwei Minuten.
 
+In Meilenstein 3 gilt das Ziel aus deinen [persönlichen Werten](../../start/parameters/). Das Fehlerbudget ist dann 1 minus dein Ziel, bei 99,0 % also 1 %. Du ersetzt `0.005` in beiden Zeilen des Alerts durch dein Budget, die Schwelle liegt dann bei 14,4 × 1 % = 14,4 %.
+
 | Fenster | Aufgabe |
 |---|---|
 | 1 Stunde | zeigt, dass das Problem anhält und das Budget wirklich angreift |
@@ -88,7 +90,7 @@ kubectl run load --restart=Never --image=ghcr.io/ndum/cc/webshop:1.0.0 -- \
   python3 /app/load.py http://<adresse-des-servers>/ --workers 1 --seconds 1800
 ```
 
-In Prometheus unter «Alerts» wechselt `WebshopErrorBudgetBurn` zuerst auf `pending` und nach zwei Minuten auf `firing`. Danach stellst du den alten Stand her, mit `git revert` und `git push`, und löschst den Pod `load`. Im Lab war der Alert knapp sechs Minuten nach dem Revert wieder inaktiv.
+In Prometheus unter «Alerts» wechselt `WebshopErrorBudgetBurn` zuerst auf `pending` und nach zwei Minuten auf `firing`. Der Lastgenerator lässt dabei auch den HPA aus Kapitel 5.4 wachsen. Danach stellst du den alten Stand her, mit `git revert` und `git push`. Den Pod `load` löschst du erst, wenn der Alert inaktiv ist. Ohne Verkehr bliebe der Anteil im Fenster von fünf Minuten stehen und fiele erst, wenn das Fenster leer ist. Im Lab war der Alert knapp sechs Minuten nach dem Revert wieder inaktiv.
 
 ::::exercise[Lab]
 Löse den Alert wie oben aus, beobachte ihn in Prometheus und Alertmanager und stelle den alten Stand wieder her. Notiere die Zeiten.

@@ -648,7 +648,13 @@ def check_milestone(milestone, part):
         elif milestone == "m3":
             budget = {"99.0": "0.01", "99.9": "0.001"}[values["sloTarget"]]
             _, body = http(f"http://{env.get('CC_K3S_SERVER_IP')}:30090/api/v1/rules?type=alert")
-            report.check(f"14.4 * {budget})" in body, tr(f"Der Alert des SLO rechnet mit dem Ziel {values['sloTarget']} %", f"The SLO alert uses the target {values['sloTarget']} %"),
+            # Only the web shop rule counts, the stack brings rules of its own with the same factors
+            try:
+                groups = json.loads(body)["data"]["groups"]
+            except (ValueError, KeyError):
+                groups = []
+            queries = [r.get("query", "") for g in groups for r in g.get("rules", []) if r.get("name") == "WebshopErrorBudgetBurn"]
+            report.check(any(f"14.4 * {budget})" in q for q in queries), tr(f"Der Alert des SLO rechnet mit dem Ziel {values['sloTarget']} %", f"The SLO alert uses the target {values['sloTarget']} %"),
                          tr("webshop-slo.yaml, Kapitel 5.3", "webshop-slo.yaml, chapter 5.3"))
             hpa = kube_json("get", "hpa", "webshop", "-n", "velo") or {}
             report.check(hpa.get("spec", {}).get("maxReplicas") == values["hpaMax"],

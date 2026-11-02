@@ -87,7 +87,7 @@ Für die IaaS-Schicht bringt OpenNebula eigene Exporter mit, im Paket `opennebul
 ~/cc/platform/observability/install-exporters.sh
 ```
 
-Im Lab meldeten alle sechs Ziele `ok`. Der OpenNebula-Exporter brauchte nach dem Start etwa eine halbe Minute, bis er die Hosts kannte. Prometheus erreicht die Exporter über drei ScrapeConfigs mit den Adressen aus deinen Parametern.
+Im Lab meldeten alle sechs Ziele `ok`. Der OpenNebula-Exporter brauchte nach dem Start etwa eine halbe Minute, bis er die Hosts kannte. Prometheus erreicht die Exporter über drei ScrapeConfigs mit den Adressen aus deinen Parametern. Die Jobs der Ziele ausserhalb des Clusters erschienen in Prometheus erst gut fünf Minuten nach dem Push, als der Config-Reloader die ScrapeConfigs übernommen hatte.
 
 ![Was Prometheus abholt. Links der Cluster k3s. Prometheus läuft im Namespace monitoring und holt die Metriken im Cluster vom Webshop im Namespace velo, von kube-state-metrics und von node-exporter auf k3s-server und k3s-agent. Ausserhalb des Clusters holt es auf dem Front-end den OpenNebula-Exporter auf Port 9925 und node_exporter auf Port 9100 ab, auf beiden Knoten node_exporter auf Port 9100 und den Libvirt-Exporter auf Port 9926. Grafana fragt Prometheus mit PromQL ab. Im Cluster findet Prometheus die Ziele über ServiceMonitors, ausserhalb über drei ScrapeConfigs.](../../../assets/figures/de/p5c1-scrape.svg)
 
@@ -135,6 +135,8 @@ Ein Counter allein sagt wenig, er steigt seit dem Start des Pods. `rate()` macht
 ## Grafana
 
 Grafana zeigt Abfragen als Dashboards. Unter `http://localhost:3000/` meldest du dich als `admin` mit dem Passwort aus `~/cc-lab/grafana.pass` an. Das Chart bringt Dashboards für Kubernetes mit, etwa «Kubernetes / Compute Resources / Namespace (Pods)». Dazu kommt ein Dashboard des Plattform-Teams aus Git, `monitoring/config/dashboard-wolkenwerk.yaml`. Es zeigt Hosts und VMs von OpenNebula, Verkehr, Fehler und Antwortzeit des Webshops, CPU pro Namespace und den Speicher der Mitglieder gegen ihre Quota. Grafana lädt jede ConfigMap mit dem Label `grafana_dashboard` selbst.
+
+Grafana speichert keine eigenen Änderungen, denn das Dashboard kommt aus einer ConfigMap und Grafana hat kein Volume. Ein eigenes Panel, das bleibt, gehört deshalb in Git. Kopiere in `monitoring/config/dashboard-wolkenwerk.yaml` ein bestehendes Panel, gib ihm eine neue `id`, einen eigenen `title`, deine Abfrage in `expr` und einen freien Platz in `gridPos`, und pushe die Änderung. Den JSON-Text eines Panels, das du in Grafana entworfen hast, zeigt das Menü des Panels unter «Inspect» und «Panel JSON».
 
 ::::exercise[Lab]
 Rolle den Stack aus, installiere die Exporter und zeige in Prometheus, dass alle Ziele `up` sind. Öffne das Dashboard «Wolkenwerk platform» und erzeuge mit `curl` Verkehr auf den Webshop.

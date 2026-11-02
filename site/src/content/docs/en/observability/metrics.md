@@ -87,7 +87,7 @@ For the IaaS layer, OpenNebula ships exporters of its own in the package `openne
 ~/cc/platform/observability/install-exporters.sh
 ```
 
-In the lab all six targets reported `ok`. The OpenNebula exporter needed about half a minute after starting before it knew the hosts. Prometheus reaches the exporters through three ScrapeConfigs with the addresses of your parameters.
+In the lab all six targets reported `ok`. The OpenNebula exporter needed about half a minute after starting before it knew the hosts. Prometheus reaches the exporters through three ScrapeConfigs with the addresses of your parameters. The jobs of the targets outside the cluster only appeared in Prometheus a good five minutes after the push, once the config reloader had taken over the ScrapeConfigs.
 
 ![What Prometheus scrapes. On the left the k3s cluster. Prometheus runs in the namespace monitoring and scrapes the metrics in the cluster from the web shop in the namespace velo, from kube-state-metrics and from node-exporter on k3s-server and k3s-agent. Outside the cluster it scrapes the OpenNebula exporter on port 9925 and node_exporter on port 9100 on the front-end, and node_exporter on port 9100 and the libvirt exporter on port 9926 on both nodes. Grafana queries Prometheus with PromQL. Inside the cluster Prometheus finds its targets through ServiceMonitors, outside through three ScrapeConfigs.](../../../../assets/figures/en/p5c1-scrape.svg)
 
@@ -135,6 +135,8 @@ A counter on its own says little, it has been rising since the pod started. `rat
 ## Grafana
 
 Grafana shows queries as dashboards. At `http://localhost:3000/` you sign in as `admin` with the password from `~/cc-lab/grafana.pass`. The chart brings dashboards for Kubernetes, such as "Kubernetes / Compute Resources / Namespace (Pods)". On top comes a dashboard of the platform team from Git, `monitoring/config/dashboard-wolkenwerk.yaml`. It shows OpenNebula hosts and VMs, traffic, errors and response time of the web shop, CPU per namespace and the members' memory against their quota. Grafana loads every config map with the label `grafana_dashboard` on its own.
+
+Grafana does not store your own changes, because the dashboard comes from a ConfigMap and Grafana has no volume. A panel of your own that stays therefore belongs in Git. In `monitoring/config/dashboard-wolkenwerk.yaml` copy an existing panel, give it a new `id`, your own `title`, your query in `expr` and a free place in `gridPos`, and push the change. The panel menu shows the JSON of a panel you designed in Grafana under "Inspect" and "Panel JSON".
 
 ::::exercise[Lab]
 Roll out the stack, install the exporters and show in Prometheus that all targets are `up`. Open the dashboard "Wolkenwerk platform" and create traffic on the web shop with `curl`.

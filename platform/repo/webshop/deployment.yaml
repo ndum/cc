@@ -37,7 +37,10 @@ spec:
             httpGet:
               path: /healthz
               port: http
+            timeoutSeconds: 3
           livenessProbe:
             httpGet:
               path: /healthz
               port: http
+            # A busy pod may need longer than the default second, a failed liveness check restarts it
+            timeoutSeconds: 3

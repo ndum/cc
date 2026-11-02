@@ -33,11 +33,11 @@ Two pods at 120 % with a target of 60 % make four pods. The HPA takes the values
 
 ::code{file="platform/observability/repo/webshop/hpa.yaml"}
 
-The web shop grows between two and six pods. When shrinking, the HPA waits five minutes and takes the highest recommendation of that period. A shop that is briefly quiet between two waves does not lose its pods right away.
+The web shop grows between two and six pods. When shrinking, the HPA waits five minutes and takes the highest recommendation of that period. A shop that is briefly quiet between two waves does not lose its pods right away. In milestone 3 you set `maxReplicas` in `webshop/hpa.yaml` through Git to the maximum from your [personal values](../../start/parameters/).
 
 ## Two controllers for one number
 
-So far, the number of pods was in Git, `replicas: 3` from chapter 4.4. With the HPA there would be two controllers for the same number. The HPA would raise it to six and Argo CD with self-heal would reset it to three, again and again. The deployment in `observability/repo/webshop` therefore has no `replicas` anymore. If the field is missing in Git, Argo CD leaves it alone, and the HPA decides on its own.
+So far, the number of pods was in Git, the number from chapter 4.4. With the HPA there would be two controllers for the same number. The HPA would raise it to six and Argo CD with self-heal would reset it to three, again and again. The deployment in `observability/repo/webshop` therefore has no `replicas` anymore. If the field is missing in Git, Argo CD leaves it alone, and the HPA decides on its own. During the switch the deployment dropped to one pod for about 15 seconds in the lab until the HPA raised it back to its minimum.
 
 ::code{file="platform/observability/repo/webshop/deployment.yaml"}
 
@@ -53,6 +53,8 @@ kubectl run load --restart=Never --image=ghcr.io/ndum/cc/webshop:1.0.0 -- \
 kubectl -n velo get hpa webshop --watch
 kubectl logs load
 ```
+
+`--watch` keeps running until you stop it with Ctrl+C. You see the output of the generator afterwards with `kubectl logs load`, or you open a second terminal for it.
 
 In the lab, the HPA showed 200 % and two pods after 30 seconds, and after 60 seconds six pods ran at 500 % of their request each, which is the limit of `250m`. The generator reported about 135 requests per second, and 95 % of the requests came back within about 300 ms. After the load ended, the shop first stayed at six pods because of the five-minute wait and then shrank to two.
 

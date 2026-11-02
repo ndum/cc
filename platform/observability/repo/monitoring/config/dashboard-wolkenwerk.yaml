@@ -117,7 +117,7 @@ data:
           "targets": [
             {
               "refId": "A",
-              "expr": "100 * sum(rate(webshop_requests_total{code=~\"5..\"}[5m])) / clamp_min(sum(rate(webshop_requests_total[5m])), 0.001)"
+              "expr": "100 * (sum(rate(webshop_requests_total{code=~\"5..\"}[5m])) or vector(0)) / clamp_min(sum(rate(webshop_requests_total[5m])), 0.001)"
             }
           ]
         },

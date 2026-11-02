@@ -43,6 +43,8 @@ The first two rules are recording rules. Prometheus regularly computes the error
 
 An alert on "more than 0.5 % errors" would fire at every short spike. The burn rate asks instead how fast the budget is being used up. A burn rate of 1 uses the budget up in exactly 7 days. At 14.4 it would be gone after 168 / 14.4 ≈ 12 hours. The alert `WebshopErrorBudgetBurn` fires when the error ratio over five minutes and over one hour are both above 14.4 × 0.5 % = 7.2 %, for two minutes.
 
+In milestone 3 the target from your [personal values](../../start/parameters/) applies. The error budget is then 1 minus your target, so 1 % at 99.0 %. You replace `0.005` in both lines of the alert with your budget, and the threshold becomes 14.4 × 1 % = 14.4 %.
+
 | Window | Job |
 |---|---|
 | 1 hour | shows that the problem persists and really eats into the budget |
@@ -88,7 +90,7 @@ kubectl run load --restart=Never --image=ghcr.io/ndum/cc/webshop:1.0.0 -- \
   python3 /app/load.py http://<server-address>/ --workers 1 --seconds 1800
 ```
 
-In Prometheus under "Alerts", `WebshopErrorBudgetBurn` first turns `pending` and after two minutes `firing`. Afterwards you restore the old state with `git revert` and `git push` and delete the pod `load`. In the lab the alert was inactive again a little under six minutes after the revert.
+In Prometheus under "Alerts", `WebshopErrorBudgetBurn` first turns `pending` and after two minutes `firing`. The load generator also makes the HPA from chapter 5.4 grow. Afterwards you restore the old state with `git revert` and `git push`. Only delete the pod `load` once the alert is inactive. Without traffic the ratio in the five-minute window would stay where it is and only drop once the window is empty. In the lab the alert was inactive again a little under six minutes after the revert.
 
 ::::exercise[Lab]
 Fire the alert as shown above, watch it in Prometheus and Alertmanager and restore the old state. Note the times.

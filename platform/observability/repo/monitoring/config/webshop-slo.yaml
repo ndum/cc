@@ -34,7 +34,7 @@ spec:
             namespace: velo
           annotations:
             summary: The web shop of Veloatelier Matte answers too many requests with errors
-            description: '{{ $value | humanizePercentage }} of the requests failed in the last hour, the SLO allows 0.5 %.'
+            description: '{{ $value | humanizePercentage }} of the requests failed in the last five minutes, the SLO allows 0.5 %.'
 
         # Symptom, the customers wait
         - alert: WebshopSlow

@@ -33,11 +33,11 @@ Zwei Pods mit 120 % bei einem Ziel von 60 % ergeben vier Pods. Die Werte holt de
 
 ::code{file="platform/observability/repo/webshop/hpa.yaml"}
 
-Der Webshop wächst zwischen zwei und sechs Pods. Beim Schrumpfen wartet der HPA fünf Minuten und nimmt die höchste Empfehlung dieser Zeit. Ein Shop, der zwischen zwei Wellen kurz ruhig ist, verliert so nicht gleich seine Pods.
+Der Webshop wächst zwischen zwei und sechs Pods. Beim Schrumpfen wartet der HPA fünf Minuten und nimmt die höchste Empfehlung dieser Zeit. Ein Shop, der zwischen zwei Wellen kurz ruhig ist, verliert so nicht gleich seine Pods. In Meilenstein 3 setzt du `maxReplicas` in `webshop/hpa.yaml` über Git auf die Obergrenze aus deinen [persönlichen Werten](../../start/parameters/).
 
 ## Zwei Steuerungen für eine Zahl
 
-Bisher stand die Zahl der Pods in Git, `replicas: 3` aus Kapitel 4.4. Mit dem HPA gäbe es zwei Steuerungen für dieselbe Zahl. Der HPA würde auf sechs erhöhen, Argo CD mit Self-Heal auf drei zurücksetzen, und so fort. Das Deployment in `observability/repo/webshop` hat darum kein `replicas` mehr. Fehlt das Feld in Git, rührt Argo CD es nicht an, und der HPA bestimmt allein.
+Bisher stand die Zahl der Pods in Git, die Zahl aus Kapitel 4.4. Mit dem HPA gäbe es zwei Steuerungen für dieselbe Zahl. Der HPA würde auf sechs erhöhen, Argo CD mit Self-Heal auf drei zurücksetzen, und so fort. Das Deployment in `observability/repo/webshop` hat darum kein `replicas` mehr. Fehlt das Feld in Git, rührt Argo CD es nicht an, und der HPA bestimmt allein. Beim Wechsel fiel das Deployment im Lab für etwa 15 Sekunden auf einen Pod, bis der HPA es wieder auf sein Minimum hob.
 
 ::code{file="platform/observability/repo/webshop/deployment.yaml"}
 
@@ -53,6 +53,8 @@ kubectl run load --restart=Never --image=ghcr.io/ndum/cc/webshop:1.0.0 -- \
 kubectl -n velo get hpa webshop --watch
 kubectl logs load
 ```
+
+`--watch` läuft weiter, bis du es mit Ctrl+C beendest. Die Ausgabe des Generators siehst du danach mit `kubectl logs load`, oder du öffnest dafür ein zweites Terminal.
 
 Im Lab stand der HPA nach 30 Sekunden bei 200 % und zwei Pods, nach 60 Sekunden liefen sechs Pods mit je 500 % ihres Requests, also am Limit von `250m`. Der Generator meldete um 135 Anfragen pro Sekunde, und 95 % der Anfragen kamen in etwa 300 ms zurück. Nach dem Ende der Last blieb der Shop wegen der Wartezeit von fünf Minuten zuerst bei sechs Pods und schrumpfte dann auf zwei.
 
