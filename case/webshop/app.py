@@ -38,8 +38,9 @@ PRODUCTS = [
 
 BUCKETS = [0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1, 2.5]
 lock = threading.Lock()
-# The main page starts at 0, so rate() has a series from the first scrape on
-requests = {("/", 200): 0}
+# The main page starts at 0 for answers and errors, so rate() and the error ratio of part 5 have a
+# series from the first scrape on and show 0 instead of no data
+requests = {("/", 200): 0, ("/", 500): 0}
 durations = {"buckets": [0] * len(BUCKETS), "sum": 0.0, "count": 0}
 started = time.time()
 

@@ -87,7 +87,7 @@ Für die IaaS-Schicht bringt OpenNebula eigene Exporter mit, im Paket `opennebul
 ~/cc/platform/observability/install-exporters.sh
 ```
 
-Im Lab meldeten alle sechs Ziele `ok`. Der OpenNebula-Exporter brauchte nach dem Start etwa eine halbe Minute, bis er die Hosts kannte. Prometheus erreicht die Exporter über drei ScrapeConfigs mit den Adressen aus deinen Parametern. Die Jobs der Ziele ausserhalb des Clusters erschienen in Prometheus erst gut fünf Minuten nach dem Push, als der Config-Reloader die ScrapeConfigs übernommen hatte.
+Im Lab meldeten alle sechs Ziele `ok`. Der OpenNebula-Exporter kannte die Hosts wenige Sekunden bis eine halbe Minute nach dem Start. Prometheus erreicht die Exporter über drei ScrapeConfigs mit den Adressen aus deinen Parametern. Neue ScrapeConfigs und ServiceMonitors übernimmt Prometheus erst, wenn der Config-Reloader die geänderte Konfiguration sieht. Im Lab erschienen die Jobs der Ziele ausserhalb des Clusters zwei bis fünf Minuten nach dem Push, der Job `webshop` nach knapp vier Minuten.
 
 ![Was Prometheus abholt. Links der Cluster k3s. Prometheus läuft im Namespace monitoring und holt die Metriken im Cluster vom Webshop im Namespace velo, von kube-state-metrics und von node-exporter auf k3s-server und k3s-agent. Ausserhalb des Clusters holt es auf dem Front-end den OpenNebula-Exporter auf Port 9925 und node_exporter auf Port 9100 ab, auf beiden Knoten node_exporter auf Port 9100 und den Libvirt-Exporter auf Port 9926. Grafana fragt Prometheus mit PromQL ab. Im Cluster findet Prometheus die Ziele über ServiceMonitors, ausserhalb über drei ScrapeConfigs.](../../../assets/figures/de/p5c1-scrape.svg)
 
@@ -103,7 +103,7 @@ Die NetworkPolicy der Mitglieder aus Kapitel 4.5 liess bisher nur den eigenen Na
 
 ::code{file="platform/observability/repo/templates/member/networkpolicy.yaml"}
 
-Sobald du alles gepusht hast, rollt Argo CD den Stack aus. Im Lab war er 161 Sekunden nach dem Push synchron und gesund.
+Sobald du alles gepusht hast, rollt Argo CD den Stack aus. Im Lab war er 140 bis 160 Sekunden nach dem Push synchron und gesund.
 
 ```bash
 git add .
@@ -136,7 +136,7 @@ Ein Counter allein sagt wenig, weil er seit dem Start des Pods nur steigt. `rate
 
 Grafana zeigt Abfragen als Dashboards. Im Browser des Clients meldest du dich unter `http://localhost:3000/` als `admin` an, mit dem Passwort aus `~/cc-lab/grafana.pass` auf dem Front-end. Das Chart bringt Dashboards für Kubernetes mit, etwa «Kubernetes / Compute Resources / Namespace (Pods)». Dazu kommt ein Dashboard des Plattform-Teams aus Git, `monitoring/config/dashboard-wolkenwerk.yaml`. Es zeigt Hosts und VMs von OpenNebula, Verkehr, Fehler und Antwortzeit des Webshops, CPU pro Namespace und den Speicher der Mitglieder gegen ihre Quota. Grafana lädt jede ConfigMap mit dem Label `grafana_dashboard` von selbst.
 
-Was du in Grafana selbst änderst, bleibt nicht erhalten, denn das Dashboard kommt aus einer ConfigMap und Grafana hat kein Volume. Ein eigenes Panel, das bleiben soll, gehört deshalb in Git. Kopiere dazu in `monitoring/config/dashboard-wolkenwerk.yaml` ein bestehendes Panel. Gib ihm eine neue `id`, einen eigenen `title`, deine Abfrage in `expr` und einen freien Platz in `gridPos`. Pushe danach die Änderung. Ein Panel, das du in Grafana entworfen hast, findest du als JSON im Menü des Panels unter «Inspect» und «Panel JSON».
+Was du in Grafana selbst änderst, bleibt nicht erhalten, denn das Dashboard kommt aus einer ConfigMap und Grafana hat kein Volume. Ein eigenes Panel, das bleiben soll, gehört deshalb in Git. Kopiere dazu in `monitoring/config/dashboard-wolkenwerk.yaml` ein bestehendes Panel. Gib ihm einen eigenen `title`, deine Abfrage in `expr` und einen freien Platz in `gridPos`, etwa unter den bestehenden Panels mit `"y": 28`. Die Panels der Datei haben keine `id`, auch dein Panel braucht keine. Pushe danach die Änderung. Ein Panel, das du in Grafana entworfen hast, findest du als JSON im Menü des Panels unter «Inspect» und «Panel JSON».
 
 ::::exercise[Lab]
 Rolle den Stack aus, installiere die Exporter und zeige in Prometheus, dass alle Ziele `up` sind. Öffne das Dashboard «Wolkenwerk platform» und erzeuge mit `curl` Verkehr auf den Webshop.

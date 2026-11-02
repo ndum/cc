@@ -38,7 +38,7 @@ Here Loki runs as a single process and stores its data on the disk of a node. Th
 
 The Alloy configuration is a chain of four components. `discovery.kubernetes` finds the pods of its own node. `discovery.relabel` turns Kubernetes details into the labels `namespace`, `pod`, `container` and `app`. `loki.source.kubernetes` reads the logs, and `loki.write` sends them to Loki. In the test setup, a configuration with a block written on one line failed with "expected TERMINATOR". Alloy wants every attribute on a line of its own.
 
-In the lab, Loki and Alloy were ready 80 seconds after the push.
+In the lab, Loki and Alloy were ready a little over two minutes after the push. Argo CD had created their applications about 40 seconds earlier.
 
 ```bash
 kubectl -n monitoring get pods -o wide | grep -E 'loki|alloy'
@@ -103,6 +103,6 @@ Once Argo CD has picked up the change, call the shop a few times. Use the logs t
 A colleague suggests setting the customer's IP address as a label in Alloy, so that you can search for a customer faster. What do you answer?
 
 :::solution
-Every address would be a stream of its own, thousands with many customers. Loki would get slower and need more storage. The address is in the text anyway, and `{namespace="velo"} |= "10.52.1.10"` finds it. Data protection matters too. An IP address is personal data, and storing it needs a purpose and a retention period.
+Every address would be a stream of its own, thousands with many customers. Loki would get slower and need more storage. Values that change often belong in the text and are searched with `|=`. In the lab, though, the text only holds the address of Traefik, such as `10.52.1.10`. The web shop sees the connection from Traefik, not the one from the customer. Data protection matters too. An IP address is personal data, and storing it needs a purpose and a retention period.
 :::
 ::::

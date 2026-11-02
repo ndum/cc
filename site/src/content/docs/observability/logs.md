@@ -38,7 +38,7 @@ Loki läuft hier als ein einziger Prozess und speichert auf der Disk eines Nodes
 
 Die Konfiguration von Alloy ist eine Kette aus vier Komponenten. `discovery.kubernetes` findet die Pods des eigenen Nodes. `discovery.relabel` macht aus Angaben von Kubernetes die Labels `namespace`, `pod`, `container` sowie `app`. `loki.source.kubernetes` liest die Logs, `loki.write` schickt sie an Loki. Im Testaufbau scheiterte eine Konfiguration, in der ein Block auf einer Zeile stand, mit «expected TERMINATOR». Alloy verlangt jedes Attribut auf einer eigenen Zeile.
 
-Im Lab waren Loki und Alloy 80 Sekunden nach dem Push bereit.
+Im Lab waren Loki und Alloy gut zwei Minuten nach dem Push bereit. Argo CD hatte ihre Applications gut 40 Sekunden vorher angelegt.
 
 ```bash
 kubectl -n monitoring get pods -o wide | grep -E 'loki|alloy'
@@ -103,6 +103,6 @@ Rufe den Shop einige Male auf, sobald Argo CD die Änderung übernommen hat. Fin
 Ein Kollege schlägt vor, in Alloy die IP-Adresse der Kundschaft als Label zu setzen, damit man schneller nach einer Kundin suchen kann. Was antwortest du?
 
 :::solution
-Jede Adresse wäre ein eigener Stream, bei vielen Kundinnen und Kunden Tausende. Loki würde langsamer und bräuchte mehr Speicher. Die Adresse steht ohnehin im Text, `{namespace="velo"} |= "10.52.1.10"` findet sie. Dazu kommt der Datenschutz. Eine IP-Adresse ist ein Personendatum. Wer sie speichert, braucht dafür einen Zweck und eine Aufbewahrungsfrist.
+Jede Adresse wäre ein eigener Stream, bei vielen Kundinnen und Kunden Tausende. Loki würde langsamer und bräuchte mehr Speicher. Was sich oft ändert, gehört in den Text und wird mit `|=` gesucht. Im Lab steht dort allerdings nur die Adresse von Traefik, etwa `10.52.1.10`. Der Webshop sieht die Verbindung von Traefik und nicht die der Kundschaft. Dazu kommt der Datenschutz. Eine IP-Adresse ist ein Personendatum. Wer sie speichert, braucht dafür einen Zweck und eine Aufbewahrungsfrist.
 :::
 ::::

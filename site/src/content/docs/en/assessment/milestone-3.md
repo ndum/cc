@@ -21,7 +21,7 @@ Everything runs in your own lab with your personal parameters from chapter 0.3. 
 6. The web shop grows under load with the HPA up to your personal maximum and shrinks again, and you show the load test in the dashboard.
 7. A drawing of your own shows the path of a metric from the exporter to the dashboard and the path of an alert, and the check `m3` is green.
 
-The documentation has a screenshot for each requirement with one or two sentences about it, plus the report of the check `m3`, which `python3 ~/cc/checks/check.py m3` writes on the front-end, and your drawing. Depending on the traffic of the last hour, the burn rate alert takes ten minutes or more. The HPA only shrinks after five minutes. Leave time for these waits when you take the screenshots.
+The documentation has a screenshot for each requirement with one or two sentences about it, plus the report of the check `m3`, which `python3 ~/cc/checks/check.py m3` writes on the front-end, and your drawing. In the lab the burn rate alert fired four to six minutes after the push. After a load test in the hour before, it can take ten minutes and longer. The HPA only shrinks after five minutes. Leave time for these waits when you take the screenshots.
 
 ## Advanced tasks
 
@@ -41,7 +41,7 @@ You improve the question your triage service asks the model. You compare the pro
 
 ## Showing the advanced tasks
 
-You show the advanced tasks live in class or in a screencast of at most ten minutes. For a live showing you book a slot with your instructor yourself. It must take place by hand-in 2. The screencast starts with `cat /etc/cc-lab.env` and the report of the check `m3` with its hash and your two questions, which you answer during the showing. The burn rate alert takes ten minutes or more to fire. Trigger it for the triage before the showing and show its history in Prometheus.
+You show the advanced tasks live in class or in a screencast of at most ten minutes. For a live showing you book a slot with your instructor yourself. It must take place by hand-in 2. The screencast starts with `cat /etc/cc-lab.env` and the report of the check `m3` with its hash and your two questions, which you answer during the showing. The burn rate alert only fires several minutes after the push. Trigger it for the triage before the showing and show its history in Prometheus.
 
 ## Hand-in
 

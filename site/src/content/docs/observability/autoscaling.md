@@ -56,7 +56,7 @@ kubectl logs load
 
 `--watch` läuft weiter, bis du es mit Ctrl+C beendest. Die Ausgabe des Generators siehst du danach mit `kubectl logs load`, oder du öffnest dafür ein zweites Terminal.
 
-Im Lab stand der HPA nach 30 Sekunden bei 200 % und zwei Pods, nach 60 Sekunden liefen sechs Pods mit je 500 % ihres Requests, also am Limit von `250m`. Der Generator meldete rund 135 Anfragen pro Sekunde, davon kamen 95 % in etwa 300 ms zurück. Nach dem Ende der Last blieb der Shop wegen der Wartezeit von fünf Minuten zuerst bei sechs Pods und schrumpfte dann auf zwei.
+Im Lab stand der HPA nach knapp 30 Sekunden bei über 400 % und verlangte sechs Pods. Gut 40 Sekunden nach dem Start liefen sechs Pods mit je 500 % ihres Requests, also am Limit von `250m`. Mit zwei Pods meldete der Generator knapp 60 Anfragen pro Sekunde, 95 % davon kamen in 1,3 s zurück. Mit sechs Pods waren es rund 145 Anfragen pro Sekunde in knapp 300 ms. Nach dem Ende der Last blieb der Shop wegen der Wartezeit von fünf Minuten zuerst bei sechs Pods. Gut fünf Minuten nach dem Ende schrumpfte er auf vier Pods, 15 Sekunden später auf zwei. Jeder überzählige Pod war nach zwei Sekunden beendet, denn der Webshop antwortet nach dem Signal zum Beenden noch zwei Sekunden und stoppt dann.
 
 ## Grenzen
 
@@ -87,17 +87,27 @@ Als die Quota im ersten Versuch erhöht wurde, liefen sechs statt vier Pods, der
 | Einheit | VM | Pod |
 | Start einer neuen Einheit | Minuten | Sekunden |
 | Messung | CPU aus der Überwachung von OpenNebula | CPU des metrics-servers |
-| Wachsen im Lab | nach etwa 155 Sekunden | nach etwa 60 Sekunden |
+| Wachsen im Lab | nach etwa 155 Sekunden | nach etwa 40 Sekunden |
 | Grenze | `max_vms` und Quota der Gruppe | `maxReplicas` und ResourceQuota |
 | Zeitplan | `scheduled_policies` mit Cron | nicht im HPA, etwa mit einem CronJob, der `minReplicas` ändert |
 
 Container starten schneller als VMs, darum reagiert der HPA früher als OneFlow. In beiden Systemen misst eine Regel, vergleicht mit einem Ziel und ändert die Zahl innerhalb fester Grenzen. Beide laufen auf derselben Hardware. Sechs Pods helfen nur, wenn die zwei VMs des Clusters genug CPU haben.
 
+## Der Check von Teil 5
+
+Der Check dieses Teils prüft die Exporter von OpenNebula und Libvirt sowie die Applications `monitoring`, `monitoring-config`, `loki` und `alloy` in Argo CD. Dazu kommen die Jobs `opennebula`, `opennebula-libvirt` und `webshop` in Prometheus, die Regeln des SLO, Alertmanager mit seiner Konfiguration, die Logs des Veloateliers in Loki und der HPA des Webshops. Für die Abfrage in Loki liest er das Passwort von Grafana aus `~/cc-lab/grafana.pass`. Starte ihn auf dem Front-end, sobald Prometheus alle Ziele als `up` zeigt.
+
+```bash
+python3 ~/cc/checks/check.py observability
+```
+
+Die Zeile zu einem eigenen Empfänger in Alertmanager mit `[+!!]` gehört zum Zusatzauftrag B in Kapitel 5.5 und zählt nicht zur Basis.
+
 ::::exercise[Lab]
-Prüfe mit `kubectl -n velo get hpa webshop`, dass der HPA aus Kapitel 5.1 läuft, führe den Lasttest durch und notiere, wann der Shop wächst und wann er schrumpft. Zeige im Dashboard aus Kapitel 5.1, wie sich Verkehr und Antwortzeit verhalten.
+Prüfe mit `kubectl -n velo get hpa webshop`, dass der HPA aus Kapitel 5.1 läuft, führe den Lasttest durch und notiere, wann der Shop wächst und wann er schrumpft. Zeige im Dashboard aus Kapitel 5.1, wie sich Verkehr und Antwortzeit verhalten. Lass zum Schluss den Check `observability` laufen und lade seinen Bericht in dein Abgabe-Repo.
 
 :::solution
-`kubectl -n velo get hpa webshop --watch` zeigt die Auslastung steigen und die Pods von zwei auf sechs wachsen, im Lab innerhalb einer Minute. Im Dashboard steigen die Anfragen pro Sekunde und auch die Antwortzeit. Sie blieb im Lab aber unter der Grenze von 0,5 s aus Kapitel 5.3. Nach dem Ende bleibt der Shop fünf Minuten bei sechs Pods und fällt dann auf zwei.
+`kubectl -n velo get hpa webshop --watch` zeigt die Auslastung steigen und die Pods von zwei auf sechs wachsen, im Lab innerhalb einer Minute. Im Dashboard steigen die Anfragen pro Sekunde und auch die Antwortzeit. Sie blieb im Lab aber unter der Grenze von 0,5 s aus Kapitel 5.3. Nach dem Ende bleibt der Shop fünf Minuten bei sechs Pods und fällt dann auf zwei. Der Check endet mit «15 von 15 Prüfungen der Basis erfüllt» und «0 von 1 Prüfungen der Zusatzaufträge erfüllt».
 :::
 ::::
 

@@ -56,7 +56,7 @@ kubectl logs load
 
 `--watch` keeps running until you stop it with Ctrl+C. You see the output of the generator afterwards with `kubectl logs load`, or you open a second terminal for it.
 
-In the lab, the HPA showed 200% and two pods after 30 seconds, and after 60 seconds six pods ran at 500% of their request each, which is the limit of `250m`. The generator reported about 135 requests per second, and 95% of the requests came back within about 300 ms. After the load ended, the shop first stayed at six pods because of the five-minute wait and then shrank to two.
+In the lab, the HPA showed more than 400% after almost 30 seconds and asked for six pods. A little over 40 seconds after the start, six pods ran at 500% of their request each, which is the limit of `250m`. With two pods the generator reported almost 60 requests per second, 95% of them back within 1.3 s. With six pods it was about 145 requests per second within just under 300 ms. After the load ended, the shop first stayed at six pods because of the five-minute wait. A little over five minutes after the end it shrank to four pods, and 15 seconds later to two. Every surplus pod had stopped after two seconds, because the web shop keeps answering for two seconds after the signal to stop and then exits.
 
 ## Limits
 
@@ -87,17 +87,27 @@ When the quota was raised in the first attempt, six pods ran instead of four, bu
 | Unit | VM | pod |
 | Starting a new unit | minutes | seconds |
 | Measurement | CPU from OpenNebula monitoring | CPU from the metrics-server |
-| Growth in the lab | after about 155 seconds | after about 60 seconds |
+| Growth in the lab | after about 155 seconds | after about 40 seconds |
 | Limit | `max_vms` and the group quota | `maxReplicas` and the ResourceQuota |
 | Schedule | `scheduled_policies` with cron | not in the HPA, for example a CronJob that changes `minReplicas` |
 
 Containers start faster than VMs, so the HPA reacts sooner than OneFlow. In both systems a rule measures, compares with a target and changes the number within fixed limits. Both run on the same hardware. Six pods only help if the two cluster VMs have enough CPU.
 
+## The check of part 5
+
+The check of this part tests the OpenNebula and libvirt exporters and the applications `monitoring`, `monitoring-config`, `loki` and `alloy` in Argo CD. It also tests the jobs `opennebula`, `opennebula-libvirt` and `webshop` in Prometheus, the SLO rules, Alertmanager with its configuration, the bike shop's logs in Loki and the web shop's HPA. For the query to Loki it reads the Grafana password from `~/cc-lab/grafana.pass`. Run it on the front-end once Prometheus shows all targets as `up`.
+
+```bash
+python3 ~/cc/checks/check.py observability
+```
+
+The line about a receiver of your own in Alertmanager marked `[+!!]` belongs to advanced task B in chapter 5.5 and does not count for the base.
+
 ::::exercise[Lab]
-Check with `kubectl -n velo get hpa webshop` that the HPA from chapter 5.1 is running, run the load test and note when the shop grows and when it shrinks. Show in the dashboard of chapter 5.1 how traffic and response time behave.
+Check with `kubectl -n velo get hpa webshop` that the HPA from chapter 5.1 is running, run the load test and note when the shop grows and when it shrinks. Show in the dashboard of chapter 5.1 how traffic and response time behave. Finally run the check `observability` and add its report to your hand-in repo.
 
 :::solution
-`kubectl -n velo get hpa webshop --watch` shows the utilization rising and the pods growing from two to six, within a minute in the lab. In the dashboard, requests per second go up and so does the response time, which stayed below the 0.5 s limit of chapter 5.3 in the lab. After the end, the shop stays at six pods for five minutes and then drops to two.
+`kubectl -n velo get hpa webshop --watch` shows the utilization rising and the pods growing from two to six, within a minute in the lab. In the dashboard, requests per second go up and so does the response time, which stayed below the 0.5 s limit of chapter 5.3 in the lab. After the end, the shop stays at six pods for five minutes and then drops to two. The check ends with "15 of 15 base checks passed" and "0 of 1 checks of the advanced tasks passed".
 :::
 ::::
 

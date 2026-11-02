@@ -90,7 +90,7 @@ kubectl run load --restart=Never --image=ghcr.io/ndum/cc/webshop:1.0.0 -- \
   python3 /app/load.py http://<adresse-des-servers>/ --workers 1 --seconds 1800
 ```
 
-In Prometheus unter «Alerts» wechselt `WebshopErrorBudgetBurn` zuerst auf `pending` und nach zwei Minuten auf `firing`. Die Last lässt nebenbei den Webshop über den HPA aus Kapitel 5.4 wachsen. Danach stellst du mit `git revert` und `git push` den alten Stand wieder her. Den Pod `load` löschst du erst, wenn der Alert inaktiv ist. Ohne Verkehr bliebe der Anteil im Fenster von fünf Minuten stehen und fiele erst, wenn das Fenster leer ist. Im Lab war der Alert knapp sechs Minuten nach dem Revert wieder inaktiv.
+In Prometheus unter «Alerts» wechselt `WebshopErrorBudgetBurn` zuerst auf `pending` und nach zwei Minuten auf `firing`. Die Last lässt nebenbei den Webshop über den HPA aus Kapitel 5.4 wachsen. Danach stellst du mit `git revert` und `git push` den alten Stand wieder her. Den Pod `load` löschst du erst, wenn der Alert inaktiv ist. Ohne Verkehr bliebe der Anteil im Fenster von fünf Minuten stehen und fiele erst, wenn das Fenster leer ist. Im Lab war der Alert sechs bis sieben Minuten nach dem Revert wieder inaktiv. Bis zu zwei Minuten davon vergingen, bis Argo CD den Revert ausrollte.
 
 ::::exercise[Lab]
 Löse den Alert wie oben aus, beobachte ihn in Prometheus und Alertmanager und stelle den alten Stand wieder her. Notiere die Zeiten.

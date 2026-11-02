@@ -21,7 +21,7 @@ Alles läuft in deinem eigenen Lab mit deinen persönlichen Parametern aus Kapit
 6. Der Webshop wächst unter Last mit dem HPA bis zu deiner persönlichen Obergrenze und schrumpft wieder, du zeigst den Lasttest im Dashboard.
 7. Eine eigene Zeichnung zeigt den Weg einer Metrik vom Exporter bis ins Dashboard und den Weg eines Alerts, der Check `m3` ist grün.
 
-Die Dokumentation zeigt zu jeder Anforderung einen Screenshot mit einem oder zwei Sätzen dazu und enthält den Bericht des Checks `m3` und deine Zeichnung. Den Bericht erzeugt `python3 ~/cc/checks/check.py m3` auf dem Front-end. Der Alert nach Burn Rate braucht je nach Verkehr der letzten Stunde zehn Minuten oder mehr. Der HPA schrumpft erst nach fünf Minuten. Plane diese Wartezeiten für die Screenshots ein.
+Die Dokumentation zeigt zu jeder Anforderung einen Screenshot mit einem oder zwei Sätzen dazu und enthält den Bericht des Checks `m3` und deine Zeichnung. Den Bericht erzeugt `python3 ~/cc/checks/check.py m3` auf dem Front-end. Der Alert nach Burn Rate feuerte im Lab vier bis sechs Minuten nach dem Push. Nach einem Lasttest in der Stunde davor kann es zehn Minuten und länger dauern. Der HPA schrumpft erst nach fünf Minuten. Plane diese Wartezeiten für die Screenshots ein.
 
 ## Zusatzaufträge
 
@@ -41,7 +41,7 @@ Du verbesserst die Frage, die dein Triage-Dienst an das Modell stellt. Du vergle
 
 ## Zusatzaufträge zeigen
 
-Die Zusatzaufträge zeigst du live im Unterricht oder in einem Screencast von höchstens zehn Minuten. Für die Vorführung im Unterricht vereinbarst du selbst einen Termin mit deiner Dozentin oder deinem Dozenten. Sie muss bis zur Abgabe 2 stattfinden. Der Screencast beginnt mit `cat /etc/cc-lab.env` und dem Bericht des Checks `m3` mit Hash und deinen zwei Fragen, die du in der Vorführung beantwortest. Der Alert nach Burn Rate braucht zehn Minuten oder mehr, bis er feuert. Löse ihn für die Triage deshalb vor der Vorführung aus und zeige seinen Verlauf in Prometheus.
+Die Zusatzaufträge zeigst du live im Unterricht oder in einem Screencast von höchstens zehn Minuten. Für die Vorführung im Unterricht vereinbarst du selbst einen Termin mit deiner Dozentin oder deinem Dozenten. Sie muss bis zur Abgabe 2 stattfinden. Der Screencast beginnt mit `cat /etc/cc-lab.env` und dem Bericht des Checks `m3` mit Hash und deinen zwei Fragen, die du in der Vorführung beantwortest. Der Alert nach Burn Rate feuert erst einige Minuten nach dem Push. Löse ihn für die Triage deshalb vor der Vorführung aus und zeige seinen Verlauf in Prometheus.
 
 ## Abgabe
 

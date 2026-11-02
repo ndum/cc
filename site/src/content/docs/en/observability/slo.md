@@ -90,7 +90,7 @@ kubectl run load --restart=Never --image=ghcr.io/ndum/cc/webshop:1.0.0 -- \
   python3 /app/load.py http://<server-address>/ --workers 1 --seconds 1800
 ```
 
-In Prometheus under "Alerts", `WebshopErrorBudgetBurn` first turns `pending` and after two minutes `firing`. The load also makes the HPA of chapter 5.4 grow the web shop. Afterwards you restore the old state with `git revert` and `git push`. Only delete the pod `load` once the alert is inactive. Without traffic the ratio in the five-minute window would stay where it is and only drop once the window is empty. In the lab the alert was inactive again a little under six minutes after the revert.
+In Prometheus under "Alerts", `WebshopErrorBudgetBurn` first turns `pending` and after two minutes `firing`. The load also makes the HPA of chapter 5.4 grow the web shop. Afterwards you restore the old state with `git revert` and `git push`. Only delete the pod `load` once the alert is inactive. Without traffic the ratio in the five-minute window would stay where it is and only drop once the window is empty. In the lab the alert was inactive again six to seven minutes after the revert. Up to two minutes of that passed before Argo CD rolled out the revert.
 
 ::::exercise[Lab]
 Fire the alert as shown above, watch it in Prometheus and Alertmanager and restore the old state. Note the times.

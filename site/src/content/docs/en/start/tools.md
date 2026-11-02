@@ -97,7 +97,7 @@ python3 ~/cc/checks/check.py start
 
 Each line of the report starts with `[ok]` or `[!!]`. Below a line with `[!!]` there is a hint on where to look. The script saves the report in `~/cc-reports/` and ends it with a hash over the whole report. Editing the report by hand afterwards breaks the hash. Since the script is public, though, the hash does not prove that the check really ran. Your screenshots and the showing of the advanced tasks do.
 
-::code{file="checks/check.py" lines="725-730"}
+::code{file="checks/check.py" lines="731-736"}
 
 Copy the report into the folder `reports/` of your hand-in repo, commit it and push it.
 

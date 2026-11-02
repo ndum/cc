@@ -87,7 +87,7 @@ For the IaaS layer, OpenNebula ships exporters of its own in the package `openne
 ~/cc/platform/observability/install-exporters.sh
 ```
 
-In the lab all six targets reported `ok`. The OpenNebula exporter needed about half a minute after starting before it knew the hosts. Prometheus reaches the exporters through three ScrapeConfigs with the addresses of your parameters. The jobs of the targets outside the cluster only appeared in Prometheus a good five minutes after the push, once the config reloader had picked up the ScrapeConfigs.
+In the lab all six targets reported `ok`. The OpenNebula exporter knew the hosts a few seconds to half a minute after starting. Prometheus reaches the exporters through three ScrapeConfigs with the addresses of your parameters. Prometheus only picks up new ScrapeConfigs and ServiceMonitors once the config reloader sees the changed configuration. In the lab the jobs of the targets outside the cluster appeared two to five minutes after the push, and the job `webshop` after almost four minutes.
 
 ![What Prometheus scrapes. On the left the k3s cluster. Prometheus runs in the namespace monitoring and scrapes the metrics in the cluster from the web shop in the namespace velo, from kube-state-metrics and from node-exporter on k3s-server and k3s-agent. Outside the cluster it scrapes the OpenNebula exporter on port 9925 and node_exporter on port 9100 on the front-end, and node_exporter on port 9100 and the libvirt exporter on port 9926 on both nodes. Grafana queries Prometheus with PromQL. Inside the cluster Prometheus finds its targets through ServiceMonitors, outside through three ScrapeConfigs.](../../../../assets/figures/en/p5c1-scrape.svg)
 
@@ -103,7 +103,7 @@ So far, the member NetworkPolicy of chapter 4.5 only admitted traffic from the m
 
 ::code{file="platform/observability/repo/templates/member/networkpolicy.yaml"}
 
-Once you have pushed everything, Argo CD rolls out the stack. In the lab it was synced and healthy 161 seconds after the push.
+Once you have pushed everything, Argo CD rolls out the stack. In the lab it was synced and healthy 140 to 160 seconds after the push.
 
 ```bash
 git add .
@@ -136,7 +136,7 @@ A counter on its own says little, because it only rises from the moment the pod 
 
 Grafana shows queries as dashboards. In the browser of the client, you sign in at `http://localhost:3000/` as `admin`, with the password from `~/cc-lab/grafana.pass` on the front-end. The chart brings dashboards for Kubernetes, such as "Kubernetes / Compute Resources / Namespace (Pods)". The platform team adds a dashboard of its own from Git, `monitoring/config/dashboard-wolkenwerk.yaml`. It shows OpenNebula hosts and VMs, traffic, errors and response time of the web shop, CPU per namespace and the members' memory against their quota. Grafana loads every ConfigMap with the label `grafana_dashboard` by itself.
 
-Changes you make in Grafana itself are lost, because the dashboard comes from a ConfigMap and Grafana has no volume. A panel you want to keep therefore belongs in Git. Copy an existing panel in `monitoring/config/dashboard-wolkenwerk.yaml`, give it a new `id`, your own `title`, your query in `expr` and a free place in `gridPos`, and push the change. For a panel you designed in Grafana, the panel menu shows its JSON under "Inspect" and "Panel JSON".
+Changes you make in Grafana itself are lost, because the dashboard comes from a ConfigMap and Grafana has no volume. A panel you want to keep therefore belongs in Git. Copy an existing panel in `monitoring/config/dashboard-wolkenwerk.yaml` and give it your own `title`, your query in `expr` and a free place in `gridPos`, for example below the existing panels with `"y": 28`. The panels in the file have no `id`, and yours needs none either. Then push the change. For a panel you designed in Grafana, the panel menu shows its JSON under "Inspect" and "Panel JSON".
 
 ::::exercise[Lab]
 Roll out the stack, install the exporters and show in Prometheus that all targets are `up`. Open the dashboard "Wolkenwerk platform" and create traffic on the web shop with `curl`.

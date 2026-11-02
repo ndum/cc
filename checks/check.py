@@ -75,6 +75,7 @@ class Report:
         self.advanced = False
         self.extra_failed = 0
         self.extra_passed = 0
+        self.milestone = ""
 
     def check(self, ok, text, hint=""):
         mark = ("[+ok]" if ok else "[+!!]") if self.advanced else ("[ok]" if ok else "[!!]")
@@ -424,8 +425,10 @@ def check_observability(env, report):
     report.check(hpa.get("spec", {}).get("maxReplicas", 0) > hpa.get("spec", {}).get("minReplicas", 0) > 0,
                  tr("Der Webshop hat einen HorizontalPodAutoscaler", "The web shop has a HorizontalPodAutoscaler"),
                  tr("hpa.yaml, Kapitel 5.4", "hpa.yaml, chapter 5.4"))
-    with report.extra():
-        check_ai(env, report)
+    # The check m3 shows this trace under the heading of the advanced tasks instead
+    if report.milestone != "m3":
+        with report.extra():
+            check_ai(env, report)
 
 
 def check_ai(env, report):
@@ -628,11 +631,14 @@ def check_advanced(milestone, env, report):
         token = token_file.read_text().strip() if token_file.exists() else None
         code, body = http(f"http://{env.get('CC_FE_IP')}:3000/api/v1/repos/wolkenwerk/platform/branch_protections", token)
         report.check(code == 200 and body.strip() not in ("", "[]"), tr("main ist in Gitea geschützt", "main is protected in Gitea"), tr("Zusatzauftrag C in Kapitel 4.6", "advanced task C in chapter 4.6"))
+    elif milestone == "m3":
+        check_ai(env, report)
 
 
 def check_milestone(milestone, part):
     """The check of the part, the personal values of the milestone and two questions for the screencast"""
     def run_check(env, report):
+        report.milestone = milestone
         part(env, report)
         params = load_params_module()
         code = env.get("CC_CODE", "")
