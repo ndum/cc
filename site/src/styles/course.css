@@ -73,6 +73,11 @@
   cursor: pointer;
   color: var(--sl-color-gray-2);
 }
+/* Kind and hint share the line of the disclosure marker */
+.lt-selfhost > summary > .lt-box-kind {
+  display: inline;
+  margin-inline-end: 0.5rem;
+}
 .lt-selfhost[open] > summary {
   margin-bottom: 0.5rem;
 }
