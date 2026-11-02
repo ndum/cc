@@ -13,13 +13,13 @@ sidebar:
 :::
 
 :::goals
-Nach diesem Kapitel kannst du
+Nach diesem Kapitel kannst du:
 
-- begründen, wann ein lokales Modell einem Dienst im Internet vorzuziehen ist,
-- Ollama im Cluster aus Git betreiben und ein Modell laden,
-- Geschwindigkeit in Tokens pro Sekunde messen und erklären, wovon sie abhängt,
-- Inferenz als Last für die Plattform einordnen,
-- den Zugriff der Mitglieder auf das Modell steuern.
+- Begründen, wann ein lokales Modell einem Dienst im Internet vorzuziehen ist
+- Ollama im Cluster aus Git betreiben und ein Modell laden
+- Geschwindigkeit in Tokens pro Sekunde messen und erklären, wovon sie abhängt
+- Inferenz als Last für die Plattform einordnen
+- Den Zugriff der Mitglieder auf das Modell steuern
 :::
 
 :::note[Zusatzkapitel]

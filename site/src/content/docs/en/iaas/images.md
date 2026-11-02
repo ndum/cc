@@ -10,14 +10,14 @@ sidebar:
 :::
 
 :::goals
-After this chapter you can
+After this chapter you can:
 
-- tell datastores, images and templates apart,
-- bring an image from the marketplace into your cloud,
-- tell the formats raw and qcow2 apart, as well as persistent and non-persistent images,
-- read and adapt a VM template,
-- explain how contextualization sets up a VM at its first boot,
-- start a VM, log in over SSH and pass the check of this part.
+- Tell datastores, images and templates apart
+- Bring an image from the marketplace into your cloud
+- Tell the formats raw and qcow2 apart, as well as persistent and non-persistent images
+- Read and adapt a VM template
+- Explain how contextualization sets up a VM at its first boot
+- Start a VM, log in over SSH and pass the check of this part
 :::
 
 ## Datastores and images

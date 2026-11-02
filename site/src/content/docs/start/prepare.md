@@ -10,12 +10,12 @@ sidebar:
 :::
 
 :::goals
-Nach diesem Kapitel kannst du
+Nach diesem Kapitel kannst du:
 
-- das Kursrepo auf die VMs holen,
-- jede VM mit dem Vorbereitungsskript für ihre Rolle vorbereiten,
-- erklären, was das Skript auf Front-end und Knoten einrichtet,
-- das Gateway des internen Netzes prüfen.
+- Das Kursrepo auf die VMs holen
+- Jede VM mit dem Vorbereitungsskript für ihre Rolle vorbereiten
+- Erklären, was das Skript auf Front-end und Knoten einrichtet
+- Das Gateway des internen Netzes prüfen
 :::
 
 ## Das Kursrepo

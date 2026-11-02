@@ -10,12 +10,12 @@ sidebar:
 :::
 
 :::goals
-Nach diesem Kapitel kannst du
+Nach diesem Kapitel kannst du:
 
-- deklarative und imperative Beschreibungen von Infrastruktur unterscheiden,
-- erklären, was Soll-Zustand, Ist-Zustand und State sind,
-- den Ablauf von Plan und Apply beschreiben,
-- Drift und Idempotenz an einem Beispiel aus dem Lab erklären.
+- Deklarative und imperative Beschreibungen von Infrastruktur unterscheiden
+- Erklären, was Soll-Zustand, Ist-Zustand und State sind
+- Den Ablauf von Plan und Apply beschreiben
+- Drift und Idempotenz an einem Beispiel aus dem Lab erklären
 :::
 
 ## Klickpfad und Code

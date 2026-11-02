@@ -10,13 +10,13 @@ sidebar:
 :::
 
 :::goals
-Nach diesem Kapitel kannst du
+Nach diesem Kapitel kannst du:
 
-- die vier goldenen Signale nennen und erklären, was Überwachung leisten soll,
-- das Modell von Prometheus mit Zeitreihen, Labels, Exportern und dem Abholen erklären,
-- den Monitoring-Stack über Argo CD aus deinem Plattform-Repo ausrollen,
-- OpenNebula und den Webshop als Ziele einbinden,
-- einfache Abfragen mit PromQL schreiben und in Grafana darstellen.
+- Die vier goldenen Signale nennen und erklären, was Überwachung leisten soll
+- Das Modell von Prometheus mit Zeitreihen, Labels, Exportern und dem Abholen erklären
+- Den Monitoring-Stack über Argo CD aus deinem Plattform-Repo ausrollen
+- OpenNebula und den Webshop als Ziele einbinden
+- Einfache Abfragen mit PromQL schreiben und in Grafana darstellen
 :::
 
 ## Der Zweck der Überwachung

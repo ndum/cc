@@ -10,13 +10,13 @@ sidebar:
 :::
 
 :::goals
-After this chapter you can
+After this chapter you can:
 
-- name the parts of an SLA and draft one for a member,
-- derive from the architecture which availability is realistic,
-- write an operations concept for a small organization,
-- write a blameless postmortem,
-- check a language model's draft against the facts.
+- Name the parts of an SLA and draft one for a member
+- Derive from the architecture which availability is realistic
+- Write an operations concept for a small organization
+- Write a blameless postmortem
+- Check a language model's draft against the facts
 :::
 
 ## SLA, SLO and SLI

@@ -10,13 +10,13 @@ sidebar:
 :::
 
 :::goals
-After this chapter you can
+After this chapter you can:
 
-- explain what a platform template is and what it gives a member,
-- limit and separate namespaces with ResourceQuota, LimitRange and NetworkPolicy,
-- use one template for several members with Kustomize,
-- generate an application for every folder in Git with an ApplicationSet,
-- review and accept a member's request as a pull request.
+- Explain what a platform template is and what it gives a member
+- Limit and separate namespaces with ResourceQuota, LimitRange and NetworkPolicy
+- Use one template for several members with Kustomize
+- Generate an application for every folder in Git with an ApplicationSet
+- Review and accept a member's request as a pull request
 :::
 
 ## Templates

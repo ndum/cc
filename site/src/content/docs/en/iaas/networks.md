@@ -10,13 +10,13 @@ sidebar:
 :::
 
 :::goals
-After this chapter you can
+After this chapter you can:
 
-- tell the network drivers of OpenNebula apart and justify VXLAN,
-- create the internal network of your cloud from your parameters,
-- explain what an address range and a lease are,
-- describe how network, gateway and NAT work together,
-- explain what an overlay network is and why the MTU drops to 1450 bytes.
+- Tell the network drivers of OpenNebula apart and justify VXLAN
+- Create the internal network of your cloud from your parameters
+- Explain what an address range and a lease are
+- Describe how network, gateway and NAT work together
+- Explain what an overlay network is and why the MTU drops to 1450 bytes
 :::
 
 ## Network drivers

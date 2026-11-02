@@ -10,12 +10,12 @@ Simone Wyss sends you the list of hardware. "Three servers, one to manage things
 :::
 
 :::goals
-After this chapter you can
+After this chapter you can:
 
-- describe the three VMs of the lab and their roles,
-- tell the two networks of the lab apart,
-- check whether a VM offers nested virtualization,
-- set up Ubuntu Server 26.04 the way the course expects.
+- Describe the three VMs of the lab and their roles
+- Tell the two networks of the lab apart
+- Check whether a VM offers nested virtualization
+- Set up Ubuntu Server 26.04 the way the course expects
 :::
 
 ## The three VMs
@@ -52,11 +52,11 @@ grep -cE 'vmx|svm' /proc/cpuinfo
 
 All three VMs run Ubuntu Server 26.04 LTS. If you install Ubuntu yourself, use these settings:
 
-1. the variant "Ubuntu Server (minimized)"
-2. the fixed IPv4 address from your personal parameters, see chapter 0.3
-3. the same user name on all three VMs, for example `cc`
-4. the box "Install OpenSSH server" checked
-5. no additional snaps
+1. The variant "Ubuntu Server (minimized)"
+2. The fixed IPv4 address from your personal parameters, see chapter 0.3
+3. The same user name on all three VMs, for example `cc`
+4. The box "Install OpenSSH server" checked
+5. No additional snaps
 
 In chapter 2.2 Ansible runs commands as administrator without asking for a password. Log in to every VM over SSH and allow your user to use sudo without a password.
 

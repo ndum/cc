@@ -10,14 +10,14 @@ sidebar:
 :::
 
 :::goals
-Nach diesem Kapitel kannst du
+Nach diesem Kapitel kannst du:
 
-- Datastores, Images und Vorlagen unterscheiden,
-- ein Image aus dem Marketplace in deine Cloud holen,
-- die Formate raw und qcow2 sowie persistente und nicht persistente Images unterscheiden,
-- eine Vorlage für VMs lesen und anpassen,
-- erklären, wie die Kontextualisierung eine VM beim ersten Start einrichtet,
-- eine VM starten, dich per SSH anmelden und den Check dieses Teils bestehen.
+- Datastores, Images und Vorlagen unterscheiden
+- Ein Image aus dem Marketplace in deine Cloud holen
+- Die Formate raw und qcow2 sowie persistente und nicht persistente Images unterscheiden
+- Eine Vorlage für VMs lesen und anpassen
+- Erklären, wie die Kontextualisierung eine VM beim ersten Start einrichtet
+- Eine VM starten, dich per SSH anmelden und den Check dieses Teils bestehen
 :::
 
 ## Datastores und Images

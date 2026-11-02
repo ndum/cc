@@ -10,12 +10,12 @@ sidebar:
 :::
 
 :::goals
-Nach diesem Kapitel kannst du
+Nach diesem Kapitel kannst du:
 
-- erklären, was Self-Service in einer Cloud bedeutet und warum er zu den Merkmalen einer Cloud gehört,
-- die Ansichten von Sunstone für Mitglieder und Gruppenadmins unterscheiden,
-- als Gruppenadmin Benutzer anlegen und eigene Vorlagen ableiten,
-- begründen, was ein Mitglied ändern darf und was nicht.
+- Erklären, was Self-Service in einer Cloud bedeutet und warum er zu den Merkmalen einer Cloud gehört
+- Die Ansichten von Sunstone für Mitglieder und Gruppenadmins unterscheiden
+- Als Gruppenadmin Benutzer anlegen und eigene Vorlagen ableiten
+- Begründen, was ein Mitglied ändern darf und was nicht
 :::
 
 ## Self-Service

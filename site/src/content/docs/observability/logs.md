@@ -10,12 +10,12 @@ sidebar:
 :::
 
 :::goals
-Nach diesem Kapitel kannst du
+Nach diesem Kapitel kannst du:
 
-- erklären, was Logs zeigen, das Metriken nicht zeigen,
-- den Aufbau von Loki und Alloy im Cluster beschreiben,
-- Logs mit LogQL nach Namespace, Pod und Text filtern und zählen,
-- den Fehler eines Deployments in den Logs finden.
+- Erklären, was Logs zeigen, das Metriken nicht zeigen
+- Den Aufbau von Loki und Alloy im Cluster beschreiben
+- Logs mit LogQL nach Namespace, Pod und Text filtern und zählen
+- Den Fehler eines Deployments in den Logs finden
 :::
 
 ## Logs und Metriken

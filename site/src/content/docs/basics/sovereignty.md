@@ -10,14 +10,14 @@ Beat Kläy legt nach. «Unsere Mitglieder könnten auch einfach einen der grosse
 :::
 
 :::goals
-Nach diesem Kapitel kannst du
+Nach diesem Kapitel kannst du:
 
-- sagen, welches Datenschutzrecht für die Mitglieder von Wolkenwerk Bern gilt,
-- besonders schützenswerte Personendaten erkennen,
-- die Pflichten bei einer Auftragsbearbeitung und bei Daten im Ausland erklären,
-- einschätzen, was das Berufsgeheimnis für eine Arztpraxis in der Cloud bedeutet,
-- den Schutzbedarf der Mitglieder grob einstufen,
-- die Kosten einer eigenen Cloud in Investitionen und Betriebskosten gliedern.
+- Sagen, welches Datenschutzrecht für die Mitglieder von Wolkenwerk Bern gilt
+- Besonders schützenswerte Personendaten erkennen
+- Die Pflichten bei einer Auftragsbearbeitung und bei Daten im Ausland erklären
+- Einschätzen, was das Berufsgeheimnis für eine Arztpraxis in der Cloud bedeutet
+- Den Schutzbedarf der Mitglieder grob einstufen
+- Die Kosten einer eigenen Cloud in Investitionen und Betriebskosten gliedern
 :::
 
 :::caution

@@ -10,13 +10,13 @@ sidebar:
 :::
 
 :::goals
-Nach diesem Kapitel kannst du
+Nach diesem Kapitel kannst du:
 
-- die Netztreiber von OpenNebula unterscheiden und VXLAN begründen,
-- das interne Netz deiner Cloud aus deinen Parametern anlegen,
-- erklären, was ein Adressbereich und eine Lease sind,
-- beschreiben, wie Netz, Gateway und NAT zusammenspielen,
-- erklären, was ein Overlay-Netz ist und weshalb die MTU auf 1450 Byte sinkt.
+- Die Netztreiber von OpenNebula unterscheiden und VXLAN begründen
+- Das interne Netz deiner Cloud aus deinen Parametern anlegen
+- Erklären, was ein Adressbereich und eine Lease sind
+- Beschreiben, wie Netz, Gateway und NAT zusammenspielen
+- Erklären, was ein Overlay-Netz ist und weshalb die MTU auf 1450 Byte sinkt
 :::
 
 ## Netztreiber

@@ -16,7 +16,7 @@ Everything runs in your own lab with your personal parameters from chapter 0.3. 
 1. The front-end is hardened with the firewall, and SSH accepts keys only.
 2. The Grafana password comes from Git as a SealedSecret.
 3. The members' namespaces run with the Pod Security profile `restricted`, and you show a rejected pod.
-4. k3s runs with etcd and snapshots, and a timer copies the snapshots to the front-end.
+4. The k3s cluster runs with etcd and snapshots, and a timer copies the snapshots to the front-end.
 5. The backup datastore exists, and a backup job backs up a VM every night at the time from your [personal values](../../start/parameters/) and keeps as many backups as they ask for.
 6. You have restored the VM from its backup.
 7. A table lists RPO and RTO of the four members with reasons, as in the exercise "RPO and RTO" in chapter 6.2, and the check `m4` is green.

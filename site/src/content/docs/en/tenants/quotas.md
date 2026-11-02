@@ -10,12 +10,12 @@ sidebar:
 :::
 
 :::goals
-After this chapter you can
+After this chapter you can:
 
-- explain why a cloud needs quotas,
-- tell the kinds of quotas in OpenNebula apart,
-- set quotas for groups and read their usage,
-- describe what happens at the limit of a quota.
+- Explain why a cloud needs quotas
+- Tell the kinds of quotas in OpenNebula apart
+- Set quotas for groups and read their usage
+- Describe what happens at the limit of a quota
 :::
 
 ## The purpose of quotas

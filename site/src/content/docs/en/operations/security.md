@@ -10,15 +10,15 @@ sidebar:
 :::
 
 :::goals
-After this chapter you can
+After this chapter you can:
 
-- assess a member's protection needs for confidentiality, integrity and availability,
-- harden the front-end with SSH keys, a firewall and automatic updates,
-- explain how TLS protects a connection and where the lab relies on SSH tunnels instead,
-- define and check the rights of a ServiceAccount with a Role and a RoleBinding,
-- require the restricted profile for member pods with Pod Security Admission,
-- store secrets encrypted in Git,
-- show who may do what on your platform.
+- Assess a member's protection needs for confidentiality, integrity and availability
+- Harden the front-end with SSH keys, a firewall and automatic updates
+- Explain how TLS protects a connection and where the lab relies on SSH tunnels instead
+- Define and check the rights of a ServiceAccount with a Role and a RoleBinding
+- Require the restricted profile for member pods with Pod Security Admission
+- Store secrets encrypted in Git
+- Show who may do what on your platform
 :::
 
 The chapters of part 6 build on your lab as it stands after part 5.

@@ -10,14 +10,14 @@ sidebar:
 :::
 
 :::goals
-Nach diesem Kapitel kannst du
+Nach diesem Kapitel kannst du:
 
-- die Zustände eines Hosts lesen und ändern,
-- reale und zugeteilte Kapazität unterscheiden und Überbuchung erklären,
-- beschreiben, nach welchen Regeln der Scheduler einen Knoten wählt, und die Zustände einer VM lesen,
-- VMs mit und ohne Unterbruch auf einen anderen Knoten verschieben,
-- einen Knoten für die Wartung leeren und wieder in Betrieb nehmen,
-- beschreiben, was beim Ausfall eines Knotens mit seinen VMs geschieht.
+- Die Zustände eines Hosts lesen und ändern
+- Reale und zugeteilte Kapazität unterscheiden und Überbuchung erklären
+- Beschreiben, nach welchen Regeln der Scheduler einen Knoten wählt, und die Zustände einer VM lesen
+- VMs mit und ohne Unterbruch auf einen anderen Knoten verschieben
+- Einen Knoten für die Wartung leeren und wieder in Betrieb nehmen
+- Beschreiben, was beim Ausfall eines Knotens mit seinen VMs geschieht
 :::
 
 ## Zustände eines Hosts

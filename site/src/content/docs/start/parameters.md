@@ -10,12 +10,12 @@ sidebar:
 :::
 
 :::goals
-Nach diesem Kapitel kannst du
+Nach diesem Kapitel kannst du:
 
-- erklären, wozu die persönlichen Parameter dienen,
-- deine Parameter mit dem Generator erzeugen,
-- jeden Wert in `/etc/cc-lab.env` erklären und sagen, wo er im Kurs vorkommt,
-- die Datei auf allen drei VMs ablegen und prüfen.
+- Erklären, wozu die persönlichen Parameter dienen
+- Deine Parameter mit dem Generator erzeugen
+- Jeden Wert in `/etc/cc-lab.env` erklären und sagen, wo er im Kurs vorkommt
+- Die Datei auf allen drei VMs ablegen und prüfen
 :::
 
 ## Zweck der Parameter

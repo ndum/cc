@@ -10,13 +10,13 @@ sidebar:
 :::
 
 :::goals
-After this chapter you can
+After this chapter you can:
 
-- tell SLI, SLO, SLA and error budget apart,
-- define an SLO for the web shop and calculate its error budget,
-- read and justify a burn rate alert,
-- tell alerts on symptoms from alerts on causes,
-- explain how Alertmanager groups and routes alerts.
+- Tell SLI, SLO, SLA and error budget apart
+- Define an SLO for the web shop and calculate its error budget
+- Read and justify a burn rate alert
+- Tell alerts on symptoms from alerts on causes
+- Explain how Alertmanager groups and routes alerts
 :::
 
 ## SLI, SLO and SLA

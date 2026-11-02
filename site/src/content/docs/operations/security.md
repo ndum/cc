@@ -10,15 +10,15 @@ sidebar:
 :::
 
 :::goals
-Nach diesem Kapitel kannst du
+Nach diesem Kapitel kannst du:
 
-- den Schutzbedarf eines Mitglieds nach Vertraulichkeit, Integrität und Verfügbarkeit einschätzen,
-- das Front-end mit SSH-Schlüsseln, einer Firewall und automatischen Updates härten,
-- erklären, wie TLS eine Verbindung schützt und wo das Lab stattdessen auf SSH-Tunnel setzt,
-- die Rechte eines ServiceAccounts mit Role und RoleBinding festlegen und prüfen,
-- Pods der Mitglieder mit Pod Security Admission auf das Profil restricted verpflichten,
-- Secrets verschlüsselt in Git ablegen,
-- zeigen, wer auf deiner Plattform was darf.
+- Den Schutzbedarf eines Mitglieds nach Vertraulichkeit, Integrität und Verfügbarkeit einschätzen
+- Das Front-end mit SSH-Schlüsseln, einer Firewall und automatischen Updates härten
+- Erklären, wie TLS eine Verbindung schützt und wo das Lab stattdessen auf SSH-Tunnel setzt
+- Die Rechte eines ServiceAccounts mit Role und RoleBinding festlegen und prüfen
+- Pods der Mitglieder mit Pod Security Admission auf das Profil restricted verpflichten
+- Secrets verschlüsselt in Git ablegen
+- Zeigen, wer auf deiner Plattform was darf
 :::
 
 Die Kapitel von Teil 6 bauen auf deinem Lab nach Teil 5 auf.

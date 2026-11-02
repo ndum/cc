@@ -10,14 +10,14 @@ sidebar:
 :::
 
 :::goals
-After this chapter you can
+After this chapter you can:
 
-- read and change the states of a host,
-- tell real from allocated capacity and explain overcommitment,
-- describe the rules the scheduler uses to pick a node and read the states of a VM,
-- move VMs to another node with and without interruption,
-- empty a node for maintenance and put it back into service,
-- describe what happens to its VMs when a node fails.
+- Read and change the states of a host
+- Tell real from allocated capacity and explain overcommitment
+- Describe the rules the scheduler uses to pick a node and read the states of a VM
+- Move VMs to another node with and without interruption
+- Empty a node for maintenance and put it back into service
+- Describe what happens to its VMs when a node fails
 :::
 
 ## States of a host

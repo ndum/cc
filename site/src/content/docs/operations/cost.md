@@ -10,13 +10,13 @@ sidebar:
 :::
 
 :::goals
-Nach diesem Kapitel kannst du
+Nach diesem Kapitel kannst du:
 
-- die Vollkosten einer kleinen Cloud aus Hardware, Strom und Arbeit berechnen,
-- daraus einen Preis für ein Mitglied ableiten und begründen,
-- reservierte und genutzte Ressourcen mit Prometheus vergleichen,
-- Requests und Limits nach Messwerten anpassen,
-- ungenutzte Ressourcen finden und ihre Kosten einschätzen.
+- Die Vollkosten einer kleinen Cloud aus Hardware, Strom und Arbeit berechnen
+- Daraus einen Preis für ein Mitglied ableiten und begründen
+- Reservierte und genutzte Ressourcen mit Prometheus vergleichen
+- Requests und Limits nach Messwerten anpassen
+- Ungenutzte Ressourcen finden und ihre Kosten einschätzen
 :::
 
 ## Vollkostenrechnung

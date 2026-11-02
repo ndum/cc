@@ -10,12 +10,12 @@ sidebar:
 :::
 
 :::goals
-Nach diesem Kapitel kannst du
+Nach diesem Kapitel kannst du:
 
-- Showback und Chargeback unterscheiden,
-- Preise pro Ressource in einer Vorlage hinterlegen,
-- die Kosten der Mitglieder mit `oneshowback` berechnen und lesen,
-- die Kosten einer VM pro Stunde und Monat selbst nachrechnen.
+- Showback und Chargeback unterscheiden
+- Preise pro Ressource in einer Vorlage hinterlegen
+- Die Kosten der Mitglieder mit `oneshowback` berechnen und lesen
+- Die Kosten einer VM pro Stunde und Monat selbst nachrechnen
 :::
 
 ## Showback und Chargeback

@@ -10,13 +10,13 @@ sidebar:
 :::
 
 :::goals
-After this chapter you can
+After this chapter you can:
 
-- tell type 1 and type 2 hypervisors apart,
-- explain how KVM, QEMU and libvirt work together,
-- check the virtualization features of a CPU,
-- explain nested virtualization and the role of the CPU model,
-- compare VMs and containers.
+- Tell type 1 and type 2 hypervisors apart
+- Explain how KVM, QEMU and libvirt work together
+- Check the virtualization features of a CPU
+- Explain nested virtualization and the role of the CPU model
+- Compare VMs and containers
 :::
 
 ## Hypervisors

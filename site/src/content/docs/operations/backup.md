@@ -10,13 +10,13 @@ sidebar:
 :::
 
 :::goals
-Nach diesem Kapitel kannst du
+Nach diesem Kapitel kannst du:
 
-- RPO und RTO für einen Dienst festlegen und begründen,
-- unterscheiden, was Git abdeckt und was ein Backup braucht,
-- den Cluster mit etcd und regelmässigen Snapshots betreiben,
-- VMs in OpenNebula sichern und wiederherstellen,
-- eine Wiederherstellung üben und die Zeit messen.
+- RPO und RTO für einen Dienst festlegen und begründen
+- Unterscheiden, was Git abdeckt und was ein Backup braucht
+- Den Cluster mit etcd und regelmässigen Snapshots betreiben
+- VMs in OpenNebula sichern und wiederherstellen
+- Eine Wiederherstellung üben und die Zeit messen
 :::
 
 ## RPO und RTO

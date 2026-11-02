@@ -10,12 +10,12 @@ Simone Wyss schickt dir die Liste der Hardware. «Drei Server, einer für die Ve
 :::
 
 :::goals
-Nach diesem Kapitel kannst du
+Nach diesem Kapitel kannst du:
 
-- die drei VMs des Labs und ihre Rollen beschreiben,
-- die beiden Netze des Labs unterscheiden,
-- prüfen, ob eine VM verschachtelte Virtualisierung bietet,
-- Ubuntu Server 26.04 so einrichten, wie es der Kurs erwartet.
+- Die drei VMs des Labs und ihre Rollen beschreiben
+- Die beiden Netze des Labs unterscheiden
+- Prüfen, ob eine VM verschachtelte Virtualisierung bietet
+- Ubuntu Server 26.04 so einrichten, wie es der Kurs erwartet
 :::
 
 ## Die drei VMs
@@ -52,11 +52,11 @@ grep -cE 'vmx|svm' /proc/cpuinfo
 
 Auf allen drei VMs läuft Ubuntu Server 26.04 LTS. Wenn du Ubuntu selbst installierst, gelten diese Einstellungen:
 
-1. die Variante «Ubuntu Server (minimized)»
-2. die feste IPv4-Adresse aus deinen persönlichen Parametern, siehe Kapitel 0.3
-3. derselbe Benutzername auf allen drei VMs, zum Beispiel `cc`
-4. das Häkchen bei «Install OpenSSH server»
-5. keine zusätzlichen Snaps
+1. Die Variante «Ubuntu Server (minimized)»
+2. Die feste IPv4-Adresse aus deinen persönlichen Parametern, siehe Kapitel 0.3
+3. Derselbe Benutzername auf allen drei VMs, zum Beispiel `cc`
+4. Das Häkchen bei «Install OpenSSH server»
+5. Keine zusätzlichen Snaps
 
 Ansible führt in Kapitel 2.2 Befehle als Administrator aus, ohne nach einem Passwort zu fragen. Melde dich deshalb per SSH an jeder VM an und erlaube deinem Benutzer sudo ohne Passwort.
 

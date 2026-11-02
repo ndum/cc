@@ -10,13 +10,13 @@ sidebar:
 :::
 
 :::goals
-After this chapter you can
+After this chapter you can:
 
-- name the building blocks of a Kubernetes cluster and what sets k3s apart,
-- explain how controllers, the scheduler and services keep pods running, place them and make them reachable,
-- explain how the start script in the context installs k3s on both VMs,
-- explain why the cluster needs its own ranges for pods and services and the host-gw routing,
-- examine the cluster from the front-end with kubectl.
+- Name the building blocks of a Kubernetes cluster and what sets k3s apart
+- Explain how controllers, the scheduler and services keep pods running, place them and make them reachable
+- Explain how the start script in the context installs k3s on both VMs
+- Explain why the cluster needs its own ranges for pods and services and the host-gw routing
+- Examine the cluster from the front-end with kubectl
 :::
 
 ## Kubernetes in brief

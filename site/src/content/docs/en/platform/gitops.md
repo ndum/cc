@@ -10,13 +10,13 @@ sidebar:
 :::
 
 :::goals
-After this chapter you can
+After this chapter you can:
 
-- explain the four principles of GitOps,
-- explain why the Git server runs outside the cluster it controls,
-- run Gitea on the front-end and share a repo with read-only access,
-- install Argo CD and roll out the web shop from Git with applications,
-- demonstrate sync, prune and self-heal.
+- Explain the four principles of GitOps
+- Explain why the Git server runs outside the cluster it controls
+- Run Gitea on the front-end and share a repo with read-only access
+- Install Argo CD and roll out the web shop from Git with applications
+- Demonstrate sync, prune and self-heal
 :::
 
 ## GitOps

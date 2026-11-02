@@ -10,14 +10,14 @@ sidebar:
 :::
 
 :::goals
-After this chapter you can
+After this chapter you can:
 
-- explain how Ansible works with inventories, playbooks, tasks, modules, roles and handlers,
-- run a small playbook of your own and recognize idempotence in its output,
-- describe how OneDeploy is organized,
-- install OpenNebula 7.4 with one run of OneDeploy,
-- name the services that run on the front-end and the nodes afterwards and how they work together,
-- read the message of a run that stopped and fix the problem.
+- Explain how Ansible works with inventories, playbooks, tasks, modules, roles and handlers
+- Run a small playbook of your own and recognize idempotence in its output
+- Describe how OneDeploy is organized
+- Install OpenNebula 7.4 with one run of OneDeploy
+- Name the services that run on the front-end and the nodes afterwards and how they work together
+- Read the message of a run that stopped and fix the problem
 :::
 
 ## Ansible
@@ -52,10 +52,10 @@ OneDeploy is an Ansible collection by the OpenNebula project. It installs a clou
 
 The playbook `opennebula.deploy.main` has two parts. The part `pre` prepares all machines. It checks Python and the machine names, distributes SSH keys and sets up time synchronization and logging. The part `site` then installs OpenNebula in plays for the groups of the inventory:
 
-1. all machines with the role `common`, shared packages and the OpenNebula package source
-2. the front-end with the roles `database`, `opennebula/server`, `gate`, `flow`, `form` and `gui`
-3. the nodes with the roles `kvm`, `datastore/node` and `network/node`
-4. the front-end once more with `datastore/frontend` and `network/frontend`, which create the datastores and networks and register the nodes as hosts
+1. All machines with the role `common`, shared packages and the OpenNebula package source
+2. The front-end with the roles `database`, `opennebula/server`, `gate`, `flow`, `form` and `gui`
+3. The nodes with the roles `kvm`, `datastore/node` and `network/node`
+4. The front-end once more with `datastore/frontend` and `network/frontend`, which create the datastores and networks and register the nodes as hosts
 
 Roles for features the inventory does not turn on, such as Ceph, a routed network or Prometheus, are skipped. They show up as `skipping` in the output.
 

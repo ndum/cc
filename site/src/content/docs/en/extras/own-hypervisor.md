@@ -6,11 +6,11 @@ sidebar:
 ---
 
 :::goals
-After this chapter you can
+After this chapter you can:
 
-- decide whether your computer can carry the lab,
-- create the three VMs with Hyper-V,
-- turn on nested virtualization in VMware, VirtualBox and Proxmox.
+- Decide whether your computer can carry the lab
+- Create the three VMs with Hyper-V
+- Turn on nested virtualization in VMware, VirtualBox and Proxmox
 :::
 
 ## Requirements
@@ -21,9 +21,9 @@ Your computer needs at least 32 GB of RAM, better 48 GB, an x86 CPU with virtual
 
 Whatever the hypervisor, the same requirements apply as on smartlearn:
 
-1. three VMs with the sizes from [chapter 0.2](../../start/lab/)
-2. nested virtualization on both nodes
-3. one shared network with fixed addresses from which the VMs reach the internet
+1. Three VMs with the sizes from [chapter 0.2](../../start/lab/)
+2. Nested virtualization on both nodes
+3. One shared network with fixed addresses from which the VMs reach the internet
 4. Ubuntu Server 26.04 with the settings from chapter 0.2
 
 ## Hyper-V

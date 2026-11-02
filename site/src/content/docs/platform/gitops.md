@@ -10,13 +10,13 @@ sidebar:
 :::
 
 :::goals
-Nach diesem Kapitel kannst du
+Nach diesem Kapitel kannst du:
 
-- die vier Prinzipien von GitOps erklären,
-- begründen, warum der Git-Server ausserhalb des Clusters läuft, den er steuert,
-- Gitea auf dem Front-end betreiben und ein Repo mit Zugriff nur zum Lesen freigeben,
-- Argo CD installieren und mit Applications den Webshop aus Git ausrollen,
-- Sync, Prune und Self-Heal an einem Beispiel zeigen.
+- Die vier Prinzipien von GitOps erklären
+- Begründen, warum der Git-Server ausserhalb des Clusters läuft, den er steuert
+- Gitea auf dem Front-end betreiben und ein Repo mit Zugriff nur zum Lesen freigeben
+- Argo CD installieren und mit Applications den Webshop aus Git ausrollen
+- Sync, Prune und Self-Heal an einem Beispiel zeigen
 :::
 
 ## GitOps

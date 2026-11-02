@@ -10,13 +10,13 @@ sidebar:
 :::
 
 :::goals
-Nach diesem Kapitel kannst du
+Nach diesem Kapitel kannst du:
 
-- erklären, was eine Plattform-Vorlage ist und was sie einem Mitglied gibt,
-- Namespaces mit ResourceQuota, LimitRange und NetworkPolicy begrenzen und trennen,
-- eine Vorlage mit Kustomize für mehrere Mitglieder verwenden,
-- mit einem ApplicationSet für jeden Ordner in Git eine Application erzeugen,
-- den Antrag eines Mitglieds als Pull Request prüfen und annehmen.
+- Erklären, was eine Plattform-Vorlage ist und was sie einem Mitglied gibt
+- Namespaces mit ResourceQuota, LimitRange und NetworkPolicy begrenzen und trennen
+- Eine Vorlage mit Kustomize für mehrere Mitglieder verwenden
+- Mit einem ApplicationSet für jeden Ordner in Git eine Application erzeugen
+- Den Antrag eines Mitglieds als Pull Request prüfen und annehmen
 :::
 
 ## Vorlagen

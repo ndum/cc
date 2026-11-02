@@ -10,13 +10,13 @@ sidebar:
 :::
 
 :::goals
-Nach diesem Kapitel kannst du
+Nach diesem Kapitel kannst du:
 
-- SLI, SLO, SLA und Fehlerbudget unterscheiden,
-- ein SLO für den Webshop formulieren und sein Fehlerbudget berechnen,
-- einen Alert nach Burn Rate lesen und begründen,
-- Alerts auf Symptome von Alerts auf Ursachen unterscheiden,
-- erklären, wie Alertmanager Alerts gruppiert und weiterleitet.
+- SLI, SLO, SLA und Fehlerbudget unterscheiden
+- Ein SLO für den Webshop formulieren und sein Fehlerbudget berechnen
+- Einen Alert nach Burn Rate lesen und begründen
+- Alerts auf Symptome von Alerts auf Ursachen unterscheiden
+- Erklären, wie Alertmanager Alerts gruppiert und weiterleitet
 :::
 
 ## SLI, SLO und SLA

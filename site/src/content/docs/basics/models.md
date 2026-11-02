@@ -10,12 +10,12 @@ sidebar:
 :::
 
 :::goals
-Nach diesem Kapitel kannst du
+Nach diesem Kapitel kannst du:
 
-- die Servicemodelle IaaS, PaaS und SaaS unterscheiden,
-- für jedes Servicemodell sagen, wer wofür verantwortlich ist,
-- die Bereitstellungsmodelle Private, Community, Public und Hybrid Cloud erklären,
-- Wolkenwerk Bern und seine Dienste in diese Modelle einordnen.
+- Die Servicemodelle IaaS, PaaS und SaaS unterscheiden
+- Für jedes Servicemodell sagen, wer wofür verantwortlich ist
+- Die Bereitstellungsmodelle Private, Community, Public und Hybrid Cloud erklären
+- Wolkenwerk Bern und seine Dienste in diese Modelle einordnen
 :::
 
 ## Servicemodelle
@@ -57,17 +57,17 @@ Public Clouds bieten Hunderte von Diensten weltweit an, sofort verfügbar und na
 Die Praxis Rosenweg bezieht von Wolkenwerk Bern eine VM aus OpenNebula und betreibt darauf ihre Praxissoftware. Wer ist für die folgenden Punkte verantwortlich, die Praxis oder das Plattform-Team?
 
 1. Sicherheitsupdates für Ubuntu in der VM
-2. ein defekter Arbeitsspeicher in einem Knoten
-3. wer in der Praxissoftware welche Patientendaten sieht
-4. das Backup der VM-Images
-5. die Firewall-Regeln innerhalb der VM
+2. Ein defekter Arbeitsspeicher in einem Knoten
+3. Wer in der Praxissoftware welche Patientendaten sieht
+4. Das Backup der VM-Images
+5. Die Firewall-Regeln innerhalb der VM
 
 :::solution
-1. die Praxis, das Betriebssystem in der VM gehört bei IaaS zu den Nutzenden
-2. das Plattform-Team, die Hardware liefert der Anbieter
-3. die Praxis, Daten und Zugriffe bleiben immer bei den Nutzenden
+1. Die Praxis, das Betriebssystem in der VM gehört bei IaaS zu den Nutzenden
+2. Das Plattform-Team, die Hardware liefert der Anbieter
+3. Die Praxis, Daten und Zugriffe bleiben immer bei den Nutzenden
 4. Verhandlungssache, meist bietet das Plattform-Team Backups der Images als Dienst an. Ohne Vereinbarung ist die Praxis für ihre Daten selbst verantwortlich
-5. die Praxis, das Plattform-Team regelt nur das Netz ausserhalb der VM
+5. Die Praxis, das Plattform-Team regelt nur das Netz ausserhalb der VM
 :::
 ::::
 

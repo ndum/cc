@@ -6,11 +6,11 @@ sidebar:
 ---
 
 :::goals
-Nach diesem Kapitel kannst du
+Nach diesem Kapitel kannst du:
 
-- entscheiden, ob dein Rechner das Lab tragen kann,
-- die drei VMs mit Hyper-V anlegen,
-- verschachtelte Virtualisierung in VMware, VirtualBox und Proxmox einschalten.
+- Entscheiden, ob dein Rechner das Lab tragen kann
+- Die drei VMs mit Hyper-V anlegen
+- Verschachtelte Virtualisierung in VMware, VirtualBox und Proxmox einschalten
 :::
 
 ## Voraussetzungen
@@ -21,9 +21,9 @@ Dein Rechner braucht mindestens 32 GB RAM, besser 48 GB, dazu eine x86-CPU mit V
 
 Unabhängig vom Hypervisor gelten dieselben Anforderungen wie auf smartlearn:
 
-1. drei VMs mit den Grössen aus [Kapitel 0.2](../../start/lab/)
-2. verschachtelte Virtualisierung auf beiden Knoten
-3. ein gemeinsames Netz mit festen Adressen, aus dem die VMs ins Internet kommen
+1. Drei VMs mit den Grössen aus [Kapitel 0.2](../../start/lab/)
+2. Verschachtelte Virtualisierung auf beiden Knoten
+3. Ein gemeinsames Netz mit festen Adressen, aus dem die VMs ins Internet kommen
 4. Ubuntu Server 26.04 mit den Einstellungen aus Kapitel 0.2
 
 ## Hyper-V

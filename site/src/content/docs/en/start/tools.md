@@ -10,13 +10,13 @@ sidebar:
 :::
 
 :::goals
-After this chapter you can
+After this chapter you can:
 
-- reach your VMs without a password using an SSH key and an SSH configuration,
-- reach the nodes from the front-end without a password,
-- create your hand-in repo and share it with your instructor,
-- run the check of a chapter and read its report,
-- record a screencast of the advanced tasks that meets the rules of the milestones.
+- Reach your VMs without a password using an SSH key and an SSH configuration
+- Reach the nodes from the front-end without a password
+- Create your hand-in repo and share it with your instructor
+- Run the check of a chapter and read its report
+- Record a screencast of the advanced tasks that meets the rules of the milestones
 :::
 
 ## SSH keys
@@ -89,11 +89,11 @@ Copy the report into the folder `reports/` of your hand-in repo, commit it and p
 
 You prove the base of a milestone with documentation and screenshots, so it needs no screencast. You show the advanced tasks either live in class or in a screencast. Screencasts follow these rules:
 
-1. at most ten minutes, one recording without cuts
-2. first `cat /etc/cc-lab.env` and the report of the milestone check with its hash and your two questions
-3. then the advanced tasks, live in your lab
-4. your answers to the two questions and your own decisions with the reasons behind them
-5. audio with your voice, so your instructor hears how you explain
+1. At most ten minutes, one recording without cuts
+2. First `cat /etc/cc-lab.env` and the report of the milestone check with its hash and your two questions
+3. Then the advanced tasks, live in your lab
+4. Your answers to the two questions and your own decisions with the reasons behind them
+5. Audio with your voice, so your instructor hears how you explain
 
 On Windows you record with the Snipping Tool or with OBS Studio, on macOS with the built-in screen recording. Put the screencast into your hand-in repo or onto storage such as OneDrive and add the link to the documentation of the milestone.
 

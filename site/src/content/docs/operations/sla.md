@@ -10,13 +10,13 @@ sidebar:
 :::
 
 :::goals
-Nach diesem Kapitel kannst du
+Nach diesem Kapitel kannst du:
 
-- die Teile eines SLA nennen und für ein Mitglied entwerfen,
-- aus der Architektur ableiten, welche Verfügbarkeit realistisch ist,
-- ein Betriebskonzept für eine kleine Organisation schreiben,
-- ein Postmortem ohne Schuldzuweisung verfassen,
-- den Entwurf eines Sprachmodells gegen die Fakten prüfen.
+- Die Teile eines SLA nennen und für ein Mitglied entwerfen
+- Aus der Architektur ableiten, welche Verfügbarkeit realistisch ist
+- Ein Betriebskonzept für eine kleine Organisation schreiben
+- Ein Postmortem ohne Schuldzuweisung verfassen
+- Den Entwurf eines Sprachmodells gegen die Fakten prüfen
 :::
 
 ## SLA, SLO und SLI

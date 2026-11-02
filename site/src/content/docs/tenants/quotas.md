@@ -10,12 +10,12 @@ sidebar:
 :::
 
 :::goals
-Nach diesem Kapitel kannst du
+Nach diesem Kapitel kannst du:
 
-- erklären, wozu eine Cloud Quotas braucht,
-- die Arten von Quotas in OpenNebula unterscheiden,
-- Quotas für Gruppen setzen und ihre Nutzung lesen,
-- beschreiben, was an der Grenze einer Quota geschieht.
+- Erklären, wozu eine Cloud Quotas braucht
+- Die Arten von Quotas in OpenNebula unterscheiden
+- Quotas für Gruppen setzen und ihre Nutzung lesen
+- Beschreiben, was an der Grenze einer Quota geschieht
 :::
 
 ## Der Zweck von Quotas

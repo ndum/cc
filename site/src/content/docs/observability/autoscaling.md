@@ -10,13 +10,13 @@ sidebar:
 :::
 
 :::goals
-Nach diesem Kapitel kannst du
+Nach diesem Kapitel kannst du:
 
-- erklären, wie der HorizontalPodAutoscaler die Zahl der Pods berechnet,
-- Requests, Limits und Quotas für ein Deployment mit Autoscaling abstimmen,
-- einen Lasttest durchführen und Wachsen und Schrumpfen beobachten,
-- erkennen, wann mehr Pods nicht mehr helfen,
-- Autoscaling in Kubernetes mit der Elastizität von OneFlow vergleichen.
+- Erklären, wie der HorizontalPodAutoscaler die Zahl der Pods berechnet
+- Requests, Limits und Quotas für ein Deployment mit Autoscaling abstimmen
+- Einen Lasttest durchführen und Wachsen und Schrumpfen beobachten
+- Erkennen, wann mehr Pods nicht mehr helfen
+- Autoscaling in Kubernetes mit der Elastizität von OneFlow vergleichen
 :::
 
 ## Der HorizontalPodAutoscaler

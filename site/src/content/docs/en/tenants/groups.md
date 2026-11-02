@@ -10,13 +10,13 @@ sidebar:
 :::
 
 :::goals
-After this chapter you can
+After this chapter you can:
 
-- explain what multi-tenancy means in a cloud,
-- tell users, groups and group admins in OpenNebula apart,
-- create a group with an admin for every member,
-- set up a virtual data center (VDC) and justify it,
-- read an ACL.
+- Explain what multi-tenancy means in a cloud
+- Tell users, groups and group admins in OpenNebula apart
+- Create a group with an admin for every member
+- Set up a virtual data center (VDC) and justify it
+- Read an ACL
 :::
 
 ## Multi-tenancy

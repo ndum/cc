@@ -10,13 +10,13 @@ sidebar:
 :::
 
 :::goals
-Nach diesem Kapitel kannst du
+Nach diesem Kapitel kannst du:
 
-- mit einem SSH-Schlüssel und einer SSH-Konfiguration ohne Passwort auf deine VMs zugreifen,
-- vom Front-end ohne Passwort auf die Knoten zugreifen,
-- dein Abgabe-Repo anlegen und mit deiner Dozentin oder deinem Dozenten teilen,
-- den Check eines Kapitels starten und seinen Bericht lesen,
-- einen Screencast der Zusatzaufträge aufnehmen, der die Regeln der Meilensteine erfüllt.
+- Mit einem SSH-Schlüssel und einer SSH-Konfiguration ohne Passwort auf deine VMs zugreifen
+- Vom Front-end ohne Passwort auf die Knoten zugreifen
+- Dein Abgabe-Repo anlegen und mit deiner Dozentin oder deinem Dozenten teilen
+- Den Check eines Kapitels starten und seinen Bericht lesen
+- Einen Screencast der Zusatzaufträge aufnehmen, der die Regeln der Meilensteine erfüllt
 :::
 
 ## SSH-Schlüssel
@@ -89,10 +89,10 @@ Kopiere den Bericht in dein Abgabe-Repo, in den Ordner `reports/`, und lade ihn 
 
 Die Basis eines Meilensteins belegst du mit einer Dokumentation und Screenshots, dafür brauchst du keinen Screencast. Die Zusatzaufträge zeigst du entweder live im Unterricht oder in einem Screencast. Für Screencasts gelten diese Regeln:
 
-1. höchstens zehn Minuten, in einer Aufnahme ohne Schnitt
-2. zuerst `cat /etc/cc-lab.env` und der Bericht des Checks des Meilensteins mit seinem Hash und deinen zwei Fragen
-3. danach die Zusatzaufträge, live in deinem Lab
-4. die Antworten auf die zwei Fragen und deine eigenen Entscheide mit ihrer Begründung
+1. Höchstens zehn Minuten, in einer Aufnahme ohne Schnitt
+2. Zuerst `cat /etc/cc-lab.env` und der Bericht des Checks des Meilensteins mit seinem Hash und deinen zwei Fragen
+3. Danach die Zusatzaufträge, live in deinem Lab
+4. Die Antworten auf die zwei Fragen und deine eigenen Entscheide mit ihrer Begründung
 5. Ton mit deiner Stimme, damit deine Dozentin oder dein Dozent hört, wie du erklärst
 
 Unter Windows nimmst du mit dem Snipping Tool oder mit OBS Studio auf, unter macOS mit der Bildschirmaufnahme. Den Screencast legst du in dein Abgabe-Repo oder auf einen Speicher wie OneDrive und trägst den Link in der Dokumentation des Meilensteins ein.

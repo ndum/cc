@@ -10,13 +10,13 @@ sidebar:
 :::
 
 :::goals
-Nach diesem Kapitel kannst du
+Nach diesem Kapitel kannst du:
 
-- begründen, warum die VMs aus Teil 2 und 3 den Platz für den Cluster freigeben müssen,
-- OpenTofu mit dem Provider für OpenNebula einrichten,
-- Provider, Data Sources, Variablen, Ressourcen und Outputs in einer Konfiguration erkennen,
-- VMs mit `tofu plan` und `tofu apply` anlegen, ändern, ersetzen und löschen,
-- erklären, warum der State geheime Werte enthält und nicht in Git gehört.
+- Begründen, warum die VMs aus Teil 2 und 3 den Platz für den Cluster freigeben müssen
+- OpenTofu mit dem Provider für OpenNebula einrichten
+- Provider, Data Sources, Variablen, Ressourcen und Outputs in einer Konfiguration erkennen
+- VMs mit `tofu plan` und `tofu apply` anlegen, ändern, ersetzen und löschen
+- Erklären, warum der State geheime Werte enthält und nicht in Git gehört
 :::
 
 ## Platz auf den Knoten

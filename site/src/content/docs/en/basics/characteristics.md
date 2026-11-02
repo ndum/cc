@@ -10,12 +10,12 @@ Beat Kläy, the president of the board, writes to you before the next meeting. "
 :::
 
 :::goals
-After this chapter you can
+After this chapter you can:
 
-- explain why cloud is an operating model and not a place,
-- name the five characteristics of a cloud according to NIST and explain them with examples,
-- check whether an offering meets these characteristics,
-- argue why the private cloud of Wolkenwerk Bern is a cloud as well.
+- Explain why cloud is an operating model and not a place
+- Name the five characteristics of a cloud according to NIST and explain them with examples
+- Check whether an offering meets these characteristics
+- Argue why the private cloud of Wolkenwerk Bern is a cloud as well
 :::
 
 ## Cloud as an operating model

@@ -10,12 +10,12 @@ sidebar:
 :::
 
 :::goals
-After this chapter you can
+After this chapter you can:
 
-- tell showback and chargeback apart,
-- store prices per resource in a template,
-- calculate and read the costs of the members with `oneshowback`,
-- work out the cost of a VM per hour and per month yourself.
+- Tell showback and chargeback apart
+- Store prices per resource in a template
+- Calculate and read the costs of the members with `oneshowback`
+- Work out the cost of a VM per hour and per month yourself
 :::
 
 ## Showback and chargeback

@@ -10,12 +10,12 @@ sidebar:
 :::
 
 :::goals
-After this chapter you can
+After this chapter you can:
 
-- tell declarative and imperative descriptions of infrastructure apart,
-- explain desired state, actual state and the state file,
-- describe the steps of plan and apply,
-- explain drift and idempotence with an example from the lab.
+- Tell declarative and imperative descriptions of infrastructure apart
+- Explain desired state, actual state and the state file
+- Describe the steps of plan and apply
+- Explain drift and idempotence with an example from the lab
 :::
 
 ## Click path and code

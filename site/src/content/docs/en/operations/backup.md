@@ -10,13 +10,13 @@ sidebar:
 :::
 
 :::goals
-After this chapter you can
+After this chapter you can:
 
-- set and justify an RPO and an RTO for a service,
-- tell apart what Git covers and what needs a backup,
-- run the cluster with etcd and regular snapshots,
-- back up and restore VMs in OpenNebula,
-- practice a restore and measure the time.
+- Set and justify an RPO and an RTO for a service
+- Tell apart what Git covers and what needs a backup
+- Run the cluster with etcd and regular snapshots
+- Back up and restore VMs in OpenNebula
+- Practice a restore and measure the time
 :::
 
 ## RPO and RTO

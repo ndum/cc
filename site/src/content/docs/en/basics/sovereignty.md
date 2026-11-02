@@ -10,14 +10,14 @@ Beat Kläy follows up. "Our members could simply go with one of the big provider
 :::
 
 :::goals
-After this chapter you can
+After this chapter you can:
 
-- say which data protection law applies to the members of Wolkenwerk Bern,
-- recognize sensitive personal data,
-- explain the duties around processing on behalf and data abroad,
-- judge what professional secrecy means for a medical practice in the cloud,
-- roughly classify the protection needs of the members,
-- divide the cost of a cloud of your own into investments and operating costs.
+- Say which data protection law applies to the members of Wolkenwerk Bern
+- Recognize sensitive personal data
+- Explain the duties around processing on behalf and data abroad
+- Judge what professional secrecy means for a medical practice in the cloud
+- Roughly classify the protection needs of the members
+- Divide the cost of a cloud of your own into investments and operating costs
 :::
 
 :::caution

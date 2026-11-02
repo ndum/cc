@@ -10,13 +10,13 @@ Simone Wyss schreibt dir an deinem ersten Tag. «Willkommen bei Wolkenwerk Bern.
 :::
 
 :::goals
-Nach diesem Kapitel kannst du
+Nach diesem Kapitel kannst du:
 
-- beschreiben, was du in diesem Modul aufbaust und lernst,
-- erklären, wie der Kurs aufgebaut ist und wie du mit ihm lernst,
-- die Mitglieder von Wolkenwerk Bern und ihre Anforderungen nennen,
-- beschreiben, wie Basis und Zusatzaufträge der vier Meilensteine deine Note ergeben,
-- KI-Werkzeuge im Kurs so einsetzen, wie es die Regeln verlangen.
+- Beschreiben, was du in diesem Modul aufbaust und lernst
+- Erklären, wie der Kurs aufgebaut ist und wie du mit ihm lernst
+- Die Mitglieder von Wolkenwerk Bern und ihre Anforderungen nennen
+- Beschreiben, wie Basis und Zusatzaufträge der vier Meilensteine deine Note ergeben
+- KI-Werkzeuge im Kurs so einsetzen, wie es die Regeln verlangen
 :::
 
 ## Das Modul im Überblick

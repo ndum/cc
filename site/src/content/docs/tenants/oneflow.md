@@ -13,12 +13,12 @@ sidebar:
 :::
 
 :::goals
-Nach diesem Kapitel kannst du
+Nach diesem Kapitel kannst du:
 
-- Elastizität von Self-Service unterscheiden,
-- einen Dienst mit Rollen in OneFlow beschreiben und anlegen,
-- Regeln für die Elastizität nach Last und nach Zeitplan schreiben,
-- beobachten und erklären, wie ein Dienst unter Last wächst und wieder schrumpft.
+- Elastizität von Self-Service unterscheiden
+- Einen Dienst mit Rollen in OneFlow beschreiben und anlegen
+- Regeln für die Elastizität nach Last und nach Zeitplan schreiben
+- Beobachten und erklären, wie ein Dienst unter Last wächst und wieder schrumpft
 :::
 
 :::note[Zusatzkapitel]

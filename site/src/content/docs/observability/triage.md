@@ -13,13 +13,13 @@ sidebar:
 :::
 
 :::goals
-Nach diesem Kapitel kannst du
+Nach diesem Kapitel kannst du:
 
-- den Weg eines Alerts von Prometheus über Alertmanager zum Triage-Dienst beschreiben,
-- erklären, wie der Dienst das Modell mit Kontext versorgt und seine Antwort begrenzt,
-- einen Vorschlag des Modells prüfen, freigeben oder ablehnen,
-- die Schutzmassnahmen Freigabe, Liste der Aktionen, Rechte und Audit-Log begründen,
-- die Grenzen und Risiken eines Modells im Betrieb kritisch beurteilen.
+- Den Weg eines Alerts von Prometheus über Alertmanager zum Triage-Dienst beschreiben
+- Erklären, wie der Dienst das Modell mit Kontext versorgt und seine Antwort begrenzt
+- Einen Vorschlag des Modells prüfen, freigeben oder ablehnen
+- Die Schutzmassnahmen Freigabe, Liste der Aktionen, Rechte und Audit-Log begründen
+- Die Grenzen und Risiken eines Modells im Betrieb kritisch beurteilen
 :::
 
 :::note[Zusatzkapitel]

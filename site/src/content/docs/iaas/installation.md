@@ -10,14 +10,14 @@ sidebar:
 :::
 
 :::goals
-Nach diesem Kapitel kannst du
+Nach diesem Kapitel kannst du:
 
-- erklären, wie Ansible mit Inventar, Playbooks, Tasks, Modulen, Rollen und Handlern arbeitet,
-- ein eigenes kleines Playbook ausführen und an seiner Ausgabe Idempotenz erkennen,
-- den Aufbau von OneDeploy beschreiben,
-- OpenNebula 7.4 mit einem Lauf von OneDeploy installieren,
-- nennen, welche Dienste danach auf dem Front-end und auf den Knoten laufen und wie sie zusammenarbeiten,
-- die Meldung eines abgebrochenen Laufs lesen und den Fehler beheben.
+- Erklären, wie Ansible mit Inventar, Playbooks, Tasks, Modulen, Rollen und Handlern arbeitet
+- Ein eigenes kleines Playbook ausführen und an seiner Ausgabe Idempotenz erkennen
+- Den Aufbau von OneDeploy beschreiben
+- OpenNebula 7.4 mit einem Lauf von OneDeploy installieren
+- Nennen, welche Dienste danach auf dem Front-end und auf den Knoten laufen und wie sie zusammenarbeiten
+- Die Meldung eines abgebrochenen Laufs lesen und den Fehler beheben
 :::
 
 ## Ansible
@@ -52,10 +52,10 @@ OneDeploy ist eine Ansible-Collection des OpenNebula-Projekts. Sie installiert e
 
 Das Playbook `opennebula.deploy.main` besteht aus zwei Teilen. Der Teil `pre` bereitet alle Rechner vor. Er prüft Python und die Namen der Rechner, verteilt SSH-Schlüssel, richtet die Zeitsynchronisation und die Protokollierung ein. Der Teil `site` installiert danach OpenNebula, in Plays für die Gruppen des Inventars:
 
-1. alle Rechner mit der Rolle `common`, gemeinsame Pakete und die Paketquelle von OpenNebula
-2. das Front-end mit den Rollen `database`, `opennebula/server`, `gate`, `flow`, `form` und `gui`
-3. die Knoten mit den Rollen `kvm`, `datastore/node` und `network/node`
-4. das Front-end noch einmal mit `datastore/frontend` und `network/frontend`, die Datastores und Netze anlegen und die Knoten als Hosts eintragen
+1. Alle Rechner mit der Rolle `common`, gemeinsame Pakete und die Paketquelle von OpenNebula
+2. Das Front-end mit den Rollen `database`, `opennebula/server`, `gate`, `flow`, `form` und `gui`
+3. Die Knoten mit den Rollen `kvm`, `datastore/node` und `network/node`
+4. Das Front-end noch einmal mit `datastore/frontend` und `network/frontend`, die Datastores und Netze anlegen und die Knoten als Hosts eintragen
 
 Rollen für Funktionen, die das Inventar nicht einschaltet, etwa Ceph, ein geroutetes Netz oder Prometheus, überspringt der Lauf. Sie erscheinen in der Ausgabe als `skipping`.
 

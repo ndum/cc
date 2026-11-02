@@ -13,7 +13,7 @@ Milestone 3 covers part 5. In the base you monitor the platform and the web shop
 
 Everything runs in your own lab with your personal parameters from chapter 0.3. The base has seven requirements.
 
-1. kube-prometheus-stack, Loki and Alloy come from your platform repo through Argo CD, and the Grafana password is not in Git.
+1. The charts kube-prometheus-stack, Loki and Alloy come from your platform repo through Argo CD, and the Grafana password is not in Git.
 2. The OpenNebula exporters are installed, and every target in Prometheus is `up`.
 3. The course dashboard runs, and you designed at least one panel in it yourself.
 4. You find the fault of a deployment with LogQL in Loki.

@@ -10,12 +10,12 @@ sidebar:
 :::
 
 :::goals
-After this chapter you can
+After this chapter you can:
 
-- get the course repo onto the VMs,
-- prepare each VM for its role with the preparation script,
-- explain what the script sets up on the front-end and the nodes,
-- check the gateway of the internal network.
+- Get the course repo onto the VMs
+- Prepare each VM for its role with the preparation script
+- Explain what the script sets up on the front-end and the nodes
+- Check the gateway of the internal network
 :::
 
 ## The course repo

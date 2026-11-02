@@ -13,13 +13,13 @@ sidebar:
 :::
 
 :::goals
-After this chapter you can
+After this chapter you can:
 
-- describe the path of an alert from Prometheus through Alertmanager to the triage service,
-- explain how the service gives the model context and limits its answer,
-- review, approve or reject a proposal of the model,
-- justify the safeguards of approval, the list of actions, rights and the audit log,
-- critically assess the limits and risks of a model in operations.
+- Describe the path of an alert from Prometheus through Alertmanager to the triage service
+- Explain how the service gives the model context and limits its answer
+- Review, approve or reject a proposal of the model
+- Justify the safeguards of approval, the list of actions, rights and the audit log
+- Critically assess the limits and risks of a model in operations
 :::
 
 :::note[Advanced chapter]

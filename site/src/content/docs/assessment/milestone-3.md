@@ -13,7 +13,7 @@ Meilenstein 3 umfasst Teil 5. In der Basis überwachst du Plattform und Webshop,
 
 Alles läuft in deinem eigenen Lab mit deinen persönlichen Parametern aus Kapitel 0.3. Die Basis verlangt sieben Anforderungen.
 
-1. kube-prometheus-stack, Loki und Alloy kommen über Argo CD aus deinem Plattform-Repo, das Passwort von Grafana liegt nicht in Git.
+1. Die Charts kube-prometheus-stack, Loki und Alloy kommen über Argo CD aus deinem Plattform-Repo, das Passwort von Grafana liegt nicht in Git.
 2. Die Exporter von OpenNebula sind installiert, und alle Ziele in Prometheus sind `up`.
 3. Das Dashboard des Kurses läuft, und mindestens ein Panel darin hast du selbst entworfen.
 4. Du findest den Fehler eines Deployments mit LogQL in Loki.

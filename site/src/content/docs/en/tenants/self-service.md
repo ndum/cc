@@ -10,12 +10,12 @@ sidebar:
 :::
 
 :::goals
-After this chapter you can
+After this chapter you can:
 
-- explain what self-service means in a cloud and why it is one of the characteristics of a cloud,
-- tell the Sunstone views for members and group admins apart,
-- create users and derive templates of your own as a group admin,
-- explain what a member may change and what it may not.
+- Explain what self-service means in a cloud and why it is one of the characteristics of a cloud
+- Tell the Sunstone views for members and group admins apart
+- Create users and derive templates of your own as a group admin
+- Explain what a member may change and what it may not
 :::
 
 ## Self-service

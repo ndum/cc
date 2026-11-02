@@ -10,13 +10,13 @@ sidebar:
 :::
 
 :::goals
-Nach diesem Kapitel kannst du
+Nach diesem Kapitel kannst du:
 
-- die Bausteine eines Kubernetes-Clusters und die Besonderheiten von k3s nennen,
-- erklären, wie Controller, Scheduler und Services Pods am Laufen halten, verteilen und erreichbar machen,
-- erklären, wie das Startskript im Kontext k3s auf beiden VMs installiert,
-- begründen, warum der Cluster eigene Bereiche für Pods und Services und das Routing host-gw braucht,
-- den Cluster vom Front-end aus mit kubectl untersuchen.
+- Die Bausteine eines Kubernetes-Clusters und die Besonderheiten von k3s nennen
+- Erklären, wie Controller, Scheduler und Services Pods am Laufen halten, verteilen und erreichbar machen
+- Erklären, wie das Startskript im Kontext k3s auf beiden VMs installiert
+- Begründen, warum der Cluster eigene Bereiche für Pods und Services und das Routing host-gw braucht
+- Den Cluster vom Front-end aus mit kubectl untersuchen
 :::
 
 ## Kubernetes in Kürze

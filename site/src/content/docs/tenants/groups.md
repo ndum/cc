@@ -10,13 +10,13 @@ sidebar:
 :::
 
 :::goals
-Nach diesem Kapitel kannst du
+Nach diesem Kapitel kannst du:
 
-- erklären, was Mandantenfähigkeit in einer Cloud bedeutet,
-- Benutzer, Gruppen und Gruppenadmins in OpenNebula unterscheiden,
-- für jedes Mitglied eine Gruppe mit Admin anlegen,
-- ein virtuelles Rechenzentrum (VDC) einrichten und begründen,
-- eine ACL lesen.
+- Erklären, was Mandantenfähigkeit in einer Cloud bedeutet
+- Benutzer, Gruppen und Gruppenadmins in OpenNebula unterscheiden
+- Für jedes Mitglied eine Gruppe mit Admin anlegen
+- Ein virtuelles Rechenzentrum (VDC) einrichten und begründen
+- Eine ACL lesen
 :::
 
 ## Mandantenfähigkeit

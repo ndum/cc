@@ -10,12 +10,12 @@ Beat Kläy, der Präsident des Vorstands, schreibt dir vor der nächsten Sitzung
 :::
 
 :::goals
-Nach diesem Kapitel kannst du
+Nach diesem Kapitel kannst du:
 
-- erklären, warum Cloud ein Betriebsmodell und kein Ort ist,
-- die fünf Merkmale einer Cloud nach NIST nennen und an Beispielen erklären,
-- prüfen, ob ein Angebot diese Merkmale erfüllt,
-- begründen, warum auch die Private Cloud von Wolkenwerk Bern eine Cloud ist.
+- Erklären, warum Cloud ein Betriebsmodell und kein Ort ist
+- Die fünf Merkmale einer Cloud nach NIST nennen und an Beispielen erklären
+- Prüfen, ob ein Angebot diese Merkmale erfüllt
+- Begründen, warum auch die Private Cloud von Wolkenwerk Bern eine Cloud ist
 :::
 
 ## Cloud als Betriebsmodell

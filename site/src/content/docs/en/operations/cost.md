@@ -10,13 +10,13 @@ sidebar:
 :::
 
 :::goals
-After this chapter you can
+After this chapter you can:
 
-- calculate the full cost of a small cloud from hardware, power and labor,
-- derive and justify a price for a member,
-- compare reserved and used resources with Prometheus,
-- adjust requests and limits based on measurements,
-- find idle resources and estimate their cost.
+- Calculate the full cost of a small cloud from hardware, power and labor
+- Derive and justify a price for a member
+- Compare reserved and used resources with Prometheus
+- Adjust requests and limits based on measurements
+- Find idle resources and estimate their cost
 :::
 
 ## Full cost

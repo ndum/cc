@@ -10,13 +10,13 @@ Simone Wyss writes to you on your first day. "Welcome to Wolkenwerk Bern. The th
 :::
 
 :::goals
-After this chapter you can
+After this chapter you can:
 
-- describe what you build and learn in this module,
-- explain how the course is organized and how you learn with it,
-- name the members of Wolkenwerk Bern and what they need,
-- describe how the base and the advanced tasks of the four milestones make up your grade,
-- use AI tools the way the course rules require.
+- Describe what you build and learn in this module
+- Explain how the course is organized and how you learn with it
+- Name the members of Wolkenwerk Bern and what they need
+- Describe how the base and the advanced tasks of the four milestones make up your grade
+- Use AI tools the way the course rules require
 :::
 
 ## The module at a glance

@@ -10,12 +10,12 @@ sidebar:
 :::
 
 :::goals
-After this chapter you can
+After this chapter you can:
 
-- explain what logs show that metrics do not,
-- describe how Loki and Alloy are set up in the cluster,
-- filter and count logs by namespace, pod and text with LogQL,
-- find the error of a deployment in the logs.
+- Explain what logs show that metrics do not
+- Describe how Loki and Alloy are set up in the cluster
+- Filter and count logs by namespace, pod and text with LogQL
+- Find the error of a deployment in the logs
 :::
 
 ## Logs and metrics

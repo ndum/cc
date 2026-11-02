@@ -10,12 +10,12 @@ sidebar:
 :::
 
 :::goals
-Nach diesem Kapitel kannst du
+Nach diesem Kapitel kannst du:
 
-- die Bausteine von OpenNebula nennen und Front-end oder Knoten zuordnen,
-- erklären, wie ein Auftrag von der Weboberfläche bis zur laufenden VM gelangt,
-- die Objekte von OpenNebula unterscheiden,
-- die drei Wege nennen, über die du OpenNebula bedienst.
+- Die Bausteine von OpenNebula nennen und Front-end oder Knoten zuordnen
+- Erklären, wie ein Auftrag von der Weboberfläche bis zur laufenden VM gelangt
+- Die Objekte von OpenNebula unterscheiden
+- Die drei Wege nennen, über die du OpenNebula bedienst
 :::
 
 ## Die Bausteine

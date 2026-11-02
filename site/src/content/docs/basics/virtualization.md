@@ -10,13 +10,13 @@ sidebar:
 :::
 
 :::goals
-Nach diesem Kapitel kannst du
+Nach diesem Kapitel kannst du:
 
-- Hypervisoren vom Typ 1 und Typ 2 unterscheiden,
-- erklären, wie KVM, QEMU und libvirt zusammenarbeiten,
-- die Virtualisierungsfunktionen einer CPU prüfen,
-- verschachtelte Virtualisierung und die Rolle des CPU-Modells erklären,
-- VMs und Container vergleichen.
+- Hypervisoren vom Typ 1 und Typ 2 unterscheiden
+- Erklären, wie KVM, QEMU und libvirt zusammenarbeiten
+- Die Virtualisierungsfunktionen einer CPU prüfen
+- Verschachtelte Virtualisierung und die Rolle des CPU-Modells erklären
+- VMs und Container vergleichen
 :::
 
 ## Hypervisoren

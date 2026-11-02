@@ -10,13 +10,13 @@ sidebar:
 :::
 
 :::goals
-After this chapter you can
+After this chapter you can:
 
-- explain why the VMs of parts 2 and 3 have to make room for the cluster,
-- set up OpenTofu with the provider for OpenNebula,
-- identify providers, data sources, variables, resources and outputs in a configuration,
-- create, change, replace and delete VMs with `tofu plan` and `tofu apply`,
-- explain why the state holds secrets and stays out of Git.
+- Explain why the VMs of parts 2 and 3 have to make room for the cluster
+- Set up OpenTofu with the provider for OpenNebula
+- Identify providers, data sources, variables, resources and outputs in a configuration
+- Create, change, replace and delete VMs with `tofu plan` and `tofu apply`
+- Explain why the state holds secrets and stays out of Git
 :::
 
 ## Room on the nodes

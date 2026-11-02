@@ -10,12 +10,12 @@ sidebar:
 :::
 
 :::goals
-After this chapter you can
+After this chapter you can:
 
-- name the building blocks of OpenNebula and assign them to the front-end or the nodes,
-- explain how a request travels from the web interface to a running VM,
-- tell the objects of OpenNebula apart,
-- name the three ways you operate OpenNebula.
+- Name the building blocks of OpenNebula and assign them to the front-end or the nodes
+- Explain how a request travels from the web interface to a running VM
+- Tell the objects of OpenNebula apart
+- Name the three ways you operate OpenNebula
 :::
 
 ## The building blocks

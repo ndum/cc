@@ -13,13 +13,13 @@ sidebar:
 :::
 
 :::goals
-After this chapter you can
+After this chapter you can:
 
-- explain when a local model is preferable to a service on the internet,
-- run Ollama in the cluster from Git and load a model,
-- measure speed in tokens per second and explain what it depends on,
-- treat inference as a load on the platform,
-- control the members' access to the model.
+- Explain when a local model is preferable to a service on the internet
+- Run Ollama in the cluster from Git and load a model
+- Measure speed in tokens per second and explain what it depends on
+- Treat inference as a load on the platform
+- Control the members' access to the model
 :::
 
 :::note[Advanced chapter]

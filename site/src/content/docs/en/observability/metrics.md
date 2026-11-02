@@ -10,13 +10,13 @@ sidebar:
 :::
 
 :::goals
-After this chapter you can
+After this chapter you can:
 
-- name the four golden signals and explain what monitoring is for,
-- explain the Prometheus model with time series, labels, exporters and pulling,
-- roll out the monitoring stack through Argo CD from your platform repo,
-- add OpenNebula and the web shop as targets,
-- write simple PromQL queries and show them in Grafana.
+- Name the four golden signals and explain what monitoring is for
+- Explain the Prometheus model with time series, labels, exporters and pulling
+- Roll out the monitoring stack through Argo CD from your platform repo
+- Add OpenNebula and the web shop as targets
+- Write simple PromQL queries and show them in Grafana
 :::
 
 ## The purpose of monitoring

@@ -13,12 +13,12 @@ sidebar:
 :::
 
 :::goals
-After this chapter you can
+After this chapter you can:
 
-- tell elasticity from self-service,
-- describe and create a service with roles in OneFlow,
-- write elasticity rules by load and by schedule,
-- observe and explain how a service grows under load and shrinks again.
+- Tell elasticity from self-service
+- Describe and create a service with roles in OneFlow
+- Write elasticity rules by load and by schedule
+- Observe and explain how a service grows under load and shrinks again
 :::
 
 :::note[Advanced chapter]

@@ -10,12 +10,12 @@ sidebar:
 :::
 
 :::goals
-After this chapter you can
+After this chapter you can:
 
-- tell the service models IaaS, PaaS and SaaS apart,
-- say who is responsible for what in each service model,
-- explain the deployment models private, community, public and hybrid cloud,
-- place Wolkenwerk Bern and its services in these models.
+- Tell the service models IaaS, PaaS and SaaS apart
+- Say who is responsible for what in each service model
+- Explain the deployment models private, community, public and hybrid cloud
+- Place Wolkenwerk Bern and its services in these models
 :::
 
 ## Service models
@@ -56,18 +56,18 @@ Public clouds offer hundreds of services worldwide, available at once and billed
 ::::exercise[Responsibility]
 Praxis Rosenweg gets a VM from OpenNebula from Wolkenwerk Bern and runs its practice software on it. Who is responsible for each of the following, the practice or the platform team?
 
-1. security updates for Ubuntu inside the VM
-2. a faulty memory module in a node
-3. who sees which patient data in the practice software
-4. the backup of the VM images
-5. the firewall rules inside the VM
+1. Security updates for Ubuntu inside the VM
+2. A faulty memory module in a node
+3. Who sees which patient data in the practice software
+4. The backup of the VM images
+5. The firewall rules inside the VM
 
 :::solution
-1. the practice, with IaaS the operating system in the VM belongs to the users
-2. the platform team, the provider delivers the hardware
-3. the practice, data and access always stay with the users
-4. a matter of agreement, the platform team usually offers backups of the images as a service. Without an agreement the practice is responsible for its own data
-5. the practice, the platform team only handles the network outside the VM
+1. The practice, with IaaS the operating system in the VM belongs to the users
+2. The platform team, the provider delivers the hardware
+3. The practice, data and access always stay with the users
+4. A matter of agreement, the platform team usually offers backups of the images as a service. Without an agreement the practice is responsible for its own data
+5. The practice, the platform team only handles the network outside the VM
 :::
 ::::
 
