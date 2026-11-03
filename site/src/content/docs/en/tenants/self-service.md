@@ -59,6 +59,8 @@ The views live on the front-end in `/etc/one/fireedge/sunstone/views/`. Every vi
 
 Open Sunstone in the browser of the client (the Kali VM on smartlearn, your PC with an own hypervisor) at `http://<front-end>:2616` and log in as `praxis-admin`. You see the view `groupadmin` with the practice's VMs and the template `ubuntu`. Hosts and datastores are missing because they remain the platform team's business.
 
+![Sunstone as praxis-admin in the view groupadmin, which the menu calls Admin group. Under Instances › VMs only the practice's VM praxis-1 appears. The menu has no Infrastructure section with the hosts, and Storage lists Images, Files, Backups and Apps but no datastores. The card still names the node of the VM as its host. The user praxis-admin and the group praxis appear at the bottom left. The picture was taken in part 6, which is why only praxis-1 is running.](../../../../assets/screenshots/sunstone-groupadmin-vms.png)
+
 ## ACLs behind the views
 
 A view only hides tabs and buttons, which makes the interface easier to use. It is not a security boundary, because for every action Sunstone calls the same OpenNebula API as the CLI. Only the API decides whether a request is allowed.

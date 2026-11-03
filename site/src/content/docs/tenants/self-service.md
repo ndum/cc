@@ -59,6 +59,8 @@ Die Ansichten liegen auf dem Front-end in `/etc/one/fireedge/sunstone/views/`. J
 
 Öffne Sunstone im Browser des Clients (auf smartlearn die Kali-VM, mit eigenem Hypervisor dein PC) unter `http://<front-end>:2616` und melde dich als `praxis-admin` an. Du siehst die Ansicht `groupadmin` mit den VMs der Praxis und der Vorlage `ubuntu`. Hosts und Datastores fehlen, denn sie bleiben Sache des Plattform-Teams.
 
+![Sunstone als praxis-admin in der Ansicht groupadmin, die im Menü Admin group heisst. Unter Instances › VMs steht nur die VM praxis-1 der Praxis. Im Menü fehlt der Bereich Infrastructure mit den Hosts. Unter Storage stehen Images, Files, Backups und Apps, aber keine Datastores. Den Knoten der VM nennt die Karte trotzdem als Host. Unten links stehen der Benutzer praxis-admin und seine Gruppe praxis. Das Bild stammt aus Teil 6, deshalb läuft hier nur praxis-1.](../../../assets/screenshots/sunstone-groupadmin-vms.png)
+
 ## ACLs hinter den Ansichten
 
 Eine Ansicht blendet nur Reiter und Knöpfe aus und erleichtert so die Bedienung. Als Sicherheitsgrenze taugt sie nicht, denn Sunstone ruft für jede Aktion dieselbe API von OpenNebula auf wie die CLI. Erst dort entscheidet sich, ob ein Auftrag erlaubt ist.
