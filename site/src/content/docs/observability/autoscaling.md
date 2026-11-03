@@ -21,7 +21,7 @@ Nach diesem Kapitel kannst du:
 
 ## Der HorizontalPodAutoscaler
 
-Der HorizontalPodAutoscaler (HPA) passt die Zahl der Pods eines Deployments an eine Metrik an, meist die CPU. Er vergleicht die mittlere Auslastung der Pods mit einem Ziel, gemessen in Prozent ihres CPU-Requests. Die Kubernetes-Dokumentation gibt die Rechnung an.
+Der **HorizontalPodAutoscaler (HPA)** passt die Zahl der Pods eines Deployments an eine Metrik an, meist die CPU. Er vergleicht die mittlere Auslastung der Pods mit einem Ziel, gemessen in Prozent ihres CPU-Requests. Die Kubernetes-Dokumentation gibt die Rechnung an.
 
 ```text
 gewünschte Pods = aufrunden(aktuelle Pods × aktuelle Auslastung / Ziel)
@@ -33,7 +33,7 @@ Zwei Pods mit 120 % bei einem Ziel von 60 % ergeben vier Pods. Die Werte holt de
 
 ::code{file="platform/observability/repo/webshop/hpa.yaml"}
 
-Der Webshop läuft mit zwei bis sechs Pods. Beim Schrumpfen wartet der HPA fünf Minuten und nimmt die höchste Empfehlung dieser Zeit. Ist der Shop zwischen zwei Wellen kurz ruhig, verliert er deshalb nicht gleich seine Pods. In Meilenstein 3 setzt du `maxReplicas` in `webshop/hpa.yaml` über Git auf die Obergrenze aus deinen [persönlichen Werten](../../start/parameters/).
+Der Webshop läuft mit zwei bis sechs Pods. Beim Schrumpfen wartet der HPA fünf Minuten und nimmt die höchste Empfehlung dieser Zeit. Ist der Shop zwischen zwei Wellen kurz ruhig, verliert er deshalb nicht gleich seine Pods. In Meilenstein 3 setzt du `maxReplicas` in `webshop/hpa.yaml` über Git auf die Obergrenze aus deinen [persönlichen Werten](../../start/parameters/#deine-werte-für-die-meilensteine).
 
 ## Zwei Steuerungen für eine Zahl
 
@@ -54,7 +54,7 @@ kubectl -n velo get hpa webshop --watch
 kubectl logs load
 ```
 
-`--watch` läuft weiter, bis du es mit Ctrl+C beendest. Die Ausgabe des Generators siehst du danach mit `kubectl logs load`, oder du öffnest dafür ein zweites Terminal.
+`--watch` läuft weiter, bis du es mit Ctrl+C beendest. Die Ausgabe des Generators siehst du danach mit `kubectl logs load`, oder du öffnest dafür ein zweites Terminal. Der beendete Pod `load` bleibt stehen. Vor einem weiteren Lauf löschst du ihn mit `kubectl delete pod load`, sonst meldet `kubectl run`, dass es ihn schon gibt.
 
 Im Lab stand der HPA nach knapp 30 Sekunden bei über 400 % und verlangte sechs Pods. Gut 40 Sekunden nach dem Start liefen sechs Pods mit je 500 % ihres Requests, also am Limit von `250m`. Mit zwei Pods meldete der Generator knapp 60 Anfragen pro Sekunde, 95 % davon kamen in 1,3 s zurück. Mit sechs Pods waren es rund 145 Anfragen pro Sekunde in knapp 300 ms. Nach dem Ende der Last blieb der Shop wegen der Wartezeit von fünf Minuten zuerst bei sechs Pods. Gut fünf Minuten nach dem Ende schrumpfte er auf vier Pods, 15 Sekunden später auf zwei. Jeder überzählige Pod war nach zwei Sekunden beendet, denn der Webshop antwortet nach dem Signal zum Beenden noch zwei Sekunden und stoppt dann.
 
@@ -108,7 +108,7 @@ python3 ~/cc/checks/check.py observability
 Die Zeile zu einem eigenen Empfänger in Alertmanager mit `[+!!]` gehört zum Zusatzauftrag B in Kapitel 5.5 und zählt nicht zur Basis.
 
 ::::exercise[Lab]
-Prüfe mit `kubectl -n velo get hpa webshop`, dass der HPA aus Kapitel 5.1 läuft, führe den Lasttest durch und notiere, wann der Shop wächst und wann er schrumpft. Zeige im Dashboard aus Kapitel 5.1, wie sich Verkehr und Antwortzeit verhalten. Lass zum Schluss den Check `observability` laufen und lade seinen Bericht in dein Abgabe-Repo.
+Prüfe mit `kubectl -n velo get hpa webshop`, dass der HPA läuft, der mit den Ergänzungen aus Kapitel 5.1 in dein Repo kam. Führe den Lasttest durch und notiere, wann der Shop wächst und wann er schrumpft. Zeige im Dashboard aus Kapitel 5.1, wie sich Verkehr und Antwortzeit verhalten. Lass zum Schluss den Check `observability` laufen und lade seinen Bericht in dein Abgabe-Repo.
 
 :::solution
 `kubectl -n velo get hpa webshop --watch` zeigt die Auslastung steigen und die Pods von zwei auf sechs wachsen, im Lab innerhalb einer Minute. Im Dashboard steigen die Anfragen pro Sekunde und auch die Antwortzeit. Sie blieb im Lab aber unter der Grenze von 0,5 s aus Kapitel 5.3. Nach dem Ende bleibt der Shop fünf Minuten bei sechs Pods und fällt dann auf zwei. Der Check endet mit «15 von 15 Prüfungen der Basis erfüllt» und «0 von 1 Prüfungen der Zusatzaufträge erfüllt».

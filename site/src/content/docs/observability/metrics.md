@@ -21,7 +21,7 @@ Nach diesem Kapitel kannst du:
 
 ## Der Zweck der Überwachung
 
-Überwachung soll zeigen, was kaputt ist und warum. Dass etwas nicht stimmt, merkt oft auch die Kundschaft, etwa an einem langsamen Shop. Den Grund findest du erst im System selbst, zum Beispiel volle Disks oder einen Knoten ohne freien Speicher. Das Buch «Site Reliability Engineering» von Google nennt vier goldene Signale, die man für jeden Dienst messen sollte.
+Überwachung soll zeigen, was kaputt ist und warum. Dass etwas nicht stimmt, merkt oft auch die Kundschaft, etwa an einem langsamen Shop. Den Grund findest du erst im System selbst, zum Beispiel volle Disks oder einen Knoten ohne freien Speicher. Das Buch «Site Reliability Engineering» von Google nennt **vier goldene Signale**, die man für jeden Dienst messen sollte.
 
 | Signal | Frage | Beim Webshop |
 |---|---|---|
@@ -32,13 +32,13 @@ Nach diesem Kapitel kannst du:
 
 ## Prometheus
 
-Prometheus speichert Zeitreihen. Eine Zeitreihe ist ein Name mit Labels und einer Folge von Werten mit Zeitstempel.
+Prometheus speichert Zeitreihen. Eine **Zeitreihe** ist ein Name mit Labels und einer Folge von Werten mit Zeitstempel.
 
 ```text
 webshop_requests_total{code="200", path="/", pod="webshop-599c7b4f94-4htg9"}  1532
 ```
 
-Prometheus holt die Werte selbst ab, in der Regel alle 15 bis 30 Sekunden. Jedes Ziel bietet unter `/metrics` eine Textseite an. Programme, die das nicht selbst können, bekommen einen Exporter, ein kleines Programm, das Werte sammelt und im Format von Prometheus ausgibt. Der Webshop aus Kapitel 4.4 hat `/metrics` schon eingebaut.
+Prometheus holt die Werte selbst ab, in der Regel alle 15 bis 30 Sekunden. Jedes Ziel bietet unter `/metrics` eine Textseite an. Programme, die das nicht selbst können, bekommen einen **Exporter**, ein kleines Programm, das Werte sammelt und im Format von Prometheus ausgibt. Der Webshop aus Kapitel 4.4 hat `/metrics` schon eingebaut.
 
 | Typ | Bedeutung | Beispiel |
 |---|---|---|
@@ -48,7 +48,7 @@ Prometheus holt die Werte selbst ab, in der Regel alle 15 bis 30 Sekunden. Jedes
 
 ## Der Stack
 
-kube-prometheus-stack ist ein Helm-Chart der Community von Prometheus. Es bringt Prometheus, Alertmanager, Grafana, den Prometheus Operator, kube-state-metrics für den Zustand der Objekte im Cluster und node-exporter für die Nodes mit. Der Operator führt eigene Ressourcentypen ein. Ein ServiceMonitor sagt, welche Services Prometheus abfragen soll, eine ScrapeConfig nennt Ziele ausserhalb des Clusters, eine PrometheusRule enthält Regeln.
+kube-prometheus-stack ist ein Helm-Chart der Community von Prometheus. Es bringt Prometheus, Alertmanager, Grafana, den Prometheus Operator, kube-state-metrics für den Zustand der Objekte im Cluster und node-exporter für die Nodes mit. Der Operator führt eigene Ressourcentypen ein. Ein **ServiceMonitor** sagt, bei welchen Services Prometheus Metriken abholt, eine **ScrapeConfig** nennt Ziele ausserhalb des Clusters, eine PrometheusRule enthält Regeln.
 
 Der Stack kommt wie der Webshop aus Git. Die Ergänzungen für Teil 5 liegen im Kursrepo unter `platform/observability/repo`. Du kopierst sie über dein Plattform-Repo und ersetzt die Platzhalter durch deine Adressen.
 
@@ -99,7 +99,7 @@ In Prometheus zeigt «Status › Target health» jedes Ziel mit seinem Zustand.
 
 ## Der Webshop als Ziel
 
-Für den Webshop genügt ein ServiceMonitor neben seinem Deployment. Prometheus fragt dann jeden Pod hinter dem Service `webshop` ab.
+Für den Webshop genügt ein ServiceMonitor neben seinem Deployment. Prometheus holt die Metriken dann bei jedem Pod hinter dem Service `webshop` ab.
 
 ::code{file="platform/observability/repo/webshop/servicemonitor.yaml"}
 
@@ -142,7 +142,11 @@ Grafana zeigt Abfragen als Dashboards. Im Browser des Clients meldest du dich un
 
 ![Das Dashboard Wolkenwerk platform in Grafana während eines Lasttests. Oben zählen Kacheln die Hosts und VMs in OpenNebula, die Anfragen pro Sekunde und den Anteil der Fehler des Webshops. Darunter stehen der vergebene Arbeitsspeicher der Knoten und die CPU der k3s-VMs, wie libvirt sie sieht, ganz unten die Anfragen nach Statuscode und die Antwortzeit.](../../../assets/screenshots/grafana-dashboard.png)
 
-Was du in Grafana selbst änderst, bleibt nicht erhalten, denn das Dashboard kommt aus einer ConfigMap und Grafana hat kein Volume. Ein eigenes Panel, das bleiben soll, gehört deshalb in Git. Kopiere dazu in `monitoring/config/dashboard-wolkenwerk.yaml` ein bestehendes Panel. Gib ihm einen eigenen `title`, deine Abfrage in `expr` und einen freien Platz in `gridPos`, etwa unter den bestehenden Panels mit `"y": 28`. Die Panels der Datei haben keine `id`, auch dein Panel braucht keine. Pushe danach die Änderung. Ein Panel, das du in Grafana entworfen hast, findest du als JSON im Menü des Panels unter «Inspect» und «Panel JSON».
+:::caution[Änderungen in Grafana gehen verloren]
+Das Dashboard kommt aus einer ConfigMap und Grafana hat im Lab kein Volume. Was du in der Oberfläche von Grafana änderst, ist nach dem nächsten Neustart des Pods weg, auch ein eigenes Panel für Meilenstein 3. Ein Panel, das bleiben soll, gehört deshalb in Git.
+:::
+
+Für ein eigenes Panel kopierst du in `monitoring/config/dashboard-wolkenwerk.yaml` ein bestehendes Panel. Gib ihm einen eigenen `title`, deine Abfrage in `expr` und einen freien Platz in `gridPos`, etwa unter den bestehenden Panels mit `"y": 28`. Die Panels der Datei haben keine `id`, auch dein Panel braucht keine. Pushe danach die Änderung. Ein Panel, das du in Grafana entworfen hast, findest du als JSON im Menü des Panels unter «Inspect» und «Panel JSON».
 
 ::::exercise[Lab]
 Rolle den Stack aus, installiere die Exporter und zeige in Prometheus, dass alle Ziele `up` sind. Öffne das Dashboard «Wolkenwerk platform» und erzeuge mit `curl` Verkehr auf den Webshop.

@@ -21,7 +21,7 @@ After this chapter you can:
 
 ## SLI, SLO and SLA
 
-A service level indicator (SLI) measures how well a service works from the customers' point of view, usually as a share of good events. The target for this share over a period is called a service level objective (SLO). A service level agreement (SLA) is a contract that sets out consequences if the target is missed. SLAs come in part 6, this chapter stays with the internal target.
+A **service level indicator (SLI)** measures how well a service works from the customers' point of view, usually as a share of good events. The target for this share over a period is called a **service level objective (SLO)**. A **service level agreement (SLA)** is a contract that sets out consequences if the target is missed. SLAs follow in part 6, and this chapter stays with the internal target.
 
 | Term | Web shop |
 |---|---|
@@ -29,7 +29,7 @@ A service level indicator (SLI) measures how well a service works from the custo
 | SLO | 99.5% over 7 days |
 | Error budget | 0.5% of the requests may fail |
 
-No service reaches 100%. The error budget states how many failures the period allows, a number you can plan with. As long as budget is left, the bike shop may try new things. Once it is used up, stability and fixes come first.
+No service reaches 100%. The **error budget** states how many failures the period allows, a number you can plan with. As long as budget is left, the bike shop may try new things. Once it is used up, stability and fixes come first.
 
 ## Recording rules
 
@@ -41,9 +41,9 @@ The first two rules are recording rules. Prometheus regularly computes the error
 
 ## Burn rate
 
-An alert on "more than 0.5% errors" would fire at every short spike. The burn rate measures how fast the budget is being used up. A burn rate of 1 uses up the budget in exactly the 7 days, while at 14.4 it would be gone after 168 / 14.4 ≈ 12 hours. The alert `WebshopErrorBudgetBurn` fires when the error ratios over five minutes and over one hour have both been above 14.4 × 0.5% = 7.2% for two minutes.
+An alert on "more than 0.5% errors" would fire at every short spike. The **burn rate** measures how fast the budget is being used up. A burn rate of 1 uses up the budget in exactly the 7 days, while at 14.4 it would be gone after 168 / 14.4 ≈ 12 hours. The alert `WebshopErrorBudgetBurn` fires when the error ratios over five minutes and over one hour have both been above 14.4 × 0.5% = 7.2% for two minutes.
 
-In milestone 3 the target from your [personal values](../../start/parameters/) applies. The error budget is then 1 minus your target, so 1% at 99.0%. You replace `0.005` in both lines of the alert with your budget, and the threshold becomes 14.4 × 1% = 14.4%.
+In milestone 3 the target from your [personal values](../../start/parameters/#your-values-for-the-milestones) applies. The error budget is then 1 minus your target, so 1% at 99.0%. You replace `0.005` in both lines of the alert with your budget, and the threshold becomes 14.4 × 1% = 14.4%.
 
 | Window | Job |
 |---|---|
@@ -75,7 +75,7 @@ receivers:
   - name: "null"
 ```
 
-In the base every alert goes to the receiver `null`, which sends nothing. The alerts only appear in the Alertmanager interface on port 30093. You set up a receiver of your own with a route in advanced task B of [chapter 5.5](../advanced/#task-b--triage-with-approval). `group_wait` waits 30 seconds for more alerts of the same group, and `repeat_interval` repeats an open alert only after four hours.
+In the base every alert goes to the receiver `null`, which sends nothing. The alerts only appear in the Alertmanager interface on port 30093 of the server. Like Prometheus, you reach the interface through a tunnel. Add `-L 9093:<server-address>:30093` to the command of chapter 5.1 and open `http://localhost:9093/` in the browser of the client. You set up a receiver of your own with a route in advanced task B of [chapter 5.5](../advanced/#task-b--triage-with-approval). `group_wait` waits 30 seconds for more alerts of the same group, and `repeat_interval` repeats an open alert only after four hours.
 
 ## Firing an alert
 

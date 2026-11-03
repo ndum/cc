@@ -21,7 +21,7 @@ After this chapter you can:
 
 ## The HorizontalPodAutoscaler
 
-The HorizontalPodAutoscaler (HPA) adjusts the number of pods of a deployment to a metric, usually CPU. It compares the average utilization of the pods with a target, measured as a percentage of their CPU request. The Kubernetes documentation gives the calculation.
+The **HorizontalPodAutoscaler (HPA)** adjusts the number of pods of a deployment to a metric, usually CPU. It compares the average utilization of the pods with a target, measured as a percentage of their CPU request. The Kubernetes documentation gives the calculation.
 
 ```text
 desired pods = ceil(current pods × current utilization / target)
@@ -33,7 +33,7 @@ Two pods at 120% with a target of 60% make four pods. The HPA takes the values f
 
 ::code{file="platform/observability/repo/webshop/hpa.yaml"}
 
-The web shop runs with two to six pods. When shrinking, the HPA waits five minutes and takes the highest recommendation of that period. If the shop is briefly quiet between two waves, it does not lose its pods right away. In milestone 3 you set `maxReplicas` in `webshop/hpa.yaml` through Git to the maximum from your [personal values](../../start/parameters/).
+The web shop runs with two to six pods. When shrinking, the HPA waits five minutes and takes the highest recommendation of that period. If the shop is briefly quiet between two waves, it does not lose its pods right away. In milestone 3 you set `maxReplicas` in `webshop/hpa.yaml` through Git to the maximum from your [personal values](../../start/parameters/#your-values-for-the-milestones).
 
 ## Two controllers for one number
 
@@ -54,7 +54,7 @@ kubectl -n velo get hpa webshop --watch
 kubectl logs load
 ```
 
-`--watch` keeps running until you stop it with Ctrl+C. You see the output of the generator afterwards with `kubectl logs load`, or you open a second terminal for it.
+`--watch` keeps running until you stop it with Ctrl+C. You see the output of the generator afterwards with `kubectl logs load`, or you open a second terminal for it. The finished pod `load` stays in place. Delete it with `kubectl delete pod load` before another run, otherwise `kubectl run` reports that it already exists.
 
 In the lab, the HPA showed more than 400% after almost 30 seconds and asked for six pods. A little over 40 seconds after the start, six pods ran at 500% of their request each, which is the limit of `250m`. With two pods the generator reported almost 60 requests per second, 95% of them back within 1.3 s. With six pods it was about 145 requests per second within just under 300 ms. After the load ended, the shop first stayed at six pods because of the five-minute wait. A little over five minutes after the end it shrank to four pods, and 15 seconds later to two. Every surplus pod had stopped after two seconds, because the web shop keeps answering for two seconds after the signal to stop and then exits.
 
@@ -108,7 +108,7 @@ python3 ~/cc/checks/check.py observability
 The line about a receiver of your own in Alertmanager marked `[+!!]` belongs to advanced task B in chapter 5.5 and does not count for the base.
 
 ::::exercise[Lab]
-Check with `kubectl -n velo get hpa webshop` that the HPA from chapter 5.1 is running, run the load test and note when the shop grows and when it shrinks. Show in the dashboard of chapter 5.1 how traffic and response time behave. Finally run the check `observability` and add its report to your hand-in repo.
+Check with `kubectl -n velo get hpa webshop` that the HPA is running. It came into your repo with the additions of chapter 5.1. Run the load test and note when the shop grows and when it shrinks. Show in the dashboard of chapter 5.1 how traffic and response time behave. Finally run the check `observability` and add its report to your hand-in repo.
 
 :::solution
 `kubectl -n velo get hpa webshop --watch` shows the utilization rising and the pods growing from two to six, within a minute in the lab. In the dashboard, requests per second go up and so does the response time, which stayed below the 0.5 s limit of chapter 5.3 in the lab. After the end, the shop stays at six pods for five minutes and then drops to two. The check ends with "15 of 15 base checks passed" and "0 of 1 checks of the advanced tasks passed".

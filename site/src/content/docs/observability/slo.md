@@ -21,7 +21,7 @@ Nach diesem Kapitel kannst du:
 
 ## SLI, SLO und SLA
 
-Ein Service Level Indicator (SLI) misst, wie gut ein Dienst aus Sicht der Kundschaft arbeitet, meist als Anteil guter Ereignisse. Das Ziel für diesen Anteil über einen Zeitraum heisst Service Level Objective (SLO). Ein Service Level Agreement (SLA) ist ein Vertrag, der Folgen festlegt, wenn das Ziel verfehlt wird. SLAs kommen in Teil 6, dieses Kapitel bleibt beim internen Ziel.
+Ein **Service Level Indicator (SLI)** misst, wie gut ein Dienst aus Sicht der Kundschaft arbeitet, meist als Anteil guter Ereignisse. Das Ziel für diesen Anteil über einen Zeitraum heisst **Service Level Objective (SLO)**. Ein **Service Level Agreement (SLA)** ist ein Vertrag, der Folgen festlegt, wenn das Ziel verfehlt wird. SLAs kommen in Teil 6, dieses Kapitel bleibt beim internen Ziel.
 
 | Begriff | Webshop |
 |---|---|
@@ -29,7 +29,7 @@ Ein Service Level Indicator (SLI) misst, wie gut ein Dienst aus Sicht der Kundsc
 | SLO | 99,5 % über 7 Tage |
 | Fehlerbudget | 0,5 % der Anfragen dürfen scheitern |
 
-Kein Dienst erreicht 100 %. Das Fehlerbudget legt fest, wie viele Fehler im Zeitraum erlaubt sind. Mit dieser Zahl lässt sich planen. Solange Budget übrig ist, darf das Veloatelier Neues ausprobieren. Ist es aufgebraucht, haben Stabilität und Korrekturen Vorrang.
+Kein Dienst erreicht 100 %. Das **Fehlerbudget** legt fest, wie viele Fehler im Zeitraum erlaubt sind. Mit dieser Zahl lässt sich planen. Solange Budget übrig ist, darf das Veloatelier Neues ausprobieren. Ist es aufgebraucht, haben Stabilität und Korrekturen Vorrang.
 
 ## Recording Rules
 
@@ -41,9 +41,9 @@ Die ersten zwei Regeln sind Recording Rules. Prometheus berechnet den Fehlerante
 
 ## Burn Rate
 
-Ein Alert auf «mehr als 0,5 % Fehler» würde bei jeder kurzen Spitze auslösen. Die Burn Rate gibt an, wie schnell das Budget verbraucht wird. Eine Burn Rate von 1 braucht es genau in den 7 Tagen auf, bei 14,4 wäre es nach 168 / 14,4 ≈ 12 Stunden weg. Der Alert `WebshopErrorBudgetBurn` löst aus, wenn beide Fehleranteile über 14,4 × 0,5 % = 7,2 % liegen, der über fünf Minuten wie der über eine Stunde. Das muss zwei Minuten lang so bleiben.
+Ein Alert auf «mehr als 0,5 % Fehler» würde bei jeder kurzen Spitze auslösen. Die **Burn Rate** gibt an, wie schnell das Budget verbraucht wird. Eine Burn Rate von 1 braucht es genau in den 7 Tagen auf, bei 14,4 wäre es nach 168 / 14,4 ≈ 12 Stunden weg. Der Alert `WebshopErrorBudgetBurn` löst aus, wenn beide Fehleranteile über 14,4 × 0,5 % = 7,2 % liegen, der über fünf Minuten wie der über eine Stunde. Das muss zwei Minuten lang so bleiben.
 
-In Meilenstein 3 gilt das Ziel aus deinen [persönlichen Werten](../../start/parameters/). Das Fehlerbudget ist dann 1 minus dein Ziel, bei 99,0 % also 1 %. Du ersetzt `0.005` in beiden Zeilen des Alerts durch dein Budget. Mit 1 % liegt die Schwelle bei 14,4 × 1 % = 14,4 %.
+In Meilenstein 3 gilt das Ziel aus deinen [persönlichen Werten](../../start/parameters/#deine-werte-für-die-meilensteine). Das Fehlerbudget ist dann 1 minus dein Ziel, bei 99,0 % also 1 %. Du ersetzt `0.005` in beiden Zeilen des Alerts durch dein Budget. Mit 1 % liegt die Schwelle bei 14,4 × 1 % = 14,4 %.
 
 | Fenster | Aufgabe |
 |---|---|
@@ -75,7 +75,7 @@ receivers:
   - name: "null"
 ```
 
-In der Basis gehen alle Alerts an den Empfänger `null`, der nichts verschickt. Sie erscheinen nur in der Oberfläche von Alertmanager auf Port 30093. Einen eigenen Empfänger mit einer Route richtest du in Zusatzauftrag B aus [Kapitel 5.5](../advanced/#auftrag-b--triage-mit-freigabe) ein. `group_wait` wartet 30 Sekunden auf weitere Alerts derselben Gruppe, `repeat_interval` wiederholt einen offenen Alert erst nach vier Stunden.
+In der Basis gehen alle Alerts an den Empfänger `null`, der nichts verschickt. Sie erscheinen nur in der Oberfläche von Alertmanager auf Port 30093 des Servers. Die Oberfläche erreichst du wie Prometheus über einen Tunnel. Ergänze dazu den Befehl aus Kapitel 5.1 um `-L 9093:<adresse-des-servers>:30093` und öffne im Browser des Clients `http://localhost:9093/`. Einen eigenen Empfänger mit einer Route richtest du in Zusatzauftrag B aus [Kapitel 5.5](../advanced/#auftrag-b--triage-mit-freigabe) ein. `group_wait` wartet 30 Sekunden auf weitere Alerts derselben Gruppe, `repeat_interval` wiederholt einen offenen Alert erst nach vier Stunden.
 
 ## Einen Alert auslösen
 

@@ -21,7 +21,7 @@ After this chapter you can:
 
 ## The purpose of monitoring
 
-Monitoring should show what is broken and why. Customers often notice that something is wrong, for example when the shop is slow. The reason only shows up inside the system, such as full disks or a node without free memory. Google's book "Site Reliability Engineering" names four golden signals worth measuring for every service.
+Monitoring should show what is broken and why. Customers often notice that something is wrong, for example when the shop is slow. The reason only shows up inside the system, such as full disks or a node without free memory. Google's book "Site Reliability Engineering" names **four golden signals** worth measuring for every service.
 
 | Signal | Question | For the web shop |
 |---|---|---|
@@ -32,13 +32,13 @@ Monitoring should show what is broken and why. Customers often notice that somet
 
 ## Prometheus
 
-Prometheus stores time series. A time series is a name with labels and a sequence of timestamped values.
+Prometheus stores time series. A **time series** is a name with labels and a sequence of timestamped values.
 
 ```text
 webshop_requests_total{code="200", path="/", pod="webshop-599c7b4f94-4htg9"}  1532
 ```
 
-Prometheus pulls the values itself, usually every 15 to 30 seconds. Every target offers a text page at `/metrics`. Programs that cannot do that get an exporter, a small program that collects values and prints them in the Prometheus format. The web shop of chapter 4.4 already has `/metrics` built in.
+Prometheus pulls the values itself, usually every 15 to 30 seconds. Every target offers a text page at `/metrics`. Programs that cannot do that get an **exporter**, a small program that collects values and prints them in the Prometheus format. The web shop of chapter 4.4 already has `/metrics` built in.
 
 | Type | Meaning | Example |
 |---|---|---|
@@ -48,7 +48,7 @@ Prometheus pulls the values itself, usually every 15 to 30 seconds. Every target
 
 ## The stack
 
-kube-prometheus-stack is a Helm chart of the Prometheus community. It contains Prometheus, Alertmanager, Grafana, the Prometheus Operator, kube-state-metrics for the state of the cluster objects and node-exporter for the nodes. The operator adds resource types of its own. A ServiceMonitor tells Prometheus which services to scrape, a ScrapeConfig names targets outside the cluster, and a PrometheusRule holds rules.
+kube-prometheus-stack is a Helm chart of the Prometheus community. It contains Prometheus, Alertmanager, Grafana, the Prometheus Operator, kube-state-metrics for the state of the cluster objects and node-exporter for the nodes. The operator adds resource types of its own. A **ServiceMonitor** tells Prometheus which services to scrape, a **ScrapeConfig** names targets outside the cluster, and a PrometheusRule holds rules.
 
 Like the web shop, the stack comes from Git. The additions for part 5 are in the course repo under `platform/observability/repo`. You copy them over your platform repo and replace the placeholders with your addresses.
 
@@ -142,7 +142,11 @@ Grafana shows queries as dashboards. In the browser of the client, you sign in a
 
 ![The dashboard Wolkenwerk platform in Grafana during a load test. At the top, tiles count the hosts and VMs in OpenNebula, the requests per second and the share of errors of the web shop. Below are the allocated memory of the nodes and the CPU of the k3s VMs as libvirt sees it, and at the bottom the requests by status code and the response time.](../../../../assets/screenshots/grafana-dashboard.png)
 
-Changes you make in Grafana itself are lost, because the dashboard comes from a ConfigMap and Grafana has no volume. A panel you want to keep therefore belongs in Git. Copy an existing panel in `monitoring/config/dashboard-wolkenwerk.yaml` and give it your own `title`, your query in `expr` and a free place in `gridPos`, for example below the existing panels with `"y": 28`. The panels in the file have no `id`, and yours needs none either. Then push the change. For a panel you designed in Grafana, the panel menu shows its JSON under "Inspect" and "Panel JSON".
+:::caution[Changes in Grafana are lost]
+The dashboard comes from a ConfigMap, and Grafana has no volume in the lab. Whatever you change in the Grafana interface is gone after the next restart of the pod, including a panel of your own for milestone 3. A panel you want to keep therefore belongs in Git.
+:::
+
+For a panel of your own, copy an existing panel in `monitoring/config/dashboard-wolkenwerk.yaml` and give it your own `title`, your query in `expr` and a free place in `gridPos`, for example below the existing panels with `"y": 28`. The panels in the file have no `id`, and yours needs none either. Then push the change. For a panel you designed in Grafana, the panel menu shows its JSON under "Inspect" and "Panel JSON".
 
 ::::exercise[Lab]
 Roll out the stack, install the exporters and show in Prometheus that all targets are `up`. Open the dashboard "Wolkenwerk platform" and create traffic on the web shop with `curl`.
