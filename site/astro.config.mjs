@@ -31,7 +31,7 @@ export default defineConfig({
 
   integrations: [
     starlight({
-      title: 'CC',
+      title: 'HFI - Cloud Computing (CC)',
       description: 'Cloud Computing mit einer eigenen Private Cloud, ein zweisprachiger Kurs für die höhere Fachschule.',
       defaultLocale: 'root',
       locales: {
