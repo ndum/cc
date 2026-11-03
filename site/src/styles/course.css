@@ -616,3 +616,31 @@ cc-params {
   color: var(--sl-color-white);
   cursor: pointer;
 }
+
+/* Wide screens. Starlight keeps the text column at 45rem, which leaves most of a large display empty.
+   From 100rem on the column and both sidebars grow in steps, so tables, code and screenshots use the
+   room. Figures grow a little and stay centred, their labels would otherwise outgrow the text */
+@media (min-width: 100rem) {
+  :root {
+    --sl-content-width: 54rem;
+  }
+}
+@media (min-width: 120rem) {
+  :root {
+    --sl-content-width: 62rem;
+    --sl-sidebar-width: 20rem;
+  }
+  .lt-figure svg {
+    max-width: 48rem;
+    margin-inline: auto;
+  }
+}
+@media (min-width: 140rem) {
+  :root {
+    --sl-content-width: 70rem;
+    --sl-sidebar-width: 21rem;
+  }
+  .lt-figure svg {
+    max-width: 52rem;
+  }
+}
