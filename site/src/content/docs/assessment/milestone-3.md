@@ -69,4 +69,4 @@ Die Berichte der Checks legst du in `reports/`. Wie das Repo aufgebaut ist und w
 | Bessere Fragen mit gemessenem Vergleich (Auftrag C) | 3 |
 | **Zusatz** | **9** |
 
-Meilenstein 3 gibt zusammen höchstens 30 Punkte. Eine Anforderung der Basis gibt 3 Punkte, wenn Bericht und Screenshot sie belegen. Für eine nur teilweise erfüllte Anforderung gibt es 1 Punkt. Beantwortest du eine der zwei Fragen nicht oder falsch, bekommt der Zusatzauftrag, zu dem sie gehört, höchstens 1 Punkt. Ohne Dokumentation gibt ein Zusatzauftrag höchstens 1 Punkt.
+Meilenstein 3 gibt zusammen höchstens 30 Punkte. Eine Anforderung der Basis gibt 3 Punkte, wenn Bericht und Screenshot sie belegen, 2 Punkte bei grünem Check ohne passenden Screenshot und 1 Punkt, wenn sie nur teilweise erfüllt ist. Jede der zwei Fragen, die du nicht oder falsch beantwortest, kostet 1 Punkt der Zusatzaufträge. Fehlt die Dokumentation oder einer ihrer Teile 1, 2, 4 und 5, gibt ein Zusatzauftrag höchstens 1 Punkt.

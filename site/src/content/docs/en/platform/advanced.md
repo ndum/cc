@@ -33,7 +33,7 @@ These conditions apply:
 - They are the advanced tasks of [milestone 2](../../assessment/milestone-2/), and you may take on only some of them
 - Plan four to six hours for all three
 - You show them live in class or in a screencast of at most ten minutes, as the milestone describes under [showing the advanced tasks](../../assessment/milestone-2/#showing-the-advanced-tasks). In the showing you answer the two questions from the report of the check `m2`.
-- Each task needs documentation in five parts as [Assessment](../../assessment/#documenting-the-advanced-tasks) describes, plus a copy of your repo `platform` without `.git`, state and tokens
+- Each task needs documentation in five parts as [Assessment](../../assessment/#documenting-the-advanced-tasks) describes, plus a copy of your repo `platform` without `.git`, state, tokens and passwords
 - Each task is worth 0 to 3 points by the [levels of the advanced tasks](../../assessment/#levels-of-the-advanced-tasks), and at most 1 point without documentation
 - You may use AI assistants under the [course rules](../../start/overview/#ai-tools). In the showing you explain every line yourself.
 
@@ -65,11 +65,11 @@ A rebuild brings back exactly what the code describes. `tofu destroy` deletes ex
 | The network `cc-net` and the image, which the code only reads | are left alone |
 | Gitea with the repo on the front-end | keeps running |
 | VM IDs and values OpenTofu generates, such as the k3s token | are new |
-| SSH keys and the kubeconfig on the front-end | no longer fit, as chapter 4.3 explains |
+| The old host key of the server in `known_hosts` and the kubeconfig on the front-end | no longer fit, as chapter 4.3 explains |
 | Objects outside Git that scripts such as the bootstrap of chapter 4.4 create, for example the secret with the Gitea token | are created again by the script |
 | Data that pods wrote to a node's disk and objects someone created with `kubectl` without going through Git | are lost |
 
-Chapter 6.2 comes back to this question with backups.
+Chapter 6.2 comes back to the lost data with backups.
 :::
 
 ## Drift before the rebuild
@@ -89,7 +89,7 @@ The municipality's values came from your personal parameters, but for a member o
 :::details[LimitRange, the check against the cluster and your justification]
 The LimitRange has to let the largest container have what it needs, otherwise Kubernetes rejects the container even though the quota still has room. Its defaults apply to every container that sets no values of its own.
 
-k3s and Argo CD take part of the 8 vCPUs and 12 GB of the two VMs, and part 5 adds Prometheus, Loki and, as an advanced task, a language model. As with the quotas in chapter 3.2, the sum of the limits may exceed the cluster, but with requests that is riskier. The scheduler starts no more pods once the reserved values fill the nodes. Your justification names the need, the calculation and what a peak at the limit leads to.
+Of the 8 vCPUs and 12 GB of the two VMs, k3s and Argo CD already use a share, and part 5 adds Prometheus, Loki and, as an advanced task, a language model. As with the quotas in chapter 3.2, the sum of the limits may exceed the cluster, but with requests that is riskier. The scheduler starts no more pods once the reserved values fill the nodes. Your justification names the need, the calculation and what a peak at the limit leads to.
 :::
 
 ## AppProjects
@@ -102,7 +102,7 @@ So far every application belongs to the project `default`, which permits everyth
 | Inside a namespace | Deployment, ResourceQuota | single kinds can be forbidden |
 
 :::details[Exclusions, AppProjects in Git and the template's application]
-A rule with `!` excludes a destination, for example one namespace. AppProjects live in the namespace `argocd`, so they can come from Git like the applications.
+A rule with `!` excludes a destination, for example one namespace. AppProjects live in the namespace `argocd` and can come from Git like the applications.
 
 Because the template of chapter 4.5 creates the namespace as an object of its own, its application needs a project that allows this kind. If a project instead allows everything except ResourceQuota, LimitRange and NetworkPolicy, as an example in the Argo CD documentation does, an application cannot change the limits of its namespace.
 
@@ -146,7 +146,7 @@ The lab has no CI, so there are no status checks to require.
 In Gitea the author of a pull request cannot approve it. Repository administrators can merge a pull request without the required approvals unless "Administrators must follow branch protection rules" is turned on. Whether the platform team keeps such back doors is a trade-off.
 
 :::details[A second account, the bypass list and an emergency path]
-In the lab you play both roles, so you need a second account with write access. Since nobody can sign up on their own, an administrator creates it.
+In the lab you both open and approve pull requests, so you need a second account with write access. Since nobody can sign up on their own, an administrator creates it.
 
 The account `platform` is the administrator of your Gitea and owns the organization `wolkenwerk`. The accounts on the Gitea 28 list "Allow selected users or teams to bypass branch protection" get around the rule even when "Administrators must follow branch protection rules" is on.
 
@@ -173,7 +173,7 @@ Beat Kläy wants to know how long the bike shop's web shop is down if everything
 6. Record the times per step, the problems and your choice between runbook and script for the documentation.
 
 :::caution[Rebuilding after part 4]
-The times and notes here assume the platform as it stood after part 4. A later rebuild takes longer and loses the metrics and logs of part 5. Until chapter 6.1 you run `make-secrets.sh` before the bootstrap, and from chapter 6.1 on you back up the Sealed Secrets key before the teardown as in chapter 6.2. Otherwise Grafana does not start.
+The notes from the lab for this task assume the platform as it stood after part 4. A later rebuild takes longer and loses the metrics and logs of part 5. Until chapter 6.1 you run `make-secrets.sh` before the bootstrap, and from chapter 6.1 on you back up the Sealed Secrets key before the teardown as in chapter 6.2. Otherwise Grafana does not start.
 :::
 
 ### Requirements

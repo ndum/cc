@@ -32,7 +32,7 @@ This chapter gives you no recipe to follow. For each task you design a solution 
 - The tasks are the advanced tasks of [milestone 4](../../assessment/milestone-4/) and build on the state of your base
 - Task A needs your triage service from advanced task B of milestone 3, as [chapter 5.5](../../observability/advanced/#triage-with-approval-task-b) describes it. Tasks B and C build on the member from task A.
 - Plan four to six hours for all three tasks together
-- You show them live in class or in a screencast of at most ten minutes, as the milestone describes under [Showing the advanced tasks](../../assessment/milestone-4/#showing-the-advanced-tasks). During the showing you answer the two questions from the check `m4`.
+- You show them live in class or in a screencast of at most ten minutes, as the milestone describes under [showing the advanced tasks](../../assessment/milestone-4/#showing-the-advanced-tasks). During the showing you answer the two questions from the check `m4`.
 - For each task you write documentation in five parts, as [Assessment](../../assessment/#documenting-the-advanced-tasks) describes
 - Each task is worth 0 to 3 points by the [levels of the advanced tasks](../../assessment/#levels-of-the-advanced-tasks), and 3 points require a decision of your own with an alternative and a trade-off. Without documentation a task gets at most 1 point.
 - You may use AI assistants under the [rules of the course](../../start/overview/#ai-tools). You must be able to explain every line of your solution in the showing.
@@ -67,7 +67,7 @@ A member exists on both layers of the platform. The layers know nothing of each 
 | Cluster | a folder in `members/` that Argo CD turns into a namespace with LimitRange, NetworkPolicy and the profile `restricted` | the ResourceQuota in the namespace |
 
 :::details[Ways to onboard, a VDC of its own and the size of the quota]
-For the four members, the script from [chapter 3.1](../../tenants/groups/) and the pull requests from [chapter 4.5](../../platform/templates/#the-municipalitys-request) did this work. For the fifth you choose between manual work, a script of your own and Git. A script takes longer for the first member, but it records every step and can be reused. A VDC of its own instead of `wolkenwerk` can give the member a different slice, such as a single node.
+For the four members, the script from [chapter 3.1](../../tenants/groups/) created the groups. Only the bike shop, which the template of the repo brings along, and the municipality with its pull request from [chapter 4.5](../../platform/templates/#the-municipalitys-request) have a namespace. For the fifth you choose between manual work, a script of your own and Git. A script takes longer for the first member, but it records every step and can be reused. A VDC of its own instead of `wolkenwerk` can give the member a different slice, such as a single node.
 
 You justify each limit on its own. A generous quota spares the member requests to the platform team, but in the price model of [chapter 6.4](../cost/#a-price-for-the-new-member) it counts as reserved capacity. A tight quota suits a small budget but holds back an application that has to grow at peak times.
 :::
@@ -115,7 +115,7 @@ Controllers such as Argo CD and the Prometheus operator remember the last state 
 
 ## Measuring the time
 
-Decide before the drill when the clock starts and when it stops. The 13 seconds from the lab only measure the time until the API answered again. For the member, what counts is when its application runs and Argo CD picks up changes from Git.
+Decide before the drill when the clock starts and when it stops. In the course lab the API answered again 13 seconds after the reset, but that only measures the API. For the member, what counts is when its application runs and Argo CD picks up changes from Git.
 
 | Case | You need | In the course lab |
 |---|---|---|

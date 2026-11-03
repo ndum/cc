@@ -21,7 +21,7 @@ Everything runs in your own lab with your personal parameters from chapter 0.3. 
 6. The members' quotas are set, the municipality has the quota from your [personal values](../../start/parameters/#your-values-for-the-milestones), and you show the message at the limit.
 7. The template `ubuntu` has prices, the showback of a month exists as CSV, and a user of a member starts a VM in self-service.
 
-You prove the base with the report of the check `m1` and one screenshot per requirement, each with a file name that starts with the number of its requirement. `python3 ~/cc/checks/check.py m1` writes the report on the front-end.
+You prove the base with the reports of the checks `start`, `install`, `iaas` and `m1` and one screenshot per requirement, each with a file name that starts with the number of its requirement. No check tests requirement 4, so its screenshot alone proves it. `python3 ~/cc/checks/check.py m1` writes the report of `m1` on the front-end.
 
 :::caution[Screenshots before chapter 4.2]
 In chapter 4.2 you remove the VMs of parts 2 and 3 because the Kubernetes cluster needs the room. Take the screenshots of the base before that, since afterwards the VMs they show are gone. If you show the advanced tasks in a screencast, record it before chapter 4.2 as well.
@@ -37,7 +37,7 @@ The fiduciary office runs a OneFlow service that grows by load and by schedule a
 
 ### Showback as a report (Task B)
 
-A script and a systemd timer of your own store the showback of the past month as CSV. From the CSV you calculate whether the prices cover the cooperative's costs. OpenNebula 7.4 already ships the timer `opennebula-showback.timer`, which calculates the showback daily, so the name of your timer contains `showback` but does not start with `opennebula-`. [Task B in chapter 3.5](../../tenants/advanced/#showback-as-a-report-task-b) lists the requirements, and [chapter 3.3](../../tenants/showback/) explains prices and showback.
+A script and a systemd timer of your own store the showback of the past month as CSV. From the CSV you calculate whether the prices cover the cooperative's costs. OpenNebula 7.4 already ships the timer `opennebula-showback.timer`, which calculates the showback daily. The check `m1` looks for a timer with `showback` in its name and skips that one, so the name of your timer contains `showback` and does not start with `opennebula-`. [Task B in chapter 3.5](../../tenants/advanced/#showback-as-a-report-task-b) lists the requirements, and [chapter 3.3](../../tenants/showback/) explains prices and showback.
 
 ### Failure of a node (Task C)
 
@@ -75,4 +75,4 @@ You put the reports of the checks in `reports/`. The [overview](../) describes h
 | Failure of a node and a placement proposal (Task C) | 3 |
 | **Advanced** | **9** |
 
-Milestone 1 is worth up to 30 points in total. A base requirement gets 3 points when the report and a screenshot prove it, and 1 point when it is only partly met. If you leave one of the two questions unanswered or answer it wrongly, the advanced task it belongs to gets at most 1 point. Without documentation an advanced task gets at most 1 point.
+Milestone 1 is worth up to 30 points in total. A base requirement gets 3 points when the report and a screenshot prove it, 2 points when the check is green but a fitting screenshot is missing, and 1 point when it is only partly met. Each of the two questions you leave unanswered or answer wrongly costs 1 point of the advanced tasks. If the documentation or one of its parts 1, 2, 4 and 5 is missing, an advanced task gets at most 1 point.

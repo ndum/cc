@@ -17,7 +17,7 @@ Das Glossar erklärt die Fachbegriffe des Kurses kurz und verweist auf das Kapit
 | Argo CD | Ein Satz von Controllern im Cluster, der Manifeste aus Git liest, mit dem Cluster vergleicht und ihn an Git angleicht. | [4.4](../platform/gitops/) |
 | Burn Rate | Wie schnell ein Dienst sein Fehlerbudget verbraucht. Bei einer Burn Rate von 1 ist das Budget genau am Ende des Zeitraums aufgebraucht. | [5.3](../observability/slo/) |
 | Chargeback | Der Verbrauch wird dem Budget des Bereichs belastet, der ihn verursacht hat. | [3.3](../tenants/showback/) |
-| Check | Ein Skript des Kurses, das den Zustand deines Labs prüft und einen Bericht mit Hash schreibt. Mit den Screenshots belegt der Bericht der Checks `m1` bis `m4` die Basis eines Meilensteins. | [0.5](../start/tools/) |
+| Check | Ein Skript des Kurses, das den Zustand deines Labs prüft und einen Bericht mit Hash schreibt. Mit den Screenshots belegen die Berichte der Checks die Basis eines Meilensteins. | [0.5](../start/tools/) |
 | Client | Die VM, von der aus du auf smartlearn arbeitest, ein Kali-Linux-Desktop mit einem Browser für die Weboberflächen und einem Terminal für SSH zu den Servern. Mit eigenem Hypervisor übernimmt dein PC diese Rolle. | [0.2](../start/lab/) |
 | Container | Ein Prozess mit eigener Sicht auf Dateisystem, Netz und Prozesse. Er teilt den Kernel mit dem Rechner und bringt nur seine Anwendung mit. | [1.3](../basics/virtualization/) |
 | Control Plane | Der Teil von Kubernetes, der den Cluster steuert, mit API-Server, Scheduler, Controllern und Datenbank. In k3s läuft sie auf dem Server. | [4.3](../platform/kubernetes/) |

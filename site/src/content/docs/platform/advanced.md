@@ -33,7 +33,7 @@ Für die Aufträge gilt dieser Rahmen:
 - Sie sind die Zusatzaufträge von [Meilenstein 2](../../assessment/milestone-2/), du kannst auch nur einzelne bearbeiten
 - Für alle drei rechnest du mit vier bis sechs Stunden
 - Du zeigst sie live im Unterricht oder in einem Screencast von höchstens zehn Minuten, wie es der Meilenstein unter [Zusatzaufträge zeigen](../../assessment/milestone-2/#zusatzaufträge-zeigen) beschreibt. Dabei beantwortest du die zwei Fragen aus dem Bericht des Checks `m2`.
-- Jeder Auftrag braucht eine Dokumentation in fünf Teilen nach der [Leistungsbeurteilung](../../assessment/#dokumentation-der-zusatzaufträge), dazu kommt eine Kopie deines Repos `platform` ohne `.git`, State und Tokens
+- Jeder Auftrag braucht eine Dokumentation in fünf Teilen nach der [Leistungsbeurteilung](../../assessment/#dokumentation-der-zusatzaufträge), dazu kommt eine Kopie deines Repos `platform` ohne `.git`, State, Tokens und Passwörter
 - Jeder Auftrag gibt 0 bis 3 Punkte nach den [Stufen der Zusatzaufträge](../../assessment/#stufen-der-zusatzaufträge), ohne Dokumentation höchstens 1 Punkt
 - KI-Assistenten setzt du nach den [Regeln des Kurses](../../start/overview/#ki-werkzeuge) ein. In der Vorführung erklärst du jede Zeile selbst.
 
@@ -65,11 +65,11 @@ Ein Neubau bringt genau das zurück, was der Code beschreibt. `tofu destroy` lö
 | Das Netz `cc-net` und das Image, die der Code nur liest | bleiben stehen |
 | Gitea mit dem Repo auf dem Front-end | läuft weiter |
 | Nummern der VMs, Werte von OpenTofu wie das Token von k3s | sind neu |
-| Schlüssel für SSH und kubeconfig auf dem Front-end | passen nicht mehr, wie Kapitel 4.3 zeigt |
+| Der alte Hostschlüssel des Servers in `known_hosts` und die kubeconfig auf dem Front-end | passen nicht mehr, wie Kapitel 4.3 zeigt |
 | Objekte ausserhalb von Git aus Skripten wie dem Bootstrap aus Kapitel 4.4, etwa das Secret mit dem Token für Gitea | legt das Skript neu an |
 | Daten auf der Disk eines Nodes sowie Objekte, die jemand mit `kubectl` an Git vorbei angelegt hat | sind verloren |
 
-Kapitel 6.2 kommt mit Backups auf diese Frage zurück.
+Auf die verlorenen Daten kommt Kapitel 6.2 mit Backups zurück.
 :::
 
 ## Drift vor dem Neubau
@@ -146,7 +146,7 @@ Status Checks einer CI gibt es im Lab nicht.
 Wer einen Pull Request geöffnet hat, kann ihn in Gitea nicht selbst freigeben. Administratoren eines Repos können einen Pull Request ohne Freigaben zusammenführen, solange «Administrators must follow branch protection rules» nicht gesetzt ist. Ob das Plattform-Team solche Hintertüren behält, ist eine Abwägung.
 
 :::details[Zweites Konto, Liste für Ausnahmen und Notfallweg]
-Im Lab spielst du beide Rollen und brauchst ein zweites Konto mit Schreibrechten. Weil sich niemand selbst registrieren kann, legt es ein Administrator an.
+Im Lab öffnest du Pull Requests und gibst sie auch frei, dafür brauchst du ein zweites Konto mit Schreibrechten. Weil sich niemand selbst registrieren kann, legt es ein Administrator an.
 
 Das Konto `platform` ist der Administrator deines Gitea und besitzt die Organisation `wolkenwerk`. Die Konten auf der Liste «Allow selected users or teams to bypass branch protection» von Gitea 28 umgehen die Regel auch dann, wenn «Administrators must follow branch protection rules» gesetzt ist.
 
@@ -173,7 +173,7 @@ Beat Kläy will wissen, wie lange der Webshop des Veloateliers stillsteht, wenn 
 6. Halte die Zeiten pro Schritt, die Probleme und deinen Entscheid zwischen Runbook und Skript für die Dokumentation fest.
 
 :::caution[Neubau nach Teil 4]
-Die Zeiten und Hinweise hier gelten für den Stand von Teil 4. Ein späterer Neubau dauert länger und verliert die Metriken und Logs aus Teil 5. Bis Kapitel 6.1 führst du vor dem Bootstrap `make-secrets.sh` aus, ab Kapitel 6.1 sicherst du vor dem Abriss den Schlüssel von Sealed Secrets wie in Kapitel 6.2. Sonst startet Grafana nicht.
+Die Hinweise aus dem Lab zu diesem Auftrag gelten für den Stand von Teil 4. Ein späterer Neubau dauert länger und verliert die Metriken und Logs aus Teil 5. Bis Kapitel 6.1 führst du vor dem Bootstrap `make-secrets.sh` aus, ab Kapitel 6.1 sicherst du vor dem Abriss den Schlüssel von Sealed Secrets wie in Kapitel 6.2. Sonst startet Grafana nicht.
 :::
 
 ### Anforderungen

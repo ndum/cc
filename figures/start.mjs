@@ -21,7 +21,8 @@ const ARCH = {
       'laufen mit KVM auf den Knoten. Darüber läuft die Plattform k3s, von OpenTofu angelegt, mit Argo CD, ' +
       'Prometheus, Grafana, Loki, dem Webshop, Ollama und der KI-Triage. Die Apps holt Argo CD aus einem ' +
       'Git-Repo. Ollama und die KI-Triage sind mit «Zusatz» markiert, weil du sie in den Zusatzaufträgen von ' +
-      'Teil 5 baust. Zuoberst nutzen die Mitglieder von Wolkenwerk Bern die Cloud. Jede Schicht nennt die Teile ' +
+      'Teil 5 baust. Zuoberst nutzen die Mitglieder von Wolkenwerk Bern die Cloud, das fünfte entwirfst du in einem ' +
+      'Zusatzauftrag von Meilenstein 4. Jede Schicht nennt die Teile ' +
       'des Kurses, die sie aufbauen.',
     layers: [
       { name: 'Mitglieder', parts: 'Teile 3 und 6', tools: 'Self-Service über Sunstone und Git' },
@@ -34,7 +35,7 @@ const ARCH = {
       ['Treuhand', 'Aaregg'],
       ['Veloatelier', 'Matte'],
       ['Gemeinde', 'Hinterbüel'],
-      ['Mitglied 5', 'aus Meilenstein 4'],
+      ['Mitglied 5', 'Zusatzauftrag'],
     ],
     tools: [
       ['Argo CD', 'GitOps'],
@@ -72,7 +73,8 @@ const ARCH = {
       'nodes. Above that runs the platform k3s, created by OpenTofu, with Argo CD, Prometheus, Grafana, Loki, the ' +
       'web shop, Ollama and the AI triage, and Argo CD pulls the apps from a Git repo. Ollama and the AI triage ' +
       'are marked as advanced because you build them in the advanced tasks of part 5. At the top the members of ' +
-      'Wolkenwerk Bern use the cloud. Every layer names the parts of the course that build it.',
+      'Wolkenwerk Bern use the cloud, and you design the fifth member in an advanced task of milestone 4. Every ' +
+      'layer names the parts of the course that build it.',
     layers: [
       { name: 'Members', parts: 'parts 3 and 6', tools: 'self-service through Sunstone and Git' },
       { name: 'Platform', parts: 'parts 4 and 5', tools: 'built with OpenTofu and Argo CD' },
@@ -84,7 +86,7 @@ const ARCH = {
       ['Fiduciary', 'Aaregg'],
       ['Bike shop', 'Matte'],
       ['Municipality', 'Hinterbüel'],
-      ['Member 5', 'from milestone 4'],
+      ['Member 5', 'advanced task'],
     ],
     tools: [
       ['Argo CD', 'GitOps'],

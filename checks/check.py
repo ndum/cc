@@ -540,7 +540,7 @@ def check_new_member(report):
                  tr("Zusatzauftrag A in Kapitel 6.5, wie Kapitel 5.3", "advanced task A in chapter 6.5, as in chapter 5.3"))
 
 
-# Questions for the screencast of a milestone. The check draws two of each pool with the personal
+# Questions for the showing of a milestone. The check draws two of each pool with the personal
 # code, so neighbours rarely answer the same ones, and the answers have to come from the own lab
 QUESTIONS = {
     "m1": [
@@ -677,7 +677,7 @@ def check_advanced(milestone, env, report):
 
 
 def check_milestone(milestone, part):
-    """The check of the part, the personal values of the milestone and two questions for the screencast"""
+    """The check of the part, the personal values of the milestone and two questions for the showing"""
     def run_check(env, report):
         report.milestone = milestone
         part(env, report)
@@ -731,7 +731,7 @@ def check_milestone(milestone, part):
         with report.extra():
             check_advanced(milestone, env, report)
         pool = QUESTIONS[milestone]
-        report.lines += ["", tr("Fragen für deinen Screencast", "Questions for your screencast")]
+        report.lines += ["", tr("Fragen für deine Vorführung", "Questions for your showing")]
         for number, index in enumerate(params.questions(code, milestone, len(pool)), 1):
             report.lines.append(f"{number}. {tr(*pool[index])}")
     return run_check

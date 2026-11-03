@@ -54,7 +54,7 @@ OneFlow manages services made of several VMs, organized in roles such as a datab
 | `scheduled_policies` | rules by schedule |
 | `cooldown` | seconds after a change during which no further rule applies |
 
-:::details[Permissions, quota and who creates the service template]
+:::details[Permissions, quota and the owner of the service template]
 OpenNebula stores service templates and services as documents. The members have had the right to create documents since [chapter 3.1](../groups/#groups-and-group-admins). Like VM templates, service templates carry permissions for owner, group and others. The VMs of a service belong to its owner, count against the quota of the owner's group and take the owner's SSH key, just as in chapter 2.4. A service that `treuhand-admin` instantiates therefore uses up the fiduciary office's quota. Who creates the service template is still open.
 
 | Service template by | Consequence |
@@ -65,12 +65,12 @@ OpenNebula stores service templates and services as documents. The members have 
 
 ## Rules by load
 
-A rule by load checks an expression over the VMs of a role, such as `CPU > 75`. If the expression holds for a while, the rule changes the cardinality. OneFlow takes the average over all running VMs of the role and checks the rules only every 90 seconds.
+A rule by load checks an expression such as `CPU > 75` over the VMs of a role. If the expression holds for a while, the rule changes the cardinality. OneFlow takes the average over all running VMs of the role and checks the rules only every 90 seconds.
 
 :::details[Expression, periods, cooldown and measurements from the lab]
 `CPU` is the load of one CPU in percent, taken from the monitoring. Values that an application reports itself through OneGate, such as the length of a queue, are possible too. For that the VM needs a token in its context and a network path to OneGate, which in the lab listens only locally on the front-end, as the [list of services](../../iaas/installation/#the-installed-services) in chapter 2.2 shows. CPU is enough for the task. If the expression holds for `period_number` consecutive periods of `period` seconds, `type` and `adjust` change the cardinality, for example by one VM with `CHANGE` and `1` or by a share with `PERCENTAGE_CHANGE`.
 
-Because OneFlow takes the average, one VM at full load and one idle VM average 50%, so with a higher threshold the role stops growing as long as only one of them is busy. Whether that suits the fiduciary office depends on how its load spreads. After every change the service stands in the state `COOLDOWN`, and no rule applies, not even one of another role. `cooldown` sets the duration, otherwise the default from `/etc/one/oneflow-server.conf` applies.
+Because OneFlow takes the average, one VM at full load and one idle VM average 50%. With a higher threshold the role therefore stops growing as long as only one of them is busy. Whether that suits the fiduciary office depends on how its load spreads. After every change the service stands in the state `COOLDOWN`, and no rule applies, not even one of another role. `cooldown` sets the duration, otherwise the default from `/etc/one/oneflow-server.conf` applies.
 
 In the same file, `:autoscaler_interval:` sets the 90 seconds. A shorter period therefore acts like one of 90 seconds, and the monitoring adds a delay of its own. In the lab the second VM ran about two and a half minutes after the load began, with a rule over two periods of 30 seconds. Without load the service shrank back after almost six minutes because the rule for shrinking was deliberately slower. That keeps the service from flipping back and forth when the load wavers briefly, but the fiduciary office pays for the extra VM a little longer.
 :::
@@ -97,7 +97,7 @@ OpenNebula rejects VMs beyond the quota as in chapter 3.2, and the service then 
 
 Ubuntu 26.04 on the lab servers comes without cron. Recurring jobs are scheduled with systemd timers, units whose names end in `.timer` and that start the service of the same name ending in `.service` by default when they elapse. That service runs your script.
 
-:::details[Time, kind of unit and how the CLI signs in]
+:::details[Time, kind of unit and the sign-in of the CLI]
 `OnCalendar=` sets the time with a calendar expression, and `monthly`, for example, means the first of every month at midnight. `systemd-analyze calendar` shows when an expression applies next. With `Persistent=` systemd catches up after the next boot on a run that the switched-off server missed. Without this option the run is skipped.
 
 | Kind | Runs | User of the service |
@@ -161,7 +161,7 @@ The scheduler decides where a new VM runs, following the rules from [chapter 2.5
 |---|---|---|
 | Striping, set in the lab | spreads the VMs over the nodes by their number of running VMs, so whether two VMs of one service end up apart also depends on the other VMs | hits fewer VMs |
 | Packing | fills one node first so that empty nodes can be switched off | hits more VMs at once |
-| VM group with `ANTI_AFFINED` | keeps the VMs of a role strictly on different hosts, so with two nodes at most two of them run | only one VM of the role keeps running |
+| VM group with `ANTI_AFFINED` | keeps the VMs of a VM group role strictly on different hosts, so with two nodes at most two of them run | only one VM of the role keeps running |
 
 :::details[VM groups and the reserve of the nodes]
 A VM group puts VMs into roles of its own, which have nothing to do with the roles of OneFlow. For each role it defines whether its VMs belong on the same host (`AFFINED`) or on different hosts (`ANTI_AFFINED`). The scheduler enforces this strictly. Without a host that fits, the VM stays `pend`.

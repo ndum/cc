@@ -25,7 +25,7 @@ You prove the base with the report of the check `m4` and one screenshot per requ
 
 ## Advanced tasks
 
-Plan four to six hours for the three advanced tasks. Each one is worth 0 to 3 points by the [levels of the advanced tasks](../#levels-of-the-advanced-tasks). Every task you do needs [documentation in five parts](../#documenting-the-advanced-tasks). Tasks B and C build on the member from task A. The concepts and the requirements of each task are in [chapter 6.5](../../operations/advanced/).
+Plan four to six hours for the three advanced tasks. Each one is worth 0 to 3 points by the [levels of the advanced tasks](../#levels-of-the-advanced-tasks). Every task you do needs [documentation in five parts](../#documenting-the-advanced-tasks). Tasks B and C build on the member from task A. Task A needs your triage service from advanced task B of milestone 3, and task C the language model from advanced task A of milestone 3. The concepts and the requirements of each task are in [chapter 6.5](../../operations/advanced/).
 
 ### A member of your own (Task A)
 
@@ -69,4 +69,4 @@ You do not hand in the k3s token, the Sealed Secrets key or the backups. You put
 | Postmortem corrected, cost model for the member (Task C) | 3 |
 | **Advanced** | **9** |
 
-Milestone 4 is worth up to 30 points in total. A base requirement gets 3 points when the report and a screenshot prove it, and 1 point when it is only partly met. If you leave one of the two questions unanswered or answer it wrongly, the advanced task it belongs to gets at most 1 point. Without documentation an advanced task gets at most 1 point.
+Milestone 4 is worth up to 30 points in total. A base requirement gets 3 points when the report and a screenshot prove it, 2 points when the check is green but a fitting screenshot is missing, and 1 point when it is only partly met. Each of the two questions you leave unanswered or answer wrongly costs 1 point of the advanced tasks. If the documentation or one of its parts 1, 2, 4 and 5 is missing, an advanced task gets at most 1 point.

@@ -67,7 +67,7 @@ Ein Mitglied gibt es auf beiden Ebenen der Plattform. Die Ebenen wissen nichts v
 | Cluster | ein Ordner in `members/`, aus dem Argo CD einen Namespace mit LimitRange, NetworkPolicy und dem Profil `restricted` macht | die ResourceQuota im Namespace |
 
 :::details[Wege zur Aufnahme, ein eigenes VDC und die Grösse der Quota]
-Bei den vier Mitgliedern erledigten das Skript aus [Kapitel 3.1](../../tenants/groups/) und die Pull Requests aus [Kapitel 4.5](../../platform/templates/#der-antrag-der-gemeinde) diese Arbeit. Beim fünften wählst du zwischen Handarbeit, einem eigenen Skript und Git. Ein Skript kostet beim ersten Mitglied mehr Zeit, hält aber jeden Schritt fest und lässt sich wiederverwenden. Ein eigenes VDC statt `wolkenwerk` kann dem Mitglied einen anderen Ausschnitt geben, etwa nur einen Knoten.
+Bei den vier Mitgliedern legte das Skript aus [Kapitel 3.1](../../tenants/groups/) die Gruppen an. Einen Namespace haben nur das Veloatelier aus der Vorlage des Repos und die Gemeinde mit ihrem Pull Request aus [Kapitel 4.5](../../platform/templates/#der-antrag-der-gemeinde). Beim fünften wählst du zwischen Handarbeit, einem eigenen Skript und Git. Ein Skript kostet beim ersten Mitglied mehr Zeit, hält aber jeden Schritt fest und lässt sich wiederverwenden. Ein eigenes VDC statt `wolkenwerk` kann dem Mitglied einen anderen Ausschnitt geben, etwa nur einen Knoten.
 
 Beide Grenzen begründest du je für sich. Eine grosszügige Quota erspart dem Mitglied Anfragen beim Plattform-Team, zählt im Preismodell aus [Kapitel 6.4](../cost/#ein-preis-für-das-neue-mitglied) aber als reservierte Kapazität. Eine knappe Quota passt zu einem kleinen Budget, bremst aber eine Anwendung, die zu Spitzenzeiten wachsen muss.
 :::
@@ -115,7 +115,7 @@ Controller wie Argo CD und der Operator von Prometheus merken sich den zuletzt g
 
 ## Die Zeit messen
 
-Lege vor der Übung fest, wann die Uhr startet und wann sie stoppt. Die 13 Sekunden aus dem Lab messen nur, bis die API wieder antwortete. Für das Mitglied zählt, wann seine Anwendung läuft und Argo CD Änderungen aus Git übernimmt.
+Lege vor der Übung fest, wann die Uhr startet und wann sie stoppt. Im Lab des Kurses antwortete die API 13 Sekunden nach dem Zurücksetzen wieder. Diese Zeit misst aber nur die API. Für das Mitglied zählt, wann seine Anwendung läuft und Argo CD Änderungen aus Git übernimmt.
 
 | Fall | Du brauchst | Im Lab des Kurses |
 |---|---|---|

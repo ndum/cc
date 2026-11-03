@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 684" role="img" aria-labelledby="p0c1-architecture-en-title p0c1-architecture-en-desc">
 <title id="p0c1-architecture-en-title">The target architecture of the course</title>
-<desc id="p0c1-architecture-en-desc">Four layers on top of each other. The infrastructure is the front-end and two nodes with Ubuntu on smartlearn or a hypervisor of your own, set up with prepare.sh. On it OpenNebula provides the IaaS with oned, Sunstone, tenants and networks, installed with Ansible and OneDeploy, and the VMs run with KVM on the nodes. Above that runs the platform k3s, created by OpenTofu, with Argo CD, Prometheus, Grafana, Loki, the web shop, Ollama and the AI triage, and Argo CD pulls the apps from a Git repo. Ollama and the AI triage are marked as advanced because you build them in the advanced tasks of part 5. At the top the members of Wolkenwerk Bern use the cloud. Every layer names the parts of the course that build it.</desc>
+<desc id="p0c1-architecture-en-desc">Four layers on top of each other. The infrastructure is the front-end and two nodes with Ubuntu on smartlearn or a hypervisor of your own, set up with prepare.sh. On it OpenNebula provides the IaaS with oned, Sunstone, tenants and networks, installed with Ansible and OneDeploy, and the VMs run with KVM on the nodes. Above that runs the platform k3s, created by OpenTofu, with Argo CD, Prometheus, Grafana, Loki, the web shop, Ollama and the AI triage, and Argo CD pulls the apps from a Git repo. Ollama and the AI triage are marked as advanced because you build them in the advanced tasks of part 5. At the top the members of Wolkenwerk Bern use the cloud, and you design the fifth member in an advanced task of milestone 4. Every layer names the parts of the course that build it.</desc>
 <defs><marker id="p0c1-architecture-en-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"/></marker><marker id="p0c1-architecture-en-head-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head d-head-accent" d="M 0 1 L 9 5 L 0 9 z"/></marker></defs>
 <rect class="d-ground" x="0" y="0" width="780" height="684" rx="14"/>
 <rect class="d-band d-band-1" x="16" y="16" width="748" height="102" rx="12"/>
@@ -26,7 +26,7 @@
 <rect class="d-shadow" x="621.6" y="55.5" width="122.4" height="46" rx="10"/>
 <rect class="d-tile" x="621.6" y="54" width="122.4" height="46" rx="10"/>
 <text class="d-title" x="682.8000000000001" y="74" text-anchor="middle">Member 5</text>
-<text class="d-sub" x="682.8000000000001" y="90" text-anchor="middle">from milestone 4</text>
+<text class="d-sub" x="682.8000000000001" y="90" text-anchor="middle">advanced task</text>
 <rect class="d-band d-band-4" x="16" y="134" width="748" height="214" rx="12"/>
 <text class="d-label" x="36" y="158" text-anchor="start">PLATFORM</text>
 <text class="d-meta" x="122.56920000000001" y="158" text-anchor="start">parts 4 and 5</text>

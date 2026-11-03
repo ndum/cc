@@ -25,7 +25,7 @@ Die Basis belegst du mit dem Bericht des Checks `m4` und mit einem Screenshot zu
 
 ## Zusatzaufträge
 
-Für die drei Zusatzaufträge rechnest du mit vier bis sechs Stunden. Jeder gibt 0 bis 3 Punkte nach den [Stufen der Zusatzaufträge](../#stufen-der-zusatzaufträge). Zu jedem Auftrag, den du machst, gehört eine [Dokumentation in fünf Teilen](../#dokumentation-der-zusatzaufträge). Die Aufträge B und C bauen auf dem Mitglied aus Auftrag A auf. Die Konzepte dazu und die Anforderungen an jeden Auftrag stehen in [Kapitel 6.5](../../operations/advanced/).
+Für die drei Zusatzaufträge rechnest du mit vier bis sechs Stunden. Jeder gibt 0 bis 3 Punkte nach den [Stufen der Zusatzaufträge](../#stufen-der-zusatzaufträge). Zu jedem Auftrag, den du machst, gehört eine [Dokumentation in fünf Teilen](../#dokumentation-der-zusatzaufträge). Die Aufträge B und C bauen auf dem Mitglied aus Auftrag A auf. Auftrag A braucht deinen Triage-Dienst aus Zusatzauftrag B von Meilenstein 3, Auftrag C das Sprachmodell aus Zusatzauftrag A von Meilenstein 3. Die Konzepte dazu und die Anforderungen an jeden Auftrag stehen in [Kapitel 6.5](../../operations/advanced/).
 
 ### Ein eigenes Mitglied (Auftrag A)
 
@@ -69,4 +69,4 @@ Das Token von k3s, den Schlüssel von Sealed Secrets und die Backups gibst du ni
 | Postmortem korrigiert, Kostenmodell für das Mitglied (Auftrag C) | 3 |
 | **Zusatz** | **9** |
 
-Meilenstein 4 gibt zusammen höchstens 30 Punkte. Eine Anforderung der Basis gibt 3 Punkte, wenn Bericht und Screenshot sie belegen. Für eine nur teilweise erfüllte Anforderung gibt es 1 Punkt. Beantwortest du eine der zwei Fragen nicht oder falsch, bekommt der Zusatzauftrag, zu dem sie gehört, höchstens 1 Punkt. Ohne Dokumentation gibt ein Zusatzauftrag höchstens 1 Punkt.
+Meilenstein 4 gibt zusammen höchstens 30 Punkte. Eine Anforderung der Basis gibt 3 Punkte, wenn Bericht und Screenshot sie belegen, 2 Punkte bei grünem Check ohne passenden Screenshot und 1 Punkt, wenn sie nur teilweise erfüllt ist. Jede der zwei Fragen, die du nicht oder falsch beantwortest, kostet 1 Punkt der Zusatzaufträge. Fehlt die Dokumentation oder einer ihrer Teile 1, 2, 4 und 5, gibt ein Zusatzauftrag höchstens 1 Punkt.

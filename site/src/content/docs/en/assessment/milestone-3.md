@@ -69,4 +69,4 @@ You put the reports of the checks in `reports/`. The [overview](../) describes h
 | Better questions with a measured comparison (Task C) | 3 |
 | **Advanced** | **9** |
 
-Milestone 3 is worth up to 30 points in total. A base requirement gets 3 points when the report and a screenshot prove it, and 1 point when it is only partly met. If you leave one of the two questions unanswered or answer it wrongly, the advanced task it belongs to gets at most 1 point. Without documentation an advanced task gets at most 1 point.
+Milestone 3 is worth up to 30 points in total. A base requirement gets 3 points when the report and a screenshot prove it, 2 points when the check is green but a fitting screenshot is missing, and 1 point when it is only partly met. Each of the two questions you leave unanswered or answer wrongly costs 1 point of the advanced tasks. If the documentation or one of its parts 1, 2, 4 and 5 is missing, an advanced task gets at most 1 point.

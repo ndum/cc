@@ -54,7 +54,7 @@ OneFlow verwaltet Dienste aus mehreren VMs, gegliedert in Rollen wie eine Datenb
 | `scheduled_policies` | Regeln nach Zeitplan |
 | `cooldown` | Sekunden nach einer Änderung, in denen keine weitere Regel greift |
 
-:::details[Rechte, Quota und wer die Dienstvorlage anlegt]
+:::details[Rechte, Quota und Besitzer der Dienstvorlage]
 OpenNebula speichert Dienstvorlagen und Dienste als Dokumente. Das Recht, Dokumente anzulegen, haben die Mitglieder seit [Kapitel 3.1](../groups/#gruppen-und-gruppenadmins). Dienstvorlagen tragen wie VM-Vorlagen Rechte für Besitzer, Gruppe und alle anderen. Die VMs eines Dienstes gehören seinem Besitzer, zählen gegen die Quota von dessen Gruppe und übernehmen wie in Kapitel 2.4 seinen SSH-Schlüssel. Instanziiert `treuhand-admin` den Dienst, belastet er also die Quota der Treuhand. Offen ist, wer die Dienstvorlage anlegt.
 
 | Dienstvorlage von | Folge |
@@ -65,7 +65,7 @@ OpenNebula speichert Dienstvorlagen und Dienste als Dokumente. Das Recht, Dokume
 
 ## Regeln nach Last
 
-Eine Regel nach Last prüft einen Ausdruck über die VMs einer Rolle wie `CPU > 75`. Gilt er eine Zeit lang, ändert sie die Kardinalität. OneFlow nimmt dafür das Mittel aller laufenden VMs der Rolle und prüft die Regeln nur alle 90 Sekunden.
+Eine Regel nach Last prüft einen Ausdruck wie `CPU > 75` über die VMs einer Rolle. Gilt er eine Zeit lang, ändert sie die Kardinalität. OneFlow nimmt dafür das Mittel aller laufenden VMs der Rolle und prüft die Regeln nur alle 90 Sekunden.
 
 :::details[Ausdruck, Perioden, Cooldown und Messwerte aus dem Lab]
 `CPU` ist die Auslastung einer CPU in Prozent aus der Überwachung. Auch Werte, die eine Anwendung selbst über OneGate meldet, etwa die Länge einer Warteschlange, sind möglich. Dafür braucht die VM ein Token im Kontext und einen Weg zu OneGate, das im Lab nur lokal auf dem Front-end hört, wie die [Liste der Dienste](../../iaas/installation/#die-installierten-dienste) in Kapitel 2.2 zeigt. Für den Auftrag genügt die CPU. Gilt der Ausdruck über `period_number` aufeinanderfolgende Perioden von `period` Sekunden, ändern `type` und `adjust` die Kardinalität, etwa mit `CHANGE` und `1` um eine VM oder mit `PERCENTAGE_CHANGE` um einen Anteil.
@@ -140,7 +140,7 @@ Ein Monat im Lab mit wenigen VMs, die oft erst seit einigen Tagen laufen, sagt w
 Fällt ein Knoten aus, zeigt ihn `onehost list` nach einiger Zeit als `err` und `onevm list` seine VMs als `unkn`, wie [Kapitel 2.5](../../iaas/hosts/#ausfall-eines-knotens) beschreibt. An ihre Disks im Datastore `system` des Knotens kommt niemand, solange er aus ist. Wer die VMs eines ausgefallenen Knotens anderswo startet, muss vorher sicherstellen, dass der Knoten wirklich aus ist. Ohne dieses **Fencing** kann nach einem kurzen Netzfehler dieselbe VM auf zwei Hosts laufen. Im Lab fehlen gemeinsamer Speicher und ein Hook für ausgefallene Hosts bewusst, damit drei Server genügen. Ein Ausfall trifft die Mitglieder also, bis der Knoten wieder läuft.
 
 :::details[Hook für ausgefallene Hosts und das Verhalten von OneFlow]
-OpenNebula liefert ein Skript mit, das als Hook startet, sobald ein Host in den Zustand `ERROR` wechselt. Seine Optionen bestimmen, was mit den VMs geschieht.
+OpenNebula liefert ein Skript mit, das als Hook starten kann, sobald ein Host in den Zustand `ERROR` wechselt. Seine Optionen bestimmen, was mit den VMs geschieht.
 
 | Option | Wirkung |
 |---|---|
@@ -161,7 +161,7 @@ Wo eine neue VM läuft, entscheidet der Scheduler nach den Regeln aus [Kapitel 2
 |---|---|---|
 | Striping, im Lab eingestellt | verteilt die VMs nach der Zahl laufender VMs auf die Knoten, ob zwei VMs eines Dienstes getrennt landen, hängt auch von den übrigen ab | trifft es weniger VMs |
 | Packing | füllt zuerst einen Knoten, leere Knoten lassen sich ausschalten | trifft es mehr VMs auf einmal |
-| VM-Gruppe mit `ANTI_AFFINED` | trennt die VMs einer Rolle strikt nach Host, mit zwei Knoten laufen also höchstens zwei | läuft nur noch eine VM der Rolle |
+| VM-Gruppe mit `ANTI_AFFINED` | trennt die VMs einer Rolle der VM-Gruppe strikt nach Host, mit zwei Knoten laufen also höchstens zwei | läuft nur noch eine VM der Rolle |
 
 :::details[VM-Gruppen und die Reserve der Knoten]
 Eine VM-Gruppe fasst VMs in eigenen Rollen zusammen, die mit den Rollen von OneFlow nichts zu tun haben. Für jede Rolle legt sie fest, ob ihre VMs auf denselben Host gehören (`AFFINED`) oder auf verschiedene (`ANTI_AFFINED`). Der Scheduler hält das strikt ein. Ohne passenden Host bleibt die VM in `pend`.

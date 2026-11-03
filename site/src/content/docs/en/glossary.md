@@ -18,7 +18,7 @@ The glossary explains the terms of the course briefly and points to the chapter 
 | Argo CD | A set of controllers in the cluster that reads manifests from Git, compares them with the cluster and brings the cluster in line with Git. | [4.4](../platform/gitops/) |
 | Burn rate | How fast a service uses up its error budget. At a burn rate of 1, the budget runs out exactly at the end of the period. | [5.3](../observability/slo/) |
 | Chargeback | Usage is charged to the budget of the unit that caused it. | [3.3](../tenants/showback/) |
-| Check | A course script that tests the state of your lab and writes a report with a hash. Together with the screenshots, the report of the checks `m1` to `m4` proves the base of a milestone. | [0.5](../start/tools/) |
+| Check | A course script that tests the state of your lab and writes a report with a hash. Together with the screenshots, the reports of the checks prove the base of a milestone. | [0.5](../start/tools/) |
 | Client | The VM you work from on smartlearn, a Kali Linux desktop with a browser for the web interfaces and a terminal for SSH to the servers. With your own hypervisor, your PC takes this role. | [0.2](../start/lab/) |
 | Container | A process with its own view of the file system, network and processes. It shares the kernel with the host and brings only its application. | [1.3](../basics/virtualization/) |
 | Contextualization | OpenNebula hands a VM its address, name, keys and scripts at boot, and the `one-context` package sets the VM up with them. | [2.4](../iaas/images/) |

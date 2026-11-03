@@ -161,5 +161,5 @@ Diese Befehle führst du im Ordner `~/platform/tofu` aus, nachdem du `OPENNEBULA
 | Befehl | Zweck |
 |---|---|
 | `python3 ~/cc/checks/check.py <name>` | Check eines Teils ausführen, etwa `iaas`, `platform` oder `operations` |
-| `python3 ~/cc/checks/check.py m1` bis `m4` | Check eines Meilensteins mit deinen persönlichen Werten und zwei Fragen für die Vorführung, sein Bericht belegt zusammen mit den Screenshots die Basis |
+| `python3 ~/cc/checks/check.py m1` bis `m4` | Check eines Meilensteins mit deinen persönlichen Werten und zwei Fragen für die Vorführung, sein Bericht belegt zusammen mit den Screenshots die Basis, bei Meilenstein 1 mit den Berichten von `start`, `install` und `iaas` |
 | `ls ~/cc-reports` | gespeicherte Berichte mit Hash |

@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 684" role="img" aria-labelledby="p0c1-architecture-de-title p0c1-architecture-de-desc">
 <title id="p0c1-architecture-de-title">Die Zielarchitektur des Kurses</title>
-<desc id="p0c1-architecture-de-desc">Vier Schichten übereinander. Die Infrastruktur besteht aus dem Front-end und zwei Knoten mit Ubuntu auf smartlearn oder einem eigenen Hypervisor, eingerichtet mit prepare.sh. Darauf stellt OpenNebula die IaaS bereit, mit oned, Sunstone, Mandanten und Netzen, installiert mit Ansible und OneDeploy, die VMs laufen mit KVM auf den Knoten. Darüber läuft die Plattform k3s, von OpenTofu angelegt, mit Argo CD, Prometheus, Grafana, Loki, dem Webshop, Ollama und der KI-Triage. Die Apps holt Argo CD aus einem Git-Repo. Ollama und die KI-Triage sind mit «Zusatz» markiert, weil du sie in den Zusatzaufträgen von Teil 5 baust. Zuoberst nutzen die Mitglieder von Wolkenwerk Bern die Cloud. Jede Schicht nennt die Teile des Kurses, die sie aufbauen.</desc>
+<desc id="p0c1-architecture-de-desc">Vier Schichten übereinander. Die Infrastruktur besteht aus dem Front-end und zwei Knoten mit Ubuntu auf smartlearn oder einem eigenen Hypervisor, eingerichtet mit prepare.sh. Darauf stellt OpenNebula die IaaS bereit, mit oned, Sunstone, Mandanten und Netzen, installiert mit Ansible und OneDeploy, die VMs laufen mit KVM auf den Knoten. Darüber läuft die Plattform k3s, von OpenTofu angelegt, mit Argo CD, Prometheus, Grafana, Loki, dem Webshop, Ollama und der KI-Triage. Die Apps holt Argo CD aus einem Git-Repo. Ollama und die KI-Triage sind mit «Zusatz» markiert, weil du sie in den Zusatzaufträgen von Teil 5 baust. Zuoberst nutzen die Mitglieder von Wolkenwerk Bern die Cloud, das fünfte entwirfst du in einem Zusatzauftrag von Meilenstein 4. Jede Schicht nennt die Teile des Kurses, die sie aufbauen.</desc>
 <defs><marker id="p0c1-architecture-de-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"/></marker><marker id="p0c1-architecture-de-head-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head d-head-accent" d="M 0 1 L 9 5 L 0 9 z"/></marker></defs>
 <rect class="d-ground" x="0" y="0" width="780" height="684" rx="14"/>
 <rect class="d-band d-band-1" x="16" y="16" width="748" height="102" rx="12"/>
@@ -26,7 +26,7 @@
 <rect class="d-shadow" x="621.6" y="55.5" width="122.4" height="46" rx="10"/>
 <rect class="d-tile" x="621.6" y="54" width="122.4" height="46" rx="10"/>
 <text class="d-title" x="682.8000000000001" y="74" text-anchor="middle">Mitglied 5</text>
-<text class="d-sub" x="682.8000000000001" y="90" text-anchor="middle">aus Meilenstein 4</text>
+<text class="d-sub" x="682.8000000000001" y="90" text-anchor="middle">Zusatzauftrag</text>
 <rect class="d-band d-band-4" x="16" y="134" width="748" height="214" rx="12"/>
 <text class="d-label" x="36" y="158" text-anchor="start">PLATTFORM</text>
 <text class="d-meta" x="131.378" y="158" text-anchor="start">Teile 4 und 5</text>

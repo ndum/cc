@@ -161,5 +161,5 @@ Run these in `~/platform/tofu` after setting `OPENNEBULA_USERNAME` and `OPENNEBU
 | Command | Purpose |
 |---|---|
 | `python3 ~/cc/checks/check.py <name>` | run the check of a part, such as `iaas`, `platform` or `operations` |
-| `python3 ~/cc/checks/check.py m1` to `m4` | the check of a milestone with your personal values and two questions for the showing, whose report proves the base together with the screenshots |
+| `python3 ~/cc/checks/check.py m1` to `m4` | the check of a milestone with your personal values and two questions for the showing, whose report proves the base together with the screenshots, for milestone 1 with the reports of `start`, `install` and `iaas` as well |
 | `ls ~/cc-reports` | saved reports with their hash |

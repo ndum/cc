@@ -21,7 +21,7 @@ Alles läuft in deinem eigenen Lab mit deinen persönlichen Parametern aus Kapit
 6. Die Quotas der Mitglieder sind gesetzt, die Gemeinde hat die Quota aus deinen [persönlichen Werten](../../start/parameters/#deine-werte-für-die-meilensteine). Du zeigst die Meldung an der Grenze.
 7. Die Vorlage `ubuntu` hat Preise, der Showback eines Monats liegt als CSV vor. Ein Benutzer eines Mitglieds startet eine VM im Self-Service.
 
-Die Basis belegst du mit dem Bericht des Checks `m1` und mit einem Screenshot zu jeder Anforderung, dessen Dateiname mit ihrer Nummer beginnt. Den Bericht erzeugt `python3 ~/cc/checks/check.py m1` auf dem Front-end.
+Die Basis belegst du mit den Berichten der Checks `start`, `install`, `iaas` und `m1` und mit einem Screenshot zu jeder Anforderung, dessen Dateiname mit ihrer Nummer beginnt. Anforderung 4 prüft kein Check, sie belegt allein der Screenshot. Den Bericht von `m1` erzeugt `python3 ~/cc/checks/check.py m1` auf dem Front-end.
 
 :::caution[Screenshots vor Kapitel 4.2]
 In Kapitel 4.2 entfernst du die VMs von Teil 2 und 3, weil der Kubernetes-Cluster ihren Platz braucht. Mach die Screenshots der Basis vorher, danach fehlen die VMs, die sie zeigen. Zeigst du die Zusatzaufträge im Screencast, nimmst du ihn ebenfalls vor Kapitel 4.2 auf.
@@ -37,7 +37,7 @@ Die Treuhand betreibt einen Dienst in OneFlow, der nach Last und nach Zeitplan w
 
 ### Showback als Bericht (Auftrag B)
 
-Ein eigenes Skript mit einem eigenen systemd-Timer legt den Showback des vergangenen Monats als CSV ab. Aus dem CSV berechnest du, ob die Preise die Kosten der Genossenschaft decken. OpenNebula 7.4 bringt schon den Timer `opennebula-showback.timer` mit, der den Showback täglich berechnet. Der Name deines Timers enthält deshalb `showback`, beginnt aber nicht mit `opennebula-`. [Auftrag B in Kapitel 3.5](../../tenants/advanced/#showback-als-bericht-auftrag-b) nennt die Anforderungen, [Kapitel 3.3](../../tenants/showback/) erklärt Preise und Showback.
+Ein eigenes Skript mit einem eigenen systemd-Timer legt den Showback des vergangenen Monats als CSV ab. Aus dem CSV berechnest du, ob die Preise die Kosten der Genossenschaft decken. OpenNebula 7.4 bringt schon den Timer `opennebula-showback.timer` mit, der den Showback täglich berechnet. Der Check `m1` sucht einen Timer mit `showback` im Namen und übergeht diesen. Der Name deines Timers enthält deshalb `showback` und beginnt nicht mit `opennebula-`. [Auftrag B in Kapitel 3.5](../../tenants/advanced/#showback-als-bericht-auftrag-b) nennt die Anforderungen, [Kapitel 3.3](../../tenants/showback/) erklärt Preise und Showback.
 
 ### Ausfall eines Knotens (Auftrag C)
 
@@ -75,4 +75,4 @@ Die Berichte der Checks legst du in `reports/`. Wie das Repo aufgebaut ist und w
 | Ausfall eines Knotens und Vorschlag zur Platzierung (Auftrag C) | 3 |
 | **Zusatz** | **9** |
 
-Meilenstein 1 gibt zusammen höchstens 30 Punkte. Eine Anforderung der Basis gibt 3 Punkte, wenn Bericht und Screenshot sie belegen. Für eine nur teilweise erfüllte Anforderung gibt es 1 Punkt. Beantwortest du eine der zwei Fragen nicht oder falsch, bekommt der Zusatzauftrag, zu dem sie gehört, höchstens 1 Punkt. Ohne Dokumentation gibt ein Zusatzauftrag höchstens 1 Punkt.
+Meilenstein 1 gibt zusammen höchstens 30 Punkte. Eine Anforderung der Basis gibt 3 Punkte, wenn Bericht und Screenshot sie belegen, 2 Punkte bei grünem Check ohne passenden Screenshot und 1 Punkt, wenn sie nur teilweise erfüllt ist. Jede der zwei Fragen, die du nicht oder falsch beantwortest, kostet 1 Punkt der Zusatzaufträge. Fehlt die Dokumentation oder einer ihrer Teile 1, 2, 4 und 5, gibt ein Zusatzauftrag höchstens 1 Punkt.

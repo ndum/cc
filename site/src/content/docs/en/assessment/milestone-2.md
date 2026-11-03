@@ -29,7 +29,7 @@ Plan four to six hours for the three advanced tasks. Each one is worth 0 to 3 po
 
 ### Rebuilding the platform (Task A)
 
-You tear the cluster down with `tofu destroy`, rebuild it with `tofu apply` and the Argo CD bootstrap, and measure the time until everything from Git is back. Along the way you explain what state and drift mean for a rebuild. In the lab, with the platform as it stood after part 4, the web shop ran again after just under three minutes. Start the rebuild early in the showing and explain the code while it runs. [Chapter 4.6](../../platform/advanced/#rebuilding-the-platform-task-a) describes the task.
+You tear the cluster down with `tofu destroy`, rebuild it with `tofu apply` and the Argo CD bootstrap, and measure the time from the start of the teardown to the first answer of the web shop. Along the way you explain what state and drift mean for a rebuild. In the lab, with the platform as it stood after part 4, the web shop ran again after just under three minutes. Start the rebuild early in the showing and explain the code while it runs. [Chapter 4.6](../../platform/advanced/#rebuilding-the-platform-task-a) describes the task.
 
 ### A member of your own (Task B)
 
@@ -69,4 +69,4 @@ You put the reports of the checks in `reports/`. The [overview](../) describes h
 | Protection of the branch `main` (Task C) | 3 |
 | **Advanced** | **9** |
 
-Milestone 2 is worth up to 30 points in total. A base requirement gets 3 points when the report and a screenshot prove it, and 1 point when it is only partly met. If you leave one of the two questions unanswered or answer it wrongly, the advanced task it belongs to gets at most 1 point. Without documentation an advanced task gets at most 1 point.
+Milestone 2 is worth up to 30 points in total. A base requirement gets 3 points when the report and a screenshot prove it, 2 points when the check is green but a fitting screenshot is missing, and 1 point when it is only partly met. Each of the two questions you leave unanswered or answer wrongly costs 1 point of the advanced tasks. If the documentation or one of its parts 1, 2, 4 and 5 is missing, an advanced task gets at most 1 point.
