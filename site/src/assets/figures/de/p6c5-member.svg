@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 508" role="img" aria-labelledby="p6c5-member-de-title p6c5-member-de-desc">
+<title id="p6c5-member-de-title">Ein fünftes Mitglied auf beiden Ebenen</title>
+<desc id="p6c5-member-de-desc">Oben die Ebene OpenNebula. Dort hat das neue Mitglied eine VM für seinen Dienst, eine Quota mit Preisen für den Showback und eine Gruppe mit Admin in einem VDC. Darunter der Cluster k3s mit dem Namespace des Mitglieds, in dem seine Anwendung und seine Alert-Regel liegen. Gruppe und Namespace wissen nichts voneinander, nur derselbe Name verbindet sie. Du bringst einen Pull Request und Commits nach Gitea. Argo CD holt sie dort mit dem ApplicationSet members und rollt sie im Namespace aus. Prometheus überwacht die Anwendung. Löst die Regel aus, schickt Prometheus einen Alert an Alertmanager, dessen Route ihn als Webhook an deinen Triage-Dienst weiterleitet. Was der Dienst im Namespace des Mitglieds darf, legst du selbst fest. Er legt dir einen Vorschlag vor und hält deinen Entscheid in seinem Audit-Log fest. Den Fehler löst du über Git aus und behebst ihn auch dort.</desc>
+<defs><marker id="p6c5-member-de-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"/></marker><marker id="p6c5-member-de-head-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head d-head-accent" d="M 0 1 L 9 5 L 0 9 z"/></marker></defs>
+<rect class="d-ground" x="0" y="0" width="780" height="508" rx="14"/>
+<rect class="d-band d-band-2" x="16" y="16" width="748" height="108" rx="12"/>
+<text class="d-label d-label-blue" x="32" y="40" text-anchor="start">OPENNEBULA</text>
+<rect class="d-band d-band-3" x="216" y="156" width="548" height="232" rx="12"/>
+<text class="d-label d-label-violet" x="232" y="180" text-anchor="start">CLUSTER K3S</text>
+<path class="d-line d-dashed" d="M 638 108 L 638 194"/>
+<text class="d-sub" x="648" y="144" text-anchor="start">derselbe Name</text>
+<path class="d-arrow d-arrow-accent" d="M 232 224 L 170 224" marker-end="url(#p6c5-member-de-head-accent)"/>
+<text class="d-sub" x="200" y="216" text-anchor="middle">holt</text>
+<path class="d-arrow d-arrow-accent" d="M 408 224 L 454 224" marker-end="url(#p6c5-member-de-head-accent)"/>
+<text class="d-sub" x="432" y="216" text-anchor="middle">rollt aus</text>
+<path class="d-arrow" d="M 680 316 L 680 254" marker-end="url(#p6c5-member-de-head)"/>
+<text class="d-sub" x="670" y="290" text-anchor="end">überwacht</text>
+<path class="d-arrow d-arrow-accent" d="M 612 344 L 578 344" marker-end="url(#p6c5-member-de-head-accent)"/>
+<text class="d-sub" x="594" y="336" text-anchor="middle">Alert</text>
+<path class="d-arrow d-arrow-accent" d="M 436 344 L 386 344" marker-end="url(#p6c5-member-de-head-accent)"/>
+<text class="d-sub" x="410" y="336" text-anchor="middle">Webhook</text>
+<path class="d-arrow d-dashed" d="M 360 316 L 360 284 L 520 284 L 520 254" marker-end="url(#p6c5-member-de-head)"/>
+<text class="d-sub" x="440" y="276" text-anchor="middle">Rechte nach deiner Wahl</text>
+<path class="d-arrow d-arrow-accent" d="M 288 372 L 288 434" marker-end="url(#p6c5-member-de-head-accent)"/>
+<text class="d-sub" x="280" y="416" text-anchor="end">Vorschlag</text>
+<path class="d-arrow d-arrow-accent" d="M 328 436 L 328 374" marker-end="url(#p6c5-member-de-head-accent)"/>
+<text class="d-sub" x="336" y="416" text-anchor="start">Entscheid</text>
+<path class="d-arrow d-arrow-accent" d="M 232 464 L 92 464 L 92 254" marker-end="url(#p6c5-member-de-head-accent)"/>
+<text class="d-sub" x="102" y="332" text-anchor="start">Pull Request,</text>
+<text class="d-sub" x="102" y="348" text-anchor="start">Fehler, Behebung</text>
+<rect class="d-shadow" x="32" y="53.5" width="224" height="56" rx="10"/>
+<rect class="d-tile d-tile-violet" x="32" y="52" width="224" height="56" rx="10"/>
+<g class="d-icon d-icon-violet" transform="translate(44 71) scale(0.75)"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="8.5" y="8.5" width="7" height="7" rx="1"/></g>
+<text class="d-title d-title-violet" x="72" y="77" text-anchor="start">VM des Mitglieds</text>
+<text class="d-sub" x="72" y="93" text-anchor="start">für seinen Dienst</text>
+<rect class="d-shadow" x="280" y="53.5" width="224" height="56" rx="10"/>
+<rect class="d-tile" x="280" y="52" width="224" height="56" rx="10"/>
+<g class="d-icon" transform="translate(292 71) scale(0.75)"><circle cx="12" cy="12" r="9"/><path d="M14.5 9c-.5-1-1.5-1.5-2.5-1.5-1.7 0-2.8 1-2.8 2.2 0 2.9 5.6 1.6 5.6 4.5 0 1.2-1.2 2.3-2.8 2.3-1.1 0-2.2-.6-2.7-1.6M12 6v1.5M12 16.5V18"/></g>
+<text class="d-title" x="320" y="77" text-anchor="start">Quota und Preise</text>
+<text class="d-sub" x="320" y="93" text-anchor="start">Grenze und Showback</text>
+<rect class="d-shadow" x="528" y="53.5" width="220" height="56" rx="10"/>
+<rect class="d-tile" x="528" y="52" width="220" height="56" rx="10"/>
+<g class="d-icon" transform="translate(540 71) scale(0.75)"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M18 14.2a6.5 6.5 0 0 1 3.5 5.8"/></g>
+<text class="d-title" x="568" y="77" text-anchor="start">Gruppe mit Admin</text>
+<text class="d-sub" x="568" y="93" text-anchor="start">in einem VDC</text>
+<rect class="d-shadow" x="16" y="197.5" width="152" height="56" rx="10"/>
+<rect class="d-tile" x="16" y="196" width="152" height="56" rx="10"/>
+<g class="d-icon" transform="translate(28 215) scale(0.75)"><circle cx="6" cy="6" r="2.5"/><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="9" r="2.5"/><path d="M6 8.5v7M18 11.5c0 3-6 2-10.5 5"/></g>
+<text class="d-title" x="56" y="221" text-anchor="start">Gitea</text>
+<text class="d-sub" x="56" y="237" text-anchor="start">Repo platform</text>
+<rect class="d-shadow" x="232" y="197.5" width="176" height="56" rx="10"/>
+<rect class="d-tile" x="232" y="196" width="176" height="56" rx="10"/>
+<g class="d-icon" transform="translate(244 215) scale(0.75)"><path d="M20 12a8 8 0 0 1-14.3 4.9M4 12A8 8 0 0 1 18.3 7.1"/><path d="M18.5 3v4.3h-4.3M5.5 21v-4.3h4.3"/></g>
+<text class="d-title" x="272" y="221" text-anchor="start">Argo CD</text>
+<text class="d-sub" x="272" y="237" text-anchor="start">ApplicationSet members</text>
+<rect class="d-shadow" x="456" y="197.5" width="292" height="56" rx="10"/>
+<rect class="d-tile d-tile-violet" x="456" y="196" width="292" height="56" rx="10"/>
+<g class="d-icon d-icon-violet" transform="translate(468 215) scale(0.75)"><path d="M12 3 20 7.5v9L12 21l-8-4.5v-9z"/><path d="M4 7.5 12 12l8-4.5M12 12v9"/></g>
+<text class="d-title d-title-violet" x="496" y="221" text-anchor="start">Namespace des Mitglieds</text>
+<text class="d-sub" x="496" y="237" text-anchor="start">Anwendung und Alert-Regel</text>
+<rect class="d-shadow" x="232" y="317.5" width="152" height="56" rx="10"/>
+<rect class="d-tile d-tile-accent" x="232" y="316" width="152" height="56" rx="10"/>
+<g class="d-icon d-icon-accent" transform="translate(244 335) scale(0.75)"><circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M4.2 6l2.3 1.8M17.5 16.2l2.3 1.8M4.2 18l2.3-1.8M17.5 7.8 19.8 6M2.5 12h3M18.5 12h3"/></g>
+<text class="d-title" x="272" y="341" text-anchor="start">Triage-Dienst</text>
+<text class="d-sub" x="272" y="357" text-anchor="start">mit Audit-Log</text>
+<rect class="d-shadow" x="436" y="317.5" width="140" height="56" rx="10"/>
+<rect class="d-tile" x="436" y="316" width="140" height="56" rx="10"/>
+<g class="d-icon" transform="translate(448 335) scale(0.75)"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/></g>
+<text class="d-title" x="476" y="341" text-anchor="start">Alertmanager</text>
+<text class="d-sub" x="476" y="357" text-anchor="start">Route zur Triage</text>
+<rect class="d-shadow" x="612" y="317.5" width="136" height="56" rx="10"/>
+<rect class="d-tile" x="612" y="316" width="136" height="56" rx="10"/>
+<g class="d-icon" transform="translate(624 335) scale(0.75)"><ellipse cx="12" cy="5.5" rx="7.5" ry="2.5"/><path d="M4.5 5.5v13c0 1.4 3.4 2.5 7.5 2.5s7.5-1.1 7.5-2.5v-13"/><path d="M4.5 12c0 1.4 3.4 2.5 7.5 2.5s7.5-1.1 7.5-2.5"/></g>
+<text class="d-title" x="652" y="341" text-anchor="start">Prometheus</text>
+<text class="d-sub" x="652" y="357" text-anchor="start">Regel löst aus</text>
+<rect class="d-shadow" x="232" y="437.5" width="152" height="56" rx="10"/>
+<rect class="d-tile d-tile-accent" x="232" y="436" width="152" height="56" rx="10"/>
+<g class="d-icon d-icon-accent" transform="translate(244 455) scale(0.75)"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></g>
+<text class="d-title" x="272" y="461" text-anchor="start">Du</text>
+<text class="d-sub" x="272" y="477" text-anchor="start">Plattform-Team</text>
+</svg>

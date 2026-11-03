@@ -57,7 +57,7 @@ Die Knoten und die VMs in cc-net sprechen mit dem Front-end über weitere Ports,
 
 ::code{file="platform/operations/harden-frontend.sh"}
 
-Danach nimmt SSH nur noch Schlüssel an. Direkt als `root` kann sich niemand mehr anmelden. Ein Passwort lässt sich erraten oder abfangen, ein privater Schlüssel verlässt den Client nie. Die Firewall ist eine eigene Tabelle von nftables. Sie lässt die Knoten und cc-net alles erreichen, alle anderen Rechner nur SSH und die Weboberfläche. Die Tabelle `cc_gateway` mit der NAT für cc-net aus Kapitel 0.4 bleibt unberührt. Sicherheitsupdates installiert Ubuntu mit `unattended-upgrades` jeden Tag selbst. Das Skript sorgt dafür, dass dieser Dienst läuft.
+Danach nimmt SSH nur noch Schlüssel an. Direkt als `root` kann sich niemand mehr anmelden. Die Optionen dazu beschreibt die [Handbuchseite von sshd_config](https://manpages.ubuntu.com/manpages/resolute/man5/sshd_config.5.html). Ein Passwort lässt sich erraten oder abfangen, ein privater Schlüssel verlässt den Client nie. Die Firewall ist eine eigene Tabelle von nftables. Sie lässt die Knoten und cc-net alles erreichen, alle anderen Rechner nur SSH und die Weboberfläche. Wie eine solche Tabelle aufgebaut ist, zeigt der [einfache Regelsatz für einen Server](https://wiki.nftables.org/wiki-nftables/index.php/Simple_ruleset_for_a_server) im Wiki von nftables. Die Tabelle `cc_gateway` mit der NAT für cc-net aus Kapitel 0.4 bleibt unberührt. Sicherheitsupdates installiert Ubuntu mit `unattended-upgrades` jeden Tag selbst. Das Skript sorgt dafür, dass dieser Dienst läuft. Seine Einstellungen erklärt die [Anleitung zu automatischen Updates](https://ubuntu.com/server/docs/how-to/software/automatic-updates/) von Ubuntu Server.
 
 ![Die Schutzschichten von Front-end und Cluster. In der Mitte das Front-end. Seine Firewall, die Tabelle cc_firewall von nftables, weist alles ab, was sie nicht ausdrücklich erlaubt. Der Client und andere Rechner erreichen nur SSH auf Port 22 und die Weboberfläche auf Port 2616. SSH nimmt nur Schlüssel an und lässt root nicht direkt herein. Die Knoten und cc-net erreichen alles, auch Gitea auf Port 3000, die API auf Port 2633 und die Exporter auf den Ports 9100 und 9925. Jeden Tag installiert unattended-upgrades die Sicherheitsupdates. Rechts der Cluster. Pod Security Admission verlangt in den Namespaces der Mitglieder das Profil restricted. NetworkPolicies trennen die Mitglieder, Prometheus darf in allen Namespaces nur lesen. Ein SealedSecret kommt verschlüsselt aus Gitea, nur der Controller von Sealed Secrets in kube-system kann es mit seinem Schlüssel entschlüsseln.](../../../assets/figures/de/p6c1-security.svg)
 
@@ -170,11 +170,11 @@ Ein Mitglied bringt eigene Container mit. Läuft ein Container als `root` oder m
 | baseline | verhindert bekannte Wege zu mehr Rechten |
 | restricted | streng, nach den aktuellen Empfehlungen für Pods |
 
-Die Vorlage der Mitglieder setzt `restricted` in drei Modi. `enforce` weist Pods ab, `warn` zeigt beim Anwenden eine Warnung. `audit` schreibt Verstösse ins Audit-Log von Kubernetes.
+Die Vorlage der Mitglieder setzt `restricted` in drei Modi. `enforce` weist Pods ab, `warn` zeigt beim Anwenden eine Warnung. `audit` schreibt Verstösse ins Audit-Log von Kubernetes. Die Labels und ihre Modi beschreibt die [Dokumentation von Pod Security Admission](https://v1-36.docs.kubernetes.io/docs/concepts/security/pod-security-admission/) für Kubernetes 1.36.
 
 ::code{file="platform/operations/repo/templates/member/namespace.yaml"}
 
-Ein Pod erfüllt `restricted` nur, wenn er nicht als `root` läuft, keine zusätzlichen Rechte erlangen kann, alle Capabilities des Kernels abgibt und das Seccomp-Profil der Laufzeit nutzt. Der Webshop lief schon als gewöhnlicher Benutzer. Ihm fehlten die drei anderen Angaben.
+Ein Pod erfüllt `restricted` nur, wenn er nicht als `root` läuft, keine zusätzlichen Rechte erlangen kann, alle Capabilities des Kernels abgibt und das Seccomp-Profil der Laufzeit nutzt. Jede dieser Angaben listen die [Pod Security Standards](https://v1-36.docs.kubernetes.io/docs/concepts/security/pod-security-standards/#restricted) auf. Der Webshop lief schon als gewöhnlicher Benutzer. Ihm fehlten die drei anderen Angaben.
 
 ::code{file="platform/operations/repo/webshop/deployment.yaml" lines="16-29"}
 
@@ -205,7 +205,7 @@ git status
 
 `git status` zeigt die zwei neuen Applications und drei geänderte Dateien, die Vorlage des Namespace, den Webshop und die Vorlage für k3s. Die Werte von kube-prometheus-stack aus Teil 5 lässt die Kopie unberührt. Eine Route zum Triage-Dienst aus Zusatzauftrag B von Meilenstein 3 bleibt also erhalten. Hast du eine der drei Dateien selbst angepasst, zeigt `git diff`, was die Kopie überschrieben hat.
 
-Hat ein Mitglied in deinem Repo ein eigenes Label am Namespace, etwa für den Zugriff auf das Modell aus Kapitel 5.5, muss es als Merge-Patch formuliert sein. Ein Patch mit `op: add` auf `/metadata/labels` ersetzt alle Labels. Der Namespace verliert dabei das Profil, im Lab passierte das mit `velo`. Pushe die Änderungen und warte, bis der Controller läuft. Argo CD legt ihn erst bei der nächsten Abfrage des Repos an, im Lab nach zwei bis drei Minuten. Die Schleife mit `until` wartet darauf. Bis der Ordner `secrets` im Repo liegt, zeigt die Application `secrets` den Zustand `Unknown` mit «app path does not exist». Das ist an dieser Stelle normal. Installiere dann `kubeseal` und versiegle das Passwort.
+Hat ein Mitglied in deinem Repo ein eigenes Label am Namespace, etwa für den Zugriff auf das Modell aus Kapitel 5.5, muss es als Merge-Patch formuliert sein. Ein Patch mit `op: add` auf `/metadata/labels` ersetzt alle Labels. Der Namespace verliert dabei das Profil, im Lab passierte das mit `velo`. Pushe die Änderungen und warte, bis der Controller läuft. Argo CD legt ihn erst bei der nächsten Abfrage des Repos an, im Lab nach zwei bis drei Minuten. Die Schleife mit `until` wartet darauf. Bis der Ordner `secrets` im Repo liegt, zeigt die Application `secrets` den Zustand `Unknown` mit «app path does not exist». Das ist an dieser Stelle normal. Installiere dann `kubeseal` und versiegle das Passwort. Den Controller und `kubeseal` beschreibt die [Anleitung zur Installation von Sealed Secrets 0.41.2](https://github.com/bitnami/sealed-secrets/blob/v0.41.2/README.md#installation).
 
 ::code{file="platform/operations/seal-secrets.sh"}
 
@@ -217,7 +217,7 @@ sudo ~/cc/platform/operations/install-kubeseal.sh
 ~/cc/platform/operations/seal-secrets.sh
 ```
 
-Das Secret aus Teil 5 existiert schon. Der Controller überschreibt kein Secret, das er nicht selbst angelegt hat, im Lab meldete er «already exists and is not managed by SealedSecret». Eine Annotation übergibt ihm das Secret, nach einem Neustart versucht er es erneut.
+Das Secret aus Teil 5 existiert schon. Der Controller überschreibt kein Secret, das er nicht selbst angelegt hat, im Lab meldete er «already exists and is not managed by SealedSecret». Eine Annotation übergibt ihm das Secret, nach einem Neustart versucht er es erneut. Die Annotation beschreibt der Abschnitt [Managing existing secrets](https://github.com/bitnami/sealed-secrets/blob/v0.41.2/README.md#managing-existing-secrets) der Dokumentation.
 
 ```bash
 git add secrets && git commit -m "Grafana-Passwort verschlüsselt in Git" && git push
@@ -266,7 +266,7 @@ Löschen und Ändern fehlen in der Liste der Verben, Secrets sind eine andere Re
 ::::
 
 ::::exercise[Images prüfen]
-Für Schnelle. Prüfe das Image des Webshops mit Trivy auf bekannte Schwachstellen und überlege, wie die CI des Kursrepos ein Image mit kritischen Lücken stoppen könnte.
+Für Schnelle. Prüfe das Image des Webshops mit Trivy auf bekannte Schwachstellen und überlege, wie die CI des Kursrepos ein Image mit kritischen Lücken stoppen könnte. Wie du Trivy installierst, beschreibt die [Anleitung zur Installation von Trivy 0.76](https://trivy.dev/docs/v0.76/getting-started/installation/).
 
 :::solution
 `trivy image ghcr.io/ndum/cc/webshop:1.0.0` listet Schwachstellen der Pakete im Image mit ihrem Schweregrad. In der CI liefe derselbe Scan nach dem Bau. Mit `--exit-code 1 --severity CRITICAL` würde der Job bei kritischen Funden scheitern. Ein kleines Basis-Image hat weniger Pakete und damit weniger Funde.

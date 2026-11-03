@@ -1,6 +1,8 @@
 ---
 title: Zusatzaufträge
 description: Ein eigenes fünftes Mitglied mit Gruppe, VM, Namespace und Alert, der Cluster aus einem Snapshot mit einem SLA auf der gemessenen Zeit, ein Postmortem aus einem Entwurf des Modells und ein Kostenmodell für das Mitglied.
+tableOfContents:
+  maxHeadingLevel: 2
 sidebar:
   order: 5
   badge:
@@ -160,7 +162,25 @@ Backups im Backup-Datastore gehören in die Rechnung, wenn das Mitglied viele od
 
 Du nimmst ein fünftes Mitglied, das du selbst entworfen hast, auf beiden Ebenen deiner Plattform auf und überwachst seine Anwendung. Ihr Alert erreicht deinen Triage-Dienst aus Meilenstein 3, du entscheidest über dessen Vorschlag und behebst den Fehler über Git.
 
-Deine Lösung erfüllt diese Anforderungen:
+![Ein fünftes Mitglied auf beiden Ebenen. Oben die Ebene OpenNebula. Dort hat das neue Mitglied eine VM für seinen Dienst, eine Quota mit Preisen für den Showback und eine Gruppe mit Admin in einem VDC. Darunter der Cluster k3s mit dem Namespace des Mitglieds, in dem seine Anwendung und seine Alert-Regel liegen. Gruppe und Namespace wissen nichts voneinander, nur derselbe Name verbindet sie. Du bringst einen Pull Request und Commits nach Gitea. Argo CD holt sie dort mit dem ApplicationSet members und rollt sie im Namespace aus. Prometheus überwacht die Anwendung. Löst die Regel aus, schickt Prometheus einen Alert an Alertmanager, dessen Route ihn als Webhook an deinen Triage-Dienst weiterleitet. Was der Dienst im Namespace des Mitglieds darf, legst du selbst fest. Er legt dir einen Vorschlag vor und hält deinen Entscheid in seinem Audit-Log fest. Den Fehler löst du über Git aus und behebst ihn auch dort.](../../../assets/figures/de/p6c5-member.svg)
+
+### Ausgangslage und Ergebnis
+
+Aus der Basis hast du die Gruppen `praxis`, `treuhand`, `velo` und `gemeinde` der vier Mitglieder im VDC `wolkenwerk`, die Vorlage `ubuntu` und das Netz `cc-net`. Das ApplicationSet `members` aus Kapitel 4.5 macht aus jedem Ordner unter `members` im Repo `wolkenwerk/platform` einen Namespace nach der Vorlage `templates/member`, die seit Kapitel 6.1 das Profil `restricted` verlangt. Dein Triage-Dienst aus Zusatzauftrag B von Meilenstein 3 läuft mit seinem Audit-Log, seine Route und sein Empfänger stehen in den Werten von kube-prometheus-stack.
+
+Am Ende gibt es dein fünftes Mitglied in OpenNebula als Gruppe mit Admin in einem VDC, mit Quota, Preisen für den Showback und einer laufenden VM. Im Cluster läuft seine Anwendung in einem eigenen Namespace, eine Alert-Regel in seinem Ordner überwacht sie. Einen Vorfall hast du über Git ausgelöst und behoben, das Audit-Log deines Triage-Dienstes zeigt den Vorschlag und deinen Entscheid dazu.
+
+### Vorgehen
+
+1. Entwirf das Mitglied mit seinem Dienst und stufe seinen Schutzbedarf ein.
+2. Lege das Mitglied in OpenNebula mit Gruppe, Admin, Quota und Preisen an und starte seine VM.
+3. Beantrage seinen Namespace mit der Anwendung über einen Pull Request in Gitea und nimm ihn an.
+4. Ergänze eine Alert-Regel im Ordner des Mitglieds und leite ihren Alert an deinen Triage-Dienst weiter.
+5. Lege fest, was dein Triage-Dienst im Namespace des Mitglieds lesen und tun darf.
+6. Löse den Alert über Git aus, entscheide über den Vorschlag und behebe den Fehler über Git.
+7. Halte Werte, Zeiten und deine Entscheide mit ihren Alternativen für die Dokumentation fest.
+
+### Anforderungen
 
 1. Eine kurze Beschreibung nennt das Mitglied, seinen Dienst und seinen Schutzbedarf mit Begründung.
 2. In OpenNebula hat das Mitglied eine Gruppe mit Admin in einem VDC, eine Quota, Preise für den Showback und eine laufende VM mit höchstens 1 GB Arbeitsspeicher.
@@ -168,14 +188,14 @@ Deine Lösung erfüllt diese Anforderungen:
 4. Eine Alert-Regel im Ordner des Mitglieds überwacht die Anwendung. Alertmanager leitet ihren Alert an deinen Triage-Dienst weiter.
 5. Du hast den Alert über Git ausgelöst, über den Vorschlag entschieden und den Fehler über Git behoben. Das Audit-Log zeigt Vorschlag und Entscheid.
 
-In der Vorführung zeigst du:
+### Vorführung
 
 - Gruppe, Quota und laufende VM des Mitglieds in Sunstone oder in der CLI
 - Den Pull Request in Gitea und die gesunde Application in Argo CD
 - Den Alert in Alertmanager, den Vorschlag deines Triage-Dienstes und deinen Entscheid im Audit-Log
 - Mit `kubectl auth can-i`, was dein Triage-Dienst im Namespace des Mitglieds darf
 
-Dabei helfen dir:
+### Quellen
 
 - [Kapitel 3.1](../../tenants/groups/) zu Gruppen, Gruppenadmins und VDCs, [Kapitel 3.2](../../tenants/quotas/) zu Quotas und [Kapitel 3.3](../../tenants/showback/) zu den Preisen
 - Die Dokumentation von OpenNebula 7.4 zu [Gruppen](https://docs.opennebula.io/7.4/product/cloud_system_administration/multitenancy/manage_groups/), [VDCs](https://docs.opennebula.io/7.4/product/cloud_system_administration/multitenancy/manage_vdcs/), [Quotas](https://docs.opennebula.io/7.4/product/cloud_system_administration/capacity_planning/quotas/) und zum [Showback](https://docs.opennebula.io/7.4/product/cloud_system_administration/multitenancy/showback/)
@@ -185,7 +205,7 @@ Dabei helfen dir:
 - Die [Konfiguration von Alertmanager 0.34](https://prometheus.io/docs/alerting/0.34/configuration/#route), der Version in kube-prometheus-stack 92.17.0, zu `route`, Matchern und `webhook_config`
 - Die [Dokumentation zu RBAC](https://v1-36.docs.kubernetes.io/docs/reference/access-authn-authz/rbac/) zu Rollen und Bindungen
 
-Hinweise aus dem Lab:
+### Hinweise aus dem Lab
 
 - Den Alert löst du über Git aus, etwa mit null Replikas oder einem Image, das es nicht gibt
 - Im Lab des Kurses kam der Alert zwei Minuten, nachdem der letzte Pod weg war
@@ -196,7 +216,24 @@ Hinweise aus dem Lab:
 
 Du stellst den Cluster aus einem Snapshot von etcd wieder her und misst die Zeit, bis die Plattform für dein Mitglied wieder läuft. Auf diese Zeit und die Architektur deines Labs stützt du ein SLA für das Mitglied.
 
-Deine Lösung erfüllt diese Anforderungen:
+![Wiederherstellung aus einem Snapshot und SLA. Oben das Front-end mit der Kopie der Snapshots und des Tokens in ~/backup/k3s und mit Gitea. Darunter der Cluster k3s. Aus der Kopie stellst du k3s-server wieder her, je nach Fehlerfall den bestehenden Server oder einen neuen. Danach holt Argo CD wieder Commits aus Gitea und rollt die Anwendung deines Mitglieds aus. Unten links deine Messung für den Fehlerfall, den du gewählt hast, auf einer Zeitachse. Start und Ende legst du selbst fest, dazwischen hältst du Zwischenzeiten fest. Die gemessene Zeit geht in das SLA für dein Mitglied ein. Darin folgt die Verfügbarkeit aus der Architektur, das RPO aus den Sicherungen und das RTO aus deiner Messung und den Supportzeiten.](../../../assets/figures/de/p6c5-restore.svg)
+
+### Ausgangslage und Ergebnis
+
+Seit Kapitel 6.2 läuft dein Cluster mit etcd, auf `k3s-server` entsteht alle sechs Stunden ein Snapshot. Ein Timer kopiert die Snapshots mit dem Token und dem Schlüssel von Sealed Secrets nach `~/backup/k3s` auf dem Front-end. Die Anwendung deines Mitglieds aus Auftrag A läuft, Argo CD rollt sie aus dem Repo `wolkenwerk/platform` aus.
+
+Am Ende läuft der Cluster wieder aus einem Snapshot dieser Kopie, Argo CD übernimmt neue Commits und die Anwendung deines Mitglieds ist zurück. Deine Messung hält Start, Ende und Zwischenzeiten fest. Ein SLA für das Mitglied stützt Verfügbarkeit, Supportzeiten, RPO und RTO auf diese Messung, auf deine Sicherungen und auf die Architektur deines Labs.
+
+### Vorgehen
+
+1. Wähle einen Fehlerfall und lege fest, wann deine Messung beginnt und wann sie endet.
+2. Sichere vorher das Audit-Log aus Auftrag A und lege in smartlearn oder in deinem Hypervisor einen Snapshot der drei Server an.
+3. Löse den Fehlerfall aus und stelle den Cluster mit einem Snapshot aus der Kopie auf dem Front-end wieder her.
+4. Prüfe, dass Argo CD wieder neue Commits übernimmt und die Anwendung deines Mitglieds läuft.
+5. Schreibe das SLA für dein Mitglied und begründe Verfügbarkeit, RPO und RTO.
+6. Halte die Zeiten, den verwendeten Snapshot und deinen Entscheid mit seiner Alternative für die Dokumentation fest.
+
+### Anforderungen
 
 1. Du hast einen Fehlerfall gewählt und den Cluster mit einem Snapshot aus der Kopie auf dem Front-end wiederhergestellt.
 2. Start und Ende deiner Messung sind festgelegt, die gemessenen Zeiten sind festgehalten.
@@ -204,21 +241,21 @@ Deine Lösung erfüllt diese Anforderungen:
 4. Das SLA nennt den Dienst, die Verfügbarkeit mit Zeitraum und Ausnahmen, die Supportzeiten, RPO und RTO.
 5. Verfügbarkeit, RPO und RTO sind mit deiner Messung, deinen Sicherungen und der Architektur des Labs begründet.
 
-In der Vorführung zeigst du:
+### Vorführung
 
 - Den verwendeten Snapshot und seine Kopie auf dem Front-end
 - Deine Messung mit Start, Ende und Zwischenzeiten
 - Einen Commit, den Argo CD nach der Wiederherstellung übernommen hat
 - Das SLA und die Begründung von RPO und RTO
 
-Dabei helfen dir:
+### Quellen
 
 - [Kapitel 6.2](../backup/#snapshots-sichern) zu den Snapshots, ihrer Kopie und dem Token
 - Die [Dokumentation der Snapshots](https://docs.k3s.io/cli/etcd-snapshot) von k3s zur Wiederherstellung auf einem bestehenden Server und auf neuen Hosts
 - [Kapitel 6.3](../sla/) mit den Teilen eines SLA und der Tabelle der Ausfallzeiten, [Kapitel 6.2](../backup/#rpo-und-rto) mit RPO und RTO
 - Das Kapitel [Service Level Objectives](https://sre.google/sre-book/service-level-objectives/) im SRE-Buch, das erklärt, warum ein internes SLO strenger sein soll als das SLA
 
-Hinweise aus dem Lab:
+### Hinweise aus dem Lab
 
 - Die Wiederherstellung darfst du vor der Vorführung machen. Dort zeigst du sie an ihren Spuren, etwa am Snapshot, an deinen Zeiten und am Zustand danach.
 - Als `tofu apply` im Lab einen verlorenen Server ersetzte, wartete die neue VM zehn Minuten in `pending`. Wie beim Neubau in Kapitel 6.2 kannte OpenNebula für die Disk des Knotens noch den alten Wert.
@@ -232,7 +269,25 @@ Ein Snapshot von etcd bringt keine Daten aus Volumes zurück. Kopiere deshalb vo
 
 Zum Vorfall aus Auftrag A schreibt das lokale Modell einen Entwurf des Postmortems aus einer Zeitlinie, die du ohne Modell aus den Daten aufbaust. Du korrigierst den Entwurf und rechnest dazu ein Kostenmodell für dein Mitglied.
 
-Deine Lösung erfüllt diese Anforderungen:
+![Postmortem und Kostenmodell eines Mitglieds. Oben das Postmortem. Drei Quellen, die Zeitreihe ALERTS, das Audit-Log des Triage-Dienstes und der Verlauf des Plattform-Repos, ergeben ohne Modell eine nach der Zeit geordnete Zeitlinie. Mit deiner Frage und der Zeitlinie schreibt das lokale Modell aus Meilenstein 3 den Entwurf postmortem-entwurf.md. Du prüfst ihn gegen die Fakten der Zeitlinie und hältst deine Korrektur in postmortem.md fest. Unten das Kostenmodell. Aus den Ressourcen des Mitglieds, seiner Quota und seiner VM, leitest du über seinen Anteil an den Vollkosten einen Preis pro Monat ab. Die Verteilung wählst du selbst. Den Preis vergleichst du mit dem Showback aus OpenNebula. Aus gemessenen Requests und gemessenem Verbrauch entsteht dein Vorschlag zum Right-Sizing.](../../../assets/figures/de/p6c5-postmortem.svg)
+
+### Ausgangslage und Ergebnis
+
+Der Vorfall aus Auftrag A hat Spuren an drei Orten hinterlassen, als Alert in der Zeitreihe `ALERTS` von Prometheus, als Einträge im Audit-Log deines Triage-Dienstes und als Commits im Repo `wolkenwerk/platform`. Das lokale Modell aus Zusatzauftrag A von Meilenstein 3 erreichst du vom Front-end aus. Die Vollkosten von Wolkenwerk stehen in Kapitel 6.4, die Preise für den Showback deines Mitglieds hast du in Auftrag A gesetzt.
+
+Am Ende gibt es eine Zeitlinie des Vorfalls, die ohne Modell aus diesen Daten entstanden ist, den Entwurf `postmortem-entwurf.md` des Modells und deine korrigierte Fassung `postmortem.md`. Dazu kommt ein Kostenmodell mit einem Preis pro Monat für dein Mitglied, dem Vergleich mit seinem Showback und einem Vorschlag zum Right-Sizing aus Messwerten.
+
+### Vorgehen
+
+1. Sammle die Fakten des Vorfalls aus Alerts, Audit-Log und Git und ordne sie ohne Modell zu einer Zeitlinie.
+2. Formuliere deine Frage an das Modell und lass es aus der Zeitlinie einen Entwurf des Postmortems schreiben.
+3. Prüfe den Entwurf gegen die Zeitlinie und halte deine Korrektur in einer eigenen Datei fest.
+4. Bestimme die Ressourcen deines Mitglieds, wähle eine Verteilung der Vollkosten und leite einen Preis pro Monat ab.
+5. Vergleiche den Preis mit dem Showback deines Mitglieds aus OpenNebula.
+6. Miss Requests und Verbrauch deines Mitglieds über längere Zeit und leite daraus einen Vorschlag zum Right-Sizing ab.
+7. Halte Werte, Annahmen und deinen Entscheid mit seiner Alternative für die Dokumentation fest.
+
+### Anforderungen
 
 1. Die Zeitlinie des Vorfalls entsteht ohne Modell aus Alerts, Audit-Log und Git.
 2. Das lokale Modell schreibt daraus den Entwurf `postmortem-entwurf.md`. Deine Frage an das Modell verlangt einen Bericht ohne Schuldzuweisung, der nur die gelieferten Fakten verwendet.
@@ -240,14 +295,14 @@ Deine Lösung erfüllt diese Anforderungen:
 4. Das Kostenmodell nennt die Ressourcen des Mitglieds, seinen Anteil an den Vollkosten und einen Preis pro Monat. Es vergleicht den Preis mit dem Showback des Mitglieds aus OpenNebula.
 5. Ein Vorschlag zum Right-Sizing stützt sich auf gemessene Requests und gemessenen Verbrauch.
 
-In der Vorführung zeigst du:
+### Vorführung
 
 - Die Zeitlinie mit der Quelle jedes Eintrags
 - Den Entwurf des Modells neben deiner Korrektur mit zwei Stellen, die du geändert hast
 - Das Kostenmodell und den Showback deines Mitglieds für einen Monat
 - Deinen Vorschlag zum Right-Sizing mit den Messwerten
 
-Dabei helfen dir:
+### Quellen
 
 - [Kapitel 6.3](../sla/#postmortems) zu Postmortems ohne Schuldzuweisung und das Kapitel [Postmortem Culture](https://sre.google/sre-book/postmortem-culture/) des SRE-Buchs von Google
 - Ein [Beispiel](https://sre.google/sre-book/example-postmortem/) im selben Buch mit einem vollständigen Aufbau samt Zeitlinie
@@ -257,7 +312,7 @@ Dabei helfen dir:
 - [Kapitel 6.4](../cost/) zu den Vollkosten und Abfragen und [Kapitel 3.3](../../tenants/showback/#kosten-berechnen) zum Showback mit `oneshowback`
 - [Invoicing and Chargeback](https://www.finops.org/framework/capabilities/invoicing-chargeback/) der FinOps Foundation zu Showback und Chargeback
 
-Hinweise aus dem Lab:
+### Hinweise aus dem Lab
 
 - `Watchdog` löst immer aus und zeigt nur, dass die Alarmierung läuft. Er gehört nicht in die Zeitlinie, ebenso wenig `InfoInhibitor`, der nur Alerts der Stufe info unterdrückt.
 - Für einen Entscheid zum Right-Sizing misst du länger als eine Stunde, mindestens einen Tag mit typischer Last

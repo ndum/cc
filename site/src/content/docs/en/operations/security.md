@@ -57,7 +57,7 @@ The nodes and the VMs in cc-net talk to the front-end on further ports, for exam
 
 ::code{file="platform/operations/harden-frontend.sh"}
 
-Afterwards, SSH accepts keys only, and nobody can log in directly as `root`. A password can be guessed or intercepted, while a private key never leaves the client. The firewall is an nftables table of its own. It lets the nodes and cc-net reach everything and allows only SSH and the web interface from any other machine. The `cc_gateway` table with the NAT for cc-net from chapter 0.4 stays untouched. Ubuntu installs security updates daily with `unattended-upgrades`, and the script makes sure that service runs.
+Afterwards, SSH accepts keys only, and nobody can log in directly as `root`. The [sshd_config manual page](https://manpages.ubuntu.com/manpages/resolute/man5/sshd_config.5.html) describes these options. A password can be guessed or intercepted, while a private key never leaves the client. The firewall is an nftables table of its own. It lets the nodes and cc-net reach everything and allows only SSH and the web interface from any other machine. The [simple ruleset for a server](https://wiki.nftables.org/wiki-nftables/index.php/Simple_ruleset_for_a_server) in the nftables wiki shows how such a table is built. The `cc_gateway` table with the NAT for cc-net from chapter 0.4 stays untouched. Ubuntu installs security updates daily with `unattended-upgrades`, and the script makes sure that service runs. The Ubuntu Server guide on [automatic updates](https://ubuntu.com/server/docs/how-to/software/automatic-updates/) explains its settings.
 
 ![The protection layers of front-end and cluster. In the middle the front-end. Its firewall, the nftables table cc_firewall, drops everything it does not explicitly allow. The client and other hosts reach only SSH on port 22 and the web interface on port 2616, and SSH accepts only keys and does not let root log in directly. The nodes and cc-net reach everything, including Gitea on port 3000, the API on port 2633 and the exporters on ports 9100 and 9925. Every day, unattended-upgrades installs security updates. On the right the cluster. Pod Security Admission enforces the profile restricted in the member namespaces, NetworkPolicies separate the members, and Prometheus may only read, in all namespaces. A SealedSecret comes encrypted from Gitea, and only the Sealed Secrets controller in kube-system can decrypt it with its key.](../../../../assets/figures/en/p6c1-security.svg)
 
@@ -170,11 +170,11 @@ A member brings containers of its own. If a container runs as `root` or with ext
 | baseline | prevents known ways to gain more privileges |
 | restricted | strict, following current recommendations for pods |
 
-The member template sets `restricted` in three modes. `enforce` rejects pods, `warn` shows a warning when a manifest is applied, and `audit` writes violations to the Kubernetes audit log.
+The member template sets `restricted` in three modes. `enforce` rejects pods, `warn` shows a warning when a manifest is applied, and `audit` writes violations to the Kubernetes audit log. The [Pod Security Admission documentation](https://v1-36.docs.kubernetes.io/docs/concepts/security/pod-security-admission/) for Kubernetes 1.36 describes the labels and their modes.
 
 ::code{file="platform/operations/repo/templates/member/namespace.yaml"}
 
-A pod only meets `restricted` if it does not run as `root`, cannot gain additional privileges, drops all kernel capabilities and uses the runtime's seccomp profile. The web shop already ran as an ordinary user but lacked the other three settings.
+A pod only meets `restricted` if it does not run as `root`, cannot gain additional privileges, drops all kernel capabilities and uses the runtime's seccomp profile. The [Pod Security Standards](https://v1-36.docs.kubernetes.io/docs/concepts/security/pod-security-standards/#restricted) list each of these settings. The web shop already ran as an ordinary user but lacked the other three settings.
 
 ::code{file="platform/operations/repo/webshop/deployment.yaml" lines="16-29"}
 
@@ -205,7 +205,7 @@ git status
 
 `git status` lists the two new applications and three changed files, the namespace template, the web shop and the k3s template. The copy leaves the kube-prometheus-stack values from part 5 alone, so a route to the triage service from advanced task B of milestone 3 stays in place. If you changed one of the three files yourself, `git diff` shows what the copy overwrote.
 
-If a member in your repo has a label of its own on its namespace, for example for access to the model from chapter 5.5, it has to be written as a merge patch. A patch with `op: add` on `/metadata/labels` replaces all labels, and the namespace loses its profile. In the lab this happened to `velo`. Push the changes and wait until the controller runs. Argo CD only creates it at its next poll of the repo, in the lab after two to three minutes. The `until` loop waits for it. Until the folder `secrets` is in the repo, the application `secrets` shows `Unknown` with "app path does not exist", which is normal at this point. Then install `kubeseal` and seal the password.
+If a member in your repo has a label of its own on its namespace, for example for access to the model from chapter 5.5, it has to be written as a merge patch. A patch with `op: add` on `/metadata/labels` replaces all labels, and the namespace loses its profile. In the lab this happened to `velo`. Push the changes and wait until the controller runs. Argo CD only creates it at its next poll of the repo, in the lab after two to three minutes. The `until` loop waits for it. Until the folder `secrets` is in the repo, the application `secrets` shows `Unknown` with "app path does not exist", which is normal at this point. Then install `kubeseal` and seal the password. The [installation guide of Sealed Secrets 0.41.2](https://github.com/bitnami/sealed-secrets/blob/v0.41.2/README.md#installation) covers the controller and `kubeseal`.
 
 ::code{file="platform/operations/seal-secrets.sh"}
 
@@ -217,7 +217,7 @@ sudo ~/cc/platform/operations/install-kubeseal.sh
 ~/cc/platform/operations/seal-secrets.sh
 ```
 
-The Secret from part 5 already exists, and the controller does not overwrite a Secret it did not create itself. In the lab it reported "already exists and is not managed by SealedSecret". An annotation hands the Secret over, and a restart makes the controller try again.
+The Secret from part 5 already exists, and the controller does not overwrite a Secret it did not create itself. In the lab it reported "already exists and is not managed by SealedSecret". An annotation hands the Secret over, and a restart makes the controller try again. The section [Managing existing secrets](https://github.com/bitnami/sealed-secrets/blob/v0.41.2/README.md#managing-existing-secrets) of the documentation describes the annotation.
 
 ```bash
 git add secrets && git commit -m "Grafana password encrypted in Git" && git push
@@ -266,7 +266,7 @@ Deleting and changing are missing from the list of verbs, and secrets are a diff
 ::::
 
 ::::exercise[Scanning images]
-For fast students. Scan the web shop image with Trivy for known vulnerabilities and think about how the course repo's CI could stop an image with critical flaws.
+For fast students. Scan the web shop image with Trivy for known vulnerabilities and think about how the course repo's CI could stop an image with critical flaws. The [installation guide of Trivy 0.76](https://trivy.dev/docs/v0.76/getting-started/installation/) shows how to install it.
 
 :::solution
 `trivy image ghcr.io/ndum/cc/webshop:1.0.0` lists vulnerabilities of the packages in the image with their severity. In the CI, the same scan would run after the build, and `--exit-code 1 --severity CRITICAL` would make the job fail on critical findings. A small base image has fewer packages and thus fewer findings.

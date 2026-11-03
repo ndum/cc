@@ -373,6 +373,426 @@ function cost(lang) {
   return figure({ id, width: 760, height: 332, title: t.title, desc: t.desc, body });
 }
 
+/** Width of a line made of parts, in the sizes of their classes */
+function partsWidth(parts) {
+  return parts.reduce((sum, [text, cls]) => {
+    if (cls === 'd-code') return sum + measure(text, SIZE.code, { mono: true });
+    if (cls === 'd-title-small') return sum + measure(text, SIZE.small, { bold: true });
+    return sum + measure(text, SIZE.sub);
+  }, 0);
+}
+
+/** A card with a title and several centred lines below it, each line made of parts in their own classes */
+function stack(x, y, w, h, title, rows) {
+  const check = (text, needed) => {
+    if (needed + 2 * PADDING > w) throw new Error(`"${text}" needs about ${Math.ceil(needed + 2 * PADDING)} px but has only ${w} px.`);
+  };
+  check(title, measure(title, SIZE.title, { bold: true }));
+  rows.forEach((parts) => check(parts.map(([text]) => text).join(''), partsWidth(parts)));
+  // The title line and the rows form one block, centred in the card
+  const LINE = 19;
+  const top = y + (h - (16 + rows.length * LINE)) / 2;
+  const cx = x + w / 2;
+  return [
+    `<rect class="d-shadow" x="${x}" y="${y + 1.5}" width="${w}" height="${h}" rx="10"/>`,
+    `<rect class="d-tile" x="${x}" y="${y}" width="${w}" height="${h}" rx="10"/>`,
+    `<text class="d-title" x="${cx}" y="${top + 12}" text-anchor="middle">${escape(title)}</text>`,
+    ...rows.map((parts, i) => mixed(cx, top + 12 + LINE * (i + 1), parts, 'middle')),
+  ].join('\n');
+}
+
+/** Stops the script when an arrow label does not fit the gap it stands in */
+function gap(text, available) {
+  const needed = measure(text, SIZE.sub) + 4;
+  if (needed > available) throw new Error(`"${text}" needs about ${Math.ceil(needed)} px but has only ${available} px between the tiles.`);
+}
+
+/** A tag that ends at the right edge, as in the corner of a band */
+function tagAt(right, y, text, options) {
+  return tag(right - Math.ceil(measure(text, SIZE.sub, { bold: true })) - 14, y, text, options);
+}
+
+const MEMBER = {
+  de: {
+    title: 'Ein fünftes Mitglied auf beiden Ebenen',
+    desc:
+      'Oben die Ebene OpenNebula. Dort hat das neue Mitglied eine VM für seinen Dienst, eine Quota mit Preisen ' +
+      'für den Showback und eine Gruppe mit Admin in einem VDC. Darunter der Cluster k3s mit dem Namespace des ' +
+      'Mitglieds, in dem seine Anwendung und seine Alert-Regel liegen. Gruppe und Namespace wissen nichts ' +
+      'voneinander, nur derselbe Name verbindet sie. Du bringst einen Pull Request und Commits nach Gitea. ' +
+      'Argo CD holt sie dort mit dem ApplicationSet members und rollt sie im Namespace aus. Prometheus ' +
+      'überwacht die Anwendung. Löst die Regel aus, schickt Prometheus einen Alert an Alertmanager, dessen ' +
+      'Route ihn als Webhook an deinen Triage-Dienst weiterleitet. Was der Dienst im Namespace des Mitglieds ' +
+      'darf, legst du selbst fest. Er legt dir einen Vorschlag vor und hält deinen Entscheid in seinem Audit-Log ' +
+      'fest. Den Fehler löst du über Git aus und behebst ihn auch dort.',
+    one: 'OpenNebula',
+    vm: ['VM des Mitglieds', 'für seinen Dienst'],
+    quota: ['Quota und Preise', 'Grenze und Showback'],
+    group: ['Gruppe mit Admin', 'in einem VDC'],
+    same: 'derselbe Name',
+    cluster: 'Cluster k3s',
+    gitea: ['Gitea', 'Repo platform'],
+    argo: ['Argo CD', 'ApplicationSet members'],
+    namespace: ['Namespace des Mitglieds', 'Anwendung und Alert-Regel'],
+    triage: ['Triage-Dienst', 'mit Audit-Log'],
+    alertmanager: ['Alertmanager', 'Route zur Triage'],
+    prometheus: ['Prometheus', 'Regel löst aus'],
+    you: ['Du', 'Plattform-Team'],
+    pulls: 'holt',
+    rollout: 'rollt aus',
+    watches: 'überwacht',
+    alert: 'Alert',
+    webhook: 'Webhook',
+    proposal: 'Vorschlag',
+    decision: 'Entscheid',
+    rights: 'Rechte nach deiner Wahl',
+    git: ['Pull Request,', 'Fehler, Behebung'],
+  },
+  en: {
+    title: 'A fifth member on both layers',
+    desc:
+      'At the top the OpenNebula layer. There the new member has a VM for its service, a quota with prices for ' +
+      "showback and a group with an admin in a VDC. Below it the k3s cluster with the member's namespace, which " +
+      'holds its application and its alert rule. Group and namespace know nothing of each other, only the same ' +
+      'name links them. You bring a pull request and commits to Gitea. Argo CD pulls them from there with the ' +
+      'ApplicationSet members and rolls them out in the namespace. Prometheus watches the application. When the ' +
+      'rule fires, Prometheus sends an alert to Alertmanager, whose route forwards it as a webhook to your ' +
+      "triage service. You decide what the service may do in the member's namespace. It shows you a proposal " +
+      'and records your decision in its audit log. You cause the fault through Git and fix it there as well.',
+    one: 'OpenNebula',
+    vm: ['Member VM', 'for its service'],
+    quota: ['Quota and prices', 'limit and showback'],
+    group: ['Group with admin', 'in a VDC'],
+    same: 'same name',
+    cluster: 'k3s cluster',
+    gitea: ['Gitea', 'repo platform'],
+    argo: ['Argo CD', 'ApplicationSet members'],
+    namespace: ['Member namespace', 'application and alert rule'],
+    triage: ['Triage service', 'with audit log'],
+    alertmanager: ['Alertmanager', 'route to triage'],
+    prometheus: ['Prometheus', 'a rule fires'],
+    you: ['You', 'platform team'],
+    pulls: 'pulls',
+    rollout: 'rolls out',
+    watches: 'watches',
+    alert: 'alert',
+    webhook: 'webhook',
+    proposal: 'proposal',
+    decision: 'decision',
+    rights: 'rights of your choice',
+    git: ['pull request,', 'fault, fix'],
+  },
+};
+
+function member(lang) {
+  const t = MEMBER[lang];
+  const id = `p6c5-member-${lang}`;
+  const H = 56;
+  // Gitea and the person stand outside the two layers, the alert runs right to left back to the person
+  const top = 52;
+  const row1 = 196;
+  const row2 = 316;
+  const low = 436;
+  const mid = (y) => y + H / 2;
+  const argo = { x: 232, w: 176 };
+  const ns = { x: 456, w: 292 };
+  const triage = { x: 232, w: 152 };
+  const am = { x: 436, w: 140 };
+  const prom = { x: 612, w: 136 };
+  const gitea = { x: 16, w: 152 };
+  gap(t.rollout, ns.x - argo.x - argo.w);
+  gap(t.webhook, am.x - triage.x - triage.w);
+  gap(t.alert, prom.x - am.x - am.w);
+  gap(t.rights, 520 - 360);
+  const body = [
+    band(16, 16, 748, 108, 2),
+    label(32, 40, t.one, 'start', { tone: 'blue' }),
+    band(216, 156, 548, 232, 3),
+    label(232, 180, t.cluster, 'start', { tone: 'violet' }),
+    // Group and namespace know nothing of each other, only the name links them
+    line([[638, top + H], [638, row1 - 2]], { dashed: true }),
+    note(648, 144, t.same),
+    // Argo CD fetches from Gitea and applies the member folder to its namespace
+    arrow(id, [[argo.x, mid(row1)], [gitea.x + gitea.w + 2, mid(row1)]], { accent: true }),
+    note((gitea.x + gitea.w + argo.x) / 2, mid(row1) - 8, t.pulls, 'middle'),
+    arrow(id, [[argo.x + argo.w, mid(row1)], [ns.x - 2, mid(row1)]], { accent: true }),
+    note((argo.x + argo.w + ns.x) / 2, mid(row1) - 8, t.rollout, 'middle'),
+    // Prometheus watches the namespace, its alert travels to the triage service
+    arrow(id, [[680, row2], [680, row1 + H + 2]]),
+    note(670, 290, t.watches, 'end'),
+    arrow(id, [[prom.x, mid(row2)], [am.x + am.w + 2, mid(row2)]], { accent: true }),
+    note((am.x + am.w + prom.x) / 2, mid(row2) - 8, t.alert, 'middle'),
+    arrow(id, [[am.x, mid(row2)], [triage.x + triage.w + 2, mid(row2)]], { accent: true }),
+    note((triage.x + triage.w + am.x) / 2, mid(row2) - 8, t.webhook, 'middle'),
+    // What the triage service may do in the namespace is the student's decision
+    arrow(id, [[360, row2], [360, 284], [520, 284], [520, row1 + H + 2]], { dashed: true }),
+    note(440, 276, t.rights, 'middle'),
+    // The person decides on the proposal and changes the platform only through Git
+    arrow(id, [[288, row2 + H], [288, low - 2]], { accent: true }),
+    note(280, 416, t.proposal, 'end'),
+    arrow(id, [[328, low], [328, row2 + H + 2]], { accent: true }),
+    note(336, 416, t.decision),
+    arrow(id, [[triage.x, mid(low)], [92, mid(low)], [92, row1 + H + 2]], { accent: true }),
+    note(102, 332, t.git[0]),
+    note(102, 348, t.git[1]),
+    tile(32, top, 224, H, ...t.vm, { icon: 'vm', tone: 'violet' }),
+    tile(280, top, 224, H, ...t.quota, { icon: 'coin' }),
+    tile(528, top, 220, H, ...t.group, { icon: 'group' }),
+    tile(gitea.x, row1, gitea.w, H, ...t.gitea, { icon: 'repo' }),
+    tile(argo.x, row1, argo.w, H, ...t.argo, { icon: 'sync' }),
+    tile(ns.x, row1, ns.w, H, ...t.namespace, { icon: 'container', tone: 'violet' }),
+    tile(triage.x, row2, triage.w, H, ...t.triage, { icon: 'cog', accent: true }),
+    tile(am.x, row2, am.w, H, ...t.alertmanager, { icon: 'bell' }),
+    tile(prom.x, row2, prom.w, H, ...t.prometheus, { icon: 'database' }),
+    tile(triage.x, low, triage.w, H, ...t.you, { icon: 'user', accent: true }),
+  ];
+  return figure({ id, width: 780, height: 508, title: t.title, desc: t.desc, body });
+}
+
+const RESTORE = {
+  de: {
+    title: 'Wiederherstellung aus einem Snapshot und SLA',
+    desc:
+      'Oben das Front-end mit der Kopie der Snapshots und des Tokens in ~/backup/k3s und mit Gitea. Darunter der ' +
+      'Cluster k3s. Aus der Kopie stellst du k3s-server wieder her, je nach Fehlerfall den bestehenden Server oder ' +
+      'einen neuen. Danach holt Argo CD wieder Commits aus Gitea und rollt die Anwendung deines Mitglieds aus. ' +
+      'Unten links deine Messung für den Fehlerfall, den du gewählt hast, auf einer Zeitachse. Start und Ende ' +
+      'legst du selbst fest, dazwischen hältst du Zwischenzeiten fest. Die gemessene Zeit geht in das SLA für ' +
+      'dein Mitglied ein. Darin folgt die Verfügbarkeit aus der Architektur, das RPO aus den Sicherungen und das ' +
+      'RTO aus deiner Messung und den Supportzeiten.',
+    fe: 'Front-end',
+    copy: ['Snapshots und Token', '~/backup/k3s'],
+    gitea: ['Gitea', 'Repo platform'],
+    cluster: 'Cluster k3s',
+    server: ['k3s-server', 'bestehend oder neu'],
+    app: ['Anwendung', 'deines Mitglieds'],
+    argo: ['Argo CD', 'übernimmt Commits'],
+    restore: 'Wiederherstellung',
+    pulls: 'holt Commits',
+    rollout: 'rollt aus',
+    measure: 'Deine Messung',
+    failure: 'Fehlerfall nach deiner Wahl',
+    start: 'Start, von dir festgelegt',
+    between: 'Zwischenzeiten',
+    end: 'Ende, von dir festgelegt',
+    measured: 'gemessene Zeit',
+    sla: 'SLA für dein Mitglied',
+    parts: [
+      ['Verfügbarkeit', ' aus der Architektur'],
+      ['RPO', ' aus den Sicherungen'],
+      ['RTO', ' aus Messung und Supportzeiten'],
+    ],
+  },
+  en: {
+    title: 'Restore from a snapshot and SLA',
+    desc:
+      'At the top the front-end with the copy of the snapshots and the token in ~/backup/k3s, and Gitea. Below it ' +
+      'the k3s cluster. From the copy you restore k3s-server, depending on the failure case the existing server ' +
+      "or a new one. Argo CD then pulls commits from Gitea again and rolls out your member's application. At the " +
+      'bottom left your measurement for the failure case you chose, on a timeline. You set the start and the end ' +
+      'yourself and record intermediate times in between. The measured time goes into the SLA for your member. ' +
+      'In it, the availability follows from the architecture, the RPO from the backups and the RTO from your ' +
+      'measurement and the support hours.',
+    fe: 'Front-end',
+    copy: ['Snapshots and token', '~/backup/k3s'],
+    gitea: ['Gitea', 'repo platform'],
+    cluster: 'k3s cluster',
+    server: ['k3s-server', 'existing or new'],
+    app: ['Application', 'of your member'],
+    argo: ['Argo CD', 'picks up commits'],
+    restore: 'restore',
+    pulls: 'pulls commits',
+    rollout: 'rolls out',
+    measure: 'Your measurement',
+    failure: 'failure case of your choice',
+    start: 'start, set by you',
+    between: 'intermediate times',
+    end: 'end, set by you',
+    measured: 'measured time',
+    sla: 'SLA for your member',
+    parts: [
+      ['Availability', ' from the architecture'],
+      ['RPO', ' from the backups'],
+      ['RTO', ' from measurement and support hours'],
+    ],
+  },
+};
+
+function restore(lang) {
+  const t = RESTORE[lang];
+  const id = `p6c5-restore-${lang}`;
+  const H = 56;
+  const app = { x: 280, w: 200 };
+  const argo = { x: 532, w: 216 };
+  gap(t.rollout, argo.x - app.x - app.w);
+  // The time axis of the measurement, start and end are the student's choice
+  const AXIS = 356;
+  const X0 = 56;
+  const X1 = 436;
+  const between = [176, 246, 316];
+  const marker = (x, r) => [
+    `<circle class="d-ground" cx="${x}" cy="${AXIS}" r="${r + 2.5}"/>`,
+    `<circle class="d-fill-blue" cx="${x}" cy="${AXIS}" r="${r}"/>`,
+  ];
+  const body = [
+    band(16, 16, 748, 104, 2),
+    label(32, 40, t.fe, 'start', { tone: 'blue' }),
+    band(16, 152, 748, 104, 3),
+    label(32, 176, t.cluster, 'start', { tone: 'violet' }),
+    // The snapshot comes from the copy on the front-end, Argo CD then fetches Git again
+    arrow(id, [[144, 52 + H], [144, 186]], { accent: true }),
+    note(154, 140, t.restore),
+    arrow(id, [[640, 188], [640, 52 + H + 2]], { accent: true }),
+    note(650, 140, t.pulls),
+    arrow(id, [[argo.x, 216], [app.x + app.w + 2, 216]], { accent: true }),
+    note((app.x + app.w + argo.x) / 2, 208, t.rollout, 'middle'),
+    tile(32, 52, 224, H, ...t.copy, { icon: 'disk', code: true, accent: true }),
+    tile(argo.x, 52, argo.w, H, ...t.gitea, { icon: 'repo' }),
+    tile(32, 188, 224, H, ...t.server, { icon: 'server', tone: 'violet' }),
+    tile(app.x, 188, app.w, H, ...t.app, { icon: 'container', tone: 'violet' }),
+    tile(argo.x, 188, argo.w, H, ...t.argo, { icon: 'sync', tone: 'violet' }),
+    // The measurement for the chosen case, without values
+    band(16, 288, 460, 124, 1),
+    label(32, 312, t.measure),
+    tagAt(460, 298, t.failure),
+    line([[X0, AXIS], [X1, AXIS]], { accent: true }),
+    ...marker(X0, 4.5),
+    ...between.flatMap((x) => marker(x, 3)),
+    ...marker(X1, 4.5),
+    note(X0 - 7, AXIS - 16, t.start),
+    note(between[1], AXIS - 16, t.between, 'middle'),
+    note(X1 + 7, AXIS - 16, t.end, 'end'),
+    line([[X0, 376], [X0, 382], [X1, 382], [X1, 376]]),
+    note((X0 + X1) / 2, 398, t.measured, 'middle'),
+    // The measured time is the base of the RTO in the SLA
+    arrow(id, [[X1, 382], [514, 382]], { accent: true }),
+    stack(516, 288, 248, 124, t.sla, t.parts.map(([term, rest]) => [[term, 'd-title-small'], [rest, 'd-sub']])),
+  ];
+  return figure({ id, width: 780, height: 428, title: t.title, desc: t.desc, body });
+}
+
+const POSTMORTEM = {
+  de: {
+    title: 'Postmortem und Kostenmodell eines Mitglieds',
+    desc:
+      'Oben das Postmortem. Drei Quellen, die Zeitreihe ALERTS, das Audit-Log des Triage-Dienstes und der ' +
+      'Verlauf des Plattform-Repos, ergeben ohne Modell eine nach der Zeit geordnete Zeitlinie. Mit deiner Frage ' +
+      'und der Zeitlinie schreibt das lokale Modell aus Meilenstein 3 den Entwurf postmortem-entwurf.md. Du ' +
+      'prüfst ihn gegen die Fakten der Zeitlinie und hältst deine Korrektur in postmortem.md fest. Unten das ' +
+      'Kostenmodell. Aus den Ressourcen des Mitglieds, seiner Quota und seiner VM, leitest du über seinen Anteil ' +
+      'an den Vollkosten einen Preis pro Monat ab. Die Verteilung wählst du selbst. Den Preis vergleichst du mit ' +
+      'dem Showback aus OpenNebula. Aus gemessenen Requests und gemessenem Verbrauch entsteht dein Vorschlag zum ' +
+      'Right-Sizing.',
+    postmortem: 'Postmortem',
+    sources: 'Drei Quellen',
+    lines: [
+      [['Zeitreihe ', 'd-sub'], ['ALERTS', 'd-code']],
+      [['Audit-Log des Triage-Dienstes', 'd-sub']],
+      [['Verlauf des Plattform-Repos', 'd-sub']],
+    ],
+    timeline: ['Zeitlinie', 'ohne Modell'],
+    model: ['Lokales Modell', 'aus Meilenstein 3'],
+    draft: ['Entwurf', 'des Modells', 'postmortem-entwurf.md'],
+    correction: ['Korrektur', 'deine Fassung', 'postmortem.md'],
+    ordered: 'geordnet',
+    question: 'deine Frage',
+    writes: 'schreibt',
+    check: 'du prüfst',
+    facts: 'Fakten',
+    cost: 'Kostenmodell',
+    resources: ['Ressourcen', 'Quota und VM'],
+    price: ['Preis pro Monat', 'nach deiner Verteilung'],
+    showback: ['Showback', 'aus OpenNebula'],
+    share: ['Anteil der', 'Vollkosten'],
+    compare: 'Vergleich',
+    metrics: ['Messwerte', 'Requests und Verbrauch'],
+    sizing: ['Right-Sizing', 'dein Vorschlag'],
+  },
+  en: {
+    title: 'Postmortem and cost model of a member',
+    desc:
+      'At the top the postmortem. Three sources, the series ALERTS, the audit log of the triage service and the ' +
+      'history of the platform repo, are ordered by time into a timeline without the model. With your question ' +
+      'and the timeline, the local model from milestone 3 writes the draft postmortem-entwurf.md. You check it ' +
+      'against the facts of the timeline and record your correction in postmortem.md. At the bottom the cost ' +
+      "model. From the member's resources, its quota and its VM, you derive a monthly price through its share of " +
+      'the full cost, with a split of your choice. You compare the price with the showback from OpenNebula. ' +
+      'Measured requests and measured use lead to your right-sizing proposal.',
+    postmortem: 'Postmortem',
+    sources: 'Three sources',
+    lines: [
+      [['series ', 'd-sub'], ['ALERTS', 'd-code']],
+      [['audit log of the triage service', 'd-sub']],
+      [['history of the platform repo', 'd-sub']],
+    ],
+    timeline: ['Timeline', 'without the model'],
+    model: ['Local model', 'from milestone 3'],
+    draft: ['Draft', 'by the model', 'postmortem-entwurf.md'],
+    correction: ['Correction', 'your version', 'postmortem.md'],
+    ordered: 'ordered',
+    question: 'question',
+    writes: 'writes',
+    check: 'you check',
+    facts: 'facts',
+    cost: 'Cost model',
+    resources: ['Resources', 'quota and VM'],
+    price: ['Monthly price', 'split of your choice'],
+    showback: ['Showback', 'from OpenNebula'],
+    share: ['share of the', 'full cost'],
+    compare: 'comparison',
+    metrics: ['Measurements', 'requests and use'],
+    sizing: ['Right-sizing', 'your proposal'],
+  },
+};
+
+function postmortem(lang) {
+  const t = POSTMORTEM[lang];
+  const id = `p6c5-postmortem-${lang}`;
+  const H = 56;
+  // Three columns in both bands, the postmortem turns down on the right and back to the middle
+  const W = 192;
+  const col = [32, 294, 556];
+  const gapX = col[1] - col[0] - W;
+  [t.ordered, t.question, t.check, t.compare, ...t.share].forEach((text) => gap(text, gapX));
+  const right = (i) => col[i] + W;
+  const centre = (i) => col[i] + W / 2;
+  const body = [
+    band(16, 16, 748, 248, 1),
+    label(32, 40, t.postmortem),
+    // The facts come from the data, the model only writes the text around them
+    arrow(id, [[right(0), 100], [col[1] - 2, 100]], { accent: true }),
+    note((right(0) + col[1]) / 2, 92, t.ordered, 'middle'),
+    arrow(id, [[right(1), 100], [col[2] - 2, 100]], { accent: true }),
+    note((right(1) + col[2]) / 2, 92, t.question, 'middle'),
+    arrow(id, [[centre(2), 128], [centre(2), 182]], { accent: true }),
+    note(centre(2) + 10, 160, t.writes),
+    arrow(id, [[col[2], 216], [right(1) + 2, 216]], { accent: true }),
+    note((right(1) + col[2]) / 2, 208, t.check, 'middle'),
+    arrow(id, [[centre(1), 128], [centre(1), 182]], { dashed: true }),
+    note(centre(1) + 10, 160, t.facts),
+    stack(col[0], 52, W, 96, t.sources, t.lines),
+    tile(col[1], 72, W, H, ...t.timeline, { icon: 'clock', accent: true }),
+    tile(col[2], 72, W, H, ...t.model, { icon: 'model' }),
+    tile(col[1], 184, W, 64, t.correction[0], t.correction[1], { detail: t.correction[2], icon: 'doc', accent: true }),
+    tile(col[2], 184, W, 64, t.draft[0], t.draft[1], { detail: t.draft[2], icon: 'doc' }),
+    band(16, 296, 748, 180, 1),
+    label(32, 320, t.cost),
+    // The price follows from a share of the full cost, showback is the comparison
+    arrow(id, [[right(0), 360], [col[1] - 2, 360]], { accent: true }),
+    note((right(0) + col[1]) / 2, 338, t.share[0], 'middle'),
+    note((right(0) + col[1]) / 2, 352, t.share[1], 'middle'),
+    line([[right(1), 360], [col[2], 360]], { dashed: true }),
+    note((right(1) + col[2]) / 2, 352, t.compare, 'middle'),
+    arrow(id, [[right(0), 432], [col[1] - 2, 432]], { accent: true }),
+    tile(col[0], 332, W, H, ...t.resources, { icon: 'vm' }),
+    tile(col[1], 332, W, H, ...t.price, { icon: 'coin', accent: true }),
+    tile(col[2], 332, W, H, ...t.showback, { icon: 'chart' }),
+    tile(col[0], 404, W, H, ...t.metrics, { icon: 'database' }),
+    tile(col[1], 404, W, H, ...t.sizing, { icon: 'sync', accent: true }),
+  ];
+  return figure({ id, width: 780, height: 492, title: t.title, desc: t.desc, body });
+}
+
 for (const lang of Object.keys(BACKUP)) {
   const dir = join(ROOT, 'site', 'src', 'assets', 'figures', lang);
   mkdirSync(dir, { recursive: true });
@@ -380,4 +800,7 @@ for (const lang of Object.keys(BACKUP)) {
   writeFileSync(join(dir, 'p6c2-backup.svg'), backup(lang));
   writeFileSync(join(dir, 'p6c3-incident.svg'), incident(lang));
   writeFileSync(join(dir, 'p6c4-cost.svg'), cost(lang));
+  writeFileSync(join(dir, 'p6c5-member.svg'), member(lang));
+  writeFileSync(join(dir, 'p6c5-restore.svg'), restore(lang));
+  writeFileSync(join(dir, 'p6c5-postmortem.svg'), postmortem(lang));
 }

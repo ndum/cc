@@ -50,7 +50,7 @@ In part 4 you installed k3s with its default database, SQLite. For snapshots, k3
 
 ::code{file="platform/operations/repo/tofu/k3s.sh.tftpl"}
 
-The file came into your repo with the copy in chapter 6.1. `tofu plan` only shows a change to the context of the two VMs. The start script runs at every boot, but it stops right away when k3s is already installed. A changed installation therefore only affects new VMs. So you rebuild the cluster. That is also the first restore drill, because the rebuild shows how much Git alone brings back.
+The file came into your repo with the copy in chapter 6.1. `tofu plan` only shows a change to the context of the two VMs. The start script runs at every boot, but it stops right away when k3s is already installed. A changed installation therefore only affects new VMs. So you rebuild the cluster. The option `-replace` replaces both VMs. It is one of the [planning options of `tofu plan`](https://opentofu.org/docs/v1.13/cli/commands/plan/#planning-options), which `tofu apply` accepts as well. That is also the first restore drill, because the rebuild shows how much Git alone brings back.
 
 :::caution[Before the rebuild]
 The rebuild replaces both k3s VMs along with their disks. Metrics, logs and the audit log of a triage service from milestone 3 are gone afterwards. Take the screenshots for milestone 3 first and copy the audit log into your hand-in repo. Also save the Sealed Secrets key with the first two lines below, or the new cluster cannot decrypt the Grafana password.
@@ -65,7 +65,7 @@ export OPENNEBULA_PASSWORD=$(cut -d: -f2- ~/.one/one_auth)
 tofu apply -replace='opennebula_virtual_machine.k3s["k3s-server"]' -replace='opennebula_virtual_machine.k3s["k3s-agent"]'
 ```
 
-Then follow the steps of chapters 4.3 and 4.4, applying the key before Argo CD.
+Then follow the steps of chapters 4.3 and 4.4, applying the key before Argo CD as the [Sealed Secrets documentation](https://github.com/bitnami/sealed-secrets/blob/v0.41.2/README.md#how-can-i-do-a-backup-of-my-sealedsecrets) describes for a restore.
 
 ```bash
 source /etc/cc-lab.env
@@ -87,7 +87,7 @@ Without the old server's token, k3s does not start from a snapshot, because the 
 
 ::code{file="platform/operations/backup-k3s.sh"}
 
-Ubuntu 26.04 comes without cron. A systemd timer starts the script every six hours, half an hour after the k3s snapshots.
+Ubuntu 26.04 comes without cron. A systemd timer starts the script every six hours, half an hour after the k3s snapshots. The [systemd.timer manual page](https://manpages.ubuntu.com/manpages/resolute/man5/systemd.timer.5.html) describes the settings of a timer.
 
 Right after the rebuild, k3s has no snapshot yet. The first one only comes at the next full six-hour mark, so take one by hand before the first copy.
 
@@ -121,7 +121,7 @@ oneimage list
 
 For a running VM, the backup only holds what is already on its disk. Ubuntu writes changes on the root partition to disk after up to 30 seconds, and `sync` forces it at once. Without `sync`, the test file was missing after the restore in the lab, because the backup had run seven seconds after the file was created. A database inside the VM also keeps data in memory, so its backup is only as complete as after a power cut. OpenNebula does not freeze the file system before the backup, which `onebackupjob show` lists as the setting `FS_FREEZE="NONE"`.
 
-A backup job takes care of regular backups. The script creates one that backs up every night. Without further arguments it runs at 2 a.m. and keeps seven backups. You can pass the hour and the number, for milestone 4 the ones from your [personal values](../../start/parameters/). The hour is in the time zone of the front-end, which `timedatectl` shows.
+A backup job, as the [OpenNebula 7.4 documentation](https://docs.opennebula.io/7.4/product/virtual_machines_operation/virtual_machine_backups/backup_jobs/) describes it, takes care of regular backups. The script creates one that backs up every night. Without further arguments it runs at 2 a.m. and keeps seven backups. You can pass the hour and the number, for milestone 4 the ones from your [personal values](../../start/parameters/). The hour is in the time zone of the front-end, which `timedatectl` shows.
 
 ```bash
 ~/cc/platform/operations/backup-job.sh praxis-nightly <vm> <hour> <number>
@@ -136,7 +136,7 @@ Sunstone shows the job under "Storage › BackupJobs". The "Info" tab lists the 
 
 Once a VM belongs to a backup job, `onevm backup` refuses it. An extra backup then comes from `onebackupjob backup praxis-nightly`, which backs up all VMs of the job.
 
-To restore, `oneimage restore` turns a backup into a new template with a new image. In the lab, 20 seconds to a minute after the command, the new VM held the test file from before the backup again. Template, image and VM then belong to `oneadmin`, and `onevm chown` gives the VM back to the member. The new VM has a new number. So that the backup job keeps backing it up, you enter it in the job.
+To restore, `oneimage restore` turns a backup into a new template with a new image. The OpenNebula documentation calls this a [full restore](https://docs.opennebula.io/7.4/product/virtual_machines_operation/virtual_machine_backups/operations/#full-restore). In the lab, 20 seconds to a minute after the command, the new VM held the test file from before the backup again. Template, image and VM then belong to `oneadmin`, and `onevm chown` gives the VM back to the member. The new VM has a new number. So that the backup job keeps backing it up, you enter it in the job.
 
 ```bash
 onevm terminate --hard <vm>

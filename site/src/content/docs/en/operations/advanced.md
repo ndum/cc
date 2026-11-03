@@ -1,6 +1,8 @@
 ---
 title: Advanced tasks
 description: A fifth member of your own with group, VM, namespace and alert, the cluster restored from a snapshot with an SLA based on the measured time, a postmortem from a draft by the model, and a cost model for the member.
+tableOfContents:
+  maxHeadingLevel: 2
 sidebar:
   order: 5
   badge:
@@ -160,7 +162,25 @@ Backups take space in the backup datastore and belong in the calculation if the 
 
 You onboard a fifth member that you designed yourself on both layers of your platform and monitor its application. Its alert reaches your triage service from milestone 3, and you decide on the proposal and fix the fault through Git.
 
-Your solution meets these requirements:
+![A fifth member on both layers. At the top the OpenNebula layer. There the new member has a VM for its service, a quota with prices for showback and a group with an admin in a VDC. Below it the k3s cluster with the member's namespace, which holds its application and its alert rule. Group and namespace know nothing of each other, only the same name links them. You bring a pull request and commits to Gitea. Argo CD pulls them from there with the ApplicationSet members and rolls them out in the namespace. Prometheus watches the application. When the rule fires, Prometheus sends an alert to Alertmanager, whose route forwards it as a webhook to your triage service. You decide what the service may do in the member's namespace. It shows you a proposal and records your decision in its audit log. You cause the fault through Git and fix it there as well.](../../../../assets/figures/en/p6c5-member.svg)
+
+### Starting point and result
+
+From the base you have the groups `praxis`, `treuhand`, `velo` and `gemeinde` of the four members in the VDC `wolkenwerk`, the template `ubuntu` and the network `cc-net`. The ApplicationSet `members` from chapter 4.5 turns every folder under `members` in the repo `wolkenwerk/platform` into a namespace built from the template `templates/member`, which has required the profile `restricted` since chapter 6.1. Your triage service from advanced task B of milestone 3 runs with its audit log, and its route and receiver sit in the kube-prometheus-stack values.
+
+At the end your fifth member exists in OpenNebula as a group with an admin in a VDC, with a quota, prices for showback and a running VM. In the cluster its application runs in a namespace of its own, watched by an alert rule in its folder. You have caused and fixed an incident through Git, and the audit log of your triage service shows the proposal and your decision.
+
+### Approach
+
+1. Design the member with its service and rate its protection needs.
+2. Create the member in OpenNebula with group, admin, quota and prices, and start its VM.
+3. Request its namespace with the application through a pull request in Gitea and merge it.
+4. Add an alert rule in the member's folder and route its alert to your triage service.
+5. Decide what your triage service may read and do in the member's namespace.
+6. Fire the alert through Git, decide on the proposal and fix the fault through Git.
+7. Record values, times and your decisions with their alternatives for the documentation.
+
+### Requirements
 
 1. A short description names the member, its service and its protection needs with reasons.
 2. In OpenNebula the member has a group with an admin in a VDC, a quota, prices for showback and a running VM with at most 1 GB of memory.
@@ -168,14 +188,14 @@ Your solution meets these requirements:
 4. An alert rule in the member's folder watches the application. Alertmanager forwards its alert to your triage service.
 5. You fired the alert through Git, decided on the proposal and fixed the fault through Git. The audit log shows the proposal and the decision.
 
-In the showing you present:
+### Showing
 
 - The member's group, quota and running VM in Sunstone or the CLI
 - The pull request in Gitea and the healthy application in Argo CD
 - The alert in Alertmanager, the proposal of your triage service and your decision in the audit log
 - What your triage service may do in the member's namespace, with `kubectl auth can-i`
 
-These sources help you:
+### Sources
 
 - [Chapter 3.1](../../tenants/groups/) on groups, group admins and VDCs, [chapter 3.2](../../tenants/quotas/) on quotas and [chapter 3.3](../../tenants/showback/) on prices
 - The OpenNebula 7.4 documentation on [groups](https://docs.opennebula.io/7.4/product/cloud_system_administration/multitenancy/manage_groups/), [VDCs](https://docs.opennebula.io/7.4/product/cloud_system_administration/multitenancy/manage_vdcs/), [quotas](https://docs.opennebula.io/7.4/product/cloud_system_administration/capacity_planning/quotas/) and [showback](https://docs.opennebula.io/7.4/product/cloud_system_administration/multitenancy/showback/)
@@ -185,7 +205,7 @@ These sources help you:
 - The [configuration of Alertmanager 0.34](https://prometheus.io/docs/alerting/0.34/configuration/#route), the version in kube-prometheus-stack 92.17.0, on `route`, matchers and `webhook_config`
 - The [RBAC documentation](https://v1-36.docs.kubernetes.io/docs/reference/access-authn-authz/rbac/) on roles and bindings
 
-Notes from the lab:
+### Notes from the lab
 
 - You fire the alert through Git, for example with zero replicas or an image that does not exist
 - In the course lab the alert came two minutes after the last pod was gone
@@ -196,7 +216,24 @@ Notes from the lab:
 
 You restore the cluster from an etcd snapshot and measure the time until the platform runs again for your member. You base an SLA for the member on that time and on the architecture of your lab.
 
-Your solution meets these requirements:
+![Restore from a snapshot and SLA. At the top the front-end with the copy of the snapshots and the token in ~/backup/k3s, and Gitea. Below it the k3s cluster. From the copy you restore k3s-server, depending on the failure case the existing server or a new one. Argo CD then pulls commits from Gitea again and rolls out your member's application. At the bottom left your measurement for the failure case you chose, on a timeline. You set the start and the end yourself and record intermediate times in between. The measured time goes into the SLA for your member. In it, the availability follows from the architecture, the RPO from the backups and the RTO from your measurement and the support hours.](../../../../assets/figures/en/p6c5-restore.svg)
+
+### Starting point and result
+
+Since chapter 6.2 your cluster has run on etcd, and `k3s-server` takes a snapshot every six hours. A timer copies the snapshots to `~/backup/k3s` on the front-end, together with the token and the Sealed Secrets key. Your member's application from task A runs, rolled out by Argo CD from the repo `wolkenwerk/platform`.
+
+At the end the cluster runs again from a snapshot of that copy, Argo CD picks up new commits and your member's application is back. Your measurement records the start, the end and intermediate times. An SLA for the member bases availability, support hours, RPO and RTO on that measurement, on your backups and on the architecture of your lab.
+
+### Approach
+
+1. Choose a failure case and decide when your measurement starts and when it ends.
+2. Save the audit log from task A beforehand and take a snapshot of the three servers in smartlearn or in your hypervisor.
+3. Cause the failure and restore the cluster with a snapshot from the copy on the front-end.
+4. Check that Argo CD picks up new commits again and that your member's application runs.
+5. Write the SLA for your member and justify availability, RPO and RTO.
+6. Record the times, the snapshot you used and your decision with its alternative for the documentation.
+
+### Requirements
 
 1. You chose a failure case and restored the cluster with a snapshot from the copy on the front-end.
 2. The start and end of your measurement are defined, and the measured times are recorded.
@@ -204,21 +241,21 @@ Your solution meets these requirements:
 4. The SLA names the service, the availability with period and exclusions, the support hours, RPO and RTO.
 5. Availability, RPO and RTO are justified with your measurement, your backups and the architecture of the lab.
 
-In the showing you present:
+### Showing
 
 - The snapshot you used and its copy on the front-end
 - Your measurement with start, end and intermediate times
 - A commit that Argo CD picked up after the restore
 - The SLA and the reasoning behind RPO and RTO
 
-These sources help you:
+### Sources
 
 - [Chapter 6.2](../backup/#saving-the-snapshots) on the snapshots, their copy and the token
 - The k3s [snapshot documentation](https://docs.k3s.io/cli/etcd-snapshot) on restoring on an existing server and on new hosts
 - [Chapter 6.3](../sla/) with the parts of an SLA and the table of downtimes, [chapter 6.2](../backup/#rpo-and-rto) with RPO and RTO
 - The chapter [Service Level Objectives](https://sre.google/sre-book/service-level-objectives/) of the SRE book, which explains why an internal SLO should be stricter than the SLA
 
-Notes from the lab:
+### Notes from the lab
 
 - You may do the restore before the showing. There you show it by its traces, such as the snapshot, your times and the state afterwards.
 - When `tofu apply` replaced a lost server in the lab, the new VM waited ten minutes in `pending`. As in the rebuild of chapter 6.2, OpenNebula still had the old value for the node's disk.
@@ -232,7 +269,25 @@ An etcd snapshot brings back no data from volumes. Copy the audit log of your tr
 
 For the incident from task A, the local model drafts a postmortem from a timeline that you build from the data without the model. You correct the draft and also work out a cost model for your member.
 
-Your solution meets these requirements:
+![Postmortem and cost model of a member. At the top the postmortem. Three sources, the series ALERTS, the audit log of the triage service and the history of the platform repo, are ordered by time into a timeline without the model. With your question and the timeline, the local model from milestone 3 writes the draft postmortem-entwurf.md. You check it against the facts of the timeline and record your correction in postmortem.md. At the bottom the cost model. From the member's resources, its quota and its VM, you derive a monthly price through its share of the full cost, with a split of your choice. You compare the price with the showback from OpenNebula. Measured requests and measured use lead to your right-sizing proposal.](../../../../assets/figures/en/p6c5-postmortem.svg)
+
+### Starting point and result
+
+The incident from task A left traces in three places, as an alert in the Prometheus series `ALERTS`, as entries in the audit log of your triage service and as commits in the repo `wolkenwerk/platform`. You reach the local model from advanced task A of milestone 3 from the front-end. Wolkenwerk's full cost is in chapter 6.4, and you set the showback prices of your member in task A.
+
+At the end you have a timeline of the incident that you built from this data without the model, the model's draft `postmortem-entwurf.md` and your corrected version `postmortem.md`. A cost model adds a monthly price for your member, the comparison with its showback and a right-sizing proposal based on measurements.
+
+### Approach
+
+1. Collect the facts of the incident from alerts, the audit log and Git, and order them into a timeline without the model.
+2. Write your question to the model and let it draft the postmortem from the timeline.
+3. Check the draft against the timeline and record your correction in a file of its own.
+4. Work out your member's resources, choose how to split the full cost and derive a monthly price.
+5. Compare the price with your member's showback from OpenNebula.
+6. Measure your member's requests and use over a longer period and derive a right-sizing proposal from them.
+7. Record values, assumptions and your decision with its alternative for the documentation.
+
+### Requirements
 
 1. The timeline of the incident comes from alerts, the audit log and Git, without the model.
 2. The local model writes the draft `postmortem-entwurf.md` from it. Your question to the model asks for a blameless report that uses only the facts supplied.
@@ -240,14 +295,14 @@ Your solution meets these requirements:
 4. The cost model names the member's resources, its share of the full cost and a monthly price. It compares the price with the member's showback from OpenNebula.
 5. A right-sizing proposal is based on measured requests and measured use.
 
-In the showing you present:
+### Showing
 
 - The timeline with the source of every entry
 - The model's draft next to your correction, with two places you changed
 - The cost model and the showback of your member for one month
 - Your right-sizing proposal with the measurements
 
-These sources help you:
+### Sources
 
 - [Chapter 6.3](../sla/#postmortems) on blameless postmortems and the chapter [Postmortem Culture](https://sre.google/sre-book/postmortem-culture/) of Google's SRE book
 - An [example postmortem](https://sre.google/sre-book/example-postmortem/) in the same book with a complete structure and a timeline
@@ -257,7 +312,7 @@ These sources help you:
 - [Chapter 6.4](../cost/) on the full cost and the queries, and [chapter 3.3](../../tenants/showback/#calculating-costs) on showback with `oneshowback`
 - [Invoicing and Chargeback](https://www.finops.org/framework/capabilities/invoicing-chargeback/) of the FinOps Foundation on showback and chargeback
 
-Notes from the lab:
+### Notes from the lab
 
 - `Watchdog` always fires and only shows that alerting works. It does not belong in the timeline, and neither does `InfoInhibitor`, which only suppresses alerts of severity info.
 - For a right-sizing decision, measure longer than an hour, at least one day with typical load

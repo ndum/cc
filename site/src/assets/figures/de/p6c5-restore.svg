@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 428" role="img" aria-labelledby="p6c5-restore-de-title p6c5-restore-de-desc">
+<title id="p6c5-restore-de-title">Wiederherstellung aus einem Snapshot und SLA</title>
+<desc id="p6c5-restore-de-desc">Oben das Front-end mit der Kopie der Snapshots und des Tokens in ~/backup/k3s und mit Gitea. Darunter der Cluster k3s. Aus der Kopie stellst du k3s-server wieder her, je nach Fehlerfall den bestehenden Server oder einen neuen. Danach holt Argo CD wieder Commits aus Gitea und rollt die Anwendung deines Mitglieds aus. Unten links deine Messung für den Fehlerfall, den du gewählt hast, auf einer Zeitachse. Start und Ende legst du selbst fest, dazwischen hältst du Zwischenzeiten fest. Die gemessene Zeit geht in das SLA für dein Mitglied ein. Darin folgt die Verfügbarkeit aus der Architektur, das RPO aus den Sicherungen und das RTO aus deiner Messung und den Supportzeiten.</desc>
+<defs><marker id="p6c5-restore-de-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"/></marker><marker id="p6c5-restore-de-head-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head d-head-accent" d="M 0 1 L 9 5 L 0 9 z"/></marker></defs>
+<rect class="d-ground" x="0" y="0" width="780" height="428" rx="14"/>
+<rect class="d-band d-band-2" x="16" y="16" width="748" height="104" rx="12"/>
+<text class="d-label d-label-blue" x="32" y="40" text-anchor="start">FRONT-END</text>
+<rect class="d-band d-band-3" x="16" y="152" width="748" height="104" rx="12"/>
+<text class="d-label d-label-violet" x="32" y="176" text-anchor="start">CLUSTER K3S</text>
+<path class="d-arrow d-arrow-accent" d="M 144 108 L 144 186" marker-end="url(#p6c5-restore-de-head-accent)"/>
+<text class="d-sub" x="154" y="140" text-anchor="start">Wiederherstellung</text>
+<path class="d-arrow d-arrow-accent" d="M 640 188 L 640 110" marker-end="url(#p6c5-restore-de-head-accent)"/>
+<text class="d-sub" x="650" y="140" text-anchor="start">holt Commits</text>
+<path class="d-arrow d-arrow-accent" d="M 532 216 L 482 216" marker-end="url(#p6c5-restore-de-head-accent)"/>
+<text class="d-sub" x="506" y="208" text-anchor="middle">rollt aus</text>
+<rect class="d-shadow" x="32" y="53.5" width="224" height="56" rx="10"/>
+<rect class="d-tile d-tile-accent" x="32" y="52" width="224" height="56" rx="10"/>
+<g class="d-icon d-icon-accent" transform="translate(44 71) scale(0.75)"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M7 14h.01M11 14h6"/></g>
+<text class="d-title" x="72" y="77" text-anchor="start">Snapshots und Token</text>
+<text class="d-code" x="72" y="93" text-anchor="start">~/backup/k3s</text>
+<rect class="d-shadow" x="532" y="53.5" width="216" height="56" rx="10"/>
+<rect class="d-tile" x="532" y="52" width="216" height="56" rx="10"/>
+<g class="d-icon" transform="translate(544 71) scale(0.75)"><circle cx="6" cy="6" r="2.5"/><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="9" r="2.5"/><path d="M6 8.5v7M18 11.5c0 3-6 2-10.5 5"/></g>
+<text class="d-title" x="572" y="77" text-anchor="start">Gitea</text>
+<text class="d-sub" x="572" y="93" text-anchor="start">Repo platform</text>
+<rect class="d-shadow" x="32" y="189.5" width="224" height="56" rx="10"/>
+<rect class="d-tile d-tile-violet" x="32" y="188" width="224" height="56" rx="10"/>
+<g class="d-icon d-icon-violet" transform="translate(44 207) scale(0.75)"><rect x="4" y="4" width="16" height="7" rx="1.5"/><rect x="4" y="13" width="16" height="7" rx="1.5"/><path d="M8 7.5h.01M8 16.5h.01"/></g>
+<text class="d-title d-title-violet" x="72" y="213" text-anchor="start">k3s-server</text>
+<text class="d-sub" x="72" y="229" text-anchor="start">bestehend oder neu</text>
+<rect class="d-shadow" x="280" y="189.5" width="200" height="56" rx="10"/>
+<rect class="d-tile d-tile-violet" x="280" y="188" width="200" height="56" rx="10"/>
+<g class="d-icon d-icon-violet" transform="translate(292 207) scale(0.75)"><path d="M12 3 20 7.5v9L12 21l-8-4.5v-9z"/><path d="M4 7.5 12 12l8-4.5M12 12v9"/></g>
+<text class="d-title d-title-violet" x="320" y="213" text-anchor="start">Anwendung</text>
+<text class="d-sub" x="320" y="229" text-anchor="start">deines Mitglieds</text>
+<rect class="d-shadow" x="532" y="189.5" width="216" height="56" rx="10"/>
+<rect class="d-tile d-tile-violet" x="532" y="188" width="216" height="56" rx="10"/>
+<g class="d-icon d-icon-violet" transform="translate(544 207) scale(0.75)"><path d="M20 12a8 8 0 0 1-14.3 4.9M4 12A8 8 0 0 1 18.3 7.1"/><path d="M18.5 3v4.3h-4.3M5.5 21v-4.3h4.3"/></g>
+<text class="d-title d-title-violet" x="572" y="213" text-anchor="start">Argo CD</text>
+<text class="d-sub" x="572" y="229" text-anchor="start">übernimmt Commits</text>
+<rect class="d-band d-band-1" x="16" y="288" width="460" height="124" rx="12"/>
+<text class="d-label" x="32" y="312" text-anchor="start">DEINE MESSUNG</text>
+<rect class="d-tag" x="299" y="298" width="161" height="18" rx="9"/>
+<text class="d-tag-text" x="379.5" y="310.5" text-anchor="middle">Fehlerfall nach deiner Wahl</text>
+<path class="d-line d-line-accent" d="M 56 356 L 436 356"/>
+<circle class="d-ground" cx="56" cy="356" r="7"/>
+<circle class="d-fill-blue" cx="56" cy="356" r="4.5"/>
+<circle class="d-ground" cx="176" cy="356" r="5.5"/>
+<circle class="d-fill-blue" cx="176" cy="356" r="3"/>
+<circle class="d-ground" cx="246" cy="356" r="5.5"/>
+<circle class="d-fill-blue" cx="246" cy="356" r="3"/>
+<circle class="d-ground" cx="316" cy="356" r="5.5"/>
+<circle class="d-fill-blue" cx="316" cy="356" r="3"/>
+<circle class="d-ground" cx="436" cy="356" r="7"/>
+<circle class="d-fill-blue" cx="436" cy="356" r="4.5"/>
+<text class="d-sub" x="49" y="340" text-anchor="start">Start, von dir festgelegt</text>
+<text class="d-sub" x="246" y="340" text-anchor="middle">Zwischenzeiten</text>
+<text class="d-sub" x="443" y="340" text-anchor="end">Ende, von dir festgelegt</text>
+<path class="d-line" d="M 56 376 L 56 382 L 436 382 L 436 376"/>
+<text class="d-sub" x="246" y="398" text-anchor="middle">gemessene Zeit</text>
+<path class="d-arrow d-arrow-accent" d="M 436 382 L 514 382" marker-end="url(#p6c5-restore-de-head-accent)"/>
+<rect class="d-shadow" x="516" y="289.5" width="248" height="124" rx="10"/>
+<rect class="d-tile" x="516" y="288" width="248" height="124" rx="10"/>
+<text class="d-title" x="640" y="325.5" text-anchor="middle">SLA für dein Mitglied</text>
+<text class="d-sub" x="640" y="344.5" text-anchor="middle"><tspan class="d-title-small">Verfügbarkeit</tspan><tspan class="d-sub"> aus der Architektur</tspan></text>
+<text class="d-sub" x="640" y="363.5" text-anchor="middle"><tspan class="d-title-small">RPO</tspan><tspan class="d-sub"> aus den Sicherungen</tspan></text>
+<text class="d-sub" x="640" y="382.5" text-anchor="middle"><tspan class="d-title-small">RTO</tspan><tspan class="d-sub"> aus Messung und Supportzeiten</tspan></text>
+</svg>
