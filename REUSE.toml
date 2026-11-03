@@ -6,8 +6,9 @@ path = "**"
 SPDX-FileCopyrightText = "2026 ndum"
 SPDX-License-Identifier = "MIT"
 
-# Course text and figures
+# Course text, figures and screenshots. The web interfaces in the screenshots, their names and logos
+# belong to their projects
 [[annotations]]
-path = ["README.md", "site/src/content/**", "site/src/assets/figures/**"]
+path = ["README.md", "site/src/content/**", "site/src/assets/figures/**", "site/src/assets/screenshots/**"]
 SPDX-FileCopyrightText = "2026 ndum"
 SPDX-License-Identifier = "CC-BY-SA-4.0"

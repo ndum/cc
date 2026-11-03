@@ -48,6 +48,11 @@ jobs:
           node figures/start.mjs
           node figures/basics.mjs
           node figures/iaas.mjs
+          node figures/tenants.mjs
+          node figures/platform.mjs
+          node figures/observability.mjs
+          node figures/operations.mjs
+          node figures/extras.mjs
           node figures/favicon.mjs
           git diff --exit-code
 
