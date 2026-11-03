@@ -86,7 +86,11 @@ Every advanced task is graded on the same levels.
 
 ## Showing the advanced tasks
 
-You show the advanced tasks of a milestone in one showing, either live in class or in a screencast of at most ten minutes. For a live showing it is up to you to approach your instructor and book a slot. The showing must take place by the hand-in the milestone belongs to, and a screencast and the documentation must be in the hand-in repo by then. A showing after that date, or a screencast added after it, no longer counts.
+You show the advanced tasks of a milestone in one showing, either live in class or in a screencast of at most ten minutes. For a live showing it is up to you to approach your instructor and book a slot.
+
+:::caution[Deadline for the showing]
+The showing must take place by the hand-in the milestone belongs to, and a screencast and the documentation must be in the hand-in repo by then. A showing after that date, or a screencast added after it, no longer counts. So book a live slot early.
+:::
 
 The screencast is a single recording without cuts. It starts with `cat /etc/cc-lab.env` and the report of the milestone check with its hash and your two questions. Then you demonstrate the advanced tasks in your lab. [Chapter 0.5](../start/tools/#screencasts) lists the rules as well.
 
@@ -116,3 +120,7 @@ cc-mmuster/
 ```
 
 Put a screencast into the folder of the milestone. If it is too large for the repo, store it somewhere like OneDrive and link to it from the documentation of the advanced tasks.
+
+:::caution[No secrets in the repo]
+The OpenTofu state, tokens such as the k3s token, passwords and the Sealed Secrets key never belong in your hand-in repo. Once a file is in a commit, it stays in the Git history even if you delete it later. Before every commit, check with `git status` which files you are adding.
+:::

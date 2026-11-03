@@ -4,7 +4,7 @@ description: Die Einzelprüfung gegen Ende des Moduls mit ihrem Gewicht, ihrer D
 ---
 
 :::caution[In Arbeit]
-Diese Seite ist noch nicht fertig. Form, Termin und Themen der Prüfung stehen noch nicht fest. Deine Dozentin oder dein Dozent gibt sie rechtzeitig bekannt, danach ergänzt diese Seite sie.
+Diese Seite ist noch nicht fertig. Form, Termin und Themen der Prüfung stehen noch nicht fest. Deine Dozentin oder dein Dozent gibt sie rechtzeitig bekannt, danach stehen sie auch hier.
 :::
 
 ## Eckdaten

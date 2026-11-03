@@ -21,9 +21,9 @@ After this chapter you can:
 
 ## Hypervisors
 
-A hypervisor splits a physical computer into several virtual machines. Each VM gets its own virtual CPUs, memory, disks and network cards and runs a complete operating system on them.
+A **hypervisor** splits a physical computer into several virtual machines. Each VM gets its own virtual CPUs, memory, disks and network cards and runs a complete operating system on them.
 
-A type 1 hypervisor runs directly on the hardware. Examples are VMware ESXi, Hyper-V and KVM. A type 2 hypervisor runs as a program inside an ordinary operating system, like VirtualBox or VMware Workstation. Data centers usually run type 1, because it manages the hardware directly, without another operating system in between.
+A **type 1** hypervisor runs directly on the hardware. Examples are VMware ESXi, Hyper-V and KVM. A **type 2** hypervisor runs as a program inside an ordinary operating system, like VirtualBox or VMware Workstation. Data centers usually run type 1, because it manages the hardware directly, without another operating system in between.
 
 ## KVM, QEMU and libvirt
 
@@ -39,7 +39,7 @@ lscpu | grep -iE 'virtualization|model name'
 
 ## Nested virtualization
 
-In your lab the hypervisors stack up. Your nodes run as VMs on smartlearn, and on the nodes KVM runs the VMs of your cloud. For this to work, the outer hypervisor has to pass the virtualization features of the CPU on to the nodes. This principle is called nested virtualization. It costs some performance, especially when a VM switches to the hypervisor often, but it is good enough for a lab. In production the nodes of a cloud run directly on the hardware.
+In your lab the hypervisors stack up. Your nodes run as VMs on smartlearn, and on the nodes KVM runs the VMs of your cloud. For this to work, the outer hypervisor has to pass the virtualization features of the CPU on to the nodes. This principle is called **nested virtualization**. It costs some performance, especially when a VM switches to the hypervisor often, but it is good enough for a lab. In production the nodes of a cloud run directly on the hardware.
 
 ![Hypervisors and nested virtualization. Three stacks side by side, each standing on its hardware. A type 1 hypervisor such as ESXi, Hyper-V or KVM runs directly on the hardware, and the VMs run on top of it. A type 2 hypervisor such as VirtualBox or VMware Workstation runs as a program inside an operating system. The lab nests three levels. The nodes run as VMs on smartlearn or on a hypervisor of your own, and on the nodes KVM runs the VMs of your cloud. The nodes are VMs and hypervisors at the same time.](../../../../assets/figures/en/p1c3-hypervisors.svg)
 
@@ -47,11 +47,11 @@ In your lab the hypervisors stack up. Your nodes run as VMs on smartlearn, and o
 
 A hypervisor does not necessarily show a VM the real CPU. It can present a generic model that looks the same on many machines. That makes it easier to move a running VM to another node with a different CPU. In exchange, the generic model is missing some instructions. In QEMU these include the AVX2 vector instructions that programs use for computations.
 
-While this course was being developed, a language model with three billion parameters ran in a VM with the generic CPU model and managed 2.2 tokens per second. With the CPU model `host-passthrough`, which shows the VM the real CPU, it reached 19.4 tokens per second, almost nine times as many. That is why the VMs that run the language model in part 5 get `host-passthrough`.
+While this course was being developed, a language model with three billion parameters ran in a VM with the generic CPU model and managed 2.2 tokens per second. With the CPU model `host-passthrough`, which shows the VM the real CPU, it reached 19.4 tokens per second, almost nine times as many. That is why the VMs that run the language model in the advanced tasks of part 5 get `host-passthrough`.
 
 ## VMs and containers
 
-A container is a process with its own view of the file system, network and processes. It shares the kernel with the machine it runs on and only brings the programs and libraries of its application. A VM, in contrast, brings a complete operating system with its own kernel.
+A **container** is a process with its own view of the file system, network and processes. It shares the kernel with the machine it runs on and only brings the programs and libraries of its application. A VM, in contrast, brings a complete operating system with its own kernel.
 
 | Property | VM | Container |
 |---|---|---|

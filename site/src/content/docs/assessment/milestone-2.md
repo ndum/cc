@@ -21,15 +21,15 @@ Alles läuft in deinem eigenen Lab mit deinen persönlichen Parametern aus Kapit
 6. Die ResourceQuota der Gemeinde hat die Grenzen aus deinen [persönlichen Werten](../../start/parameters/) und kommt über einen Pull Request.
 7. Du zeigst die Quota an ihrer Grenze und die Trennung der Namespaces durch die NetworkPolicy, der Check `m2` ist grün.
 
-Die Basis belegst du mit dem Bericht des Checks `m2` und mit einem Screenshot zu jeder Anforderung. Den Bericht erzeugt `python3 ~/cc/checks/check.py m2` auf dem Front-end. Für den Pull Request genügt ein Screenshot aus Gitea mit dem Diff und dem Merge.
+Die Basis belegst du mit dem Bericht des Checks `m2` und mit einem Screenshot zu jeder Anforderung, dessen Dateiname mit ihrer Nummer beginnt. Den Bericht erzeugt `python3 ~/cc/checks/check.py m2` auf dem Front-end. Für den Pull Request genügt ein Screenshot aus Gitea mit dem Diff und dem Merge.
 
 ## Zusatzaufträge
 
-Für die drei Zusatzaufträge rechnest du mit vier bis sechs Stunden. Jeder gibt 0 bis 3 Punkte nach den [Stufen der Zusatzaufträge](../#stufen-der-zusatzaufträge). Die Begriffe dazu und die Anforderungen an jeden Auftrag stehen in [Kapitel 4.6](../../platform/advanced/).
+Für die drei Zusatzaufträge rechnest du mit vier bis sechs Stunden. Jeder gibt 0 bis 3 Punkte nach den [Stufen der Zusatzaufträge](../#stufen-der-zusatzaufträge). Zu jedem Auftrag, den du machst, gehört eine [Dokumentation in fünf Teilen](../#dokumentation-der-zusatzaufträge). Die Begriffe dazu und die Anforderungen an jeden Auftrag stehen in [Kapitel 4.6](../../platform/advanced/).
 
 ### A · Neubau der Plattform
 
-Du reisst den Cluster mit `tofu destroy` ab und baust ihn mit `tofu apply` und dem Bootstrap von Argo CD neu auf. Du misst die Zeit und zeigst, dass alles aus Git wieder steht. Dabei erklärst du, was State und Drift für den Neubau bedeuten. [Kapitel 4.6](../../platform/advanced/#auftrag-a--neubau-der-plattform) beschreibt den Auftrag. Im Lab dauerte der Neubau mit dem Stand von Teil 4 knapp drei Minuten, bis der Webshop wieder lief. Starte den Neubau deshalb früh in der Vorführung und erkläre den Code, während er läuft.
+Du reisst den Cluster mit `tofu destroy` ab, baust ihn mit `tofu apply` und dem Bootstrap von Argo CD neu auf und misst die Zeit, bis alles aus Git wieder steht. Dabei erklärst du, was State und Drift für den Neubau bedeuten. Im Lab lief der Webshop mit dem Stand von Teil 4 nach knapp drei Minuten wieder. Starte den Neubau deshalb früh in der Vorführung und erkläre den Code, während er läuft. [Kapitel 4.6](../../platform/advanced/#auftrag-a--neubau-der-plattform) beschreibt den Auftrag.
 
 ### B · Ein eigenes Mitglied
 
@@ -45,7 +45,7 @@ Die Zusatzaufträge zeigst du live im Unterricht oder in einem Screencast von h�
 
 ## Abgabe
 
-Im Ordner `m2/` deines Abgabe-Repos liegen die Screenshots der Basis. Für die Zusatzaufträge kommen ihre Dokumentation und `platform/` dazu, eine Kopie deines Repos `platform` aus Gitea ohne den Ordner `.git`, ohne State und ohne Tokens. Für die Vorführung kommt der Screencast oder ein Link darauf dazu.
+Im Ordner `m2/` deines Abgabe-Repos liegen die Screenshots der Basis. Für die Zusatzaufträge kommen ihre Dokumentation und `platform/` dazu, eine Kopie deines Repos `platform` aus Gitea ohne den Ordner `.git`, ohne State, Tokens und Passwörter. Für die Vorführung kommt der Screencast oder ein Link darauf dazu.
 
 Die Berichte der Checks legst du in `reports/`. Wie das Repo aufgebaut ist und wie du einen Tag setzt, steht in der [Übersicht](../).
 

@@ -21,23 +21,27 @@ Alles läuft in deinem eigenen Lab mit deinen persönlichen Parametern aus Kapit
 6. Die Quotas der Mitglieder sind gesetzt, die Gemeinde hat die Quota aus deinen [persönlichen Werten](../../start/parameters/). Du zeigst die Meldung an der Grenze.
 7. Die Vorlage `ubuntu` hat Preise, der Showback eines Monats liegt als CSV vor. Ein Benutzer eines Mitglieds startet eine VM im Self-Service.
 
-Die Basis belegst du mit dem Bericht des Checks `m1` und mit einem Screenshot zu jeder Anforderung. Den Bericht erzeugt `python3 ~/cc/checks/check.py m1` auf dem Front-end. Mach die Screenshots, bevor du mit Kapitel 4.2 beginnst. Dort entfernst du die VMs von Teil 2 und 3, weil der Kubernetes-Cluster ihren Platz braucht.
+Die Basis belegst du mit dem Bericht des Checks `m1` und mit einem Screenshot zu jeder Anforderung, dessen Dateiname mit ihrer Nummer beginnt. Den Bericht erzeugt `python3 ~/cc/checks/check.py m1` auf dem Front-end.
+
+:::caution[Screenshots vor Kapitel 4.2]
+In Kapitel 4.2 entfernst du die VMs von Teil 2 und 3, weil der Kubernetes-Cluster ihren Platz braucht. Mach die Screenshots der Basis vorher, danach fehlen die VMs, die sie zeigen. Zeigst du die Zusatzaufträge im Screencast, nimmst du ihn ebenfalls vor Kapitel 4.2 auf.
+:::
 
 ## Zusatzaufträge
 
-Für die drei Zusatzaufträge rechnest du mit vier bis sechs Stunden. Jeder gibt 0 bis 3 Punkte nach den [Stufen der Zusatzaufträge](../#stufen-der-zusatzaufträge). [Kapitel 3.5](../../tenants/advanced/) erklärt die Konzepte dazu und nennt für jeden Auftrag die Anforderungen an deine Lösung.
+Für die drei Zusatzaufträge rechnest du mit vier bis sechs Stunden. Jeder gibt 0 bis 3 Punkte nach den [Stufen der Zusatzaufträge](../#stufen-der-zusatzaufträge). Zu jedem Auftrag, den du machst, gehört eine [Dokumentation in fünf Teilen](../#dokumentation-der-zusatzaufträge). [Kapitel 3.5](../../tenants/advanced/) erklärt die Konzepte dazu und nennt für jeden Auftrag die Anforderungen an deine Lösung.
 
 ### A · Elastizität mit OneFlow
 
-Die Treuhand betreibt einen Dienst in OneFlow, der nach Last und nach Zeitplan wächst und danach wieder schrumpft. Du zeigst, wie der Dienst unter Last wächst und ohne Last wieder schrumpft. Dazu begründest du, warum du die Regeln so gesetzt hast. [Auftrag A in Kapitel 3.5](../../tenants/advanced/#auftrag-a--elastizität-mit-oneflow) nennt die Anforderungen. Starte die Last vor der Vorführung, das Wachsen braucht einige Minuten.
+Die Treuhand betreibt einen Dienst in OneFlow, der nach Last und nach Zeitplan wächst und danach wieder schrumpft. Du zeigst das Wachsen unter Last und das Schrumpfen ohne Last und begründest deine Regeln. Starte die Last vor der Vorführung, das Wachsen braucht einige Minuten. Die Anforderungen nennt [Auftrag A in Kapitel 3.5](../../tenants/advanced/#auftrag-a--elastizität-mit-oneflow).
 
 ### B · Showback als Bericht
 
-Ein eigenes Skript mit einem eigenen systemd-Timer legt den Showback des vergangenen Monats als CSV ab. OpenNebula 7.4 bringt den Timer `opennebula-showback.timer` schon mit, er berechnet den Showback täglich. Deinen Timer nennst du deshalb so, dass sein Name `showback` enthält, aber nicht mit `opennebula-` beginnt. Aus dem CSV berechnest du, ob die Preise die Kosten der Genossenschaft decken. [Auftrag B in Kapitel 3.5](../../tenants/advanced/#auftrag-b--showback-als-bericht) nennt die Anforderungen, [Kapitel 3.3](../../tenants/showback/) erklärt Preise und Showback.
+Ein eigenes Skript mit einem eigenen systemd-Timer legt den Showback des vergangenen Monats als CSV ab. Aus dem CSV berechnest du, ob die Preise die Kosten der Genossenschaft decken. OpenNebula 7.4 bringt schon den Timer `opennebula-showback.timer` mit, der den Showback täglich berechnet. Der Name deines Timers enthält deshalb `showback`, beginnt aber nicht mit `opennebula-`. [Auftrag B in Kapitel 3.5](../../tenants/advanced/#auftrag-b--showback-als-bericht) nennt die Anforderungen, [Kapitel 3.3](../../tenants/showback/) erklärt Preise und Showback.
 
 ### C · Ausfall eines Knotens
 
-Du schaltest einen Knoten aus und zeigst, was mit den VMs der Mitglieder geschieht. Daraus leitest du einen Vorschlag für die Platzierung der VMs ab, etwa Packing oder Striping. Diesen Vorschlag begründest du für die Mitglieder von Wolkenwerk. [Auftrag C in Kapitel 3.5](../../tenants/advanced/#auftrag-c--ausfall-eines-knotens) nennt die Anforderungen, [Kapitel 2.5](../../iaas/hosts/) beschreibt Scheduler, Wartung und Ausfall.
+Du schaltest einen Knoten aus und zeigst, was mit den VMs der Mitglieder geschieht. Daraus leitest du einen Vorschlag für die Platzierung der VMs ab, etwa Packing oder Striping, den du für die Mitglieder von Wolkenwerk begründest. [Auftrag C in Kapitel 3.5](../../tenants/advanced/#auftrag-c--ausfall-eines-knotens) nennt die Anforderungen, [Kapitel 2.5](../../iaas/hosts/) beschreibt Scheduler, Wartung und Ausfall.
 
 ## Zusatzaufträge zeigen
 

@@ -21,19 +21,23 @@ Everything runs in your own lab with your personal parameters from chapter 0.3. 
 6. The members' quotas are set, the municipality has the quota from your [personal values](../../start/parameters/), and you show the message at the limit.
 7. The template `ubuntu` has prices, the showback of a month exists as CSV, and a user of a member starts a VM in self-service.
 
-You prove the base with the report of the check `m1` and one screenshot per requirement. `python3 ~/cc/checks/check.py m1` writes the report on the front-end. Take the screenshots before you start chapter 4.2. In that chapter you remove the VMs of parts 2 and 3 because the Kubernetes cluster needs the room.
+You prove the base with the report of the check `m1` and one screenshot per requirement, each with a file name that starts with the number of its requirement. `python3 ~/cc/checks/check.py m1` writes the report on the front-end.
+
+:::caution[Screenshots before chapter 4.2]
+In chapter 4.2 you remove the VMs of parts 2 and 3 because the Kubernetes cluster needs the room. Take the screenshots of the base before that, since afterwards the VMs they show are gone. If you show the advanced tasks in a screencast, record it before chapter 4.2 as well.
+:::
 
 ## Advanced tasks
 
-Plan four to six hours for the three advanced tasks. Each one is worth 0 to 3 points by the [levels of the advanced tasks](../#levels-of-the-advanced-tasks). [Chapter 3.5](../../tenants/advanced/) explains the concepts behind them and lists the requirements for your solution to each task.
+Plan four to six hours for the three advanced tasks. Each one is worth 0 to 3 points by the [levels of the advanced tasks](../#levels-of-the-advanced-tasks). Every task you do needs [documentation in five parts](../#documenting-the-advanced-tasks). [Chapter 3.5](../../tenants/advanced/) explains the concepts behind them and lists the requirements for your solution to each task.
 
 ### A · Elasticity with OneFlow
 
-The fiduciary office runs a OneFlow service that grows by load and by schedule and shrinks again afterwards. You show the service growing under load and shrinking again without load, and you justify the rules you set. [Task A in chapter 3.5](../../tenants/advanced/#task-a--elasticity-with-oneflow) lists the requirements. Start the load before the showing, since growing takes a few minutes.
+The fiduciary office runs a OneFlow service that grows by load and by schedule and shrinks again afterwards. You show it growing under load and shrinking without load, and you justify your rules. Start the load before the showing, since growing takes a few minutes. [Task A in chapter 3.5](../../tenants/advanced/#task-a--elasticity-with-oneflow) lists the requirements.
 
 ### B · Showback as a report
 
-A script and a systemd timer of your own store the showback of the past month as CSV. OpenNebula 7.4 already ships the timer `opennebula-showback.timer`, which calculates the showback daily. Give your timer a name that contains `showback` but does not start with `opennebula-`. From the CSV you calculate whether the prices cover the cooperative's costs. [Task B in chapter 3.5](../../tenants/advanced/#task-b--showback-as-a-report) lists the requirements, and [chapter 3.3](../../tenants/showback/) explains prices and showback.
+A script and a systemd timer of your own store the showback of the past month as CSV. From the CSV you calculate whether the prices cover the cooperative's costs. OpenNebula 7.4 already ships the timer `opennebula-showback.timer`, which calculates the showback daily, so the name of your timer contains `showback` but does not start with `opennebula-`. [Task B in chapter 3.5](../../tenants/advanced/#task-b--showback-as-a-report) lists the requirements, and [chapter 3.3](../../tenants/showback/) explains prices and showback.
 
 ### C · Failure of a node
 

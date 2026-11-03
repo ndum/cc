@@ -20,7 +20,7 @@ After this chapter you can:
 - Divide the cost of a cloud of your own into investments and operating costs
 :::
 
-:::caution
+:::caution[Not legal advice]
 This chapter explains the legal situation for a case study and is not legal advice. The articles of law are linked, and a real case needs a specialist. The information reflects the state of November 2026.
 :::
 
@@ -28,13 +28,13 @@ This chapter explains the legal situation for a case study and is not legal advi
 
 Since September 1, 2023, Switzerland has had a revised [Federal Act on Data Protection](https://www.fedlex.admin.ch/eli/cc/2022/491/de) (FADP, SR 235.1, in German DSG). It applies to private persons and organizations and to federal bodies. Cantons and municipalities are subject to the data protection law of their canton. At Wolkenwerk Bern the FADP therefore covers the cooperative, the practice, the fiduciary office and the bike shop, while Gemeinde Hinterbüel falls under the data protection law of the canton of Bern.
 
-The FADP defines sensitive personal data (Art. 5 let. c). They include data on health, on religious, philosophical or political views, genetic and biometric data, data on criminal proceedings and on social assistance measures. Praxis Rosenweg processes health data every day, and the municipality handles data on social assistance.
+The FADP defines **sensitive personal data** (Art. 5 let. c). They include data on health, on religious, philosophical or political views, genetic and biometric data, data on criminal proceedings and on social assistance measures. Praxis Rosenweg processes health data every day, and the municipality handles data on social assistance.
 
 ## Data security and processing on behalf
 
 Whoever processes personal data must protect it with technical and organizational measures appropriate to the risk (Art. 8 FADP). The minimum requirements are set out in the [Data Protection Ordinance](https://www.fedlex.admin.ch/eli/cc/2022/568/de) (DPO, in German DSV).
 
-When Wolkenwerk Bern stores a member's data on its platform, the cooperative processes data on behalf of that member (Art. 9 FADP). The member stays responsible and has to make sure Wolkenwerk can guarantee data security. Wolkenwerk may process the data only as the member itself could and may bring in further service providers only with the member's prior approval. A contract on processing on behalf usually covers this.
+When Wolkenwerk Bern stores a member's data on its platform, the cooperative acts as a **processor** on behalf of that member (Art. 9 FADP). The member stays responsible and has to make sure Wolkenwerk can guarantee data security. Wolkenwerk may process the data only as the member itself could and may bring in further service providers only with the member's prior approval. A contract on processing on behalf usually covers this.
 
 ## Data abroad
 
@@ -52,11 +52,11 @@ A community cloud like Wolkenwerk Bern has advantages here. The data stays in Sw
 
 ## Protection needs
 
-The protection need states how much damage it would cause if data became known, was altered or became unavailable. It is usually assessed for three security goals, confidentiality, integrity and availability, in levels such as normal, high and very high. It determines the measures, such as encryption, separation of tenants, backups or a second site. Where processing poses a high risk to the people concerned, the FADP requires a data protection impact assessment in advance (Art. 22 FADP), for example when sensitive personal data is processed on a large scale.
+The **protection need** states how much damage it would cause if data became known, was altered or became unavailable. It is usually assessed for three security goals, confidentiality, integrity and availability, in levels such as normal, high and very high. It determines the measures, such as encryption, separation of tenants, backups or a second site. Where processing poses a high risk to the people concerned, the FADP requires a data protection impact assessment in advance (Art. 22 FADP), for example when sensitive personal data is processed on a large scale.
 
 ## Cost
 
-A cloud of your own first requires investments and then causes ongoing operating costs. Investments (CapEx) are expenses that create an asset, at Wolkenwerk the servers, the network equipment and the setup. Operating costs (OpEx) arise in every period, for example for power, cooling, space in the data center, the internet connection, maintenance and above all the working time of the platform team. OpenNebula, Kubernetes and the other tools of the course cost no license fees because they are free software. With a public cloud almost all costs are operating costs, billed by usage.
+A cloud of your own first requires investments and then causes ongoing operating costs. **Investments** (CapEx) are expenses that create an asset, at Wolkenwerk the servers, the network equipment and the setup. **Operating costs** (OpEx) arise in every period, for example for power, cooling, space in the data center, the internet connection, maintenance and above all the working time of the platform team. OpenNebula, Kubernetes and the other tools of the course cost no license fees because they are free software. With a public cloud almost all costs are operating costs, billed by usage.
 
 The total cost over several years is called the total cost of ownership. Knowing it lets you compare your own cloud with an offer from a public cloud. So that members see their share, Wolkenwerk measures usage per member. If the cooperative shows members their usage for information only, that is called showback. If it bills them for it, that is chargeback. The [FinOps Foundation](https://www.finops.org/framework/capabilities/invoicing-chargeback/) notes that showback is needed in every organization, while chargeback depends on its accounting rules. In chapter 3.3 you set up showback in OpenNebula.
 

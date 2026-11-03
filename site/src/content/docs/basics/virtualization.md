@@ -21,9 +21,9 @@ Nach diesem Kapitel kannst du:
 
 ## Hypervisoren
 
-Ein Hypervisor teilt einen physischen Rechner in mehrere virtuelle Maschinen auf. Jede VM erhält eigene virtuelle CPUs, eigenen Arbeitsspeicher, eigene Disks und Netzwerkkarten und führt darauf ein vollständiges Betriebssystem aus.
+Ein **Hypervisor** teilt einen physischen Rechner in mehrere virtuelle Maschinen auf. Jede VM erhält eigene virtuelle CPUs, eigenen Arbeitsspeicher, eigene Disks und Netzwerkkarten und führt darauf ein vollständiges Betriebssystem aus.
 
-Ein Hypervisor vom Typ 1 läuft direkt auf der Hardware. Beispiele sind VMware ESXi, Hyper-V und KVM. Ein Hypervisor vom Typ 2 läuft als Programm in einem gewöhnlichen Betriebssystem, wie VirtualBox oder VMware Workstation. Im Rechenzentrum ist Typ 1 üblich, weil er die Hardware direkt verwaltet, ohne den Umweg über ein weiteres Betriebssystem.
+Ein Hypervisor vom **Typ 1** läuft direkt auf der Hardware. Beispiele sind VMware ESXi, Hyper-V und KVM. Ein Hypervisor vom **Typ 2** läuft als Programm in einem gewöhnlichen Betriebssystem, wie VirtualBox oder VMware Workstation. Im Rechenzentrum ist Typ 1 üblich, weil er die Hardware direkt verwaltet, ohne den Umweg über ein weiteres Betriebssystem.
 
 ## KVM, QEMU und libvirt
 
@@ -39,7 +39,7 @@ lscpu | grep -iE 'virtualization|model name'
 
 ## Verschachtelte Virtualisierung
 
-In deinem Lab stapeln sich die Hypervisoren. Deine Knoten laufen als VMs auf smartlearn. Auf ihnen führt KVM wiederum die VMs deiner Cloud aus. Damit das funktioniert, muss der äussere Hypervisor die Virtualisierungsfunktionen der CPU an die Knoten weitergeben. Dieses Prinzip heisst verschachtelte Virtualisierung. Es kostet etwas Leistung, besonders bei vielen Wechseln zwischen VM und Hypervisor, reicht für ein Lab aber gut aus. In Produktion laufen die Knoten einer Cloud direkt auf der Hardware.
+In deinem Lab stapeln sich die Hypervisoren. Deine Knoten laufen als VMs auf smartlearn. Auf ihnen führt KVM wiederum die VMs deiner Cloud aus. Damit das funktioniert, muss der äussere Hypervisor die Virtualisierungsfunktionen der CPU an die Knoten weitergeben. Dieses Prinzip heisst **verschachtelte Virtualisierung**. Es kostet etwas Leistung, besonders bei vielen Wechseln zwischen VM und Hypervisor, reicht für ein Lab aber gut aus. In Produktion laufen die Knoten einer Cloud direkt auf der Hardware.
 
 ![Hypervisoren und verschachtelte Virtualisierung. Drei Stapel nebeneinander, jeder steht auf seiner Hardware. Ein Hypervisor vom Typ 1 wie ESXi, Hyper-V oder KVM läuft direkt auf der Hardware. Die VMs laufen darauf. Ein Hypervisor vom Typ 2 wie VirtualBox oder VMware Workstation läuft als Programm in einem Betriebssystem. Im Lab sind drei Ebenen verschachtelt. Auf smartlearn oder einem eigenen Hypervisor laufen die Knoten als VMs. Auf den Knoten führt KVM die VMs deiner Cloud aus. Die Knoten sind also VMs und zugleich Hypervisoren.](../../../assets/figures/de/p1c3-hypervisors.svg)
 
@@ -47,11 +47,11 @@ In deinem Lab stapeln sich die Hypervisoren. Deine Knoten laufen als VMs auf sma
 
 Ein Hypervisor zeigt einer VM nicht zwingend die echte CPU. Er kann ihr ein allgemeines Modell vorspielen, das auf vielen Rechnern gleich aussieht. Das erleichtert es, eine VM im laufenden Betrieb auf einen anderen Knoten mit anderer CPU zu verschieben. Dafür fehlen dem allgemeinen Modell manche Befehle. Bei QEMU sind das zum Beispiel die Vektorbefehle AVX2, die Programme für Berechnungen nutzen.
 
-Bei der Entwicklung des Kurses lief ein Sprachmodell mit drei Milliarden Parametern in einer VM mit dem allgemeinen CPU-Modell und schaffte 2,2 Tokens pro Sekunde. Mit dem CPU-Modell `host-passthrough`, das der VM die echte CPU zeigt, waren es 19,4 Tokens pro Sekunde, fast neunmal so viel. Deshalb erhalten die VMs, auf denen in Teil 5 das Sprachmodell läuft, das CPU-Modell `host-passthrough`.
+Bei der Entwicklung des Kurses lief ein Sprachmodell mit drei Milliarden Parametern in einer VM mit dem allgemeinen CPU-Modell und schaffte 2,2 Tokens pro Sekunde. Mit dem CPU-Modell `host-passthrough`, das der VM die echte CPU zeigt, waren es 19,4 Tokens pro Sekunde, fast neunmal so viel. Deshalb erhalten die VMs, auf denen in den Zusatzaufträgen von Teil 5 das Sprachmodell läuft, das CPU-Modell `host-passthrough`.
 
 ## VMs und Container
 
-Ein Container ist ein Prozess mit eigener Sicht auf Dateisystem, Netz und Prozesse. Er teilt sich den Kernel mit dem Rechner, auf dem er läuft. Mitbringen muss er nur die Programme und Bibliotheken seiner Anwendung. Eine VM bringt dagegen ein vollständiges Betriebssystem mit eigenem Kernel mit.
+Ein **Container** ist ein Prozess mit eigener Sicht auf Dateisystem, Netz und Prozesse. Er teilt sich den Kernel mit dem Rechner, auf dem er läuft. Mitbringen muss er nur die Programme und Bibliotheken seiner Anwendung. Eine VM bringt dagegen ein vollständiges Betriebssystem mit eigenem Kernel mit.
 
 | Eigenschaft | VM | Container |
 |---|---|---|

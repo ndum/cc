@@ -20,7 +20,7 @@ Nach diesem Kapitel kannst du:
 - Die Kosten einer eigenen Cloud in Investitionen und Betriebskosten gliedern
 :::
 
-:::caution
+:::caution[Keine Rechtsberatung]
 Dieses Kapitel erklärt die Rechtslage für ein Fallbeispiel und ist keine Rechtsberatung. Die Gesetzesartikel sind verlinkt, für einen echten Fall gehört eine Fachperson dazu. Die Angaben entsprechen dem Stand vom November 2026.
 :::
 
@@ -28,13 +28,13 @@ Dieses Kapitel erklärt die Rechtslage für ein Fallbeispiel und ist keine Recht
 
 Seit dem 1. September 2023 ist in der Schweiz das revidierte [Bundesgesetz über den Datenschutz](https://www.fedlex.admin.ch/eli/cc/2022/491/de) (DSG, SR 235.1) in Kraft. Es gilt für private Personen und Organisationen sowie für die Bundesorgane. Für Kantone und Gemeinden gilt das Datenschutzrecht ihres Kantons. Bei Wolkenwerk Bern unterstehen deshalb die Genossenschaft, die Praxis, die Treuhand und das Veloatelier dem DSG, die Gemeinde Hinterbüel dagegen dem Datenschutzrecht des Kantons Bern.
 
-Das DSG kennt besonders schützenswerte Personendaten (Art. 5 Bst. c). Dazu gehören unter anderem Daten über die Gesundheit, über religiöse, weltanschauliche oder politische Ansichten, genetische und biometrische Daten, Daten über Strafverfahren und über Massnahmen der Sozialhilfe. Die Praxis Rosenweg bearbeitet täglich Gesundheitsdaten, die Gemeinde Daten der Sozialhilfe.
+Das DSG kennt **besonders schützenswerte Personendaten** (Art. 5 Bst. c). Dazu gehören unter anderem Daten über die Gesundheit, über religiöse, weltanschauliche oder politische Ansichten, genetische und biometrische Daten, Daten über Strafverfahren und über Massnahmen der Sozialhilfe. Die Praxis Rosenweg bearbeitet täglich Gesundheitsdaten, die Gemeinde Daten der Sozialhilfe.
 
 ## Datensicherheit und Auftragsbearbeitung
 
 Wer Personendaten bearbeitet, muss sie mit technischen und organisatorischen Massnahmen schützen, die dem Risiko angemessen sind (Art. 8 DSG). Die Mindestanforderungen stehen in der [Datenschutzverordnung](https://www.fedlex.admin.ch/eli/cc/2022/568/de) (DSV).
 
-Wenn Wolkenwerk Bern die Daten eines Mitglieds auf seiner Plattform speichert, ist die Genossenschaft eine Auftragsbearbeiterin (Art. 9 DSG). Das Mitglied bleibt verantwortlich und muss sich vergewissern, dass Wolkenwerk die Datensicherheit gewährleisten kann. Wolkenwerk darf die Daten nur so bearbeiten, wie das Mitglied selbst es dürfte. Weitere Dienstleister darf die Genossenschaft nur mit vorgängiger Zustimmung des Mitglieds beiziehen. Üblicherweise regelt das ein Vertrag über die Auftragsbearbeitung.
+Wenn Wolkenwerk Bern die Daten eines Mitglieds auf seiner Plattform speichert, ist die Genossenschaft eine **Auftragsbearbeiterin** (Art. 9 DSG). Das Mitglied bleibt verantwortlich und muss sich vergewissern, dass Wolkenwerk die Datensicherheit gewährleisten kann. Wolkenwerk darf die Daten nur so bearbeiten, wie das Mitglied selbst es dürfte. Weitere Dienstleister darf die Genossenschaft nur mit vorgängiger Zustimmung des Mitglieds beiziehen. Üblicherweise regelt das ein Vertrag über die Auftragsbearbeitung.
 
 ## Daten im Ausland
 
@@ -52,11 +52,11 @@ Eine Community Cloud wie Wolkenwerk Bern hat hier Vorteile. Die Daten bleiben in
 
 ## Schutzbedarf
 
-Der Schutzbedarf gibt an, wie gross der Schaden wäre, wenn Daten bekannt, verändert oder unerreichbar würden. Man beurteilt ihn meist für drei Schutzziele, die Vertraulichkeit, die Integrität und die Verfügbarkeit, in Stufen wie normal, hoch und sehr hoch. Aus dem Schutzbedarf folgen die Massnahmen, etwa Verschlüsselung, Trennung der Mandanten, Backups oder ein zweiter Standort. Bei einem hohen Risiko für die betroffenen Personen verlangt das DSG vorgängig eine Datenschutz-Folgenabschätzung (Art. 22 DSG), zum Beispiel bei der umfangreichen Bearbeitung besonders schützenswerter Personendaten.
+Der **Schutzbedarf** gibt an, wie gross der Schaden wäre, wenn Daten bekannt, verändert oder unerreichbar würden. Man beurteilt ihn meist für drei Schutzziele, die Vertraulichkeit, die Integrität und die Verfügbarkeit, in Stufen wie normal, hoch und sehr hoch. Aus dem Schutzbedarf folgen die Massnahmen, etwa Verschlüsselung, Trennung der Mandanten, Backups oder ein zweiter Standort. Bei einem hohen Risiko für die betroffenen Personen verlangt das DSG vorgängig eine Datenschutz-Folgenabschätzung (Art. 22 DSG), zum Beispiel bei der umfangreichen Bearbeitung besonders schützenswerter Personendaten.
 
 ## Kosten
 
-Eine eigene Cloud verlangt zuerst Investitionen und verursacht danach laufend Betriebskosten. Investitionen (CapEx) sind Ausgaben, die einen Vermögenswert schaffen, bei Wolkenwerk die Server, die Netzwerkgeräte und die Einrichtung. Betriebskosten (OpEx) fallen in jeder Periode an, etwa für Strom, Kühlung, Platz im Rechenzentrum, Internetanschluss, Wartung und vor allem die Arbeitszeit des Plattform-Teams. Für OpenNebula, Kubernetes und die übrigen Werkzeuge des Kurses zahlt Wolkenwerk keine Lizenzgebühren, weil sie freie Software sind. Bei einer Public Cloud entstehen fast nur Betriebskosten, abgerechnet nach Verbrauch.
+Eine eigene Cloud verlangt zuerst Investitionen und verursacht danach laufend Betriebskosten. **Investitionen** (CapEx) sind Ausgaben, die einen Vermögenswert schaffen, bei Wolkenwerk die Server, die Netzwerkgeräte und die Einrichtung. **Betriebskosten** (OpEx) fallen in jeder Periode an, etwa für Strom, Kühlung, Platz im Rechenzentrum, Internetanschluss, Wartung und vor allem die Arbeitszeit des Plattform-Teams. Für OpenNebula, Kubernetes und die übrigen Werkzeuge des Kurses zahlt Wolkenwerk keine Lizenzgebühren, weil sie freie Software sind. Bei einer Public Cloud entstehen fast nur Betriebskosten, abgerechnet nach Verbrauch.
 
 Die Gesamtkosten über mehrere Jahre heissen Total Cost of Ownership. Wer sie kennt, kann die eigene Cloud mit einem Angebot aus der Public Cloud vergleichen. Damit die Mitglieder ihren Anteil sehen, misst Wolkenwerk den Verbrauch pro Mitglied. Zeigt die Genossenschaft den Mitgliedern ihren Verbrauch nur zur Information, heisst das Showback. Stellt sie ihn in Rechnung, heisst das Chargeback. Die [FinOps Foundation](https://www.finops.org/framework/capabilities/invoicing-chargeback/) hält fest, dass Showback in jeder Organisation nötig ist, Chargeback dagegen von den Regeln ihrer Buchhaltung abhängt. In Kapitel 3.3 richtest du Showback in OpenNebula ein.
 

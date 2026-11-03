@@ -20,7 +20,7 @@ After this chapter you can:
 
 ## Service models
 
-The service models describe which part of the stack, from the hardware up to the application, the provider delivers and which part the users run themselves. NIST distinguishes three models.
+The **service models** describe which part of the stack, from the hardware up to the application, the provider delivers and which part the users run themselves. NIST distinguishes three models.
 
 | Model | The provider delivers | The users run | Example at Wolkenwerk Bern |
 |---|---|---|---|
@@ -32,13 +32,13 @@ With every step the provider takes on more work, and the users give up more cont
 
 ## Shared responsibility
 
-The figure shows the layers of an IT service and who runs them in each model. This split is called the shared responsibility model. Data and the access to it stay with the users in every model. Even when an application comes as SaaS, the users decide who sees which data in it.
+The figure shows the layers of an IT service and who runs them in each model. This split is called the **shared responsibility model**. Data and the access to it stay with the users in every model. Even when an application comes as SaaS, the users decide who sees which data in it.
 
 ![Shared responsibility in the service models. Four columns for running it yourself, IaaS, PaaS and SaaS show nine layers from network and hardware up to data and access. Running it yourself, the users operate every layer. With IaaS the provider takes over network, storage, servers and virtualization, with PaaS also the operating system, middleware and runtime, with SaaS the application as well. Data and access always stay with the users.](../../../../assets/figures/en/p1c2-responsibility.svg)
 
 ## Deployment models
 
-The deployment models describe who may use a cloud and who owns it.
+The **deployment models** describe who may use a cloud and who owns it.
 
 | Model | Who uses it | Typical setting |
 |---|---|---|

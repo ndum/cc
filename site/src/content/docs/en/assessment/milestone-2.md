@@ -21,15 +21,15 @@ Everything runs in your own lab with your personal parameters from chapter 0.3. 
 6. The municipality's ResourceQuota uses your [personal values](../../start/parameters/) and arrives through a pull request.
 7. You show the quota at its limit and the separation of the namespaces by the NetworkPolicy, and the check `m2` is green.
 
-You prove the base with the report of the check `m2` and one screenshot per requirement. `python3 ~/cc/checks/check.py m2` writes the report on the front-end. For a pull request, a screenshot from Gitea with the diff and the merge is enough.
+You prove the base with the report of the check `m2` and one screenshot per requirement, each with a file name that starts with the number of its requirement. `python3 ~/cc/checks/check.py m2` writes the report on the front-end. For a pull request, a screenshot from Gitea with the diff and the merge is enough.
 
 ## Advanced tasks
 
-Plan four to six hours for the three advanced tasks. Each one is worth 0 to 3 points by the [levels of the advanced tasks](../#levels-of-the-advanced-tasks). [Chapter 4.6](../../platform/advanced/) explains the concepts behind them and lists the requirements of each task.
+Plan four to six hours for the three advanced tasks. Each one is worth 0 to 3 points by the [levels of the advanced tasks](../#levels-of-the-advanced-tasks). Every task you do needs [documentation in five parts](../#documenting-the-advanced-tasks). [Chapter 4.6](../../platform/advanced/) explains the concepts behind them and lists the requirements of each task.
 
 ### A · Rebuilding the platform
 
-You tear the cluster down with `tofu destroy` and rebuild it with `tofu apply` and the Argo CD bootstrap. You measure the time and show that everything from Git is back. While doing so you explain what state and drift mean for a rebuild. [Chapter 4.6](../../platform/advanced/#task-a--rebuilding-the-platform) describes the task. In the lab, with the platform as it stood after part 4, the rebuild took just under three minutes until the web shop ran again. Start the rebuild early in the showing and explain the code while it runs.
+You tear the cluster down with `tofu destroy`, rebuild it with `tofu apply` and the Argo CD bootstrap, and measure the time until everything from Git is back. Along the way you explain what state and drift mean for a rebuild. In the lab, with the platform as it stood after part 4, the web shop ran again after just under three minutes. Start the rebuild early in the showing and explain the code while it runs. [Chapter 4.6](../../platform/advanced/#task-a--rebuilding-the-platform) describes the task.
 
 ### B · A member of your own
 
@@ -45,7 +45,7 @@ You show the advanced tasks live in class or in a screencast of at most ten minu
 
 ## Hand-in
 
-The folder `m2/` of your hand-in repo holds the screenshots of the base. The advanced tasks add their documentation and `platform/`, a copy of your repo `platform` from Gitea without the `.git` folder, without state and without tokens. The showing adds the screencast or a link to it.
+The folder `m2/` of your hand-in repo holds the screenshots of the base. The advanced tasks add their documentation and `platform/`, a copy of your repo `platform` from Gitea without the `.git` folder, state, tokens or passwords. The showing adds the screencast or a link to it.
 
 You put the reports of the checks in `reports/`. The [overview](../) describes how the repo is structured and how you set a tag.
 

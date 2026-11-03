@@ -4,7 +4,7 @@ description: The individual exam towards the end of the module with its weight, 
 ---
 
 :::caution[In progress]
-This page is not finished. The form, date and topics of the exam are not settled yet. Your instructor announces them in good time, and this page adds them afterwards.
+This page is not finished. The form, date and topics of the exam are not settled yet. Your instructor announces them in good time, and then they appear on this page as well.
 :::
 
 ## Key facts

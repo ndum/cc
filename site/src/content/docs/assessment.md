@@ -10,11 +10,11 @@ Deine Modulnote setzt sich aus zwei Noten zusammen.
 | Note 1 | Die vier Meilensteine in zwei Abgaben | 60 % |
 | Note 2 | Die [Prüfung](exam/) gegen Ende des Moduls | 40 % |
 
-Die Modulnote ist 0,6 × Note 1 + 0,4 × Note 2. Gerundet wird nach den Regeln der Schule. Eine Mindestnote für die einzelnen Noten gibt es nicht, eine schwächere Note kann die andere ausgleichen. Die Termine der Abgaben und der Prüfung, den Weg der Abgabe und die Regeln zu Verspätungen erfährst du von deiner Dozentin oder deinem Dozenten.
+Die Modulnote ist 0,6 × Note 1 + 0,4 × Note 2. Gerundet wird nach den Regeln der Schule. Eine Mindestnote für die einzelnen Noten gibt es nicht, eine bessere Note kann also eine schwächere ausgleichen. Die Termine der Abgaben und der Prüfung, den Weg der Abgabe und die Regeln zu Verspätungen erfährst du von deiner Dozentin oder deinem Dozenten.
 
 ## Note 1 aus den Meilensteinen
 
-Je zwei Meilensteine gibst du gemeinsam ab. Jede Abgabe ergibt eine Note, Note 1 ist der Durchschnitt dieser beiden Noten.
+Je zwei Meilensteine gibst du zusammen ab. Jede Abgabe ergibt eine Note, Note 1 ist der Durchschnitt dieser beiden Noten.
 
 | Abgabe | Meilensteine |
 |---|---|
@@ -86,7 +86,11 @@ Jeder Zusatzauftrag wird nach denselben Stufen bewertet.
 
 ## Zusatzaufträge zeigen
 
-Die Zusatzaufträge eines Meilensteins zeigst du in einer Vorführung, entweder live im Unterricht oder in einem Screencast von höchstens zehn Minuten. Für eine Vorführung im Unterricht gehst du selbst auf deine Dozentin oder deinen Dozenten zu und vereinbarst einen Termin. Die Vorführung muss bis zur Abgabe stattgefunden haben, zu der der Meilenstein gehört. Ein Screencast und die Dokumentation liegen bis dahin im Abgabe-Repo. Eine spätere Vorführung oder ein Screencast, der erst danach im Repo liegt, zählt nicht mehr.
+Die Zusatzaufträge eines Meilensteins zeigst du in einer Vorführung, entweder live im Unterricht oder in einem Screencast von höchstens zehn Minuten. Für eine Vorführung im Unterricht gehst du selbst auf deine Dozentin oder deinen Dozenten zu und vereinbarst einen Termin.
+
+:::caution[Frist der Vorführung]
+Die Vorführung muss bis zur Abgabe stattgefunden haben, zu der der Meilenstein gehört. Ein Screencast und die Dokumentation liegen bis dahin im Abgabe-Repo. Eine spätere Vorführung oder ein Screencast, der erst danach im Repo liegt, zählt nicht mehr. Vereinbare einen Termin im Unterricht deshalb früh.
+:::
 
 Der Screencast ist eine einzige Aufnahme ohne Schnitt. Er beginnt mit `cat /etc/cc-lab.env` und dem Bericht des Checks des Meilensteins mit seinem Hash und deinen zwei Fragen. Danach führst du die Zusatzaufträge in deinem Lab vor. Die Regeln stehen auch in [Kapitel 0.5](../start/tools/#screencasts).
 
@@ -116,3 +120,7 @@ cc-mmuster/
 ```
 
 Einen Screencast legst du in den Ordner des Meilensteins. Ist er für das Repo zu gross, liegt er etwa auf OneDrive und die Dokumentation der Zusatzaufträge verlinkt ihn.
+
+:::caution[Keine Geheimnisse im Repo]
+Der State von OpenTofu, Tokens wie das von k3s, Passwörter und der Schlüssel von Sealed Secrets gehören nie in dein Abgabe-Repo. Was einmal in einem Commit steht, bleibt in der Versionsgeschichte von Git, auch wenn du die Datei später löschst. Prüfe deshalb vor jedem Commit mit `git status`, welche Dateien dazukommen.
+:::

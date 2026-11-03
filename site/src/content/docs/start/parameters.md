@@ -99,7 +99,7 @@ Die Datei heisst `60-cc-lab.yaml`, damit netplan sie nach einer allfälligen Dat
 | `ip -br addr` zeigt zwei Adressen | DHCP aus `50-cloud-init.yaml` für eine andere Schnittstelle | Name der Schnittstelle im Generator prüfen |
 | `ip route` zeigt keine Zeile `default via 192.168.210.1` | Die Route fehlt in der Datei oder die Schnittstelle ist falsch | Datei und `ip -br addr` mit dem Generator vergleichen |
 | `curl` meldet «Could not resolve host» | Der DNS fehlt | `resolvectl status` zeigt den DNS, auf smartlearn muss er 192.168.210.1 sein |
-| `curl` wartet und bricht ab | Kein Weg ins Internet | Adresse und Gateway prüfen, sonst die Dozentin oder den Dozenten fragen |
+| `curl` wartet und bricht ab | Kein Weg ins Internet | Adresse und Gateway prüfen, sonst deine Dozentin oder deinen Dozenten fragen |
 
 ## Die Datei auf den Servern
 

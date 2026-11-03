@@ -20,7 +20,7 @@ Nach diesem Kapitel kannst du:
 
 ## Servicemodelle
 
-Die Servicemodelle sagen, welchen Teil des Stapels von der Hardware bis zur Anwendung der Anbieter liefert und welchen die Nutzenden selbst betreiben. NIST unterscheidet drei Modelle.
+Die **Servicemodelle** sagen, welchen Teil des Stapels von der Hardware bis zur Anwendung der Anbieter liefert und welchen die Nutzenden selbst betreiben. NIST unterscheidet drei Modelle.
 
 | Modell | Der Anbieter liefert | Die Nutzenden betreiben | Beispiel bei Wolkenwerk Bern |
 |---|---|---|---|
@@ -32,13 +32,13 @@ Mit jeder Stufe übernimmt der Anbieter mehr Arbeit. Im Gegenzug geben die Nutze
 
 ## Geteilte Verantwortung
 
-Die Abbildung zeigt die Schichten eines IT-Dienstes und wer sie im jeweiligen Modell betreibt. Diese Aufteilung heisst Modell der geteilten Verantwortung (Shared Responsibility Model). Die Daten und die Zugriffsrechte darauf bleiben in jedem Modell bei den Nutzenden. Auch wer eine Anwendung als SaaS bezieht, entscheidet selbst, wer darin welche Daten sieht.
+Die Abbildung zeigt die Schichten eines IT-Dienstes und wer sie im jeweiligen Modell betreibt. Diese Aufteilung heisst **Modell der geteilten Verantwortung** (Shared Responsibility Model). Die Daten und die Zugriffsrechte darauf bleiben in jedem Modell bei den Nutzenden. Auch wer eine Anwendung als SaaS bezieht, entscheidet selbst, wer darin welche Daten sieht.
 
 ![Geteilte Verantwortung in den Servicemodellen. Vier Spalten für den eigenen Betrieb, IaaS, PaaS und SaaS zeigen neun Schichten von Netz und Hardware bis zu Daten und Zugriffen. Im eigenen Betrieb betreiben die Nutzenden alle Schichten. Bei IaaS übernimmt der Anbieter Netz, Speicher, Server und Virtualisierung, bei PaaS zusätzlich Betriebssystem, Middleware und Laufzeit, bei SaaS auch die Anwendung. Daten und Zugriffe bleiben immer bei den Nutzenden.](../../../assets/figures/de/p1c2-responsibility.svg)
 
 ## Bereitstellungsmodelle
 
-Die Bereitstellungsmodelle sagen, wer eine Cloud nutzen darf und wem sie gehört.
+Die **Bereitstellungsmodelle** sagen, wer eine Cloud nutzen darf und wem sie gehört.
 
 | Modell | Wer sie nutzt | Typisch |
 |---|---|---|

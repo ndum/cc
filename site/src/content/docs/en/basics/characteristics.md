@@ -15,12 +15,12 @@ After this chapter you can:
 - Explain why cloud is an operating model and not a place
 - Name the five characteristics of a cloud according to NIST and explain them with examples
 - Check whether an offering meets these characteristics
-- Argue why the private cloud of Wolkenwerk Bern is a cloud as well
+- Argue why the small cloud of Wolkenwerk Bern is a cloud as well
 :::
 
 ## Cloud as an operating model
 
-In everyday language "cloud" sounds like a distant data center run by a large provider. In the field, the term means a way of providing and using IT resources. Computing power, storage and network sit in a shared pool. Whoever needs them takes them, uses them as long as needed and gives them back.
+In everyday language "cloud" sounds like a distant data center run by a large provider. In the field, the term means an **operating model**, a way of providing and using IT resources. Computing power, storage and network sit in a shared pool. Whoever needs them takes them, uses them as long as needed and gives them back.
 
 A well-run data center can have the same hardware as a cloud. The difference is how you get a resource. In classic operations someone files a request, the operations team orders or sets up a server, and after days or weeks it is ready. In a cloud the user provisions the resource themselves, within minutes, through a web interface or an API.
 
@@ -40,9 +40,9 @@ The most widely cited definition comes from the US National Institute of Standar
 
 If one of the characteristics is missing, it is strictly speaking not a cloud. Even an efficient virtualization platform is not a cloud if only the operations team creates VMs on it, because self-service is missing.
 
-## Size does not matter
+## Size and ownership
 
-The definition says nothing about size and nothing about who owns the hardware. The three servers of Wolkenwerk Bern form a cloud as soon as the members provision resources themselves, several members share the pool, usage is measured and services grow with the load. You build these characteristics one at a time during the course. Part 2 sets up the pool and the network access, part 3 adds self-service and measurement, and parts 4 and 5 add elasticity.
+The definition says nothing about size and nothing about who owns the hardware. The three servers of Wolkenwerk Bern form a cloud as soon as the members provision resources themselves, several members share the pool, usage is measured and services grow with the load. You build these characteristics one at a time during the course. Part 2 sets up the pool and the network access, part 3 adds self-service and measurement, and part 5 adds elasticity when the web shop grows under load. In the advanced tasks of part 3 a service already grows with OneFlow.
 
 ::::exercise[Classifying]
 Match each statement to one of the five characteristics.

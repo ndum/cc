@@ -21,11 +21,11 @@ Everything runs in your own lab with your personal parameters from chapter 0.3. 
 6. The web shop grows under load with the HPA up to your personal maximum and shrinks again, and you show the load test in the dashboard.
 7. The check `m3` is green.
 
-You prove the base with the report of the check `m3` and one screenshot per requirement. `python3 ~/cc/checks/check.py m3` writes the report on the front-end. In the lab the burn rate alert fired four to six minutes after the push. After a load test in the hour before, it can take ten minutes and longer. The HPA only shrinks after five minutes. Leave time for these waits when you take the screenshots.
+You prove the base with the report of the check `m3` and one screenshot per requirement, each with a file name that starts with the number of its requirement. `python3 ~/cc/checks/check.py m3` writes the report on the front-end. In the lab the burn rate alert fired four to six minutes after the push. After a load test in the hour before, it can take ten minutes and longer. The HPA only shrinks after five minutes. Leave time for these waits when you take the screenshots.
 
 ## Advanced tasks
 
-The three advanced tasks are about the local language model, and each builds on the one before. Plan four to six hours. [Chapter 5.5](../../observability/advanced/) explains the concepts and lists the requirements of each task. Each task is worth 0 to 3 points by the [levels of the advanced tasks](../#levels-of-the-advanced-tasks).
+The three advanced tasks are about the local language model, and each builds on the one before. Plan four to six hours. [Chapter 5.5](../../observability/advanced/) explains the concepts and lists the requirements of each task. Each task is worth 0 to 3 points by the [levels of the advanced tasks](../#levels-of-the-advanced-tasks). Every task you do needs [documentation in five parts](../#documenting-the-advanced-tasks).
 
 ### A · A local language model
 
@@ -33,7 +33,7 @@ A local language model runs as a service of your platform. You measure the token
 
 ### B · Triage with approval
 
-A triage service of your own receives the web shop alerts, asks the model from task A and proposes a cause and an action. An action only runs after an approval, and the service has minimal rights and writes an audit log. You approve one proposal and reject another, and the audit log shows both decisions. In the documentation you assess both proposals critically and record what was right and what was wrong in them. The requirements are in [chapter 5.5](../../observability/advanced/#task-b--triage-with-approval).
+A triage service of your own receives the web shop alerts, asks the model from task A and proposes a cause and an action. An action only runs after an approval, and the service has minimal rights and writes an audit log. You approve one proposal and reject another, and the audit log shows both decisions. In the documentation you assess both proposals critically and record what was right and what was wrong. The requirements are in [chapter 5.5](../../observability/advanced/#task-b--triage-with-approval).
 
 ### C · Better questions to the model
 
@@ -45,7 +45,7 @@ You show the advanced tasks live in class or in a screencast of at most ten minu
 
 ## Hand-in
 
-The folder `m3/` of your hand-in repo holds the screenshots of the base. The advanced tasks add their documentation and `platform/`, a copy of your repo `platform` from Gitea without the `.git` folder, without state and without passwords. Task B adds the audit log of your triage service, and the showing adds the screencast or a link to it. If the code of your triage service is not in the platform repo, put it into the folder `m3/triage/`.
+The folder `m3/` of your hand-in repo holds the screenshots of the base. The advanced tasks add their documentation and `platform/`, a copy of your repo `platform` from Gitea without the `.git` folder, state, tokens or passwords. Task B adds the audit log of your triage service, and the showing adds the screencast or a link to it. If the code of your triage service is not in the platform repo, put it into the folder `m3/triage/`.
 
 You put the reports of the checks in `reports/`. The [overview](../) describes how the repo is structured and how you set a tag.
 

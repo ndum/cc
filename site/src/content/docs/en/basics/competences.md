@@ -14,11 +14,13 @@ Use this grid to judge whether you have mastered the basics. Read each row and s
 | tell a virtualization platform from a cloud | Explain which characteristic is missing on a platform where only the operations team creates VMs. | [Characteristics of a cloud](../characteristics/#the-five-characteristics-according-to-nist) |
 | explain the service models and shared responsibility | Say for IaaS, PaaS and SaaS who updates the operating system. | [Service and deployment models](../models/#shared-responsibility) |
 | tell the deployment models apart | Explain why Wolkenwerk Bern is a community cloud. | [Service and deployment models](../models/#deployment-models) |
+| tell type 1 and type 2 hypervisors apart | Assign KVM, Hyper-V and VirtualBox to a type and say which type data centers usually run. | [Virtualization](../virtualization/#hypervisors) |
 | explain how KVM, QEMU and libvirt work together | Describe the path from a command in OpenNebula to a running VM. | [Virtualization](../virtualization/#kvm-qemu-and-libvirt) |
-| explain nested virtualization and CPU models | Explain why `host-passthrough` makes the language model faster. | [Virtualization](../virtualization/#cpu-models) |
+| explain nested virtualization and CPU models | Explain why the nodes need nested virtualization and why `host-passthrough` makes the language model faster. | [Virtualization](../virtualization/#cpu-models) |
 | assign the right jobs to VMs and containers | Name two differences and one example each from the case. | [Virtualization](../virtualization/#vms-and-containers) |
 | say which data protection law applies and what is sensitive | Assign the four members to the FADP or cantonal law and name their sensitive data. | [Sovereignty, law and cost](../sovereignty/#the-data-protection-act) |
 | explain processing on behalf and the rules for data abroad | Explain what Art. 9 and Art. 16 FADP mean for Wolkenwerk. | [Sovereignty, law and cost](../sovereignty/#data-abroad) |
+| judge what professional secrecy means for the practice in the cloud | Name the two ways in which the practice can entrust data under professional secrecy to a cloud provider. | [Sovereignty, law and cost](../sovereignty/#professional-secrecy) |
 | rate protection needs | Rate the protection need of one member for the three security goals. | [Sovereignty, law and cost](../sovereignty/#protection-needs) |
 | break down the cost of a cloud | Assign five costs of Wolkenwerk to investments or operating costs and explain showback. | [Sovereignty, law and cost](../sovereignty/#cost) |
 

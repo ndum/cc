@@ -15,12 +15,12 @@ Nach diesem Kapitel kannst du:
 - Erklären, warum Cloud ein Betriebsmodell und kein Ort ist
 - Die fünf Merkmale einer Cloud nach NIST nennen und an Beispielen erklären
 - Prüfen, ob ein Angebot diese Merkmale erfüllt
-- Begründen, warum auch die Private Cloud von Wolkenwerk Bern eine Cloud ist
+- Begründen, warum auch die kleine Cloud von Wolkenwerk Bern eine Cloud ist
 :::
 
 ## Cloud als Betriebsmodell
 
-Im Alltag klingt «Cloud» nach einem fernen Rechenzentrum eines grossen Anbieters. Fachleute verstehen darunter eine Art, IT-Ressourcen bereitzustellen und zu nutzen. Rechenleistung, Speicher und Netz liegen in einem gemeinsamen Pool. Wer sie braucht, holt sie sich selbst, nutzt sie so lange wie nötig und gibt sie danach zurück.
+Im Alltag klingt «Cloud» nach einem fernen Rechenzentrum eines grossen Anbieters. Fachleute verstehen darunter ein **Betriebsmodell**, also eine Art, IT-Ressourcen bereitzustellen und zu nutzen. Rechenleistung, Speicher und Netz liegen in einem gemeinsamen Pool. Wer sie braucht, holt sie sich selbst, nutzt sie so lange wie nötig und gibt sie danach zurück.
 
 Ein gut geführtes Rechenzentrum kann dieselbe Hardware haben wie eine Cloud. Der Unterschied liegt darin, wie man zu einer Ressource kommt. Im klassischen Betrieb stellt jemand einen Antrag, das Betriebsteam bestellt oder richtet einen Server ein. Nach Tagen oder Wochen steht er bereit. In einer Cloud stellt die Nutzerin oder der Nutzer die Ressource selbst bereit, in Minuten, über eine Weboberfläche oder eine API.
 
@@ -40,9 +40,9 @@ Die am häufigsten zitierte Definition stammt vom amerikanischen National Instit
 
 Fehlt eines der Merkmale, spricht man streng genommen nicht von einer Cloud. Auch eine effiziente Virtualisierungsplattform ist keine Cloud, wenn nur das Betriebsteam darauf VMs anlegt, denn ihr fehlt der Self-Service.
 
-## Die Grösse spielt keine Rolle
+## Grösse und Eigentum
 
-Die Definition sagt nichts über die Grösse und nichts darüber, wem die Hardware gehört. Die drei Server von Wolkenwerk Bern bilden eine Cloud, sobald die Mitglieder selbst Ressourcen beziehen und sich den Pool teilen, der Verbrauch gemessen wird und Dienste mit der Last wachsen. Im Kurs baust du diese Merkmale nacheinander auf. In Teil 2 entstehen der Pool und der Zugang über das Netz, in Teil 3 kommen der Self-Service und die Messung dazu. Die Elastizität folgt in Teil 4 und 5.
+Die Definition sagt nichts über die Grösse und nichts darüber, wem die Hardware gehört. Die drei Server von Wolkenwerk Bern bilden eine Cloud, sobald die Mitglieder selbst Ressourcen beziehen und sich den Pool teilen, der Verbrauch gemessen wird und Dienste mit der Last wachsen. Im Kurs baust du diese Merkmale nacheinander auf. In Teil 2 entstehen der Pool und der Zugang über das Netz, in Teil 3 kommen der Self-Service und die Messung dazu. Die Elastizität folgt in Teil 5, wenn der Webshop unter Last wächst. In den Zusatzaufträgen von Teil 3 lässt du schon einen Dienst mit OneFlow wachsen.
 
 ::::exercise[Einordnen]
 Ordne jede Aussage einem der fünf Merkmale zu.
