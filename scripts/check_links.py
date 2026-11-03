@@ -10,7 +10,7 @@ import sys
 import urllib.parse
 from pathlib import Path
 
-BASE = "/cc/"
+BASE = "/"
 SKIPPED = ("http", "mailto", "#_top", "data:")
 ASSETS = (".svg", ".css", ".js", ".png", ".ico", ".xml", ".txt")
 

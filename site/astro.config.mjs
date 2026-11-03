@@ -14,10 +14,10 @@ import remarkLearnBlocks from './src/plugins/remark-learn-blocks.mjs';
 const repoRoot = fileURLToPath(new URL('..', import.meta.url));
 
 export default defineConfig({
-  // GitHub Pages of the repository, the custom domain follows later
-  site: 'https://ndum.github.io',
+  // GitHub Pages of the repository under its own domain
+  site: 'https://cc.ndum.ch',
   // Pull request previews are built under their own path
-  base: process.env.SITE_BASE ?? '/cc/',
+  base: process.env.SITE_BASE ?? '/',
   trailingSlash: 'always',
 
   markdown: {

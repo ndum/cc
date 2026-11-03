@@ -1,6 +1,6 @@
 # CC
 
-The pages of the course are published at https://ndum.github.io/cc/.
+The pages of the course are published at https://cc.ndum.ch/.
 
 Cloud computing with a private cloud of your own, a course for computer science students at Swiss higher vocational schools (HF) in the focus platform engineering. The course is called *HFI - Cloud Computing (CC)*. It is written in German and English and made for self-study, with short inputs in class.
 
