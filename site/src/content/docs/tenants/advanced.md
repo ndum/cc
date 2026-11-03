@@ -1,6 +1,8 @@
 ---
 title: Zusatzaufträge
 description: Ein Dienst der Treuhand in OneFlow, der nach Last und Zeitplan wächst, ein monatlicher Bericht aus dem Showback mit der Kostendeckung und die Folgen eines ausgefallenen Knotens mit einem Vorschlag für die Platzierung der VMs.
+tableOfContents:
+  maxHeadingLevel: 2
 sidebar:
   order: 5
   badge:
@@ -141,21 +143,38 @@ Dazu kommt die Reserve. Bei zwei Knoten muss jeder allein alle VMs tragen, bei e
 
 Die Treuhand braucht Ende Monat mehr Leistung, ohne dass jemand eingreift. Ihr Dienst in OneFlow wächst vor der bekannten Spitze nach Zeitplan, bei unerwarteten Spitzen nach Last und schrumpft danach wieder.
 
-Deine Lösung erfüllt diese Anforderungen:
+![Der Dienst der Treuhand in OneFlow. Im Zielzustand von Auftrag A liest OneFlow oben auf dem Front-end die Rollen und Regeln deiner Dienstvorlage. Die Regeln nach Zeitplan richten sich nach der Systemzeit, die Regeln nach Last nach der CPU, die das Monitoring für jede VM misst. Nach diesen Werten ändert OneFlow die Kardinalität einer Rolle. Unten läuft der Dienst in der Gruppe treuhand. Ein Teil seiner VMs läuft immer, weitere VMs kommen nach Last oder Zeitplan dazu und gehen danach wieder. Daneben läuft treuhand-1, eine andere VM der Gruppe. Achte auf die Linien unter den VMs. Die Rolle bleibt zwischen min_vms und max_vms. Alle VMs des Dienstes passen zusammen mit treuhand-1 in die Quota der Treuhand.](../../../assets/figures/de/p3c5-oneflow.svg)
+
+### Ausgangslage und Ergebnis
+
+Aus der Basis hast du die Gruppe `treuhand` mit ihrem Admin `treuhand-admin`, ihrer Quota und der VM `treuhand-1` aus Kapitel 3.3, dazu die Vorlage `ubuntu` und das Netz `cc-net`. OneFlow läuft seit Kapitel 2.2 auf dem Front-end, einen Dienst hast du aber noch nicht angelegt. Anders als `praxis-admin` in Kapitel 3.1 hat `treuhand-admin` noch keinen SSH-Schlüssel.
+
+Am Ende läuft in der Gruppe `treuhand` ein Dienst mit mindestens einer Rolle. Die Zahl seiner VMs steigt unter Last und vor dem Monatsende und sinkt danach wieder, ohne die Quota der Treuhand zu sprengen.
+
+### Vorgehen
+
+1. Plane die Rollen des Dienstes und ihre Grenzen passend zur Quota der Treuhand.
+2. Schreibe eine Dienstvorlage mit Regeln nach Last und nach Zeitplan.
+3. Starte den Dienst als Admin der Treuhand und prüfe, dass er läuft.
+4. Erzeuge Last in einer VM des Dienstes und beobachte, wie die Rolle wächst und wieder schrumpft.
+5. Belege die Regel nach Zeitplan, ohne bis zum Monatsende zu warten.
+6. Halte Werte, Zeiten und deinen Entscheid für die Dokumentation fest.
+
+### Anforderungen
 
 1. Ein Dienst in OneFlow läuft in der Gruppe `treuhand`, seine VMs zählen gegen die Quota der Treuhand.
 2. Eine Rolle wächst unter Last und schrumpft ohne Last wieder, innerhalb fester Grenzen.
 3. Eine Regel nach Zeitplan vergrössert den Dienst vor dem Monatsende und verkleinert ihn danach, in derselben oder in einer eigenen Rolle.
 4. Die Grenzen der Rolle passen zur Quota der Treuhand, auch neben ihren anderen VMs.
 
-In der Vorführung zeigst du:
+### Vorführung
 
 - Den Dienst mit seinen Rollen und Regeln
 - Das Wachsen unter Last und das Schrumpfen danach, mit den Zeiten aus deinem Lab
 - Wie du belegst, dass die Regel nach Zeitplan auslöst
 - Warum du Schwellen, Perioden und Grenzen so gewählt hast
 
-Dabei helfen dir:
+### Quellen
 
 - [OneFlow Services Management](https://docs.opennebula.io/7.4/product/virtual_machines_operation/multi-vm_workflows/appflow_use_cli/) mit dem Aufbau einer Dienstvorlage und den Befehlen `oneflow-template` und `oneflow`
 - [OneFlow Services Auto-scaling](https://docs.opennebula.io/7.4/product/virtual_machines_operation/multi-vm_workflows/appflow_elasticity/) mit den Regeln nach Last und Zeitplan, ihren Ausdrücken und den Zuständen eines Dienstes
@@ -163,7 +182,7 @@ Dabei helfen dir:
 - [OneFlow Configuration](https://docs.opennebula.io/7.4/product/operation_references/opennebula_services_configuration/oneflow/) mit den Standardwerten des Servers und seinen Logs
 - [Kapitel 3.1](../groups/#als-mitglied-arbeiten) für die Arbeit als Mitglied mit `ONE_AUTH`, in Sunstone die Ansicht `groupadmin` aus Kapitel 3.4
 
-Hinweise aus dem Lab:
+### Hinweise aus dem Lab
 
 - `oneflow show` zeigt die Rollen, ihre VMs und im Log des Dienstes jede Änderung der Kardinalität
 - Last erzeugst du in einer VM des Dienstes mit einem Prozess, der die CPU voll auslastet, etwa `yes`. Starte sie vor der Vorführung, denn das Wachsen dauert einige Minuten.
@@ -174,26 +193,43 @@ Hinweise aus dem Lab:
 
 Der Vorstand will jeden Monat sehen, was die Mitglieder gekostet haben, ohne dass jemand daran denken muss. Ein eigenes Skript mit einem eigenen Timer legt den Bericht ab, aus ihm berechnest du die Kostendeckung der Genossenschaft.
 
-Deine Lösung erfüllt diese Anforderungen:
+![Der monatliche Bericht aus dem Showback. Im Zielzustand von Auftrag B startet oben auf dem Front-end dein Timer einmal im Monat deinen Dienst, eine Unit von systemd. Der Dienst führt dein Skript aus. Das Skript fragt den Showback von OpenNebula ab und legt den Bericht des vergangenen Monats als CSV-Datei ab, die den Monat im Namen trägt. Daneben berechnet der Timer opennebula-showback.timer, den OpenNebula mitbringt, den Showback täglich. Unten berechnest du aus dem Bericht und den Kosten eines Monats die Kostendeckung, also die Summe des Showbacks geteilt durch alle Kosten. Die Kosten beruhen auf deinen Annahmen. Daraus machst du dem Vorstand einen Vorschlag. Achte darauf, dass zwei Timer am Showback arbeiten, deiner und der von OpenNebula.](../../../assets/figures/de/p3c5-report.svg)
+
+### Ausgangslage und Ergebnis
+
+Seit Kapitel 3.3 trägt die Vorlage `ubuntu` Preise. Dort hast du den Showback von Hand berechnet und als CSV exportiert. OpenNebula berechnet ihn mit seinem Timer `opennebula-showback.timer` täglich, einen eigenen Timer und einen Bericht pro Monat hast du aber noch nicht.
+
+Am Ende startet ein eigener Timer von systemd einmal im Monat dein Skript, das den Showback des vergangenen Monats als CSV-Datei ablegt. Aus einem Bericht mit Daten berechnest du die Kosten pro Mitglied und die Kostendeckung der Genossenschaft.
+
+### Vorgehen
+
+1. Probiere von Hand aus, wie du den Showback eines einzelnen Monats berechnest und als CSV ausgibst.
+2. Schreibe das Skript für den Bericht des vergangenen Monats so, dass ein zweiter Lauf dieselbe Datei ergibt.
+3. Lege Dienst und Timer von systemd an und entscheide, unter welchem Benutzer und wann sie laufen.
+4. Starte einen Lauf von Hand und prüfe die Datei und den nächsten Lauf des Timers.
+5. Berechne aus einem Bericht mit Daten die Kosten pro Mitglied und die Kostendeckung.
+6. Halte Werte, Annahmen und deinen Entscheid für die Dokumentation fest.
+
+### Anforderungen
 
 1. Ein eigenes Skript legt den Showback des vergangenen Monats als CSV-Datei ab, deren Name den Monat nennt.
 2. Ein eigener Timer von systemd startet das Skript einmal im Monat. Sein Name enthält `showback` und beginnt nicht mit `opennebula-`.
 3. Läuft das Skript ein zweites Mal für denselben Monat, entsteht dieselbe Datei ohne doppelte Zeilen.
 4. Aus dem Bericht berechnest du die Kosten pro Mitglied und die Kostendeckung der Genossenschaft mit offengelegten Annahmen.
 
-In der Vorführung zeigst du:
+### Vorführung
 
 - Den Timer mit seinem letzten und seinem nächsten Lauf
 - Einen Lauf, den du von Hand startest, mit der Datei, die er ablegt
 - Die Kostendeckung mit deinen Annahmen und einem Vorschlag an den Vorstand
 
-Dabei helfen dir:
+### Quellen
 
 - Die [Dokumentation zum Showback](https://docs.opennebula.io/7.4/product/cloud_system_administration/multitenancy/showback/) von OpenNebula 7.4 zu `oneshowback calculate` und `oneshowback list` mit ihren Optionen
 - Die Handbuchseiten von Ubuntu 26.04 zu [systemd.timer](https://manpages.ubuntu.com/manpages/resolute/man5/systemd.timer.5.html), [systemd.service](https://manpages.ubuntu.com/manpages/resolute/man5/systemd.service.5.html) und den Kalenderausdrücken in [systemd.time](https://manpages.ubuntu.com/manpages/resolute/man7/systemd.time.7.html)
 - [Kapitel 3.3](../showback/) zu Preisen, Showback und dem Export als CSV, dazu dort die Aufgabe «Kostenmodell» mit einer einfachen Rechnung zur Kostendeckung
 
-Hinweise aus dem Lab:
+### Hinweise aus dem Lab
 
 - Das Skript schreibst du etwa in Bash oder Python, beides ist auf dem Front-end vorhanden
 - Lief dein Lab im vergangenen Monat noch nicht, ist der Bericht für diesen Monat leer. Plane deshalb, wie du in der Vorführung einen Bericht mit Daten zeigst, zum Beispiel für den laufenden Monat.
@@ -203,21 +239,38 @@ Hinweise aus dem Lab:
 
 Beat Kläy will wissen, was die Mitglieder bei einem Ausfall merken. Du schaltest einen Knoten ohne Vorwarnung aus, beobachtest die Folgen und leitest daraus einen Vorschlag ab, wie Wolkenwerk seine VMs platzieren soll.
 
-Deine Lösung erfüllt diese Anforderungen:
+![Der Ausfall eines Knotens. Im Zielzustand von Auftrag C laufen unten auf Knoten 1 und Knoten 2 VMs mehrerer Mitglieder. Ihre Disks liegen im Datastore system ihres Knotens. Im Beispiel ist Knoten 2 hart ausgeschaltet. Seine VMs und Disks sind nicht mehr erreichbar, Knoten 1 läuft weiter. Oben prüft das Monitoring auf dem Front-end die Knoten regelmässig und bekommt von Knoten 2 keine Antwort mehr. Rechts hältst du die Zustände mit Zeiten in deinem Protokoll fest. Darauf stützt sich dein Vorschlag mit Regel, Alternative und Abwägung. Er legt fest, wie der Scheduler neue VMs auf die Knoten verteilt. Achte darauf, dass die Disks auf dem ausgefallenen Knoten liegen. Solange er aus ist, kommt niemand an sie heran.](../../../assets/figures/de/p3c5-failure.svg)
+
+### Ausgangslage und Ergebnis
+
+Aus der Basis laufen die VMs `web-1` bis `web-3` aus Teil 2 sowie `praxis-1` und `treuhand-1` aus Teil 3, der Scheduler verteilt sie mit Striping auf beide Knoten. Ihre Disks liegen im Datastore `system` ihres Knotens, gemeinsamen Speicher und einen Hook für ausgefallene Hosts hat das Lab nicht. Einen Ausfall kennst du bisher nur aus der Beschreibung in Kapitel 2.5.
+
+Am Ende laufen nach einem harten Ausfall wieder alle VMs. Dein Protokoll hält mit Zeiten fest, was OpenNebula dazwischen zu Knoten, VMs und Diensten zeigte und was du tun musstest. Darauf stützt sich dein Vorschlag für die Platzierung mit einer Alternative und der Abwägung für die vier Mitglieder.
+
+### Vorgehen
+
+1. Verteile VMs mehrerer Mitglieder auf beide Knoten und halte fest, welche VM wo läuft.
+2. Lege von allen drei Servern einen Snapshot an und bereite vor, wie du Zustände mit Zeiten festhältst.
+3. Schalte einen Knoten hart aus und beobachte Knoten, VMs und Dienste, bis OpenNebula den Ausfall meldet.
+4. Schalte den Knoten wieder ein und bringe alle VMs zum Laufen.
+5. Leite aus deinen Beobachtungen einen Vorschlag für die Platzierung ab und wäge ihn gegen eine Alternative ab.
+6. Halte Zeiten, Schritte und deinen Entscheid für die Dokumentation fest.
+
+### Anforderungen
 
 1. Vor dem Ausfall laufen VMs mehrerer Mitglieder auf beiden Knoten. Du hältst fest, welche VM wo läuft.
 2. Du schaltest einen Knoten hart aus und hältst mit Zeiten fest, was OpenNebula danach zu Knoten, VMs und Diensten anzeigt.
 3. Nach dem Wiedereinschalten laufen alle VMs wieder. Du hältst fest, was du dafür tun musstest.
 4. Dein Vorschlag für die Platzierung stützt sich auf deine Beobachtungen. Er nennt eine Strategie oder Regel, eine Alternative und die Abwägung für die vier Mitglieder.
 
-In der Vorführung zeigst du:
+### Vorführung
 
 - Die Verteilung der VMs vor dem Ausfall
 - Den Zustand von Knoten und VMs während des Ausfalls mit den Zeiten, die du gemessen hast
 - Was du nach dem Wiedereinschalten tun musstest
 - Deinen Vorschlag mit Alternative und Abwägung
 
-Dabei helfen dir:
+### Quellen
 
 - [Kapitel 2.5](../../iaas/hosts/) mit den Zuständen von Hosts und VMs, dem Scheduler, der Wartung und dem Ausfall eines Knotens
 - Der Abschnitt [Lebenszyklus einer VM](../../iaas/hosts/#lebenszyklus-einer-vm) in Kapitel 2.5 mit den Befehlen, die den Zustand einer VM ändern
@@ -226,7 +279,7 @@ Dabei helfen dir:
 - [VM Groups (Affinity)](https://docs.opennebula.io/7.4/product/cloud_system_administration/capacity_planning/affinity/) mit den Regeln für VM-Gruppen
 - [VM HA](https://docs.opennebula.io/7.4/product/control_plane_configuration/high_availability/vm_ha/) mit dem Hook für ausgefallene Hosts
 
-Hinweise aus dem Lab:
+### Hinweise aus dem Lab
 
 - Ein echter Ausfall kündigt sich nicht an. Schalte die VM des Knotens deshalb aus, ohne Ubuntu darin herunterzufahren.
 - Beobachte `onehost list` und `onevm list` in kurzen Abständen und notiere die Zeiten. Läuft der Dienst aus Auftrag A, beobachte auch ihn.

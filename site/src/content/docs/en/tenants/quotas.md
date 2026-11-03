@@ -59,7 +59,7 @@ The members pay and need different amounts. The fiduciary office gets more room 
 | Veloatelier Matte | `velo` | 2 | 1 | 2048 MB |
 | Gemeinde Hinterbüel | `gemeinde` | 2 | 1 | 2048 MB |
 
-The script `lab/tenants/set-quotas.sh` sets these values. For every group it writes a small file with the quota and passes it to `onegroup quota`.
+The script `lab/tenants/set-quotas.sh` sets these values. For every group it writes a small file with the quota and passes it to `onegroup quota`. The [guide to setting quotas](https://docs.opennebula.io/7.4/product/cloud_system_administration/capacity_planning/quotas/#setting-usergroup-quotas) shows how to set quotas for groups and users.
 
 ::code{file="lab/tenants/set-quotas.sh"}
 

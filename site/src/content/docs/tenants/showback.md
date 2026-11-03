@@ -27,7 +27,7 @@ Wolkenwerk Bern beginnt mit Showback. Die Mitglieder sehen ihre Kosten jeden Mon
 
 ## Preise in der Vorlage
 
-OpenNebula rechnet mit drei Preisen pro Stunde, die in der Vorlage stehen. `CPU_COST` gilt pro CPU der Vorlage, `MEMORY_COST` pro MB Arbeitsspeicher und `DISK_COST` pro MB Disk. Die Preise im Lab sind für den Fall erfunden und in Franken gedacht.
+OpenNebula rechnet mit drei Preisen pro Stunde, die in der Vorlage stehen. `CPU_COST` gilt pro CPU der Vorlage, `MEMORY_COST` pro MB Arbeitsspeicher und `DISK_COST` pro MB Disk. Die Preise im Lab sind für den Fall erfunden und in Franken gedacht. Wie du die Preise einer Vorlage setzt, beschreibt die [Dokumentation zum Showback](https://docs.opennebula.io/7.4/product/cloud_system_administration/multitenancy/showback/#set-the-vm-cost).
 
 ::code{file="lab/tenants/costs.tpl"}
 
@@ -40,7 +40,7 @@ Eine VM übernimmt die Preise beim Start aus der Vorlage. VMs, die schon vorher 
 
 ## Kosten berechnen
 
-`oneshowback calculate` berechnet die Kosten aller VMs aus ihrer Laufzeit und legt sie pro Monat ab. OpenNebula bringt dafür den Timer `opennebula-showback.timer` mit, der die Berechnung jeden Tag startet. Für die Übungen startest du sie selbst, damit du nicht bis Mitternacht warten musst. `oneshowback list` zeigt danach pro VM Besitzer, Gruppe, Monat, Stunden, Laufzeit und Kosten. Mit `-g` siehst du nur ein Mitglied.
+`oneshowback calculate` berechnet die Kosten aller VMs aus ihrer Laufzeit und legt sie pro Monat ab. OpenNebula bringt dafür den Timer `opennebula-showback.timer` mit, der die Berechnung jeden Tag startet. Für die Übungen startest du sie selbst, damit du nicht bis Mitternacht warten musst. `oneshowback list` zeigt danach pro VM Besitzer, Gruppe, Monat, Stunden, Laufzeit und Kosten. Mit `-g` siehst du nur ein Mitglied. Wie du einzelne Monate berechnest und abrufst, beschreibt die [Anleitung zu den Monatsberichten](https://docs.opennebula.io/7.4/product/cloud_system_administration/multitenancy/showback/#calculate-monthly-reports).
 
 ```bash
 oneshowback calculate

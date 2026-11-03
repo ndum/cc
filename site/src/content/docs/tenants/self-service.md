@@ -74,7 +74,7 @@ Wer einem Mitglied etwas verbieten will, ändert deshalb die ACLs oder die Recht
 
 ## Benutzer in der Gruppe
 
-Ein Gruppenadmin legt die Benutzer seines Mitglieds selbst an. Neue Benutzer landen in seiner Gruppe, ihre VMs zählen gegen die Quota der Gruppe.
+Ein Gruppenadmin legt die Benutzer seines Mitglieds selbst an. Neue Benutzer landen in seiner Gruppe, ihre VMs zählen gegen die Quota der Gruppe. Die [Dokumentation zu den Benutzern](https://docs.opennebula.io/7.4/product/cloud_system_administration/multitenancy/manage_users/#adding-users) beschreibt `oneuser create`.
 
 ```bash
 export ONE_AUTH=~/cc-lab/tenants/praxis.auth
@@ -99,7 +99,7 @@ Die Vorlage `ubuntu` gehört `oneadmin`. Mit `chmod 604` dürfen die Mitglieder 
 [one.template.update] User [2] : Not authorized to perform MANAGE TEMPLATE [1].
 ```
 
-Eigene Vorlagen anlegen dürfen die Mitglieder aber, das erlaubt ihre Gruppe seit Kapitel 3.1. Braucht die Praxis eine grössere VM, kopiert sie die Vorlage und ändert die Kopie.
+Eigene Vorlagen anlegen dürfen die Mitglieder aber, das erlaubt ihre Gruppe seit Kapitel 3.1. Braucht die Praxis eine grössere VM, kopiert sie die Vorlage und ändert die Kopie. Beides beschreibt die [Dokumentation zu den VM-Vorlagen](https://docs.opennebula.io/7.4/product/virtual_machines_operation/virtual_machines/vm_templates/#cloning-templates).
 
 ```bash
 onetemplate clone ubuntu praxis-gross

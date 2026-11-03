@@ -27,7 +27,7 @@ Wolkenwerk Bern starts with showback. The members see their costs every month, a
 
 ## Prices in the template
 
-OpenNebula works with three hourly prices stored in the template. `CPU_COST` applies per CPU of the template, `MEMORY_COST` per MB of memory and `DISK_COST` per MB of disk. The prices in the lab are made up for the case and are meant in Swiss francs.
+OpenNebula works with three hourly prices stored in the template. `CPU_COST` applies per CPU of the template, `MEMORY_COST` per MB of memory and `DISK_COST` per MB of disk. The prices in the lab are made up for the case and are meant in Swiss francs. The [showback documentation](https://docs.opennebula.io/7.4/product/cloud_system_administration/multitenancy/showback/#set-the-vm-cost) describes how to set the prices of a template.
 
 ::code{file="lab/tenants/costs.tpl"}
 
@@ -40,7 +40,7 @@ A VM takes the prices from the template when it starts. VMs that were started ea
 
 ## Calculating costs
 
-`oneshowback calculate` calculates the costs of all VMs from their running time and stores them per month. OpenNebula ships the timer `opennebula-showback.timer`, which runs this calculation every day. For the exercises you start it yourself so that you do not have to wait until midnight. `oneshowback list` then shows owner, group, month, hours, running time and cost per VM. With `-g` you only see one member.
+`oneshowback calculate` calculates the costs of all VMs from their running time and stores them per month. OpenNebula ships the timer `opennebula-showback.timer`, which runs this calculation every day. For the exercises you start it yourself so that you do not have to wait until midnight. `oneshowback list` then shows owner, group, month, hours, running time and cost per VM. With `-g` you only see one member. The [guide to the monthly reports](https://docs.opennebula.io/7.4/product/cloud_system_administration/multitenancy/showback/#calculate-monthly-reports) shows how to calculate and retrieve single months.
 
 ```bash
 oneshowback calculate

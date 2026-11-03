@@ -37,7 +37,7 @@ A **VDC** (virtual data center) is a slice of the infrastructure that OpenNebula
 
 ## Groups and group admins
 
-`onegroup create` creates a group and, if you like, an admin with it. `--resources` decides which objects the users of the group may create themselves. In the lab these are VMs, images, templates and documents. OneFlow in [chapter 3.5](../advanced/#services-and-roles) needs the documents because OpenNebula stores a service as a document.
+`onegroup create` creates a group and, if you like, an admin with it. `--resources` decides which objects the users of the group may create themselves. In the lab these are VMs, images, templates and documents. OneFlow in [chapter 3.5](../advanced/#services-and-roles) needs the documents because OpenNebula stores a service as a document. The [groups documentation](https://docs.opennebula.io/7.4/product/cloud_system_administration/multitenancy/manage_groups/#admin-users-and-allowed-resources) describes the options of `onegroup create`.
 
 The script `lab/tenants/make-tenants.sh` creates the four members. It generates random passwords for the group admins and stores them in `~/cc-lab/tenants/`, where only your user can read them.
 
@@ -49,7 +49,7 @@ onegroup list
 oneuser list
 ```
 
-Every new group first lands in the VDC `default`, which grants all clusters to all groups. The script takes the members out of it and gathers them in the VDC `wolkenwerk`. It assigns cluster 0, which holds both nodes, the network `cc-net` and the datastores, to that VDC. Finally it uses `chmod 604` to let everybody use the template `ubuntu` and its image. The first digit 6 lets the owner use and manage the object, the 0 gives the group `oneadmin` no extra rights, and the 4 lets everybody else use it.
+Every new group first lands in the VDC `default`, which grants all clusters to all groups. The script takes the members out of it and gathers them in the VDC `wolkenwerk`. It assigns cluster 0, which holds both nodes, the network `cc-net` and the datastores, to that VDC. The [VDC documentation](https://docs.opennebula.io/7.4/product/cloud_system_administration/multitenancy/manage_vdcs/) describes the VDC `default` and the commands of `onevdc`. Finally it uses `chmod 604` to let everybody use the template `ubuntu` and its image. The first digit 6 lets the owner use and manage the object, the 0 gives the group `oneadmin` no extra rights, and the 4 lets everybody else use it.
 
 In Sunstone the VDC is under "System › VDCs", and its "Groups" tab lists the four groups.
 
@@ -57,7 +57,7 @@ In Sunstone the VDC is under "System › VDCs", and its "Groups" tab lists the f
 
 ## Working as a member
 
-To see what a member sees, you log in as its admin. The CLI reads user and password from the file that `ONE_AUTH` points to. The loop creates such a file for each of the four admins. You will need these files in the next chapters as well.
+To see what a member sees, you log in as its admin. The CLI reads user and password from the file that `ONE_AUTH` points to. The [CLI configuration documentation](https://docs.opennebula.io/7.4/product/operation_references/command_line_interface/cli_configuration/#shell-environment) describes this variable. The loop creates such a file for each of the four admins. You will need these files in the next chapters as well.
 
 ```bash
 for m in praxis treuhand velo gemeinde; do
@@ -86,7 +86,7 @@ As `oneadmin`, by contrast, Sunstone shows you the VMs of all members.
 
 ## ACLs
 
-Groups and VDCs are built on **ACLs** (access control lists). Each rule says who may work on which resources with which rights. `oneacl list` shows the rules as a table of letters, and `oneacl create` adds a new one.
+Groups and VDCs are built on **ACLs** (access control lists). Each rule says who may work on which resources with which rights. `oneacl list` shows the rules as a table of letters, and `oneacl create` adds a new one. The [ACL documentation](https://docs.opennebula.io/7.4/product/cloud_system_administration/multitenancy/chmod/#managing-acl-rules) explains how a rule is built.
 
 ```text
 @100 VM+IMAGE+TEMPLATE+DOCUMENT/* CREATE

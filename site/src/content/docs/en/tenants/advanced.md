@@ -1,6 +1,8 @@
 ---
 title: Advanced tasks
 description: A OneFlow service for the fiduciary office that grows by load and by schedule, a monthly showback report with the cost coverage, and the effects of a failed node with a proposal for placing the VMs.
+tableOfContents:
+  maxHeadingLevel: 2
 sidebar:
   order: 5
   badge:
@@ -141,21 +143,38 @@ Then there is the reserve. With two nodes, each one has to carry all VMs on its 
 
 The fiduciary office needs more power at the end of the month without anyone stepping in. Its OneFlow service grows by schedule ahead of the known peak and by load during unexpected peaks, then shrinks again.
 
-Your solution meets these requirements:
+![The OneFlow service of the fiduciary office. In the target state of task A, OneFlow on the front-end at the top reads the roles and rules of your service template. Rules by schedule follow the system clock, and rules by load follow the CPU that monitoring measures for every VM. Based on these values OneFlow changes the cardinality of a role. At the bottom the service runs in the group treuhand. Some of its VMs always run, and more VMs join by load or by schedule and leave again afterwards. Next to them runs treuhand-1, another VM of the group. Notice the lines below the VMs. The role stays between min_vms and max_vms, and all VMs of the service fit into the quota of the fiduciary office together with treuhand-1.](../../../../assets/figures/en/p3c5-oneflow.svg)
+
+### Starting point and result
+
+From the base you have the group `treuhand` with its admin `treuhand-admin`, its quota and the VM `treuhand-1` from chapter 3.3, along with the template `ubuntu` and the network `cc-net`. OneFlow has been running on the front-end since chapter 2.2, but you have not created a service yet. Unlike `praxis-admin` in chapter 3.1, `treuhand-admin` has no SSH key yet.
+
+In the end a service with at least one role runs in the group `treuhand`. Its number of VMs rises under load and before the end of the month and falls again afterwards, without going beyond the fiduciary office's quota.
+
+### Approach
+
+1. Plan the roles of the service and their limits so that they fit the fiduciary office's quota.
+2. Write a service template with rules by load and by schedule.
+3. Start the service as the office's admin and check that it runs.
+4. Create load in a VM of the service and watch the role grow and shrink again.
+5. Prove that the rule by schedule fires without waiting for the end of the month.
+6. Record values, times and your decision for the documentation.
+
+### Requirements
 
 1. A OneFlow service runs in the group `treuhand`, and its VMs count against the fiduciary office's quota.
 2. A role grows under load and shrinks again without load, within fixed limits.
 3. A rule by schedule enlarges the service before the end of the month and reduces it afterwards, in the same role or in one of its own.
 4. The limits of the role fit the fiduciary office's quota, also next to its other VMs.
 
-In the showing you present:
+### Showing
 
 - The service with its roles and rules
 - The growth under load and the shrinking afterwards, with the times from your lab
 - How you prove that the rule by schedule fires
 - Why you chose these thresholds, periods and limits
 
-These sources help you:
+### Sources
 
 - [OneFlow Services Management](https://docs.opennebula.io/7.4/product/virtual_machines_operation/multi-vm_workflows/appflow_use_cli/) with the structure of a service template and the commands `oneflow-template` and `oneflow`
 - [OneFlow Services Auto-scaling](https://docs.opennebula.io/7.4/product/virtual_machines_operation/multi-vm_workflows/appflow_elasticity/) with the rules by load and by schedule, their expressions and the states of a service
@@ -163,7 +182,7 @@ These sources help you:
 - [OneFlow Configuration](https://docs.opennebula.io/7.4/product/operation_references/opennebula_services_configuration/oneflow/) with the server's defaults and its log files
 - [Chapter 3.1](../groups/#working-as-a-member) for working as a member with `ONE_AUTH`, and in Sunstone the view `groupadmin` from chapter 3.4
 
-Notes from the lab:
+### Notes from the lab
 
 - `oneflow show` lists the roles, their VMs and every change of the cardinality in the service log
 - Create load in a VM of the service with a process that keeps the CPU fully busy, such as `yes`. Start it before the showing, since growing takes a few minutes.
@@ -174,26 +193,43 @@ Notes from the lab:
 
 The board wants to see every month what the members have cost, without anyone having to remember it. A script and a timer of your own store the report, and from it you calculate the cooperative's cost coverage.
 
-Your solution meets these requirements:
+![The monthly showback report. In the target state of task B, your timer on the front-end at the top starts your service, a systemd unit, once a month. The service runs your script, which queries the showback of OpenNebula and stores the report of the past month as a CSV file with the month in its name. Next to it, the timer opennebula-showback.timer that OpenNebula ships calculates the showback every day. At the bottom you calculate the cost coverage from the report and the costs of a month, the showback total divided by all costs. The costs rest on your assumptions. From this you make a proposal to the board. Notice that two timers work on the showback, yours and the one of OpenNebula.](../../../../assets/figures/en/p3c5-report.svg)
+
+### Starting point and result
+
+Since chapter 3.3 the template `ubuntu` has carried prices. There you calculated the showback by hand and exported it as CSV. OpenNebula calculates it every day with its own timer `opennebula-showback.timer`, but you have neither a timer of your own nor a monthly report yet.
+
+In the end a systemd timer of your own starts your script once a month, and the script stores the showback of the past month as a CSV file. From a report with data you calculate the cost per member and the cooperative's cost coverage.
+
+### Approach
+
+1. Try out by hand how to calculate the showback of a single month and print it as CSV.
+2. Write the script for the report of the past month so that a second run produces the same file.
+3. Create the systemd service and timer and decide which user they run as and when.
+4. Start a run by hand and check the file and the next run of the timer.
+5. Calculate the cost per member and the cost coverage from a report with data.
+6. Record values, assumptions and your decision for the documentation.
+
+### Requirements
 
 1. A script of your own stores the showback of the past month as a CSV file whose name gives the month.
 2. A systemd timer of your own starts the script once a month. Its name contains `showback` and does not start with `opennebula-`.
 3. If the script runs a second time for the same month, it produces the same file without duplicate lines.
 4. From the report you calculate the cost per member and the cooperative's cost coverage, with your assumptions stated.
 
-In the showing you present:
+### Showing
 
 - The timer with its last and next run
 - A run you start by hand and the file it stores
 - The cost coverage with your assumptions and a proposal to the board
 
-These sources help you:
+### Sources
 
 - The OpenNebula 7.4 [showback documentation](https://docs.opennebula.io/7.4/product/cloud_system_administration/multitenancy/showback/) on `oneshowback calculate` and `oneshowback list` with their options
 - The Ubuntu 26.04 manual pages on [systemd.timer](https://manpages.ubuntu.com/manpages/resolute/man5/systemd.timer.5.html), [systemd.service](https://manpages.ubuntu.com/manpages/resolute/man5/systemd.service.5.html) and the calendar expressions in [systemd.time](https://manpages.ubuntu.com/manpages/resolute/man7/systemd.time.7.html)
 - [Chapter 3.3](../showback/) on prices, showback and the CSV export, with its exercise "Cost model" as a simple calculation of the coverage
 
-Notes from the lab:
+### Notes from the lab
 
 - You can write the script in Bash or Python, for example, since both are available on the front-end
 - If your lab did not run yet in the past month, the report for that month is empty. Plan how to show a report with data in the showing, for example one for the current month.
@@ -203,21 +239,38 @@ Notes from the lab:
 
 Beat Kläy wants to know what the members notice when a node fails. You switch off a node without warning, observe what happens and derive a proposal for how Wolkenwerk should place its VMs.
 
-Your solution meets these requirements:
+![The failure of a node. In the target state of task C, node 1 and node 2 at the bottom run VMs of several members, and the disks of these VMs live in the system datastore of their node. In the example node 2 has been switched off hard. Its VMs and disks can no longer be reached, while node 1 keeps running. At the top, monitoring on the front-end checks the nodes regularly and gets no answer from node 2 anymore. On the right you record the states with times in your log. Your proposal with a rule, an alternative and the trade-off builds on this log and decides how the scheduler places new VMs on the nodes. Notice that the disks stay on the failed node. As long as it is off, nobody can reach them.](../../../../assets/figures/en/p3c5-failure.svg)
+
+### Starting point and result
+
+From the base the VMs `web-1` to `web-3` from part 2 and `praxis-1` and `treuhand-1` from part 3 are running, and the scheduler spreads them over both nodes by striping. Their disks live in the `system` datastore of their node, and the lab has neither shared storage nor a hook for failed hosts. So far you know a failure only from the description in chapter 2.5.
+
+In the end all VMs run again after a hard failure. Your log records with times what OpenNebula showed for nodes, VMs and services in between and what you had to do. Your placement proposal builds on it, with an alternative and the trade-off for the four members.
+
+### Approach
+
+1. Spread VMs of several members over both nodes and record which VM runs where.
+2. Take a snapshot of all three servers and prepare how you will record states with times.
+3. Switch one node off hard and watch nodes, VMs and services until OpenNebula reports the failure.
+4. Switch the node back on and get all VMs running again.
+5. Derive a placement proposal from your observations and weigh it against an alternative.
+6. Record times, steps and your decision for the documentation.
+
+### Requirements
 
 1. Before the failure, VMs of several members run on both nodes, and you record which VM runs where.
 2. You switch a node off hard and record with times what OpenNebula then shows for nodes, VMs and services.
 3. After you switch the node back on, all VMs run again, and you record what you had to do for that.
 4. Your placement proposal builds on your observations. It names a strategy or rule, an alternative and the trade-off for the four members.
 
-In the showing you present:
+### Showing
 
 - How the VMs were spread before the failure
 - The state of nodes and VMs during the failure with the times you measured
 - What you had to do after switching the node back on
 - Your proposal with its alternative and trade-off
 
-These sources help you:
+### Sources
 
 - [Chapter 2.5](../../iaas/hosts/) with the states of hosts and VMs, the scheduler, maintenance and the failure of a node
 - The section [life cycle of a VM](../../iaas/hosts/#life-cycle-of-a-vm) in chapter 2.5 with the commands that change the state of a VM
@@ -226,7 +279,7 @@ These sources help you:
 - [VM Groups (Affinity)](https://docs.opennebula.io/7.4/product/cloud_system_administration/capacity_planning/affinity/) with the rules for VM groups
 - [VM HA](https://docs.opennebula.io/7.4/product/control_plane_configuration/high_availability/vm_ha/) with the hook for failed hosts
 
-Notes from the lab:
+### Notes from the lab
 
 - A real failure comes without warning. Switch off the node's VM without shutting down Ubuntu inside it.
 - Watch `onehost list` and `onevm list` at short intervals and write down the times. If the service from task A is running, watch it as well.

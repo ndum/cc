@@ -74,7 +74,7 @@ To stop a member from doing something, you therefore change the ACLs or the perm
 
 ## Users in the group
 
-A member's group admin creates the member's users. New users land in the admin's group, and their VMs count against the group's quota.
+A member's group admin creates the member's users. New users land in the admin's group, and their VMs count against the group's quota. The [users documentation](https://docs.opennebula.io/7.4/product/cloud_system_administration/multitenancy/manage_users/#adding-users) describes `oneuser create`.
 
 ```bash
 export ONE_AUTH=~/cc-lab/tenants/praxis.auth
@@ -99,7 +99,7 @@ The template `ubuntu` belongs to `oneadmin`, and `chmod 604` lets the members on
 [one.template.update] User [2] : Not authorized to perform MANAGE TEMPLATE [1].
 ```
 
-The members may create templates of their own, though, because their group has allowed it since chapter 3.1. If the practice needs a larger VM, it copies the template and changes the copy.
+The members may create templates of their own, though, because their group has allowed it since chapter 3.1. If the practice needs a larger VM, it copies the template and changes the copy. The [VM template documentation](https://docs.opennebula.io/7.4/product/virtual_machines_operation/virtual_machines/vm_templates/#cloning-templates) describes both steps.
 
 ```bash
 onetemplate clone ubuntu praxis-gross

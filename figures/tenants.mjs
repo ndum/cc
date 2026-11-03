@@ -1,5 +1,6 @@
 /**
- * Figures of part 3, tenants and self-service. Writes one SVG per language into site/src/assets/figures/<lang>/.
+ * Figures of part 3, tenants, self-service and the advanced tasks of chapter 3.5. Writes one SVG per
+ * language into site/src/assets/figures/<lang>/.
  *
  *   node figures/tenants.mjs
  */
@@ -475,6 +476,313 @@ function roles(lang) {
   return figure({ id, width: 776, height: 350, title: t.title, desc: t.desc, body });
 }
 
+// Chapter 3.5, the target states of the three advanced tasks. They show what runs at the end and how
+// the parts work together, but no values that would answer a requirement.
+
+/** A dimension line from x1 to x2 with end ticks and its text below, code sets the text in the monospace font */
+function dimension(x1, x2, y, value, { accent = false, code = false } = {}) {
+  check(value, x2 - x1 - 16, { mono: code });
+  return [
+    line([[x1, y], [x2, y]], { accent }),
+    line([[x1, y - 5], [x1, y + 5]], { accent }),
+    line([[x2, y - 5], [x2, y + 5]], { accent }),
+    note((x1 + x2) / 2, y + 16, value, 'middle', { code }),
+  ].join('\n');
+}
+
+const ONEFLOW = {
+  de: {
+    title: 'Der Dienst der Treuhand in OneFlow',
+    desc:
+      'Im Zielzustand von Auftrag A liest OneFlow oben auf dem Front-end die Rollen und Regeln deiner ' +
+      'Dienstvorlage. Die Regeln nach Zeitplan richten sich nach der Systemzeit, die Regeln nach Last nach der ' +
+      'CPU, die das Monitoring für jede VM misst. Nach diesen Werten ändert OneFlow die Kardinalität einer Rolle. Unten läuft ' +
+      'der Dienst in der Gruppe treuhand. Ein Teil seiner VMs läuft immer, weitere VMs kommen nach Last oder ' +
+      'Zeitplan dazu und gehen danach wieder. Daneben läuft treuhand-1, eine andere VM der Gruppe. Achte auf die ' +
+      'Linien unter den VMs. Die Rolle bleibt zwischen min_vms und max_vms. Alle VMs des Dienstes passen ' +
+      'zusammen mit treuhand-1 in die Quota der Treuhand.',
+    fe: 'Front-end',
+    template: ['Dienstvorlage', 'deine Rollen und Regeln'],
+    clock: ['Systemzeit', 'Datum und Uhrzeit'],
+    flow: ['OneFlow', 'prüft die Regeln', 'opennebula-flow'],
+    monitor: ['Monitoring', 'CPU jeder VM'],
+    rules: 'Regeln',
+    schedule: 'Zeitplan',
+    load: 'Last',
+    cardinality: 'ändert die Kardinalität',
+    group: 'Gruppe',
+    service: 'Dienst',
+    always: ['VMs der Rolle', 'laufen immer'],
+    more: 'weitere VMs nach Last oder Zeitplan',
+    other: ['treuhand-1', 'andere VM der Gruppe'],
+    quota: 'Quota der Treuhand',
+  },
+  en: {
+    title: 'The OneFlow service of the fiduciary office',
+    desc:
+      'In the target state of task A, OneFlow on the front-end at the top reads the roles and rules of your ' +
+      'service template. Rules by schedule follow the system clock, and rules by load follow the CPU that ' +
+      'monitoring measures for every VM. Based on these values OneFlow changes the cardinality of a role. At the bottom the ' +
+      'service runs in the group treuhand. Some of its VMs always run, and more VMs join by load or by schedule ' +
+      'and leave again afterwards. Next to them runs treuhand-1, another VM of the group. Notice the lines below ' +
+      'the VMs. The role stays between min_vms and max_vms, and all VMs of the service fit into the quota of the ' +
+      'fiduciary office together with treuhand-1.',
+    fe: 'Front-end',
+    template: ['Service template', 'your roles and rules'],
+    clock: ['System clock', 'date and time'],
+    flow: ['OneFlow', 'checks the rules', 'opennebula-flow'],
+    monitor: ['Monitoring', 'CPU of every VM'],
+    rules: 'rules',
+    schedule: 'schedule',
+    load: 'load',
+    cardinality: 'changes the cardinality',
+    group: 'Group',
+    service: 'Service',
+    always: ['VMs of the role', 'always running'],
+    more: 'more VMs by load or by schedule',
+    other: ['treuhand-1', 'another VM of the group'],
+    quota: 'quota of the fiduciary office',
+  },
+};
+
+function oneflow(lang) {
+  const t = ONEFLOW[lang];
+  const id = `p3c5-oneflow-${lang}`;
+  // OneFlow sits between its three inputs, the service of the group sits below it
+  const flow = { x: 312, y: 56, w: 184, h: 136 };
+  const down = flow.x + flow.w / 2;
+  const up = 644;
+  const gapLabel = (x1, x2, y, value) => {
+    check(value, x2 - x1 - 8);
+    return note((x1 + x2) / 2, y, value, 'middle');
+  };
+  check(t.cardinality, up - down - 24);
+  const body = [
+    band(16, 16, 728, 196, 2),
+    label(32, 40, t.fe, 'start', { tone: 'blue' }),
+    // The group holds the service and its other VM, all of them count against one quota
+    band(16, 252, 728, 256, 1),
+    heading(32, 276, t.group, 'treuhand'),
+    band(232, 292, 496, 104, 3),
+    label(248, 316, t.service, 'start', { tone: 'violet' }),
+    // The rules come from the service template, the time from the clock and the load from monitoring
+    arrow(id, [[248, 84], [flow.x - 2, 84]]),
+    gapLabel(248, flow.x, 76, t.rules),
+    arrow(id, [[248, 164], [flow.x - 2, 164]]),
+    gapLabel(248, flow.x, 156, t.schedule),
+    arrow(id, [[560, 124], [flow.x + flow.w + 2, 124]]),
+    gapLabel(flow.x + flow.w, 560, 116, t.load),
+    tile(32, 56, 216, 56, ...t.template, { icon: 'doc', accent: true }),
+    tile(32, 136, 216, 56, ...t.clock, { icon: 'clock' }),
+    tile(flow.x, flow.y, flow.w, flow.h, t.flow[0], t.flow[1], { icon: 'sync', detail: t.flow[2] }),
+    tile(560, 96, 168, 56, ...t.monitor, { icon: 'chart' }),
+    // OneFlow changes the number of VMs, the VMs report their CPU to monitoring
+    arrow(id, [[down, flow.y + flow.h], [down, 290]], { accent: true }),
+    note(down + 8, 236, t.cardinality),
+    arrow(id, [[up, 292], [up, 154]]),
+    note(up + 8, 236, 'CPU', 'start', { code: true }),
+    tile(32, 328, 184, 52, ...t.other, { icon: 'vm', tone: 'violet' }),
+    tile(248, 328, 168, 52, ...t.always, { icon: 'vm', tone: 'violet' }),
+    strip(432, 328, 280, 52, t.more),
+    dimension(248, 416, 412, 'min_vms', { code: true }),
+    dimension(248, 712, 444, 'max_vms', { code: true }),
+    dimension(32, 728, 476, t.quota, { accent: true }),
+  ];
+  return figure({ id, width: 760, height: 524, title: t.title, desc: t.desc, body });
+}
+
+const REPORT = {
+  de: {
+    title: 'Der monatliche Bericht aus dem Showback',
+    desc:
+      'Im Zielzustand von Auftrag B startet oben auf dem Front-end dein Timer einmal im Monat deinen Dienst, ' +
+      'eine Unit von systemd. Der Dienst führt dein Skript aus. Das Skript fragt den Showback von OpenNebula ab ' +
+      'und legt den Bericht des vergangenen Monats als CSV-Datei ab, die den Monat im Namen trägt. Daneben ' +
+      'berechnet der Timer opennebula-showback.timer, den OpenNebula mitbringt, den Showback täglich. Unten ' +
+      'berechnest du aus dem Bericht und den Kosten eines Monats die Kostendeckung, also die Summe des Showbacks ' +
+      'geteilt durch alle Kosten. Die Kosten beruhen auf deinen Annahmen. Daraus machst du dem Vorstand einen ' +
+      'Vorschlag. Achte darauf, dass zwei Timer am Showback arbeiten, deiner und der von OpenNebula.',
+    fe: 'Front-end',
+    timer: ['Dein Timer', 'einmal im Monat'],
+    unit: ['Dein Dienst', 'Unit von systemd'],
+    script: ['Dein Skript', 'Showback des Vormonats'],
+    oneTimer: ['Timer von OpenNebula', 'opennebula-showback.timer'],
+    showback: ['Showback', 'Kosten pro VM'],
+    report: ['Bericht', 'CSV, Monat im Namen'],
+    starts: 'startet',
+    runs: 'führt aus',
+    daily: 'täglich',
+    asks: 'fragt ab',
+    stores: 'legt ab',
+    evaluation: 'Auswertung',
+    board: ['Vorstand', 'erhält deinen Vorschlag'],
+    coverage: ['Kostendeckung', 'Showback durch Kosten'],
+    costs: ['Kosten im Monat', 'deine Annahmen'],
+  },
+  en: {
+    title: 'The monthly showback report',
+    desc:
+      'In the target state of task B, your timer on the front-end at the top starts your service, a systemd unit, ' +
+      'once a month. The service runs your script, which queries the showback of OpenNebula and stores the ' +
+      'report of the past month as a CSV file with the month in its name. Next to it, the timer ' +
+      'opennebula-showback.timer that OpenNebula ships calculates the showback every day. At the bottom you ' +
+      'calculate the cost coverage from the report and the costs of a month, the showback total divided by all ' +
+      'costs. The costs rest on your assumptions. From this you make a proposal to the board. Notice that two ' +
+      'timers work on the showback, yours and the one of OpenNebula.',
+    fe: 'Front-end',
+    timer: ['Your timer', 'once a month'],
+    unit: ['Your service', 'a systemd unit'],
+    script: ['Your script', 'showback of last month'],
+    oneTimer: ['OpenNebula timer', 'opennebula-showback.timer'],
+    showback: ['Showback', 'cost per VM'],
+    report: ['Report', 'CSV, month in the name'],
+    starts: 'starts',
+    runs: 'runs',
+    daily: 'daily',
+    asks: 'queries',
+    stores: 'stores',
+    evaluation: 'Evaluation',
+    board: ['Board', 'gets your proposal'],
+    coverage: ['Cost coverage', 'showback by costs'],
+    costs: ['Costs of a month', 'your assumptions'],
+  },
+};
+
+function report(lang) {
+  const t = REPORT[lang];
+  const id = `p3c5-report-${lang}`;
+  // Three columns on the front-end, the evaluation below runs back from right to left
+  const gapLabel = (x1, x2, y, value) => {
+    check(value, x2 - x1 - 8);
+    return note((x1 + x2) / 2, y, value, 'middle');
+  };
+  check(t.stores, 744 - 688 - 16);
+  const body = [
+    band(16, 16, 728, 212, 2),
+    label(32, 40, t.fe, 'start', { tone: 'blue' }),
+    // Your timer starts your service, the service runs your script
+    arrow(id, [[232, 84], [286, 84]]),
+    gapLabel(232, 288, 76, t.starts),
+    arrow(id, [[464, 84], [518, 84]]),
+    gapLabel(464, 520, 76, t.runs),
+    // OpenNebula calculates the showback every day, your script asks for it and stores the report
+    arrow(id, [[264, 180], [310, 180]]),
+    gapLabel(264, 312, 172, t.daily),
+    arrow(id, [[552, 112], [552, 134], [400, 134], [400, 150]]),
+    gapLabel(400, 552, 127, t.asks),
+    arrow(id, [[680, 112], [680, 150]]),
+    note(688, 136, t.stores),
+    tile(32, 56, 200, 56, ...t.timer, { icon: 'clock', accent: true }),
+    tile(288, 56, 176, 56, ...t.unit, { icon: 'cog' }),
+    tile(520, 56, 208, 56, ...t.script, { icon: 'doc', accent: true }),
+    tile(32, 152, 232, 56, ...t.oneTimer, { icon: 'clock', code: true }),
+    tile(312, 152, 176, 56, ...t.showback, { icon: 'database' }),
+    tile(520, 152, 208, 56, ...t.report, { icon: 'doc' }),
+    // From the report and the costs to the coverage and on to the board
+    band(16, 252, 728, 120, 1),
+    label(32, 276, t.evaluation),
+    arrow(id, [[624, 208], [624, 240], [388, 240], [388, 290]], { accent: true }),
+    arrow(id, [[536, 320], [490, 320]]),
+    arrow(id, [[288, 320], [234, 320]], { accent: true }),
+    tile(32, 292, 200, 56, ...t.board, { icon: 'group' }),
+    tile(288, 292, 200, 56, ...t.coverage, { icon: 'chart', accent: true }),
+    tile(536, 292, 192, 56, ...t.costs, { icon: 'coin' }),
+  ];
+  return figure({ id, width: 760, height: 388, title: t.title, desc: t.desc, body });
+}
+
+const FAILURE = {
+  de: {
+    title: 'Der Ausfall eines Knotens',
+    desc:
+      'Im Zielzustand von Auftrag C laufen unten auf Knoten 1 und Knoten 2 VMs mehrerer Mitglieder. Ihre Disks ' +
+      'liegen im Datastore system ihres Knotens. Im Beispiel ist Knoten 2 hart ausgeschaltet. Seine VMs und Disks ' +
+      'sind nicht mehr erreichbar, Knoten 1 läuft weiter. Oben prüft das Monitoring auf dem Front-end die Knoten ' +
+      'regelmässig und bekommt von Knoten 2 keine Antwort mehr. Rechts hältst du die Zustände mit Zeiten in ' +
+      'deinem Protokoll fest. Darauf stützt sich dein Vorschlag mit Regel, Alternative und Abwägung. Er legt ' +
+      'fest, wie der Scheduler neue VMs auf die Knoten verteilt. Achte darauf, dass die Disks auf dem ' +
+      'ausgefallenen Knoten liegen. Solange er aus ist, kommt niemand an sie heran.',
+    fe: 'Front-end',
+    scheduler: ['Scheduler', 'platziert neue VMs auf den Knoten'],
+    monitoring: ['Monitoring', 'prüft die Knoten regelmässig'],
+    work: 'Deine Auswertung',
+    proposal: ['Dein Vorschlag', 'Regel, Alternative, Abwägung'],
+    log: ['Dein Protokoll', 'Zustände mit Zeiten'],
+    nodes: ['Knoten 1', 'Knoten 2'],
+    running: 'läuft weiter',
+    off: 'hart ausgeschaltet',
+    vms: ['VMs', 'der Mitglieder'],
+    disks: ['Datastore system', 'Disks der VMs'],
+    lostVms: 'VMs nicht erreichbar',
+    lostDisks: 'Disks nicht erreichbar',
+    silent: 'keine Antwort',
+  },
+  en: {
+    title: 'The failure of a node',
+    desc:
+      'In the target state of task C, node 1 and node 2 at the bottom run VMs of several members, and the disks of ' +
+      'these VMs live in the system datastore of their node. In the example node 2 has been switched off hard. Its VMs ' +
+      'and disks can no longer be reached, while node 1 keeps running. At the top, monitoring on the front-end ' +
+      'checks the nodes regularly and gets no answer from node 2 anymore. On the right you record the states ' +
+      'with times in your log. Your proposal with a rule, an alternative and the trade-off builds on this log ' +
+      'and decides how the scheduler places new VMs on the nodes. Notice that the disks stay on the failed node. ' +
+      'As long as it is off, nobody can reach them.',
+    fe: 'Front-end',
+    scheduler: ['Scheduler', 'places new VMs on the nodes'],
+    monitoring: ['Monitoring', 'checks the nodes regularly'],
+    work: 'Your analysis',
+    proposal: ['Your proposal', 'rule, alternative, trade-off'],
+    log: ['Your log', 'states with times'],
+    nodes: ['Node 1', 'Node 2'],
+    running: 'keeps running',
+    off: 'switched off hard',
+    vms: ['VMs', 'of the members'],
+    disks: ['System datastore', 'disks of the VMs'],
+    lostVms: 'VMs out of reach',
+    lostDisks: 'disks out of reach',
+    silent: 'no answer',
+  },
+};
+
+function failure(lang) {
+  const t = FAILURE[lang];
+  const id = `p3c5-failure-${lang}`;
+  // The front-end and your analysis at the top, the two nodes below, node 2 is the one that fails
+  const probe = 208;
+  const lost = 568;
+  check(t.silent, 744 - lost - 24);
+  const body = [
+    band(16, 16, 384, 196, 2),
+    label(32, 40, t.fe, 'start', { tone: 'blue' }),
+    band(424, 16, 320, 196, 1),
+    label(440, 40, t.work),
+    // States go into your log, the log into your proposal, the proposal into the rules of the scheduler
+    arrow(id, [[384, 164], [438, 164]]),
+    arrow(id, [[584, 136], [584, 114]]),
+    arrow(id, [[440, 84], [386, 84]], { dashed: true }),
+    tile(32, 56, 352, 56, ...t.scheduler, { icon: 'cog' }),
+    tile(32, 136, 352, 56, ...t.monitoring, { icon: 'chart' }),
+    tile(440, 56, 288, 56, ...t.proposal, { icon: 'doc', accent: true }),
+    tile(440, 136, 288, 56, ...t.log, { icon: 'logs' }),
+    // Monitoring still reaches node 1, node 2 no longer answers
+    arrow(id, [[probe, 192], [probe, 250]], { accent: true }),
+    line([[probe, 232], [lost, 232]], { dashed: true }),
+    arrow(id, [[lost, 232], [lost, 250]], { dashed: true }),
+    note(lost + 8, 246, t.silent),
+  ];
+  t.nodes.forEach((name, i) => {
+    const x = 16 + i * 376;
+    body.push(band(x, 252, 352, 120, 2), label(x + 16, 276, name, 'start', { tone: 'blue' }));
+  });
+  body.push(meta(352, 276, t.running, 'end'));
+  body.push(tag(408 + labelWidth(t.nodes[1]) + 8, 263, t.off));
+  body.push(tile(32, 292, 136, 56, ...t.vms, { icon: 'vm', tone: 'violet' }));
+  body.push(tile(184, 292, 168, 56, ...t.disks, { icon: 'disk' }));
+  body.push(strip(408, 292, 136, 56, t.lostVms));
+  body.push(strip(560, 292, 168, 56, t.lostDisks));
+  return figure({ id, width: 760, height: 388, title: t.title, desc: t.desc, body });
+}
+
 for (const lang of Object.keys(TENANTS)) {
   const dir = join(ROOT, 'site', 'src', 'assets', 'figures', lang);
   mkdirSync(dir, { recursive: true });
@@ -482,4 +790,7 @@ for (const lang of Object.keys(TENANTS)) {
   writeFileSync(join(dir, 'p3c2-quota.svg'), quota(lang));
   writeFileSync(join(dir, 'p3c3-showback.svg'), showback(lang));
   writeFileSync(join(dir, 'p3c4-roles.svg'), roles(lang));
+  writeFileSync(join(dir, 'p3c5-oneflow.svg'), oneflow(lang));
+  writeFileSync(join(dir, 'p3c5-report.svg'), report(lang));
+  writeFileSync(join(dir, 'p3c5-failure.svg'), failure(lang));
 }

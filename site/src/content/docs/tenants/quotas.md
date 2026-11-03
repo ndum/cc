@@ -59,7 +59,7 @@ Die Mitglieder zahlen und brauchen unterschiedlich viel. Die Treuhand bekommt me
 | Veloatelier Matte | `velo` | 2 | 1 | 2048 MB |
 | Gemeinde Hinterbüel | `gemeinde` | 2 | 1 | 2048 MB |
 
-Das Skript `lab/tenants/set-quotas.sh` setzt diese Werte. Für jede Gruppe schreibt es eine kleine Datei mit der Quota und übergibt sie an `onegroup quota`.
+Das Skript `lab/tenants/set-quotas.sh` setzt diese Werte. Für jede Gruppe schreibt es eine kleine Datei mit der Quota und übergibt sie an `onegroup quota`. Die [Anleitung zum Setzen von Quotas](https://docs.opennebula.io/7.4/product/cloud_system_administration/capacity_planning/quotas/#setting-usergroup-quotas) zeigt, wie du Quotas für Gruppen und Benutzer setzt.
 
 ::code{file="lab/tenants/set-quotas.sh"}
 

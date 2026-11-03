@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 524" role="img" aria-labelledby="p3c5-oneflow-de-title p3c5-oneflow-de-desc">
+<title id="p3c5-oneflow-de-title">Der Dienst der Treuhand in OneFlow</title>
+<desc id="p3c5-oneflow-de-desc">Im Zielzustand von Auftrag A liest OneFlow oben auf dem Front-end die Rollen und Regeln deiner Dienstvorlage. Die Regeln nach Zeitplan richten sich nach der Systemzeit, die Regeln nach Last nach der CPU, die das Monitoring für jede VM misst. Nach diesen Werten ändert OneFlow die Kardinalität einer Rolle. Unten läuft der Dienst in der Gruppe treuhand. Ein Teil seiner VMs läuft immer, weitere VMs kommen nach Last oder Zeitplan dazu und gehen danach wieder. Daneben läuft treuhand-1, eine andere VM der Gruppe. Achte auf die Linien unter den VMs. Die Rolle bleibt zwischen min_vms und max_vms. Alle VMs des Dienstes passen zusammen mit treuhand-1 in die Quota der Treuhand.</desc>
+<defs><marker id="p3c5-oneflow-de-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"/></marker><marker id="p3c5-oneflow-de-head-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head d-head-accent" d="M 0 1 L 9 5 L 0 9 z"/></marker></defs>
+<rect class="d-ground" x="0" y="0" width="760" height="524" rx="14"/>
+<rect class="d-band d-band-2" x="16" y="16" width="728" height="196" rx="12"/>
+<text class="d-label d-label-blue" x="32" y="40" text-anchor="start">FRONT-END</text>
+<rect class="d-band d-band-1" x="16" y="252" width="728" height="256" rx="12"/>
+<text class="d-label" x="32" y="276" text-anchor="start">GRUPPE</text>
+<text class="d-code" x="92.8528" y="276" text-anchor="start">treuhand</text>
+<rect class="d-band d-band-3" x="232" y="292" width="496" height="104" rx="12"/>
+<text class="d-label d-label-violet" x="248" y="316" text-anchor="start">DIENST</text>
+<path class="d-arrow" d="M 248 84 L 310 84" marker-end="url(#p3c5-oneflow-de-head)"/>
+<text class="d-sub" x="280" y="76" text-anchor="middle">Regeln</text>
+<path class="d-arrow" d="M 248 164 L 310 164" marker-end="url(#p3c5-oneflow-de-head)"/>
+<text class="d-sub" x="280" y="156" text-anchor="middle">Zeitplan</text>
+<path class="d-arrow" d="M 560 124 L 498 124" marker-end="url(#p3c5-oneflow-de-head)"/>
+<text class="d-sub" x="528" y="116" text-anchor="middle">Last</text>
+<rect class="d-shadow" x="32" y="57.5" width="216" height="56" rx="10"/>
+<rect class="d-tile d-tile-accent" x="32" y="56" width="216" height="56" rx="10"/>
+<g class="d-icon d-icon-accent" transform="translate(44 75) scale(0.75)"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></g>
+<text class="d-title" x="72" y="81" text-anchor="start">Dienstvorlage</text>
+<text class="d-sub" x="72" y="97" text-anchor="start">deine Rollen und Regeln</text>
+<rect class="d-shadow" x="32" y="137.5" width="216" height="56" rx="10"/>
+<rect class="d-tile" x="32" y="136" width="216" height="56" rx="10"/>
+<g class="d-icon" transform="translate(44 155) scale(0.75)"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></g>
+<text class="d-title" x="72" y="161" text-anchor="start">Systemzeit</text>
+<text class="d-sub" x="72" y="177" text-anchor="start">Datum und Uhrzeit</text>
+<rect class="d-shadow" x="312" y="57.5" width="184" height="136" rx="10"/>
+<rect class="d-tile" x="312" y="56" width="184" height="136" rx="10"/>
+<g class="d-icon" transform="translate(324 115) scale(0.75)"><path d="M20 12a8 8 0 0 1-14.3 4.9M4 12A8 8 0 0 1 18.3 7.1"/><path d="M18.5 3v4.3h-4.3M5.5 21v-4.3h4.3"/></g>
+<text class="d-title" x="352" y="114" text-anchor="start">OneFlow</text>
+<text class="d-sub" x="352" y="129" text-anchor="start">prüft die Regeln</text>
+<text class="d-code" x="352" y="144" text-anchor="start">opennebula-flow</text>
+<rect class="d-shadow" x="560" y="97.5" width="168" height="56" rx="10"/>
+<rect class="d-tile" x="560" y="96" width="168" height="56" rx="10"/>
+<g class="d-icon" transform="translate(572 115) scale(0.75)"><path d="M4 20h16"/><path d="M7 16v-4M12 16V8M17 16v-7"/></g>
+<text class="d-title" x="600" y="121" text-anchor="start">Monitoring</text>
+<text class="d-sub" x="600" y="137" text-anchor="start">CPU jeder VM</text>
+<path class="d-arrow d-arrow-accent" d="M 404 192 L 404 290" marker-end="url(#p3c5-oneflow-de-head-accent)"/>
+<text class="d-sub" x="412" y="236" text-anchor="start">ändert die Kardinalität</text>
+<path class="d-arrow" d="M 644 292 L 644 154" marker-end="url(#p3c5-oneflow-de-head)"/>
+<text class="d-code" x="652" y="236" text-anchor="start">CPU</text>
+<rect class="d-shadow" x="32" y="329.5" width="184" height="52" rx="10"/>
+<rect class="d-tile d-tile-violet" x="32" y="328" width="184" height="52" rx="10"/>
+<g class="d-icon d-icon-violet" transform="translate(44 345) scale(0.75)"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="8.5" y="8.5" width="7" height="7" rx="1"/></g>
+<text class="d-title d-title-violet" x="72" y="351" text-anchor="start">treuhand-1</text>
+<text class="d-sub" x="72" y="367" text-anchor="start">andere VM der Gruppe</text>
+<rect class="d-shadow" x="248" y="329.5" width="168" height="52" rx="10"/>
+<rect class="d-tile d-tile-violet" x="248" y="328" width="168" height="52" rx="10"/>
+<g class="d-icon d-icon-violet" transform="translate(260 345) scale(0.75)"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="8.5" y="8.5" width="7" height="7" rx="1"/></g>
+<text class="d-title d-title-violet" x="288" y="351" text-anchor="start">VMs der Rolle</text>
+<text class="d-sub" x="288" y="367" text-anchor="start">laufen immer</text>
+<rect class="d-strip" x="432" y="328" width="280" height="52" rx="8"/>
+<text class="d-sub" x="572" y="358" text-anchor="middle">weitere VMs nach Last oder Zeitplan</text>
+<path class="d-line" d="M 248 412 L 416 412"/>
+<path class="d-line" d="M 248 407 L 248 417"/>
+<path class="d-line" d="M 416 407 L 416 417"/>
+<text class="d-code" x="332" y="428" text-anchor="middle">min_vms</text>
+<path class="d-line" d="M 248 444 L 712 444"/>
+<path class="d-line" d="M 248 439 L 248 449"/>
+<path class="d-line" d="M 712 439 L 712 449"/>
+<text class="d-code" x="480" y="460" text-anchor="middle">max_vms</text>
+<path class="d-line d-line-accent" d="M 32 476 L 728 476"/>
+<path class="d-line d-line-accent" d="M 32 471 L 32 481"/>
+<path class="d-line d-line-accent" d="M 728 471 L 728 481"/>
+<text class="d-sub" x="380" y="492" text-anchor="middle">Quota der Treuhand</text>
+</svg>

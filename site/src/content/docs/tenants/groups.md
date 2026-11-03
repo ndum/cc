@@ -37,7 +37,7 @@ Ein **VDC** (Virtual Data Center) ist ein Ausschnitt der Infrastruktur, den Open
 
 ## Gruppen und Gruppenadmins
 
-`onegroup create` legt eine Gruppe an und auf Wunsch gleich einen Admin dazu. `--resources` bestimmt, welche Objekte die Benutzer der Gruppe selbst erstellen dürfen. Im Lab sind das VMs, Images, Vorlagen und Dokumente. Die Dokumente braucht OneFlow in [Kapitel 3.5](../advanced/#dienste-und-rollen), denn OpenNebula speichert einen Dienst als Dokument.
+`onegroup create` legt eine Gruppe an und auf Wunsch gleich einen Admin dazu. `--resources` bestimmt, welche Objekte die Benutzer der Gruppe selbst erstellen dürfen. Im Lab sind das VMs, Images, Vorlagen und Dokumente. Die Dokumente braucht OneFlow in [Kapitel 3.5](../advanced/#dienste-und-rollen), denn OpenNebula speichert einen Dienst als Dokument. Die Optionen von `onegroup create` beschreibt die [Dokumentation zu den Gruppen](https://docs.opennebula.io/7.4/product/cloud_system_administration/multitenancy/manage_groups/#admin-users-and-allowed-resources).
 
 Das Skript `lab/tenants/make-tenants.sh` legt die vier Mitglieder an. Es erzeugt zufällige Passwörter für die Gruppenadmins und speichert sie in `~/cc-lab/tenants/`, wo nur dein Benutzer sie lesen kann.
 
@@ -49,7 +49,7 @@ onegroup list
 oneuser list
 ```
 
-Jede neue Gruppe landet zuerst im VDC `default`, das allen Gruppen alle Cluster gibt. Das Skript nimmt die Mitglieder dort heraus und fasst sie im VDC `wolkenwerk` zusammen. Diesem VDC teilt es den Cluster 0 zu, der beide Knoten, das Netz `cc-net` und die Datastores enthält. Zum Schluss gibt es die Vorlage `ubuntu` und ihr Image mit `chmod 604` für alle zur Nutzung frei. Die erste Ziffer 6 erlaubt dem Besitzer das Nutzen und Verwalten. Die 0 gibt der Gruppe `oneadmin` keine zusätzlichen Rechte, die 4 erlaubt allen anderen das Nutzen.
+Jede neue Gruppe landet zuerst im VDC `default`, das allen Gruppen alle Cluster gibt. Das Skript nimmt die Mitglieder dort heraus und fasst sie im VDC `wolkenwerk` zusammen. Diesem VDC teilt es den Cluster 0 zu, der beide Knoten, das Netz `cc-net` und die Datastores enthält. Die [Dokumentation zu den VDCs](https://docs.opennebula.io/7.4/product/cloud_system_administration/multitenancy/manage_vdcs/) beschreibt das VDC `default` und die Befehle von `onevdc`. Zum Schluss gibt es die Vorlage `ubuntu` und ihr Image mit `chmod 604` für alle zur Nutzung frei. Die erste Ziffer 6 erlaubt dem Besitzer das Nutzen und Verwalten. Die 0 gibt der Gruppe `oneadmin` keine zusätzlichen Rechte, die 4 erlaubt allen anderen das Nutzen.
 
 In Sunstone steht das VDC unter «System › VDCs», sein Reiter «Groups» listet die vier Gruppen.
 
@@ -57,7 +57,7 @@ In Sunstone steht das VDC unter «System › VDCs», sein Reiter «Groups» list
 
 ## Als Mitglied arbeiten
 
-Um zu sehen, was ein Mitglied sieht, meldest du dich als dessen Admin an. Die CLI liest Benutzer und Passwort aus der Datei, auf die `ONE_AUTH` zeigt. Die Schleife legt eine solche Datei für jeden der vier Admins an. Du brauchst die Dateien auch in den nächsten Kapiteln.
+Um zu sehen, was ein Mitglied sieht, meldest du dich als dessen Admin an. Die CLI liest Benutzer und Passwort aus der Datei, auf die `ONE_AUTH` zeigt. Die [Dokumentation zur Konfiguration der CLI](https://docs.opennebula.io/7.4/product/operation_references/command_line_interface/cli_configuration/#shell-environment) beschreibt diese Variable. Die Schleife legt eine solche Datei für jeden der vier Admins an. Du brauchst die Dateien auch in den nächsten Kapiteln.
 
 ```bash
 for m in praxis treuhand velo gemeinde; do
@@ -86,7 +86,7 @@ Als `oneadmin` zeigt dir Sunstone dagegen die VMs aller Mitglieder.
 
 ## ACLs
 
-Gruppen und VDCs beruhen auf **ACLs** (Access Control Lists). Jede Regel sagt, wer welche Ressourcen mit welchen Rechten bearbeiten darf. `oneacl list` zeigt die Regeln als Tabelle mit Buchstaben, `oneacl create` legt eine neue an.
+Gruppen und VDCs beruhen auf **ACLs** (Access Control Lists). Jede Regel sagt, wer welche Ressourcen mit welchen Rechten bearbeiten darf. `oneacl list` zeigt die Regeln als Tabelle mit Buchstaben, `oneacl create` legt eine neue an. Den Aufbau einer Regel erklärt die [Dokumentation zu den ACLs](https://docs.opennebula.io/7.4/product/cloud_system_administration/multitenancy/chmod/#managing-acl-rules).
 
 ```text
 @100 VM+IMAGE+TEMPLATE+DOCUMENT/* CREATE
