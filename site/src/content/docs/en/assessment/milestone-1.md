@@ -18,7 +18,7 @@ Everything runs in your own lab with your personal parameters from chapter 0.3. 
 3. The network `cc-net` is created from your parameters, a VM from the template `ubuntu` runs with SSH and internet access, and the check `iaas` is green.
 4. You empty a node for maintenance, put it back into service and move a VM live.
 5. The four members have groups with admins in the VDC `wolkenwerk`, and one member does not see the VMs of another.
-6. The members' quotas are set, the municipality has the quota from your [personal values](../../start/parameters/), and you show the message at the limit.
+6. The members' quotas are set, the municipality has the quota from your [personal values](../../start/parameters/#your-values-for-the-milestones), and you show the message at the limit.
 7. The template `ubuntu` has prices, the showback of a month exists as CSV, and a user of a member starts a VM in self-service.
 
 You prove the base with the report of the check `m1` and one screenshot per requirement, each with a file name that starts with the number of its requirement. `python3 ~/cc/checks/check.py m1` writes the report on the front-end.

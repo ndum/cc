@@ -47,7 +47,7 @@ Die Adressen, Ports und Befehle für diese Schritte stehen in der [Lab-Referenz]
 | Ein Mitglied sieht `cc-net` nicht | Die Gruppe ist noch im VDC `default`, oder der Cluster fehlt im VDC | `onevdc show wolkenwerk`, `make-tenants.sh` noch einmal | [3.1](../tenants/groups/) |
 | Ein Mitglied kann keine VM mehr starten | Seine Quota ist ausgeschöpft | `onegroup show <gruppe>`, VMs aufräumen oder Quota bewusst anpassen | [3.2](../tenants/quotas/) |
 | `Not authorized to perform CREATE DOCUMENT` beim Start eines Dienstes | Die Gruppe darf keine Dokumente anlegen | `oneacl create "@<gid> DOCUMENT/* CREATE"` | [3.5](../tenants/advanced/) |
-| `oneshowback list` zeigt Kosten 0 | VM vor dem Eintragen der Preise gestartet, oder `calculate` fehlt | VM neu starten, nach einer Weile `oneshowback calculate` | [3.3](../tenants/showback/) |
+| `oneshowback list` zeigt Kosten 0 | VM vor dem Eintragen der Preise gestartet, oder `calculate` fehlt | VM mit `onevm terminate` beenden und aus der Vorlage neu starten, nach einer Weile `oneshowback calculate` | [3.3](../tenants/showback/) |
 | Der Dienst von OneFlow wächst nicht | Last zu kurz, oder OneFlow nimmt das Mittel aller VMs der Rolle | `oneflow show`, mindestens drei Minuten Last, in allen VMs der Rolle Last erzeugen | [3.5](../tenants/advanced/) |
 | Eine wiederhergestellte VM gehört `oneadmin` | `oneimage restore` legt neue Objekte an | `onevm chown <vm> <benutzer> <gruppe>` | [6.2](../operations/backup/) |
 | `onevm backup` lehnt eine VM ab | Die VM steht schon in einem Backup-Job | `onebackupjob backup praxis-nightly` sichert alle VMs des Jobs | [6.2](../operations/backup/) |
@@ -59,7 +59,7 @@ Die Adressen, Ports und Befehle für diese Schritte stehen in der [Lab-Referenz]
 |---|---|---|---|
 | `make-network.sh` findet keine Schnittstelle | SSH vom Front-end zu Knoten 1 fehlt | Schlüssel nachtragen oder die Schnittstelle als Argument angeben | [2.3](../iaas/networks/) |
 | Die VM läuft, SSH auf ihre Adresse hängt | `cc-gateway` läuft nicht, oder Multicast im Netz von smartlearn ist blockiert | `sudo cc-gateway status`, `bridge fdb show dev cc-vxlan` | [2.3](../iaas/networks/) |
-| SSH auf eine VM verlangt ein Passwort | Der Schlüssel war bei `oneadmin` oder beim Gruppenadmin nicht hinterlegt, als die VM startete | Schlüssel mit `oneuser update --append` hinterlegen, VM neu starten | [2.4](../iaas/images/), [3.4](../tenants/self-service/) |
+| SSH auf eine VM verlangt ein Passwort | Der Schlüssel war bei `oneadmin` oder beim Gruppenadmin nicht hinterlegt, als die VM startete | Schlüssel mit `oneuser update --append` hinterlegen, VM beenden und aus der Vorlage neu starten | [2.4](../iaas/images/), [3.1](../tenants/groups/#als-mitglied-arbeiten) |
 | Downloads in einer VM brechen ab | MTU 1500 statt 1450 im Netz | `GUEST_MTU` mit `onevnet show cc-net` prüfen, VM neu starten | [2.3](../iaas/networks/) |
 | Nach der Härtung ist Gitea vom Client aus nicht mehr erreichbar | Die Firewall lässt von aussen nur SSH und Port 2616 zu | so gewollt, Gitea über einen Tunnel vom Client erreichen | [6.1](../operations/security/) |
 | Nach der Härtung keine Anmeldung mehr | Der Schlüssel des Clients fehlt auf dem Front-end oder passt nicht | An der Konsole des Front-ends anmelden, `/etc/ssh/sshd_config.d/10-cc-hardening.conf` entfernen, SSH mit `sudo systemctl reload ssh` neu laden, den Schlüssel mit `ssh-copy-id` eintragen und neu härten | [6.1](../operations/security/) |

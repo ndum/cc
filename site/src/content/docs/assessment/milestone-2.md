@@ -18,7 +18,7 @@ Alles läuft in deinem eigenen Lab mit deinen persönlichen Parametern aus Kapit
 3. Gitea läuft auf dem Front-end mit dem privaten Repo `wolkenwerk/platform`, Argo CD liest es mit einem Token, das nur lesen darf.
 4. Argo CD rollt den Webshop aus Git aus, du zeigst Self-Heal und eine Änderung über Git.
 5. Die Namespaces `velo` und `gemeinde` entstehen aus der Vorlage mit ResourceQuota, LimitRange und NetworkPolicy.
-6. Die ResourceQuota der Gemeinde hat die Grenzen aus deinen [persönlichen Werten](../../start/parameters/) und kommt über einen Pull Request.
+6. Die ResourceQuota der Gemeinde hat die Grenzen aus deinen [persönlichen Werten](../../start/parameters/#deine-werte-für-die-meilensteine) und kommt über einen Pull Request.
 7. Du zeigst die Quota an ihrer Grenze und die Trennung der Namespaces durch die NetworkPolicy, der Check `m2` ist grün.
 
 Die Basis belegst du mit dem Bericht des Checks `m2` und mit einem Screenshot zu jeder Anforderung, dessen Dateiname mit ihrer Nummer beginnt. Den Bericht erzeugt `python3 ~/cc/checks/check.py m2` auf dem Front-end. Für den Pull Request genügt ein Screenshot aus Gitea mit dem Diff und dem Merge.

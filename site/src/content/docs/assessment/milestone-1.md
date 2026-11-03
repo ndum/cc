@@ -18,7 +18,7 @@ Alles läuft in deinem eigenen Lab mit deinen persönlichen Parametern aus Kapit
 3. Das Netz `cc-net` ist aus deinen Parametern angelegt, eine VM aus der Vorlage `ubuntu` läuft mit SSH und Zugang zum Internet, der Check `iaas` ist grün.
 4. Du leerst einen Knoten für die Wartung, nimmst ihn wieder in Betrieb und verschiebst eine VM live.
 5. Die vier Mitglieder haben Gruppen mit Admins im VDC `wolkenwerk`, ein Mitglied sieht die VMs eines anderen nicht.
-6. Die Quotas der Mitglieder sind gesetzt, die Gemeinde hat die Quota aus deinen [persönlichen Werten](../../start/parameters/). Du zeigst die Meldung an der Grenze.
+6. Die Quotas der Mitglieder sind gesetzt, die Gemeinde hat die Quota aus deinen [persönlichen Werten](../../start/parameters/#deine-werte-für-die-meilensteine). Du zeigst die Meldung an der Grenze.
 7. Die Vorlage `ubuntu` hat Preise, der Showback eines Monats liegt als CSV vor. Ein Benutzer eines Mitglieds startet eine VM im Self-Service.
 
 Die Basis belegst du mit dem Bericht des Checks `m1` und mit einem Screenshot zu jeder Anforderung, dessen Dateiname mit ihrer Nummer beginnt. Den Bericht erzeugt `python3 ~/cc/checks/check.py m1` auf dem Front-end.

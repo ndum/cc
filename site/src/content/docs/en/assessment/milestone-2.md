@@ -18,7 +18,7 @@ Everything runs in your own lab with your personal parameters from chapter 0.3. 
 3. Gitea runs on the front-end with the private repo `wolkenwerk/platform`, and Argo CD reads it with a read-only token.
 4. Argo CD rolls out the web shop from Git, and you show self-heal and a change through Git.
 5. The namespaces `velo` and `gemeinde` come from the template with ResourceQuota, LimitRange and NetworkPolicy.
-6. The municipality's ResourceQuota uses your [personal values](../../start/parameters/) and arrives through a pull request.
+6. The municipality's ResourceQuota uses your [personal values](../../start/parameters/#your-values-for-the-milestones) and arrives through a pull request.
 7. You show the quota at its limit and the separation of the namespaces by the NetworkPolicy, and the check `m2` is green.
 
 You prove the base with the report of the check `m2` and one screenshot per requirement, each with a file name that starts with the number of its requirement. `python3 ~/cc/checks/check.py m2` writes the report on the front-end. For a pull request, a screenshot from Gitea with the diff and the merge is enough.

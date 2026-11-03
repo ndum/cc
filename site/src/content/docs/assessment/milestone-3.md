@@ -17,7 +17,7 @@ Alles läuft in deinem eigenen Lab mit deinen persönlichen Parametern aus Kapit
 2. Die Exporter von OpenNebula sind installiert, alle Ziele in Prometheus sind `up`.
 3. Das Dashboard des Kurses läuft, mindestens ein Panel darin hast du selbst entworfen.
 4. Du findest den Fehler eines Deployments mit LogQL in Loki.
-5. Das SLO des Webshops ist mit dem Ziel aus deinen [persönlichen Werten](../../start/parameters/) als Regel hinterlegt, du löst den Alert über Git aus und beendest ihn wieder.
+5. Das SLO des Webshops ist mit dem Ziel aus deinen [persönlichen Werten](../../start/parameters/#deine-werte-für-die-meilensteine) als Regel hinterlegt, du löst den Alert über Git aus und beendest ihn wieder.
 6. Der Webshop wächst unter Last mit dem HPA bis zu deiner persönlichen Obergrenze und schrumpft wieder, du zeigst den Lasttest im Dashboard.
 7. Der Check `m3` ist grün.
 

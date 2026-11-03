@@ -17,7 +17,7 @@ Everything runs in your own lab with your personal parameters from chapter 0.3. 
 2. The OpenNebula exporters are installed, and every target in Prometheus is `up`.
 3. The course dashboard runs, and you designed at least one panel in it yourself.
 4. You find the fault of a deployment with LogQL in Loki.
-5. The web shop SLO is stored as a rule with the target from your [personal values](../../start/parameters/), and you fire the alert through Git and end it again.
+5. The web shop SLO is stored as a rule with the target from your [personal values](../../start/parameters/#your-values-for-the-milestones), and you fire the alert through Git and end it again.
 6. The web shop grows under load with the HPA up to your personal maximum and shrinks again, and you show the load test in the dashboard.
 7. The check `m3` is green.
 
