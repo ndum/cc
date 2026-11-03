@@ -1,6 +1,8 @@
 ---
 title: Advanced tasks
 description: The three advanced tasks of milestone 2, a rebuild drill of the whole platform, a member of your own with an AppProject and branch protection for main in Gitea.
+tableOfContents:
+  maxHeadingLevel: 2
 sidebar:
   order: 6
   badge:
@@ -131,7 +133,24 @@ A fix in an emergency waits for a review too, and the outage lasts longer. Teams
 
 Beat Kläy wants to know how long the bike shop's web shop is down if everything is gone. You tear the platform down, rebuild it from the code alone and time the outage.
 
-Your solution meets these requirements:
+![Rebuilding the platform. The target state of task A. After a teardown the platform comes back from code. At the top left is the front-end, which stays in place. It holds OpenTofu with the code and the state, and Gitea with the repo wolkenwerk/platform. At the top right is the new k3s cluster in cc-net. OpenTofu creates the two VMs k3s-server and k3s-agent again. Argo CD arrives with the bootstrap, pulls the desired state from Gitea and applies the applications for the web shop and the members. At the bottom your runbook or script times every step, the teardown, the start of the VMs, Kubernetes and Argo CD. Notice that the outage runs from the start of the teardown to the first answer of the web shop.](../../../../assets/figures/en/p4c6-rebuild.svg)
+
+### Starting point and result
+
+From the base you have the VMs `k3s-server` and `k3s-agent` from OpenTofu, with their state in `~/platform/tofu` on the front-end (chapter 4.2), and k3s from the start script (chapter 4.3). Gitea on the front-end holds the repo `wolkenwerk/platform`. Since the bootstrap in chapter 4.4, Argo CD rolls out the applications `root`, `webshop`, `member-velo` and `member-gemeinde` from it, with the web shop in the namespace `velo` and the limits of the namespaces `velo` and `gemeinde` from chapter 4.5.
+
+At the end you have torn the platform down with `tofu destroy` and rebuilt it from your code and the repo in Gitea alone. The web shop answers again, every application is `Synced` and `Healthy`, and `tofu plan` shows no changes. Your runbook or script records the time of each step.
+
+### Approach
+
+1. Record the state before the teardown and look for drift in the VMs and in the cluster.
+2. Write the teardown and the rebuild down as a runbook or a script that times every step.
+3. Tear the platform down and rebuild it with your procedure from the code and the repo in Gitea alone.
+4. Check the new platform with the plan, the applications, the web shop and the members' limits.
+5. Compare the state afterwards with the state before and work out what the rebuild did not bring back.
+6. Record the times per step, the problems and your choice between runbook and script for the documentation.
+
+### Requirements
 
 1. After the teardown with `tofu destroy`, the platform comes back from your code and the repo in Gitea alone. Apart from the Argo CD bootstrap, you create nothing in the cluster by hand.
 2. You measure the time from the start of the teardown to the first answer of the web shop and record the time of each step.
@@ -139,14 +158,14 @@ Your solution meets these requirements:
 4. The procedure is written down as a short runbook or as a script that another person could use to repeat the rebuild.
 5. You explain on your lab what role the state plays in the teardown, what happens to a change made by hand and what the rebuild does not bring back.
 
-In the showing you present:
+### Showing
 
 - The state before the teardown with `tofu plan` and the applications in Argo CD
 - The teardown and the rebuild with your runbook or script and the running time measurement
 - The platform after the rebuild with the web shop, the applications, the limits and `tofu plan`
 - Your times per step and what you conclude from them
 
-These sources help you:
+### Sources
 
 - [Chapter 4.1](../iac/#state) on state, plan and drift
 - [Chapter 4.2](../opentofu/#changing-replacing-and-rebuilding) on `tofu plan` and `tofu apply` for the cluster VMs
@@ -155,7 +174,7 @@ These sources help you:
 - The OpenTofu 1.13 documentation on [`tofu destroy`](https://opentofu.org/docs/v1.13/cli/commands/destroy/), the [state](https://opentofu.org/docs/v1.13/language/state/) and the [modes of `tofu plan`](https://opentofu.org/docs/v1.13/cli/commands/plan/), among them `-refresh-only`, which updates the state to match changes made outside OpenTofu
 - [Cluster Bootstrapping](https://argo-cd.readthedocs.io/en/release-3.5/operator-manual/cluster-bootstrapping/) in the Argo CD 3.5 documentation on the app of apps pattern the bootstrap relies on
 
-Notes from the lab:
+### Notes from the lab
 
 - With the platform as it stood after part 4, the rebuild took just under three minutes until the web shop ran again. Start it early in the showing and explain your code while it runs.
 - Gitea on the front-end stays reachable the whole time
@@ -168,7 +187,24 @@ The times and notes here assume the platform as it stood after part 4. A later r
 
 Before the next member joins, Beat Kläy wants to see that it can only work in its own area. A member of your choice gets a namespace from the template through a pull request, like the municipality, and an AppProject in Argo CD restricts its applications to that namespace.
 
-Your solution meets these requirements:
+![A member of your own with an AppProject. The target state of task B. At the top, a pull request in Gitea asks for the namespace from the template, and after the review the member folder and the AppProject are on main. In the middle, Argo CD pulls both from Git. The member application and a test application name the AppProject, which allows only the member namespace as a destination. At the bottom, in the cluster, Argo CD applies the member application in its namespace with its own quota and LimitRange. Notice the test application. It tries to write to the namespace velo of another member, and Argo CD rejects it.](../../../../assets/figures/en/p4c6-member.svg)
+
+### Starting point and result
+
+From the base, the repo `wolkenwerk/platform` holds the template `templates/member` and the ApplicationSet `members`, which generates an application in the project `default` for every folder under `members` (chapter 4.5). The namespaces `velo` and `gemeinde` have their limits, and you reviewed and merged the municipality's request as a pull request. The practice and the fiduciary office have no namespace yet.
+
+At the end a member of your choice has a namespace of its own from the template, with limits you derived from its needs. An AppProject from Git allows its applications only this namespace as a destination. Argo CD rejects an application of the project that tries to write anywhere else.
+
+### Approach
+
+1. Choose a member without a namespace and estimate the number, CPU and memory of its pods.
+2. Derive the quota and the LimitRange from that and check all quotas together against the cluster.
+3. Request the namespace with a pull request like the municipality, then review and merge it.
+4. Decide which applications belong to the member's project. Then put the AppProject into Git.
+5. Use a test application to check that Argo CD rejects a destination outside the namespace.
+6. Record the needs, the calculation, the rejection and your decision on the project for the documentation.
+
+### Requirements
 
 1. The member has no namespace in part 4 yet. It comes in through a pull request in Gitea that you review and merge.
 2. Quota and LimitRange have values of your own. You derive them from the member's needs and check that all quotas together fit the cluster.
@@ -176,14 +212,14 @@ Your solution meets these requirements:
 4. The AppProject is in Git and reaches the cluster through Argo CD.
 5. Argo CD rejects an application of the project that tries to write to another namespace.
 
-In the showing you present:
+### Showing
 
 - The member's pull request with the diff and your reasons for the values
 - The member's limits in the cluster and your calculation for all members
 - The AppProject in Git and the applications that belong to it
 - An application that Argo CD rejects because of the project, with the reason
 
-These sources help you:
+### Sources
 
 - [Chapter 4.5](../templates/#kustomize) with the template, the bike shop's patch and the municipality's pull request
 - [Chapter 4.3](../kubernetes/#requests-limits-and-scheduling) on requests and limits
@@ -193,7 +229,7 @@ These sources help you:
 - [Git generator](https://argo-cd.readthedocs.io/en/release-3.5/operator-manual/applicationset/Generators-Git/) on how an ApplicationSet selects and excludes folders
 - [ApplicationSet Security](https://argo-cd.readthedocs.io/en/release-3.5/operator-manual/applicationset/Security/) on the risk of a project that comes from the template
 
-Notes from the lab:
+### Notes from the lab
 
 - Before you open the pull request, `kubectl kustomize` shows what the template produces for your member
 - Argo CD shows the reason for a rejection on the application in its interface
@@ -202,28 +238,45 @@ Notes from the lab:
 
 Nobody should change the platform without a second person looking at the change first. Changes therefore only reach `main` of the repo `wolkenwerk/platform` through a reviewed pull request, and Gitea enforces the rule itself.
 
-Your solution meets these requirements:
+![The protected branch main. The target state of task C. On the left is the platform team with two accounts, your account platform, which is also the Gitea administrator, and a second account with write access. In the middle, Gitea holds the repo wolkenwerk/platform with the protected branch main. Gitea rejects a direct push from platform to main. A pull request from platform needs an approval. The second account approves it, and only then does Gitea merge it into main. On the right, Argo CD in the k3s cluster pulls main with read access only and applies the change as before. Notice that you decide yourself who may bypass the rule.](../../../../assets/figures/en/p4c6-branch.svg)
+
+### Starting point and result
+
+From the base you have Gitea on the front-end with the administrator `platform`, the organization `wolkenwerk` and the repo `platform` (chapter 4.4). You push your own changes straight to `main` with `platform.token`, and Argo CD reads the repo with `argocd.token` and rolls out every new commit. There is no account besides `platform`, because nobody can sign up on their own.
+
+At the end Gitea rejects every direct push to `main` and only lets you merge a pull request once a second account with write access has approved it. Argo CD then rolls out the change as before. You have checked who can get around the rule and decided whether that stays.
+
+### Approach
+
+1. Decide who may write to `main`, approve and get around the rule, including the pushes of parts 5 and 6.
+2. Create the second account and give it write access to the repo.
+3. Set up the rule for `main` in the settings of the repo.
+4. Test the rule with a direct push and with a pull request that the second account approves.
+5. Check after the merge that Argo CD rolls out the change.
+6. Record the settings, the messages and your decision on the exception for the documentation.
+
+### Requirements
 
 1. Gitea rejects a direct push to `main` of the repo `wolkenwerk/platform`.
 2. A pull request to `main` can only be merged once another account with write access has approved it.
 3. After the merge, Argo CD rolls out the change as before.
 4. You show who could get around the rule in your Gitea, and you decide and justify whether that exception stays.
 
-In the showing you present:
+### Showing
 
 - The rule for `main` in the settings of the repo
 - A direct push that Gitea rejects, with the message in the terminal
 - A pull request that Gitea only lets you merge after the approval
 - The change in the cluster after the merge
 
-These sources help you:
+### Sources
 
 - [Chapter 4.4](../gitops/#gitea-on-the-front-end) on Gitea with sign-up turned off, so that only an administrator creates accounts
 - [The repo platform](../gitops/#the-repo-platform) in chapter 4.4 with the rights of the two tokens
 - [Chapter 4.5](../templates/#the-municipalitys-request) with the path of a request
 - The Gitea 28 documentation with every setting under [Protected branches](https://docs.gitea.com/usage/access-control/protected-branches/) and the commands for accounts in the [command line reference](https://docs.gitea.com/administration/command-line)
 
-Notes from the lab:
+### Notes from the lab
 
 - You create another account under "Site Administration" in the web interface or with `gitea admin user create`
 

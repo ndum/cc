@@ -46,7 +46,7 @@ Gitea runs on the front-end, outside the cluster. You rebuild the cluster in cha
 sudo ~/cc/platform/gitea/install-gitea.sh
 ```
 
-The script verifies the checksum of the program, creates the system user `git` and writes the configuration itself, so no install wizard in the browser is needed. Gitea stores its data in SQLite and runs as a systemd service. Nobody can sign up on their own, and without signing in you see nothing. In the browser of the client (the Kali VM on smartlearn, your PC with your own hypervisor), Gitea is on port 3000 of the front-end. You sign in as `platform` with the password from `~/cc-lab/gitea/platform.pass`.
+The script verifies the checksum of the program, creates the system user `git` and writes the configuration itself, so no install wizard in the browser is needed. Gitea stores its data in SQLite and runs as a systemd service. The Gitea 28 documentation explains these steps under [Installation from binary](https://docs.gitea.com/28/installation/install-from-binary). Nobody can sign up on their own, and without signing in you see nothing. In the browser of the client (the Kali VM on smartlearn, your PC with your own hypervisor), Gitea is on port 3000 of the front-end. You sign in as `platform` with the password from `~/cc-lab/gitea/platform.pass`.
 
 ## The repo platform
 
@@ -63,7 +63,7 @@ A second script creates the organization `wolkenwerk`, the private repo `platfor
 | `platform.token` | write repos and the organization | you, when pushing |
 | `argocd.token` | read repos | Argo CD |
 
-Argo CD only gets read access. If its token ends up in the wrong place, nobody can use it to change the desired state.
+Argo CD only gets read access. If its token ends up in the wrong place, nobody can use it to change the desired state. The [API usage guide](https://docs.gitea.com/28/development/api-usage) of Gitea 28 shows how tokens and their rights are created through the API.
 
 Since chapter 4.2, `~/platform` holds the template. The files for Argo CD contain the placeholder `FRONTEND`, which you replace with the address of your front-end. Then you turn the folder into a Git repo and push it to Gitea.
 
@@ -115,7 +115,7 @@ The deployment keeps two pods running and gives them requests and limits for CPU
 
 Argo CD is a CNCF project and runs as a set of controllers in the cluster. It reads repos, renders the manifests, with Kustomize or Helm as well, compares them with the cluster and reconciles. An **application** tells it which folder of which repo belongs in which namespace.
 
-A script installs Argo CD with Helm, stores the token for Gitea and applies the first application.
+A script installs Argo CD with Helm, stores the token for Gitea and applies the first application. The chart `argo-cd` in version 10.11.6 ships Argo CD 3.5. Its [README](https://github.com/argoproj/argo-helm/tree/argo-cd-10.11.6/charts/argo-cd) explains the values of the chart.
 
 ::code{file="platform/bootstrap-argocd.sh"}
 
@@ -137,7 +137,7 @@ The first application is called `root`. It points to the folder `apps` in the re
 
 ::code{file="platform/repo/apps/webshop.yaml"}
 
-Argo CD first rolls out `root` and finds the application `webshop` in it, which brings the folder `webshop` into the namespace `velo`. Adding an application only takes a new file in `apps`, and you no longer need `kubectl` for it. This pattern is called **app of apps**.
+Argo CD first rolls out `root` and finds the application `webshop` in it, which brings the folder `webshop` into the namespace `velo`. Adding an application only takes a new file in `apps`, and you no longer need `kubectl` for it. This pattern is called **app of apps**. The Argo CD 3.5 documentation describes it under [Cluster Bootstrapping](https://argo-cd.readthedocs.io/en/release-3.5/operator-manual/cluster-bootstrapping/).
 
 ![App of apps in the platform repo. The bootstrap script applies the application root once, and root points to the folder apps. That folder holds the application webshop, which brings the folder webshop into the namespace velo, and the ApplicationSet members from chapter 4.5. The ApplicationSet generates a separate application for every folder under members, such as member-velo and member-gemeinde. Notice that only root enters the cluster by hand, and everything else comes from files in Git.](../../../../assets/figures/en/p4c4-app-of-apps.svg)
 
@@ -148,7 +148,7 @@ Argo CD first rolls out `root` and finds the application `webshop` in it, which 
 | `selfHeal: true` | whatever someone changes in the cluster by hand, Argo CD resets to the state in Git |
 | `CreateNamespace=true` | Argo CD creates the namespace if it is missing |
 
-In the lab, all applications were `Synced` and `Healthy` 5 to 15 seconds after the bootstrap. Here Argo CD polls Gitea every minute, as set by `timeout.reconciliation` in the values. Without that setting, the interval would be three minutes.
+The Argo CD 3.5 documentation describes automated sync, prune and self-heal under [Automated Sync Policy](https://argo-cd.readthedocs.io/en/release-3.5/user-guide/auto_sync/). In the lab, all applications were `Synced` and `Healthy` 5 to 15 seconds after the bootstrap. Here Argo CD polls Gitea every minute, as set by `timeout.reconciliation` in the values. Without that setting, the interval would be three minutes.
 
 In its web interface, Argo CD shows each application as a tree of its objects.
 
@@ -156,7 +156,7 @@ In its web interface, Argo CD shows each application as a tree of its objects.
 
 ## Access from the client
 
-The cluster sits in the internal network `cc-net`, which only the front-end can reach. So that the browser of the client can open Argo CD and the web shop, you forward two ports through SSH in the terminal of the client. The addresses come from your parameters.
+The cluster sits in the internal network `cc-net`, which only the front-end can reach. So that the browser of the client can open Argo CD and the web shop, you forward two ports through SSH in the terminal of the client. The addresses come from your parameters. The [ssh manual](https://man.openbsd.org/ssh#L) describes the option `-L`.
 
 ```bash
 ssh -L 8080:<server-address>:30080 -L 8081:<server-address>:80 mmuster-fe

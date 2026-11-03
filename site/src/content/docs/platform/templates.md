@@ -36,17 +36,17 @@ Eine **ResourceQuota** begrenzt, was alle Pods eines Namespaces zusammen anforde
 
 ::code{file="platform/repo/templates/member/resourcequota.yaml"}
 
-Requests sind, was der Scheduler für einen Container reserviert, wie die Spalte `CPU` einer VM in OpenNebula. Limits sind die Obergrenze, die ein Container nie überschreitet. Eine CPU entspricht einem Kern, `250m` einem Viertel davon. `services.nodeports: "0"` und `services.loadbalancers: "0"` verbieten Mitgliedern, eigene Ports auf den Nodes zu öffnen. Ohne die zweite Zeile öffnete ServiceLB im Lab für einen Service vom Typ LoadBalancer ohne NodePort trotzdem einen Port auf beiden Nodes. Der Weg der Mitglieder nach aussen ist der Ingress.
+Requests sind, was der Scheduler für einen Container reserviert, wie die Spalte `CPU` einer VM in OpenNebula. Limits sind die Obergrenze, die ein Container nie überschreitet. Eine CPU entspricht einem Kern, `250m` einem Viertel davon. `services.nodeports: "0"` und `services.loadbalancers: "0"` verbieten Mitgliedern, eigene Ports auf den Nodes zu öffnen. Ohne die zweite Zeile öffnete ServiceLB im Lab für einen Service vom Typ LoadBalancer ohne NodePort trotzdem einen Port auf beiden Nodes. Der Weg der Mitglieder nach aussen ist der Ingress. Alle Ressourcen, die eine Quota begrenzen kann, nennt die [Dokumentation von Kubernetes 1.36 zu ResourceQuota](https://v1-36.docs.kubernetes.io/docs/concepts/policy/resource-quotas/).
 
 ## LimitRange
 
-Sobald eine Quota CPU und Speicher begrenzt, lehnt Kubernetes jeden Pod ohne Requests und Limits ab. Die **LimitRange** setzt dafür Standardwerte und eine Obergrenze pro Container.
+Sobald eine Quota CPU und Speicher begrenzt, lehnt Kubernetes jeden Pod ohne Requests und Limits ab. Die **LimitRange** setzt dafür Standardwerte und eine Obergrenze pro Container. Wie Standardwerte und Grenzen zusammenwirken, zeigt die [Dokumentation zu LimitRange](https://v1-36.docs.kubernetes.io/docs/concepts/policy/limit-range/).
 
 ::code{file="platform/repo/templates/member/limitrange.yaml"}
 
 ## NetworkPolicy
 
-Ohne Regel erreicht jeder Pod im Cluster jeden anderen, auch über Namespaces hinweg. Eine **NetworkPolicy** legt fest, wer einen Pod ansprechen darf. In k3s setzt ein eingebauter Controller solche Regeln durch.
+Ohne Regel erreicht jeder Pod im Cluster jeden anderen, auch über Namespaces hinweg. Eine **NetworkPolicy** legt fest, wer einen Pod ansprechen darf. In k3s setzt ein eingebauter Controller solche Regeln durch. Regeln für eingehende und ausgehende Verbindungen beschreibt die [Dokumentation zu NetworkPolicy](https://v1-36.docs.kubernetes.io/docs/concepts/services-networking/network-policies/).
 
 ::code{file="platform/repo/templates/member/networkpolicy.yaml"}
 
@@ -61,7 +61,7 @@ Das `sleep 5` gibt dem Controller Zeit, den neuen Pod in seine Regeln aufzunehme
 
 ## Kustomize
 
-Zusammen mit einer vierten Datei für den Namespace bilden diese drei Dateien die Vorlage in `templates/member`. Kustomize, in kubectl und Argo CD eingebaut, setzt daraus für jedes Mitglied die passenden Objekte zusammen, ohne die Vorlage zu kopieren.
+Zusammen mit einer vierten Datei für den Namespace bilden diese drei Dateien die Vorlage in `templates/member`. Kustomize, in kubectl und Argo CD eingebaut, setzt daraus für jedes Mitglied die passenden Objekte zusammen, ohne die Vorlage zu kopieren. Wie eine Component in eine Kustomization kommt, beschreibt die [Anleitung zu Components](https://kubectl.docs.kubernetes.io/guides/config_management/components/) von Kustomize.
 
 ::code{file="platform/repo/templates/member/kustomization.yaml"}
 
@@ -81,7 +81,7 @@ Statt für jedes Mitglied eine Application zu schreiben, lässt du sie von einem
 
 ::code{file="platform/repo/apps/members.yaml"}
 
-Der Generator `git` durchsucht das Repo nach Ordnern unter `members` und erzeugt für jeden eine Application `member-<ordner>`. Kommt ein Ordner dazu, entsteht ein Namespace. Das ApplicationSet prüft das Repo normalerweise alle drei Minuten, `requeueAfterSeconds: 60` verkürzt das auf eine Minute.
+Der Generator `git` durchsucht das Repo nach Ordnern unter `members` und erzeugt für jeden eine Application `member-<ordner>`. Kommt ein Ordner dazu, entsteht ein Namespace. Das ApplicationSet prüft das Repo normalerweise alle drei Minuten, `requeueAfterSeconds: 60` verkürzt das auf eine Minute. Alle Optionen des Generators nennt die Dokumentation von Argo CD 3.5 unter [Git Generator](https://argo-cd.readthedocs.io/en/release-3.5/operator-manual/applicationset/Generators-Git/).
 
 :::caution[Ordner unter members entfernen]
 Verschwindet ein Ordner unter `members` aus `main`, löscht das ApplicationSet die Application des Mitglieds und Argo CD mit ihr den Namespace samt allem darin. Das gilt auch für einen Pull Request, der den Ordner nur umbenennt. Prüfe darum bei jedem Antrag, ob er einen Ordner unter `members` entfernt.
@@ -118,7 +118,7 @@ git commit -m "Namespace für die Gemeinde Hinterbüel"
 git push -u origin gemeinde
 ```
 
-In Gitea erscheint danach der Vorschlag, einen Pull Request für den Branch `gemeinde` zu öffnen. Als Plattform-Team prüfst du, ob das Mitglied nur seinen Namen setzt oder auch die Vorlage ändert. Ein Antrag, der `templates/member` ändert, betrifft alle Mitglieder und braucht mehr Aufmerksamkeit. Ist alles in Ordnung, führst du den Pull Request zusammen und holst den neuen Stand.
+In Gitea erscheint danach der Vorschlag, einen Pull Request für den Branch `gemeinde` zu öffnen. Als Plattform-Team prüfst du, ob das Mitglied nur seinen Namen setzt oder auch die Vorlage ändert. Ein Antrag, der `templates/member` ändert, betrifft alle Mitglieder und braucht mehr Aufmerksamkeit. Ist alles in Ordnung, führst du den Pull Request zusammen und holst den neuen Stand. Öffnen, Prüfen und Schliessen eines Pull Requests beschreibt die [Dokumentation von Gitea 28](https://docs.gitea.com/28/usage/pull-request).
 
 Nach dem Zusammenführen steht der Pull Request in Gitea auf «Merged», der Reiter «Files Changed» zeigt seinen Diff.
 

@@ -49,7 +49,7 @@ You prove the base of milestone 1 with the report and the screenshots, so you no
 
 ## Tools
 
-The front-end needs three tools. OpenTofu creates the VMs, kubectl talks to Kubernetes, and Helm installs packages into Kubernetes. The script takes all three from their official package repositories, so `apt upgrade` updates them later.
+The front-end needs three tools. OpenTofu creates the VMs, kubectl talks to Kubernetes, and Helm installs packages into Kubernetes. The script takes all three from their official package repositories, so `apt upgrade` updates them later. The install guides of [OpenTofu 1.13](https://opentofu.org/docs/v1.13/intro/install/deb/), [kubectl 1.36](https://v1-36.docs.kubernetes.io/docs/tasks/tools/install-kubectl-linux/) and [Helm](https://helm.sh/docs/intro/install/) describe these repositories.
 
 ::code{file="platform/install-tools.sh"}
 
@@ -86,7 +86,7 @@ A **provider** translates blocks of code into calls of an API. The provider `ope
 
 ::code{file="platform/repo/tofu/versions.tf"}
 
-`~> 1.5` means 1.5 or newer, but not 2.0. Which version `tofu init` actually fetches is recorded in `.terraform.lock.hcl`. This file belongs in Git so that everyone works with the same providers. The OpenNebula user and password are not in the code. The provider reads them from environment variables, which you set from your file `~/.one/one_auth` of chapter 2.2.
+`~> 1.5` means 1.5 or newer, but not 2.0. Which version `tofu init` actually fetches is recorded in `.terraform.lock.hcl`. This file belongs in Git so that everyone works with the same providers. The OpenNebula user and password are not in the code. The provider reads them from environment variables, which you set from your file `~/.one/one_auth` of chapter 2.2. The [provider documentation](https://search.opentofu.org/provider/opennebula/opennebula/v1.5.0) for version 1.5.0, which `.terraform.lock.hcl` pins, lists every setting and resource.
 
 ```bash
 export OPENNEBULA_USERNAME=oneadmin
@@ -116,7 +116,7 @@ cat terraform.tfvars
 
 ## Init, plan and apply
 
-`tofu init` downloads the providers into the folder `.terraform`. Without this step, `plan` and `apply` stop with "Inconsistent dependency lock file", in every new copy of the repo as well.
+`tofu init` downloads the providers into the folder `.terraform`. Without this step, `plan` and `apply` stop with "Inconsistent dependency lock file", in every new copy of the repo as well. The [command reference](https://opentofu.org/docs/v1.13/cli/commands/init/) in the OpenTofu 1.13 documentation describes the options of `tofu init`.
 
 ```bash
 tofu init

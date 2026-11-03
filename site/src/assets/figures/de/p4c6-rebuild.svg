@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 430" role="img" aria-labelledby="p4c6-rebuild-de-title p4c6-rebuild-de-desc">
+<title id="p4c6-rebuild-de-title">Der Neubau der Plattform</title>
+<desc id="p4c6-rebuild-de-desc">Der Zielzustand von Auftrag A. Nach einem Abriss entsteht die Plattform neu aus dem Code. Oben links das Front-end, das stehen bleibt. Darauf liegen OpenTofu mit Code und State sowie Gitea mit dem Repo wolkenwerk/platform. Oben rechts der neue k3s-Cluster in cc-net. OpenTofu legt die zwei VMs k3s-server und k3s-agent neu an. Argo CD kommt mit dem Bootstrap dazu, holt den Soll-Zustand aus Gitea und wendet die Applications für den Webshop und die Mitglieder an. Unten misst dein Runbook oder Skript jeden Schritt, den Abriss, den Start der VMs, Kubernetes und Argo CD. Achte darauf, dass die Ausfallzeit vom Start des Abrisses bis zur ersten Antwort des Webshops reicht.</desc>
+<defs><marker id="p4c6-rebuild-de-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"/></marker><marker id="p4c6-rebuild-de-head-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head d-head-accent" d="M 0 1 L 9 5 L 0 9 z"/></marker></defs>
+<rect class="d-ground" x="0" y="0" width="780" height="430" rx="14"/>
+<rect class="d-band d-band-2" x="16" y="16" width="232" height="184" rx="12"/>
+<text class="d-label d-label-blue" x="32" y="40" text-anchor="start">FRONT-END</text>
+<rect class="d-tag" x="149" y="27" width="83" height="18" rx="9"/>
+<text class="d-tag-text" x="190.5" y="39.5" text-anchor="middle">bleibt stehen</text>
+<rect class="d-band d-band-3" x="296" y="16" width="468" height="184" rx="12"/>
+<text class="d-label d-label-violet" x="312" y="40" text-anchor="start">K3S-CLUSTER IN CC-NET</text>
+<rect class="d-tag d-tag-violet" x="675" y="27" width="73" height="18" rx="9"/>
+<text class="d-tag-text d-tag-text-violet" x="711.5" y="39.5" text-anchor="middle">neu gebaut</text>
+<path class="d-arrow d-arrow-accent" d="M 232 81 L 310 81" marker-end="url(#p4c6-rebuild-de-head-accent)"/>
+<text class="d-sub" x="272" y="74" text-anchor="middle">legt an</text>
+<path class="d-arrow d-arrow-accent" d="M 312 159 L 234 159" marker-end="url(#p4c6-rebuild-de-head-accent)"/>
+<text class="d-sub" x="272" y="152" text-anchor="middle">holt</text>
+<path class="d-arrow d-arrow-accent" d="M 480 159 L 570 159" marker-end="url(#p4c6-rebuild-de-head-accent)"/>
+<text class="d-sub" x="526" y="152" text-anchor="middle">wendet an</text>
+<rect class="d-shadow" x="32" y="57.5" width="200" height="50" rx="10"/>
+<rect class="d-tile" x="32" y="56" width="200" height="50" rx="10"/>
+<g class="d-icon" transform="translate(44 72) scale(0.75)"><circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M4.2 6l2.3 1.8M17.5 16.2l2.3 1.8M4.2 18l2.3-1.8M17.5 7.8 19.8 6M2.5 12h3M18.5 12h3"/></g>
+<text class="d-title" x="72" y="78" text-anchor="start">OpenTofu</text>
+<text class="d-sub" x="72" y="94" text-anchor="start">Code und State</text>
+<rect class="d-shadow" x="32" y="135.5" width="200" height="50" rx="10"/>
+<rect class="d-tile" x="32" y="134" width="200" height="50" rx="10"/>
+<g class="d-icon" transform="translate(44 150) scale(0.75)"><circle cx="6" cy="6" r="2.5"/><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="9" r="2.5"/><path d="M6 8.5v7M18 11.5c0 3-6 2-10.5 5"/></g>
+<text class="d-title" x="72" y="156" text-anchor="start">Gitea</text>
+<text class="d-code" x="72" y="172" text-anchor="start">wolkenwerk/platform</text>
+<rect class="d-shadow" x="312" y="57.5" width="436" height="50" rx="10"/>
+<rect class="d-tile d-tile-violet" x="312" y="56" width="436" height="50" rx="10"/>
+<g class="d-icon d-icon-violet" transform="translate(324 72) scale(0.75)"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="8.5" y="8.5" width="7" height="7" rx="1"/></g>
+<text class="d-title d-title-violet" x="352" y="78" text-anchor="start">k3s-server und k3s-agent</text>
+<text class="d-sub" x="352" y="94" text-anchor="start">zwei neue VMs</text>
+<rect class="d-shadow" x="312" y="135.5" width="168" height="50" rx="10"/>
+<rect class="d-tile d-tile-accent" x="312" y="134" width="168" height="50" rx="10"/>
+<g class="d-icon d-icon-accent" transform="translate(324 150) scale(0.75)"><path d="M20 12a8 8 0 0 1-14.3 4.9M4 12A8 8 0 0 1 18.3 7.1"/><path d="M18.5 3v4.3h-4.3M5.5 21v-4.3h4.3"/></g>
+<text class="d-title" x="352" y="156" text-anchor="start">Argo CD</text>
+<text class="d-sub" x="352" y="172" text-anchor="start">aus dem Bootstrap</text>
+<rect class="d-shadow" x="572" y="135.5" width="176" height="50" rx="10"/>
+<rect class="d-tile" x="572" y="134" width="176" height="50" rx="10"/>
+<g class="d-icon" transform="translate(584 150) scale(0.75)"><path d="M12 3 20 7.5v9L12 21l-8-4.5v-9z"/><path d="M4 7.5 12 12l8-4.5M12 12v9"/></g>
+<text class="d-title" x="612" y="156" text-anchor="start">Applications</text>
+<text class="d-sub" x="612" y="172" text-anchor="start">Webshop und Mitglieder</text>
+<rect class="d-band d-band-1" x="16" y="224" width="748" height="190" rx="12"/>
+<text class="d-label" x="32" y="248" text-anchor="start">RUNBOOK ODER SKRIPT</text>
+<rect class="d-tag" x="633" y="235" width="115" height="18" rx="9"/>
+<text class="d-tag-text" x="690.5" y="247.5" text-anchor="middle">misst jeden Schritt</text>
+<path class="d-grid" d="M 32 264 V 344"/>
+<path class="d-grid" d="M 211 264 V 344"/>
+<path class="d-grid" d="M 390 264 V 344"/>
+<path class="d-grid" d="M 569 264 V 344"/>
+<path class="d-grid" d="M 748 264 V 344"/>
+<rect class="d-shadow" x="38" y="269.5" width="167" height="52" rx="10"/>
+<rect class="d-tile" x="38" y="268" width="167" height="52" rx="10"/>
+<text class="d-title" x="121.5" y="291" text-anchor="middle">Abriss</text>
+<text class="d-sub" x="121.5" y="307" text-anchor="middle">bis die VMs weg sind</text>
+<rect class="d-shadow" x="217" y="269.5" width="167" height="52" rx="10"/>
+<rect class="d-tile" x="217" y="268" width="167" height="52" rx="10"/>
+<text class="d-title" x="300.5" y="291" text-anchor="middle">Start der VMs</text>
+<text class="d-sub" x="300.5" y="307" text-anchor="middle">bis beide laufen</text>
+<rect class="d-shadow" x="396" y="269.5" width="167" height="52" rx="10"/>
+<rect class="d-tile" x="396" y="268" width="167" height="52" rx="10"/>
+<text class="d-title" x="479.5" y="291" text-anchor="middle">Kubernetes</text>
+<text class="d-sub" x="479.5" y="307" text-anchor="middle">bis die Nodes Ready sind</text>
+<rect class="d-shadow" x="575" y="269.5" width="167" height="52" rx="10"/>
+<rect class="d-tile" x="575" y="268" width="167" height="52" rx="10"/>
+<text class="d-title" x="658.5" y="291" text-anchor="middle">Argo CD</text>
+<text class="d-sub" x="658.5" y="307" text-anchor="middle">bis der Webshop antwortet</text>
+<path class="d-line d-line-accent" d="M 32 344 L 748 344"/>
+<circle class="d-fill-blue" cx="32" cy="344" r="4.5"/>
+<circle class="d-fill-blue" cx="211" cy="344" r="4.5"/>
+<circle class="d-fill-blue" cx="390" cy="344" r="4.5"/>
+<circle class="d-fill-blue" cx="569" cy="344" r="4.5"/>
+<circle class="d-fill-blue" cx="748" cy="344" r="4.5"/>
+<text class="d-sub" x="32" y="364" text-anchor="start">Start des Abrisses</text>
+<text class="d-sub" x="748" y="364" text-anchor="end">erste Antwort des Webshops</text>
+<path class="d-line" d="M 32 376 L 32 382 L 748 382 L 748 376"/>
+<text class="d-sub" x="390" y="400" text-anchor="middle">gemessene Ausfallzeit</text>
+</svg>

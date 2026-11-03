@@ -46,7 +46,7 @@ Gitea läuft auf dem Front-end, ausserhalb des Clusters. Den Cluster baust du sp
 sudo ~/cc/platform/gitea/install-gitea.sh
 ```
 
-Das Skript prüft die Prüfsumme des Programms, legt den Systembenutzer `git` an und schreibt die Konfiguration selbst, damit kein Installationsassistent im Browser nötig ist. Gitea speichert seine Daten in SQLite und läuft als Dienst von systemd. Niemand kann sich selbst ein Konto anlegen. Ohne Anmeldung sieht man nichts. Im Browser des Clients (auf smartlearn die Kali-VM, mit eigenem Hypervisor dein PC) erreichst du Gitea unter Port 3000 des Front-ends. Du meldest dich als `platform` mit dem Passwort aus `~/cc-lab/gitea/platform.pass` an.
+Das Skript prüft die Prüfsumme des Programms, legt den Systembenutzer `git` an und schreibt die Konfiguration selbst, damit kein Installationsassistent im Browser nötig ist. Gitea speichert seine Daten in SQLite und läuft als Dienst von systemd. Die Dokumentation von Gitea 28 erklärt diese Schritte unter [Installation from binary](https://docs.gitea.com/28/installation/install-from-binary). Niemand kann sich selbst ein Konto anlegen. Ohne Anmeldung sieht man nichts. Im Browser des Clients (auf smartlearn die Kali-VM, mit eigenem Hypervisor dein PC) erreichst du Gitea unter Port 3000 des Front-ends. Du meldest dich als `platform` mit dem Passwort aus `~/cc-lab/gitea/platform.pass` an.
 
 ## Das Repo platform
 
@@ -63,7 +63,7 @@ Ein zweites Skript legt die Organisation `wolkenwerk`, das private Repo `platfor
 | `platform.token` | Repos und Organisation schreiben | du, beim Push |
 | `argocd.token` | Repos lesen | Argo CD |
 
-Argo CD bekommt nur Leserechte. Gelangt sein Token an die falsche Stelle, kann damit niemand den Soll-Zustand ändern.
+Argo CD bekommt nur Leserechte. Gelangt sein Token an die falsche Stelle, kann damit niemand den Soll-Zustand ändern. Wie Tokens mit ihren Rechten über die API entstehen, beschreibt die [Anleitung zur API](https://docs.gitea.com/28/development/api-usage) von Gitea 28.
 
 In `~/platform` liegt seit Kapitel 4.2 die Vorlage. Die Dateien für Argo CD enthalten den Platzhalter `FRONTEND`, den du durch die Adresse deines Front-ends ersetzt. Danach machst du daraus ein Git-Repo und schickst es an Gitea.
 
@@ -115,7 +115,7 @@ Das Deployment hält zwei Pods am Laufen und gibt ihnen Requests und Limits für
 
 Argo CD ist ein Projekt der CNCF und läuft als Satz von Controllern im Cluster. Er liest Repos, rendert die Manifeste, auch mit Kustomize oder Helm, vergleicht sie mit dem Cluster und gleicht ab. Eine **Application** sagt ihm, welcher Ordner welches Repos in welchen Namespace gehört.
 
-Ein Skript installiert Argo CD mit Helm, hinterlegt das Token für Gitea und wendet die erste Application an.
+Ein Skript installiert Argo CD mit Helm, hinterlegt das Token für Gitea und wendet die erste Application an. Das Chart `argo-cd` in der Version 10.11.6 bringt Argo CD 3.5 mit. Seine Werte erklärt das [README](https://github.com/argoproj/argo-helm/tree/argo-cd-10.11.6/charts/argo-cd) des Charts.
 
 ::code{file="platform/bootstrap-argocd.sh"}
 
@@ -137,7 +137,7 @@ Die erste Application heisst `root`. Sie zeigt auf den Ordner `apps` im Repo, in
 
 ::code{file="platform/repo/apps/webshop.yaml"}
 
-Argo CD rollt also zuerst `root` aus und findet darin die Application `webshop`, die den Ordner `webshop` in den Namespace `velo` bringt. Für eine neue Anwendung legst du nur eine Datei in `apps` an, `kubectl` brauchst du dafür nicht mehr. Dieses Muster heisst **App of Apps**.
+Argo CD rollt also zuerst `root` aus und findet darin die Application `webshop`, die den Ordner `webshop` in den Namespace `velo` bringt. Für eine neue Anwendung legst du nur eine Datei in `apps` an, `kubectl` brauchst du dafür nicht mehr. Dieses Muster heisst **App of Apps**. Die Dokumentation von Argo CD 3.5 beschreibt es unter [Cluster Bootstrapping](https://argo-cd.readthedocs.io/en/release-3.5/operator-manual/cluster-bootstrapping/).
 
 ![App of Apps im Plattform-Repo. Die Application root wendet das Skript beim Bootstrap einmal an, sie zeigt auf den Ordner apps. Darin liegen das ApplicationSet members aus Kapitel 4.5 und die Application webshop, die den Ordner webshop in den Namespace velo bringt. Das ApplicationSet erzeugt für jeden Ordner unter members eine eigene Application, etwa member-velo und member-gemeinde. Achte darauf, dass nur root von Hand in den Cluster kommt, alles Weitere entsteht aus Dateien in Git.](../../../assets/figures/de/p4c4-app-of-apps.svg)
 
@@ -148,7 +148,7 @@ Argo CD rollt also zuerst `root` aus und findet darin die Application `webshop`,
 | `selfHeal: true` | was jemand im Cluster von Hand ändert, setzt Argo CD auf den Stand von Git zurück |
 | `CreateNamespace=true` | Argo CD legt den Namespace an, wenn er fehlt |
 
-Im Lab waren alle Applications 5 bis 15 Sekunden nach dem Bootstrap `Synced` und `Healthy`. Argo CD fragt Gitea hier jede Minute ab, das legt `timeout.reconciliation` in den Werten fest. Ohne diese Einstellung wären es drei Minuten.
+Automatischen Abgleich, Prune und Self-Heal beschreibt die Dokumentation von Argo CD 3.5 unter [Automated Sync Policy](https://argo-cd.readthedocs.io/en/release-3.5/user-guide/auto_sync/). Im Lab waren alle Applications 5 bis 15 Sekunden nach dem Bootstrap `Synced` und `Healthy`. Argo CD fragt Gitea hier jede Minute ab, das legt `timeout.reconciliation` in den Werten fest. Ohne diese Einstellung wären es drei Minuten.
 
 In der Weboberfläche zeigt Argo CD jede Application als Baum ihrer Objekte.
 
@@ -156,7 +156,7 @@ In der Weboberfläche zeigt Argo CD jede Application als Baum ihrer Objekte.
 
 ## Zugriff vom Client
 
-Der Cluster liegt im internen Netz `cc-net`, das nur vom Front-end aus erreichbar ist. Damit der Browser des Clients Argo CD und den Webshop öffnen kann, leitest du im Terminal des Clients zwei Ports durch SSH weiter. Die Adressen stehen in deinen Parametern.
+Der Cluster liegt im internen Netz `cc-net`, das nur vom Front-end aus erreichbar ist. Damit der Browser des Clients Argo CD und den Webshop öffnen kann, leitest du im Terminal des Clients zwei Ports durch SSH weiter. Die Adressen stehen in deinen Parametern. Das [Handbuch von ssh](https://man.openbsd.org/ssh#L) beschreibt die Option `-L`.
 
 ```bash
 ssh -L 8080:<adresse-des-servers>:30080 -L 8081:<adresse-des-servers>:80 mmuster-fe

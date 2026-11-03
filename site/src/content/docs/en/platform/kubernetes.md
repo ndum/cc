@@ -89,11 +89,11 @@ The VMs of chapter 4.2 do not come with Kubernetes. OpenTofu passes a start scri
 
 ::code{file="platform/repo/tofu/k3s.sh.tftpl"}
 
-The file is a template. `templatefile()` in `main.tf` fills in role, addresses, version and token, and the lines with `%{ if }` pick the part for the server or the agent. The first command ends the script if k3s is already there, so a reboot installs nothing twice. The agent keeps asking the server for `/ping` until its API answers and then joins with the token. The version is pinned to `v1.36.5+k3s1`. A rebuild three months from now installs the same version, even if a newer one is out by then.
+The file is a template. `templatefile()` in `main.tf` fills in role, addresses, version and token, and the lines with `%{ if }` pick the part for the server or the agent. The first command ends the script if k3s is already there, so a reboot installs nothing twice. The agent keeps asking the server for `/ping` until its API answers and then joins with the token. The version is pinned to `v1.36.5+k3s1`. A rebuild three months from now installs the same version, even if a newer one is out by then. The [environment variable reference](https://docs.k3s.io/reference/env-variables) of k3s describes the variables of the install script, such as `INSTALL_K3S_VERSION`, `K3S_URL` and `K3S_TOKEN`.
 
 ## Address ranges
 
-Every pod gets an address, and so does every service. Without settings, k3s uses `10.42.0.0/16` for pods and `10.43.0.0/16` for services. In the test setup the lab itself was `10.42.0.0/24`. The pods would have covered the addresses of the lab VMs, and packets to the front-end would have stayed inside the cluster. The start script therefore sets ranges that overlap no network of the course.
+Every pod gets an address, and so does every service. Without settings, k3s uses `10.42.0.0/16` for pods and `10.43.0.0/16` for services. In the test setup the lab itself was `10.42.0.0/24`. The pods would have covered the addresses of the lab VMs, and packets to the front-end would have stayed inside the cluster. The start script therefore sets ranges that overlap no network of the course. The [reference of `k3s server`](https://docs.k3s.io/cli/server) explains the options `--cluster-cidr` and `--service-cidr`.
 
 | Range | Network |
 |---|---|
@@ -106,7 +106,7 @@ Every pod gets an address, and so does every service. Without settings, k3s uses
 
 Pods on different nodes need a path to each other. By default, flannel builds a VXLAN for this, just as OpenNebula does for `cc-net`. In the test setup, packets in this second VXLAN inside the nested VMs lost their checksums, and pods on the agent could not reach the DNS on the server.
 
-Both VMs sit in the same network `cc-net`, though, so no overlay is needed. With `--flannel-backend host-gw`, flannel adds a route on each node that sends traffic for the pod network of the other node to that node's address in `cc-net`. Packets travel directly, without extra encapsulation. This only works when all nodes share one layer 2 network. A cluster across several sites would need an overlay again.
+Both VMs sit in the same network `cc-net`, though, so no overlay is needed. With `--flannel-backend host-gw`, flannel adds a route on each node that sends traffic for the pod network of the other node to that node's address in `cc-net`. Packets travel directly, without extra encapsulation. This only works when all nodes share one layer 2 network. A cluster across several sites would need an overlay again. The k3s documentation compares the flannel backends under [Basic Network Options](https://docs.k3s.io/networking/basic-network-options).
 
 ![The k3s cluster in cc-net. On the left, kubectl on the front-end uses the kubeconfig to reach the API server on port 6443. Two VMs sit in the internal network cc-net with the range CC_GUEST_NET. k3s-server at CC_K3S_SERVER_IP holds the control plane with the API server and the SQLite database and runs pods itself. k3s-agent at CC_K3S_AGENT_IP joins with the token and runs pods too. Each node gets a /24 of 10.52.0.0/16 for its pods, while services use 10.53.0.0/16 across the whole cluster. Look at the host-gw routes. Each node sends packets for the other node's pod network straight to that node's address in cc-net, with no overlay.](../../../../assets/figures/en/p4c3-cluster.svg)
 
@@ -124,7 +124,7 @@ The web shop takes the second path, an ingress. An [ingress](https://kubernetes.
 
 ## The kubeconfig
 
-To log in, kubectl needs the address of the API and a certificate. Both are on the server in `/etc/rancher/k3s/k3s.yaml`, with `127.0.0.1` as the address. The script fetches the file over SSH, puts in the server address and saves it as `~/.kube/config`.
+To log in, kubectl needs the address of the API and a certificate. Both are on the server in `/etc/rancher/k3s/k3s.yaml`, with `127.0.0.1` as the address. The script fetches the file over SSH, puts in the server address and saves it as `~/.kube/config`. The k3s documentation describes this approach under [Cluster Access](https://docs.k3s.io/cluster-access).
 
 ::code{file="platform/get-kubeconfig.sh"}
 

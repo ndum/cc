@@ -49,7 +49,7 @@ Die Basis von Meilenstein 1 belegst du mit dem Bericht und den Screenshots, daf�
 
 ## Werkzeuge
 
-Auf dem Front-end brauchst du drei Werkzeuge. OpenTofu legt die VMs an und kubectl spricht mit Kubernetes. Helm installiert Pakete in den Cluster. Das Skript holt alle drei aus den offiziellen Paketquellen, damit `apt upgrade` sie später aktualisiert.
+Auf dem Front-end brauchst du drei Werkzeuge. OpenTofu legt die VMs an und kubectl spricht mit Kubernetes. Helm installiert Pakete in den Cluster. Das Skript holt alle drei aus den offiziellen Paketquellen, damit `apt upgrade` sie später aktualisiert. Die Anleitungen zur Installation von [OpenTofu 1.13](https://opentofu.org/docs/v1.13/intro/install/deb/), [kubectl 1.36](https://v1-36.docs.kubernetes.io/docs/tasks/tools/install-kubectl-linux/) und [Helm](https://helm.sh/docs/intro/install/) beschreiben diese Paketquellen.
 
 ::code{file="platform/install-tools.sh"}
 
@@ -86,7 +86,7 @@ Ein **Provider** übersetzt Blöcke im Code in Aufrufe einer API. Der Provider `
 
 ::code{file="platform/repo/tofu/versions.tf"}
 
-`~> 1.5` heisst 1.5 oder neuer, aber nicht 2.0. Welche Version `tofu init` tatsächlich holt, hält es in `.terraform.lock.hcl` fest. Diese Datei gehört in Git, damit alle mit denselben Providern arbeiten. Benutzer und Passwort von OpenNebula stehen nicht im Code. Der Provider liest sie aus Umgebungsvariablen, die du aus deiner Datei `~/.one/one_auth` aus Kapitel 2.2 setzt.
+`~> 1.5` heisst 1.5 oder neuer, aber nicht 2.0. Welche Version `tofu init` tatsächlich holt, hält es in `.terraform.lock.hcl` fest. Diese Datei gehört in Git, damit alle mit denselben Providern arbeiten. Benutzer und Passwort von OpenNebula stehen nicht im Code. Der Provider liest sie aus Umgebungsvariablen, die du aus deiner Datei `~/.one/one_auth` aus Kapitel 2.2 setzt. Alle Einstellungen und Ressourcen nennt die [Dokumentation des Providers](https://search.opentofu.org/provider/opennebula/opennebula/v1.5.0) in der Version 1.5.0, die `.terraform.lock.hcl` festhält.
 
 ```bash
 export OPENNEBULA_USERNAME=oneadmin
@@ -116,7 +116,7 @@ cat terraform.tfvars
 
 ## Init, Plan und Apply
 
-`tofu init` lädt die Provider in den Ordner `.terraform`. Ohne diesen Schritt brechen `plan` und `apply` mit «Inconsistent dependency lock file» ab, auch in jeder neuen Kopie des Repos.
+`tofu init` lädt die Provider in den Ordner `.terraform`. Ohne diesen Schritt brechen `plan` und `apply` mit «Inconsistent dependency lock file» ab, auch in jeder neuen Kopie des Repos. Die Optionen von `tofu init` beschreibt die [Referenz des Befehls](https://opentofu.org/docs/v1.13/cli/commands/init/) in der Dokumentation von OpenTofu 1.13.
 
 ```bash
 tofu init

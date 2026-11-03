@@ -36,17 +36,17 @@ A **ResourceQuota** limits what all pods of a namespace may request together.
 
 ::code{file="platform/repo/templates/member/resourcequota.yaml"}
 
-Requests are what the scheduler reserves for a container, like the `CPU` column of a VM in OpenNebula. Limits are the ceiling a container never exceeds. One CPU is one core, and `250m` is a quarter of it. `services.nodeports: "0"` and `services.loadbalancers: "0"` stop members from opening their own ports on the nodes. Without the second line, ServiceLB opened a port on both nodes in the lab for a service of type LoadBalancer without a node port. The members' way out is the ingress.
+Requests are what the scheduler reserves for a container, like the `CPU` column of a VM in OpenNebula. Limits are the ceiling a container never exceeds. One CPU is one core, and `250m` is a quarter of it. `services.nodeports: "0"` and `services.loadbalancers: "0"` stop members from opening their own ports on the nodes. Without the second line, ServiceLB opened a port on both nodes in the lab for a service of type LoadBalancer without a node port. The members' way out is the ingress. The [Kubernetes 1.36 documentation on ResourceQuota](https://v1-36.docs.kubernetes.io/docs/concepts/policy/resource-quotas/) lists every resource a quota can limit.
 
 ## LimitRange
 
-Once a quota limits CPU and memory, Kubernetes rejects every pod without requests and limits. The **LimitRange** sets defaults for those and a ceiling per container.
+Once a quota limits CPU and memory, Kubernetes rejects every pod without requests and limits. The **LimitRange** sets defaults for those and a ceiling per container. The [documentation on LimitRange](https://v1-36.docs.kubernetes.io/docs/concepts/policy/limit-range/) shows how defaults and limits work together.
 
 ::code{file="platform/repo/templates/member/limitrange.yaml"}
 
 ## NetworkPolicy
 
-Without a rule, every pod in the cluster can reach every other pod, across namespaces too. A **NetworkPolicy** defines who may talk to a pod. In k3s, a built-in controller enforces such rules.
+Without a rule, every pod in the cluster can reach every other pod, across namespaces too. A **NetworkPolicy** defines who may talk to a pod. In k3s, a built-in controller enforces such rules. The [documentation on NetworkPolicy](https://v1-36.docs.kubernetes.io/docs/concepts/services-networking/network-policies/) describes rules for incoming and outgoing connections.
 
 ::code{file="platform/repo/templates/member/networkpolicy.yaml"}
 
@@ -61,7 +61,7 @@ The `sleep 5` gives the controller time to add the new pod to its rules.
 
 ## Kustomize
 
-Together with a fourth file for the namespace, these three files make up the template in `templates/member`. Kustomize, which is built into kubectl and Argo CD, assembles the right objects for each member from it without copying the template.
+Together with a fourth file for the namespace, these three files make up the template in `templates/member`. Kustomize, which is built into kubectl and Argo CD, assembles the right objects for each member from it without copying the template. The Kustomize [guide to components](https://kubectl.docs.kubernetes.io/guides/config_management/components/) shows how a component gets into a kustomization.
 
 ::code{file="platform/repo/templates/member/kustomization.yaml"}
 
@@ -81,7 +81,7 @@ Instead of writing an application for every member, you let an **ApplicationSet*
 
 ::code{file="platform/repo/apps/members.yaml"}
 
-The `git` generator looks for folders under `members` in the repo and creates an application `member-<folder>` for each. When a folder is added, a namespace appears. By default, the ApplicationSet checks every three minutes, and `requeueAfterSeconds: 60` shortens that to one minute.
+The `git` generator looks for folders under `members` in the repo and creates an application `member-<folder>` for each. When a folder is added, a namespace appears. By default, the ApplicationSet checks every three minutes, and `requeueAfterSeconds: 60` shortens that to one minute. The Argo CD 3.5 documentation lists every option of the generator under [Git Generator](https://argo-cd.readthedocs.io/en/release-3.5/operator-manual/applicationset/Generators-Git/).
 
 :::caution[Removing a folder under members]
 When a folder under `members` disappears from `main`, the ApplicationSet deletes the member's application, and with it Argo CD deletes the namespace and everything in it. That includes a pull request that only renames the folder. So check every request for a folder under `members` that it removes.
@@ -118,7 +118,7 @@ git commit -m "Namespace for Gemeinde Hinterbüel"
 git push -u origin gemeinde
 ```
 
-Gitea then offers to open a pull request for the branch `gemeinde`. As the platform team you review the change and check whether the member only sets its name or also changes the template. A request that changes `templates/member` affects every member and deserves closer attention. If everything is fine, you merge the pull request and pull the new state.
+Gitea then offers to open a pull request for the branch `gemeinde`. As the platform team you review the change and check whether the member only sets its name or also changes the template. A request that changes `templates/member` affects every member and deserves closer attention. If everything is fine, you merge the pull request and pull the new state. The [Gitea 28 documentation](https://docs.gitea.com/28/usage/pull-request) describes how to open, review and close a pull request.
 
 After the merge the pull request shows "Merged" in Gitea, and the "Files Changed" tab shows its diff.
 

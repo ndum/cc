@@ -589,6 +589,337 @@ function kustomize(lang) {
   return figure({ id, width: 760, height: 468, title: t.title, desc: t.desc, body });
 }
 
+const REBUILD = {
+  de: {
+    title: 'Der Neubau der Plattform',
+    desc:
+      'Der Zielzustand von Auftrag A. Nach einem Abriss entsteht die Plattform neu aus dem Code. Oben links das ' +
+      'Front-end, das stehen bleibt. Darauf liegen OpenTofu mit Code und State sowie Gitea mit dem Repo ' +
+      'wolkenwerk/platform. Oben rechts der neue k3s-Cluster in cc-net. OpenTofu legt die zwei VMs k3s-server ' +
+      'und k3s-agent neu an. Argo CD kommt mit dem Bootstrap dazu, holt den Soll-Zustand aus Gitea und wendet ' +
+      'die Applications für den Webshop und die Mitglieder an. Unten misst dein Runbook oder Skript jeden ' +
+      'Schritt, den Abriss, den Start der VMs, Kubernetes und Argo CD. Achte darauf, dass die Ausfallzeit vom ' +
+      'Start des Abrisses bis zur ersten Antwort des Webshops reicht.',
+    fe: 'Front-end',
+    stays: 'bleibt stehen',
+    tofu: ['OpenTofu', 'Code und State'],
+    gitea: ['Gitea', 'wolkenwerk/platform'],
+    cluster: 'k3s-Cluster in cc-net',
+    rebuilt: 'neu gebaut',
+    vms: ['k3s-server und k3s-agent', 'zwei neue VMs'],
+    argo: ['Argo CD', 'aus dem Bootstrap'],
+    apps: ['Applications', 'Webshop und Mitglieder'],
+    creates: 'legt an',
+    pulls: 'holt',
+    applies: 'wendet an',
+    runbook: 'Runbook oder Skript',
+    times: 'misst jeden Schritt',
+    phases: [
+      ['Abriss', 'bis die VMs weg sind'],
+      ['Start der VMs', 'bis beide laufen'],
+      ['Kubernetes', 'bis die Nodes Ready sind'],
+      ['Argo CD', 'bis der Webshop antwortet'],
+    ],
+    start: 'Start des Abrisses',
+    end: 'erste Antwort des Webshops',
+    outage: 'gemessene Ausfallzeit',
+  },
+  en: {
+    title: 'Rebuilding the platform',
+    desc:
+      'The target state of task A. After a teardown the platform comes back from code. At the top left is the ' +
+      'front-end, which stays in place. It holds OpenTofu with the code and the state, and Gitea with the repo ' +
+      'wolkenwerk/platform. At the top right is the new k3s cluster in cc-net. OpenTofu creates the two VMs ' +
+      'k3s-server and k3s-agent again. Argo CD arrives with the bootstrap, pulls the desired state from Gitea ' +
+      'and applies the applications for the web shop and the members. At the bottom your runbook or script ' +
+      'times every step, the teardown, the start of the VMs, Kubernetes and Argo CD. Notice that the outage ' +
+      'runs from the start of the teardown to the first answer of the web shop.',
+    fe: 'Front-end',
+    stays: 'stays in place',
+    tofu: ['OpenTofu', 'code and state'],
+    gitea: ['Gitea', 'wolkenwerk/platform'],
+    cluster: 'k3s cluster in cc-net',
+    rebuilt: 'rebuilt',
+    vms: ['k3s-server and k3s-agent', 'two new VMs'],
+    argo: ['Argo CD', 'from the bootstrap'],
+    apps: ['Applications', 'web shop and members'],
+    creates: 'creates',
+    pulls: 'pulls',
+    applies: 'applies',
+    runbook: 'Runbook or script',
+    times: 'times every step',
+    phases: [
+      ['Teardown', 'until the VMs are gone'],
+      ['VM start', 'until both are running'],
+      ['Kubernetes', 'until the nodes are Ready'],
+      ['Argo CD', 'until the web shop answers'],
+    ],
+    start: 'start of the teardown',
+    end: 'first answer of the web shop',
+    outage: 'measured outage',
+  },
+};
+
+function rebuild(lang) {
+  const t = REBUILD[lang];
+  const id = `p4c6-rebuild-${lang}`;
+  // The platform after the rebuild on top, the steps the runbook times below
+  const fe = { x: 16, w: 232 };
+  const cl = { x: 296, w: 468 };
+  const rows = [56, 134];
+  const mid = (row) => row + 25;
+  const argo = { x: 312, w: 168 };
+  const apps = { x: 572, w: 176 };
+  // Four steps of equal width on the time axis, the real minutes come from the student's lab
+  const B = [32, 211, 390, 569, 748];
+  const AXIS = 344;
+  const body = [
+    band(fe.x, 16, fe.w, 184, 2),
+    label(32, 40, t.fe, 'start', { tone: 'blue' }),
+    tag(tagAt(fe.x + fe.w - 16, t.stays), 27, t.stays),
+    band(cl.x, 16, cl.w, 184, 3),
+    label(cl.x + 16, 40, t.cluster, 'start', { tone: 'violet' }),
+    tag(tagAt(cl.x + cl.w - 16, t.rebuilt), 27, t.rebuilt, { tone: 'violet' }),
+    // OpenTofu creates the VMs, Argo CD pulls Git and applies the applications
+    arrow(id, [[fe.x + fe.w - 16, mid(rows[0])], [cl.x + 14, mid(rows[0])]], { accent: true }),
+    note((fe.x + fe.w + cl.x) / 2, mid(rows[0]) - 7, t.creates, 'middle'),
+    arrow(id, [[argo.x, mid(rows[1])], [fe.x + fe.w - 14, mid(rows[1])]], { accent: true }),
+    note((fe.x + fe.w + cl.x) / 2, mid(rows[1]) - 7, t.pulls, 'middle'),
+    arrow(id, [[argo.x + argo.w, mid(rows[1])], [apps.x - 2, mid(rows[1])]], { accent: true }),
+    note((argo.x + argo.w + apps.x) / 2, mid(rows[1]) - 7, t.applies, 'middle'),
+    tile(32, rows[0], 200, 50, ...t.tofu, { icon: 'cog' }),
+    tile(32, rows[1], 200, 50, ...t.gitea, { icon: 'repo', code: true }),
+    tile(312, rows[0], 436, 50, ...t.vms, { icon: 'vm', tone: 'violet' }),
+    tile(argo.x, rows[1], argo.w, 50, ...t.argo, { icon: 'sync', accent: true }),
+    tile(apps.x, rows[1], apps.w, 50, ...t.apps, { icon: 'container' }),
+    // The runbook or script and the time axis of the outage
+    band(16, 224, 748, 190, 1),
+    label(32, 248, t.runbook),
+    tag(tagAt(748, t.times), 235, t.times),
+  ];
+  for (const text of [t.creates, t.pulls]) check(text, cl.x - fe.x - fe.w);
+  check(t.applies, apps.x - argo.x - argo.w - 8);
+  B.forEach((x) => body.push(`<path class="d-grid" d="M ${x} 264 V ${AXIS}"/>`));
+  t.phases.forEach(([title, sub], i) => body.push(tile(B[i] + 6, 268, B[i + 1] - B[i] - 12, 52, title, sub)));
+  body.push(line([[B[0], AXIS], [B[4], AXIS]], { accent: true }));
+  B.forEach((x) => body.push(`<circle class="d-fill-blue" cx="${x}" cy="${AXIS}" r="4.5"/>`));
+  body.push(note(B[0], AXIS + 20, t.start));
+  body.push(note(B[4], AXIS + 20, t.end, 'end'));
+  // The whole span is the outage the task asks for
+  body.push(line([[B[0], AXIS + 32], [B[0], AXIS + 38], [B[4], AXIS + 38], [B[4], AXIS + 32]]));
+  body.push(note((B[0] + B[4]) / 2, AXIS + 56, t.outage, 'middle'));
+  return figure({ id, width: 780, height: 430, title: t.title, desc: t.desc, body });
+}
+
+const MEMBER = {
+  de: {
+    title: 'Ein eigenes Mitglied mit AppProject',
+    desc:
+      'Der Zielzustand von Auftrag B. Oben in Gitea beantragt ein Pull Request den Namespace aus der Vorlage, ' +
+      'nach dem Review liegen der Ordner des Mitglieds und das AppProject auf main. In der Mitte holt Argo CD ' +
+      'beide aus Git. Die Application des Mitglieds und eine Application zum Test nennen das AppProject, das als ' +
+      'Ziel nur den Namespace des Mitglieds erlaubt. Unten im Cluster wendet Argo CD die Application des ' +
+      'Mitglieds in seinem Namespace mit eigener Quota und LimitRange an. Achte auf die Application zum Test. ' +
+      'Sie will in den Namespace velo eines anderen Mitglieds schreiben und Argo CD lehnt sie ab.',
+    git: 'Gitea',
+    repo: 'wolkenwerk/platform',
+    pr: ['Pull Request', 'Namespace aus der Vorlage'],
+    merge: 'Merge nach Review',
+    main: ['main', 'Ordner des Mitglieds und AppProject'],
+    argo: 'Argo CD',
+    pulls: 'holt',
+    app: ['Application', 'des Mitglieds'],
+    project: ['AppProject', 'nur sein Namespace'],
+    test: ['Application zum Test', 'will nach velo schreiben'],
+    names: 'nennt',
+    cluster: 'Im Cluster',
+    ns: ['Namespace des Mitglieds', 'eigene Quota und LimitRange'],
+    velo: ['Namespace velo', 'anderes Mitglied'],
+    applies: 'wendet an',
+    rejected: 'abgelehnt',
+  },
+  en: {
+    title: 'A member of your own with an AppProject',
+    desc:
+      'The target state of task B. At the top, a pull request in Gitea asks for the namespace from the template, ' +
+      'and after the review the member folder and the AppProject are on main. In the middle, Argo CD pulls both ' +
+      'from Git. The member application and a test application name the AppProject, which allows only the ' +
+      'member namespace as a destination. At the bottom, in the cluster, Argo CD applies the member application ' +
+      'in its namespace with its own quota and LimitRange. Notice the test application. It tries to write to ' +
+      'the namespace velo of another member, and Argo CD rejects it.',
+    git: 'Gitea',
+    repo: 'wolkenwerk/platform',
+    pr: ['Pull request', 'namespace from the template'],
+    merge: 'merge after review',
+    main: ['main', 'member folder and AppProject'],
+    argo: 'Argo CD',
+    pulls: 'pulls',
+    app: ['Application', 'of the member'],
+    project: ['AppProject', 'only its namespace'],
+    test: ['Test application', 'tries to write to velo'],
+    names: 'names',
+    cluster: 'In the cluster',
+    ns: ['Member namespace', 'own quota and LimitRange'],
+    velo: ['Namespace velo', 'another member'],
+    applies: 'applies',
+    rejected: 'rejected',
+  },
+};
+
+function member(lang) {
+  const t = MEMBER[lang];
+  const id = `p4c6-member-${lang}`;
+  // Git on top, Argo CD in the middle, the cluster below, the member on the left, the test on the right
+  const left = { x: 32, w: 216 };
+  const centre = { x: 296, w: 168 };
+  const right = { x: 512, w: 216 };
+  const main = { x: 368, w: 360 };
+  const rowGit = 56;
+  const rowArgo = 204;
+  const rowCluster = 350;
+  const cx = (col) => col.x + col.w / 2;
+  const body = [
+    band(16, 16, 728, 108, 2),
+    heading(32, 40, t.git, t.repo, { tone: 'blue' }),
+    band(16, 164, 728, 106, 3),
+    label(32, 188, t.argo, 'start', { tone: 'violet' }),
+    band(16, 310, 728, 106, 3),
+    label(32, 334, t.cluster, 'start', { tone: 'violet' }),
+    // The request reaches main only after the review
+    arrow(id, [[left.x + left.w, rowGit + 25], [main.x - 2, rowGit + 25]], { accent: true }),
+    note((left.x + left.w + main.x) / 2, rowGit + 18, t.merge, 'middle'),
+    // Argo CD pulls the applications and the AppProject from Git
+    arrow(id, [[cx(centre), rowArgo], [cx(centre), rowGit + 52]], { accent: true }),
+    note(cx(centre) + 10, 150, t.pulls),
+    // Both applications name the project
+    arrow(id, [[left.x + left.w, rowArgo + 25], [centre.x - 2, rowArgo + 25]]),
+    note((left.x + left.w + centre.x) / 2, rowArgo + 18, t.names, 'middle'),
+    arrow(id, [[right.x, rowArgo + 25], [centre.x + centre.w + 2, rowArgo + 25]]),
+    note((centre.x + centre.w + right.x) / 2, rowArgo + 18, t.names, 'middle'),
+    // The project lets the member application in and stops the test
+    arrow(id, [[cx(left), rowArgo + 50], [cx(left), rowCluster - 2]], { accent: true }),
+    note(cx(left) + 10, 294, t.applies),
+    arrow(id, [[cx(right), rowArgo + 50], [cx(right), rowCluster - 2]], { dashed: true }),
+    note(cx(right) + 10, 294, t.rejected),
+    tile(left.x, rowGit, left.w, 50, ...t.pr, { icon: 'doc' }),
+    tile(main.x, rowGit, main.w, 50, ...t.main, { icon: 'repo' }),
+    tile(left.x, rowArgo, left.w, 50, ...t.app, { icon: 'sync' }),
+    tile(centre.x, rowArgo, centre.w, 50, ...t.project, { icon: 'shield', accent: true }),
+    tile(right.x, rowArgo, right.w, 50, ...t.test, { icon: 'sync' }),
+    tile(left.x, rowCluster, left.w, 50, ...t.ns),
+    tile(right.x, rowCluster, right.w, 50, ...t.velo),
+  ];
+  check(t.merge, main.x - left.x - left.w - 8);
+  check(t.names, centre.x - left.x - left.w - 4);
+  return figure({ id, width: 760, height: 432, title: t.title, desc: t.desc, body });
+}
+
+const BRANCH = {
+  de: {
+    title: 'Der geschützte Branch main',
+    desc:
+      'Der Zielzustand von Auftrag C. Links das Plattform-Team mit deinem Konto platform, das zugleich ' +
+      'Administrator von Gitea ist. Daneben steht ein zweites Konto mit Schreibrechten. In der Mitte liegt in ' +
+      'Gitea das Repo wolkenwerk/platform mit dem geschützten Branch main. Einen direkten Push von platform auf ' +
+      'main weist Gitea ab. Ein Pull Request von platform braucht eine Freigabe. Das zweite Konto gibt ihn frei, ' +
+      'erst danach führt Gitea ihn in main zusammen. Rechts holt Argo CD im k3s-Cluster main nur lesend und ' +
+      'wendet die Änderung an wie bisher. Achte darauf, dass du selbst entscheidest, wer die Regel umgehen darf.',
+    team: 'Plattform-Team',
+    admin: ['platform', 'Administrator'],
+    second: ['Zweites Konto', 'Schreibrechte'],
+    git: 'Gitea',
+    repo: 'wolkenwerk/platform',
+    main: ['main', 'geschützter Branch'],
+    pr: ['Pull Request', 'von platform, braucht eine Freigabe'],
+    push: ['direkter Push', 'abgewiesen'],
+    approves: 'gibt frei',
+    merge: ['Merge nach', 'der Freigabe'],
+    exception: 'Wer die Regel umgehen darf, entscheidest du.',
+    cluster: 'k3s-Cluster',
+    argo: ['Argo CD', 'liest nur'],
+    pulls: 'holt',
+    applies: 'wendet an',
+    change: ['Änderung', 'ausgerollt'],
+  },
+  en: {
+    title: 'The protected branch main',
+    desc:
+      'The target state of task C. On the left is the platform team with two accounts, your account platform, ' +
+      'which is also the Gitea administrator, and a second account with write access. In the middle, Gitea ' +
+      'holds the repo wolkenwerk/platform with the protected branch main. Gitea rejects a direct push from ' +
+      'platform to main. A pull request from platform needs an approval. The second account approves it, and ' +
+      'only then does Gitea merge it into main. On the right, Argo CD in the k3s cluster pulls main with read ' +
+      'access only and applies the change as before. Notice that you decide yourself who may bypass the rule.',
+    team: 'Platform team',
+    admin: ['platform', 'administrator'],
+    second: ['Second account', 'write access'],
+    git: 'Gitea',
+    repo: 'wolkenwerk/platform',
+    main: ['main', 'protected branch'],
+    pr: ['Pull request', 'from platform, needs an approval'],
+    push: ['direct push', 'rejected'],
+    approves: 'approves',
+    merge: ['merge after', 'the approval'],
+    exception: 'You decide who may bypass the rule.',
+    cluster: 'k3s cluster',
+    argo: ['Argo CD', 'read only'],
+    pulls: 'pulls',
+    applies: 'applies',
+    change: ['Change', 'rolled out'],
+  },
+};
+
+function branch(lang) {
+  const t = BRANCH[lang];
+  const id = `p4c6-branch-${lang}`;
+  // The accounts on the left, the repo in the middle, the cluster on the right
+  const team = { x: 16, w: 186 };
+  const git = { x: 280, w: 272 };
+  const cl = { x: 600, w: 144 };
+  const rows = [56, 166];
+  const mid = (row) => row + 25;
+  const inner = (b) => ({ x: b.x + 16, w: b.w - 32 });
+  const [tm, gt, ct] = [inner(team), inner(git), inner(cl)];
+  const gap = (a, b) => (a.x + a.w + b.x) / 2;
+  const mergeX = gt.x + gt.w / 2;
+  const body = [
+    band(team.x, 16, team.w, 246, 1),
+    label(tm.x, 40, t.team),
+    band(git.x, 16, git.w, 246, 2),
+    heading(gt.x, 40, t.git, t.repo, { tone: 'blue' }),
+    band(cl.x, 16, cl.w, 246, 3),
+    label(ct.x, 40, t.cluster, 'start', { tone: 'violet' }),
+    // A direct push bounces off the rule
+    arrow(id, [[tm.x + tm.w, mid(rows[0])], [gt.x - 2, mid(rows[0])]], { dashed: true }),
+    note(gap(tm, gt), mid(rows[0]) - 7, t.push[0], 'middle'),
+    note(gap(tm, gt), mid(rows[0]) + 16, t.push[1], 'middle'),
+    // The second account approves the pull request, only then does it reach main
+    arrow(id, [[tm.x + tm.w, mid(rows[1])], [gt.x - 2, mid(rows[1])]], { accent: true }),
+    note(gap(tm, gt), mid(rows[1]) - 7, t.approves, 'middle'),
+    arrow(id, [[mergeX, rows[1]], [mergeX, rows[0] + 52]], { accent: true }),
+    note(mergeX + 10, 133, t.merge[0]),
+    note(mergeX + 10, 147, t.merge[1]),
+    meta(gt.x, 246, t.exception),
+    // Argo CD only reads main and rolls out what was merged
+    arrow(id, [[ct.x, mid(rows[0])], [gt.x + gt.w + 2, mid(rows[0])]], { accent: true }),
+    note(gap(gt, ct), mid(rows[0]) - 7, t.pulls, 'middle'),
+    arrow(id, [[ct.x + ct.w / 2, rows[0] + 50], [ct.x + ct.w / 2, rows[1] - 2]], { accent: true }),
+    note(ct.x + ct.w / 2 - 10, 140, t.applies, 'end'),
+    tile(tm.x, rows[0], tm.w, 50, ...t.admin, { icon: 'user' }),
+    tile(tm.x, rows[1], tm.w, 50, ...t.second, { icon: 'user' }),
+    tile(gt.x, rows[0], gt.w, 50, ...t.main, { icon: 'lock', accent: true }),
+    tile(gt.x, rows[1], gt.w, 50, ...t.pr, { icon: 'doc' }),
+    tile(ct.x, rows[0], ct.w, 50, ...t.argo, { icon: 'sync' }),
+    tile(ct.x, rows[1], ct.w, 50, ...t.change, { icon: 'container' }),
+  ];
+  for (const text of [...t.push, t.approves]) check(text, gt.x - tm.x - tm.w - 8);
+  check(t.exception, gt.w);
+  check(t.pulls, ct.x - gt.x - gt.w - 8);
+  // The label sits left of the arrow and may use the padding of the band
+  check(t.applies, ct.x + ct.w / 2 - 10 - cl.x - 4);
+  return figure({ id, width: 760, height: 278, title: t.title, desc: t.desc, body });
+}
+
 for (const lang of Object.keys(PLAN)) {
   const dir = join(ROOT, 'site', 'src', 'assets', 'figures', lang);
   mkdirSync(dir, { recursive: true });
@@ -598,4 +929,7 @@ for (const lang of Object.keys(PLAN)) {
   writeFileSync(join(dir, 'p4c4-gitops.svg'), gitops(lang));
   writeFileSync(join(dir, 'p4c4-app-of-apps.svg'), appOfApps(lang));
   writeFileSync(join(dir, 'p4c5-kustomize.svg'), kustomize(lang));
+  writeFileSync(join(dir, 'p4c6-rebuild.svg'), rebuild(lang));
+  writeFileSync(join(dir, 'p4c6-member.svg'), member(lang));
+  writeFileSync(join(dir, 'p4c6-branch.svg'), branch(lang));
 }

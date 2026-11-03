@@ -1,6 +1,8 @@
 ---
 title: Zusatzaufträge
 description: Die drei Zusatzaufträge von Meilenstein 2 mit dem Neubau der Plattform als Übung, einem eigenen Mitglied mit AppProject und dem Schutz des Branches main in Gitea.
+tableOfContents:
+  maxHeadingLevel: 2
 sidebar:
   order: 6
   badge:
@@ -131,7 +133,24 @@ Auch eine Korrektur im Notfall wartet auf ein Review, der Ausfall dauert dann l�
 
 Beat Kläy will wissen, wie lange der Webshop des Veloateliers stillsteht, wenn alles weg ist. Du reisst die Plattform ab, baust sie allein aus dem Code wieder auf und misst die Ausfallzeit.
 
-Deine Lösung erfüllt diese Anforderungen:
+![Der Neubau der Plattform. Der Zielzustand von Auftrag A. Nach einem Abriss entsteht die Plattform neu aus dem Code. Oben links das Front-end, das stehen bleibt. Darauf liegen OpenTofu mit Code und State sowie Gitea mit dem Repo wolkenwerk/platform. Oben rechts der neue k3s-Cluster in cc-net. OpenTofu legt die zwei VMs k3s-server und k3s-agent neu an. Argo CD kommt mit dem Bootstrap dazu, holt den Soll-Zustand aus Gitea und wendet die Applications für den Webshop und die Mitglieder an. Unten misst dein Runbook oder Skript jeden Schritt, den Abriss, den Start der VMs, Kubernetes und Argo CD. Achte darauf, dass die Ausfallzeit vom Start des Abrisses bis zur ersten Antwort des Webshops reicht.](../../../assets/figures/de/p4c6-rebuild.svg)
+
+### Ausgangslage und Ergebnis
+
+Aus der Basis hast du die VMs `k3s-server` und `k3s-agent` aus OpenTofu mit ihrem State in `~/platform/tofu` auf dem Front-end (Kapitel 4.2) und k3s aus dem Startskript (Kapitel 4.3). Gitea auf dem Front-end hält das Repo `wolkenwerk/platform`. Daraus rollt Argo CD seit dem Bootstrap in Kapitel 4.4 die Applications `root`, `webshop`, `member-velo` und `member-gemeinde` aus, mit dem Webshop im Namespace `velo` und den Grenzen der Namespaces `velo` und `gemeinde` aus Kapitel 4.5.
+
+Am Ende hast du die Plattform mit `tofu destroy` abgerissen und allein aus deinem Code und dem Repo in Gitea wieder aufgebaut. Der Webshop antwortet wieder, alle Applications sind `Synced` und `Healthy` und `tofu plan` zeigt keine Änderungen. Dein Runbook oder Skript hält die Zeit jedes Schritts fest.
+
+### Vorgehen
+
+1. Halte den Stand vor dem Abriss fest und suche Drift in den VMs und im Cluster.
+2. Schreibe den Ablauf von Abriss und Neubau als Runbook oder Skript, das jeden Schritt misst.
+3. Reisse die Plattform ab und baue sie mit deinem Ablauf allein aus dem Code und dem Repo in Gitea wieder auf.
+4. Prüfe die neue Plattform mit dem Plan, den Applications, dem Webshop und den Grenzen der Mitglieder.
+5. Vergleiche den Stand danach mit dem Stand davor und kläre, was der Neubau nicht zurückgebracht hat.
+6. Halte die Zeiten pro Schritt, die Probleme und deinen Entscheid zwischen Runbook und Skript für die Dokumentation fest.
+
+### Anforderungen
 
 1. Nach dem Abriss mit `tofu destroy` entsteht die Plattform allein aus deinem Code und dem Repo in Gitea. Ausser dem Bootstrap von Argo CD legst du im Cluster nichts von Hand an.
 2. Du misst die Zeit vom Start des Abrisses bis zur ersten Antwort des Webshops und hältst die Zeit jedes Schritts fest.
@@ -139,14 +158,14 @@ Deine Lösung erfüllt diese Anforderungen:
 4. Der Ablauf steht in einem kurzen Runbook oder in einem Skript, mit dem eine andere Person den Neubau wiederholen könnte.
 5. Du erklärst an deinem Lab, welche Rolle der State beim Abriss spielt, was mit einer Änderung von Hand geschieht und was der Neubau nicht zurückbringt.
 
-In der Vorführung zeigst du:
+### Vorführung
 
 - Den Stand vor dem Abriss mit `tofu plan` und den Applications in Argo CD
 - Abriss und Neubau mit deinem Runbook oder Skript und der laufenden Zeitmessung
 - Die Plattform nach dem Neubau mit Webshop, Applications, Grenzen und `tofu plan`
 - Deine Zeiten pro Schritt und was du daraus schliesst
 
-Dabei helfen dir:
+### Quellen
 
 - [Kapitel 4.1](../iac/#state) zu State, Plan und Drift
 - [Kapitel 4.2](../opentofu/#ändern-ersetzen-und-neu-bauen) zu `tofu plan` und `tofu apply` für die VMs des Clusters
@@ -155,7 +174,7 @@ Dabei helfen dir:
 - Die Dokumentation von OpenTofu 1.13 zu [`tofu destroy`](https://opentofu.org/docs/v1.13/cli/commands/destroy/), zum [State](https://opentofu.org/docs/v1.13/language/state/) und zu den [Modi von `tofu plan`](https://opentofu.org/docs/v1.13/cli/commands/plan/), darunter `-refresh-only`, der den State an Änderungen ausserhalb von OpenTofu anpasst
 - [Cluster Bootstrapping](https://argo-cd.readthedocs.io/en/release-3.5/operator-manual/cluster-bootstrapping/) in der Dokumentation von Argo CD 3.5 zum Muster App of Apps, auf dem der Bootstrap beruht
 
-Hinweise aus dem Lab:
+### Hinweise aus dem Lab
 
 - Mit dem Stand von Teil 4 dauerte der Neubau knapp drei Minuten, bis der Webshop wieder lief. Starte ihn deshalb früh in der Vorführung und erkläre deinen Code, während er läuft.
 - Gitea auf dem Front-end bleibt während des Neubaus erreichbar
@@ -168,7 +187,24 @@ Die Zeiten und Hinweise hier gelten für den Stand von Teil 4. Ein späterer Neu
 
 Bevor das nächste Mitglied dazukommt, will Beat Kläy sehen, dass es nur in seinem eigenen Bereich arbeiten kann. Ein Mitglied nach deiner Wahl bekommt wie die Gemeinde per Pull Request einen Namespace aus der Vorlage, ein AppProject in Argo CD beschränkt seine Applications auf diesen Namespace.
 
-Deine Lösung erfüllt diese Anforderungen:
+![Ein eigenes Mitglied mit AppProject. Der Zielzustand von Auftrag B. Oben in Gitea beantragt ein Pull Request den Namespace aus der Vorlage, nach dem Review liegen der Ordner des Mitglieds und das AppProject auf main. In der Mitte holt Argo CD beide aus Git. Die Application des Mitglieds und eine Application zum Test nennen das AppProject, das als Ziel nur den Namespace des Mitglieds erlaubt. Unten im Cluster wendet Argo CD die Application des Mitglieds in seinem Namespace mit eigener Quota und LimitRange an. Achte auf die Application zum Test. Sie will in den Namespace velo eines anderen Mitglieds schreiben und Argo CD lehnt sie ab.](../../../assets/figures/de/p4c6-member.svg)
+
+### Ausgangslage und Ergebnis
+
+Aus der Basis hast du im Repo `wolkenwerk/platform` die Vorlage `templates/member` und das ApplicationSet `members`, das für jeden Ordner unter `members` eine Application im Projekt `default` erzeugt (Kapitel 4.5). Die Namespaces `velo` und `gemeinde` haben ihre Grenzen, den Antrag der Gemeinde hast du als Pull Request geprüft und zusammengeführt. Die Praxis und die Treuhand haben noch keinen Namespace.
+
+Am Ende hat ein Mitglied deiner Wahl einen eigenen Namespace aus der Vorlage mit Grenzen, die du aus seinem Bedarf hergeleitet hast. Ein AppProject aus Git erlaubt seinen Applications nur diesen Namespace als Ziel. Argo CD lehnt eine Application des Projekts ab, die anderswohin schreiben will.
+
+### Vorgehen
+
+1. Wähle ein Mitglied ohne Namespace und schätze Zahl, CPU und Speicher seiner Pods.
+2. Leite daraus Quota und LimitRange her und rechne alle Quotas gegen den Cluster.
+3. Beantrage den Namespace wie die Gemeinde mit einem Pull Request, prüfe ihn und führe ihn zusammen.
+4. Entscheide, welche Applications zum Projekt des Mitglieds gehören. Lege das AppProject danach in Git an.
+5. Prüfe mit einer Application zum Test, dass Argo CD ein Ziel ausserhalb des Namespaces ablehnt.
+6. Halte Bedarf, Rechnung, die Ablehnung und deinen Entscheid zum Projekt für die Dokumentation fest.
+
+### Anforderungen
 
 1. Das Mitglied hat in Teil 4 noch keinen Namespace. Es kommt über einen Pull Request in Gitea, den du prüfst und zusammenführst.
 2. Quota und LimitRange haben eigene Werte. Du leitest sie aus dem Bedarf des Mitglieds her und prüfst, ob alle Quotas zusammen zum Cluster passen.
@@ -176,14 +212,14 @@ Deine Lösung erfüllt diese Anforderungen:
 4. Das AppProject liegt in Git und kommt über Argo CD in den Cluster.
 5. Argo CD lehnt eine Application des Projekts ab, die in einen anderen Namespace schreiben will.
 
-In der Vorführung zeigst du:
+### Vorführung
 
 - Den Pull Request des Mitglieds mit dem Diff und deiner Begründung der Werte
 - Die Grenzen des Mitglieds im Cluster und deine Rechnung für alle Mitglieder
 - Das AppProject in Git und die Applications, die dazu gehören
 - Eine Application, die Argo CD wegen des Projekts ablehnt, mit dem Grund
 
-Dabei helfen dir:
+### Quellen
 
 - [Kapitel 4.5](../templates/#kustomize) mit der Vorlage, dem Patch des Veloateliers und dem Antrag der Gemeinde
 - [Kapitel 4.3](../kubernetes/#requests-limits-und-scheduling) zu Requests und Limits
@@ -193,7 +229,7 @@ Dabei helfen dir:
 - [Git-Generator](https://argo-cd.readthedocs.io/en/release-3.5/operator-manual/applicationset/Generators-Git/) mit der Auswahl und dem Ausschluss von Ordnern in einem ApplicationSet
 - [ApplicationSet Security](https://argo-cd.readthedocs.io/en/release-3.5/operator-manual/applicationset/Security/) zum Risiko eines Projekts aus der Vorlage
 
-Hinweise aus dem Lab:
+### Hinweise aus dem Lab
 
 - Bevor du den Pull Request öffnest, zeigt dir `kubectl kustomize`, was die Vorlage für dein Mitglied erzeugt
 - Den Grund einer Ablehnung zeigt Argo CD in seiner Oberfläche bei der Application
@@ -202,28 +238,45 @@ Hinweise aus dem Lab:
 
 An der Plattform soll niemand etwas ändern, das keine zweite Person angeschaut hat. Auf `main` des Repos `wolkenwerk/platform` kommen Änderungen darum nur noch über einen Pull Request mit Review, Gitea setzt diese Regel selbst durch.
 
-Deine Lösung erfüllt diese Anforderungen:
+![Der geschützte Branch main. Der Zielzustand von Auftrag C. Links das Plattform-Team mit deinem Konto platform, das zugleich Administrator von Gitea ist. Daneben steht ein zweites Konto mit Schreibrechten. In der Mitte liegt in Gitea das Repo wolkenwerk/platform mit dem geschützten Branch main. Einen direkten Push von platform auf main weist Gitea ab. Ein Pull Request von platform braucht eine Freigabe. Das zweite Konto gibt ihn frei, erst danach führt Gitea ihn in main zusammen. Rechts holt Argo CD im k3s-Cluster main nur lesend und wendet die Änderung an wie bisher. Achte darauf, dass du selbst entscheidest, wer die Regel umgehen darf.](../../../assets/figures/de/p4c6-branch.svg)
+
+### Ausgangslage und Ergebnis
+
+Aus der Basis hast du Gitea auf dem Front-end mit dem Administrator `platform`, der Organisation `wolkenwerk` und dem Repo `platform` (Kapitel 4.4). Deine eigenen Änderungen schickst du mit `platform.token` direkt auf `main`, Argo CD liest das Repo mit `argocd.token` und rollt jeden neuen Commit aus. Ausser `platform` gibt es kein Konto, weil sich niemand selbst registrieren kann.
+
+Am Ende weist Gitea jeden direkten Push auf `main` ab und lässt einen Pull Request erst zusammenführen, wenn ein zweites Konto mit Schreibrechten ihn freigegeben hat. Argo CD rollt die Änderung danach aus wie bisher. Wer die Regel umgehen kann, hast du geprüft und entschieden, ob das so bleibt.
+
+### Vorgehen
+
+1. Lege fest, wer auf `main` schreiben, freigeben und die Regel umgehen darf, auch für die Pushes der Teile 5 und 6.
+2. Lege das zweite Konto an und gib ihm Schreibrechte auf das Repo.
+3. Richte die Regel für `main` in den Einstellungen des Repos ein.
+4. Prüfe die Regel mit einem direkten Push und mit einem Pull Request, den das zweite Konto freigibt.
+5. Prüfe nach dem Merge, dass Argo CD die Änderung ausrollt.
+6. Halte die Einstellungen, die Meldungen und deinen Entscheid zur Ausnahme für die Dokumentation fest.
+
+### Anforderungen
 
 1. Gitea weist einen direkten Push auf `main` des Repos `wolkenwerk/platform` ab.
 2. Einen Pull Request auf `main` kannst du erst zusammenführen, wenn ein anderes Konto mit Schreibrechten ihn freigegeben hat.
 3. Nach dem Merge rollt Argo CD die Änderung wie bisher aus.
 4. Du zeigst, wer in deinem Gitea die Regel umgehen könnte. Ob diese Ausnahme bleibt, entscheidest und begründest du.
 
-In der Vorführung zeigst du:
+### Vorführung
 
 - Die Regel für `main` in den Einstellungen des Repos
 - Einen direkten Push, den Gitea abweist, mit der Meldung im Terminal
 - Einen Pull Request, den Gitea erst nach der Freigabe zusammenführen lässt
 - Die Änderung im Cluster nach dem Merge
 
-Dabei helfen dir:
+### Quellen
 
 - [Kapitel 4.4](../gitops/#gitea-auf-dem-front-end) zu Gitea ohne Registrierung, in dem nur ein Administrator Konten anlegt
 - [Das Repo platform](../gitops/#das-repo-platform) in Kapitel 4.4 mit den Rechten der zwei Tokens
 - [Kapitel 4.5](../templates/#der-antrag-der-gemeinde) mit dem Weg eines Antrags
 - Die Dokumentation von Gitea 28 mit allen Einstellungen unter [Protected branches](https://docs.gitea.com/usage/access-control/protected-branches/) und den Befehlen für Konten in der [Befehlszeile von Gitea](https://docs.gitea.com/administration/command-line)
 
-Hinweise aus dem Lab:
+### Hinweise aus dem Lab
 
 - Ein weiteres Konto legst du in der Weboberfläche unter «Site Administration» an oder mit `gitea admin user create`
 
