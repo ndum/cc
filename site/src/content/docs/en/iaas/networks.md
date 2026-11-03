@@ -6,7 +6,7 @@ sidebar:
 ---
 
 :::assignment
-"The members ask whether their servers reach the internet and whether anyone can see them from outside," Simone Wyss writes. "Can you set up a network for our VMs without us having to change anything on the school's network?"
+"The members ask whether their servers reach the internet and whether anyone can see them from outside," Simone Wyss writes. "Can you set up a network for our VMs without us having to change anything on the existing network?"
 :::
 
 :::goals
@@ -36,13 +36,13 @@ The three drivers based on Linux bridges differ mainly in how much the physical 
 
 ## Overlay networks
 
-An overlay network is a virtual network built on top of an existing one. The existing network is called the underlay, and in your lab it is the lab network with the addresses of the front-end and the nodes. The nodes themselves are the endpoints of the overlay. They wrap VM traffic in ordinary IP packets addressed to another node, and the underlay carries those packets like any other traffic. To the VMs it looks as if they all hang off the same switch, even when they run on different nodes. The result is a layer 2 network stretched across a layer 3 network, and the underlay never learns the IP or MAC addresses of the VMs. Clouds like overlays because a tenant can create a new network without anyone touching the physical network.
+An **overlay network** is a virtual network built on top of an existing one. The existing network is called the underlay, and in your lab it is the lab network with the addresses of the front-end and the nodes. The nodes themselves are the endpoints of the overlay. They wrap VM traffic in ordinary IP packets addressed to another node, and the underlay carries those packets like any other traffic. To the VMs it looks as if they all hang off the same switch, even when they run on different nodes. The result is a layer 2 network stretched across a layer 3 network, and the underlay never learns the IP or MAC addresses of the VMs. Clouds like overlays because a tenant can create a new network without anyone touching the physical network.
 
 ## VXLAN
 
 VXLAN (Virtual Extensible LAN) wraps every Ethernet frame of a VM in a UDP packet and sends it across the lab network to the node that runs the target VM. There the kernel unwraps the frame again. An identifier between 1 and about 16 million keeps the networks apart. In your lab it is `CC_VNI` from your parameters. Frames to everyone, such as ARP requests, go to a multicast group that OpenNebula derives from 239.0.0.0 and the identifier. The gateway on the front-end joins the same group and so belongs to the same network.
 
-[RFC 7348](https://www.rfc-editor.org/rfc/rfc7348) defines the packet layout. In front of the VM's frame the node puts an 8-byte VXLAN header whose main content is the 24-bit identifier, the VXLAN Network Identifier or VNI. A UDP header and an IP header come before that, with the two nodes as source and destination. The receiving node reads the VNI and hands the frame only to the bridge of the matching network. That keeps the networks of different tenants apart even though their packets share the same wire. IANA assigned UDP port 4789 to VXLAN. The Linux kernel still defaults to the older port 8472, and OpenNebula keeps that value, as its [VXLAN documentation](https://docs.opennebula.io/7.4/product/cluster_configuration/networking_system/vxlan/) states. That is why `lab/cc-gateway.sh` also sets `dstport 8472` on the front-end. With any other port the packets from the nodes would never arrive there.
+[RFC 7348](https://www.rfc-editor.org/rfc/rfc7348) defines the packet layout. In front of the VM's frame the node puts an 8-byte VXLAN header whose main content is the 24-bit identifier, the VXLAN Network Identifier or **VNI**. A UDP header and an IP header come before that, with the two nodes as source and destination. The receiving node reads the VNI and hands the frame only to the bridge of the matching network. That keeps the networks of different tenants apart even though their packets share the same wire. IANA assigned UDP port 4789 to VXLAN. The Linux kernel still defaults to the older port 8472, and OpenNebula keeps that value, as its [VXLAN documentation](https://docs.opennebula.io/7.4/product/cluster_configuration/networking_system/vxlan/) states. That is why `lab/cc-gateway.sh` also sets `dstport 8472` on the front-end. With any other port the packets from the nodes would never arrive there.
 
 A packet on the lab network may be 1500 bytes long. The outer IP header takes 20 of them, the UDP header 8, the VXLAN header 8 and the Ethernet header of the inner frame 14. The VM loses those 50 bytes, which leaves 1450 bytes for its IP packet. The nodes do not split oversized packets, because RFC 7348 forbids the endpoints to fragment them. If the VMs send larger packets, those get lost, and HTTPS downloads break off while small requests still work. The network therefore passes an MTU of 1450 to the VMs through `GUEST_MTU` and the context.
 
@@ -66,7 +66,7 @@ In Sunstone the network is under "Networks › Virtual networks". Its "Info" tab
 
 ## Addresses and leases
 
-OpenNebula hands out the addresses itself, without DHCP. When a VM starts, OpenNebula takes the next free address from the address range and records it as a lease. The VM receives address, gateway and DNS at boot through the context. `onevnet show` lists the addresses in use.
+OpenNebula hands out the addresses itself, without DHCP. When a VM starts, OpenNebula takes the next free address from the address range and records it as a **lease**. The VM receives address, gateway and DNS at boot through the context. `onevnet show` lists the addresses in use.
 
 ```bash
 onevnet show cc-net
@@ -86,9 +86,9 @@ The network `cc-net` and the service `cc-gateway` from chapter 0.4 belong togeth
 
 ## Source NAT
 
-The addresses of your internal network come from a private range as defined in [RFC 1918](https://www.rfc-editor.org/rfc/rfc1918). Internet routers do not forward such addresses, and the lab network has no route back into your internal network either. If the front-end passed the VMs' packets on unchanged, no reply would ever come back. So it applies source NAT and replaces the source address of every outgoing packet with its own address on the lab network, as [RFC 3022](https://www.rfc-editor.org/rfc/rfc3022) describes. To let many VMs share that one address at the same time, it also changes the source port when needed. The kernel records every connection in a table, the connection tracking table. When a reply arrives, it looks up the matching entry, puts the VM's address back in as the destination and sends the packet back through the VXLAN.
+The addresses of your internal network come from a private range as defined in [RFC 1918](https://www.rfc-editor.org/rfc/rfc1918). Internet routers do not forward such addresses, and the lab network has no route back into your internal network either. If the front-end passed the VMs' packets on unchanged, no reply would ever come back. So it applies **source NAT** and replaces the source address of every outgoing packet with its own address on the lab network, as [RFC 3022](https://www.rfc-editor.org/rfc/rfc3022) describes. To let many VMs share that one address at the same time, it also changes the source port when needed. The kernel records every connection in a table, the connection tracking table. When a reply arrives, it looks up the matching entry, puts the VM's address back in as the destination and sends the packet back through the VXLAN.
 
-Masquerade is a kind of source NAT where the rule does not contain a fixed new source address. The kernel takes the current address of the interface the packet leaves through, so the rule stays correct even if the front-end's address changes. The rule in `cc-gateway` only matches packets from your internal network that leave through the interface to the lab network. Before that, the script turns on forwarding with `net.ipv4.ip_forward`. Without it, a Linux host does not pass on packets meant for other machines.
+**Masquerade** is a kind of source NAT where the rule does not contain a fixed new source address. The kernel takes the current address of the interface the packet leaves through, so the rule stays correct even if the front-end's address changes. The rule in `cc-gateway` only matches packets from your internal network that leave through the interface to the lab network. Before that, the script turns on forwarding with `net.ipv4.ip_forward`. Without it, a Linux host does not pass on packets meant for other machines.
 
 ::code{file="lab/cc-gateway.sh" lines="47-55"}
 

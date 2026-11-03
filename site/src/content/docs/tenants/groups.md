@@ -21,7 +21,7 @@ Nach diesem Kapitel kannst du:
 
 ## Mandantenfähigkeit
 
-Bis jetzt arbeitest du allein als `oneadmin` und siehst alles. Eine Cloud für mehrere Organisationen braucht Mandantenfähigkeit (Multi-Tenancy). Die Mandanten teilen sich dieselbe Hardware, sehen aber nur ihre eigenen VMs, Images und Vorlagen. Jeder Mandant verwaltet seine Leute selbst. Welche Ressourcen er nutzen darf und wie viel davon, legt das Plattform-Team fest.
+Bis jetzt arbeitest du allein als `oneadmin` und siehst alles. Eine Cloud für mehrere Organisationen braucht **Mandantenfähigkeit** (Multi-Tenancy). Die Mandanten teilen sich dieselbe Hardware, sehen aber nur ihre eigenen VMs, Images und Vorlagen. Jeder Mandant verwaltet seine Leute selbst. Welche Ressourcen er nutzen darf und wie viel davon, legt das Plattform-Team fest.
 
 OpenNebula setzt das mit drei Bausteinen um.
 
@@ -31,7 +31,7 @@ OpenNebula setzt das mit drei Bausteinen um.
 | Gruppenadmin | wer in einer Gruppe Benutzer anlegen und alle VMs der Gruppe verwalten darf | je einer pro Gruppe, etwa `praxis-admin` oder `treuhand-admin` |
 | VDC | welche Cluster, Hosts, Netze und Datastores eine Gruppe nutzen darf | das VDC `wolkenwerk` für alle Mitglieder |
 
-Ein VDC (Virtual Data Center) ist ein Ausschnitt der Infrastruktur, den OpenNebula einer oder mehreren Gruppen zuteilt. Die Gruppen sehen darin nur ihre eigenen Objekte, auch wenn sie sich dieselben Knoten teilen.
+Ein **VDC** (Virtual Data Center) ist ein Ausschnitt der Infrastruktur, den OpenNebula einer oder mehreren Gruppen zuteilt. Die Gruppen sehen darin nur ihre eigenen Objekte, auch wenn sie sich dieselben Knoten teilen.
 
 ![Gruppen, Gruppenadmins und das VDC der Mitglieder. Oben fasst das VDC wolkenwerk die vier Gruppen praxis, treuhand, velo und gemeinde zusammen, eine pro Mitglied. Jede Gruppe hat einen Gruppenadmin wie praxis-admin, der darin Benutzer anlegt. Die Gruppen dürfen VMs, Images, Vorlagen und Dokumente anlegen und sehen nur ihre eigenen Objekte. Unten liegt der Cluster 0 mit Knoten 1, Knoten 2, dem Netz cc-net und den Datastores. Das Plattform-Team teilt ihn dem VDC zu, deshalb teilen sich alle vier Gruppen dieselben Knoten.](../../../assets/figures/de/p3c1-tenants.svg)
 
@@ -86,7 +86,7 @@ Als `oneadmin` zeigt dir Sunstone dagegen die VMs aller Mitglieder.
 
 ## ACLs
 
-Gruppen und VDCs beruhen auf ACLs (Access Control Lists). Jede Regel sagt, wer welche Ressourcen mit welchen Rechten bearbeiten darf. `oneacl list` zeigt die Regeln als Tabelle mit Buchstaben, `oneacl create` legt eine neue an.
+Gruppen und VDCs beruhen auf **ACLs** (Access Control Lists). Jede Regel sagt, wer welche Ressourcen mit welchen Rechten bearbeiten darf. `oneacl list` zeigt die Regeln als Tabelle mit Buchstaben, `oneacl create` legt eine neue an.
 
 ```text
 @100 VM+IMAGE+TEMPLATE+DOCUMENT/* CREATE

@@ -22,11 +22,11 @@ After this chapter you can:
 
 ## Ansible
 
-You could set up a cloud of three servers by hand. With thirty servers, or with a server that has to be rebuilt after a failure, that becomes slow and error-prone. Configuration management tools therefore describe the desired state of the servers in files and bring the servers into that state. Ansible is one of them, and it is the tool the OpenNebula project uses to automate its installations.
+You could set up a cloud of three servers by hand. With thirty servers, or with a server that has to be rebuilt after a failure, that becomes slow and error-prone. **Configuration management** tools therefore describe the desired state of the servers in files and bring the servers into that state. Ansible is one of them, and it is the tool the OpenNebula project uses to automate its installations.
 
-Ansible needs no agent. The target machines only need SSH and Python. Ansible runs on a control machine, in your lab the front-end. From there it connects to the targets, copies small programs over, runs them and deletes them again. This is called a push model because the control machine initiates the changes.
+Ansible needs no agent. The target machines only need SSH and Python. Ansible runs on a control machine, in your lab the front-end. From there it connects to the targets, copies small programs over, runs them and deletes them again. This is called a **push model** because the control machine initiates the changes.
 
-Ansible describes target states. A shell script says "install package X". An Ansible task says "package X is installed". If that is already true, Ansible does nothing and reports `ok`. If it has to change something, it reports `changed`. This property is called idempotence. You can repeat a run as often as you like and get the same result.
+Ansible describes target states. A shell script says "install package X". An Ansible task says "package X is installed". If that is already true, Ansible does nothing and reports `ok`. If it has to change something, it reports `changed`. This property is called **idempotence**. You can repeat a run as often as you like and get the same result.
 
 ### Terms
 
@@ -177,7 +177,11 @@ mkdir -p ~/.one
 (umask 077; echo "oneadmin:$(cat ~/cc-lab/oneadmin.pass)" > ~/.one/one_auth)
 ```
 
-That is convenient for a lab. In a real cloud the platform team works with users of its own instead of `oneadmin`, as chapter 3.1 shows.
+That is convenient for a lab. In a real cloud the platform team works with users of its own instead of `oneadmin`. Chapter 3.1 shows how users and groups work in OpenNebula.
+
+:::caution[No passwords in Git]
+The password of `oneadmin` is stored in plain text in `~/cc-lab/oneadmin.pass`, in the inventory and in `~/.one/one_auth`. These files stay on the front-end. Never copy them into your hand-in repo, not even as proof.
+:::
 
 ## Checking
 

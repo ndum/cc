@@ -21,7 +21,7 @@ After this chapter you can:
 
 ## Multi-tenancy
 
-So far you have worked alone as `oneadmin` and seen everything. A cloud for several organizations needs multi-tenancy. The tenants share the same hardware but only see their own VMs, images and templates. Each tenant manages its own people, and the platform team decides which resources it may use and how much of them.
+So far you have worked alone as `oneadmin` and seen everything. A cloud for several organizations needs **multi-tenancy**. The tenants share the same hardware but only see their own VMs, images and templates. Each tenant manages its own people, and the platform team decides which resources it may use and how much of them.
 
 OpenNebula builds this from three building blocks.
 
@@ -31,7 +31,7 @@ OpenNebula builds this from three building blocks.
 | Group admin | who may create users in a group and manage all VMs of the group | `praxis-admin`, `treuhand-admin` and so on |
 | VDC | which clusters, hosts, networks and datastores a group may use | the VDC `wolkenwerk` for all members |
 
-A VDC (virtual data center) is a slice of the infrastructure that OpenNebula assigns to one or more groups. Within it the groups only see their own objects, even though they share the same nodes.
+A **VDC** (virtual data center) is a slice of the infrastructure that OpenNebula assigns to one or more groups. Within it the groups only see their own objects, even though they share the same nodes.
 
 ![Groups, group admins and the VDC of the members. At the top the VDC wolkenwerk holds the four groups praxis, treuhand, velo and gemeinde, one per member. Each group has a group admin such as praxis-admin who creates the group's users. The groups may create VMs, images, templates and documents and only see their own objects. At the bottom is cluster 0 with node 1, node 2, the network cc-net and the datastores. The platform team assigns it to the VDC, so all four groups share the same nodes.](../../../../assets/figures/en/p3c1-tenants.svg)
 
@@ -86,7 +86,7 @@ As `oneadmin`, by contrast, Sunstone shows you the VMs of all members.
 
 ## ACLs
 
-Groups and VDCs are built on ACLs (access control lists). Each rule says who may work on which resources with which rights. `oneacl list` shows the rules as a table of letters, and `oneacl create` adds a new one.
+Groups and VDCs are built on **ACLs** (access control lists). Each rule says who may work on which resources with which rights. `oneacl list` shows the rules as a table of letters, and `oneacl create` adds a new one.
 
 ```text
 @100 VM+IMAGE+TEMPLATE+DOCUMENT/* CREATE

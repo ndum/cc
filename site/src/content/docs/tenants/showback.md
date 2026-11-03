@@ -16,11 +16,12 @@ Nach diesem Kapitel kannst du:
 - Preise pro Ressource in einer Vorlage hinterlegen
 - Die Kosten der Mitglieder mit `oneshowback` berechnen und lesen
 - Die Kosten einer VM pro Stunde und Monat selbst nachrechnen
+- Mit einem einfachen Kostenmodell prüfen, ob die Preise die Kosten decken
 :::
 
 ## Showback und Chargeback
 
-Wer eine Cloud teilt, will wissen, wer wie viel davon braucht. Die FinOps Foundation unterscheidet zwei Wege. Showback zeigt jedem Bereich, was er verbraucht hat, ohne dass Geld fliesst. Chargeback belastet diesen Verbrauch dem Budget des Bereichs. Showback ist der erste Schritt, denn erst wenn die Zahlen stimmen und alle sie verstehen, lässt sich darauf eine Rechnung stellen. Ob eine Organisation danach Chargeback einführt, hängt von ihrer Buchhaltung ab.
+Wer eine Cloud teilt, will wissen, wer wie viel davon braucht. Dafür gibt es zwei Wege. **Showback** zeigt jedem Bereich, was er verbraucht hat, ohne dass Geld fliesst. **Chargeback** belastet diesen Verbrauch dem Budget des Bereichs. Showback ist der erste Schritt, denn erst wenn die Zahlen stimmen und alle sie verstehen, lässt sich darauf eine Rechnung stellen. Ob eine Organisation danach Chargeback einführt, hängt von ihrer Buchhaltung ab.
 
 Wolkenwerk Bern beginnt mit Showback. Die Mitglieder sehen ihre Kosten jeden Monat. Wie die Genossenschaft sie verrechnet, entscheidet der Vorstand später.
 
@@ -66,10 +67,10 @@ Eine VM aus der Vorlage `ubuntu` hat 0,5 CPU, 1024 MB Arbeitsspeicher und eine D
 
 ![Die Berechnung des Showbacks. Links oben liefert das Accounting von OpenNebula die Laufzeit der VM treuhand-1, 720 Stunden in einem Monat. Daneben stehen die Preise pro Stunde aus der Vorlage ubuntu. oneshowback calculate rechnet daraus CPU-Stunden, MB-Stunden des Arbeitsspeichers und MB-Stunden der Disk und multipliziert sie mit CPU_COST, MEMORY_COST und DISK_COST. Das ergibt 18.00, 14.75 und 2.58 Franken, zusammen 35.33 Franken für die VM im Monat. Rechts unten listet oneshowback list -g treuhand die Kosten jeder VM der Gruppe, zusammen ergeben sie den Showback des Mitglieds. Ein Gruppenadmin sieht dabei nur die VMs seiner Gruppe. Achte darauf, dass jede Zeile mit denselben 720 Stunden rechnet, der Zeit, in der die VM Ressourcen auf einem Host belegt.](../../../assets/figures/de/p3c3-showback.svg)
 
-Am Ende müssen die Preise die Kosten der Genossenschaft decken. Dazu gehören die Hardware über ihre Lebensdauer, Strom, Lizenzen, Backup und die Arbeit des Plattform-Teams, aber auch die Reserve für Wartung aus Kapitel 2.5. Ein einfacher Ansatz teilt die jährlichen Kosten durch die Kapazität, die sich im Jahr verkaufen lässt. Kapitel 6.4 rechnet mit allen Kosten, im Zusatzauftrag von Meilenstein 4 auch für ein eigenes Mitglied. Wie weit die Preise die Kosten der Genossenschaft decken, berechnest du im [Zusatzauftrag B](../advanced/#auftrag-b--showback-als-bericht) aus einem monatlichen Bericht.
+Am Ende müssen die Preise die Kosten der Genossenschaft decken. Dazu gehören die Hardware über ihre Lebensdauer, Strom, Lizenzen, Backup und die Arbeit des Plattform-Teams, aber auch die Reserve für Wartung aus Kapitel 2.5. Ein einfacher Ansatz teilt die jährlichen Kosten durch die Kapazität, die sich im Jahr verkaufen lässt. Kapitel 6.4 rechnet mit allen Kosten, in Zusatzauftrag C von Meilenstein 4 auch für ein eigenes Mitglied. Wie weit die Preise die Kosten der Genossenschaft decken, berechnest du im [Zusatzauftrag B](../advanced/#auftrag-b--showback-als-bericht) aus einem monatlichen Bericht.
 
 ::::exercise[Lab]
-Trage die Preise in die Vorlage ein. Beende als `praxis-admin` die VM `praxis-1` mit `onevm terminate` und starte sie unter demselben Namen aus der Vorlage neu. Starte ausserdem als `treuhand-admin` die VM `treuhand-1`. Berechne den Showback nach einer Stunde. In der Zwischenzeit kannst du mit Kapitel 3.4 weiterarbeiten. Exportiere die Liste als CSV in dein Abgabe-Repo.
+Trage die Preise in die Vorlage ein. Beende als `praxis-admin` die VM `praxis-1` mit `onevm terminate` und starte sie unter demselben Namen aus der Vorlage neu. Starte ausserdem als `treuhand-admin` die VM `treuhand-1`. Berechne den Showback nach einer Stunde. In der Zwischenzeit kannst du mit Kapitel 3.4 weiterarbeiten. Exportiere die Liste als CSV nach `~/cc-lab/showback.csv` und halte sie für Meilenstein 1 in einem Screenshot fest.
 
 :::solution
 `onetemplate show ubuntu` zeigt die drei Preise `CPU_COST`, `MEMORY_COST` sowie `DISK_COST`. Nach `oneshowback calculate` listet `oneshowback list` die neuen VMs mit rund einer Stunde und Kosten um 0.05. Die alten VMs ohne Preise stehen mit Kosten 0 in der Liste.

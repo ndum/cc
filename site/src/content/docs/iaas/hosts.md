@@ -43,7 +43,7 @@ Unter «Infrastructure › Hosts» zeigt Sunstone die Zustände mit ihrem ausges
 onehost show <knoten> | sed -n '/HOST SHARES/,/LOCAL SYSTEM/p'
 ```
 
-Der Scheduler plant mit der reservierten Kapazität. Ist ein Knoten voll reserviert, startet dort keine VM mehr, auch wenn er real noch Luft hätte. Mit den Werten `RESERVED_CPU` und `RESERVED_MEM` im Host kann das Plattform-Team die Kapazität anpassen. Ein positiver Wert hält Reserve frei, ein negativer Wert erlaubt Überbuchung. Überbuchung senkt die Kosten, weil selten alle VMs gleichzeitig voll arbeiten. Arbeiten doch alle gleichzeitig, werden alle langsamer. Beim Arbeitsspeicher ist Überbuchung heikler als bei der CPU, weil VMs bei fehlendem Speicher abstürzen. Fehlende CPU-Zeit bremst sie nur.
+Der Scheduler plant mit der reservierten Kapazität. Ist ein Knoten voll reserviert, startet dort keine VM mehr, auch wenn er real noch Luft hätte. Mit den Werten `RESERVED_CPU` und `RESERVED_MEM` im Host kann das Plattform-Team die Kapazität anpassen. Ein positiver Wert hält Reserve frei. Ein negativer Wert erlaubt **Überbuchung**, dann ist auf dem Knoten mehr reserviert, als er hat. Überbuchung senkt die Kosten, weil selten alle VMs gleichzeitig voll arbeiten. Arbeiten doch alle gleichzeitig, werden alle langsamer. Beim Arbeitsspeicher ist Überbuchung heikler als bei der CPU, weil VMs bei fehlendem Speicher abstürzen. Fehlende CPU-Zeit bremst sie nur.
 
 ## Platzierung durch den Scheduler
 
@@ -104,6 +104,10 @@ onehost offline <knoten>
 Nach der Wartung startest du den Knoten wieder und gibst ihn mit `onehost enable` frei. Neue VMs landen dann wieder auf beiden Knoten. Die verschobenen VMs bleiben, wo sie sind, bis du sie selbst zurückholst.
 
 Die Wartung klappt nur, wenn die übrigen Knoten genug Kapazität für alle VMs haben. Bei zwei Knoten heisst das, dass jeder allein alle VMs tragen muss. Wer eine solche Reserve plant, hält sie für Wartung und Ausfälle frei und rechnet sie in die Kosten ein.
+
+:::caution[Screenshot der Wartung]
+Die Wartung mit der Migration prüft kein Check. Für Anforderung 4 von [Meilenstein 1](../../assessment/milestone-1/) ist dein Screenshot der einzige Beleg. Mach ihn gleich bei der Aufgabe «Wartung» und nenne die Datei etwa `4-migration.png`, denn ab Kapitel 4.2 belegt der Kubernetes-Cluster die Knoten und keiner lässt sich mehr ohne Weiteres leeren.
+:::
 
 ## Ausfall eines Knotens
 

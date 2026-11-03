@@ -6,7 +6,7 @@ sidebar:
 ---
 
 :::assignment
-«Die Mitglieder fragen, ob ihre Server ins Internet kommen und ob man sie von aussen sieht», schreibt Simone Wyss. «Kannst du ein Netz einrichten, in dem unsere VMs laufen, ohne dass wir dafür am Netz der Schule etwas ändern müssen?»
+«Die Mitglieder fragen, ob ihre Server ins Internet kommen und ob man sie von aussen sieht», schreibt Simone Wyss. «Kannst du ein Netz einrichten, in dem unsere VMs laufen, ohne dass wir dafür am bestehenden Netz etwas ändern müssen?»
 :::
 
 :::goals
@@ -36,13 +36,13 @@ Die drei Treiber für Linux-Bridges unterscheiden sich vor allem darin, wie viel
 
 ## Overlay-Netze
 
-Ein Overlay-Netz ist ein virtuelles Netz, das auf einem bestehenden Netz aufsetzt. Das bestehende Netz heisst Underlay, in deinem Lab ist es das Labnetz mit den Adressen von Front-end und Knoten. Die Endpunkte des Overlays sind die Knoten selbst. Sie verpacken den Verkehr der VMs in gewöhnliche IP-Pakete an einen anderen Knoten. Das Underlay transportiert diese Pakete wie jeden anderen Verkehr. Den VMs erscheint es, als hingen sie alle am selben Switch, auch wenn sie auf verschiedenen Knoten laufen. Es entsteht ein Netz auf Schicht 2, das sich über ein Netz auf Schicht 3 spannt. Das Underlay muss dabei weder die IP-Adressen noch die MAC-Adressen der VMs kennen. Clouds setzen Overlays gern ein, weil ein Mandant damit ein neues Netz anlegen kann, ohne dass jemand am physischen Netz etwas ändert.
+Ein **Overlay-Netz** ist ein virtuelles Netz, das auf einem bestehenden Netz aufsetzt. Das bestehende Netz heisst Underlay, in deinem Lab ist es das Labnetz mit den Adressen von Front-end und Knoten. Die Endpunkte des Overlays sind die Knoten selbst. Sie verpacken den Verkehr der VMs in gewöhnliche IP-Pakete an einen anderen Knoten. Das Underlay transportiert diese Pakete wie jeden anderen Verkehr. Den VMs erscheint es, als hingen sie alle am selben Switch, auch wenn sie auf verschiedenen Knoten laufen. Es entsteht ein Netz auf Schicht 2, das sich über ein Netz auf Schicht 3 spannt. Das Underlay muss dabei weder die IP-Adressen noch die MAC-Adressen der VMs kennen. Clouds setzen Overlays gern ein, weil ein Mandant damit ein neues Netz anlegen kann, ohne dass jemand am physischen Netz etwas ändert.
 
 ## VXLAN
 
 VXLAN (Virtual Extensible LAN) packt jeden Ethernet-Rahmen einer VM in ein UDP-Paket und schickt es über das Labnetz zum Knoten, auf dem die Ziel-VM läuft. Dort packt der Kernel den Rahmen wieder aus. Eine Kennung zwischen 1 und rund 16 Millionen trennt die Netze voneinander, in deinem Lab ist es `CC_VNI` aus deinen Parametern. Rahmen an alle, etwa die Anfragen von ARP, gehen an eine Multicast-Gruppe, die OpenNebula aus 239.0.0.0 und der Kennung bildet. Das Gateway auf dem Front-end tritt derselben Gruppe bei und gehört damit zum selben Netz.
 
-Den Aufbau der Pakete legt [RFC 7348](https://www.rfc-editor.org/rfc/rfc7348) fest. Vor den Rahmen der VM setzt der Knoten einen VXLAN-Kopf von 8 Byte, der vor allem die Kennung mit 24 Bit enthält, den VXLAN Network Identifier oder kurz VNI. Davor kommen ein UDP-Kopf und ein IP-Kopf mit den Adressen der beiden Knoten als Absender und Ziel. Der empfangende Knoten liest die VNI und gibt den Rahmen nur an die Bridge des passenden Netzes weiter. Damit bleiben die Netze verschiedener Mandanten getrennt, obwohl ihre Pakete über dieselbe Leitung laufen. Die IANA hat VXLAN den UDP-Port 4789 zugeteilt. Der Linux-Kernel nimmt als Vorgabe noch den älteren Port 8472. OpenNebula übernimmt diesen Wert, wie die [Dokumentation zu VXLAN](https://docs.opennebula.io/7.4/product/cluster_configuration/networking_system/vxlan/) festhält. Deshalb setzt `lab/cc-gateway.sh` auf dem Front-end ebenfalls `dstport 8472`, sonst kämen die Pakete der Knoten dort nicht an.
+Den Aufbau der Pakete legt [RFC 7348](https://www.rfc-editor.org/rfc/rfc7348) fest. Vor den Rahmen der VM setzt der Knoten einen VXLAN-Kopf von 8 Byte, der vor allem die Kennung mit 24 Bit enthält, den VXLAN Network Identifier oder kurz **VNI**. Davor kommen ein UDP-Kopf und ein IP-Kopf mit den Adressen der beiden Knoten als Absender und Ziel. Der empfangende Knoten liest die VNI und gibt den Rahmen nur an die Bridge des passenden Netzes weiter. Damit bleiben die Netze verschiedener Mandanten getrennt, obwohl ihre Pakete über dieselbe Leitung laufen. Die IANA hat VXLAN den UDP-Port 4789 zugeteilt. Der Linux-Kernel nimmt als Vorgabe noch den älteren Port 8472. OpenNebula übernimmt diesen Wert, wie die [Dokumentation zu VXLAN](https://docs.opennebula.io/7.4/product/cluster_configuration/networking_system/vxlan/) festhält. Deshalb setzt `lab/cc-gateway.sh` auf dem Front-end ebenfalls `dstport 8472`, sonst kämen die Pakete der Knoten dort nicht an.
 
 Ein Paket im Labnetz darf 1500 Byte gross sein. Davon belegen der äussere IP-Kopf 20 Byte, der UDP-Kopf 8 Byte, der VXLAN-Kopf 8 Byte und der Ethernet-Kopf des inneren Rahmens 14 Byte. Diese 50 Byte fehlen der VM, für ihr IP-Paket bleiben 1450 Byte. Zu grosse Pakete zerlegen die Knoten nicht, denn RFC 7348 verbietet den Endpunkten die Fragmentierung. Senden die VMs grössere Pakete, gehen diese verloren. Downloads über HTTPS brechen dann ab, während kleine Anfragen noch klappen. Das Netz gibt den VMs deshalb über `GUEST_MTU` und den Kontext die MTU 1450 mit.
 
@@ -66,7 +66,7 @@ In Sunstone findest du das Netz unter «Networks › Virtual networks». Sein Re
 
 ## Adressen und Leases
 
-OpenNebula verteilt die Adressen selbst, ohne DHCP. Startet eine VM, nimmt OpenNebula die nächste freie Adresse aus dem Adressbereich und vermerkt sie als Lease. Die VM bekommt Adresse, Gateway und DNS beim Start über den Kontext. Die belegten Adressen zeigt `onevnet show`.
+OpenNebula verteilt die Adressen selbst, ohne DHCP. Startet eine VM, nimmt OpenNebula die nächste freie Adresse aus dem Adressbereich und vermerkt sie als **Lease**. Die VM bekommt Adresse, Gateway und DNS beim Start über den Kontext. Die belegten Adressen zeigt `onevnet show`.
 
 ```bash
 onevnet show cc-net
@@ -86,9 +86,9 @@ Das Netz `cc-net` und der Dienst `cc-gateway` aus Kapitel 0.4 gehören zusammen.
 
 ## Source NAT
 
-Die Adressen deines internen Netzes stammen aus einem privaten Bereich nach [RFC 1918](https://www.rfc-editor.org/rfc/rfc1918). Router im Internet leiten solche Adressen nicht weiter. Auch das Labnetz kennt keine Route zurück in dein internes Netz. Schickte das Front-end die Pakete der VMs unverändert weiter, käme nie eine Antwort zurück. Deshalb ersetzt es mit Source NAT die Absenderadresse jedes ausgehenden Pakets durch seine eigene Adresse im Labnetz, wie es [RFC 3022](https://www.rfc-editor.org/rfc/rfc3022) beschreibt. Damit viele VMs gleichzeitig dieselbe Adresse nutzen können, ändert es bei Bedarf auch den Absenderport. Jede Verbindung hält der Kernel in einer Tabelle fest, dem Connection Tracking. Kommt eine Antwort, sucht er dort den passenden Eintrag, setzt die Adresse der VM wieder als Ziel ein und schickt das Paket über das VXLAN zurück.
+Die Adressen deines internen Netzes stammen aus einem privaten Bereich nach [RFC 1918](https://www.rfc-editor.org/rfc/rfc1918). Router im Internet leiten solche Adressen nicht weiter. Auch das Labnetz kennt keine Route zurück in dein internes Netz. Schickte das Front-end die Pakete der VMs unverändert weiter, käme nie eine Antwort zurück. Deshalb ersetzt es mit **Source NAT** die Absenderadresse jedes ausgehenden Pakets durch seine eigene Adresse im Labnetz, wie es [RFC 3022](https://www.rfc-editor.org/rfc/rfc3022) beschreibt. Damit viele VMs gleichzeitig dieselbe Adresse nutzen können, ändert es bei Bedarf auch den Absenderport. Jede Verbindung hält der Kernel in einer Tabelle fest, dem Connection Tracking. Kommt eine Antwort, sucht er dort den passenden Eintrag, setzt die Adresse der VM wieder als Ziel ein und schickt das Paket über das VXLAN zurück.
 
-Masquerade ist eine Form von Source NAT, bei der die neue Absenderadresse nicht fest in der Regel steht. Der Kernel nimmt jeweils die aktuelle Adresse der Schnittstelle, über die das Paket hinausgeht. Deshalb stimmt die Regel auch dann noch, wenn sich die Adresse des Front-ends ändert. Die Regel in `cc-gateway` erfasst nur Pakete aus deinem internen Netz, die über die Schnittstelle zum Labnetz hinausgehen. Vorher schaltet das Skript mit `net.ipv4.ip_forward` das Weiterleiten ein. Ohne diese Einstellung gibt ein Linux-Host keine Pakete für andere Rechner weiter.
+**Masquerade** ist eine Form von Source NAT, bei der die neue Absenderadresse nicht fest in der Regel steht. Der Kernel nimmt jeweils die aktuelle Adresse der Schnittstelle, über die das Paket hinausgeht. Deshalb stimmt die Regel auch dann noch, wenn sich die Adresse des Front-ends ändert. Die Regel in `cc-gateway` erfasst nur Pakete aus deinem internen Netz, die über die Schnittstelle zum Labnetz hinausgehen. Vorher schaltet das Skript mit `net.ipv4.ip_forward` das Weiterleiten ein. Ohne diese Einstellung gibt ein Linux-Host keine Pakete für andere Rechner weiter.
 
 ::code{file="lab/cc-gateway.sh" lines="47-55"}
 

@@ -16,11 +16,12 @@ After this chapter you can:
 - Store prices per resource in a template
 - Calculate and read the costs of the members with `oneshowback`
 - Work out the cost of a VM per hour and per month yourself
+- Check with a simple cost model whether the prices cover the costs
 :::
 
 ## Showback and chargeback
 
-Anyone who shares a cloud wants to know who uses how much of it. The FinOps Foundation distinguishes two approaches. Showback shows every business unit what it has used, without any money changing hands. Chargeback charges this usage to the unit's budget. Showback comes first, because only when the numbers are right and everybody understands them can you base an invoice on them. Whether an organization introduces chargeback afterwards depends on its accounting.
+Anyone who shares a cloud wants to know who uses how much of it. There are two approaches. **Showback** shows every business unit what it has used, without any money changing hands. **Chargeback** charges this usage to the unit's budget. Showback comes first, because only when the numbers are right and everybody understands them can you base an invoice on them. Whether an organization introduces chargeback afterwards depends on its accounting.
 
 Wolkenwerk Bern starts with showback. The members see their costs every month, and the board decides later how the cooperative charges them.
 
@@ -66,10 +67,10 @@ Over 30 days, or 720 hours, that comes to about 35 francs. The cost follows the 
 
 ![The showback calculation. At the top left the accounting of OpenNebula supplies the running time of the VM treuhand-1, 720 hours in one month. Next to it are the hourly prices from the template ubuntu. oneshowback calculate turns these into CPU hours, MB hours of memory and MB hours of disk and multiplies them by CPU_COST, MEMORY_COST and DISK_COST. That gives 18.00, 14.75 and 2.58 francs, together 35.33 francs for the VM in one month. At the bottom right, oneshowback list -g treuhand lists the cost of every VM of the group, and together they make up the member's showback. A group admin only sees the VMs of their own group. Notice that every row uses the same 720 hours, the time in which the VM holds resources on a host.](../../../../assets/figures/en/p3c3-showback.svg)
 
-In the end the prices have to cover the cooperative's costs. These include the hardware over its lifetime, power, licenses, backup and the work of the platform team, as well as the reserve for maintenance from chapter 2.5. A simple approach divides the yearly costs by the capacity that can be sold in a year. Chapter 6.4 works with all the costs, and the advanced task of milestone 4 does the same for a member of your own. In [advanced task B](../advanced/#task-b--showback-as-a-report) you work out from a monthly report how far the prices cover the cooperative's costs.
+In the end the prices have to cover the cooperative's costs. These include the hardware over its lifetime, power, licenses, backup and the work of the platform team, as well as the reserve for maintenance from chapter 2.5. A simple approach divides the yearly costs by the capacity that can be sold in a year. Chapter 6.4 works with all the costs, and advanced task C of milestone 4 does the same for a member of your own. In [advanced task B](../advanced/#task-b--showback-as-a-report) you work out from a monthly report how far the prices cover the cooperative's costs.
 
 ::::exercise[Lab]
-Add the prices to the template. As `praxis-admin`, terminate the VM `praxis-1` with `onevm terminate` and start it again from the template under the same name. Also start the VM `treuhand-1` as `treuhand-admin`. Calculate the showback after one hour, and carry on with chapter 3.4 in the meantime. Export the list as CSV to your hand-in repo.
+Add the prices to the template. As `praxis-admin`, terminate the VM `praxis-1` with `onevm terminate` and start it again from the template under the same name. Also start the VM `treuhand-1` as `treuhand-admin`. Calculate the showback after one hour, and carry on with chapter 3.4 in the meantime. Export the list as CSV to `~/cc-lab/showback.csv` and capture it in a screenshot for milestone 1.
 
 :::solution
 `onetemplate show ubuntu` shows `CPU_COST`, `MEMORY_COST` and `DISK_COST`. After `oneshowback calculate`, `oneshowback list` lists the new VMs with about one hour and costs around 0.05. The old VMs without prices appear with cost 0.

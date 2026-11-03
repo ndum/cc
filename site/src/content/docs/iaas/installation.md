@@ -22,11 +22,11 @@ Nach diesem Kapitel kannst du:
 
 ## Ansible
 
-Eine Cloud mit drei Servern könntest du von Hand einrichten. Bei dreissig Servern oder bei einem Server, der nach einem Defekt neu aufgesetzt werden muss, wird das langsam und fehleranfällig. Werkzeuge für das Konfigurationsmanagement beschreiben deshalb den gewünschten Zustand der Server in Dateien und stellen ihn her. Ansible ist eines davon und das Werkzeug, mit dem das OpenNebula-Projekt seine Installationen automatisiert.
+Eine Cloud mit drei Servern könntest du von Hand einrichten. Bei dreissig Servern oder bei einem Server, der nach einem Defekt neu aufgesetzt werden muss, wird das langsam und fehleranfällig. Werkzeuge für das **Konfigurationsmanagement** beschreiben deshalb den gewünschten Zustand der Server in Dateien und stellen ihn her. Ansible ist eines davon und das Werkzeug, mit dem das OpenNebula-Projekt seine Installationen automatisiert.
 
-Ansible arbeitet ohne Agent. Auf den Zielrechnern braucht es nur SSH und Python. Ansible läuft auf einem Steuerrechner, im Lab auf dem Front-end. Von dort verbindet es sich mit den Zielrechnern, kopiert kleine Programme hinüber, führt sie aus und löscht sie wieder. Man nennt das ein Push-Modell, weil der Steuerrechner die Änderungen anstösst.
+Ansible arbeitet ohne Agent. Auf den Zielrechnern braucht es nur SSH und Python. Ansible läuft auf einem Steuerrechner, im Lab auf dem Front-end. Von dort verbindet es sich mit den Zielrechnern, kopiert kleine Programme hinüber, führt sie aus und löscht sie wieder. Man nennt das ein **Push-Modell**, weil der Steuerrechner die Änderungen anstösst.
 
-Ansible beschreibt Zielzustände. Ein Shell-Skript sagt «installiere Paket X», ein Task in Ansible sagt «Paket X ist installiert». Ist das schon so, tut Ansible nichts und meldet `ok`. Muss es etwas ändern, meldet es `changed`. Diese Eigenschaft heisst Idempotenz. Du kannst einen Lauf beliebig oft wiederholen, das Ergebnis bleibt dasselbe.
+Ansible beschreibt Zielzustände. Ein Shell-Skript sagt «installiere Paket X», ein Task in Ansible sagt «Paket X ist installiert». Ist das schon so, tut Ansible nichts und meldet `ok`. Muss es etwas ändern, meldet es `changed`. Diese Eigenschaft heisst **Idempotenz**. Du kannst einen Lauf beliebig oft wiederholen, das Ergebnis bleibt dasselbe.
 
 ### Begriffe
 
@@ -177,7 +177,11 @@ mkdir -p ~/.one
 (umask 077; echo "oneadmin:$(cat ~/cc-lab/oneadmin.pass)" > ~/.one/one_auth)
 ```
 
-Für ein Lab ist das bequem. In einer echten Cloud arbeitet das Plattform-Team mit eigenen Benutzern statt mit `oneadmin`, wie Kapitel 3.1 zeigt.
+Für ein Lab ist das bequem. In einer echten Cloud arbeitet das Plattform-Team mit eigenen Benutzern statt mit `oneadmin`. Wie Benutzer und Gruppen in OpenNebula funktionieren, zeigt Kapitel 3.1.
+
+:::caution[Kein Passwort in Git]
+Das Passwort von `oneadmin` steht im Klartext in `~/cc-lab/oneadmin.pass`, im Inventar und in `~/.one/one_auth`. Diese Dateien bleiben auf dem Front-end. Kopiere sie nie in dein Abgabe-Repo, auch nicht als Beleg.
+:::
 
 ## Prüfen
 

@@ -16,13 +16,14 @@ Nach diesem Kapitel kannst du:
 - Die Arten von Quotas in OpenNebula unterscheiden
 - Quotas für Gruppen setzen und ihre Nutzung lesen
 - Beschreiben, was an der Grenze einer Quota geschieht
+- Erklären, was eine Quota bei Überbuchung begrenzt und was nicht
 :::
 
 ## Der Zweck von Quotas
 
-In einer Cloud teilen sich mehrere Mandanten dieselben Knoten. Ohne Grenze könnte ein Mitglied alle Knoten füllen, die anderen bekämen dann keine VM mehr. Eine Quota legt fest, wie viele Ressourcen eine Gruppe oder ein Benutzer höchstens belegen darf.
+In einer Cloud teilen sich mehrere Mandanten dieselben Knoten. Ohne Grenze könnte ein Mitglied alle Knoten füllen, die anderen bekämen dann keine VM mehr. Eine **Quota** legt fest, wie viele Ressourcen eine Gruppe oder ein Benutzer höchstens belegen darf.
 
-Die Quota schützt die anderen Mitglieder vor einem lauten Nachbarn, englisch Noisy Neighbor. Gemeint ist ein Mandant, der mit vielen oder grossen VMs den Platz belegt, den andere ebenfalls brauchen. Ausserdem teilt die Quota die Kapazität fair auf. Jedes Mitglied bekommt den Anteil, den es mit der Genossenschaft vereinbart hat, auch wenn ein anderes gerade viel mehr möchte. Sie macht auch die Kosten für beide Seiten planbar. Ein Mitglied weiss im Voraus, wie viel es höchstens belegen kann. Seine Showback-Rechnung aus Kapitel 3.3 fällt deshalb nie höher aus als die Kosten der vollen Quota über den ganzen Monat. Darauf ist die Gemeinde mit ihrem festen Budget angewiesen. Das Plattform-Team wiederum weiss, wie viel Hardware es braucht, um alle Zusagen gleichzeitig einzuhalten.
+Die Quota schützt die anderen Mitglieder vor einem lauten Nachbarn, englisch **Noisy Neighbor**. Gemeint ist ein Mandant, der mit vielen oder grossen VMs den Platz belegt, den andere ebenfalls brauchen. Ausserdem teilt die Quota die Kapazität fair auf. Jedes Mitglied bekommt den Anteil, den es mit der Genossenschaft vereinbart hat, auch wenn ein anderes gerade viel mehr möchte. Sie macht auch die Kosten für beide Seiten planbar. Ein Mitglied weiss im Voraus, wie viel es höchstens belegen kann. Seine Showback-Rechnung aus Kapitel 3.3 fällt deshalb nie höher aus als die Kosten der vollen Quota über den ganzen Monat. Darauf ist die Gemeinde mit ihrem festen Budget angewiesen. Das Plattform-Team wiederum weiss, wie viel Hardware es braucht, um alle Zusagen gleichzeitig einzuhalten.
 
 ## Arten von Quotas
 
@@ -41,7 +42,7 @@ In OpenNebula 7.4 lässt sich eine VM-Quota mit `CLUSTER_IDS` auf einzelne Clust
 
 ## Ebenen und Standardwerte
 
-Quotas gibt es auf zwei Ebenen. Eine Gruppenquota begrenzt, was alle Benutzer einer Gruppe zusammen belegen, also das ganze Mitglied. Eine Benutzerquota begrenzt einen einzelnen Benutzer innerhalb seiner Gruppe. Ein neuer Auftrag muss beide Grenzen einhalten. Die Praxis kann ihrer MPA zum Beispiel eine einzige VM erlauben, während die Gruppe als Ganzes bei zwei VMs bleibt.
+Quotas gibt es auf zwei Ebenen. Eine **Gruppenquota** begrenzt, was alle Benutzer einer Gruppe zusammen belegen, also das ganze Mitglied. Eine **Benutzerquota** begrenzt einen einzelnen Benutzer innerhalb seiner Gruppe. Ein neuer Auftrag muss beide Grenzen einhalten. Die Praxis kann ihrer MPA zum Beispiel eine einzige VM erlauben, während die Gruppe als Ganzes bei zwei VMs bleibt.
 
 Wer eine Quota setzen darf, hängt von den Rechten ab. Für eine Gruppenquota braucht es das Recht `ADMIN` auf die Gruppe, das ohne weitere ACL nur `oneadmin` hat. Für eine Benutzerquota genügt `MANAGE` auf den Benutzer, deshalb kann ein Gruppenadmin die Benutzer seiner eigenen Gruppe begrenzen. Das Plattform-Team verteilt die Kapazität also auf die Mitglieder. Jedes Mitglied teilt seinen Anteil selbst unter seinen Benutzern auf.
 
@@ -73,7 +74,7 @@ In Sunstone zeigt die Liste unter «System › Groups», wie viel der Quota für
 
 Die CPU der Quota zählt wie `CPU` in der Vorlage. Eine VM aus der Vorlage `ubuntu` braucht 0,5 davon. Die Praxis bekommt 1,5 CPU, damit in Kapitel 3.4 eine VM aus Sunstone neben `praxis-1` Platz hat. Sunstone setzt die CPU einer neuen VM nämlich auf die Zahl ihrer virtuellen CPUs, also auf 1.
 
-Für Meilenstein 1 bekommt die Gemeinde die Quota aus deinen [persönlichen Werten](../../start/parameters/). Kopiere dafür das Skript, ändere die Zeile der Gemeinde und führe die Kopie aus. Die anderen Mitglieder behalten die Werte der Tabelle.
+Für Meilenstein 1 bekommt die Gemeinde die Quota aus deinen [persönlichen Werten](../../start/parameters/#deine-werte-für-die-meilensteine). Kopiere dafür das Skript, ändere die Zeile der Gemeinde und führe die Kopie aus. Die anderen Mitglieder behalten die Werte der Tabelle.
 
 ```bash
 cp ~/cc/lab/tenants/set-quotas.sh ~/cc-lab/set-quotas.sh
@@ -93,7 +94,7 @@ Die Meldung nennt den Benutzer, die Gruppe, die Grenze und welche Quota erreicht
 
 ## Quota und Überbuchung
 
-Eine Quota begrenzt, wie viel ein Mandant reservieren darf. Ob die Hardware diese Reservationen auch trägt, sagt sie nicht. Überbuchung heisst, dass auf einem Knoten mehr reserviert ist, als er hat. In Kapitel 2.5 erlaubt ein negativer Wert für `RESERVED_CPU` oder `RESERVED_MEM` genau das. Auch die Quotas selbst lassen sich überbuchen. Die Summe aller Quotas darf grösser sein als die Cloud. Das geht gut, solange nicht alle Mitglieder ihre Quota gleichzeitig ausschöpfen.
+Eine Quota begrenzt, wie viel ein Mandant reservieren darf. Ob die Hardware diese Reservationen auch trägt, sagt sie nicht. **Überbuchung** heisst, dass auf einem Knoten mehr reserviert ist, als er hat. In Kapitel 2.5 erlaubt ein negativer Wert für `RESERVED_CPU` oder `RESERVED_MEM` genau das. Auch die Quotas selbst lassen sich überbuchen. Die Summe aller Quotas darf grösser sein als die Cloud. Das geht gut, solange nicht alle Mitglieder ihre Quota gleichzeitig ausschöpfen.
 
 Bei der CPU ist Überbuchung wenig riskant. Teilen sich mehrere virtuelle CPUs einen Kern, verteilt der Hypervisor die Rechenzeit. Alle VMs werden langsamer, laufen aber weiter. Die Vorlage `ubuntu` überbucht bereits im Kleinen. Sie gibt der VM mit `VCPU = 1` einen ganzen virtuellen Kern, reserviert mit `CPU = 0.5` aber nur einen halben. Beim Arbeitsspeicher fehlt dieser Spielraum. Brauchen die VMs zusammen mehr Speicher, als der Knoten hat, muss der Host auslagern oder Prozesse beenden. Dabei kann auch eine VM abstürzen. Deshalb überbucht man die CPU eher als den Arbeitsspeicher. Die Summe der Speicherquotas sollte zur Kapazität der Knoten passen.
 

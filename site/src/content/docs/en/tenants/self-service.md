@@ -16,11 +16,12 @@ After this chapter you can:
 - Tell the Sunstone views for members and group admins apart
 - Create users and derive templates of your own as a group admin
 - Explain what a member may change and what it may not
+- Explain what a service catalog is and who maintains it
 :::
 
 ## Self-service
 
-In [chapter 1.1](../../basics/characteristics/), on-demand self-service is one of the five characteristics of a cloud. The NIST definition in [SP 800-145](https://csrc.nist.gov/pubs/sp/800/145/final) requires that consumers can provision computing power and storage on their own and as needed, without any human interaction on the provider's side. So a member gets resources when it needs them, without waiting for the platform team to work through a ticket.
+In [chapter 1.1](../../basics/characteristics/), **on-demand self-service** is one of the five characteristics of a cloud. The NIST definition in [SP 800-145](https://csrc.nist.gov/pubs/sp/800/145/final) requires that consumers can provision computing power and storage on their own and as needed, without any human interaction on the provider's side. So a member gets resources when it needs them, without waiting for the platform team to work through a ticket.
 
 The platform team sets the framework with the groups, the VDC and the quotas from chapters 3.1 and 3.2, and with shared templates. Within this framework the members act on their own.
 
@@ -57,7 +58,7 @@ OpenNebula 7.4 ships these four views, and the [views documentation](https://doc
 
 The views live on the front-end in `/etc/one/fireedge/sunstone/views/`. Every view is a folder with one file per tab. If you want to take a tab away from a view, you adapt these files. If a group has no values of its own, the assignment in `sunstone-views.yaml` in the same folder applies. There the group `oneadmin` gets all four views and everybody else gets `user` and `cloud`.
 
-Open Sunstone in the browser of the client (the Kali VM on smartlearn, your PC with an own hypervisor) at `http://<front-end>:2616` and log in as `praxis-admin`. You see the view `groupadmin` with the practice's VMs and the template `ubuntu`. Hosts and datastores are missing because they remain the platform team's business.
+Open Sunstone in the browser of the client (the Kali VM on smartlearn, or your PC if you run your own hypervisor) at `http://<front-end>:2616` and log in as `praxis-admin`. You see the view `groupadmin` with the practice's VMs and the template `ubuntu`. Hosts and datastores are missing because they remain the platform team's business.
 
 ![Sunstone as praxis-admin in the view groupadmin, which the menu calls Admin group. Under Instances › VMs only the practice's VM praxis-1 appears. The menu has no Infrastructure section with the hosts, and Storage lists Images, Files, Backups and Apps but no datastores. The card still names the node of the VM as its host. The user praxis-admin and the group praxis appear at the bottom left. The picture was taken in part 6, which is why only praxis-1 is running.](../../../../assets/screenshots/sunstone-groupadmin-vms.png)
 
@@ -86,7 +87,7 @@ The medical assistant then logs in to Sunstone, gets the view `cloud` and starts
 
 ## The service catalog
 
-A service catalog is the list of services a provider offers ready-made, each with a defined scope, price and owner. Whoever needs something picks it from the catalog instead of describing a wish in free form. For the provider this means it only runs what it has tested and documented.
+A **service catalog** is the list of services a provider offers ready-made, each with a defined scope, price and owner. Whoever needs something picks it from the catalog instead of describing a wish in free form. For the provider this means it only runs what it has tested and documented.
 
 In OpenNebula the shared templates form this catalog. The template `ubuntu` fixes image, size, network and context, and since chapter 3.3 it carries its price as well. The OneFlow service templates from [chapter 3.5](../advanced/#services-and-roles) add services made of several VMs. According to the [Cloud View documentation](https://docs.opennebula.io/7.4/product/control_plane_configuration/graphical_user_interface/cloud_view/), users there select one of the templates the administrators prepared and at most adjust capacity and disks before they start it. The catalog is the interface between the platform team and the members. Every entry is a promise to maintain it, so the platform team only adds what it can actually run.
 
@@ -122,7 +123,7 @@ python3 ~/cc/checks/check.py tenants
 The two lines about OneFlow marked `[+!!]` belong to advanced task A in chapter 3.5 and do not count for the base.
 
 ::::exercise[Lab]
-With two VMs the practice's quota from chapter 3.2 is full. So first delete the VM `praxis-2` as `praxis-admin` with `onevm terminate`. Sunstone sets the CPU of a new VM to 1, which just fits next to `praxis-1` into the practice's 1.5 CPU. Then create the user `praxis-mpa`, log in to Sunstone as this user in the browser of the client and start a VM. As `praxis-admin`, check that you can see it, then delete it. Finally run the check `tenants` and add its report to your hand-in repo.
+With two VMs the practice's quota from chapter 3.2 is full. So first delete the VM `praxis-2` as `praxis-admin` with `onevm terminate`. Sunstone sets the CPU of a new VM to 1, which just fits next to `praxis-1` into the practice's 1.5 CPU. Then create the user `praxis-mpa`, log in to Sunstone as this user in the browser of the client and start a VM. As `praxis-admin`, check that you can see it. Take a screenshot for milestone 1, then delete the VM. Finally run the check `tenants` and add its report to your hand-in repo.
 
 :::solution
 `oneuser create praxis-mpa <password>` creates the user in the group `praxis`. In Sunstone the view `cloud` shows the template `ubuntu`, and the VM only starts as long as the practice's quota has room. As `praxis-admin`, `onevm list` shows the VM with the owner `praxis-mpa`, and `onevm terminate` deletes it. The check ends with "19 of 19 base checks passed" and "0 of 2 checks of the advanced tasks passed".

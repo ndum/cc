@@ -16,13 +16,14 @@ After this chapter you can:
 - Tell the kinds of quotas in OpenNebula apart
 - Set quotas for groups and read their usage
 - Describe what happens at the limit of a quota
+- Explain what a quota limits under overcommitment and what it does not
 :::
 
 ## The purpose of quotas
 
-In a cloud several tenants share the same nodes. Without a limit one member could fill all of them, and the others would not get a VM anymore. A quota sets how many resources a group or a user may take at most.
+In a cloud several tenants share the same nodes. Without a limit one member could fill all of them, and the others would not get a VM anymore. A **quota** sets how many resources a group or a user may take at most.
 
-A quota protects the other members from a noisy neighbor, a tenant whose many or large VMs take up room that others need as well. It also shares the capacity fairly. Every member gets the share it agreed on with the cooperative, even while another member wants much more. And it makes costs predictable on both sides. A member knows in advance how much it can take at most, so its showback bill from chapter 3.3 can never exceed the cost of the full quota over the whole month. The municipality, with its fixed budget, depends on that. The platform team, in turn, knows how much hardware it needs to keep all its promises at the same time.
+A quota protects the other members from a **noisy neighbor**, a tenant whose many or large VMs take up room that others need as well. It also shares the capacity fairly. Every member gets the share it agreed on with the cooperative, even while another member wants much more. And it makes costs predictable on both sides. A member knows in advance how much it can take at most, so its showback bill from chapter 3.3 can never exceed the cost of the full quota over the whole month. The municipality, with its fixed budget, depends on that. The platform team, in turn, knows how much hardware it needs to keep all its promises at the same time.
 
 ## Kinds of quotas
 
@@ -41,7 +42,7 @@ In OpenNebula 7.4 a VM quota can be restricted to individual clusters with `CLUS
 
 ## Levels and defaults
 
-Quotas work on two levels. A group quota limits what all users of a group take together, so it covers the whole member. A user quota limits a single user within their group. A new request has to stay within both. The practice can, for example, allow its medical assistant a single VM while the group as a whole stays at two.
+Quotas work on two levels. A **group quota** limits what all users of a group take together, so it covers the whole member. A **user quota** limits a single user within their group. A new request has to stay within both. The practice can, for example, allow its medical assistant a single VM while the group as a whole stays at two.
 
 Who may set a quota depends on permissions. A group quota needs the `ADMIN` right on the group, which only `oneadmin` has unless an ACL grants more. A user quota only needs `MANAGE` on the user, so a group admin can limit the users of their own group. The platform team divides the capacity among the members, and each member splits its share among its own users.
 
@@ -73,7 +74,7 @@ In Sunstone the list under "System › Groups" shows how much of the VM quota is
 
 The CPU of the quota counts like `CPU` in the template. A VM from the template `ubuntu` needs 0.5 of it. The practice gets 1.5 CPU so that a VM from Sunstone fits next to `praxis-1` in chapter 3.4. Sunstone sets the CPU of a new VM to its number of virtual CPUs, which is 1.
 
-For milestone 1 the municipality gets the quota from your [personal values](../../start/parameters/). Copy the script, change the line of the municipality and run the copy. The other members keep the values of the table.
+For milestone 1 the municipality gets the quota from your [personal values](../../start/parameters/#your-values-for-the-milestones). Copy the script, change the line of the municipality and run the copy. The other members keep the values of the table.
 
 ```bash
 cp ~/cc/lab/tenants/set-quotas.sh ~/cc-lab/set-quotas.sh
@@ -93,7 +94,7 @@ The message names the user, the group, the limit and which quota is reached. The
 
 ## Quotas and overcommitment
 
-A quota limits how much a tenant may reserve. It says nothing about whether the hardware can carry those reservations. Overcommitment means that a node has more reserved than it actually has. In chapter 2.5 a negative value for `RESERVED_CPU` or `RESERVED_MEM` allows exactly that. The quotas themselves can be overcommitted too. The sum of all quotas may be larger than the cloud, which works as long as the members do not all use up their quota at the same time.
+A quota limits how much a tenant may reserve. It says nothing about whether the hardware can carry those reservations. **Overcommitment** means that a node has more reserved than it actually has. In chapter 2.5 a negative value for `RESERVED_CPU` or `RESERVED_MEM` allows exactly that. The quotas themselves can be overcommitted too. The sum of all quotas may be larger than the cloud, which works as long as the members do not all use up their quota at the same time.
 
 For CPU, overcommitment carries little risk. When several virtual CPUs share one core, the hypervisor splits the compute time, and all VMs slow down but keep running. The template `ubuntu` already does this on a small scale. With `VCPU = 1` it gives the VM a full virtual core, but with `CPU = 0.5` it reserves only half of one. Memory has no such slack. If the VMs together need more memory than the node has, the host has to swap or kill processes, and a VM can crash. This is why CPU is overcommitted more readily than memory. The sum of the memory quotas should match the capacity of the nodes.
 

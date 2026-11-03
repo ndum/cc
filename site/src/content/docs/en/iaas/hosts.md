@@ -43,7 +43,7 @@ Under "Infrastructure › Hosts", Sunstone shows the states with their full name
 onehost show <node> | sed -n '/HOST SHARES/,/LOCAL SYSTEM/p'
 ```
 
-The scheduler plans with the reserved capacity. Once a node is fully reserved, no further VM starts there, even if its real usage would leave room. With the values `RESERVED_CPU` and `RESERVED_MEM` on the host, the platform team can adjust the capacity. A positive value keeps a reserve free, a negative value allows overcommitment. Overcommitment lowers the cost because VMs rarely all work at full load at the same time. If they do all work at once, all of them slow down. Overcommitting memory is riskier than overcommitting CPU, because VMs crash when memory runs out. Missing CPU time only slows them down.
+The scheduler plans with the reserved capacity. Once a node is fully reserved, no further VM starts there, even if its real usage would leave room. With the values `RESERVED_CPU` and `RESERVED_MEM` on the host, the platform team can adjust the capacity. A positive value keeps a reserve free. A negative value allows **overcommitment**, which means that more is reserved on the node than it has. Overcommitment lowers the cost because VMs rarely all work at full load at the same time. If they do all work at once, all of them slow down. Overcommitting memory is riskier than overcommitting CPU, because VMs crash when memory runs out. Missing CPU time only slows them down.
 
 ## Placement by the scheduler
 
@@ -104,6 +104,10 @@ onehost offline <node>
 After the maintenance you start the node again and release it with `onehost enable`. New VMs then land on both nodes again. The moved VMs stay where they are until you bring them back yourself.
 
 Maintenance only works if the remaining nodes have enough capacity for all VMs. With two nodes, each one must be able to carry all VMs alone. Whoever plans such a reserve keeps it free for maintenance and failures and includes it in the cost.
+
+:::caution[Screenshot of the maintenance]
+No check covers the maintenance with the migration. For requirement 4 of [milestone 1](../../assessment/milestone-1/) your screenshot is the only proof. Take it right during the exercise "Maintenance" and name the file something like `4-migration.png`, because from chapter 4.2 on the Kubernetes cluster takes up the nodes and neither of them can easily be emptied any more.
+:::
 
 ## Failure of a node
 

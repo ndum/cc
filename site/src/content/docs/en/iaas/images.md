@@ -17,12 +17,13 @@ After this chapter you can:
 - Tell the formats raw and qcow2 apart, as well as persistent and non-persistent images
 - Read and adapt a VM template
 - Explain how contextualization sets up a VM at its first boot
+- Compare OpenNebula's contextualization with cloud-init
 - Start a VM, log in over SSH and pass the check of this part
 :::
 
 ## Datastores and images
 
-An image is a disk that VMs boot from, such as a prepared Ubuntu. Images live in a datastore. OneDeploy created three datastores. `default` holds the images, `system` the disks of running VMs, and `files` smaller files such as scripts. When a VM starts, the transfer driver `ssh` copies its image into the `system` datastore of the node. The VM works on that copy, and the image in the datastore stays unchanged.
+An **image** is a disk that VMs boot from, such as a prepared Ubuntu. Images live in a datastore. OneDeploy created three datastores. `default` holds the images, `system` the disks of running VMs, and `files` smaller files such as scripts. When a VM starts, the transfer driver `ssh` copies its image into the `system` datastore of the node. The VM works on that copy, and the image in the datastore stays unchanged.
 
 Sunstone lists the three datastores under "Storage › Datastores".
 
@@ -42,19 +43,19 @@ The image is ready as soon as `oneimage list` shows `rdy` in the column `STAT`.
 
 A raw image holds the disk byte for byte, exactly as it would sit on a physical drive. The format is simple and fast, and every tool can read it. A 30 GB disk takes 30 GB as a raw file, unless the file system supports sparse files and only reserves the parts that were written, as the [QEMU documentation](https://www.qemu.org/docs/master/system/qemu-block-drivers.html) explains.
 
-The name qcow2 stands for QEMU Copy On Write, version 2. The file only grows with the blocks that were actually written, and it can hold snapshots. A qcow2 file can also point to a backing file, another image it only reads from. When the VM needs a block the file itself does not contain, the block comes from the backing file. When the VM writes a block, it lands in its own file and the backing file stays untouched, as the [qcow2 specification](https://www.qemu.org/docs/master/interop/qcow2.html) describes. Many VMs can share one base image this way, each storing only its own changes. On datastores with shared storage OpenNebula creates new disks like this, with the image as backing file, as shown in the [documentation on NFS datastores](https://docs.opennebula.io/7.4/product/cluster_configuration/storage_system/nas_ds/).
+The name qcow2 stands for QEMU Copy On Write, version 2. The file only grows with the blocks that were actually written, and it can hold snapshots. A qcow2 file can also point to a **backing file**, another image it only reads from. When the VM needs a block the file itself does not contain, the block comes from the backing file. When the VM writes a block, it lands in its own file and the backing file stays untouched, as the [qcow2 specification](https://www.qemu.org/docs/master/interop/qcow2.html) describes. Many VMs can share one base image this way, each storing only its own changes. On datastores with shared storage OpenNebula creates new disks like this, with the image as backing file, as shown in the [documentation on NFS datastores](https://docs.opennebula.io/7.4/product/cluster_configuration/storage_system/nas_ds/).
 
 Your lab uses qcow2. `oneimage show ubuntu-26.04` shows `FORMAT : qcow2` and a size of 3.5 GB, which is the disk size the VM sees. The file under `SOURCE` only takes about 450 MB in the datastore, which `qemu-img info` on that file confirms. Because the transfer driver `ssh` copies the image to the node, the disk of a lab VM has no backing file. It is a standalone copy. Copying costs some time at startup, but in return the VM runs without access to the front-end's datastore.
 
 ## Persistent images
 
-In OpenNebula an image is either persistent or non-persistent. A non-persistent image serves as a template for disks. Any number of VMs can use it at once, each on its own copy. Whatever a VM writes to its disk is gone once the VM is terminated. A persistent image keeps its changes after the VM ends, but only one VM at a time may use it, according to the [image documentation](https://docs.opennebula.io/7.4/product/virtual_machines_operation/virtual_machines/images/). `oneimage persistent` and `oneimage nonpersistent` switch between the two.
+In OpenNebula an image is either persistent or non-persistent. A non-persistent image serves as a template for disks. Any number of VMs can use it at once, each on its own copy. Whatever a VM writes to its disk is gone once the VM is terminated. A **persistent image** keeps its changes after the VM ends, but only one VM at a time may use it, according to the [image documentation](https://docs.opennebula.io/7.4/product/virtual_machines_operation/virtual_machines/images/). `oneimage persistent` and `oneimage nonpersistent` switch between the two.
 
 The image `ubuntu-26.04` is non-persistent, and `oneimage show` lists `PERSISTENT : No`. That is the right choice for system disks, since every VM should start from the same state. The column `RVMS` in `oneimage list` tells you how many VMs are using the image right now. Data that has to survive, such as a database, belongs on a second disk from a persistent image. If you want to keep the state of a disk as a new image, `onevm disk-saveas` copies it into the datastore.
 
 ## Templates
 
-A template describes a VM, and you can start any number of VMs from it. The course provides the template `ubuntu` for small VMs on the internal network.
+A **template** describes a VM, and you can start any number of VMs from it. The course provides the template `ubuntu` for small VMs on the internal network.
 
 ::code{file="lab/iaas/ubuntu.tpl"}
 
@@ -67,7 +68,7 @@ onetemplate list
 
 ## Contextualization
 
-An image is the same for every VM, but each VM needs its own address, its name and the keys of its users. OpenNebula hands these details to the VM at boot. It attaches them as a small virtual CD drive, and the package `one-context` in the image reads them at the first boot and sets up the VM accordingly. This principle is called contextualization.
+An image is the same for every VM, but each VM needs its own address, its name and the keys of its users. OpenNebula hands these details to the VM at boot. It attaches them as a small virtual CD drive, and the package `one-context` in the image reads them at the first boot and sets up the VM accordingly. This principle is called **contextualization**.
 
 ![A VM from image, template and context. At the top the front-end holds the image ubuntu-26.04 in the datastore default and the template ubuntu, whose DISK points to the image. onetemplate instantiate ubuntu --name web-1 creates the VM web-1 on a node from them. OpenNebula copies the image into the system datastore of the node as the disk of the VM and attaches the values from CONTEXT as a CD drive with context.sh. At first boot one-context reads that file and sets up the VM. NETWORK gives it address, gateway, DNS and MTU from cc-net, SET_HOSTNAME makes the name of the VM its host name, and SSH_PUBLIC_KEY puts the key of oneadmin into root's authorized_keys. Notice that the image stays the same for every VM. Each VM gets its address, name and key only through the context.](../../../../assets/figures/en/p2c4-template.svg)
 

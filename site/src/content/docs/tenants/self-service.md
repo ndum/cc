@@ -16,11 +16,12 @@ Nach diesem Kapitel kannst du:
 - Die Ansichten von Sunstone für Mitglieder und Gruppenadmins unterscheiden
 - Als Gruppenadmin Benutzer anlegen und eigene Vorlagen ableiten
 - Begründen, was ein Mitglied ändern darf und was nicht
+- Erklären, was ein Servicekatalog ist und wer ihn pflegt
 :::
 
 ## Self-Service
 
-In [Kapitel 1.1](../../basics/characteristics/) gehört On-Demand Self-Service zu den fünf Merkmalen einer Cloud. Die Definition des NIST in [SP 800-145](https://csrc.nist.gov/pubs/sp/800/145/final) verlangt, dass Nutzende Rechenleistung und Speicher selbst und nach Bedarf beziehen können, ohne dass beim Anbieter ein Mensch eingreift. Ein Mitglied holt sich Ressourcen also dann, wenn es sie braucht. Auf ein Ticket beim Plattform-Team muss es nicht warten.
+In [Kapitel 1.1](../../basics/characteristics/) gehört **On-Demand Self-Service** zu den fünf Merkmalen einer Cloud. Die Definition des NIST in [SP 800-145](https://csrc.nist.gov/pubs/sp/800/145/final) verlangt, dass Nutzende Rechenleistung und Speicher selbst und nach Bedarf beziehen können, ohne dass beim Anbieter ein Mensch eingreift. Ein Mitglied holt sich Ressourcen also dann, wenn es sie braucht. Auf ein Ticket beim Plattform-Team muss es nicht warten.
 
 Den Rahmen setzt das Plattform-Team mit den Gruppen, dem VDC und den Quotas aus den Kapiteln 3.1 und 3.2 sowie mit gemeinsamen Vorlagen. Innerhalb dieses Rahmens handeln die Mitglieder selbst.
 
@@ -86,7 +87,7 @@ Die MPA meldet sich danach in Sunstone an, bekommt die Ansicht `cloud` und start
 
 ## Der Servicekatalog
 
-Ein Servicekatalog ist die Liste der Dienste, die ein Anbieter fertig anbietet, jeweils mit festgelegtem Inhalt, Preis und Zuständigkeit. Wer etwas braucht, wählt aus dem Katalog, statt einen Wunsch frei zu formulieren. Für den Anbieter heisst das, dass er nur betreibt, was er geprüft und beschrieben hat.
+Ein **Servicekatalog** ist die Liste der Dienste, die ein Anbieter fertig anbietet, jeweils mit festgelegtem Inhalt, Preis und Zuständigkeit. Wer etwas braucht, wählt aus dem Katalog, statt einen Wunsch frei zu formulieren. Für den Anbieter heisst das, dass er nur betreibt, was er geprüft und beschrieben hat.
 
 In OpenNebula bilden die gemeinsamen Vorlagen diesen Katalog. Die Vorlage `ubuntu` legt Image, Grösse, Netz und Kontext fest und trägt seit Kapitel 3.3 ihren Preis. Die Dienstvorlagen von OneFlow aus [Kapitel 3.5](../advanced/#dienste-und-rollen) ergänzen den Katalog um Dienste aus mehreren VMs. Laut der [Dokumentation der Cloud-Ansicht](https://docs.opennebula.io/7.4/product/control_plane_configuration/graphical_user_interface/cloud_view/) wählen Benutzer dort eine Vorlage aus, die die Administration vorbereitet hat. Vor dem Start passen sie höchstens Grösse und Disks an. Der Katalog ist die Schnittstelle zwischen Plattform-Team und Mitglied. Mit jedem Eintrag sagt das Plattform-Team zu, ihn zu pflegen, deshalb nimmt es nur auf, was es auch betreiben kann.
 
@@ -122,7 +123,7 @@ python3 ~/cc/checks/check.py tenants
 Die zwei Zeilen zu OneFlow mit `[+!!]` gehören zum Zusatzauftrag A in Kapitel 3.5 und zählen nicht zur Basis.
 
 ::::exercise[Lab]
-Mit zwei VMs ist die Quota der Praxis aus Kapitel 3.2 voll. Lösche deshalb zuerst als `praxis-admin` die VM `praxis-2` mit `onevm terminate`. Sunstone setzt die CPU einer neuen VM auf 1, neben `praxis-1` passt sie gerade in die 1,5 CPU der Praxis. Lege dann den Benutzer `praxis-mpa` an, melde dich mit ihm im Browser des Clients bei Sunstone an und starte eine VM. Prüfe als `praxis-admin`, ob du sie siehst. Lösche sie danach. Lass zum Schluss den Check `tenants` laufen und lade seinen Bericht in dein Abgabe-Repo.
+Mit zwei VMs ist die Quota der Praxis aus Kapitel 3.2 voll. Lösche deshalb zuerst als `praxis-admin` die VM `praxis-2` mit `onevm terminate`. Sunstone setzt die CPU einer neuen VM auf 1, neben `praxis-1` passt sie gerade in die 1,5 CPU der Praxis. Lege dann den Benutzer `praxis-mpa` an, melde dich mit ihm im Browser des Clients bei Sunstone an und starte eine VM. Prüfe als `praxis-admin`, ob du sie siehst. Mach einen Screenshot für Meilenstein 1 und lösche die VM danach. Lass zum Schluss den Check `tenants` laufen und lade seinen Bericht in dein Abgabe-Repo.
 
 :::solution
 `oneuser create praxis-mpa <passwort>` legt den Benutzer in der Gruppe `praxis` an. In Sunstone zeigt die Ansicht `cloud` die Vorlage `ubuntu`. Die VM startet nur, solange die Quota der Praxis Platz hat. Als `praxis-admin` zeigt `onevm list` die VM mit dem Besitzer `praxis-mpa`, `onevm terminate` löscht sie. Der Check endet mit «19 von 19 Prüfungen der Basis erfüllt» und «0 von 2 Prüfungen der Zusatzaufträge erfüllt».
