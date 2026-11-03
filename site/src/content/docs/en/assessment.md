@@ -98,7 +98,7 @@ You answer the two questions during the showing of the advanced tasks, live or i
 
 ## Grade 2 from the exam
 
-The exam is an individual exam of 60 minutes towards the end of the module. Every aid is allowed, including the internet and AI assistants. Its form and date are not settled yet, and the page [Exam](exam/) collects what is known.
+The exam is an individual exam of 60 minutes towards the end of the module. Every aid is allowed, including the internet and AI assistants, but no AI agents. Its form and date are not settled yet, and the page [Exam](exam/) collects what is known.
 
 ## Handing in
 

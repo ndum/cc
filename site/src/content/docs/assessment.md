@@ -98,7 +98,7 @@ Die zwei Fragen beantwortest du in der Vorführung der Zusatzaufträge, live ode
 
 ## Note 2 aus der Prüfung
 
-Die Prüfung ist eine Einzelprüfung von 60 Minuten gegen Ende des Moduls. Alle Hilfsmittel sind erlaubt, auch das Internet und KI-Assistenten. Form und Termin stehen noch nicht fest. Die Seite [Prüfung](exam/) sammelt, was bekannt ist.
+Die Prüfung ist eine Einzelprüfung von 60 Minuten gegen Ende des Moduls. Alle Hilfsmittel sind erlaubt, auch das Internet und KI-Assistenten, aber keine KI-Agenten. Form und Termin stehen noch nicht fest. Die Seite [Prüfung](exam/) sammelt, was bekannt ist.
 
 ## Abgeben
 
