@@ -18,6 +18,7 @@ changed report no longer matches its hash. The script is public, so the hash pro
 report was not edited by hand afterwards, not that the check really ran. The showing of a proof is
 what counts.
 """
+import ast
 import base64
 import datetime
 import getpass
@@ -622,6 +623,30 @@ def mebibytes(value):
     return int(value) // (1024 * 1024)
 
 
+def thresholds(query):
+    """The right-hand sides of the comparisons in a PromQL query that are plain arithmetic, as numbers
+
+    A student may write the threshold of the burn rate as 14.4 * 0.01 like chapter 5.3, as 0.144 or as
+    another sum, so the check compares the value and not the text.
+    """
+    allowed = (ast.Expression, ast.BinOp, ast.UnaryOp, ast.Constant, ast.Add, ast.Sub, ast.Mult, ast.Div, ast.UAdd, ast.USub)
+    values = []
+    for part in re.split(r"\b(?:and|or|unless)\b", query):
+        if ">" not in part:
+            continue
+        side = re.sub(r"^bool\b", "", part.split(">", 1)[1].lstrip("=").strip()).strip()
+        try:
+            tree = ast.parse(side, mode="eval")
+        except SyntaxError:
+            continue
+        if all(isinstance(node, allowed) for node in ast.walk(tree)):
+            try:
+                values.append(float(eval(compile(tree, "<threshold>", "eval"), {"__builtins__": {}})))
+            except (ArithmeticError, TypeError, ValueError):
+                continue
+    return values
+
+
 def check_advanced(milestone, env, report):
     """Traces of the advanced tasks that a script can see, the showing decides the points"""
     if milestone == "m1":
@@ -683,7 +708,7 @@ def check_milestone(milestone, part):
             except (ValueError, KeyError):
                 groups = []
             queries = [r.get("query", "") for g in groups for r in g.get("rules", []) if r.get("name") == "WebshopErrorBudgetBurn"]
-            report.check(any(f"14.4 * {budget})" in q for q in queries), tr(f"Der Alert des SLO rechnet mit dem Ziel {values['sloTarget']} %", f"The SLO alert uses the target {values['sloTarget']} %"),
+            report.check(any(abs(value - 14.4 * float(budget)) < 1e-9 for q in queries for value in thresholds(q)), tr(f"Der Alert des SLO rechnet mit dem Ziel {values['sloTarget']} %", f"The SLO alert uses the target {values['sloTarget']} %"),
                          tr("webshop-slo.yaml, Kapitel 5.3", "webshop-slo.yaml, chapter 5.3"))
             hpa = kube_json("get", "hpa", "webshop", "-n", "velo") or {}
             report.check(hpa.get("spec", {}).get("maxReplicas") == values["hpaMax"],
