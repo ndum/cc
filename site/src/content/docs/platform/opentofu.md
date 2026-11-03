@@ -27,7 +27,11 @@ OpenNebula reserviert für jede VM den ganzen Speicher aus ihrer Vorlage auf ihr
 
 ![Der Speicher eines Knotens. Ein Balken zeigt die 8 GB eines Knotens. 0,8 GB bleiben dem Host, die übrigen 7,2 GB meldet OpenNebula für VMs. Davon reserviert die k3s-VM 6 GB, auf einem Knoten der Server, auf dem anderen der Agent. Frei bleiben 1,2 GB. Achte darauf, dass daneben nur noch eine VM mit 1 GB Platz hat, weil OpenNebula den ganzen Speicher jeder VM reserviert.](../../../assets/figures/de/p4c2-memory.svg)
 
-Darum räumst du als Erstes auf. Mache vorher die Screenshots für Meilenstein 1, denn danach fehlen die VMs, die sie zeigen. Zeigst du die Zusatzaufträge von Meilenstein 1 im Screencast, nimmst du ihn ebenfalls vorher auf. Die Gruppen, Quotas, Preise und Vorlagen aus Teil 3 bleiben bestehen, du entfernst nur die laufenden VMs.
+Darum räumst du als Erstes auf. Die Gruppen, Quotas, Preise und Vorlagen aus Teil 3 bleiben bestehen, du entfernst nur die laufenden VMs.
+
+:::caution[Screenshots vor dem Aufräumen]
+Die Schleife unten beendet alle VMs aus Teil 2 und 3 endgültig. Mache vorher die Screenshots für Meilenstein 1, denn danach fehlen die VMs, die sie zeigen. Zeigst du die Zusatzaufträge von Meilenstein 1 im Screencast, nimmst du ihn ebenfalls vorher auf. Lege zur Sicherheit einen Snapshot der drei Server an, wie ihn Kapitel 0.4 beschreibt.
+:::
 
 ```bash
 oneflow list
@@ -40,7 +44,7 @@ onehost list
 Hast du im Zusatzkapitel 3.5 den Dienst der Treuhand gestartet, entfernst du ihn zuerst, sonst startet OneFlow seine VM gleich wieder. Danach beendet die Schleife jede VM, die `onevm list` zeigt, egal wie du sie in den Teilen 2 und 3 genannt hast. `oneadmin` darf die VMs aller Mitglieder beenden. Am Ende zeigt `onehost list` auf beiden Knoten `0K / 7.2G`.
 
 :::note[Zusatzaufträge von Meilenstein 1 live zeigen]
-Die Basis von Meilenstein 1 belegst du mit dem Bericht und den Screenshots, dafür brauchst du die alten VMs nicht mehr. Wer die Zusatzaufträge von Meilenstein 1 im Unterricht live zeigt statt im Screencast, nimmt den Cluster für die Vorführung von den Knoten. `onevm undeploy k3s-server` und `onevm undeploy k3s-agent` stoppen die VMs und geben Speicher und CPU frei, ihre Disks bleiben erhalten. Danach startest du die VMs, die du für die Zusatzaufträge brauchst, mit den Befehlen aus Teil 3 neu, zeigst die Aufträge und beendest die VMs wieder. `onevm resume` bringt den Cluster zurück. Im Lab dauerte `undeploy` knapp zwei Minuten, nach `resume` antwortete der Webshop aus Kapitel 4.4 nach etwa 45 Sekunden wieder. Argo CD zeigte die Application `root` danach noch gut drei Minuten als `Degraded`, weil das ApplicationSet `members` beim Start das Repo nicht lesen konnte. Der Repo-Server von Argo CD lief da noch nicht, danach erholte sich das ApplicationSet von selbst. `onevm poweroff` reicht dafür nicht, weil eine ausgeschaltete VM ihren Platz auf dem Knoten behält.
+Die Basis von Meilenstein 1 belegst du mit dem Bericht und den Screenshots, dafür brauchst du die alten VMs nicht mehr. Wer die Zusatzaufträge von Meilenstein 1 im Unterricht live zeigt statt im Screencast, nimmt den Cluster für die Vorführung von den Knoten. `onevm undeploy k3s-server` und `onevm undeploy k3s-agent` stoppen die VMs und geben Speicher und CPU frei, ihre Disks bleiben erhalten. `onevm poweroff` reicht dafür nicht, weil eine ausgeschaltete VM ihren Platz auf dem Knoten behält. Danach startest du die VMs, die du für die Zusatzaufträge brauchst, mit den Befehlen aus Teil 3 neu, zeigst die Aufträge und beendest die VMs wieder. `onevm resume` bringt den Cluster zurück. Im Lab dauerte `undeploy` knapp zwei Minuten, nach `resume` antwortete der Webshop aus Kapitel 4.4 nach etwa 45 Sekunden wieder. Argo CD zeigte die Application `root` danach noch gut drei Minuten als `Degraded`, weil das ApplicationSet `members` beim Start das Repo nicht lesen konnte. Der Repo-Server von Argo CD lief da noch nicht, danach erholte sich das ApplicationSet von selbst.
 :::
 
 ## Werkzeuge
@@ -78,7 +82,7 @@ In `tofu/` liegt die Konfiguration, aufgeteilt in Dateien. OpenTofu liest alle D
 
 ## Provider
 
-Ein Provider übersetzt Blöcke im Code in Aufrufe einer API. Der Provider `opennebula/opennebula` spricht mit der XML-RPC-Schnittstelle von OpenNebula auf Port 2633, dieselbe, die auch die CLI und Sunstone nutzen. `random` erzeugt zufällige Werte.
+Ein **Provider** übersetzt Blöcke im Code in Aufrufe einer API. Der Provider `opennebula/opennebula` spricht mit der XML-RPC-Schnittstelle von OpenNebula auf Port 2633, dieselbe, die auch die CLI und Sunstone nutzen. `random` erzeugt zufällige Werte.
 
 ::code{file="platform/repo/tofu/versions.tf"}
 
@@ -101,7 +105,7 @@ export OPENNEBULA_PASSWORD=$(cut -d: -f2- ~/.one/one_auth)
 | `data` | etwas, das schon existiert und nur gelesen wird, hier das Netz `cc-net` und das Image `ubuntu-26.04` aus Teil 2 |
 | `resource "opennebula_virtual_machine"` | die VMs, dank `for_each` eine pro Eintrag in `local.nodes` |
 
-Eine Data Source verbindet den Code mit dem, was du von Hand gebaut hast, ohne es zu übernehmen. OpenTofu liest die Nummer von `cc-net`, legt das Netz aber nie an und löscht es nie.
+Eine **Data Source** verbindet den Code mit dem, was du von Hand gebaut hast, ohne es zu übernehmen. OpenTofu liest die Nummer von `cc-net`, legt das Netz aber nie an und löscht es nie.
 
 Die Adressen der VMs kommen aus deinen persönlichen Parametern. In `/etc/cc-lab.env` heissen sie `CC_K3S_SERVER_IP` und `CC_K3S_AGENT_IP`. Ein kleines Skript schreibt sie in `terraform.tfvars`, die Datei, aus der OpenTofu Variablen liest.
 
@@ -187,6 +191,6 @@ Ein neuer Name, wie oben, erscheint als `~ name` im Plan, `tofu apply` macht ihn
 Die Treuhand fragt, ob der Cluster mit weniger Speicher auskäme, damit daneben wieder eine VM für sie Platz hat. Wo änderst du das und welche Folgen hat es?
 
 :::solution
-In `variables.tf` steht die Variable `memory` mit dem Wert 6144. In `terraform.tfvars` setzt du etwa `memory = 5120`, dann zeigt der Plan eine Änderung an beiden VMs. Jeder Knoten hätte danach 2,2 GB frei, genug für zwei kleine VMs. In Teil 5 brauchen Prometheus, Loki und das lokale Modell aber diesen Speicher. Im Test lag der Server mit allem bei 3,4 GB, das Modell brauchte auf dem Agent 2,7 GB. Eine spätere Messung über eine Stunde mit Anfragen ergab für das Modell bis 3,3 GiB, wie Kapitel 6.4 zeigt. Deine Entscheidung begründest du in der Dokumentation.
+In `variables.tf` steht die Variable `memory` mit dem Wert 6144. In `terraform.tfvars` setzt du etwa `memory = 5120`, dann zeigt der Plan eine Änderung an beiden VMs. Jeder Knoten hätte danach 2,2 GB frei, genug für zwei kleine VMs. In Teil 5 brauchen Prometheus, Loki und das lokale Modell aber diesen Speicher. Im Test lag der Server mit allem bei 3,4 GB, das Modell brauchte auf dem Agent 2,7 GB. Eine spätere Messung über eine Stunde mit Anfragen ergab für das Modell bis 3,3 GiB, wie Kapitel 6.4 zeigt.
 :::
 ::::

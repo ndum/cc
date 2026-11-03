@@ -16,7 +16,7 @@ Nach diesem Kapitel kannst du:
 - Begründen, warum der Git-Server ausserhalb des Clusters läuft, den er steuert
 - Gitea auf dem Front-end betreiben und ein Repo mit Zugriff nur zum Lesen freigeben
 - Argo CD installieren und mit Applications den Webshop aus Git ausrollen
-- Sync, Prune und Self-Heal an einem Beispiel zeigen
+- Sync und Self-Heal an einem Beispiel zeigen und erklären, was Prune löscht
 :::
 
 ## GitOps
@@ -30,7 +30,7 @@ Mit OpenTofu beschreibst du die VMs in Code, ausführen musst du ihn aber selbst
 | Automatisch geholt | Software im System holt sich den Soll-Zustand selbst ab. |
 | Laufend abgeglichen | Dieselbe Software vergleicht Soll und Ist ständig und gleicht Abweichungen an. |
 
-Der Unterschied zum klassischen Ausrollen liegt in der Richtung. Bei einem Push-Ansatz meldet sich eine Pipeline oder ein Mensch mit Rechten am Cluster an und spielt Änderungen ein. Bei GitOps braucht ausser dem Agent im Cluster niemand diese Rechte. Wer etwas ändern will, ändert Git. Die Geschichte von Git ist zugleich das Protokoll aller Änderungen.
+Der Unterschied zum klassischen Ausrollen liegt in der Richtung. Bei einem **Push-Ansatz** meldet sich eine Pipeline oder ein Mensch mit Rechten am Cluster an und spielt Änderungen ein. Bei GitOps braucht ausser dem Agent im Cluster niemand diese Rechte. Wer etwas ändern will, ändert Git. Die Geschichte von Git ist zugleich das Protokoll aller Änderungen.
 
 ![Der Kreislauf von GitOps. Das Plattform-Team schickt eine Änderung mit git push an Gitea auf dem Front-end oder öffnet einen Pull Request, der nach der Prüfung zusammengeführt wird. Argo CD im k3s-Cluster holt das Repo wolkenwerk/platform jede Minute mit Leserechten. Es vergleicht den Soll-Zustand aus Git mit dem Ist-Zustand und wendet die Unterschiede an, etwa beim Webshop im Namespace velo. Ändert jemand den Cluster von Hand mit kubectl scale, setzt Self-Heal die Änderung zurück. Achte auf die Richtung der Pfeile. Argo CD holt sich den Soll-Zustand selbst, niemand schickt ihn in den Cluster.](../../../assets/figures/de/p4c4-gitops.svg)
 
@@ -66,6 +66,10 @@ Ein zweites Skript legt die Organisation `wolkenwerk`, das private Repo `platfor
 Argo CD bekommt nur Leserechte. Gelangt sein Token an die falsche Stelle, kann damit niemand den Soll-Zustand ändern.
 
 In `~/platform` liegt seit Kapitel 4.2 die Vorlage. Die Dateien für Argo CD enthalten den Platzhalter `FRONTEND`, den du durch die Adresse deines Front-ends ersetzt. Danach machst du daraus ein Git-Repo und schickst es an Gitea.
+
+:::caution[Kein State in Git]
+Prüfe vor dem Commit in der Ausgabe von `git status`, dass weder `terraform.tfstate` noch der Ordner `.terraform` dabei sind. Der State enthält das Token von k3s im Klartext und bliebe nach einem Commit in der Geschichte von Git, auch wenn du ihn danach löschst. Meilenstein 2 verlangt ihn ausserhalb von Git.
+:::
 
 ```bash
 source /etc/cc-lab.env
@@ -109,7 +113,7 @@ Das Deployment hält zwei Pods am Laufen und gibt ihnen Requests und Limits für
 
 ## Argo CD
 
-Argo CD ist ein Projekt der CNCF und läuft als Satz von Controllern im Cluster. Er liest Repos, rendert die Manifeste, auch mit Kustomize oder Helm, vergleicht sie mit dem Cluster und gleicht ab. Eine Application sagt ihm, welcher Ordner welches Repos in welchen Namespace gehört.
+Argo CD ist ein Projekt der CNCF und läuft als Satz von Controllern im Cluster. Er liest Repos, rendert die Manifeste, auch mit Kustomize oder Helm, vergleicht sie mit dem Cluster und gleicht ab. Eine **Application** sagt ihm, welcher Ordner welches Repos in welchen Namespace gehört.
 
 Ein Skript installiert Argo CD mit Helm, hinterlegt das Token für Gitea und wendet die erste Application an.
 
@@ -133,7 +137,7 @@ Die erste Application heisst `root`. Sie zeigt auf den Ordner `apps` im Repo, in
 
 ::code{file="platform/repo/apps/webshop.yaml"}
 
-Argo CD rollt also zuerst `root` aus und findet darin die Application `webshop`, die den Ordner `webshop` in den Namespace `velo` bringt. Für eine neue Anwendung legst du nur eine Datei in `apps` an, `kubectl` brauchst du dafür nicht mehr. Dieses Muster heisst App of Apps.
+Argo CD rollt also zuerst `root` aus und findet darin die Application `webshop`, die den Ordner `webshop` in den Namespace `velo` bringt. Für eine neue Anwendung legst du nur eine Datei in `apps` an, `kubectl` brauchst du dafür nicht mehr. Dieses Muster heisst **App of Apps**.
 
 ![App of Apps im Plattform-Repo. Die Application root wendet das Skript beim Bootstrap einmal an, sie zeigt auf den Ordner apps. Darin liegen das ApplicationSet members aus Kapitel 4.5 und die Application webshop, die den Ordner webshop in den Namespace velo bringt. Das ApplicationSet erzeugt für jeden Ordner unter members eine eigene Application, etwa member-velo und member-gemeinde. Achte darauf, dass nur root von Hand in den Cluster kommt, alles Weitere entsteht aus Dateien in Git.](../../../assets/figures/de/p4c4-app-of-apps.svg)
 

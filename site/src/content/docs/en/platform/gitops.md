@@ -16,7 +16,7 @@ After this chapter you can:
 - Explain why the Git server runs outside the cluster it controls
 - Run Gitea on the front-end and share a repo with read-only access
 - Install Argo CD and roll out the web shop from Git with applications
-- Demonstrate sync, prune and self-heal
+- Demonstrate sync and self-heal and explain what prune deletes
 :::
 
 ## GitOps
@@ -30,7 +30,7 @@ With OpenTofu you describe the VMs in code, but you still run the code yourself.
 | Pulled automatically | Software inside the system fetches the desired state itself. |
 | Continuously reconciled | The same software keeps comparing desired and actual state and corrects differences. |
 
-The difference from a classic rollout is the direction. With a push approach, a pipeline or a person with rights logs in to the cluster and applies changes. With GitOps, nobody but the agent in the cluster needs those rights. Whoever wants a change edits Git, and the Git history doubles as the log of every change.
+The difference from a classic rollout is the direction. With a **push approach**, a pipeline or a person with rights logs in to the cluster and applies changes. With GitOps, nobody but the agent in the cluster needs those rights. Whoever wants a change edits Git, and the Git history doubles as the log of every change.
 
 ![The GitOps loop. The platform team sends a change with git push to Gitea on the front-end, or opens a pull request that is merged after review. Argo CD in the k3s cluster polls the repo wolkenwerk/platform every minute with read-only access. It compares the desired state from Git with the live state, for example for the web shop in the namespace velo, and applies the differences. If someone changes the cluster by hand with kubectl scale, self-heal reverts the change. Pay attention to the direction of the arrows. Argo CD pulls the desired state itself, nobody pushes it into the cluster.](../../../../assets/figures/en/p4c4-gitops.svg)
 
@@ -66,6 +66,10 @@ A second script creates the organization `wolkenwerk`, the private repo `platfor
 Argo CD only gets read access. If its token ends up in the wrong place, nobody can use it to change the desired state.
 
 Since chapter 4.2, `~/platform` holds the template. The files for Argo CD contain the placeholder `FRONTEND`, which you replace with the address of your front-end. Then you turn the folder into a Git repo and push it to Gitea.
+
+:::caution[No state in Git]
+Before the commit, check in the output of `git status` that neither `terraform.tfstate` nor the folder `.terraform` is listed. The state holds the k3s token in plain text and would stay in the Git history after a commit, even if you deleted it later. Milestone 2 requires the state to stay out of Git.
+:::
 
 ```bash
 source /etc/cc-lab.env
@@ -109,7 +113,7 @@ The deployment keeps two pods running and gives them requests and limits for CPU
 
 ## Argo CD
 
-Argo CD is a CNCF project and runs as a set of controllers in the cluster. It reads repos, renders the manifests, with Kustomize or Helm as well, compares them with the cluster and reconciles. An application tells it which folder of which repo belongs in which namespace.
+Argo CD is a CNCF project and runs as a set of controllers in the cluster. It reads repos, renders the manifests, with Kustomize or Helm as well, compares them with the cluster and reconciles. An **application** tells it which folder of which repo belongs in which namespace.
 
 A script installs Argo CD with Helm, stores the token for Gitea and applies the first application.
 
@@ -133,7 +137,7 @@ The first application is called `root`. It points to the folder `apps` in the re
 
 ::code{file="platform/repo/apps/webshop.yaml"}
 
-Argo CD first rolls out `root` and finds the application `webshop` in it, which brings the folder `webshop` into the namespace `velo`. Adding an application only takes a new file in `apps`, and you no longer need `kubectl` for it. This pattern is called app of apps.
+Argo CD first rolls out `root` and finds the application `webshop` in it, which brings the folder `webshop` into the namespace `velo`. Adding an application only takes a new file in `apps`, and you no longer need `kubectl` for it. This pattern is called **app of apps**.
 
 ![App of apps in the platform repo. The bootstrap script applies the application root once, and root points to the folder apps. That folder holds the application webshop, which brings the folder webshop into the namespace velo, and the ApplicationSet members from chapter 4.5. The ApplicationSet generates a separate application for every folder under members, such as member-velo and member-gemeinde. Notice that only root enters the cluster by hand, and everything else comes from files in Git.](../../../../assets/figures/en/p4c4-app-of-apps.svg)
 

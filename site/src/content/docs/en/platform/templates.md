@@ -21,7 +21,7 @@ After this chapter you can:
 
 ## Templates
 
-A platform team offers a tested path that other teams follow on their own, often called a golden path. It then no longer has to build an environment by hand for every team. The template defines what every member gets, and the member requests its space instead of waiting for an appointment. In part 3, groups, a VDC and quotas did this job in OpenNebula. In the cluster, namespaces and three kinds of objects take over.
+A platform team offers a tested path that other teams follow on their own, often called a **golden path**. It then no longer has to build an environment by hand for every team. The template defines what every member gets, and the member requests its space instead of waiting for an appointment. In part 3, groups, a VDC and quotas did this job in OpenNebula. In the cluster, namespaces and three kinds of objects take over.
 
 | Part 3 in OpenNebula | Part 4 in Kubernetes |
 |---|---|
@@ -32,7 +32,7 @@ A platform team offers a tested path that other teams follow on their own, often
 
 ## ResourceQuota
 
-A ResourceQuota limits what all pods of a namespace may request together.
+A **ResourceQuota** limits what all pods of a namespace may request together.
 
 ::code{file="platform/repo/templates/member/resourcequota.yaml"}
 
@@ -40,13 +40,13 @@ Requests are what the scheduler reserves for a container, like the `CPU` column 
 
 ## LimitRange
 
-Once a quota limits CPU and memory, Kubernetes rejects every pod without requests and limits. The LimitRange sets defaults for those and a ceiling per container.
+Once a quota limits CPU and memory, Kubernetes rejects every pod without requests and limits. The **LimitRange** sets defaults for those and a ceiling per container.
 
 ::code{file="platform/repo/templates/member/limitrange.yaml"}
 
 ## NetworkPolicy
 
-Without a rule, every pod in the cluster can reach every other pod, across namespaces too. A NetworkPolicy defines who may talk to a pod. In k3s, a built-in controller enforces such rules.
+Without a rule, every pod in the cluster can reach every other pod, across namespaces too. A **NetworkPolicy** defines who may talk to a pod. In k3s, a built-in controller enforces such rules.
 
 ::code{file="platform/repo/templates/member/networkpolicy.yaml"}
 
@@ -77,11 +77,15 @@ The command prints the finished objects without changing anything. Use it to che
 
 ## ApplicationSet
 
-Instead of writing an application for every member, you let an ApplicationSet generate them from a pattern.
+Instead of writing an application for every member, you let an **ApplicationSet** generate them from a pattern.
 
 ::code{file="platform/repo/apps/members.yaml"}
 
-The `git` generator looks for folders under `members` in the repo and creates an application `member-<folder>` for each. When a folder is added, a namespace appears. When a folder disappears, Argo CD deletes the namespace and everything in it, thanks to `prune`. By default, the ApplicationSet checks every three minutes, and `requeueAfterSeconds: 60` shortens that to one minute.
+The `git` generator looks for folders under `members` in the repo and creates an application `member-<folder>` for each. When a folder is added, a namespace appears. By default, the ApplicationSet checks every three minutes, and `requeueAfterSeconds: 60` shortens that to one minute.
+
+:::caution[Removing a folder under members]
+When a folder under `members` disappears from `main`, the ApplicationSet deletes the member's application, and with it Argo CD deletes the namespace and everything in it. That includes a pull request that only renames the folder. So check every request for a folder under `members` that it removes.
+:::
 
 ![A namespace from the template. At the top is the template templates/member, a Kustomize component with the namespace member, a ResourceQuota with requests.cpu 1, a LimitRange with a default of 250m per container and a NetworkPolicy that only lets in its own namespace and kube-system. In the middle, the folder members/velo sets the namespace velo and replaces requests.cpu with 2 through a patch. The ApplicationSet members reads the folder with its git generator and creates the application member-velo. Argo CD renders it with Kustomize, and the objects in the cluster are at the bottom. Notice the differences from the template. The namespace is called velo and the quota allows 2 CPUs, while everything else comes unchanged from the template.](../../../../assets/figures/en/p4c5-kustomize.svg)
 
@@ -135,7 +139,7 @@ Argo CD then lists the municipality as an application of its own.
 
 ![The applications in Argo CD after the municipality's pull request. member-gemeinde and member-velo come from the ApplicationSet, root and webshop from chapter 4.4. All four are Healthy and Synced with the branch main.](../../../../assets/screenshots/argocd-apps-base.png)
 
-For milestone 2 the municipality gets the limits from your [personal values](../../start/parameters/). In a second pull request you add a patch to its file as for the bike shop. One patch may hold several operations, one `- op: replace` each for `limits.cpu` and for `limits.memory`. With smaller limits the test below stops earlier, in the lab with 1 CPU already after four pods.
+For milestone 2 the municipality gets the limits from your [personal values](../../start/parameters/#your-values-for-the-milestones). In a second pull request you add a patch to its file as for the bike shop. One patch may hold several operations, one `- op: replace` each for `limits.cpu` and for `limits.memory`. With smaller limits the test below stops earlier, in the lab with 1 CPU already after four pods.
 
 ## At the limit
 

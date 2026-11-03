@@ -34,9 +34,9 @@ Kubernetes spreads containers across several machines and keeps them running. Li
 
 ## Control plane and nodes
 
-A cluster consists of the control plane, which makes the decisions, and the nodes, which run the containers. A node is a machine, in the course a VM. The [overview of the components](https://kubernetes.io/docs/concepts/overview/components/) describes each part.
+A cluster consists of the **control plane**, which makes the decisions, and the nodes, which run the containers. A node is a machine, in the course a VM. The [overview of the components](https://kubernetes.io/docs/concepts/overview/components/) describes each part.
 
-The API server is the only way into the cluster. kubectl, Argo CD, the controllers and the nodes all talk to it and to no other component. It checks that a request is authenticated and allowed, then stores the objects in the cluster database, which only it reads and writes. Most clusters use etcd, a distributed key-value store. With a single server and no further options, k3s uses SQLite instead and translates the calls through a layer called kine, as the [datastore documentation](https://docs.k3s.io/datastore) explains. Your cluster runs that way in part 4. In chapter 6.2 you restart the server on etcd with `--cluster-init`, because k3s writes snapshots only with etcd.
+The API server is the only way into the cluster. kubectl, Argo CD, the controllers and the nodes all talk to it and to no other component. It checks that a request is authenticated and allowed, then stores the objects in the cluster database, which only it reads and writes. Most clusters use etcd, a distributed key-value store. With a single server and no further options, k3s uses SQLite instead and translates the calls through a layer called kine, as the [datastore documentation](https://docs.k3s.io/datastore) explains. Your cluster runs that way in part 4. In chapter 6.2 you rebuild the cluster and start the server on etcd with `--cluster-init`, because k3s writes snapshots only with etcd.
 
 The scheduler picks a node for every new pod. The controller manager runs the controllers, small programs that each look after one kind of object, such as deployments, ReplicaSets or nodes. Neither the scheduler nor the controllers start a container themselves. They only read and write objects through the API server.
 
@@ -48,7 +48,7 @@ k3s bundles the API server, scheduler, controller manager, kubelet and kube-prox
 
 Every Kubernetes object has two parts. `spec` holds what you want, for example two pods running the web shop image. `status` is where the cluster reports what it actually finds. You only write `spec`, and the controllers and the kubelet fill in `status`.
 
-A controller runs in a loop. It reads the desired state, compares it with the actual state and takes the step that shrinks the difference, then starts over. The [controller documentation](https://kubernetes.io/docs/concepts/architecture/controller/) calls this a control loop, and you will often hear it called a reconcile loop.
+A controller runs in a loop. It reads the desired state, compares it with the actual state and takes the step that shrinks the difference, then starts over. The [controller documentation](https://kubernetes.io/docs/concepts/architecture/controller/) calls this a **control loop**, and you will often hear it called a reconcile loop.
 
 A deployment shows how controllers build on each other. The deployment controller creates a ReplicaSet that holds the pod template and the number of pods. The ReplicaSet controller counts the pods with matching labels, creates missing pod objects and deletes extra ones. The new pods have no node yet. The scheduler fills one in, and the kubelet on that node starts the containers. When you update the image, the deployment controller creates a second ReplicaSet, scales it up step by step and scales the old one down. The old one stays around with zero pods so that `kubectl rollout undo` can go back to it.
 
@@ -58,11 +58,11 @@ Chapter 4.4 shows the same pattern one level up. Argo CD is a controller whose d
 
 ## Requests, limits and scheduling
 
-Each container can set two values for CPU and memory. The request is what the container is guaranteed to get, and the limit is its ceiling. Kubernetes counts CPU in cores, so `50m` is five hundredths of a core. Memory is counted in bytes, and `64Mi` means 64 mebibytes.
+Each container can set two values for CPU and memory. The **request** is what the container is guaranteed to get, and the **limit** is its ceiling. Kubernetes counts CPU in cores, so `50m` is five hundredths of a core. Memory is counted in bytes, and `64Mi` means 64 mebibytes.
 
 The scheduler plans with requests only. For each node it adds up the requests of the pods already running there and compares the sum with the capacity the node offers. If the new pod no longer fits, the node is ruled out, even when its CPU is nearly idle at that moment. If the pod fits on no node, it stays `Pending` until room frees up. `kubectl describe node` shows under `Allocated resources` how much is already taken.
 
-The node's kernel enforces the limits at runtime through cgroups. A container with a limit of `250m` gets at most a quarter of a core in each time slice. It is held back but keeps running, which is called CPU throttling. Memory cannot be held back like that. If a container needs more than its limit, the kernel kills it (an OOM kill, for out of memory), and the kubelet restarts it. `kubectl describe pod` then shows `OOMKilled` as the reason the last run ended. The [resource management documentation](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/) has the rules.
+The node's kernel enforces the limits at runtime through cgroups. A container with a limit of `250m` gets at most a quarter of a core in each time slice. It is held back but keeps running, which is called **CPU throttling**. Memory cannot be held back like that. If a container needs more than its limit, the kernel kills it (an **OOM kill**, for out of memory), and the kubelet restarts it. `kubectl describe pod` then shows `OOMKilled` as the reason the last run ended. The [resource management documentation](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/) has the rules.
 
 The web shop of chapter 4.4 requests `50m` CPU and `64Mi` memory per pod and may go up to `500m` CPU and `128Mi`. To the scheduler, two pods take up a tenth of a core, while under load they can use up to a whole one. So the sum of the limits on a node may exceed its capacity, as long as not every pod hits its limit at once.
 

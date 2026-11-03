@@ -22,77 +22,114 @@ Nach diesem Kapitel kannst du:
 - Den Branch `main` in Gitea mit Regeln schützen und ihre Ausnahmen begründen
 :::
 
-## Eigene Lösungen
+## Rahmen und Bewertung
 
-Die drei Aufträge in diesem Kapitel sind die Zusatzaufträge von [Meilenstein 2](../../assessment/milestone-2/). Für die Basis brauchst du sie nicht. Anders als in den Kapiteln 4.1 bis 4.5 findest du hier keine Befehle zum Abtippen und keine fertigen Dateien. Du entwirfst die Lösung selbst, baust sie in deinem Lab und begründest, warum du sie so gebaut hast. Die Abschnitte vor den Aufträgen erklären die Begriffe und Abwägungen, die du dafür brauchst. Bei jedem Auftrag findest du die Anforderungen an deine Lösung und Hinweise auf die Dokumentation.
+Die drei Aufträge dieses Kapitels gehen über die Basis hinaus. Anders als in den Kapiteln 4.1 bis 4.5 gibt es hier keine Befehle zum Abtippen und keine fertigen Dateien. Du entwirfst eine eigene Lösung, baust sie in deinem Lab und begründest deine Entscheide. Die Konzepte unten nennen dafür oft mehr als einen Weg.
 
-Für alle drei Aufträge zusammen rechnest du mit vier bis sechs Stunden. Du kannst auch nur einzelne bearbeiten, denn jeder gibt für sich 0 bis 3 Punkte nach den [Stufen der Zusatzaufträge](../../assessment/#stufen-der-zusatzaufträge). Ein Auftrag, der läuft, gibt 1 Punkt. Erklärst du ihn an deinem eigenen Lab mit deinen Werten und Ausgaben, gibt er 2 Punkte. Für 3 Punkte begründest du zusätzlich einen eigenen Entscheid mit einer Alternative und einer Abwägung. Die Abschnitte unten nennen darum oft mehr als einen Weg.
+Für die Aufträge gilt dieser Rahmen:
 
-Du zeigst die Aufträge live im Unterricht oder in einem Screencast von höchstens zehn Minuten, wie es die Seite des Meilensteins beschreibt. Dabei beantwortest du auch die zwei Fragen aus dem Bericht des Checks `m2`. Zu jedem Auftrag schreibst du eine Dokumentation, ihre Teile nennt die [Leistungsbeurteilung](../../assessment/#dokumentation-der-zusatzaufträge). KI-Assistenten darfst du nach den [Regeln des Kurses](../../start/overview/#ki-werkzeuge) einsetzen. Wofür du sie genutzt hast, hältst du in der Dokumentation fest. In der Vorführung erklärst du jede Zeile, die du zeigst, selbst.
+- Sie sind die Zusatzaufträge von [Meilenstein 2](../../assessment/milestone-2/), du kannst auch nur einzelne bearbeiten
+- Für alle drei rechnest du mit vier bis sechs Stunden
+- Du zeigst sie live im Unterricht oder in einem Screencast von höchstens zehn Minuten, wie es der Meilenstein unter [Zusatzaufträge zeigen](../../assessment/milestone-2/#zusatzaufträge-zeigen) beschreibt. Dabei beantwortest du die zwei Fragen aus dem Bericht des Checks `m2`.
+- Jeder Auftrag braucht eine Dokumentation in fünf Teilen nach der [Leistungsbeurteilung](../../assessment/#dokumentation-der-zusatzaufträge), dazu kommt eine Kopie deines Repos `platform` ohne `.git`, State und Tokens
+- Jeder Auftrag gibt 0 bis 3 Punkte nach den [Stufen der Zusatzaufträge](../../assessment/#stufen-der-zusatzaufträge), ohne Dokumentation höchstens 1 Punkt
+- KI-Assistenten setzt du nach den [Regeln des Kurses](../../start/overview/#ki-werkzeuge) ein. In der Vorführung erklärst du jede Zeile selbst.
 
 ## Den Neubau üben
 
-In Kapitel 4.1 wünschte sich Simone Wyss eine Plattform, die sich jederzeit aus dem Code neu bauen lässt. Ob der Code das hergibt, zeigt erst ein Neubau. Ein Schritt, den jemand einmal von Hand gemacht hat, oder ein Wert, der nur in einem alten Terminal stand, fällt sonst erst auf, wenn die Plattform weg ist.
+In Kapitel 4.1 wünschte sich Simone Wyss eine Plattform, die sich jederzeit aus dem Code neu bauen lässt. Ob der Code das hergibt, zeigt erst ein Neubau. Sonst fällt ein vergessener Schritt von Hand erst auf, wenn die Plattform weg ist. Betriebe üben den Ernstfall deshalb nach festem Ablauf. Sie messen die Zeit, notieren, was nicht klappte, verbessern den Ablauf und wiederholen die Übung.
 
-Betriebe üben den Ernstfall deshalb, bevor er eintritt. Eine solche Übung folgt einem festen Ablauf. Jemand misst die Zeit und schreibt auf, was nicht klappte. Danach verbessert das Team den Ablauf und wiederholt die Übung.
+Solange der Neubau der einzige Weg zurück ist, kann Wolkenwerk dem Veloatelier keine kürzere Ausfallzeit versprechen als die gemessene. [Kapitel 6.2](../../operations/backup/#rpo-und-rto) nennt dieses Versprechen RTO. Erst die Zeit jedes Schritts zeigt, wo die Minuten liegen, im Abriss, beim Start der VMs, bei Kubernetes oder bei Argo CD.
 
-Die gemessene Zeit sagt, wie lange der Webshop nach einem Totalausfall mindestens stillsteht. Solange der Neubau der einzige Weg zurück ist, kann Wolkenwerk dem Veloatelier keine kürzere Ausfallzeit versprechen. [Kapitel 6.2](../../operations/backup/#rpo-und-rto) nennt dieses Versprechen RTO.
+| | Runbook | Skript |
+|---|---|---|
+| Ablauf | Schritte für Menschen, mit Prüfungen dazwischen | dieselben Schritte, jedes Mal gleich |
+| Zeit | misst ein Mensch | misst das Skript nebenbei |
 
-Den Ablauf hältst du als Runbook oder als Skript fest. Ein Runbook ist eine Liste von Schritten für Menschen, mit Prüfungen dazwischen. Ein Skript führt dieselben Schritte jedes Mal gleich aus und kann die Zeit nebenbei messen. Bricht es mitten im Neubau ab, muss aber jemand herausfinden, wo es stand. Eine Gesamtzeit allein sagt wenig. Erst die Zeit jedes Schritts zeigt, wo die Minuten liegen, beim Abriss, beim Start der VMs, bei Kubernetes oder bei Argo CD.
+Bricht ein Skript mitten im Neubau ab, muss jemand herausfinden, wo es stand.
 
 ## Code, State und Handarbeit
 
-Ein Neubau bringt genau das zurück, was der Code beschreibt. Die VMs, das Startskript, die Applications, die Vorlage und die Mitglieder stehen im Repo `platform` und entstehen wieder. Was der Code nur liest, das Netz `cc-net` und das Image, lässt der Abriss stehen. Gitea mit dem Repo liegt auf dem Front-end, wo Kapitel 4.4 es installiert hat, damit es während eines Neubaus weiterläuft.
+Ein Neubau bringt genau das zurück, was der Code beschreibt. `tofu destroy` löscht genau die Objekte, die der State aufführt. Der State liegt neben dem Code auf dem Front-end, aber nicht in Git.
 
-Der State liegt neben dem Code auf dem Front-end, aber nicht in Git. `tofu destroy` löscht genau die Objekte, die er aufführt. `tofu apply` legt sie danach mit neuen Nummern wieder an. Werte, die OpenTofu selbst erzeugt, wie das Token von k3s, sind danach neu.
+| Was | Nach dem Neubau |
+|---|---|
+| VMs, Startskript, Applications, Vorlage und Mitglieder | entstehen aus dem Repo `platform` wieder |
+| Das Netz `cc-net` und das Image, die der Code nur liest | bleiben stehen |
+| Gitea mit dem Repo auf dem Front-end | läuft weiter |
+| Nummern der VMs, Werte von OpenTofu wie das Token von k3s | sind neu |
+| Schlüssel für SSH und kubeconfig auf dem Front-end | passen nicht mehr, wie Kapitel 4.3 zeigt |
+| Objekte ausserhalb von Git aus Skripten wie dem Bootstrap aus Kapitel 4.4, etwa das Secret mit dem Token für Gitea | legt das Skript neu an |
+| Daten auf der Disk eines Nodes sowie Objekte, die jemand mit `kubectl` an Git vorbei angelegt hat | sind verloren |
 
-Verloren ist alles, was nur im Cluster existierte. Dazu gehören Daten, die Pods auf die Disk eines Nodes geschrieben haben, sowie jedes Objekt, das jemand mit `kubectl` an Git vorbei angelegt hat. Auch was auf dem Front-end zum alten Cluster gehörte, passt nicht mehr zum neuen. Kapitel 4.3 nennt dafür die Schlüssel für SSH und die kubeconfig. Skripte wie der Bootstrap aus Kapitel 4.4 legen einiges neu an, das nicht in Git steht, etwa das Secret mit dem Token für Gitea. In Kapitel 6.2 kommt die Frage mit Backups wieder.
+Kapitel 6.2 kommt mit Backups auf diese Frage zurück.
 
 ## Drift vor dem Neubau
 
-Vor dem Abriss zeigt eine Drift, was der Neubau verändern wird. Bei den VMs vergleicht `tofu plan` den Code mit dem Ist-Zustand in OpenNebula, allerdings nur die Attribute, die der Provider kennt. Änderungen in einer VM selbst bleiben unsichtbar. Eine VM, die jemand neben dem Code von Hand angelegt hat, steht in keinem State. `tofu destroy` lässt sie stehen und sie belegt weiter Speicher auf einem Knoten, der schon in Kapitel 4.2 knapp war.
+Vor dem Abriss zeigt die Drift, was der Neubau verändern wird. Danach ist sie weg, auch eine Korrektur von Hand, die nie in Git ankam. Suche sie darum vorher.
 
-Im Cluster setzt Argo CD mit Self-Heal jede Abweichung zurück, aber nur bei Objekten, die aus Git kommen. Ein Objekt, das jemand an Git vorbei angelegt hat, lässt Argo CD in Ruhe, bis der Neubau es entfernt. Nach einem Neubau ist im Cluster darum jede Drift weg, auch eine Korrektur von Hand, die nie in Git ankam. Wer vor dem Abriss sucht, findet sie noch. `tofu plan` vergleicht die VMs, Argo CD zeigt für jede Application, ob der Cluster vom Repo abweicht.
+| | VMs | Cluster |
+|---|---|---|
+| Vergleich | `tofu plan`, nur für die Attribute, die der Provider kennt | Argo CD für jede Application, Self-Heal setzt Abweichungen zurück |
+| Unbemerkt | Änderungen in einer VM selbst | Objekte, die jemand an Git vorbei angelegt hat |
+| Nach `tofu destroy` | eine VM, die jemand neben dem Code angelegt hat, bleibt stehen und belegt weiter Speicher auf den knappen Knoten aus Kapitel 4.2 | auch die Objekte an Git vorbei sind weg |
 
 ## Grenzen für ein Mitglied
 
-Die Werte der Gemeinde kamen aus deinen persönlichen Parametern. Für ein eigenes Mitglied leitest du sie selbst her. Ausgangspunkt ist, was das Mitglied betreiben will. Dazu gehören die Zahl der Pods, CPU und Speicher für jeden davon und die Frage, ob es Dateien speichert. Daraus folgen Requests und Limits der Quota. Die LimitRange muss dem grössten Container erlauben, was er braucht, sonst lehnt Kubernetes ihn ab, obwohl die Quota noch Platz hätte. Ihre Standardwerte gelten für jeden Container ohne eigene Angaben.
+Die Werte der Gemeinde kamen aus deinen persönlichen Parametern, für ein eigenes Mitglied leitest du Requests und Limits der Quota selbst her. Ausgangspunkt sind Zahl, CPU und Speicher seiner Pods und die Frage, ob es Dateien speichert. Die LimitRange muss dem grössten Container erlauben, was er braucht, sonst lehnt Kubernetes ihn trotz freier Quota ab. Ihre Standardwerte gelten für Container ohne eigene Angaben.
 
-Danach rechnest du gegen den Cluster. Die zwei VMs haben zusammen 8 vCPU und 12 GB, einen Teil davon brauchen k3s und Argo CD selbst. In Teil 5 kommen Prometheus und Loki dazu, als Zusatz auch ein Sprachmodell. Wie bei den Quotas in Kapitel 3.2 darf die Summe der Limits grösser sein als der Cluster. Bei den Requests ist das riskanter, denn der Scheduler startet keinen Pod mehr, wenn die reservierten Werte die Nodes füllen. Eine Begründung nennt den Bedarf, die Rechnung und was bei einer Spitze geschieht, wenn das Mitglied an seine Grenze stösst.
+Danach rechnest du gegen den Cluster. Von den 8 vCPU und 12 GB der zwei VMs brauchen k3s und Argo CD einen Teil, Teil 5 bringt Prometheus, Loki und als Zusatz ein Sprachmodell. Die Summe der Limits darf wie in Kapitel 3.2 grösser sein als der Cluster, bei den Requests ist das riskanter. Der Scheduler startet keinen Pod mehr, wenn die reservierten Werte die Nodes füllen. Deine Begründung nennt Bedarf, Rechnung und die Folgen einer Spitze an der Grenze.
 
 ## AppProjects
 
-Bisher gehören alle Applications des Kurses zum Projekt `default`. Es erlaubt jede Quelle, jedes Ziel und jede Art von Objekt. Ein AppProject legt engere Regeln für die Applications fest, die es nennen. Es bestimmt, aus welchen Repos sie lesen, in welche Cluster und Namespaces sie schreiben und welche Arten von Objekten sie anlegen dürfen. Ziele lassen sich auch ausschliessen, eine Regel mit `!` verbietet etwa einen bestimmten Namespace.
+Bisher gehören alle Applications zum Projekt `default`, das alles erlaubt. Ein **AppProject** legt für die Applications, die es nennen, die erlaubten Repos, Cluster, Namespaces und Arten von Objekten fest. Eine Regel mit `!` schliesst ein Ziel aus, etwa einen Namespace. AppProjects liegen im Namespace `argocd` und können wie Applications aus Git kommen.
 
-Bei den Arten von Objekten trennt ein AppProject zwei Gruppen. Deployments oder ResourceQuotas gehören zu einem Namespace. Andere Objekte gehören zum ganzen Cluster, darunter das Objekt Namespace selbst. Für diese zweite Gruppe führt ein AppProject eine Liste der erlaubten Arten, alles andere ist verboten. Die Vorlage aus Kapitel 4.5 legt den Namespace eines Mitglieds als eigenes Objekt an. In einem Projekt, das diese Art nicht erlaubt, kann die Application der Vorlage ihren Namespace deshalb nicht anlegen.
+| Arten von Objekten | Beispiele | Regel im AppProject |
+|---|---|---|
+| Im ganzen Cluster | das Objekt Namespace | nur die Arten auf einer Liste sind erlaubt |
+| In einem Namespace | Deployment, ResourceQuota | einzelne Arten lassen sich verbieten |
 
-Für Objekte in einem Namespace kann ein Projekt einzelne Arten verbieten. Die Dokumentation von Argo CD zeigt ein Projekt, das alles erlaubt ausser ResourceQuota, LimitRange und NetworkPolicy. Eine Application in einem solchen Projekt kann die Grenzen ihres Namespaces nicht verändern.
+Weil die Vorlage aus Kapitel 4.5 den Namespace als eigenes Objekt anlegt, braucht ihre Application ein Projekt, das diese Art erlaubt. Erlaubt ein Projekt dagegen alles ausser ResourceQuota, LimitRange und NetworkPolicy, wie ein Beispiel in der Dokumentation von Argo CD, kann eine Application die Grenzen ihres Namespaces nicht ändern.
 
-Daraus folgt ein Entscheid. Entweder gehört die Application, die den Namespace aus der Vorlage baut, zum Projekt des Mitglieds. Oder sie bleibt beim Plattform-Team und das Mitglied bekommt für seine eigenen Anwendungen eine zweite Application in seinem Projekt. AppProjects liegen wie die Applications im Namespace `argocd` und können darum ebenso aus Git kommen.
+Daraus folgt ein Entscheid. Entweder gehört die Application der Vorlage zum Projekt des Mitglieds. Oder sie bleibt beim Plattform-Team und das Mitglied bekommt für seine Anwendungen eine zweite Application in seinem Projekt.
 
 ## Projekt und ApplicationSet
 
-Das ApplicationSet `members` aus Kapitel 4.5 schreibt in jede Application, die es erzeugt, `project: default`. Ein AppProject für ein Mitglied wirkt erst, wenn dessen Application es nennt. Dafür gibt es mehrere Wege. Das ApplicationSet kann den Namen des Projekts aus dem Namen des Ordners bilden. Dann braucht jedes Mitglied ein eigenes Projekt. Der Git-Generator kann auch einen Ordner ausschliessen, sodass eine eigene Application das neue Mitglied beschreibt. Oder die Application der Vorlage bleibt unverändert und nur die Anwendungen des Mitglieds bekommen ein Projekt.
+Das ApplicationSet `members` aus Kapitel 4.5 schreibt in jede Application `project: default`. Ein AppProject wirkt erst, wenn die Application des Mitglieds es nennt.
 
-Welcher Weg sicher ist, hängt davon ab, wer das Repo ändern darf. Die Dokumentation von Argo CD warnt vor einem Projekt, das aus der Vorlage eines ApplicationSets stammt. Wer Ordner im Repo anlegen darf, könnte damit Applications in einem Projekt mit zu vielen Rechten erzeugen. Beim Git-Generator genügt dafür ein Pull Request. Die Dokumentation verlangt darum, dass Administratoren solche Pull Requests freigeben. Ein Projekt mit Zugriff auf den Namespace `argocd` hat zudem faktisch die Rechte eines Administrators. Ein AppProject schützt also nur so gut, wie die Änderungen am Repo geprüft werden. Diese Prüfung ist das Thema von Auftrag C.
+| Weg | Folge |
+|---|---|
+| Das ApplicationSet bildet den Namen des Projekts aus dem Ordner | jedes Mitglied braucht ein eigenes Projekt |
+| Der Git-Generator schliesst den Ordner aus | eine eigene Application beschreibt das Mitglied |
+| Die Application der Vorlage bleibt, wie sie ist | nur die Anwendungen des Mitglieds bekommen ein Projekt |
+
+Welcher Weg sicher ist, hängt davon ab, wer das Repo ändern darf. Die Dokumentation von Argo CD warnt vor einem Projekt aus der Vorlage eines ApplicationSets, weil beim Git-Generator schon ein Pull Request mit einem neuen Ordner Applications in einem Projekt mit zu vielen Rechten erzeugen könnte. Die Dokumentation verlangt darum, dass Administratoren solche Pull Requests freigeben. Ein Projekt mit Zugriff auf den Namespace `argocd` hat faktisch Administratorrechte. Ein AppProject schützt also nur so gut wie die Prüfung der Änderungen am Repo, das Thema von Auftrag C.
 
 ## Branch-Schutz in Gitea
 
-Im Repo `wolkenwerk/platform` ist `main` der Soll-Zustand des Clusters. Argo CD fragt jede Minute ab und rollt jeden neuen Commit aus. Bisher prüft das Plattform-Team die Anträge der Mitglieder als Pull Request, seine eigenen Änderungen schickt es mit `git push` direkt auf `main`. Gitea lässt jeden Push mit Schreibrechten auf `main` zu, ob ihn jemand geprüft hat oder nicht.
+Im Repo `wolkenwerk/platform` ist `main` der Soll-Zustand des Clusters. Argo CD fragt jede Minute ab und rollt jeden neuen Commit aus. Die Anträge der Mitglieder prüft das Plattform-Team als Pull Request, eigene Änderungen schickt es bisher mit `git push` direkt auf `main`. Gitea nimmt jeden Push mit Schreibrechten an, ob ihn jemand geprüft hat oder nicht.
 
-Ein geschützter Branch macht die Prüfung zu einer Regel, die Gitea selbst durchsetzt, auch im Editor der Weboberfläche und über die API. Gitea kann den direkten Push ganz sperren oder nur einer Liste von Konten erlauben. Es kann eine Zahl von Freigaben verlangen, bevor ein Pull Request zusammengeführt werden darf. Dabei zählen die Reviews aller Konten mit Schreibrechten, ausser du beschränkst sie auf eine Liste. Weitere Einstellungen verwerfen alte Freigaben nach neuen Commits, sperren den Merge nach einer Ablehnung oder schützen einzelne Dateien besonders. Für `templates/member` kann das sinnvoll sein, weil eine Änderung dort alle Mitglieder trifft. Status Checks einer CI gibt es im Lab nicht.
+Ein **geschützter Branch** macht die Prüfung zu einer Regel, die Gitea selbst durchsetzt, auch im Editor der Weboberfläche und über die API. Dafür gibt es diese Einstellungen:
+
+- Den direkten Push sperren oder nur einer Liste von Konten erlauben
+- Vor dem Merge Freigaben verlangen, von allen Konten mit Schreibrechten oder nur von einer Liste
+- Alte Freigaben nach neuen Commits verwerfen
+- Den Merge nach einer Ablehnung sperren
+- Einzelne Dateien besonders schützen, etwa in `templates/member`, weil eine Änderung dort alle Mitglieder trifft
+
+Status Checks einer CI gibt es im Lab nicht.
 
 ## Ausnahmen von der Regel
 
-Ein Review braucht eine zweite Person. Wer einen Pull Request geöffnet hat, kann ihn in Gitea nicht selbst freigeben. Im Lab spielst du beide Rollen und brauchst darum ein zweites Konto mit Schreibrechten. Weil sich niemand selbst registrieren kann, legt ein Administrator es an.
+Wer einen Pull Request geöffnet hat, kann ihn in Gitea nicht selbst freigeben. Im Lab spielst du beide Rollen und brauchst ein zweites Konto mit Schreibrechten. Weil sich niemand selbst registrieren kann, legt es ein Administrator an.
 
-Das Konto `platform` ist der Administrator deines Gitea und besitzt die Organisation `wolkenwerk`. Administratoren eines Repos können einen Pull Request auch ohne die nötigen Freigaben zusammenführen, solange die Einstellung «Administrators must follow branch protection rules» nicht gesetzt ist. Gitea 28 kennt zudem eine Liste von Konten, welche die Regel umgehen dürfen, «Allow selected users or teams to bypass branch protection». Die Einstellung für Administratoren schränkt diese Konten nicht ein. Ob das Plattform-Team solche Hintertüren behält, ist eine Abwägung.
+Das Konto `platform` ist der Administrator deines Gitea und besitzt die Organisation `wolkenwerk`. Administratoren eines Repos können einen Pull Request ohne Freigaben zusammenführen, solange «Administrators must follow branch protection rules» nicht gesetzt ist. Die Konten auf der Liste «Allow selected users or teams to bypass branch protection» von Gitea 28 umgehen die Regel auch dann, wenn diese Einstellung gesetzt ist. Ob das Plattform-Team solche Hintertüren behält, ist eine Abwägung.
 
-Der Schutz gilt auch im Notfall. Fällt der Webshop an einem Samstag aus und wartet die Korrektur auf ein Review, dauert der Ausfall länger. Teams halten darum oft einen dokumentierten Notfallweg bereit, den sie selten nutzen und danach prüfen. Auch der Kurs verlangt eine solche Abwägung. Die Teile 5 und 6 schicken Änderungen mit `git push` direkt auf `main`. Mit einem geschützten Branch geht das nur noch über Pull Requests oder über eine Ausnahme, die du selbst festlegst. Argo CD liest das Repo nur und merkt vom Schutz nichts.
+Auch eine Korrektur im Notfall wartet auf ein Review, der Ausfall dauert dann länger. Teams halten darum oft einen dokumentierten Notfallweg bereit, den sie selten nutzen und danach prüfen. Argo CD liest das Repo nur und merkt vom Schutz nichts.
 
 ## Auftrag A · Neubau der Plattform
 
-Du reisst die Plattform ab, baust sie allein aus dem Code wieder auf und misst, wie lange der Webshop des Veloateliers dabei ausfällt. Danach weist du nach, dass alles aus Git zurück ist. Dabei erklärst du, was State und Drift für den Neubau bedeuten.
+Beat Kläy will wissen, wie lange der Webshop des Veloateliers stillsteht, wenn alles weg ist. Du reisst die Plattform ab, baust sie allein aus dem Code wieder auf und misst die Ausfallzeit.
 
 Deine Lösung erfüllt diese Anforderungen:
 
@@ -109,13 +146,27 @@ In der Vorführung zeigst du:
 - Die Plattform nach dem Neubau mit Webshop, Applications, Grenzen und `tofu plan`
 - Deine Zeiten pro Schritt und was du daraus schliesst
 
-[Kapitel 4.1](../iac/#state) erklärt State, Plan und Drift. [Kapitel 4.2](../opentofu/#ändern-ersetzen-und-neu-bauen) wendet `tofu plan` und `tofu apply` auf die VMs des Clusters an. Was sich nach einem neuen Cluster auf dem Front-end ändert, steht in [Kapitel 4.3](../kubernetes/#die-kubeconfig). Den Bootstrap beschreibt [Kapitel 4.4](../gitops/#argo-cd). Die Dokumentation von OpenTofu 1.13 erklärt [`tofu destroy`](https://opentofu.org/docs/v1.13/cli/commands/destroy/), den [State](https://opentofu.org/docs/v1.13/language/state/) und die [Modi von `tofu plan`](https://opentofu.org/docs/v1.13/cli/commands/plan/), darunter den Modus `-refresh-only`, der den State an Änderungen ausserhalb von OpenTofu anpasst. Das Muster App of Apps, auf dem der Bootstrap beruht, beschreibt die [Dokumentation von Argo CD 3.5](https://argo-cd.readthedocs.io/en/release-3.5/operator-manual/cluster-bootstrapping/).
+Dabei helfen dir:
 
-Im Lab dauerte der Neubau mit dem Stand von Teil 4 knapp drei Minuten, bis der Webshop wieder lief. Starte ihn deshalb früh in der Vorführung und erkläre deinen Code, während er läuft. Gitea auf dem Front-end bleibt in dieser Zeit erreichbar.
+- [Kapitel 4.1](../iac/#state) zu State, Plan und Drift
+- [Kapitel 4.2](../opentofu/#ändern-ersetzen-und-neu-bauen) zu `tofu plan` und `tofu apply` für die VMs des Clusters
+- [Kapitel 4.3](../kubernetes/#die-kubeconfig) zum Front-end nach einem neuen Cluster
+- [Kapitel 4.4](../gitops/#argo-cd) zum Bootstrap von Argo CD
+- Die Dokumentation von OpenTofu 1.13 zu [`tofu destroy`](https://opentofu.org/docs/v1.13/cli/commands/destroy/), zum [State](https://opentofu.org/docs/v1.13/language/state/) und zu den [Modi von `tofu plan`](https://opentofu.org/docs/v1.13/cli/commands/plan/), darunter `-refresh-only`, der den State an Änderungen ausserhalb von OpenTofu anpasst
+- [Cluster Bootstrapping](https://argo-cd.readthedocs.io/en/release-3.5/operator-manual/cluster-bootstrapping/) in der Dokumentation von Argo CD 3.5 zum Muster App of Apps, auf dem der Bootstrap beruht
+
+Hinweise aus dem Lab:
+
+- Mit dem Stand von Teil 4 dauerte der Neubau knapp drei Minuten, bis der Webshop wieder lief. Starte ihn deshalb früh in der Vorführung und erkläre deinen Code, während er läuft.
+- Gitea auf dem Front-end bleibt während des Neubaus erreichbar
+
+:::caution[Neubau nach Teil 4]
+Die Zeiten und Hinweise hier gelten für den Stand von Teil 4. Ein späterer Neubau dauert länger und verliert die Metriken und Logs aus Teil 5. Bis Kapitel 6.1 führst du vor dem Bootstrap `make-secrets.sh` aus, ab Kapitel 6.1 sicherst du vor dem Abriss den Schlüssel von Sealed Secrets wie in Kapitel 6.2. Sonst startet Grafana nicht.
+:::
 
 ## Auftrag B · Ein eigenes Mitglied
 
-Ein weiteres Mitglied nach deiner Wahl bekommt einen Namespace aus der Vorlage, mit Grenzen, die zu seinem Bedarf passen. Wie die Gemeinde kommt es über einen Pull Request. Ein AppProject in Argo CD sorgt dafür, dass seine Applications nur in seinen eigenen Namespace schreiben.
+Bevor das nächste Mitglied dazukommt, will Beat Kläy sehen, dass es nur in seinem eigenen Bereich arbeiten kann. Ein Mitglied nach deiner Wahl bekommt wie die Gemeinde per Pull Request einen Namespace aus der Vorlage, ein AppProject in Argo CD beschränkt seine Applications auf diesen Namespace.
 
 Deine Lösung erfüllt diese Anforderungen:
 
@@ -132,13 +183,24 @@ In der Vorführung zeigst du:
 - Das AppProject in Git und die Applications, die dazu gehören
 - Eine Application, die Argo CD wegen des Projekts ablehnt, mit dem Grund
 
-Die Vorlage, den Patch des Veloateliers und den Antrag der Gemeinde kennst du aus [Kapitel 4.5](../templates/#kustomize). Mit `kubectl kustomize` siehst du, was die Vorlage für dein Mitglied erzeugt, bevor du den Pull Request öffnest. Requests und Limits erklärt [Kapitel 4.3](../kubernetes/#requests-limits-und-scheduling), Quotas und Überbuchung [Kapitel 3.2](../../tenants/quotas/#quota-und-überbuchung). Die Dokumentation von Kubernetes 1.36 beschreibt [ResourceQuota](https://v1-36.docs.kubernetes.io/docs/concepts/policy/resource-quotas/) und [LimitRange](https://v1-36.docs.kubernetes.io/docs/concepts/policy/limit-range/).
+Dabei helfen dir:
 
-Für Argo CD 3.5 stehen die Felder eines AppProject unter [Projects](https://argo-cd.readthedocs.io/en/release-3.5/user-guide/projects/), ein vollständiges AppProject als Datei zeigt [Declarative Setup](https://argo-cd.readthedocs.io/en/release-3.5/operator-manual/declarative-setup/). Wie der Git-Generator Ordner auswählt und ausschliesst, erklärt die Seite zum [Git-Generator](https://argo-cd.readthedocs.io/en/release-3.5/operator-manual/applicationset/Generators-Git/). Das Risiko eines Projekts aus der Vorlage beschreibt [ApplicationSet Security](https://argo-cd.readthedocs.io/en/release-3.5/operator-manual/applicationset/Security/). Den Grund einer Ablehnung zeigt Argo CD in seiner Oberfläche bei der Application.
+- [Kapitel 4.5](../templates/#kustomize) mit der Vorlage, dem Patch des Veloateliers und dem Antrag der Gemeinde
+- [Kapitel 4.3](../kubernetes/#requests-limits-und-scheduling) zu Requests und Limits
+- [Kapitel 3.2](../../tenants/quotas/#quota-und-überbuchung) zu Quotas und Überbuchung
+- Die Dokumentation von Kubernetes 1.36 zu [ResourceQuota](https://v1-36.docs.kubernetes.io/docs/concepts/policy/resource-quotas/) und [LimitRange](https://v1-36.docs.kubernetes.io/docs/concepts/policy/limit-range/)
+- Die Dokumentation von Argo CD 3.5 mit den Feldern eines AppProject unter [Projects](https://argo-cd.readthedocs.io/en/release-3.5/user-guide/projects/) und einem vollständigen AppProject als Datei unter [Declarative Setup](https://argo-cd.readthedocs.io/en/release-3.5/operator-manual/declarative-setup/)
+- [Git-Generator](https://argo-cd.readthedocs.io/en/release-3.5/operator-manual/applicationset/Generators-Git/) mit der Auswahl und dem Ausschluss von Ordnern in einem ApplicationSet
+- [ApplicationSet Security](https://argo-cd.readthedocs.io/en/release-3.5/operator-manual/applicationset/Security/) zum Risiko eines Projekts aus der Vorlage
+
+Hinweise aus dem Lab:
+
+- Bevor du den Pull Request öffnest, zeigt dir `kubectl kustomize`, was die Vorlage für dein Mitglied erzeugt
+- Den Grund einer Ablehnung zeigt Argo CD in seiner Oberfläche bei der Application
 
 ## Auftrag C · Schutz des Branches
 
-Im Repo `wolkenwerk/platform` kommen Änderungen nur noch über einen Pull Request mit Review auf `main`. Gitea setzt diese Regel selbst durch und weist einen direkten Push ab. Welche Ausnahmen es geben darf, entscheidest und begründest du.
+An der Plattform soll niemand etwas ändern, das keine zweite Person angeschaut hat. Auf `main` des Repos `wolkenwerk/platform` kommen Änderungen darum nur noch über einen Pull Request mit Review, Gitea setzt diese Regel selbst durch.
 
 Deine Lösung erfüllt diese Anforderungen:
 
@@ -154,6 +216,17 @@ In der Vorführung zeigst du:
 - Einen Pull Request, den Gitea erst nach der Freigabe zusammenführen lässt
 - Die Änderung im Cluster nach dem Merge
 
-Seit [Kapitel 4.4](../gitops/#gitea-auf-dem-front-end) läuft Gitea mit ausgeschalteter Registrierung, Konten legt nur ein Administrator an. Welche Rechte die zwei Tokens haben, steht im Abschnitt [Das Repo platform](../gitops/#das-repo-platform). Den Weg eines Antrags zeigt [Kapitel 4.5](../templates/#der-antrag-der-gemeinde). Die Dokumentation von Gitea 28 beschreibt alle Einstellungen unter [Protected branches](https://docs.gitea.com/usage/access-control/protected-branches/). Ein weiteres Konto legst du in der Weboberfläche unter «Site Administration» an oder mit `gitea admin user create`, das die [Befehlszeile von Gitea](https://docs.gitea.com/administration/command-line) beschreibt.
+Dabei helfen dir:
 
-Wie du nach dem Schutz in den Teilen 5 und 6 weiterarbeitest, legst du vorher fest.
+- [Kapitel 4.4](../gitops/#gitea-auf-dem-front-end) zu Gitea ohne Registrierung, in dem nur ein Administrator Konten anlegt
+- [Das Repo platform](../gitops/#das-repo-platform) in Kapitel 4.4 mit den Rechten der zwei Tokens
+- [Kapitel 4.5](../templates/#der-antrag-der-gemeinde) mit dem Weg eines Antrags
+- Die Dokumentation von Gitea 28 mit allen Einstellungen unter [Protected branches](https://docs.gitea.com/usage/access-control/protected-branches/) und den Befehlen für Konten in der [Befehlszeile von Gitea](https://docs.gitea.com/administration/command-line)
+
+Hinweise aus dem Lab:
+
+- Ein weiteres Konto legst du in der Weboberfläche unter «Site Administration» an oder mit `gitea admin user create`
+
+:::caution[Push in den Teilen 5 und 6]
+Die Teile 5 und 6 schicken Änderungen mit `git push` direkt auf `main`, mit dem Schutz aus diesem Auftrag weist Gitea sie ab. Entscheide darum vor dem Schutz, ob du dort über Pull Requests arbeitest oder über eine Ausnahme, die du selbst festlegst.
+:::

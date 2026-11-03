@@ -21,7 +21,7 @@ Nach diesem Kapitel kannst du:
 
 ## Vorlagen
 
-Ein Plattform-Team bietet einen geprüften Weg an, den andere Teams selbst gehen, oft Golden Path genannt. Es muss dann nicht für jedes Team eine Umgebung von Hand bauen. Die Vorlage legt fest, was jedes Mitglied bekommt. Das Mitglied beantragt seinen Platz, statt auf einen Termin zu warten. In Teil 3 lösten Gruppen, VDC und Quotas in OpenNebula diese Aufgabe. Im Cluster übernehmen das Namespaces und drei Arten von Objekten.
+Ein Plattform-Team bietet einen geprüften Weg an, den andere Teams selbst gehen, oft **Golden Path** genannt. Es muss dann nicht für jedes Team eine Umgebung von Hand bauen. Die Vorlage legt fest, was jedes Mitglied bekommt. Das Mitglied beantragt seinen Platz, statt auf einen Termin zu warten. In Teil 3 lösten Gruppen, VDC und Quotas in OpenNebula diese Aufgabe. Im Cluster übernehmen das Namespaces und drei Arten von Objekten.
 
 | Teil 3 in OpenNebula | Teil 4 in Kubernetes |
 |---|---|
@@ -32,7 +32,7 @@ Ein Plattform-Team bietet einen geprüften Weg an, den andere Teams selbst gehen
 
 ## ResourceQuota
 
-Eine ResourceQuota begrenzt, was alle Pods eines Namespaces zusammen anfordern dürfen.
+Eine **ResourceQuota** begrenzt, was alle Pods eines Namespaces zusammen anfordern dürfen.
 
 ::code{file="platform/repo/templates/member/resourcequota.yaml"}
 
@@ -40,13 +40,13 @@ Requests sind, was der Scheduler für einen Container reserviert, wie die Spalte
 
 ## LimitRange
 
-Sobald eine Quota CPU und Speicher begrenzt, lehnt Kubernetes jeden Pod ohne Requests und Limits ab. Die LimitRange setzt dafür Standardwerte und eine Obergrenze pro Container.
+Sobald eine Quota CPU und Speicher begrenzt, lehnt Kubernetes jeden Pod ohne Requests und Limits ab. Die **LimitRange** setzt dafür Standardwerte und eine Obergrenze pro Container.
 
 ::code{file="platform/repo/templates/member/limitrange.yaml"}
 
 ## NetworkPolicy
 
-Ohne Regel erreicht jeder Pod im Cluster jeden anderen, auch über Namespaces hinweg. Eine NetworkPolicy legt fest, wer einen Pod ansprechen darf. In k3s setzt ein eingebauter Controller solche Regeln durch.
+Ohne Regel erreicht jeder Pod im Cluster jeden anderen, auch über Namespaces hinweg. Eine **NetworkPolicy** legt fest, wer einen Pod ansprechen darf. In k3s setzt ein eingebauter Controller solche Regeln durch.
 
 ::code{file="platform/repo/templates/member/networkpolicy.yaml"}
 
@@ -77,11 +77,15 @@ Der Befehl zeigt die fertigen Objekte, ohne etwas zu ändern. Damit prüfst du e
 
 ## ApplicationSet
 
-Statt für jedes Mitglied eine Application zu schreiben, lässt du sie von einem ApplicationSet nach einem Muster erzeugen.
+Statt für jedes Mitglied eine Application zu schreiben, lässt du sie von einem **ApplicationSet** nach einem Muster erzeugen.
 
 ::code{file="platform/repo/apps/members.yaml"}
 
-Der Generator `git` durchsucht das Repo nach Ordnern unter `members` und erzeugt für jeden eine Application `member-<ordner>`. Kommt ein Ordner dazu, entsteht ein Namespace. Verschwindet er, löscht Argo CD dank `prune` den Namespace mit allem darin. Das ApplicationSet prüft das Repo normalerweise alle drei Minuten, `requeueAfterSeconds: 60` verkürzt das auf eine Minute.
+Der Generator `git` durchsucht das Repo nach Ordnern unter `members` und erzeugt für jeden eine Application `member-<ordner>`. Kommt ein Ordner dazu, entsteht ein Namespace. Das ApplicationSet prüft das Repo normalerweise alle drei Minuten, `requeueAfterSeconds: 60` verkürzt das auf eine Minute.
+
+:::caution[Ordner unter members entfernen]
+Verschwindet ein Ordner unter `members` aus `main`, löscht das ApplicationSet die Application des Mitglieds und Argo CD mit ihr den Namespace samt allem darin. Das gilt auch für einen Pull Request, der den Ordner nur umbenennt. Prüfe darum bei jedem Antrag, ob er einen Ordner unter `members` entfernt.
+:::
 
 ![Ein Namespace aus der Vorlage. Oben liegt die Vorlage templates/member, eine Component von Kustomize mit dem Namespace member, einer ResourceQuota mit requests.cpu 1, einer LimitRange mit dem Standard 250m pro Container und einer NetworkPolicy, die nur den eigenen Namespace und kube-system durchlässt. In der Mitte setzt der Ordner members/velo den Namespace velo und ersetzt mit einem Patch requests.cpu durch 2. Das ApplicationSet members liest den Ordner mit dem Generator git und erzeugt die Application member-velo. Argo CD rendert sie mit Kustomize, unten stehen die Objekte im Cluster. Achte auf die Unterschiede zur Vorlage. Der Namespace heisst velo und die Quota erlaubt 2 CPU, alles andere kommt unverändert aus der Vorlage.](../../../assets/figures/de/p4c5-kustomize.svg)
 
@@ -135,7 +139,7 @@ Argo CD führt die Gemeinde danach als eigene Application.
 
 ![Die Applications in Argo CD nach dem Pull Request der Gemeinde. member-gemeinde und member-velo stammen aus dem ApplicationSet, root und webshop aus Kapitel 4.4. Alle vier sind Healthy und Synced mit dem Branch main.](../../../assets/screenshots/argocd-apps-base.png)
 
-Für Meilenstein 2 bekommt die Gemeinde die Grenzen aus deinen [persönlichen Werten](../../start/parameters/). Du ergänzt ihre Datei in einem zweiten Pull Request um einen Patch wie beim Veloatelier. Ein Patch darf mehrere Operationen enthalten, je eine Zeile `- op: replace` für `limits.cpu` und für `limits.memory`. Mit kleineren Grenzen stoppt der Test unten früher, im Lab mit 1 CPU schon nach vier Pods.
+Für Meilenstein 2 bekommt die Gemeinde die Grenzen aus deinen [persönlichen Werten](../../start/parameters/#deine-werte-für-die-meilensteine). Du ergänzt ihre Datei in einem zweiten Pull Request um einen Patch wie beim Veloatelier. Ein Patch darf mehrere Operationen enthalten, je eine Zeile `- op: replace` für `limits.cpu` und für `limits.memory`. Mit kleineren Grenzen stoppt der Test unten früher, im Lab mit 1 CPU schon nach vier Pods.
 
 ## An der Grenze
 

@@ -26,7 +26,7 @@ Infrastructure as Code (IaC) beschreibt Infrastruktur in Dateien, die in Git lie
 
 ## Deklarativ und imperativ
 
-Eine imperative Beschreibung sagt, was in welcher Reihenfolge zu tun ist. Die Befehle aus Teil 2 sind imperativ.
+Eine **imperative Beschreibung** sagt, was in welcher Reihenfolge zu tun ist. Die Befehle aus Teil 2 sind imperativ.
 
 ```bash
 onevnet create cc-net.tpl
@@ -36,7 +36,7 @@ onetemplate instantiate ubuntu --name web-1
 
 Startest du diese Befehle ein zweites Mal, scheitert der erste, weil `cc-net` schon existiert. Der dritte legt eine zweite VM mit demselben Namen an. Das Skript selbst prüft nicht, was schon da ist.
 
-Eine deklarative Beschreibung sagt, wie das Ergebnis aussehen soll. Das Werkzeug vergleicht diesen Soll-Zustand mit dem Ist-Zustand und bestimmt selbst, was es dafür tun muss. Im nächsten Kapitel beschreibst du die zwei VMs des Kubernetes-Clusters so.
+Eine **deklarative Beschreibung** sagt, wie das Ergebnis aussehen soll. Das Werkzeug vergleicht diesen Soll-Zustand mit dem Ist-Zustand und bestimmt selbst, was es dafür tun muss. Im nächsten Kapitel beschreibst du die zwei VMs des Kubernetes-Clusters so.
 
 ```hcl
 resource "opennebula_virtual_machine" "k3s" {
@@ -59,9 +59,9 @@ Ansible aus Kapitel 2.2 liegt dazwischen. Ein Playbook ist eine Liste von Schrit
 
 ## State
 
-OpenTofu muss wissen, welche Objekte in OpenNebula zu welchem Block im Code gehören. Diese Zuordnung speichert es im State, im Lab in der Datei `terraform.tfstate`. Darin steht etwa, dass der Block `opennebula_virtual_machine.k3s["k3s-server"]` die VM mit der Nummer 11 ist.
+OpenTofu muss wissen, welche Objekte in OpenNebula zu welchem Block im Code gehören. Diese Zuordnung speichert es im **State**, im Lab in der Datei `terraform.tfstate`. Darin steht etwa, dass der Block `opennebula_virtual_machine.k3s["k3s-server"]` die VM mit der Nummer 11 ist.
 
-Der State ist heikel. Er enthält alle Attribute der Objekte, auch geheime Werte wie das Token, mit dem sich die Knoten von k3s verbinden. Darum gehört er nicht in Git. Geht er verloren, kennt OpenTofu seine VMs nicht mehr und würde beim nächsten Lauf neue anlegen. In Teams liegt der State in einem gemeinsamen Speicher mit Sperre, damit nicht zwei Leute gleichzeitig ändern. Im Lab arbeitest du allein, der State bleibt als Datei auf dem Front-end.
+Der State ist heikel. Er enthält alle Attribute der Objekte, auch geheime Werte wie das Token, mit dem sich die Knoten von k3s verbinden. Darum gehört er nicht in Git. Geht er verloren, kennt OpenTofu seine VMs nicht mehr und würde beim nächsten Lauf neue anlegen. In Teams liegt der State in einem gemeinsamen Speicher mit Sperre, damit nicht zwei Leute gleichzeitig ändern. Dein Lab verwaltest nur du, der State bleibt darum als Datei auf dem Front-end.
 
 ## Plan und Apply
 
@@ -76,11 +76,11 @@ Im Plan fängst du Fehler ab. Steht dort `-/+` vor einer VM, die du nur umbenenn
 
 ## Drift und Idempotenz
 
-Drift ist eine Abweichung des Ist-Zustands vom Code, etwa weil jemand eine VM in Sunstone von Hand geändert hat. `tofu plan` macht Drift sichtbar, `tofu apply` macht sie rückgängig.
+**Drift** ist eine Abweichung des Ist-Zustands vom Code, etwa weil jemand eine VM in Sunstone von Hand geändert hat. `tofu plan` macht Drift sichtbar, `tofu apply` macht sie rückgängig.
 
 Im Lab trat eine Drift auf, die niemand von Hand verursacht hatte. OpenNebula setzt beim Start einer VM selbst den Maschinentyp `q35`. Der Code nannte keinen, also wollte jeder spätere Plan den Wert entfernen. Erst als `machine = "q35"` im Code stand, meldete `tofu plan` «No changes». Solche Werte, die eine Plattform selbst ergänzt, gehören in den Code, sonst lernt man, Pläne mit Änderungen zu überlesen.
 
-Idempotent heisst eine Operation, die beim zweiten Mal nichts mehr ändert. `tofu apply` ohne Änderung im Code ist idempotent, die Befehle oben sind es nicht. Erst die Idempotenz erlaubt dir, denselben Code beliebig oft laufen zu lassen, ob im Lab, für einen Meilenstein oder nach einem Ausfall.
+**Idempotent** heisst eine Operation, die beim zweiten Mal nichts mehr ändert. `tofu apply` ohne Änderung im Code ist idempotent, die Befehle oben sind es nicht. Erst die Idempotenz erlaubt dir, denselben Code beliebig oft laufen zu lassen, ob im Lab, für einen Meilenstein oder nach einem Ausfall.
 
 ::::exercise[Klickpfad und Code vergleichen]
 Nimm deine Befehle aus Kapitel 2.3 und 2.4 und lege eine Tabelle an. Halte für jeden Schritt fest, was ein zweiter Lauf bewirkt und wie eine deklarative Beschreibung denselben Schritt ausdrücken würde.

@@ -27,7 +27,11 @@ OpenNebula reserves the full memory of a VM's template on its node, even when th
 
 ![The memory of a node. A bar shows the 8 GB of one node. The host keeps 0.8 GB, and OpenNebula reports the remaining 7.2 GB for VMs. The k3s VM reserves 6 GB of that, the server on one node and the agent on the other. That leaves 1.2 GB free. Notice that only one more VM with 1 GB fits next to it, because OpenNebula reserves the full memory of every VM.](../../../../assets/figures/en/p4c2-memory.svg)
 
-You therefore start by cleaning up. Take the screenshots for milestone 1 before that, because afterwards the VMs they show are gone. If you show the advanced tasks of milestone 1 in a screencast, record it beforehand as well. The groups, quotas, prices and templates of part 3 stay, you only remove the running VMs.
+You therefore start by cleaning up. The groups, quotas, prices and templates of part 3 stay, you only remove the running VMs.
+
+:::caution[Screenshots before the cleanup]
+The loop below terminates every VM of parts 2 and 3 for good. Take the screenshots for milestone 1 first, because afterwards the VMs they show are gone. If you show the advanced tasks of milestone 1 in a screencast, record it beforehand as well. As a fallback, take a snapshot of the three servers as chapter 0.4 describes.
+:::
 
 ```bash
 oneflow list
@@ -40,7 +44,7 @@ onehost list
 If you started the fiduciary office's service in the advanced chapter 3.5, remove it first, otherwise OneFlow starts its VM again right away. Then the loop terminates every VM that `onevm list` shows, whatever names you gave them in parts 2 and 3. `oneadmin` may terminate the VMs of every member. At the end, `onehost list` shows `0K / 7.2G` on both nodes.
 
 :::note[Showing the advanced tasks of milestone 1 live]
-You prove the base of milestone 1 with the report and the screenshots, so you no longer need the old VMs for it. If you show the advanced tasks of milestone 1 live in class instead of in a screencast, take the cluster off the nodes for the demo. `onevm undeploy k3s-server` and `onevm undeploy k3s-agent` stop the VMs and release their memory and CPU while keeping their disks. Then you start the VMs the advanced tasks need with the commands of part 3, show the tasks and terminate the VMs again. `onevm resume` brings the cluster back. In the lab, `undeploy` took a little under two minutes, and after `resume` the web shop of chapter 4.4 answered again after about 45 seconds. Argo CD then showed the application `root` as `Degraded` for a good three minutes, because the ApplicationSet `members` could not read the repo at startup. The repo server of Argo CD was not running yet, and the ApplicationSet recovered by itself afterwards. `onevm poweroff` is not enough, because a VM that is powered off keeps its place on the node.
+You prove the base of milestone 1 with the report and the screenshots, so you no longer need the old VMs for it. If you show the advanced tasks of milestone 1 live in class instead of in a screencast, take the cluster off the nodes for the demo. `onevm undeploy k3s-server` and `onevm undeploy k3s-agent` stop the VMs and release their memory and CPU while keeping their disks. `onevm poweroff` is not enough, because a VM that is powered off keeps its place on the node. Then you start the VMs the advanced tasks need with the commands of part 3, show the tasks and terminate the VMs again. `onevm resume` brings the cluster back. In the lab, `undeploy` took a little under two minutes, and after `resume` the web shop of chapter 4.4 answered again after about 45 seconds. Argo CD then showed the application `root` as `Degraded` for a good three minutes, because the ApplicationSet `members` could not read the repo at startup. The repo server of Argo CD was not running yet, and the ApplicationSet recovered by itself afterwards.
 :::
 
 ## Tools
@@ -78,7 +82,7 @@ The folder `tofu/` holds the configuration, split into files. OpenTofu reads eve
 
 ## Providers
 
-A provider translates blocks of code into calls of an API. The provider `opennebula/opennebula` talks to the XML-RPC interface of OpenNebula on port 2633, the same one the CLI and Sunstone use. `random` generates random values.
+A **provider** translates blocks of code into calls of an API. The provider `opennebula/opennebula` talks to the XML-RPC interface of OpenNebula on port 2633, the same one the CLI and Sunstone use. `random` generates random values.
 
 ::code{file="platform/repo/tofu/versions.tf"}
 
@@ -101,7 +105,7 @@ export OPENNEBULA_PASSWORD=$(cut -d: -f2- ~/.one/one_auth)
 | `data` | something that already exists and is only read, here the network `cc-net` and the image `ubuntu-26.04` of part 2 |
 | `resource "opennebula_virtual_machine"` | the VMs, one per entry of `local.nodes` thanks to `for_each` |
 
-A data source connects the code with what you built by hand without taking it over. OpenTofu reads the ID of `cc-net` but never creates or deletes the network.
+A **data source** connects the code with what you built by hand without taking it over. OpenTofu reads the ID of `cc-net` but never creates or deletes the network.
 
 The addresses of the VMs come from your personal parameters, `CC_K3S_SERVER_IP` and `CC_K3S_AGENT_IP` in `/etc/cc-lab.env`. A small script writes them to `terraform.tfvars`, the file OpenTofu reads variables from.
 
@@ -187,6 +191,6 @@ A new name, as above, shows up as `~ name` in the plan, and `tofu apply` reverts
 The fiduciary office asks whether the cluster could do with less memory so that one of its VMs fits next to it again. Where do you change that, and what follows from it?
 
 :::solution
-`variables.tf` has the variable `memory` set to 6144. In `terraform.tfvars` you set, for example, `memory = 5120`, and the plan shows a change on both VMs. Each node would then have 2.2 GB free, enough for two small VMs. In part 5, however, Prometheus, Loki and the local model need the memory. In the test, the server sat at 3.4 GB with everything running, and the model used 2.7 GB on the agent. A later measurement over an hour with requests reached up to 3.3 GiB for the model, as chapter 6.4 describes. Justify your decision in the documentation.
+`variables.tf` has the variable `memory` set to 6144. In `terraform.tfvars` you set, for example, `memory = 5120`, and the plan shows a change on both VMs. Each node would then have 2.2 GB free, enough for two small VMs. In part 5, however, Prometheus, Loki and the local model need the memory. In the test, the server sat at 3.4 GB with everything running, and the model used 2.7 GB on the agent. A later measurement over an hour with requests reached up to 3.3 GiB for the model, as chapter 6.4 describes.
 :::
 ::::
