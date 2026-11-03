@@ -1,0 +1,4 @@
+# OpenTofu keeps providers and the state locally, the state holds the k3s token
+.terraform/
+*.tfstate
+*.tfstate.*

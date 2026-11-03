@@ -1,0 +1,78 @@
+---
+title: IaaS for Wolkenwerk (Milestone 1)
+description: The assignment of the first milestone with the seven base requirements, the three advanced tasks, the showing, the content of the hand-in and the rubric.
+---
+
+:::assignment
+"The four members are to work on our own cloud from next month," Simone Wyss writes. "Show the board that it runs, that every member only sees its own machines, what it uses and how the fiduciary office gets more power at the end of the month."
+:::
+
+Milestone 1 covers parts 0 to 3. In the base you build the IaaS for Wolkenwerk Bern in your lab and split it among the four members. In the advanced tasks you let a service grow elastically, automate the showback and work out what a node failure means for the members. Milestone 1 belongs with milestone 2 to hand-in 1.
+
+## Base
+
+Everything runs in your own lab with your personal parameters from chapter 0.3. The base has seven requirements.
+
+1. The three VMs are prepared, and the check `start` is green.
+2. OpenNebula 7.4 runs with both nodes, and the check `install` is green.
+3. The network `cc-net` is created from your parameters, a VM from the template `ubuntu` runs with SSH and internet access, and the check `iaas` is green.
+4. You empty a node for maintenance, put it back into service and move a VM live.
+5. The four members have groups with admins in the VDC `wolkenwerk`, and one member does not see the VMs of another.
+6. The members' quotas are set, the municipality has the quota from your [personal values](../../start/parameters/#your-values-for-the-milestones), and you show the message at the limit.
+7. The template `ubuntu` has prices, the showback of a month exists as CSV, and a user of a member starts a VM in self-service.
+
+You prove the base with the reports of the checks `start`, `install`, `iaas` and `m1` and one screenshot per requirement, each with a file name that starts with the number of its requirement. No check tests requirement 4, so its screenshot alone proves it. `python3 ~/cc/checks/check.py m1` writes the report of `m1` on the front-end.
+
+:::caution[Screenshots before chapter 4.2]
+In chapter 4.2 you remove the VMs of parts 2 and 3 because the Kubernetes cluster needs the room. Take the screenshots of the base before that, since afterwards the VMs they show are gone. If you show the advanced tasks in a screencast, record it before chapter 4.2 as well.
+:::
+
+## Advanced tasks
+
+Plan four to six hours for the three advanced tasks. Each one is worth 0 to 3 points by the [levels of the advanced tasks](../#levels-of-the-advanced-tasks). Every task you do needs [documentation in five parts](../#documenting-the-advanced-tasks). [Chapter 3.5](../../tenants/advanced/) explains the concepts behind them and lists the requirements for your solution to each task.
+
+### Elasticity with OneFlow (Task A)
+
+The fiduciary office runs a OneFlow service that grows by load and by schedule and shrinks again afterwards. You show it growing under load and shrinking without load, and you justify your rules. Start the load before the showing, since growing takes a few minutes. [Task A in chapter 3.5](../../tenants/advanced/#elasticity-with-oneflow-task-a) lists the requirements.
+
+### Showback as a report (Task B)
+
+A script and a systemd timer of your own store the showback of the past month as CSV. From the CSV you calculate whether the prices cover the cooperative's costs. OpenNebula 7.4 already ships the timer `opennebula-showback.timer`, which calculates the showback daily. The check `m1` looks for a timer with `showback` in its name and skips that one, so the name of your timer contains `showback` and does not start with `opennebula-`. [Task B in chapter 3.5](../../tenants/advanced/#showback-as-a-report-task-b) lists the requirements, and [chapter 3.3](../../tenants/showback/) explains prices and showback.
+
+### Failure of a node (Task C)
+
+You power off a node and show what happens to the members' VMs. From that you derive a proposal for placing the VMs, for example packing or striping, and justify it for the members of Wolkenwerk. [Task C in chapter 3.5](../../tenants/advanced/#failure-of-a-node-task-c) lists the requirements, and [chapter 2.5](../../iaas/hosts/) covers the scheduler, maintenance and failure.
+
+## Showing the advanced tasks
+
+You show the advanced tasks live in class or in a screencast of at most ten minutes. For a live showing you book a slot with your instructor yourself. It must take place by hand-in 1. The screencast starts with `cat /etc/cc-lab.env` and the report of the check `m1` with its hash and your two questions, which you answer during the showing.
+
+After chapter 4.2 the Kubernetes cluster takes up the nodes. If you demonstrate task A or C live after that, take the cluster off the nodes for a while first. [Chapter 4.2](../../platform/opentofu/#room-on-the-nodes) explains how.
+
+## Hand-in
+
+The folder `m1/` of your hand-in repo holds the screenshots of the base. The advanced tasks add their documentation, task B adds the script and the timer units, and the showing adds the screencast or a link to it.
+
+You put the reports of the checks in `reports/`. The [overview](../) describes how the repo is structured and how you set a tag.
+
+## Rubric
+
+| Base requirement | Points |
+|---|---|
+| Three prepared VMs, check `start` | 3 |
+| OpenNebula with both nodes, check `install` | 3 |
+| Network, template and VM with SSH and internet, check `iaas` | 3 |
+| Maintenance of a node with migration | 3 |
+| Members with groups, admins and VDC, separation shown | 3 |
+| Quotas with the municipality's personal values, limit shown | 3 |
+| Prices, showback as CSV and self-service | 3 |
+| **Base** | **21** |
+
+| Advanced task | Points |
+|---|---|
+| Elasticity with OneFlow (Task A) | 3 |
+| Showback as a report with cost coverage (Task B) | 3 |
+| Failure of a node and a placement proposal (Task C) | 3 |
+| **Advanced** | **9** |
+
+Milestone 1 is worth up to 30 points in total. A base requirement gets 3 points when the report and a screenshot prove it, 2 points when the check is green but a fitting screenshot is missing, and 1 point when it is only partly met. Each of the two questions you leave unanswered or answer wrongly costs 1 point of the advanced tasks. If the documentation or one of its parts 1, 2, 4 and 5 is missing, an advanced task gets at most 1 point.

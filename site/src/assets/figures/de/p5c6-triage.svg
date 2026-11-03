@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 778 344" role="img" aria-labelledby="p5c6-triage-de-title p5c6-triage-de-desc">
+<title id="p5c6-triage-de-title">Der Ablauf einer Triage</title>
+<desc id="p5c6-triage-de-desc">Prometheus wertet eine Regel aus und schickt den Alert an Alertmanager. Ein eigener Empfänger leitet ihn als Webhook an deinen Triage-Dienst weiter. Der Dienst holt Logzeilen aus Loki und den Zustand des betroffenen Deployments aus der Kubernetes-API und fragt damit ein lokales Sprachmodell. Den Vorschlag mit Ursache und Aktion legt er einer Person vor. Sie gibt ihn mit ihrem Namen frei oder lehnt ihn ab. Nur eine freigegebene Aktion von einer festen Liste läuft, mit den Rechten, die sie braucht. Jeder Alert, jeder Vorschlag und jeder Entscheid landet im Audit-Log.</desc>
+<defs><marker id="p5c6-triage-de-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"/></marker><marker id="p5c6-triage-de-head-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head d-head-accent" d="M 0 1 L 9 5 L 0 9 z"/></marker></defs>
+<rect class="d-ground" x="0" y="0" width="778" height="344" rx="14"/>
+<text class="d-label" x="404" y="48" text-anchor="end">KONTEXT</text>
+<path class="d-arrow d-arrow-accent" d="M 152 140 L 190 140" marker-end="url(#p5c6-triage-de-head-accent)"/>
+<text class="d-sub" x="172" y="132" text-anchor="middle">Alert</text>
+<path class="d-arrow d-arrow-accent" d="M 350 140 L 418 140" marker-end="url(#p5c6-triage-de-head-accent)"/>
+<text class="d-sub" x="385" y="132" text-anchor="middle">Webhook</text>
+<path class="d-arrow d-arrow-accent" d="M 499 168 L 499 200 L 683 200 L 683 230" marker-end="url(#p5c6-triage-de-head-accent)"/>
+<path class="d-arrow d-arrow-accent" d="M 604 260 L 580 260" marker-end="url(#p5c6-triage-de-head-accent)"/>
+<path class="d-arrow d-arrow-accent" d="M 420 260 L 352 260" marker-end="url(#p5c6-triage-de-head-accent)"/>
+<text class="d-sub" x="385" y="252" text-anchor="middle">freigegeben</text>
+<path class="d-arrow" d="M 469 72 L 469 110" marker-end="url(#p5c6-triage-de-head)"/>
+<path class="d-arrow" d="M 683 72 L 683 84 L 529 84 L 529 110" marker-end="url(#p5c6-triage-de-head)"/>
+<path class="d-arrow" d="M 578 132 L 602 132" marker-end="url(#p5c6-triage-de-head)"/>
+<path class="d-arrow" d="M 604 148 L 580 148" marker-end="url(#p5c6-triage-de-head)"/>
+<path class="d-arrow" d="M 192 260 L 154 260" marker-end="url(#p5c6-triage-de-head)"/>
+<path class="d-line" d="M 499 288 L 499 312 L 84 312"/>
+<path class="d-arrow" d="M 84 312 L 84 290" marker-end="url(#p5c6-triage-de-head)"/>
+<text class="d-sub" x="291.5" y="328" text-anchor="middle">abgelehnt</text>
+<rect class="d-shadow" x="420" y="17.5" width="158" height="56" rx="10"/>
+<rect class="d-tile" x="420" y="16" width="158" height="56" rx="10"/>
+<g class="d-icon" transform="translate(432 35) scale(0.75)"><ellipse cx="12" cy="5.5" rx="7.5" ry="2.5"/><path d="M4.5 5.5v13c0 1.4 3.4 2.5 7.5 2.5s7.5-1.1 7.5-2.5v-13"/><path d="M4.5 12c0 1.4 3.4 2.5 7.5 2.5s7.5-1.1 7.5-2.5"/></g>
+<text class="d-title" x="460" y="41" text-anchor="start">Loki</text>
+<text class="d-sub" x="460" y="57" text-anchor="start">Logzeilen</text>
+<rect class="d-shadow" x="604" y="17.5" width="158" height="56" rx="10"/>
+<rect class="d-tile" x="604" y="16" width="158" height="56" rx="10"/>
+<g class="d-icon" transform="translate(616 35) scale(0.75)"><circle cx="12" cy="5" r="2.5"/><circle cx="5" cy="18" r="2.5"/><circle cx="19" cy="18" r="2.5"/><path d="M11 7.2 6.3 15.8M13 7.2l4.7 8.6M7.5 18h9"/></g>
+<text class="d-title" x="644" y="41" text-anchor="start">Kubernetes-API</text>
+<text class="d-sub" x="644" y="57" text-anchor="start">Zustand des Ziels</text>
+<rect class="d-shadow" x="16" y="113.5" width="136" height="56" rx="10"/>
+<rect class="d-tile" x="16" y="112" width="136" height="56" rx="10"/>
+<g class="d-icon" transform="translate(28 131) scale(0.75)"><ellipse cx="12" cy="5.5" rx="7.5" ry="2.5"/><path d="M4.5 5.5v13c0 1.4 3.4 2.5 7.5 2.5s7.5-1.1 7.5-2.5v-13"/><path d="M4.5 12c0 1.4 3.4 2.5 7.5 2.5s7.5-1.1 7.5-2.5"/></g>
+<text class="d-title" x="56" y="137" text-anchor="start">Prometheus</text>
+<text class="d-sub" x="56" y="153" text-anchor="start">Regel löst aus</text>
+<rect class="d-shadow" x="192" y="113.5" width="158" height="56" rx="10"/>
+<rect class="d-tile" x="192" y="112" width="158" height="56" rx="10"/>
+<g class="d-icon" transform="translate(204 131) scale(0.75)"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/></g>
+<text class="d-title" x="232" y="137" text-anchor="start">Alertmanager</text>
+<text class="d-sub" x="232" y="153" text-anchor="start">eigener Empfänger</text>
+<rect class="d-shadow" x="420" y="113.5" width="158" height="56" rx="10"/>
+<rect class="d-tile d-tile-accent" x="420" y="112" width="158" height="56" rx="10"/>
+<g class="d-icon d-icon-accent" transform="translate(432 131) scale(0.75)"><circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M4.2 6l2.3 1.8M17.5 16.2l2.3 1.8M4.2 18l2.3-1.8M17.5 7.8 19.8 6M2.5 12h3M18.5 12h3"/></g>
+<text class="d-title" x="460" y="137" text-anchor="start">Triage-Dienst</text>
+<text class="d-sub" x="460" y="153" text-anchor="start">deine Lösung</text>
+<rect class="d-shadow" x="604" y="113.5" width="158" height="56" rx="10"/>
+<rect class="d-tile" x="604" y="112" width="158" height="56" rx="10"/>
+<g class="d-icon" transform="translate(616 131) scale(0.75)"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2.5V6M15 2.5V6M9 18v3.5M15 18v3.5M2.5 9H6M2.5 15H6M18 9h3.5M18 15h3.5"/><path d="M10 10h4v4h-4z"/></g>
+<text class="d-title" x="644" y="137" text-anchor="start">Sprachmodell</text>
+<text class="d-sub" x="644" y="153" text-anchor="start">lokal im Cluster</text>
+<rect class="d-shadow" x="604" y="233.5" width="158" height="56" rx="10"/>
+<rect class="d-tile" x="604" y="232" width="158" height="56" rx="10"/>
+<g class="d-icon" transform="translate(616 251) scale(0.75)"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></g>
+<text class="d-title" x="644" y="257" text-anchor="start">Vorschlag</text>
+<text class="d-sub" x="644" y="273" text-anchor="start">Ursache, Aktion</text>
+<rect class="d-shadow" x="420" y="233.5" width="158" height="56" rx="10"/>
+<rect class="d-tile d-tile-accent" x="420" y="232" width="158" height="56" rx="10"/>
+<g class="d-icon d-icon-accent" transform="translate(432 251) scale(0.75)"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></g>
+<text class="d-title" x="460" y="257" text-anchor="start">Mensch</text>
+<text class="d-sub" x="460" y="273" text-anchor="start">gibt frei, lehnt ab</text>
+<rect class="d-shadow" x="192" y="233.5" width="158" height="56" rx="10"/>
+<rect class="d-tile" x="192" y="232" width="158" height="56" rx="10"/>
+<g class="d-icon" transform="translate(204 251) scale(0.75)"><path d="M20 12a8 8 0 0 1-14.3 4.9M4 12A8 8 0 0 1 18.3 7.1"/><path d="M18.5 3v4.3h-4.3M5.5 21v-4.3h4.3"/></g>
+<text class="d-title" x="232" y="257" text-anchor="start">Aktion</text>
+<text class="d-sub" x="232" y="273" text-anchor="start">nur von fester Liste</text>
+<rect class="d-shadow" x="16" y="233.5" width="136" height="56" rx="10"/>
+<rect class="d-tile" x="16" y="232" width="136" height="56" rx="10"/>
+<g class="d-icon" transform="translate(28 251) scale(0.75)"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></g>
+<text class="d-title" x="56" y="257" text-anchor="start">Audit-Log</text>
+<text class="d-sub" x="56" y="273" text-anchor="start">jeder Schritt</text>
+</svg>

@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 444" role="img" aria-labelledby="ex-kubernetes-en-title ex-kubernetes-en-desc">
+<title id="ex-kubernetes-en-title">The objects of the web shop</title>
+<desc id="ex-kubernetes-en-desc">All objects live in the namespace velo. At the top the path of a request. Traefik carries out the ingress webshop, which sends every path to the port http of the service webshop. The service has a fixed address in the cluster and port 80. Through its selector app=webshop, Kubernetes fills the EndpointSlice with the addresses of the ready pods, and the request goes to port 8080 of one of these pods. In the middle the two pods webshop-7d4f56cb9b-chxkw and webshop-7d4f56cb9b-mjsjj. At the bottom the deployment webshop. It manages the ReplicaSet webshop-7d4f56cb9b, which selects its two pods with app=webshop and pod-template-hash and keeps them running. Notice that the service, the ReplicaSet and the deployment find their pods through the label app=webshop without knowing their names.</desc>
+<defs><marker id="ex-kubernetes-en-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"/></marker><marker id="ex-kubernetes-en-head-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head d-head-accent" d="M 0 1 L 9 5 L 0 9 z"/></marker></defs>
+<rect class="d-ground" x="0" y="0" width="760" height="444" rx="14"/>
+<rect class="d-band d-band-3" x="16" y="16" width="728" height="412" rx="12"/>
+<text class="d-label d-label-violet" x="32" y="40" text-anchor="start">NAMESPACE</text>
+<text class="d-sub" x="121.378" y="40" text-anchor="start"><tspan class="d-code">velo</tspan></text>
+<path class="d-arrow d-arrow-accent" d="M 196 92 L 290 92" marker-end="url(#ex-kubernetes-en-head-accent)"/>
+<text class="d-sub" x="244" y="84" text-anchor="middle">port <tspan class="d-code">http</tspan></text>
+<path class="d-arrow d-arrow-accent" d="M 452 92 L 566 92" marker-end="url(#ex-kubernetes-en-head-accent)"/>
+<text class="d-sub" x="510" y="84" text-anchor="middle"><tspan class="d-code">app: webshop</tspan></text>
+<path class="d-line d-line-accent" d="M 648 128 L 648 156 L 194 156"/>
+<path class="d-arrow d-arrow-accent" d="M 194 156 L 194 182" marker-end="url(#ex-kubernetes-en-head-accent)"/>
+<path class="d-arrow d-arrow-accent" d="M 566 156 L 566 182" marker-end="url(#ex-kubernetes-en-head-accent)"/>
+<text class="d-sub" x="656" y="146" text-anchor="start">port 8080</text>
+<path class="d-arrow" d="M 184 376 L 290 376" marker-end="url(#ex-kubernetes-en-head)"/>
+<text class="d-sub" x="238" y="368" text-anchor="middle"><tspan class="d-code">app: webshop</tspan></text>
+<path class="d-line" d="M 386 340 L 386 284"/>
+<path class="d-line" d="M 194 284 L 566 284"/>
+<path class="d-arrow" d="M 194 284 L 194 258" marker-end="url(#ex-kubernetes-en-head)"/>
+<path class="d-arrow" d="M 566 284 L 566 258" marker-end="url(#ex-kubernetes-en-head)"/>
+<text class="d-sub" x="394" y="306" text-anchor="start"><tspan class="d-code">app: webshop</tspan></text>
+<text class="d-sub" x="394" y="320" text-anchor="start"><tspan class="d-code">pod-template-hash</tspan></text>
+<rect class="d-shadow" x="32" y="57.5" width="164" height="72" rx="10"/>
+<rect class="d-tile" x="32" y="56" width="164" height="72" rx="10"/>
+<text class="d-title" x="114" y="82" text-anchor="middle">Ingress</text>
+<text class="d-sub" x="114" y="97" text-anchor="middle">rule for Traefik, path /</text>
+<text class="d-code" x="114" y="112" text-anchor="middle">webshop</text>
+<rect class="d-shadow" x="292" y="57.5" width="160" height="72" rx="10"/>
+<rect class="d-tile" x="292" y="56" width="160" height="72" rx="10"/>
+<text class="d-title" x="372" y="82" text-anchor="middle">Service</text>
+<text class="d-sub" x="372" y="97" text-anchor="middle">ClusterIP, port 80</text>
+<text class="d-code" x="372" y="112" text-anchor="middle">webshop</text>
+<rect class="d-shadow" x="568" y="57.5" width="160" height="72" rx="10"/>
+<rect class="d-tile" x="568" y="56" width="160" height="72" rx="10"/>
+<text class="d-title" x="648" y="89" text-anchor="middle">EndpointSlice</text>
+<text class="d-sub" x="648" y="105" text-anchor="middle">addresses of ready pods</text>
+<rect class="d-shadow" x="32" y="185.5" width="324" height="72" rx="10"/>
+<rect class="d-tile" x="32" y="184" width="324" height="72" rx="10"/>
+<g class="d-icon" transform="translate(44 211) scale(0.75)"><path d="M12 3 20 7.5v9L12 21l-8-4.5v-9z"/><path d="M4 7.5 12 12l8-4.5M12 12v9"/></g>
+<text class="d-title" x="72" y="210" text-anchor="start">Pod</text>
+<text class="d-sub" x="72" y="225" text-anchor="start">container, port 8080</text>
+<text class="d-code" x="72" y="240" text-anchor="start">webshop-7d4f56cb9b-chxkw</text>
+<rect class="d-shadow" x="404" y="185.5" width="324" height="72" rx="10"/>
+<rect class="d-tile" x="404" y="184" width="324" height="72" rx="10"/>
+<g class="d-icon" transform="translate(416 211) scale(0.75)"><path d="M12 3 20 7.5v9L12 21l-8-4.5v-9z"/><path d="M4 7.5 12 12l8-4.5M12 12v9"/></g>
+<text class="d-title" x="444" y="210" text-anchor="start">Pod</text>
+<text class="d-sub" x="444" y="225" text-anchor="start">container, port 8080</text>
+<text class="d-code" x="444" y="240" text-anchor="start">webshop-7d4f56cb9b-mjsjj</text>
+<rect class="d-shadow" x="32" y="341.5" width="152" height="72" rx="10"/>
+<rect class="d-tile" x="32" y="340" width="152" height="72" rx="10"/>
+<text class="d-title" x="108" y="366" text-anchor="middle">Deployment</text>
+<text class="d-sub" x="108" y="381" text-anchor="middle">template of the pods</text>
+<text class="d-code" x="108" y="396" text-anchor="middle">webshop</text>
+<rect class="d-shadow" x="292" y="341.5" width="188" height="72" rx="10"/>
+<rect class="d-tile" x="292" y="340" width="188" height="72" rx="10"/>
+<text class="d-title" x="386" y="366" text-anchor="middle">ReplicaSet</text>
+<text class="d-sub" x="386" y="381" text-anchor="middle">keeps 2 pods running</text>
+<text class="d-code" x="386" y="396" text-anchor="middle">webshop-7d4f56cb9b</text>
+</svg>

@@ -1,0 +1,8 @@
+# The template of a member namespace. A folder in members/ sets the namespace, kustomize also renames the Namespace object
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+resources:
+  - namespace.yaml
+  - resourcequota.yaml
+  - limitrange.yaml
+  - networkpolicy.yaml

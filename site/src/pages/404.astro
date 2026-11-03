@@ -1,0 +1,12 @@
+---
+// One 404 page for the whole project site. GitHub Pages serves 404.html for every unknown URL,
+// in whatever language the visitor was reading, so the text is bilingual and the links absolute.
+import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro';
+
+const base = import.meta.env.BASE_URL;
+---
+
+<StarlightPage frontmatter={{ title: 'Seite nicht gefunden / Page not found', template: 'splash', pagefind: false }}>
+  <p lang="de-CH">Diese Seite gibt es nicht. <a href={base}>Zur deutschen Startseite</a>.</p>
+  <p lang="en">This page does not exist. <a href={`${base}en/`}>Go to the English home page</a>.</p>
+</StarlightPage>

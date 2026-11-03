@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 290" role="img" aria-labelledby="p1c3-hypervisors-en-title p1c3-hypervisors-en-desc">
+<title id="p1c3-hypervisors-en-title">Hypervisors and nested virtualization</title>
+<desc id="p1c3-hypervisors-en-desc">Three stacks side by side, each standing on its hardware. A type 1 hypervisor such as ESXi, Hyper-V or KVM runs directly on the hardware, and the VMs run on top of it. A type 2 hypervisor such as VirtualBox or VMware Workstation runs as a program inside an operating system. The lab nests three levels. The nodes run as VMs on smartlearn or on a hypervisor of your own, and on the nodes KVM runs the VMs of your cloud. The nodes are VMs and hypervisors at the same time.</desc>
+<defs><marker id="p1c3-hypervisors-en-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"/></marker><marker id="p1c3-hypervisors-en-head-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head d-head-accent" d="M 0 1 L 9 5 L 0 9 z"/></marker></defs>
+<rect class="d-ground" x="0" y="0" width="780" height="290" rx="14"/>
+<rect class="d-band d-band-1" x="16" y="74" width="220" height="200" rx="12"/>
+<text class="d-label" x="30" y="98" text-anchor="start">TYPE 1</text>
+<text class="d-meta" x="89.256" y="98" text-anchor="start">directly on the hardware</text>
+<rect class="d-strip" x="30" y="228" width="192" height="30" rx="8"/>
+<text class="d-sub" x="126" y="247" text-anchor="middle">Hardware</text>
+<rect class="d-shadow" x="30" y="171.5" width="192" height="46" rx="10"/>
+<rect class="d-tile" x="30" y="170" width="192" height="46" rx="10"/>
+<g class="d-icon" transform="translate(42 184) scale(0.75)"><circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M4.2 6l2.3 1.8M17.5 16.2l2.3 1.8M4.2 18l2.3-1.8M17.5 7.8 19.8 6M2.5 12h3M18.5 12h3"/></g>
+<text class="d-title" x="70" y="190" text-anchor="start">Hypervisor</text>
+<text class="d-sub" x="70" y="206" text-anchor="start">ESXi, Hyper-V, KVM</text>
+<rect class="d-shadow" x="30" y="113.5" width="88" height="46" rx="10"/>
+<rect class="d-tile d-tile-violet" x="30" y="112" width="88" height="46" rx="10"/>
+<g class="d-icon d-icon-violet" transform="translate(42 126) scale(0.75)"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="8.5" y="8.5" width="7" height="7" rx="1"/></g>
+<text class="d-title d-title-violet" x="70" y="139.5" text-anchor="start">VM</text>
+<rect class="d-shadow" x="134" y="113.5" width="88" height="46" rx="10"/>
+<rect class="d-tile d-tile-violet" x="134" y="112" width="88" height="46" rx="10"/>
+<g class="d-icon d-icon-violet" transform="translate(146 126) scale(0.75)"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="8.5" y="8.5" width="7" height="7" rx="1"/></g>
+<text class="d-title d-title-violet" x="174" y="139.5" text-anchor="start">VM</text>
+<rect class="d-band d-band-1" x="252" y="16" width="260" height="258" rx="12"/>
+<text class="d-label" x="266" y="40" text-anchor="start">TYPE 2</text>
+<text class="d-meta" x="325.25600000000003" y="40" text-anchor="start">a program in an operating system</text>
+<rect class="d-strip" x="266" y="228" width="232" height="30" rx="8"/>
+<text class="d-sub" x="382" y="247" text-anchor="middle">Hardware</text>
+<rect class="d-shadow" x="266" y="171.5" width="232" height="46" rx="10"/>
+<rect class="d-tile" x="266" y="170" width="232" height="46" rx="10"/>
+<g class="d-icon" transform="translate(278 184) scale(0.75)"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></g>
+<text class="d-title" x="306" y="197.5" text-anchor="start">Operating system</text>
+<rect class="d-shadow" x="266" y="113.5" width="232" height="46" rx="10"/>
+<rect class="d-tile" x="266" y="112" width="232" height="46" rx="10"/>
+<g class="d-icon" transform="translate(278 126) scale(0.75)"><circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M4.2 6l2.3 1.8M17.5 16.2l2.3 1.8M4.2 18l2.3-1.8M17.5 7.8 19.8 6M2.5 12h3M18.5 12h3"/></g>
+<text class="d-title" x="306" y="132" text-anchor="start">Hypervisor</text>
+<text class="d-sub" x="306" y="148" text-anchor="start">VirtualBox, VMware Workstation</text>
+<rect class="d-shadow" x="266" y="55.5" width="108" height="46" rx="10"/>
+<rect class="d-tile d-tile-violet" x="266" y="54" width="108" height="46" rx="10"/>
+<g class="d-icon d-icon-violet" transform="translate(278 68) scale(0.75)"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="8.5" y="8.5" width="7" height="7" rx="1"/></g>
+<text class="d-title d-title-violet" x="306" y="81.5" text-anchor="start">VM</text>
+<rect class="d-shadow" x="390" y="55.5" width="108" height="46" rx="10"/>
+<rect class="d-tile d-tile-violet" x="390" y="54" width="108" height="46" rx="10"/>
+<g class="d-icon d-icon-violet" transform="translate(402 68) scale(0.75)"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="8.5" y="8.5" width="7" height="7" rx="1"/></g>
+<text class="d-title d-title-violet" x="430" y="81.5" text-anchor="start">VM</text>
+<rect class="d-band d-band-1" x="528" y="16" width="236" height="258" rx="12"/>
+<text class="d-label" x="542" y="40" text-anchor="start">IN THE LAB</text>
+<text class="d-meta" x="628.7956" y="40" text-anchor="start">three nested levels</text>
+<rect class="d-strip" x="542" y="228" width="208" height="30" rx="8"/>
+<text class="d-sub" x="646" y="247" text-anchor="middle">Hardware</text>
+<rect class="d-shadow" x="542" y="171.5" width="208" height="46" rx="10"/>
+<rect class="d-tile" x="542" y="170" width="208" height="46" rx="10"/>
+<g class="d-icon" transform="translate(554 184) scale(0.75)"><circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M4.2 6l2.3 1.8M17.5 16.2l2.3 1.8M4.2 18l2.3-1.8M17.5 7.8 19.8 6M2.5 12h3M18.5 12h3"/></g>
+<text class="d-title" x="582" y="190" text-anchor="start">smartlearn</text>
+<text class="d-sub" x="582" y="206" text-anchor="start">or a hypervisor of your own</text>
+<rect class="d-shadow" x="542" y="113.5" width="208" height="46" rx="10"/>
+<rect class="d-tile d-tile-accent" x="542" y="112" width="208" height="46" rx="10"/>
+<g class="d-icon d-icon-accent" transform="translate(554 126) scale(0.75)"><rect x="4" y="4" width="16" height="7" rx="1.5"/><rect x="4" y="13" width="16" height="7" rx="1.5"/><path d="M8 7.5h.01M8 16.5h.01"/></g>
+<text class="d-title" x="582" y="132" text-anchor="start">Nodes 1 and 2</text>
+<text class="d-sub" x="582" y="148" text-anchor="start">VMs with KVM</text>
+<rect class="d-shadow" x="542" y="55.5" width="96" height="46" rx="10"/>
+<rect class="d-tile d-tile-violet" x="542" y="54" width="96" height="46" rx="10"/>
+<g class="d-icon d-icon-violet" transform="translate(554 68) scale(0.75)"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="8.5" y="8.5" width="7" height="7" rx="1"/></g>
+<text class="d-title d-title-violet" x="582" y="81.5" text-anchor="start">VM</text>
+<rect class="d-shadow" x="654" y="55.5" width="96" height="46" rx="10"/>
+<rect class="d-tile d-tile-violet" x="654" y="54" width="96" height="46" rx="10"/>
+<g class="d-icon d-icon-violet" transform="translate(666 68) scale(0.75)"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="8.5" y="8.5" width="7" height="7" rx="1"/></g>
+<text class="d-title d-title-violet" x="694" y="81.5" text-anchor="start">VM</text>
+</svg>

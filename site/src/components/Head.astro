@@ -1,0 +1,14 @@
+---
+// Starlight <Head> override: the default head plus the course scripts on every page.
+// Astro bundles and hashes the scripts and handles the base path.
+import Default from '@astrojs/starlight/components/Head.astro';
+---
+
+<Default><slot /></Default>
+
+<script>
+  import '../scripts/learn-tabs.js';
+  import '../scripts/quiz.js';
+  import '../scripts/params.js';
+  import '../scripts/shots.js';
+</script>

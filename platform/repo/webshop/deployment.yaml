@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webshop
+  labels:
+    app: webshop
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: webshop
+  template:
+    metadata:
+      labels:
+        app: webshop
+    spec:
+      securityContext:
+        runAsNonRoot: true
+      containers:
+        - name: webshop
+          image: ghcr.io/ndum/cc/webshop:1.0.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8080
+          env:
+            - name: SHOP_NAME
+              value: Veloatelier Matte
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 500m
+              memory: 128Mi
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            timeoutSeconds: 3
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            # A busy pod may need longer than the default second, a failed liveness check restarts it
+            timeoutSeconds: 3

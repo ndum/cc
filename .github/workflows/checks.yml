@@ -21,7 +21,7 @@ jobs:
         with:
           node-version: "26"
           cache: pnpm
-      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
         with:
           python-version: "3.13"
       - name: Install with the release age policy
@@ -34,15 +34,25 @@ jobs:
         working-directory: site
         run: node --test "tests/*.test.mjs"
       - name: Shell scripts of the lab pass ShellCheck
-        run: shellcheck lab/*.sh lab/one-deploy/*.sh
+        run: shellcheck lab/*.sh lab/one-deploy/*.sh lab/iaas/*.sh lab/tenants/*.sh platform/*.sh platform/gitea/*.sh platform/repo/tofu/*.sh platform/observability/*.sh platform/operations/*.sh
       - name: Python scripts compile
-        run: python -m py_compile checks/check.py scripts/params.py
+        run: python -m py_compile checks/check.py scripts/params.py case/webshop/app.py case/webshop/load.py
       - name: The site builds
         env:
           ASTRO_TELEMETRY_DISABLED: "1"
         run: pnpm --filter ./site run build
+      - name: Every internal link and anchor of the site resolves
+        run: python scripts/check_links.py
       - name: Figures are reproducible
         run: |
+          node figures/start.mjs
+          node figures/basics.mjs
+          node figures/iaas.mjs
+          node figures/tenants.mjs
+          node figures/platform.mjs
+          node figures/observability.mjs
+          node figures/operations.mjs
+          node figures/extras.mjs
           node figures/favicon.mjs
           git diff --exit-code
 
@@ -51,7 +61,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
         with:
           python-version: "3.13"
       - name: House style

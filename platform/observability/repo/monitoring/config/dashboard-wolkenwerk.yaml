@@ -1,0 +1,287 @@
+# Dashboard of the platform team, the Grafana sidecar loads every config map with the label grafana_dashboard
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dashboard-wolkenwerk
+  labels:
+    grafana_dashboard: "1"
+data:
+  wolkenwerk.json: |
+    {
+      "title": "Wolkenwerk platform",
+      "uid": "wolkenwerk",
+      "schemaVersion": 39,
+      "time": {
+        "from": "now-1h",
+        "to": "now"
+      },
+      "refresh": "30s",
+      "panels": [
+        {
+          "type": "stat",
+          "title": "Hosts in OpenNebula",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "gridPos": {
+            "x": 0,
+            "y": 0,
+            "w": 6,
+            "h": 4
+          },
+          "fieldConfig": {
+            "defaults": {
+              "unit": "none"
+            },
+            "overrides": []
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "expr": "opennebula_host_total"
+            }
+          ]
+        },
+        {
+          "type": "stat",
+          "title": "VMs in OpenNebula",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "gridPos": {
+            "x": 6,
+            "y": 0,
+            "w": 6,
+            "h": 4
+          },
+          "fieldConfig": {
+            "defaults": {
+              "unit": "none"
+            },
+            "overrides": []
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "expr": "opennebula_vm_total"
+            }
+          ]
+        },
+        {
+          "type": "stat",
+          "title": "Web shop requests per second",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "gridPos": {
+            "x": 12,
+            "y": 0,
+            "w": 6,
+            "h": 4
+          },
+          "fieldConfig": {
+            "defaults": {
+              "unit": "reqps"
+            },
+            "overrides": []
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "expr": "sum(rate(webshop_requests_total[5m]))"
+            }
+          ]
+        },
+        {
+          "type": "stat",
+          "title": "Web shop errors in percent",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "gridPos": {
+            "x": 18,
+            "y": 0,
+            "w": 6,
+            "h": 4
+          },
+          "fieldConfig": {
+            "defaults": {
+              "unit": "percent"
+            },
+            "overrides": []
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "expr": "100 * (sum(rate(webshop_requests_total{code=~\"5..\"}[5m])) or vector(0)) / clamp_min(sum(rate(webshop_requests_total[5m])), 0.001)"
+            }
+          ]
+        },
+        {
+          "type": "timeseries",
+          "title": "Memory of the nodes allocated to VMs",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "gridPos": {
+            "x": 0,
+            "y": 4,
+            "w": 12,
+            "h": 8
+          },
+          "fieldConfig": {
+            "defaults": {
+              "unit": "percentunit"
+            },
+            "overrides": []
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "expr": "opennebula_host_mem_usage_bytes / opennebula_host_mem_total_bytes",
+              "legendFormat": "host {{one_host_id}}"
+            }
+          ]
+        },
+        {
+          "type": "timeseries",
+          "title": "CPU of the k3s VMs seen by libvirt",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "gridPos": {
+            "x": 12,
+            "y": 4,
+            "w": 12,
+            "h": 8
+          },
+          "fieldConfig": {
+            "defaults": {
+              "unit": "none"
+            },
+            "overrides": []
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "expr": "rate(opennebula_libvirt_cpu_seconds_total[5m])",
+              "legendFormat": "{{instance}} {{one_vm_id}}"
+            }
+          ]
+        },
+        {
+          "type": "timeseries",
+          "title": "Web shop requests by status code",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "gridPos": {
+            "x": 0,
+            "y": 12,
+            "w": 12,
+            "h": 8
+          },
+          "fieldConfig": {
+            "defaults": {
+              "unit": "reqps"
+            },
+            "overrides": []
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "expr": "sum by (code) (rate(webshop_requests_total[5m]))",
+              "legendFormat": "{{code}}"
+            }
+          ]
+        },
+        {
+          "type": "timeseries",
+          "title": "Web shop response time, 95th percentile",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "gridPos": {
+            "x": 12,
+            "y": 12,
+            "w": 12,
+            "h": 8
+          },
+          "fieldConfig": {
+            "defaults": {
+              "unit": "s"
+            },
+            "overrides": []
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "expr": "histogram_quantile(0.95, sum by (le) (rate(webshop_request_duration_seconds_bucket[5m])))",
+              "legendFormat": "p95"
+            }
+          ]
+        },
+        {
+          "type": "timeseries",
+          "title": "CPU per namespace",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "gridPos": {
+            "x": 0,
+            "y": 20,
+            "w": 12,
+            "h": 8
+          },
+          "fieldConfig": {
+            "defaults": {
+              "unit": "none"
+            },
+            "overrides": []
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "expr": "sum by (namespace) (rate(container_cpu_usage_seconds_total{container!=\"\"}[5m]))",
+              "legendFormat": "{{namespace}}"
+            }
+          ]
+        },
+        {
+          "type": "timeseries",
+          "title": "Memory requests of members against their quota",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "gridPos": {
+            "x": 12,
+            "y": 20,
+            "w": 12,
+            "h": 8
+          },
+          "fieldConfig": {
+            "defaults": {
+              "unit": "percentunit"
+            },
+            "overrides": []
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "expr": "kube_resourcequota{resource=\"requests.memory\",type=\"used\"} / on (namespace, resourcequota, resource) kube_resourcequota{resource=\"requests.memory\",type=\"hard\"}",
+              "legendFormat": "{{namespace}}"
+            }
+          ]
+        }
+      ]
+    }

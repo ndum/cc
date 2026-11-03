@@ -1,0 +1,60 @@
+# Service level of the web shop and its alerts, chapter 5.3
+#
+# SLO: 99.5 % of the requests to the shop are answered without a server error, measured over 7 days.
+# The error budget is 0.5 % of the requests. The burn rate says how many times faster than allowed
+# the budget is used up, at 14.4 a 7-day budget would be gone in about 12 hours.
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: webshop-slo
+spec:
+  groups:
+    - name: webshop-slo
+      rules:
+        # Recording rules compute the error ratio once, alerts and dashboards reuse it
+        - record: webshop:error_ratio:rate5m
+          expr: |
+            sum(rate(webshop_requests_total{code=~"5.."}[5m]))
+            / clamp_min(sum(rate(webshop_requests_total[5m])), 0.001)
+        - record: webshop:error_ratio:rate1h
+          expr: |
+            sum(rate(webshop_requests_total{code=~"5.."}[1h]))
+            / clamp_min(sum(rate(webshop_requests_total[1h])), 0.001)
+
+        # Symptom, the customers get errors and the budget burns fast. Both windows must agree,
+        # the short one ends the alert quickly once the cause is gone
+        - alert: WebshopErrorBudgetBurn
+          expr: |
+            webshop:error_ratio:rate5m > (14.4 * 0.005)
+            and
+            webshop:error_ratio:rate1h > (14.4 * 0.005)
+          for: 2m
+          labels:
+            severity: critical
+            namespace: velo
+          annotations:
+            summary: The web shop of Veloatelier Matte answers too many requests with errors
+            description: '{{ $value | humanizePercentage }} of the requests failed in the last five minutes, the SLO allows 0.5 %.'
+
+        # Symptom, the customers wait
+        - alert: WebshopSlow
+          expr: |
+            histogram_quantile(0.95, sum by (le) (rate(webshop_request_duration_seconds_bucket[5m]))) > 0.5
+          for: 5m
+          labels:
+            severity: warning
+            namespace: velo
+          annotations:
+            summary: The web shop answers slowly
+            description: 95 % of the requests took up to {{ $value | humanizeDuration }}, the goal is 0.5 s.
+
+        # Symptom, nothing answers at all
+        - alert: WebshopDown
+          expr: sum(up{job="webshop"}) == 0 or absent(up{job="webshop"})
+          for: 1m
+          labels:
+            severity: critical
+            namespace: velo
+          annotations:
+            summary: No pod of the web shop answers Prometheus
+            description: Prometheus reaches none of the web shop pods.

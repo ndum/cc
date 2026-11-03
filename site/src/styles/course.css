@@ -1,0 +1,665 @@
+/* Course building blocks: boxes, tabs, quizzes and the parameter generator. Colours come from Starlight's
+   variables, so light and dark mode follow the site theme. */
+
+/* Boxes: assignment, goals, deepdive, exercise, selfcheck, solution */
+.lt-box {
+  --lt-color: var(--sl-color-accent);
+  --lt-bg: var(--sl-color-accent-low);
+  margin-block: 1.25rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--sl-color-gray-5);
+  border-inline-start: 0.3rem solid var(--lt-color);
+  border-radius: 0.5rem;
+  background: color-mix(in srgb, var(--lt-bg) 35%, transparent);
+}
+.lt-assignment {
+  --lt-color: var(--sl-color-orange);
+  --lt-bg: var(--sl-color-orange-low);
+}
+.lt-goals {
+  --lt-color: var(--sl-color-accent);
+  --lt-bg: var(--sl-color-accent-low);
+}
+.lt-exercise,
+.lt-selfcheck {
+  --lt-color: var(--sl-color-blue);
+  --lt-bg: var(--sl-color-blue-low);
+}
+.lt-solution {
+  --lt-color: var(--sl-color-green);
+  --lt-bg: var(--sl-color-green-low);
+}
+.lt-deepdive {
+  --lt-color: var(--sl-color-purple);
+  --lt-bg: var(--sl-color-purple-low);
+}
+.lt-box-title,
+.lt-solution > summary {
+  margin: 0 0 0.5rem;
+  font-weight: 600;
+  color: var(--sl-color-white);
+}
+/* The title of a deep dive is a heading for the table of contents, but looks like the other titles.
+   Starlight sets the size of a heading on the wrapper of its anchor link as well. */
+.lt-box .sl-heading-wrapper:has(> .lt-box-title),
+.lt-box h3.lt-box-title {
+  font-size: inherit;
+  line-height: inherit;
+}
+.lt-box-kind {
+  display: block;
+  font-size: var(--sl-text-xs);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--lt-color);
+}
+.lt-solution > summary {
+  margin: 0;
+  cursor: pointer;
+}
+.lt-solution[open] > summary {
+  margin-bottom: 0.5rem;
+}
+/* Steps for an own hypervisor: muted and closed, so that smartlearn users can skip them */
+.lt-selfhost {
+  --lt-color: var(--sl-color-gray-3);
+  --lt-bg: var(--sl-color-gray-6);
+  border-style: dashed;
+  border-inline-start-style: solid;
+}
+.lt-selfhost > summary {
+  margin: 0;
+  cursor: pointer;
+  color: var(--sl-color-gray-2);
+}
+/* Kind and hint share the line of the disclosure marker */
+.lt-selfhost > summary > .lt-box-kind {
+  display: inline;
+  margin-inline-end: 0.5rem;
+}
+.lt-selfhost[open] > summary {
+  margin-bottom: 0.5rem;
+}
+/* More on a section: closed and quiet, so that a long page shows the core of each section first */
+.lt-details {
+  --lt-color: var(--sl-color-gray-4);
+  --lt-bg: var(--sl-color-gray-6);
+  padding-block: 0.5rem;
+}
+.lt-details > summary {
+  margin: 0;
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--sl-color-gray-2);
+}
+.lt-details > summary:hover {
+  color: var(--sl-color-white);
+}
+.lt-details[open] > summary {
+  margin-bottom: 0.5rem;
+}
+.lt-box > :last-child {
+  margin-bottom: 0;
+}
+
+/* Tabs: :::tabs with ::tab */
+lt-tabs {
+  display: block;
+  margin-block: 1.25rem;
+}
+.lt-tablist {
+  display: flex;
+  gap: 0.25rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  border-bottom: 1px solid var(--sl-color-gray-5);
+}
+.lt-tab {
+  appearance: none;
+  margin: 0 0 -1px;
+  padding: 0.5rem 0.9rem;
+  border: 0;
+  border-bottom: 0.2rem solid transparent;
+  background: none;
+  color: var(--sl-color-gray-2);
+  font: inherit;
+  cursor: pointer;
+}
+.lt-tab:hover {
+  color: var(--sl-color-white);
+}
+.lt-tab[aria-selected='true'] {
+  color: var(--sl-color-white);
+  border-bottom-color: var(--sl-color-accent);
+}
+.lt-tab:focus-visible,
+.lt-panel:focus-visible {
+  outline: 2px solid var(--sl-color-accent-high);
+  outline-offset: -2px;
+}
+.lt-panel[hidden] {
+  display: none;
+}
+/* Without JavaScript every panel is visible and introduced by its label */
+.lt-panel-label {
+  margin: 1rem 0 0.25rem;
+  font-weight: 600;
+  color: var(--sl-color-white);
+}
+.lt-panel-label[hidden] {
+  display: none;
+}
+/* While scripting is on but the element is not upgraded yet, show only the first panel */
+@media (scripting: enabled) {
+  lt-tabs:not(:defined) > .lt-panel:not(:first-of-type) {
+    display: none;
+  }
+  lt-tabs:not(:defined) .lt-panel-label {
+    display: none;
+  }
+}
+@media print {
+  .lt-tablist {
+    display: none;
+  }
+  .lt-panel[hidden],
+  .lt-panel-label[hidden] {
+    display: block;
+  }
+}
+
+/* Figures generated as SVG by figures/*.mjs and inlined by remark-inline-figures */
+.lt-figure {
+  margin-block: 1.5rem;
+  /* On a narrow screen a figure keeps its minimum width and scrolls sideways, so its labels stay
+     readable */
+  overflow-x: auto;
+}
+.lt-figure svg {
+  display: block;
+  width: 100%;
+  min-width: 32rem;
+  max-width: 42rem;
+  height: auto;
+}
+
+/* Screenshots of the lab interfaces. They are taken at twice their CSS size, so the dialog of
+   scripts/shots.js shows them sharp at their real size when the column is too narrow to read them */
+.lt-shot {
+  position: relative;
+  margin-block: 1.5rem;
+}
+.lt-shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--sl-color-hairline);
+  border-radius: 0.5rem;
+  box-shadow: var(--sl-shadow-sm);
+  cursor: zoom-in;
+}
+.lt-shot-zoom {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: 1px solid var(--sl-color-gray-5);
+  border-radius: 0.375rem;
+  background: var(--sl-color-bg);
+  color: var(--sl-color-text);
+  /* Hidden until needed, so it does not cover the buttons in the screenshot. A tap on the
+     picture opens it as well */
+  opacity: 0;
+  cursor: pointer;
+}
+.lt-shot:hover .lt-shot-zoom,
+.lt-shot-zoom:focus-visible {
+  opacity: 1;
+}
+.lt-shot-zoom:focus-visible {
+  border-color: var(--sl-color-accent);
+}
+.lt-shot-dialog {
+  /* The reset of Starlight removes the auto margin that centres a modal dialog */
+  margin: auto;
+  max-width: 96vw;
+  max-height: 96vh;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  overflow: auto;
+}
+.lt-shot-dialog::backdrop {
+  background: rgb(0 0 0 / 0.75);
+}
+.lt-shot-dialog img {
+  display: block;
+  max-width: 96vw;
+  height: auto;
+  border-radius: 0.5rem;
+  cursor: zoom-out;
+}
+.lt-shot-close {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  padding: 0.25rem 0.75rem;
+  border: 1px solid var(--sl-color-gray-5);
+  border-radius: 0.375rem;
+  background: var(--sl-color-bg);
+  color: var(--sl-color-text);
+  font: inherit;
+  cursor: pointer;
+}
+/* Diagrams drawn by figures/diagram.mjs. The palette is set once for light and once for dark mode,
+   the shapes only use these variables */
+.fig {
+  --fig-ground: #f5f7fa;
+  --fig-card: #ffffff;
+  --fig-card-border: #d8dee8;
+  --fig-shadow: rgb(15 23 42 / 0.07);
+  --fig-title: #0f172a;
+  --fig-sub: #475569;
+  --fig-mono: #1d4ed8;
+  --fig-label: #334155;
+  --fig-line: #94a3b8;
+  --fig-arrow: #475569;
+  --fig-blue: #2563eb;
+  --fig-blue-text: #1d4ed8;
+  --fig-blue-soft: #dbe6fd;
+  --fig-violet: #7c3aed;
+  --fig-violet-text: #6d28d9;
+  --fig-violet-card: #faf7ff;
+  --fig-violet-border: #d9ccf9;
+  --fig-band-1: #eef2f7;
+  --fig-band-1-border: #dde3ec;
+  --fig-band-2: #eaf1fe;
+  --fig-band-2-border: #c9d9fb;
+  --fig-band-3: #f3effe;
+  --fig-band-3-border: #ddd2fb;
+  --fig-band-4: #e7f5f2;
+  --fig-band-4-border: #c3e6de;
+  --fig-teal: #0d9488;
+}
+:root[data-theme='dark'] .fig {
+  --fig-ground: #141b26;
+  --fig-card: #1b2433;
+  --fig-card-border: #2c3a50;
+  --fig-shadow: rgb(0 0 0 / 0.35);
+  --fig-title: #f1f5f9;
+  --fig-sub: #a3adbd;
+  --fig-mono: #93c5fd;
+  --fig-label: #cbd5e1;
+  --fig-line: #64748b;
+  --fig-arrow: #94a3b8;
+  --fig-blue: #60a5fa;
+  --fig-blue-text: #93c5fd;
+  --fig-blue-soft: #1e2f55;
+  --fig-violet: #a78bfa;
+  --fig-violet-text: #c4b5fd;
+  --fig-violet-card: #1e1a33;
+  --fig-violet-border: #4c3d80;
+  --fig-band-1: #182131;
+  --fig-band-1-border: #26324a;
+  --fig-band-2: #16213a;
+  --fig-band-2-border: #2a3b63;
+  --fig-band-3: #1d1a33;
+  --fig-band-3-border: #3b3170;
+  --fig-band-4: #13262a;
+  --fig-band-4-border: #24484c;
+  --fig-teal: #2dd4bf;
+}
+.fig text {
+  font-family: var(--__sl-font, system-ui, sans-serif);
+}
+.fig .d-ground {
+  fill: var(--fig-ground);
+}
+.fig .d-band {
+  fill: var(--fig-band-1);
+  stroke: var(--fig-band-1-border);
+  stroke-width: 1;
+}
+.fig .d-band-2 {
+  fill: var(--fig-band-2);
+  stroke: var(--fig-band-2-border);
+}
+.fig .d-band-3 {
+  fill: var(--fig-band-3);
+  stroke: var(--fig-band-3-border);
+}
+.fig .d-band-4 {
+  fill: var(--fig-band-4);
+  stroke: var(--fig-band-4-border);
+}
+.fig .d-shadow {
+  fill: var(--fig-shadow);
+}
+.fig .d-tile {
+  fill: var(--fig-card);
+  stroke: var(--fig-card-border);
+  stroke-width: 1;
+}
+.fig .d-tile-accent {
+  stroke: var(--fig-blue);
+  stroke-width: 1.5;
+}
+.fig .d-tile-violet {
+  fill: var(--fig-violet-card);
+  stroke: var(--fig-violet-border);
+}
+.fig .d-strip {
+  fill: none;
+  stroke: var(--fig-card-border);
+  stroke-width: 1;
+  stroke-dasharray: 3 3;
+}
+.fig .d-title {
+  fill: var(--fig-title);
+  font-size: 13px;
+  font-weight: 600;
+}
+.fig .d-title-violet {
+  fill: var(--fig-violet-text);
+}
+.fig .d-title-small {
+  fill: var(--fig-title);
+  font-size: 12px;
+  font-weight: 600;
+}
+.fig .d-cell-provider {
+  fill: var(--fig-band-1);
+  stroke: none;
+}
+.fig .d-sub {
+  fill: var(--fig-sub);
+  font-size: 11px;
+}
+.fig .d-code {
+  fill: var(--fig-mono);
+  font-family: var(--__sl-font-mono, monospace);
+  font-size: 11px;
+}
+.fig .d-label {
+  fill: var(--fig-label);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+.fig .d-label-blue {
+  fill: var(--fig-blue-text);
+}
+.fig .d-label-violet {
+  fill: var(--fig-violet-text);
+}
+.fig .d-meta {
+  fill: var(--fig-sub);
+  font-size: 11px;
+}
+.fig .d-icon {
+  fill: none;
+  stroke: var(--fig-blue);
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.fig .d-icon-violet {
+  stroke: var(--fig-violet);
+}
+.fig .d-icon-accent {
+  stroke: var(--fig-blue);
+}
+/* The tone classes carry two class names, so they win over the base rules of a tag that follow */
+.fig .d-tag.d-tag-violet {
+  fill: var(--fig-violet-card);
+  stroke: var(--fig-violet-border);
+}
+.fig .d-tag-text.d-tag-text-violet {
+  fill: var(--fig-violet-text);
+}
+.fig .d-label-teal {
+  fill: var(--fig-teal);
+}
+.fig .d-tag {
+  fill: var(--fig-blue-soft);
+}
+.fig .d-tag-text {
+  fill: var(--fig-blue-text);
+  font-size: 11px;
+  font-weight: 600;
+}
+.fig .d-line {
+  fill: none;
+  stroke: var(--fig-line);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.fig .d-line-accent {
+  stroke: var(--fig-blue);
+  stroke-width: 2;
+}
+.fig .d-line-violet {
+  stroke: var(--fig-violet);
+  stroke-width: 2;
+}
+.fig .d-dashed {
+  stroke-dasharray: 6 5;
+}
+.fig .d-arrow {
+  fill: none;
+  stroke: var(--fig-arrow);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.fig .d-arrow-accent {
+  stroke: var(--fig-blue);
+  stroke-width: 2;
+}
+.fig .d-head {
+  fill: var(--fig-arrow);
+}
+.fig .d-head-accent {
+  fill: var(--fig-blue);
+}
+/* Fills, axes and grid lines for small charts in the figures */
+.fig .d-fill-blue {
+  fill: var(--fig-blue);
+}
+.fig .d-fill-violet {
+  fill: var(--fig-violet);
+}
+.fig .d-fill-teal {
+  fill: var(--fig-teal);
+}
+.fig .d-fill-soft {
+  fill: var(--fig-band-1);
+  stroke: var(--fig-band-1-border);
+}
+.fig .d-line-teal {
+  stroke: var(--fig-teal);
+  stroke-width: 2;
+}
+.fig .d-axis {
+  fill: none;
+  stroke: var(--fig-line);
+  stroke-width: 1;
+}
+.fig .d-grid {
+  fill: none;
+  stroke: var(--fig-card-border);
+  stroke-width: 1;
+  stroke-dasharray: 2 3;
+}
+
+/* Starlight spaces sibling elements in page content, controls in one row need no gap from that */
+.lt-quiz-answer > * {
+  margin: 0;
+}
+.lt-quiz-answer button {
+  font: inherit;
+  font-size: var(--sl-text-sm);
+  padding: 0.3rem 0.85rem;
+  border: 1px solid var(--sl-color-gray-4);
+  border-radius: 0.3rem;
+  background: var(--sl-color-gray-6);
+  color: var(--sl-color-white);
+  cursor: pointer;
+}
+
+/* Quizzes: <lt-quiz> from quiz.js */
+lt-quiz {
+  display: block;
+  margin-block: 1.25rem;
+}
+.lt-question {
+  --lt-color: var(--sl-color-blue);
+  --lt-bg: var(--sl-color-blue-low);
+}
+.lt-quiz-answer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.75rem;
+  align-items: center;
+  margin-block: 0.75rem;
+}
+.lt-quiz-answer label {
+  font-weight: 600;
+  color: var(--sl-color-white);
+}
+.lt-quiz-answer input {
+  width: 9rem;
+  padding: 0.3rem 0.5rem;
+  border: 1px solid var(--sl-color-gray-4);
+  border-radius: 0.3rem;
+  background: var(--sl-color-black);
+  color: var(--sl-color-white);
+  font: inherit;
+  font-variant-numeric: tabular-nums;
+}
+.lt-quiz-answer input[aria-invalid='true'] {
+  border-color: var(--sl-color-red);
+}
+.lt-quiz-answer input[aria-invalid='false'] {
+  border-color: var(--sl-color-green);
+}
+.lt-quiz-feedback {
+  flex-basis: 100%;
+  margin: 0;
+  font-size: var(--sl-text-sm);
+}
+.lt-quiz-feedback:empty {
+  display: none;
+}
+.lt-quiz-feedback[data-state='right'] {
+  color: var(--sl-color-green-high);
+}
+.lt-quiz-feedback[data-state='wrong'],
+.lt-quiz-feedback[data-state='invalid'] {
+  color: var(--sl-color-red-high);
+}
+.lt-quiz-summary {
+  margin-block: 1.25rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--sl-color-gray-5);
+  border-inline-start: 0.3rem solid var(--sl-color-accent);
+  border-radius: 0.5rem;
+}
+.lt-quiz-summary > :first-child {
+  margin-top: 0;
+}
+.lt-quiz-summary > :last-child {
+  margin-bottom: 0;
+}
+
+/* Parameter generator: <cc-params> from params.js */
+cc-params {
+  display: block;
+  margin-block: 1.25rem;
+  padding: 1rem;
+  border: 1px solid var(--sl-color-gray-5);
+  border-radius: 0.5rem;
+}
+.cc-params-field {
+  display: grid;
+  gap: 0.25rem;
+  margin-block: 0.5rem;
+}
+.cc-params-field label {
+  font-weight: 600;
+  color: var(--sl-color-white);
+}
+.cc-params-field input {
+  font: inherit;
+  max-width: 20rem;
+  padding: 0.3rem 0.5rem;
+  border: 1px solid var(--sl-color-gray-4);
+  border-radius: 0.3rem;
+  background: var(--sl-color-black);
+  color: var(--sl-color-white);
+}
+.cc-params-hint {
+  font-size: var(--sl-text-xs);
+  color: var(--sl-color-gray-3);
+}
+.cc-params-note {
+  margin-block: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  border-inline-start: 0.3rem solid var(--sl-color-orange);
+  border-radius: 0.3rem;
+  background: color-mix(in srgb, var(--sl-color-orange-low) 35%, transparent);
+  font-size: var(--sl-text-sm);
+}
+.cc-params-error {
+  color: var(--sl-color-red-high);
+}
+.cc-params-error:empty {
+  display: none;
+}
+.cc-params-label {
+  font-weight: 600;
+}
+.cc-params-result button {
+  font: inherit;
+  font-size: var(--sl-text-sm);
+  padding: 0.3rem 0.85rem;
+  border: 1px solid var(--sl-color-gray-4);
+  border-radius: 0.3rem;
+  background: var(--sl-color-gray-6);
+  color: var(--sl-color-white);
+  cursor: pointer;
+}
+
+/* Wide screens. Starlight keeps the text column at 45rem, which leaves most of a large display empty.
+   From 100rem on the column and both sidebars grow in steps, so tables, code and screenshots use the
+   room. Figures grow a little and stay centred, their labels would otherwise outgrow the text */
+@media (min-width: 100rem) {
+  :root {
+    --sl-content-width: 54rem;
+  }
+}
+@media (min-width: 120rem) {
+  :root {
+    --sl-content-width: 62rem;
+    --sl-sidebar-width: 20rem;
+  }
+  .lt-figure svg {
+    max-width: 48rem;
+    margin-inline: auto;
+  }
+}
+@media (min-width: 140rem) {
+  :root {
+    --sl-content-width: 70rem;
+    --sl-sidebar-width: 21rem;
+  }
+  .lt-figure svg {
+    max-width: 52rem;
+  }
+}

@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 776 350" role="img" aria-labelledby="p3c4-roles-en-title p3c4-roles-en-desc">
+<title id="p3c4-roles-en-title">Roles and views in Sunstone</title>
+<desc id="p3c4-roles-en-desc">On the left is the platform team as oneadmin with the view admin. It runs the nodes, networks and datastores, creates the members with their admins, sets quotas and prices and maintains the shared template ubuntu. On the right is the member praxis. Its group admin praxis-admin has the view groupadmin and creates the users of the group, manages all VMs of the group, sets the quotas of their users and copies templates, but may not change the template ubuntu. The medical assistant praxis-mpa has the view cloud. This account starts VMs from ready-made templates and at most adjusts size and disks, and these VMs count against the group's quota. Look at the line at the bottom. A view only hides tabs. Permissions and ACLs decide whether a request is allowed.</desc>
+<defs><marker id="p3c4-roles-en-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"/></marker><marker id="p3c4-roles-en-head-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head d-head-accent" d="M 0 1 L 9 5 L 0 9 z"/></marker></defs>
+<rect class="d-ground" x="0" y="0" width="776" height="350" rx="14"/>
+<rect class="d-band d-band-1" x="16" y="16" width="232" height="268" rx="12"/>
+<text class="d-label" x="32" y="40" text-anchor="start">PLATFORM TEAM</text>
+<rect class="d-band d-band-1" x="264" y="16" width="496" height="268" rx="12"/>
+<text class="d-label" x="280" y="40" text-anchor="start">MEMBER</text>
+<text class="d-code" x="345.0504" y="40" text-anchor="start">praxis</text>
+<text class="d-meta" x="744" y="40" text-anchor="end">Praxis Rosenweg</text>
+<path class="d-arrow" d="M 232 81 L 278 81" marker-end="url(#p3c4-roles-en-head)"/>
+<path class="d-arrow" d="M 496 81 L 526 81" marker-end="url(#p3c4-roles-en-head)"/>
+<rect class="d-shadow" x="32" y="57.5" width="200" height="50" rx="10"/>
+<rect class="d-tile" x="32" y="56" width="200" height="50" rx="10"/>
+<g class="d-icon" transform="translate(44 72) scale(0.75)"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></g>
+<text class="d-title" x="72" y="78" text-anchor="start">oneadmin</text>
+<text class="d-sub" x="72" y="94" text-anchor="start">may do anything</text>
+<text class="d-sub" x="32" y="132" text-anchor="start">Runs nodes, networks, datastores</text>
+<text class="d-sub" x="32" y="152" text-anchor="start">Creates members with admins</text>
+<text class="d-sub" x="32" y="172" text-anchor="start">Sets quotas and prices</text>
+<text class="d-sub" x="32" y="192" text-anchor="start">Maintains the template ubuntu</text>
+<text class="d-label" x="32" y="228" text-anchor="start">VIEW</text>
+<rect class="d-tag" x="72.9032" y="215" width="47" height="18" rx="9"/>
+<text class="d-tag-text" x="96.4032" y="227.5" text-anchor="middle">admin</text>
+<text class="d-sub" x="32" y="254" text-anchor="start">Everything, hosts and VDCs too</text>
+<rect class="d-shadow" x="280" y="57.5" width="216" height="50" rx="10"/>
+<rect class="d-tile" x="280" y="56" width="216" height="50" rx="10"/>
+<g class="d-icon" transform="translate(292 72) scale(0.75)"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></g>
+<text class="d-title" x="320" y="78" text-anchor="start">praxis-admin</text>
+<text class="d-sub" x="320" y="94" text-anchor="start">group admin</text>
+<text class="d-sub" x="280" y="132" text-anchor="start">Creates the users of the group</text>
+<text class="d-sub" x="280" y="152" text-anchor="start">Manages all VMs of the group</text>
+<text class="d-sub" x="280" y="172" text-anchor="start">Sets quotas for their users</text>
+<text class="d-sub" x="280" y="192" text-anchor="start">Copies ubuntu, cannot change it</text>
+<text class="d-label" x="280" y="228" text-anchor="start">VIEW</text>
+<rect class="d-tag" x="320.90319999999997" y="215" width="76" height="18" rx="9"/>
+<text class="d-tag-text" x="358.90319999999997" y="227.5" text-anchor="middle">groupadmin</text>
+<text class="d-sub" x="280" y="254" text-anchor="start">VMs, images, networks, users</text>
+<rect class="d-shadow" x="528" y="57.5" width="216" height="50" rx="10"/>
+<rect class="d-tile" x="528" y="56" width="216" height="50" rx="10"/>
+<g class="d-icon" transform="translate(540 72) scale(0.75)"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></g>
+<text class="d-title" x="568" y="78" text-anchor="start">praxis-mpa</text>
+<text class="d-sub" x="568" y="94" text-anchor="start">medical assistant</text>
+<text class="d-sub" x="528" y="132" text-anchor="start">Starts VMs from templates</text>
+<text class="d-sub" x="528" y="152" text-anchor="start">Adjusts size and disks</text>
+<text class="d-sub" x="528" y="172" text-anchor="start">Uses the group's quota</text>
+<text class="d-label" x="528" y="228" text-anchor="start">VIEW</text>
+<rect class="d-tag" x="568.9032" y="215" width="44" height="18" rx="9"/>
+<text class="d-tag-text" x="590.9032" y="227.5" text-anchor="middle">cloud</text>
+<text class="d-sub" x="528" y="254" text-anchor="start">VMs, templates, services, account</text>
+<rect class="d-strip" x="16" y="300" width="744" height="34" rx="8"/>
+<text class="d-sub" x="388" y="321" text-anchor="middle">Every view uses the same API as the CLI. Permissions and ACLs decide whether a request is allowed.</text>
+</svg>

@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 332" role="img" aria-labelledby="p6c4-cost-de-title p6c4-cost-de-desc">
+<title id="p6c4-cost-de-title">Die Vollkosten von Wolkenwerk pro Jahr</title>
+<desc id="p6c4-cost-de-desc">Waagrechte Balken für die vier Posten der Vollkostenrechnung, nach Grösse sortiert. Die Arbeit kostet 13’000 Franken im Jahr, die Hardware 1’800, die übrigen Posten 1’500 und der Strom 828 Franken. Zusammen sind es 17’128 Franken. Die Arbeit macht drei Viertel der Kosten aus, der Strom keine 5 %.</desc>
+<defs><marker id="p6c4-cost-de-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"/></marker><marker id="p6c4-cost-de-head-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head d-head-accent" d="M 0 1 L 9 5 L 0 9 z"/></marker></defs>
+<rect class="d-ground" x="0" y="0" width="760" height="332" rx="14"/>
+<text class="d-title" x="32" y="43">Arbeit</text>
+<rect class="d-fill-blue" x="136" y="28" width="440.0" height="20" rx="3"/>
+<text class="d-sub" x="586" y="43" text-anchor="start"><tspan class="d-title-small">13’000 Franken</tspan><tspan class="d-sub">, 75,9 %</tspan></text>
+<text class="d-meta" x="136" y="66" text-anchor="start">10 % einer Vollzeitstelle zu 130’000 Franken mit Sozialabgaben</text>
+<text class="d-title" x="32" y="107">Hardware</text>
+<rect class="d-fill-blue" x="136" y="92" width="60.9" height="20" rx="3"/>
+<text class="d-sub" x="206.9230769230769" y="107" text-anchor="start"><tspan class="d-title-small">1’800 Franken</tspan><tspan class="d-sub">, 10,5 %</tspan></text>
+<text class="d-meta" x="136" y="130" text-anchor="start">zwei Knoten für 7’000 und ein Front-end für 2’000 Franken, fünf Jahre</text>
+<text class="d-title" x="32" y="171">Übriges</text>
+<rect class="d-fill-blue" x="136" y="156" width="50.8" height="20" rx="3"/>
+<text class="d-sub" x="196.76923076923077" y="171" text-anchor="start"><tspan class="d-title-small">1’500 Franken</tspan><tspan class="d-sub">, 8,8 %</tspan></text>
+<text class="d-meta" x="136" y="194" text-anchor="start">Internet, Platz im Rack, Kopie der Backups ausser Haus</text>
+<text class="d-title" x="32" y="235">Strom</text>
+<rect class="d-fill-blue" x="136" y="220" width="28.0" height="20" rx="3"/>
+<text class="d-sub" x="174.02461538461537" y="235" text-anchor="start"><tspan class="d-title-small">828 Franken</tspan><tspan class="d-sub">, 4,8 %</tspan></text>
+<text class="d-meta" x="136" y="258" text-anchor="start">durchschnittlich 300 Watt, 2’628 kWh zu 31,5 Rappen</text>
+<path class="d-axis" d="M 32 276 H 728"/>
+<text class="d-title" x="32" y="302">Total</text>
+<text class="d-title" x="136" y="302">17’128 Franken pro Jahr</text>
+</svg>

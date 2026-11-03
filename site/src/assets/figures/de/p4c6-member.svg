@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 432" role="img" aria-labelledby="p4c6-member-de-title p4c6-member-de-desc">
+<title id="p4c6-member-de-title">Ein eigenes Mitglied mit AppProject</title>
+<desc id="p4c6-member-de-desc">Der Zielzustand von Auftrag B. Oben in Gitea beantragt ein Pull Request den Namespace aus der Vorlage, nach dem Review liegen der Ordner des Mitglieds und das AppProject auf main. In der Mitte holt Argo CD beide aus Git. Die Application des Mitglieds und eine Application zum Test nennen das AppProject, das als Ziel nur den Namespace des Mitglieds erlaubt. Unten im Cluster wendet Argo CD die Application des Mitglieds in seinem Namespace mit eigener Quota und LimitRange an. Achte auf die Application zum Test. Sie will in den Namespace velo eines anderen Mitglieds schreiben und Argo CD lehnt sie ab.</desc>
+<defs><marker id="p4c6-member-de-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"/></marker><marker id="p4c6-member-de-head-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head d-head-accent" d="M 0 1 L 9 5 L 0 9 z"/></marker></defs>
+<rect class="d-ground" x="0" y="0" width="760" height="432" rx="14"/>
+<rect class="d-band d-band-2" x="16" y="16" width="728" height="108" rx="12"/>
+<text class="d-label d-label-blue" x="32" y="40" text-anchor="start">GITEA</text>
+<text class="d-code" x="79.6132" y="40" text-anchor="start">wolkenwerk/platform</text>
+<rect class="d-band d-band-3" x="16" y="164" width="728" height="106" rx="12"/>
+<text class="d-label d-label-violet" x="32" y="188" text-anchor="start">ARGO CD</text>
+<rect class="d-band d-band-3" x="16" y="310" width="728" height="106" rx="12"/>
+<text class="d-label d-label-violet" x="32" y="334" text-anchor="start">IM CLUSTER</text>
+<path class="d-arrow d-arrow-accent" d="M 248 81 L 366 81" marker-end="url(#p4c6-member-de-head-accent)"/>
+<text class="d-sub" x="308" y="74" text-anchor="middle">Merge nach Review</text>
+<path class="d-arrow d-arrow-accent" d="M 380 204 L 380 108" marker-end="url(#p4c6-member-de-head-accent)"/>
+<text class="d-sub" x="390" y="150" text-anchor="start">holt</text>
+<path class="d-arrow" d="M 248 229 L 294 229" marker-end="url(#p4c6-member-de-head)"/>
+<text class="d-sub" x="272" y="222" text-anchor="middle">nennt</text>
+<path class="d-arrow" d="M 512 229 L 466 229" marker-end="url(#p4c6-member-de-head)"/>
+<text class="d-sub" x="488" y="222" text-anchor="middle">nennt</text>
+<path class="d-arrow d-arrow-accent" d="M 140 254 L 140 348" marker-end="url(#p4c6-member-de-head-accent)"/>
+<text class="d-sub" x="150" y="294" text-anchor="start">wendet an</text>
+<path class="d-arrow d-dashed" d="M 620 254 L 620 348" marker-end="url(#p4c6-member-de-head)"/>
+<text class="d-sub" x="630" y="294" text-anchor="start">abgelehnt</text>
+<rect class="d-shadow" x="32" y="57.5" width="216" height="50" rx="10"/>
+<rect class="d-tile" x="32" y="56" width="216" height="50" rx="10"/>
+<g class="d-icon" transform="translate(44 72) scale(0.75)"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></g>
+<text class="d-title" x="72" y="78" text-anchor="start">Pull Request</text>
+<text class="d-sub" x="72" y="94" text-anchor="start">Namespace aus der Vorlage</text>
+<rect class="d-shadow" x="368" y="57.5" width="360" height="50" rx="10"/>
+<rect class="d-tile" x="368" y="56" width="360" height="50" rx="10"/>
+<g class="d-icon" transform="translate(380 72) scale(0.75)"><circle cx="6" cy="6" r="2.5"/><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="9" r="2.5"/><path d="M6 8.5v7M18 11.5c0 3-6 2-10.5 5"/></g>
+<text class="d-title" x="408" y="78" text-anchor="start">main</text>
+<text class="d-sub" x="408" y="94" text-anchor="start">Ordner des Mitglieds und AppProject</text>
+<rect class="d-shadow" x="32" y="205.5" width="216" height="50" rx="10"/>
+<rect class="d-tile" x="32" y="204" width="216" height="50" rx="10"/>
+<g class="d-icon" transform="translate(44 220) scale(0.75)"><path d="M20 12a8 8 0 0 1-14.3 4.9M4 12A8 8 0 0 1 18.3 7.1"/><path d="M18.5 3v4.3h-4.3M5.5 21v-4.3h4.3"/></g>
+<text class="d-title" x="72" y="226" text-anchor="start">Application</text>
+<text class="d-sub" x="72" y="242" text-anchor="start">des Mitglieds</text>
+<rect class="d-shadow" x="296" y="205.5" width="168" height="50" rx="10"/>
+<rect class="d-tile d-tile-accent" x="296" y="204" width="168" height="50" rx="10"/>
+<g class="d-icon d-icon-accent" transform="translate(308 220) scale(0.75)"><path d="M12 3 19 6v5.5c0 4.4-3 8-7 9.5-4-1.5-7-5.1-7-9.5V6z"/></g>
+<text class="d-title" x="336" y="226" text-anchor="start">AppProject</text>
+<text class="d-sub" x="336" y="242" text-anchor="start">nur sein Namespace</text>
+<rect class="d-shadow" x="512" y="205.5" width="216" height="50" rx="10"/>
+<rect class="d-tile" x="512" y="204" width="216" height="50" rx="10"/>
+<g class="d-icon" transform="translate(524 220) scale(0.75)"><path d="M20 12a8 8 0 0 1-14.3 4.9M4 12A8 8 0 0 1 18.3 7.1"/><path d="M18.5 3v4.3h-4.3M5.5 21v-4.3h4.3"/></g>
+<text class="d-title" x="552" y="226" text-anchor="start">Application zum Test</text>
+<text class="d-sub" x="552" y="242" text-anchor="start">will nach velo schreiben</text>
+<rect class="d-shadow" x="32" y="351.5" width="216" height="50" rx="10"/>
+<rect class="d-tile" x="32" y="350" width="216" height="50" rx="10"/>
+<text class="d-title" x="140" y="372" text-anchor="middle">Namespace des Mitglieds</text>
+<text class="d-sub" x="140" y="388" text-anchor="middle">eigene Quota und LimitRange</text>
+<rect class="d-shadow" x="512" y="351.5" width="216" height="50" rx="10"/>
+<rect class="d-tile" x="512" y="350" width="216" height="50" rx="10"/>
+<text class="d-title" x="620" y="372" text-anchor="middle">Namespace velo</text>
+<text class="d-sub" x="620" y="388" text-anchor="middle">anderes Mitglied</text>
+</svg>

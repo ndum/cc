@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 336" role="img" aria-labelledby="p4c4-gitops-en-title p4c4-gitops-en-desc">
+<title id="p4c4-gitops-en-title">The GitOps loop</title>
+<desc id="p4c4-gitops-en-desc">The platform team sends a change with git push to Gitea on the front-end, or opens a pull request that is merged after review. Argo CD in the k3s cluster polls the repo wolkenwerk/platform every minute with read-only access. It compares the desired state from Git with the live state, for example for the web shop in the namespace velo, and applies the differences. If someone changes the cluster by hand with kubectl scale, self-heal reverts the change. Pay attention to the direction of the arrows. Argo CD pulls the desired state itself, nobody pushes it into the cluster.</desc>
+<defs><marker id="p4c4-gitops-en-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"/></marker><marker id="p4c4-gitops-en-head-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head d-head-accent" d="M 0 1 L 9 5 L 0 9 z"/></marker></defs>
+<rect class="d-ground" x="0" y="0" width="760" height="336" rx="14"/>
+<rect class="d-band d-band-2" x="200" y="16" width="544" height="134" rx="12"/>
+<text class="d-label d-label-blue" x="216" y="40" text-anchor="start">FRONT-END</text>
+<rect class="d-tag" x="663" y="27" width="65" height="18" rx="9"/>
+<text class="d-tag-text" x="695.5" y="39.5" text-anchor="middle">port 3000</text>
+<rect class="d-band d-band-3" x="200" y="206" width="544" height="114" rx="12"/>
+<text class="d-label d-label-violet" x="216" y="230" text-anchor="start">K3S CLUSTER</text>
+<path class="d-arrow d-arrow-accent" d="M 176 81 L 214 81" marker-end="url(#p4c4-gitops-en-head-accent)"/>
+<path class="d-arrow d-arrow-accent" d="M 96 106 L 96 132 L 520 132 L 520 108" marker-end="url(#p4c4-gitops-en-head-accent)"/>
+<text class="d-code" x="530" y="124" text-anchor="start">git push</text>
+<path class="d-arrow d-arrow-accent" d="M 404 81 L 474 81" marker-end="url(#p4c4-gitops-en-head-accent)"/>
+<text class="d-sub" x="440" y="74" text-anchor="middle">merge</text>
+<path class="d-arrow d-arrow-accent" d="M 602 246 L 602 108" marker-end="url(#p4c4-gitops-en-head-accent)"/>
+<text class="d-sub" x="592" y="174" text-anchor="end">polls every minute</text>
+<text class="d-sub" x="592" y="190" text-anchor="end">read only</text>
+<path class="d-arrow d-arrow-accent" d="M 476 261 L 406 261" marker-end="url(#p4c4-gitops-en-head-accent)"/>
+<path class="d-arrow" d="M 404 281 L 474 281" marker-end="url(#p4c4-gitops-en-head)"/>
+<text class="d-sub" x="440" y="254" text-anchor="middle">applies</text>
+<text class="d-sub" x="440" y="298" text-anchor="middle">live state</text>
+<path class="d-arrow" d="M 176 271 L 214 271" marker-end="url(#p4c4-gitops-en-head)"/>
+<text class="d-sub" x="96" y="316" text-anchor="middle">self-heal reverts it</text>
+<rect class="d-shadow" x="16" y="57.5" width="160" height="50" rx="10"/>
+<rect class="d-tile" x="16" y="56" width="160" height="50" rx="10"/>
+<g class="d-icon" transform="translate(28 72) scale(0.75)"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M18 14.2a6.5 6.5 0 0 1 3.5 5.8"/></g>
+<text class="d-title" x="56" y="85.5" text-anchor="start">Platform team</text>
+<rect class="d-shadow" x="216" y="57.5" width="188" height="50" rx="10"/>
+<rect class="d-tile" x="216" y="56" width="188" height="50" rx="10"/>
+<g class="d-icon" transform="translate(228 72) scale(0.75)"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></g>
+<text class="d-title" x="256" y="78" text-anchor="start">Pull request</text>
+<text class="d-sub" x="256" y="94" text-anchor="start">review, merge</text>
+<rect class="d-shadow" x="476" y="57.5" width="252" height="50" rx="10"/>
+<rect class="d-tile" x="476" y="56" width="252" height="50" rx="10"/>
+<g class="d-icon" transform="translate(488 72) scale(0.75)"><circle cx="6" cy="6" r="2.5"/><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="9" r="2.5"/><path d="M6 8.5v7M18 11.5c0 3-6 2-10.5 5"/></g>
+<text class="d-title" x="516" y="78" text-anchor="start">Gitea</text>
+<text class="d-code" x="516" y="94" text-anchor="start">wolkenwerk/platform</text>
+<rect class="d-shadow" x="16" y="247.5" width="160" height="50" rx="10"/>
+<rect class="d-tile" x="16" y="246" width="160" height="50" rx="10"/>
+<g class="d-icon" transform="translate(28 262) scale(0.75)"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></g>
+<text class="d-title" x="56" y="268" text-anchor="start">By hand</text>
+<text class="d-code" x="56" y="284" text-anchor="start">kubectl scale</text>
+<rect class="d-shadow" x="216" y="247.5" width="188" height="50" rx="10"/>
+<rect class="d-tile" x="216" y="246" width="188" height="50" rx="10"/>
+<g class="d-icon" transform="translate(228 262) scale(0.75)"><path d="M12 3 20 7.5v9L12 21l-8-4.5v-9z"/><path d="M4 7.5 12 12l8-4.5M12 12v9"/></g>
+<text class="d-title" x="256" y="268" text-anchor="start">Web shop</text>
+<text class="d-sub" x="256" y="284" text-anchor="start">namespace velo</text>
+<rect class="d-shadow" x="476" y="247.5" width="252" height="50" rx="10"/>
+<rect class="d-tile d-tile-accent" x="476" y="246" width="252" height="50" rx="10"/>
+<g class="d-icon d-icon-accent" transform="translate(488 262) scale(0.75)"><path d="M20 12a8 8 0 0 1-14.3 4.9M4 12A8 8 0 0 1 18.3 7.1"/><path d="M18.5 3v4.3h-4.3M5.5 21v-4.3h4.3"/></g>
+<text class="d-title" x="516" y="268" text-anchor="start">Argo CD</text>
+<text class="d-sub" x="516" y="284" text-anchor="start">compares desired and live</text>
+</svg>

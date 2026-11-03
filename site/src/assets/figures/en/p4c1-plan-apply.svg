@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 308" role="img" aria-labelledby="p4c1-plan-apply-en-title p4c1-plan-apply-en-desc">
+<title id="p4c1-plan-apply-en-title">Plan and apply with the state</title>
+<desc id="p4c1-plan-apply-en-desc">The code in Git on the left is the desired state, and OpenNebula on the right holds the actual state. tofu plan reads the code, the state in terraform.tfstate and the actual state, and only shows what would change. tofu apply reads the code, changes the VMs through the OpenNebula API and then writes the state. On the far right someone changes a VM by hand in Sunstone or with the CLI. Notice that only apply changes anything, and that the next plan catches this drift because it reads the actual state.</desc>
+<defs><marker id="p4c1-plan-apply-en-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"/></marker><marker id="p4c1-plan-apply-en-head-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head d-head-accent" d="M 0 1 L 9 5 L 0 9 z"/></marker></defs>
+<rect class="d-ground" x="0" y="0" width="780" height="308" rx="14"/>
+<rect class="d-band d-band-1" x="16" y="16" width="148" height="276" rx="12"/>
+<text class="d-label" x="28" y="40" text-anchor="start">DESIRED STATE</text>
+<rect class="d-band d-band-2" x="204" y="16" width="192" height="276" rx="12"/>
+<text class="d-label d-label-blue" x="216" y="40" text-anchor="start">OPENTOFU</text>
+<rect class="d-band d-band-1" x="444" y="16" width="168" height="276" rx="12"/>
+<text class="d-label" x="456" y="40" text-anchor="start">ACTUAL STATE</text>
+<text class="d-label" x="660" y="40" text-anchor="start">DRIFT</text>
+<path class="d-arrow" d="M 152 81 L 214 81" marker-end="url(#p4c1-plan-apply-en-head)"/>
+<path class="d-arrow" d="M 152 251 L 214 251" marker-end="url(#p4c1-plan-apply-en-head)"/>
+<text class="d-sub" x="184" y="74" text-anchor="middle">reads</text>
+<text class="d-sub" x="184" y="244" text-anchor="middle">reads</text>
+<path class="d-arrow" d="M 300 141 L 300 108" marker-end="url(#p4c1-plan-apply-en-head)"/>
+<path class="d-arrow d-arrow-accent" d="M 300 226 L 300 193" marker-end="url(#p4c1-plan-apply-en-head-accent)"/>
+<text class="d-sub" x="310" y="128" text-anchor="start">reads</text>
+<text class="d-sub" x="310" y="213" text-anchor="start">writes</text>
+<path class="d-arrow" d="M 456 81 L 386 81" marker-end="url(#p4c1-plan-apply-en-head)"/>
+<path class="d-arrow d-arrow-accent" d="M 384 251 L 454 251" marker-end="url(#p4c1-plan-apply-en-head-accent)"/>
+<text class="d-sub" x="420" y="74" text-anchor="middle">reads</text>
+<text class="d-sub" x="420" y="244" text-anchor="middle">changes</text>
+<path class="d-arrow" d="M 660 166 L 602 166" marker-end="url(#p4c1-plan-apply-en-head)"/>
+<text class="d-sub" x="630" y="159" text-anchor="middle">changes</text>
+<rect class="d-shadow" x="28" y="57.5" width="124" height="220" rx="10"/>
+<rect class="d-tile" x="28" y="56" width="124" height="220" rx="10"/>
+<g class="d-icon" transform="translate(40 157) scale(0.75)"><circle cx="6" cy="6" r="2.5"/><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="9" r="2.5"/><path d="M6 8.5v7M18 11.5c0 3-6 2-10.5 5"/></g>
+<text class="d-title" x="68" y="163" text-anchor="start">Code in Git</text>
+<text class="d-code" x="68" y="179" text-anchor="start">tofu/*.tf</text>
+<rect class="d-shadow" x="216" y="57.5" width="168" height="50" rx="10"/>
+<rect class="d-tile" x="216" y="56" width="168" height="50" rx="10"/>
+<g class="d-icon" transform="translate(228 72) scale(0.75)"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></g>
+<text class="d-title" x="256" y="78" text-anchor="start">tofu plan</text>
+<text class="d-sub" x="256" y="94" text-anchor="start">shows changes</text>
+<rect class="d-shadow" x="216" y="142.5" width="168" height="50" rx="10"/>
+<rect class="d-tile" x="216" y="141" width="168" height="50" rx="10"/>
+<g class="d-icon" transform="translate(228 157) scale(0.75)"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></g>
+<text class="d-title" x="256" y="163" text-anchor="start">State</text>
+<text class="d-code" x="256" y="179" text-anchor="start">terraform.tfstate</text>
+<rect class="d-shadow" x="216" y="227.5" width="168" height="50" rx="10"/>
+<rect class="d-tile d-tile-accent" x="216" y="226" width="168" height="50" rx="10"/>
+<g class="d-icon d-icon-accent" transform="translate(228 242) scale(0.75)"><circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M4.2 6l2.3 1.8M17.5 16.2l2.3 1.8M4.2 18l2.3-1.8M17.5 7.8 19.8 6M2.5 12h3M18.5 12h3"/></g>
+<text class="d-title" x="256" y="248" text-anchor="start">tofu apply</text>
+<text class="d-sub" x="256" y="264" text-anchor="start">carries out the plan</text>
+<rect class="d-shadow" x="456" y="57.5" width="144" height="220" rx="10"/>
+<rect class="d-tile" x="456" y="56" width="144" height="220" rx="10"/>
+<g class="d-icon" transform="translate(468 157) scale(0.75)"><rect x="4" y="4" width="16" height="7" rx="1.5"/><rect x="4" y="13" width="16" height="7" rx="1.5"/><path d="M8 7.5h.01M8 16.5h.01"/></g>
+<text class="d-title" x="496" y="163" text-anchor="start">OpenNebula</text>
+<text class="d-sub" x="496" y="179" text-anchor="start">API 2633, VMs</text>
+<rect class="d-shadow" x="660" y="142.5" width="104" height="50" rx="10"/>
+<rect class="d-tile" x="660" y="141" width="104" height="50" rx="10"/>
+<text class="d-title" x="712" y="163" text-anchor="middle">By hand</text>
+<text class="d-sub" x="712" y="179" text-anchor="middle">Sunstone, CLI</text>
+</svg>

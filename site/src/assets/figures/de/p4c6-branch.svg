@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 278" role="img" aria-labelledby="p4c6-branch-de-title p4c6-branch-de-desc">
+<title id="p4c6-branch-de-title">Der geschützte Branch main</title>
+<desc id="p4c6-branch-de-desc">Der Zielzustand von Auftrag C. Links das Plattform-Team mit deinem Konto platform, das zugleich Administrator von Gitea ist. Daneben steht ein zweites Konto mit Schreibrechten. In der Mitte liegt in Gitea das Repo wolkenwerk/platform mit dem geschützten Branch main. Einen direkten Push von platform auf main weist Gitea ab. Ein Pull Request von platform braucht eine Freigabe. Das zweite Konto gibt ihn frei, erst danach führt Gitea ihn in main zusammen. Rechts holt Argo CD im k3s-Cluster main nur lesend und wendet die Änderung an wie bisher. Achte darauf, dass du selbst entscheidest, wer die Regel umgehen darf.</desc>
+<defs><marker id="p4c6-branch-de-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"/></marker><marker id="p4c6-branch-de-head-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head d-head-accent" d="M 0 1 L 9 5 L 0 9 z"/></marker></defs>
+<rect class="d-ground" x="0" y="0" width="760" height="278" rx="14"/>
+<rect class="d-band d-band-1" x="16" y="16" width="186" height="246" rx="12"/>
+<text class="d-label" x="32" y="40" text-anchor="start">PLATTFORM-TEAM</text>
+<rect class="d-band d-band-2" x="280" y="16" width="272" height="246" rx="12"/>
+<text class="d-label d-label-blue" x="296" y="40" text-anchor="start">GITEA</text>
+<text class="d-code" x="343.6132" y="40" text-anchor="start">wolkenwerk/platform</text>
+<rect class="d-band d-band-3" x="600" y="16" width="144" height="246" rx="12"/>
+<text class="d-label d-label-violet" x="616" y="40" text-anchor="start">K3S-CLUSTER</text>
+<path class="d-arrow d-dashed" d="M 186 81 L 294 81" marker-end="url(#p4c6-branch-de-head)"/>
+<text class="d-sub" x="241" y="74" text-anchor="middle">direkter Push</text>
+<text class="d-sub" x="241" y="97" text-anchor="middle">abgewiesen</text>
+<path class="d-arrow d-arrow-accent" d="M 186 191 L 294 191" marker-end="url(#p4c6-branch-de-head-accent)"/>
+<text class="d-sub" x="241" y="184" text-anchor="middle">gibt frei</text>
+<path class="d-arrow d-arrow-accent" d="M 416 166 L 416 108" marker-end="url(#p4c6-branch-de-head-accent)"/>
+<text class="d-sub" x="426" y="133" text-anchor="start">Merge nach</text>
+<text class="d-sub" x="426" y="147" text-anchor="start">der Freigabe</text>
+<text class="d-meta" x="296" y="246" text-anchor="start">Wer die Regel umgehen darf, entscheidest du.</text>
+<path class="d-arrow d-arrow-accent" d="M 616 81 L 538 81" marker-end="url(#p4c6-branch-de-head-accent)"/>
+<text class="d-sub" x="576" y="74" text-anchor="middle">holt</text>
+<path class="d-arrow d-arrow-accent" d="M 672 106 L 672 164" marker-end="url(#p4c6-branch-de-head-accent)"/>
+<text class="d-sub" x="662" y="140" text-anchor="end">wendet an</text>
+<rect class="d-shadow" x="32" y="57.5" width="154" height="50" rx="10"/>
+<rect class="d-tile" x="32" y="56" width="154" height="50" rx="10"/>
+<g class="d-icon" transform="translate(44 72) scale(0.75)"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></g>
+<text class="d-title" x="72" y="78" text-anchor="start">platform</text>
+<text class="d-sub" x="72" y="94" text-anchor="start">Administrator</text>
+<rect class="d-shadow" x="32" y="167.5" width="154" height="50" rx="10"/>
+<rect class="d-tile" x="32" y="166" width="154" height="50" rx="10"/>
+<g class="d-icon" transform="translate(44 182) scale(0.75)"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></g>
+<text class="d-title" x="72" y="188" text-anchor="start">Zweites Konto</text>
+<text class="d-sub" x="72" y="204" text-anchor="start">Schreibrechte</text>
+<rect class="d-shadow" x="296" y="57.5" width="240" height="50" rx="10"/>
+<rect class="d-tile d-tile-accent" x="296" y="56" width="240" height="50" rx="10"/>
+<g class="d-icon d-icon-accent" transform="translate(308 72) scale(0.75)"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></g>
+<text class="d-title" x="336" y="78" text-anchor="start">main</text>
+<text class="d-sub" x="336" y="94" text-anchor="start">geschützter Branch</text>
+<rect class="d-shadow" x="296" y="167.5" width="240" height="50" rx="10"/>
+<rect class="d-tile" x="296" y="166" width="240" height="50" rx="10"/>
+<g class="d-icon" transform="translate(308 182) scale(0.75)"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></g>
+<text class="d-title" x="336" y="188" text-anchor="start">Pull Request</text>
+<text class="d-sub" x="336" y="204" text-anchor="start">von platform, braucht eine Freigabe</text>
+<rect class="d-shadow" x="616" y="57.5" width="112" height="50" rx="10"/>
+<rect class="d-tile" x="616" y="56" width="112" height="50" rx="10"/>
+<g class="d-icon" transform="translate(628 72) scale(0.75)"><path d="M20 12a8 8 0 0 1-14.3 4.9M4 12A8 8 0 0 1 18.3 7.1"/><path d="M18.5 3v4.3h-4.3M5.5 21v-4.3h4.3"/></g>
+<text class="d-title" x="656" y="78" text-anchor="start">Argo CD</text>
+<text class="d-sub" x="656" y="94" text-anchor="start">liest nur</text>
+<rect class="d-shadow" x="616" y="167.5" width="112" height="50" rx="10"/>
+<rect class="d-tile" x="616" y="166" width="112" height="50" rx="10"/>
+<g class="d-icon" transform="translate(628 182) scale(0.75)"><path d="M12 3 20 7.5v9L12 21l-8-4.5v-9z"/><path d="M4 7.5 12 12l8-4.5M12 12v9"/></g>
+<text class="d-title" x="656" y="188" text-anchor="start">Änderung</text>
+<text class="d-sub" x="656" y="204" text-anchor="start">ausgerollt</text>
+</svg>

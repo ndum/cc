@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 432" role="img" aria-labelledby="p4c6-member-en-title p4c6-member-en-desc">
+<title id="p4c6-member-en-title">A member of your own with an AppProject</title>
+<desc id="p4c6-member-en-desc">The target state of task B. At the top, a pull request in Gitea asks for the namespace from the template, and after the review the member folder and the AppProject are on main. In the middle, Argo CD pulls both from Git. The member application and a test application name the AppProject, which allows only the member namespace as a destination. At the bottom, in the cluster, Argo CD applies the member application in its namespace with its own quota and LimitRange. Notice the test application. It tries to write to the namespace velo of another member, and Argo CD rejects it.</desc>
+<defs><marker id="p4c6-member-en-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"/></marker><marker id="p4c6-member-en-head-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head d-head-accent" d="M 0 1 L 9 5 L 0 9 z"/></marker></defs>
+<rect class="d-ground" x="0" y="0" width="760" height="432" rx="14"/>
+<rect class="d-band d-band-2" x="16" y="16" width="728" height="108" rx="12"/>
+<text class="d-label d-label-blue" x="32" y="40" text-anchor="start">GITEA</text>
+<text class="d-code" x="79.6132" y="40" text-anchor="start">wolkenwerk/platform</text>
+<rect class="d-band d-band-3" x="16" y="164" width="728" height="106" rx="12"/>
+<text class="d-label d-label-violet" x="32" y="188" text-anchor="start">ARGO CD</text>
+<rect class="d-band d-band-3" x="16" y="310" width="728" height="106" rx="12"/>
+<text class="d-label d-label-violet" x="32" y="334" text-anchor="start">IN THE CLUSTER</text>
+<path class="d-arrow d-arrow-accent" d="M 248 81 L 366 81" marker-end="url(#p4c6-member-en-head-accent)"/>
+<text class="d-sub" x="308" y="74" text-anchor="middle">merge after review</text>
+<path class="d-arrow d-arrow-accent" d="M 380 204 L 380 108" marker-end="url(#p4c6-member-en-head-accent)"/>
+<text class="d-sub" x="390" y="150" text-anchor="start">pulls</text>
+<path class="d-arrow" d="M 248 229 L 294 229" marker-end="url(#p4c6-member-en-head)"/>
+<text class="d-sub" x="272" y="222" text-anchor="middle">names</text>
+<path class="d-arrow" d="M 512 229 L 466 229" marker-end="url(#p4c6-member-en-head)"/>
+<text class="d-sub" x="488" y="222" text-anchor="middle">names</text>
+<path class="d-arrow d-arrow-accent" d="M 140 254 L 140 348" marker-end="url(#p4c6-member-en-head-accent)"/>
+<text class="d-sub" x="150" y="294" text-anchor="start">applies</text>
+<path class="d-arrow d-dashed" d="M 620 254 L 620 348" marker-end="url(#p4c6-member-en-head)"/>
+<text class="d-sub" x="630" y="294" text-anchor="start">rejected</text>
+<rect class="d-shadow" x="32" y="57.5" width="216" height="50" rx="10"/>
+<rect class="d-tile" x="32" y="56" width="216" height="50" rx="10"/>
+<g class="d-icon" transform="translate(44 72) scale(0.75)"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></g>
+<text class="d-title" x="72" y="78" text-anchor="start">Pull request</text>
+<text class="d-sub" x="72" y="94" text-anchor="start">namespace from the template</text>
+<rect class="d-shadow" x="368" y="57.5" width="360" height="50" rx="10"/>
+<rect class="d-tile" x="368" y="56" width="360" height="50" rx="10"/>
+<g class="d-icon" transform="translate(380 72) scale(0.75)"><circle cx="6" cy="6" r="2.5"/><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="9" r="2.5"/><path d="M6 8.5v7M18 11.5c0 3-6 2-10.5 5"/></g>
+<text class="d-title" x="408" y="78" text-anchor="start">main</text>
+<text class="d-sub" x="408" y="94" text-anchor="start">member folder and AppProject</text>
+<rect class="d-shadow" x="32" y="205.5" width="216" height="50" rx="10"/>
+<rect class="d-tile" x="32" y="204" width="216" height="50" rx="10"/>
+<g class="d-icon" transform="translate(44 220) scale(0.75)"><path d="M20 12a8 8 0 0 1-14.3 4.9M4 12A8 8 0 0 1 18.3 7.1"/><path d="M18.5 3v4.3h-4.3M5.5 21v-4.3h4.3"/></g>
+<text class="d-title" x="72" y="226" text-anchor="start">Application</text>
+<text class="d-sub" x="72" y="242" text-anchor="start">of the member</text>
+<rect class="d-shadow" x="296" y="205.5" width="168" height="50" rx="10"/>
+<rect class="d-tile d-tile-accent" x="296" y="204" width="168" height="50" rx="10"/>
+<g class="d-icon d-icon-accent" transform="translate(308 220) scale(0.75)"><path d="M12 3 19 6v5.5c0 4.4-3 8-7 9.5-4-1.5-7-5.1-7-9.5V6z"/></g>
+<text class="d-title" x="336" y="226" text-anchor="start">AppProject</text>
+<text class="d-sub" x="336" y="242" text-anchor="start">only its namespace</text>
+<rect class="d-shadow" x="512" y="205.5" width="216" height="50" rx="10"/>
+<rect class="d-tile" x="512" y="204" width="216" height="50" rx="10"/>
+<g class="d-icon" transform="translate(524 220) scale(0.75)"><path d="M20 12a8 8 0 0 1-14.3 4.9M4 12A8 8 0 0 1 18.3 7.1"/><path d="M18.5 3v4.3h-4.3M5.5 21v-4.3h4.3"/></g>
+<text class="d-title" x="552" y="226" text-anchor="start">Test application</text>
+<text class="d-sub" x="552" y="242" text-anchor="start">tries to write to velo</text>
+<rect class="d-shadow" x="32" y="351.5" width="216" height="50" rx="10"/>
+<rect class="d-tile" x="32" y="350" width="216" height="50" rx="10"/>
+<text class="d-title" x="140" y="372" text-anchor="middle">Member namespace</text>
+<text class="d-sub" x="140" y="388" text-anchor="middle">own quota and LimitRange</text>
+<rect class="d-shadow" x="512" y="351.5" width="216" height="50" rx="10"/>
+<rect class="d-tile" x="512" y="350" width="216" height="50" rx="10"/>
+<text class="d-title" x="620" y="372" text-anchor="middle">Namespace velo</text>
+<text class="d-sub" x="620" y="388" text-anchor="middle">another member</text>
+</svg>

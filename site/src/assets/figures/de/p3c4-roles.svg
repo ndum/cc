@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 776 350" role="img" aria-labelledby="p3c4-roles-de-title p3c4-roles-de-desc">
+<title id="p3c4-roles-de-title">Rollen und Ansichten in Sunstone</title>
+<desc id="p3c4-roles-de-desc">Links steht das Plattform-Team als oneadmin mit der Ansicht admin. Es betreibt Knoten, Netze und Datastores, legt die Mitglieder mit ihren Admins an, setzt Quotas und Preise und pflegt die gemeinsame Vorlage ubuntu. Rechts steht das Mitglied praxis. Sein Gruppenadmin praxis-admin hat die Ansicht groupadmin. Er legt die Benutzer der Gruppe an, verwaltet alle VMs der Gruppe, setzt die Quotas seiner Benutzer und kopiert Vorlagen. Die Vorlage ubuntu darf er nicht ändern. Die MPA praxis-mpa hat die Ansicht cloud. Sie startet VMs aus fertigen Vorlagen und passt höchstens Grösse und Disks an. Ihre VMs zählen gegen die Quota der Gruppe. Achte auf die Zeile unten. Eine Ansicht blendet nur Reiter aus. Ob ein Auftrag erlaubt ist, entscheiden die Rechte und die ACLs.</desc>
+<defs><marker id="p3c4-roles-de-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"/></marker><marker id="p3c4-roles-de-head-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head d-head-accent" d="M 0 1 L 9 5 L 0 9 z"/></marker></defs>
+<rect class="d-ground" x="0" y="0" width="776" height="350" rx="14"/>
+<rect class="d-band d-band-1" x="16" y="16" width="232" height="268" rx="12"/>
+<text class="d-label" x="32" y="40" text-anchor="start">PLATTFORM-TEAM</text>
+<rect class="d-band d-band-1" x="264" y="16" width="496" height="268" rx="12"/>
+<text class="d-label" x="280" y="40" text-anchor="start">MITGLIED</text>
+<text class="d-code" x="351.7076" y="40" text-anchor="start">praxis</text>
+<text class="d-meta" x="744" y="40" text-anchor="end">Praxis Rosenweg</text>
+<path class="d-arrow" d="M 232 81 L 278 81" marker-end="url(#p3c4-roles-de-head)"/>
+<path class="d-arrow" d="M 496 81 L 526 81" marker-end="url(#p3c4-roles-de-head)"/>
+<rect class="d-shadow" x="32" y="57.5" width="200" height="50" rx="10"/>
+<rect class="d-tile" x="32" y="56" width="200" height="50" rx="10"/>
+<g class="d-icon" transform="translate(44 72) scale(0.75)"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></g>
+<text class="d-title" x="72" y="78" text-anchor="start">oneadmin</text>
+<text class="d-sub" x="72" y="94" text-anchor="start">darf alles</text>
+<text class="d-sub" x="32" y="132" text-anchor="start">Betreibt Knoten, Netze, Datastores</text>
+<text class="d-sub" x="32" y="152" text-anchor="start">Legt Mitglieder mit Admins an</text>
+<text class="d-sub" x="32" y="172" text-anchor="start">Setzt Quotas und Preise</text>
+<text class="d-sub" x="32" y="192" text-anchor="start">Pflegt die Vorlage ubuntu</text>
+<text class="d-label" x="32" y="228" text-anchor="start">ANSICHT</text>
+<rect class="d-tag" x="97.2308" y="215" width="47" height="18" rx="9"/>
+<text class="d-tag-text" x="120.7308" y="227.5" text-anchor="middle">admin</text>
+<text class="d-sub" x="32" y="254" text-anchor="start">Alles, auch Hosts und VDCs</text>
+<rect class="d-shadow" x="280" y="57.5" width="216" height="50" rx="10"/>
+<rect class="d-tile" x="280" y="56" width="216" height="50" rx="10"/>
+<g class="d-icon" transform="translate(292 72) scale(0.75)"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></g>
+<text class="d-title" x="320" y="78" text-anchor="start">praxis-admin</text>
+<text class="d-sub" x="320" y="94" text-anchor="start">Gruppenadmin</text>
+<text class="d-sub" x="280" y="132" text-anchor="start">Legt Benutzer der Gruppe an</text>
+<text class="d-sub" x="280" y="152" text-anchor="start">Verwaltet alle VMs der Gruppe</text>
+<text class="d-sub" x="280" y="172" text-anchor="start">Setzt Quotas seiner Benutzer</text>
+<text class="d-sub" x="280" y="192" text-anchor="start">Kopiert ubuntu, ändert es nicht</text>
+<text class="d-label" x="280" y="228" text-anchor="start">ANSICHT</text>
+<rect class="d-tag" x="345.2308" y="215" width="76" height="18" rx="9"/>
+<text class="d-tag-text" x="383.2308" y="227.5" text-anchor="middle">groupadmin</text>
+<text class="d-sub" x="280" y="254" text-anchor="start">VMs, Images, Netze, Benutzer</text>
+<rect class="d-shadow" x="528" y="57.5" width="216" height="50" rx="10"/>
+<rect class="d-tile" x="528" y="56" width="216" height="50" rx="10"/>
+<g class="d-icon" transform="translate(540 72) scale(0.75)"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></g>
+<text class="d-title" x="568" y="78" text-anchor="start">praxis-mpa</text>
+<text class="d-sub" x="568" y="94" text-anchor="start">MPA der Praxis</text>
+<text class="d-sub" x="528" y="132" text-anchor="start">Startet VMs aus Vorlagen</text>
+<text class="d-sub" x="528" y="152" text-anchor="start">Passt Grösse und Disks an</text>
+<text class="d-sub" x="528" y="172" text-anchor="start">Belegt die Quota der Gruppe</text>
+<text class="d-label" x="528" y="228" text-anchor="start">ANSICHT</text>
+<rect class="d-tag" x="593.2308" y="215" width="44" height="18" rx="9"/>
+<text class="d-tag-text" x="615.2308" y="227.5" text-anchor="middle">cloud</text>
+<text class="d-sub" x="528" y="254" text-anchor="start">VMs, Vorlagen, Dienste, Konto</text>
+<rect class="d-strip" x="16" y="300" width="744" height="34" rx="8"/>
+<text class="d-sub" x="388" y="321" text-anchor="middle">Jede Ansicht nutzt dieselbe API wie die CLI. Ob ein Auftrag erlaubt ist, entscheiden die Rechte und die ACLs.</text>
+</svg>

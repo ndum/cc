@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 464" role="img" aria-labelledby="ex-network-de-title ex-network-de-desc">
+<title id="ex-network-de-title">Bridges und VXLAN im Lab</title>
+<desc id="ex-network-de-desc">Links das Front-end, rechts Knoten 1 mit zwei VMs. Auf beiden hat eth0 die MTU 1500 und eine Adresse im Labnetz. Auf dem Front-end legt cc-gateway die Bridge cc-br mit dem Gateway 172.31.160.1/24 an, darin das VXLAN-Gerät cc-vxlan, beide mit der MTU 1450. Pakete aus cc-net leitet der Kernel mit ip_forward=1 an eth0 weiter. Dabei ersetzt die Tabelle cc_gateway ihren Absender durch 192.168.210.137. Auf dem Knoten legt OpenNebula die Bridge ccbr5862 ohne Adresse an, darin das VXLAN-Gerät eth0.5862. Der Kernel gibt ihm die MTU von eth0 minus 50 Byte, also 1450. In derselben Bridge hängen die Karten der VMs wie one-12-0, libvirt gibt ihnen die MTU der Bridge. Die VMs selbst bekommen 1450 über den Kontext. Die beiden VXLAN-Geräte verbinden die Bridges zum Netz cc-net. Sie verpacken die Rahmen in UDP-Pakete an Port 8472 und finden einander über die Multicast-Gruppe 239.0.22.230 im Labnetz. Achte darauf, dass die Bridge auf dem Knoten keine Adresse hat. Von den Servern hat nur das Front-end eine Adresse in cc-net.</desc>
+<defs><marker id="ex-network-de-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"/></marker><marker id="ex-network-de-head-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head d-head-accent" d="M 0 1 L 9 5 L 0 9 z"/></marker></defs>
+<rect class="d-ground" x="0" y="0" width="760" height="464" rx="14"/>
+<rect class="d-band d-band-2" x="16" y="16" width="268" height="376" rx="12"/>
+<text class="d-label d-label-blue" x="32" y="40" text-anchor="start">FRONT-END</text>
+<text class="d-sub" x="268" y="40" text-anchor="end"><tspan class="d-code">cc-gateway</tspan></text>
+<rect class="d-band d-band-2" x="332" y="16" width="412" height="376" rx="12"/>
+<text class="d-label d-label-blue" x="348" y="40" text-anchor="start">KNOTEN 1</text>
+<text class="d-sub" x="728" y="40" text-anchor="end">Bridge und VXLAN von OpenNebula</text>
+<rect class="d-band d-band-3" x="64" y="136" width="204" height="136" rx="12"/>
+<text class="d-label d-label-violet" x="80" y="160" text-anchor="start">BRIDGE</text>
+<text class="d-sub" x="136.42200000000003" y="160" text-anchor="start"><tspan class="d-code">cc-br</tspan></text>
+<text class="d-sub" x="80" y="177" text-anchor="start"><tspan class="d-code">172.31.160.1/24</tspan>, MTU 1450</text>
+<rect class="d-band d-band-3" x="348" y="136" width="380" height="136" rx="12"/>
+<text class="d-label d-label-violet" x="364" y="160" text-anchor="start">BRIDGE</text>
+<text class="d-sub" x="420.422" y="160" text-anchor="start"><tspan class="d-code">ccbr5862</tspan></text>
+<text class="d-sub" x="364" y="177" text-anchor="start">ohne Adresse, MTU 1450</text>
+<path class="d-arrow" d="M 166 136 L 166 114" marker-end="url(#ex-network-de-head)"/>
+<text class="d-sub" x="174" y="128" text-anchor="start"><tspan class="d-code">ip_forward=1</tspan></text>
+<path class="d-arrow" d="M 64 84 L 44 84 L 44 310" marker-end="url(#ex-network-de-head)"/>
+<path class="d-line d-line-violet d-dashed" d="M 538 112 L 538 192"/>
+<path class="d-line d-line-violet d-dashed" d="M 662 112 L 662 192"/>
+<path class="d-line d-line-violet d-dashed" d="M 252 224 L 364 224"/>
+<path class="d-line d-line-accent" d="M 166 256 L 166 312"/>
+<path class="d-line d-line-accent" d="M 414 256 L 414 312"/>
+<text class="d-sub" x="174" y="296" text-anchor="start"><tspan class="d-code">UDP 8472</tspan></text>
+<text class="d-sub" x="422" y="296" text-anchor="start"><tspan class="d-code">UDP 8472</tspan></text>
+<path class="d-line d-line-accent" d="M 150 376 L 150 424"/>
+<path class="d-line d-line-accent" d="M 538 376 L 538 424"/>
+<path class="d-line d-line-accent" d="M 24 424 L 736 424"/>
+<text class="d-label d-label-blue" x="24" y="448" text-anchor="start">LABNETZ 192.168.210.0/24</text>
+<text class="d-sub" x="736" y="448" text-anchor="end">VXLAN 5862 über <tspan class="d-code">UDP 8472</tspan>, Gruppe <tspan class="d-code">239.0.22.230</tspan></text>
+<rect class="d-shadow" x="64" y="57.5" width="204" height="56" rx="10"/>
+<rect class="d-tile" x="64" y="56" width="204" height="56" rx="10"/>
+<g class="d-icon" transform="translate(76 75) scale(0.75)"><circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M4.2 6l2.3 1.8M17.5 16.2l2.3 1.8M4.2 18l2.3-1.8M17.5 7.8 19.8 6M2.5 12h3M18.5 12h3"/></g>
+<text class="d-title" x="104" y="81" text-anchor="start">NAT mit nftables</text>
+<text class="d-code" x="104" y="97" text-anchor="start">cc_gateway: masquerade</text>
+<rect class="d-shadow" x="80" y="193.5" width="172" height="64" rx="10"/>
+<rect class="d-tile d-tile-violet" x="80" y="192" width="172" height="64" rx="10"/>
+<text class="d-title d-title-violet" x="166" y="214" text-anchor="middle">VXLAN</text>
+<text class="d-sub" x="166" y="229" text-anchor="middle">MTU 1450</text>
+<text class="d-code" x="166" y="244" text-anchor="middle">cc-vxlan</text>
+<rect class="d-shadow" x="32" y="313.5" width="236" height="64" rx="10"/>
+<rect class="d-tile" x="32" y="312" width="236" height="64" rx="10"/>
+<g class="d-icon" transform="translate(44 335) scale(0.75)"><rect x="9" y="3" width="6" height="5" rx="1"/><rect x="3" y="16" width="6" height="5" rx="1"/><rect x="15" y="16" width="6" height="5" rx="1"/><path d="M12 8v4M6 16v-4h12v4"/></g>
+<text class="d-title" x="72" y="334" text-anchor="start">Schnittstelle</text>
+<text class="d-sub" x="72" y="349" text-anchor="start">MTU 1500</text>
+<text class="d-code" x="72" y="364" text-anchor="start">eth0 192.168.210.137</text>
+<rect class="d-shadow" x="488" y="57.5" width="100" height="56" rx="10"/>
+<rect class="d-tile d-tile-violet" x="488" y="56" width="100" height="56" rx="10"/>
+<text class="d-title d-title-violet" x="538" y="81" text-anchor="middle">VM 12</text>
+<text class="d-sub" x="538" y="97" text-anchor="middle">MTU 1450</text>
+<rect class="d-shadow" x="612" y="57.5" width="100" height="56" rx="10"/>
+<rect class="d-tile d-tile-violet" x="612" y="56" width="100" height="56" rx="10"/>
+<text class="d-title d-title-violet" x="662" y="81" text-anchor="middle">Weitere VM</text>
+<text class="d-sub" x="662" y="97" text-anchor="middle">MTU 1450</text>
+<rect class="d-shadow" x="364" y="193.5" width="100" height="64" rx="10"/>
+<rect class="d-tile d-tile-violet" x="364" y="192" width="100" height="64" rx="10"/>
+<text class="d-title d-title-violet" x="414" y="214" text-anchor="middle">VXLAN</text>
+<text class="d-sub" x="414" y="229" text-anchor="middle">MTU 1450</text>
+<text class="d-code" x="414" y="244" text-anchor="middle">eth0.5862</text>
+<rect class="d-shadow" x="488" y="193.5" width="100" height="64" rx="10"/>
+<rect class="d-tile d-tile-violet" x="488" y="192" width="100" height="64" rx="10"/>
+<text class="d-title d-title-violet" x="538" y="214" text-anchor="middle">Karte</text>
+<text class="d-sub" x="538" y="229" text-anchor="middle">MTU 1450</text>
+<text class="d-code" x="538" y="244" text-anchor="middle">one-12-0</text>
+<rect class="d-shadow" x="612" y="193.5" width="100" height="64" rx="10"/>
+<rect class="d-tile d-tile-violet" x="612" y="192" width="100" height="64" rx="10"/>
+<text class="d-title d-title-violet" x="662" y="214" text-anchor="middle">Karte</text>
+<text class="d-sub" x="662" y="229" text-anchor="middle">MTU 1450</text>
+<text class="d-code" x="662" y="244" text-anchor="middle">one-&lt;vm&gt;-0</text>
+<rect class="d-shadow" x="348" y="313.5" width="380" height="64" rx="10"/>
+<rect class="d-tile" x="348" y="312" width="380" height="64" rx="10"/>
+<g class="d-icon" transform="translate(360 335) scale(0.75)"><rect x="9" y="3" width="6" height="5" rx="1"/><rect x="3" y="16" width="6" height="5" rx="1"/><rect x="15" y="16" width="6" height="5" rx="1"/><path d="M12 8v4M6 16v-4h12v4"/></g>
+<text class="d-title" x="388" y="334" text-anchor="start">Schnittstelle</text>
+<text class="d-sub" x="388" y="349" text-anchor="start">MTU 1500</text>
+<text class="d-code" x="388" y="364" text-anchor="start">eth0 192.168.210.138</text>
+</svg>

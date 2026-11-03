@@ -28,3 +28,11 @@ desktop.ini
 id_rsa*
 id_ed25519*
 credentials*.json
+
+# OpenTofu state and providers, the state holds the k3s token
+.terraform/
+*.tfstate
+*.tfstate.*
+
+# Python bytecode
+__pycache__/

@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 388" role="img" aria-labelledby="p3c5-report-de-title p3c5-report-de-desc">
+<title id="p3c5-report-de-title">Der monatliche Bericht aus dem Showback</title>
+<desc id="p3c5-report-de-desc">Im Zielzustand von Auftrag B startet oben auf dem Front-end dein Timer einmal im Monat deinen Dienst, eine Unit von systemd. Der Dienst führt dein Skript aus. Das Skript fragt den Showback von OpenNebula ab und legt den Bericht des vergangenen Monats als CSV-Datei ab, die den Monat im Namen trägt. Daneben berechnet der Timer opennebula-showback.timer, den OpenNebula mitbringt, den Showback täglich. Unten berechnest du aus dem Bericht und den Kosten eines Monats die Kostendeckung, also die Summe des Showbacks geteilt durch alle Kosten. Die Kosten beruhen auf deinen Annahmen. Daraus machst du dem Vorstand einen Vorschlag. Achte darauf, dass zwei Timer am Showback arbeiten, deiner und der von OpenNebula.</desc>
+<defs><marker id="p3c5-report-de-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"/></marker><marker id="p3c5-report-de-head-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head d-head-accent" d="M 0 1 L 9 5 L 0 9 z"/></marker></defs>
+<rect class="d-ground" x="0" y="0" width="760" height="388" rx="14"/>
+<rect class="d-band d-band-2" x="16" y="16" width="728" height="212" rx="12"/>
+<text class="d-label d-label-blue" x="32" y="40" text-anchor="start">FRONT-END</text>
+<path class="d-arrow" d="M 232 84 L 286 84" marker-end="url(#p3c5-report-de-head)"/>
+<text class="d-sub" x="260" y="76" text-anchor="middle">startet</text>
+<path class="d-arrow" d="M 464 84 L 518 84" marker-end="url(#p3c5-report-de-head)"/>
+<text class="d-sub" x="492" y="76" text-anchor="middle">führt aus</text>
+<path class="d-arrow" d="M 264 180 L 310 180" marker-end="url(#p3c5-report-de-head)"/>
+<text class="d-sub" x="288" y="172" text-anchor="middle">täglich</text>
+<path class="d-arrow" d="M 552 112 L 552 134 L 400 134 L 400 150" marker-end="url(#p3c5-report-de-head)"/>
+<text class="d-sub" x="476" y="127" text-anchor="middle">fragt ab</text>
+<path class="d-arrow" d="M 680 112 L 680 150" marker-end="url(#p3c5-report-de-head)"/>
+<text class="d-sub" x="688" y="136" text-anchor="start">legt ab</text>
+<rect class="d-shadow" x="32" y="57.5" width="200" height="56" rx="10"/>
+<rect class="d-tile d-tile-accent" x="32" y="56" width="200" height="56" rx="10"/>
+<g class="d-icon d-icon-accent" transform="translate(44 75) scale(0.75)"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></g>
+<text class="d-title" x="72" y="81" text-anchor="start">Dein Timer</text>
+<text class="d-sub" x="72" y="97" text-anchor="start">einmal im Monat</text>
+<rect class="d-shadow" x="288" y="57.5" width="176" height="56" rx="10"/>
+<rect class="d-tile" x="288" y="56" width="176" height="56" rx="10"/>
+<g class="d-icon" transform="translate(300 75) scale(0.75)"><circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M4.2 6l2.3 1.8M17.5 16.2l2.3 1.8M4.2 18l2.3-1.8M17.5 7.8 19.8 6M2.5 12h3M18.5 12h3"/></g>
+<text class="d-title" x="328" y="81" text-anchor="start">Dein Dienst</text>
+<text class="d-sub" x="328" y="97" text-anchor="start">Unit von systemd</text>
+<rect class="d-shadow" x="520" y="57.5" width="208" height="56" rx="10"/>
+<rect class="d-tile d-tile-accent" x="520" y="56" width="208" height="56" rx="10"/>
+<g class="d-icon d-icon-accent" transform="translate(532 75) scale(0.75)"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></g>
+<text class="d-title" x="560" y="81" text-anchor="start">Dein Skript</text>
+<text class="d-sub" x="560" y="97" text-anchor="start">Showback des Vormonats</text>
+<rect class="d-shadow" x="32" y="153.5" width="232" height="56" rx="10"/>
+<rect class="d-tile" x="32" y="152" width="232" height="56" rx="10"/>
+<g class="d-icon" transform="translate(44 171) scale(0.75)"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></g>
+<text class="d-title" x="72" y="177" text-anchor="start">Timer von OpenNebula</text>
+<text class="d-code" x="72" y="193" text-anchor="start">opennebula-showback.timer</text>
+<rect class="d-shadow" x="312" y="153.5" width="176" height="56" rx="10"/>
+<rect class="d-tile" x="312" y="152" width="176" height="56" rx="10"/>
+<g class="d-icon" transform="translate(324 171) scale(0.75)"><ellipse cx="12" cy="5.5" rx="7.5" ry="2.5"/><path d="M4.5 5.5v13c0 1.4 3.4 2.5 7.5 2.5s7.5-1.1 7.5-2.5v-13"/><path d="M4.5 12c0 1.4 3.4 2.5 7.5 2.5s7.5-1.1 7.5-2.5"/></g>
+<text class="d-title" x="352" y="177" text-anchor="start">Showback</text>
+<text class="d-sub" x="352" y="193" text-anchor="start">Kosten pro VM</text>
+<rect class="d-shadow" x="520" y="153.5" width="208" height="56" rx="10"/>
+<rect class="d-tile" x="520" y="152" width="208" height="56" rx="10"/>
+<g class="d-icon" transform="translate(532 171) scale(0.75)"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></g>
+<text class="d-title" x="560" y="177" text-anchor="start">Bericht</text>
+<text class="d-sub" x="560" y="193" text-anchor="start">CSV, Monat im Namen</text>
+<rect class="d-band d-band-1" x="16" y="252" width="728" height="120" rx="12"/>
+<text class="d-label" x="32" y="276" text-anchor="start">AUSWERTUNG</text>
+<path class="d-arrow d-arrow-accent" d="M 624 208 L 624 240 L 388 240 L 388 290" marker-end="url(#p3c5-report-de-head-accent)"/>
+<path class="d-arrow" d="M 536 320 L 490 320" marker-end="url(#p3c5-report-de-head)"/>
+<path class="d-arrow d-arrow-accent" d="M 288 320 L 234 320" marker-end="url(#p3c5-report-de-head-accent)"/>
+<rect class="d-shadow" x="32" y="293.5" width="200" height="56" rx="10"/>
+<rect class="d-tile" x="32" y="292" width="200" height="56" rx="10"/>
+<g class="d-icon" transform="translate(44 311) scale(0.75)"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M18 14.2a6.5 6.5 0 0 1 3.5 5.8"/></g>
+<text class="d-title" x="72" y="317" text-anchor="start">Vorstand</text>
+<text class="d-sub" x="72" y="333" text-anchor="start">erhält deinen Vorschlag</text>
+<rect class="d-shadow" x="288" y="293.5" width="200" height="56" rx="10"/>
+<rect class="d-tile d-tile-accent" x="288" y="292" width="200" height="56" rx="10"/>
+<g class="d-icon d-icon-accent" transform="translate(300 311) scale(0.75)"><path d="M4 20h16"/><path d="M7 16v-4M12 16V8M17 16v-7"/></g>
+<text class="d-title" x="328" y="317" text-anchor="start">Kostendeckung</text>
+<text class="d-sub" x="328" y="333" text-anchor="start">Showback durch Kosten</text>
+<rect class="d-shadow" x="536" y="293.5" width="192" height="56" rx="10"/>
+<rect class="d-tile" x="536" y="292" width="192" height="56" rx="10"/>
+<g class="d-icon" transform="translate(548 311) scale(0.75)"><circle cx="12" cy="12" r="9"/><path d="M14.5 9c-.5-1-1.5-1.5-2.5-1.5-1.7 0-2.8 1-2.8 2.2 0 2.9 5.6 1.6 5.6 4.5 0 1.2-1.2 2.3-2.8 2.3-1.1 0-2.2-.6-2.7-1.6M12 6v1.5M12 16.5V18"/></g>
+<text class="d-title" x="576" y="317" text-anchor="start">Kosten im Monat</text>
+<text class="d-sub" x="576" y="333" text-anchor="start">deine Annahmen</text>
+</svg>

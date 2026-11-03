@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 464" role="img" aria-labelledby="p2c4-template-de-title p2c4-template-de-desc">
+<title id="p2c4-template-de-title">Eine VM aus Image, Vorlage und Kontext</title>
+<desc id="p2c4-template-de-desc">Eine VM aus Image, Vorlage und Kontext. Oben liegen auf dem Front-end das Image ubuntu-26.04 im Datastore default und die Vorlage ubuntu. Deren DISK verweist auf das Image. onetemplate instantiate ubuntu --name web-1 legt daraus die VM web-1 auf einem Knoten an. Dabei kopiert OpenNebula das Image als Disk in den Datastore system des Knotens und hängt die Werte aus CONTEXT als CD-Laufwerk mit context.sh an. Beim ersten Start liest one-context diese Datei und richtet die VM ein. NETWORK gibt ihr Adresse, Gateway, DNS und MTU aus cc-net. SET_HOSTNAME macht den Namen der VM zum Hostnamen, SSH_PUBLIC_KEY legt den Schlüssel von oneadmin in authorized_keys von root ab. Achte darauf, dass das Image für alle VMs gleich bleibt. Adresse, Name und Schlüssel bekommt jede VM erst über den Kontext.</desc>
+<defs><marker id="p2c4-template-de-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"/></marker><marker id="p2c4-template-de-head-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head d-head-accent" d="M 0 1 L 9 5 L 0 9 z"/></marker></defs>
+<rect class="d-ground" x="0" y="0" width="760" height="464" rx="14"/>
+<rect class="d-band d-band-2" x="16" y="16" width="728" height="128" rx="12"/>
+<text class="d-label d-label-blue" x="32" y="40" text-anchor="start">FRONT-END</text>
+<rect class="d-band d-band-3" x="16" y="184" width="728" height="264" rx="12"/>
+<text class="d-label d-label-violet" x="32" y="208" text-anchor="start">VM WEB-1</text>
+<text class="d-meta" x="728" y="208" text-anchor="end">auf einem Knoten</text>
+<path class="d-arrow" d="M 464 90 L 298 90" marker-end="url(#p2c4-template-de-head)"/>
+<text class="d-code" x="380" y="82" text-anchor="middle">DISK</text>
+<path class="d-arrow d-arrow-accent" d="M 164 128 L 164 218" marker-end="url(#p2c4-template-de-head-accent)"/>
+<text class="d-sub" x="172" y="168" text-anchor="start">Kopie beim Start</text>
+<path class="d-arrow d-arrow-accent" d="M 596 128 L 596 218" marker-end="url(#p2c4-template-de-head-accent)"/>
+<text class="d-code" x="588" y="168" text-anchor="end">onetemplate instantiate ubuntu --name web-1</text>
+<path class="d-line d-line-accent" d="M 596 296 L 596 332"/>
+<path class="d-line d-line-accent" d="M 140 332 L 620 332"/>
+<path class="d-arrow d-arrow-accent" d="M 140 332 L 140 354" marker-end="url(#p2c4-template-de-head-accent)"/>
+<path class="d-arrow d-arrow-accent" d="M 380 332 L 380 354" marker-end="url(#p2c4-template-de-head-accent)"/>
+<path class="d-arrow d-arrow-accent" d="M 620 332 L 620 354" marker-end="url(#p2c4-template-de-head-accent)"/>
+<text class="d-sub" x="588" y="320" text-anchor="end"><tspan class="d-code">one-context</tspan> beim ersten Start</text>
+<rect class="d-shadow" x="32" y="53.5" width="264" height="76" rx="10"/>
+<rect class="d-tile" x="32" y="52" width="264" height="76" rx="10"/>
+<g class="d-icon" transform="translate(44 81) scale(0.75)"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M7 14h.01M11 14h6"/></g>
+<text class="d-title" x="72" y="80" text-anchor="start">Image</text>
+<text class="d-sub" x="72" y="95" text-anchor="start">im Datastore default</text>
+<text class="d-code" x="72" y="110" text-anchor="start">ubuntu-26.04</text>
+<rect class="d-shadow" x="464" y="53.5" width="264" height="76" rx="10"/>
+<rect class="d-tile d-tile-accent" x="464" y="52" width="264" height="76" rx="10"/>
+<g class="d-icon d-icon-accent" transform="translate(476 81) scale(0.75)"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></g>
+<text class="d-title" x="504" y="80" text-anchor="start">Vorlage</text>
+<text class="d-sub" x="504" y="95" text-anchor="start">mit DISK, NIC und CONTEXT</text>
+<text class="d-code" x="504" y="110" text-anchor="start">ubuntu</text>
+<rect class="d-shadow" x="32" y="221.5" width="264" height="76" rx="10"/>
+<rect class="d-tile d-tile-violet" x="32" y="220" width="264" height="76" rx="10"/>
+<g class="d-icon d-icon-violet" transform="translate(44 249) scale(0.75)"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M7 14h.01M11 14h6"/></g>
+<text class="d-title d-title-violet" x="72" y="255" text-anchor="start">Disk</text>
+<text class="d-sub" x="72" y="271" text-anchor="start">Kopie im Datastore system</text>
+<rect class="d-shadow" x="464" y="221.5" width="264" height="76" rx="10"/>
+<rect class="d-tile d-tile-violet" x="464" y="220" width="264" height="76" rx="10"/>
+<g class="d-icon d-icon-violet" transform="translate(476 249) scale(0.75)"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></g>
+<text class="d-title d-title-violet" x="504" y="248" text-anchor="start">CD-Laufwerk</text>
+<text class="d-sub" x="504" y="263" text-anchor="start">Werte aus der Vorlage</text>
+<text class="d-code" x="504" y="278" text-anchor="start">context.sh</text>
+<rect class="d-shadow" x="32" y="357.5" width="216" height="76" rx="10"/>
+<rect class="d-tile d-tile-violet" x="32" y="356" width="216" height="76" rx="10"/>
+<g class="d-icon d-icon-violet" transform="translate(44 385) scale(0.75)"><rect x="9" y="3" width="6" height="5" rx="1"/><rect x="3" y="16" width="6" height="5" rx="1"/><rect x="15" y="16" width="6" height="5" rx="1"/><path d="M12 8v4M6 16v-4h12v4"/></g>
+<text class="d-title d-title-violet" x="72" y="384" text-anchor="start">Adresse aus cc-net</text>
+<text class="d-sub" x="72" y="399" text-anchor="start">mit Gateway, DNS und MTU</text>
+<text class="d-code" x="72" y="414" text-anchor="start">NETWORK = "YES"</text>
+<rect class="d-shadow" x="272" y="357.5" width="216" height="76" rx="10"/>
+<rect class="d-tile d-tile-violet" x="272" y="356" width="216" height="76" rx="10"/>
+<g class="d-icon d-icon-violet" transform="translate(284 385) scale(0.75)"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="8.5" y="8.5" width="7" height="7" rx="1"/></g>
+<text class="d-title d-title-violet" x="312" y="384" text-anchor="start">Hostname</text>
+<text class="d-sub" x="312" y="399" text-anchor="start">der Name der VM</text>
+<text class="d-code" x="312" y="414" text-anchor="start">SET_HOSTNAME</text>
+<rect class="d-shadow" x="512" y="357.5" width="216" height="76" rx="10"/>
+<rect class="d-tile d-tile-violet" x="512" y="356" width="216" height="76" rx="10"/>
+<g class="d-icon d-icon-violet" transform="translate(524 385) scale(0.75)"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></g>
+<text class="d-title d-title-violet" x="552" y="384" text-anchor="start">SSH-Schlüssel</text>
+<text class="d-sub" x="552" y="399" text-anchor="start">von oneadmin für root</text>
+<text class="d-code" x="552" y="414" text-anchor="start">SSH_PUBLIC_KEY</text>
+</svg>

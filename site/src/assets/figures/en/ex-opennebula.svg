@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 574" role="img" aria-labelledby="ex-opennebula-en-title ex-opennebula-en-desc">
+<title id="ex-opennebula-en-title">Services and drivers of OpenNebula</title>
+<desc id="ex-opennebula-en-desc">At the top the services on the front-end. FireEdge serves Sunstone on port 2616, and guacd on port 4822 brings the console of a VM into the browser. OneFlow runs on port 2474, OneGate on port 5030. Like the CLI and OpenTofu, FireEdge, OneFlow and OneGate call the oned API, through XML-RPC on port 2633 or gRPC on port 2634. oned stores every object as XML in MariaDB and hands the work to its drivers, which run as oneadmin like oned. The scheduler and the datastore driver only work on the front-end. The drivers for virtualization and transfer reach the nodes over SSH. There their scripts sit in /var/tmp/one/, copied from /var/lib/one/remotes/ on the front-end. vmm/kvm starts the VMs with libvirt and KVM, and vnm/vxlan sets up their network. The transfer driver puts disk.0 and disk.1 into datastore 0. An agent runs the probes from im/kvm-probes.d/ and sends the values to onemonitord on port 4124. Notice that no OpenNebula service runs on the nodes. Only scripts work there, started by the front-end over SSH.</desc>
+<defs><marker id="ex-opennebula-en-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"/></marker><marker id="ex-opennebula-en-head-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head d-head-accent" d="M 0 1 L 9 5 L 0 9 z"/></marker></defs>
+<rect class="d-ground" x="0" y="0" width="760" height="574" rx="14"/>
+<rect class="d-band d-band-2" x="16" y="16" width="728" height="332" rx="12"/>
+<text class="d-label d-label-blue" x="32" y="40" text-anchor="start">FRONT-END</text>
+<text class="d-sub" x="728" y="40" text-anchor="end">oned and the drivers run as <tspan class="d-code">oneadmin</tspan></text>
+<rect class="d-band d-band-2" x="16" y="388" width="728" height="170" rx="12"/>
+<text class="d-label d-label-blue" x="32" y="412" text-anchor="start">NODES 1 AND 2</text>
+<path class="d-line" d="M 188 84 L 212 84"/>
+<path class="d-line d-line-accent" d="M 290 112 L 290 140"/>
+<path class="d-line d-line-accent" d="M 470 112 L 470 140"/>
+<path class="d-line d-line-accent" d="M 650 112 L 650 140"/>
+<path class="d-line d-line-accent" d="M 290 140 L 650 140"/>
+<path class="d-arrow d-arrow-accent" d="M 356 140 L 356 166" marker-end="url(#ex-opennebula-en-head-accent)"/>
+<path class="d-arrow d-arrow-accent" d="M 172 196 L 218 196" marker-end="url(#ex-opennebula-en-head-accent)"/>
+<path class="d-line" d="M 516 196 L 564 196"/>
+<path class="d-line" d="M 356 224 L 356 276"/>
+<path class="d-line" d="M 80 250 L 668 250"/>
+<path class="d-line" d="M 80 250 L 80 276"/>
+<path class="d-line" d="M 208 250 L 208 276"/>
+<path class="d-line" d="M 516 250 L 516 276"/>
+<path class="d-line" d="M 668 250 L 668 276"/>
+<path class="d-arrow d-arrow-accent" d="M 356 332 L 356 426" marker-end="url(#ex-opennebula-en-head-accent)"/>
+<path class="d-arrow d-arrow-accent" d="M 516 428 L 516 334" marker-end="url(#ex-opennebula-en-head-accent)"/>
+<path class="d-arrow d-arrow-accent" d="M 668 332 L 668 426" marker-end="url(#ex-opennebula-en-head-accent)"/>
+<text class="d-sub" x="364" y="372" text-anchor="start">SSH</text>
+<text class="d-sub" x="524" y="372" text-anchor="start">port 4124</text>
+<text class="d-sub" x="676" y="372" text-anchor="start">SSH</text>
+<path class="d-arrow" d="M 288 464 L 266 464" marker-end="url(#ex-opennebula-en-head)"/>
+<rect class="d-strip" x="32" y="512" width="696" height="30" rx="8"/>
+<text class="d-sub" x="380" y="531" text-anchor="middle">Driver scripts in <tspan class="d-code">/var/tmp/one/</tspan>, copied from <tspan class="d-code">/var/lib/one/remotes/</tspan> on the front-end</text>
+<rect class="d-shadow" x="32" y="57.5" width="156" height="56" rx="10"/>
+<rect class="d-tile" x="32" y="56" width="156" height="56" rx="10"/>
+<text class="d-title" x="110" y="81" text-anchor="middle">guacd</text>
+<text class="d-sub" x="110" y="97" text-anchor="middle">console, port 4822</text>
+<rect class="d-shadow" x="212" y="57.5" width="156" height="56" rx="10"/>
+<rect class="d-tile" x="212" y="56" width="156" height="56" rx="10"/>
+<text class="d-title" x="290" y="81" text-anchor="middle">FireEdge</text>
+<text class="d-sub" x="290" y="97" text-anchor="middle">Sunstone, port 2616</text>
+<rect class="d-shadow" x="392" y="57.5" width="156" height="56" rx="10"/>
+<rect class="d-tile" x="392" y="56" width="156" height="56" rx="10"/>
+<text class="d-title" x="470" y="81" text-anchor="middle">OneFlow</text>
+<text class="d-sub" x="470" y="97" text-anchor="middle">services, port 2474</text>
+<rect class="d-shadow" x="572" y="57.5" width="156" height="56" rx="10"/>
+<rect class="d-tile" x="572" y="56" width="156" height="56" rx="10"/>
+<text class="d-title" x="650" y="81" text-anchor="middle">OneGate</text>
+<text class="d-sub" x="650" y="97" text-anchor="middle">VM reports, port 5030</text>
+<rect class="d-shadow" x="32" y="169.5" width="140" height="56" rx="10"/>
+<rect class="d-tile" x="32" y="168" width="140" height="56" rx="10"/>
+<g class="d-icon" transform="translate(44 187) scale(0.75)"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></g>
+<text class="d-title" x="72" y="193" text-anchor="start">Clients</text>
+<text class="d-sub" x="72" y="209" text-anchor="start">CLI, OpenTofu</text>
+<rect class="d-shadow" x="220" y="169.5" width="296" height="56" rx="10"/>
+<rect class="d-tile d-tile-accent" x="220" y="168" width="296" height="56" rx="10"/>
+<g class="d-icon d-icon-accent" transform="translate(232 187) scale(0.75)"><circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M4.2 6l2.3 1.8M17.5 16.2l2.3 1.8M4.2 18l2.3-1.8M17.5 7.8 19.8 6M2.5 12h3M18.5 12h3"/></g>
+<text class="d-title" x="260" y="193" text-anchor="start">oned</text>
+<text class="d-sub" x="260" y="209" text-anchor="start">API: XML-RPC 2633, gRPC 2634</text>
+<rect class="d-shadow" x="564" y="169.5" width="164" height="56" rx="10"/>
+<rect class="d-tile" x="564" y="168" width="164" height="56" rx="10"/>
+<g class="d-icon" transform="translate(576 187) scale(0.75)"><ellipse cx="12" cy="5.5" rx="7.5" ry="2.5"/><path d="M4.5 5.5v13c0 1.4 3.4 2.5 7.5 2.5s7.5-1.1 7.5-2.5v-13"/><path d="M4.5 12c0 1.4 3.4 2.5 7.5 2.5s7.5-1.1 7.5-2.5"/></g>
+<text class="d-title" x="604" y="193" text-anchor="start">MariaDB</text>
+<text class="d-sub" x="604" y="209" text-anchor="start">objects as XML</text>
+<rect class="d-shadow" x="32" y="277.5" width="96" height="56" rx="10"/>
+<rect class="d-tile" x="32" y="276" width="96" height="56" rx="10"/>
+<text class="d-title" x="80" y="301" text-anchor="middle">Scheduler</text>
+<text class="d-code" x="80" y="317" text-anchor="middle">one_sched</text>
+<rect class="d-shadow" x="152" y="277.5" width="112" height="56" rx="10"/>
+<rect class="d-tile" x="152" y="276" width="112" height="56" rx="10"/>
+<text class="d-title" x="208" y="301" text-anchor="middle">Datastore</text>
+<text class="d-code" x="208" y="317" text-anchor="middle">one_datastore</text>
+<rect class="d-shadow" x="288" y="277.5" width="136" height="56" rx="10"/>
+<rect class="d-tile" x="288" y="276" width="136" height="56" rx="10"/>
+<text class="d-title" x="356" y="301" text-anchor="middle">Virtualization</text>
+<text class="d-code" x="356" y="317" text-anchor="middle">one_vmm_exec</text>
+<rect class="d-shadow" x="448" y="277.5" width="136" height="56" rx="10"/>
+<rect class="d-tile" x="448" y="276" width="136" height="56" rx="10"/>
+<text class="d-title" x="516" y="301" text-anchor="middle">Monitoring</text>
+<text class="d-code" x="516" y="317" text-anchor="middle">onemonitord</text>
+<rect class="d-shadow" x="608" y="277.5" width="120" height="56" rx="10"/>
+<rect class="d-tile" x="608" y="276" width="120" height="56" rx="10"/>
+<text class="d-title" x="668" y="301" text-anchor="middle">Transfer</text>
+<text class="d-code" x="668" y="317" text-anchor="middle">one_tm</text>
+<rect class="d-shadow" x="32" y="429.5" width="232" height="72" rx="10"/>
+<rect class="d-tile d-tile-violet" x="32" y="428" width="232" height="72" rx="10"/>
+<g class="d-icon d-icon-violet" transform="translate(44 455) scale(0.75)"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="8.5" y="8.5" width="7" height="7" rx="1"/></g>
+<text class="d-title d-title-violet" x="72" y="454" text-anchor="start">VMs</text>
+<text class="d-sub" x="72" y="469" text-anchor="start">libvirt and KVM</text>
+<text class="d-code" x="72" y="484" text-anchor="start">one-&lt;vm&gt;</text>
+<rect class="d-shadow" x="288" y="429.5" width="136" height="72" rx="10"/>
+<rect class="d-tile" x="288" y="428" width="136" height="72" rx="10"/>
+<text class="d-title" x="356" y="454" text-anchor="middle">VM and network</text>
+<text class="d-code" x="356" y="469" text-anchor="middle">vmm/kvm/</text>
+<text class="d-code" x="356" y="484" text-anchor="middle">vnm/vxlan/</text>
+<rect class="d-shadow" x="448" y="429.5" width="136" height="72" rx="10"/>
+<rect class="d-tile" x="448" y="428" width="136" height="72" rx="10"/>
+<text class="d-title" x="516" y="454" text-anchor="middle">Monitoring</text>
+<text class="d-sub" x="516" y="469" text-anchor="middle">agent with probes</text>
+<text class="d-code" x="516" y="484" text-anchor="middle">im/kvm-probes.d/</text>
+<rect class="d-shadow" x="608" y="429.5" width="120" height="72" rx="10"/>
+<rect class="d-tile" x="608" y="428" width="120" height="72" rx="10"/>
+<text class="d-title" x="668" y="454" text-anchor="middle">Datastore 0</text>
+<text class="d-sub" x="668" y="469" text-anchor="middle">disks of each VM</text>
+<text class="d-code" x="668" y="484" text-anchor="middle">disk.0, disk.1</text>
+</svg>

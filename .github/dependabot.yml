@@ -1,6 +1,6 @@
 version: 2
-# npm is left out on purpose, its updates go through the _source folders, scripts/localize.mjs
-# and the lock file in pull requests of their own
+# npm is left out on purpose, its updates go into pull requests of their own with the lock file and
+# the minimum release age of pnpm-workspace.yaml
 updates:
   - package-ecosystem: github-actions
     directory: /

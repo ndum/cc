@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 416" role="img" aria-labelledby="p5c2-logs-de-title p5c2-logs-de-desc">
+<title id="p5c2-logs-de-title">Der Weg der Logs im Cluster</title>
+<desc id="p5c2-logs-de-desc">Zwei Nodes des Clusters, k3s-server und k3s-agent. Auf jedem Node schreiben die Pods ihre Logs nach stdout und stderr. Alloy läuft als DaemonSet mit einem Pod pro Node, liest die Logs der Pods auf seinem Node und schickt sie mit den Labels namespace, pod, container und app an Loki. Loki läuft als ein einziger Prozess, legt einen Index nur über die Labels an und behält die Logs drei Tage. In Grafana fragst du Loki unter «Explore» mit LogQL ab. Eine Abfrage wie {namespace="velo", app="webshop"} |= "404" wählt zuerst die Streams über ihre Labels und durchsucht dann den Text. Sie findet auch Zeilen von Pods, die es nicht mehr gibt.</desc>
+<defs><marker id="p5c2-logs-de-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"/></marker><marker id="p5c2-logs-de-head-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head d-head-accent" d="M 0 1 L 9 5 L 0 9 z"/></marker></defs>
+<rect class="d-ground" x="0" y="0" width="760" height="416" rx="14"/>
+<rect class="d-band d-band-3" x="16" y="16" width="328" height="112" rx="12"/>
+<text class="d-label d-label-violet" x="32" y="40" text-anchor="start">NODE K3S-SERVER</text>
+<path class="d-arrow d-arrow-accent" d="M 178 84 L 208 84" marker-end="url(#p5c2-logs-de-head-accent)"/>
+<rect class="d-shadow" x="32" y="57.5" width="146" height="56" rx="10"/>
+<rect class="d-tile" x="32" y="56" width="146" height="56" rx="10"/>
+<g class="d-icon" transform="translate(44 75) scale(0.75)"><path d="M12 3 20 7.5v9L12 21l-8-4.5v-9z"/><path d="M4 7.5 12 12l8-4.5M12 12v9"/></g>
+<text class="d-title" x="72" y="81" text-anchor="start">Pods</text>
+<text class="d-code" x="72" y="97" text-anchor="start">stdout, stderr</text>
+<rect class="d-shadow" x="210" y="57.5" width="118" height="56" rx="10"/>
+<rect class="d-tile" x="210" y="56" width="118" height="56" rx="10"/>
+<g class="d-icon" transform="translate(222 75) scale(0.75)"><path d="M20 12a8 8 0 0 1-14.3 4.9M4 12A8 8 0 0 1 18.3 7.1"/><path d="M18.5 3v4.3h-4.3M5.5 21v-4.3h4.3"/></g>
+<text class="d-title" x="250" y="81" text-anchor="start">Alloy</text>
+<text class="d-sub" x="250" y="97" text-anchor="start">DaemonSet</text>
+<rect class="d-band d-band-3" x="16" y="152" width="328" height="112" rx="12"/>
+<text class="d-label d-label-violet" x="32" y="176" text-anchor="start">NODE K3S-AGENT</text>
+<path class="d-arrow d-arrow-accent" d="M 178 220 L 208 220" marker-end="url(#p5c2-logs-de-head-accent)"/>
+<rect class="d-shadow" x="32" y="193.5" width="146" height="56" rx="10"/>
+<rect class="d-tile" x="32" y="192" width="146" height="56" rx="10"/>
+<g class="d-icon" transform="translate(44 211) scale(0.75)"><path d="M12 3 20 7.5v9L12 21l-8-4.5v-9z"/><path d="M4 7.5 12 12l8-4.5M12 12v9"/></g>
+<text class="d-title" x="72" y="217" text-anchor="start">Pods</text>
+<text class="d-code" x="72" y="233" text-anchor="start">stdout, stderr</text>
+<rect class="d-shadow" x="210" y="193.5" width="118" height="56" rx="10"/>
+<rect class="d-tile" x="210" y="192" width="118" height="56" rx="10"/>
+<g class="d-icon" transform="translate(222 211) scale(0.75)"><path d="M20 12a8 8 0 0 1-14.3 4.9M4 12A8 8 0 0 1 18.3 7.1"/><path d="M18.5 3v4.3h-4.3M5.5 21v-4.3h4.3"/></g>
+<text class="d-title" x="250" y="217" text-anchor="start">Alloy</text>
+<text class="d-sub" x="250" y="233" text-anchor="start">DaemonSet</text>
+<path class="d-line d-line-accent" d="M 328 84 L 372 84 L 372 220 L 328 220"/>
+<path class="d-arrow d-arrow-accent" d="M 372 152 L 406 152" marker-end="url(#p5c2-logs-de-head-accent)"/>
+<path class="d-arrow" d="M 614 152 L 568 152" marker-end="url(#p5c2-logs-de-head)"/>
+<text class="d-code" x="591" y="144" text-anchor="middle">LogQL</text>
+<rect class="d-shadow" x="408" y="125.5" width="158" height="56" rx="10"/>
+<rect class="d-tile d-tile-accent" x="408" y="124" width="158" height="56" rx="10"/>
+<g class="d-icon d-icon-accent" transform="translate(420 143) scale(0.75)"><ellipse cx="12" cy="5.5" rx="7.5" ry="2.5"/><path d="M4.5 5.5v13c0 1.4 3.4 2.5 7.5 2.5s7.5-1.1 7.5-2.5v-13"/><path d="M4.5 12c0 1.4 3.4 2.5 7.5 2.5s7.5-1.1 7.5-2.5"/></g>
+<text class="d-title" x="448" y="149" text-anchor="start">Loki</text>
+<text class="d-sub" x="448" y="165" text-anchor="start">Logs für 3 Tage</text>
+<rect class="d-shadow" x="614" y="125.5" width="130" height="56" rx="10"/>
+<rect class="d-tile" x="614" y="124" width="130" height="56" rx="10"/>
+<g class="d-icon" transform="translate(626 143) scale(0.75)"><path d="M4 20h16"/><path d="M7 16v-4M12 16V8M17 16v-7"/></g>
+<text class="d-title" x="654" y="149" text-anchor="start">Grafana</text>
+<text class="d-sub" x="654" y="165" text-anchor="start">Explore</text>
+<text class="d-sub" x="487" y="204" text-anchor="middle">Index nur über die Labels</text>
+<text class="d-code" x="487" y="220" text-anchor="middle">namespace, pod, container, app</text>
+<rect class="d-band d-band-1" x="16" y="288" width="728" height="112" rx="12"/>
+<text class="d-label" x="32" y="312" text-anchor="start">ABFRAGE MIT LOGQL</text>
+<rect class="d-shadow" x="32" y="329.5" width="290" height="56" rx="10"/>
+<rect class="d-tile" x="32" y="328" width="290" height="56" rx="10"/>
+<text class="d-title" x="177" y="353" text-anchor="middle">Streams über Labels wählen</text>
+<text class="d-code" x="177" y="369" text-anchor="middle">{namespace="velo", app="webshop"}</text>
+<rect class="d-shadow" x="362" y="329.5" width="150" height="56" rx="10"/>
+<rect class="d-tile" x="362" y="328" width="150" height="56" rx="10"/>
+<text class="d-title" x="437" y="353" text-anchor="middle">Text durchsuchen</text>
+<text class="d-code" x="437" y="369" text-anchor="middle">|= "404"</text>
+<rect class="d-shadow" x="552" y="329.5" width="176" height="56" rx="10"/>
+<rect class="d-tile" x="552" y="328" width="176" height="56" rx="10"/>
+<text class="d-title" x="640" y="353" text-anchor="middle">Zeilen mit 404</text>
+<text class="d-sub" x="640" y="369" text-anchor="middle">auch von ersetzten Pods</text>
+<path class="d-arrow" d="M 322 356 L 360 356" marker-end="url(#p5c2-logs-de-head)"/>
+<path class="d-arrow" d="M 512 356 L 550 356" marker-end="url(#p5c2-logs-de-head)"/>
+</svg>

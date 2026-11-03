@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 332" role="img" aria-labelledby="p6c4-cost-en-title p6c4-cost-en-desc">
+<title id="p6c4-cost-en-title">Wolkenwerk's full cost per year</title>
+<desc id="p6c4-cost-en-desc">Horizontal bars for the four items of the full cost calculation, sorted by size. Labor costs 13,000 francs a year, hardware 1,800, other items 1,500 and power 828 francs, 17,128 francs in total. Labor makes up three quarters of the cost, power less than 5%.</desc>
+<defs><marker id="p6c4-cost-en-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"/></marker><marker id="p6c4-cost-en-head-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head d-head-accent" d="M 0 1 L 9 5 L 0 9 z"/></marker></defs>
+<rect class="d-ground" x="0" y="0" width="760" height="332" rx="14"/>
+<text class="d-title" x="32" y="43">Labor</text>
+<rect class="d-fill-blue" x="136" y="28" width="440.0" height="20" rx="3"/>
+<text class="d-sub" x="586" y="43" text-anchor="start"><tspan class="d-title-small">13,000 francs</tspan><tspan class="d-sub">, 75.9%</tspan></text>
+<text class="d-meta" x="136" y="66" text-anchor="start">10% of a full-time position at 130,000 francs including social charges</text>
+<text class="d-title" x="32" y="107">Hardware</text>
+<rect class="d-fill-blue" x="136" y="92" width="60.9" height="20" rx="3"/>
+<text class="d-sub" x="206.9230769230769" y="107" text-anchor="start"><tspan class="d-title-small">1,800 francs</tspan><tspan class="d-sub">, 10.5%</tspan></text>
+<text class="d-meta" x="136" y="130" text-anchor="start">two nodes for 7,000 and a front-end for 2,000 francs, five years</text>
+<text class="d-title" x="32" y="171">Other</text>
+<rect class="d-fill-blue" x="136" y="156" width="50.8" height="20" rx="3"/>
+<text class="d-sub" x="196.76923076923077" y="171" text-anchor="start"><tspan class="d-title-small">1,500 francs</tspan><tspan class="d-sub">, 8.8%</tspan></text>
+<text class="d-meta" x="136" y="194" text-anchor="start">internet, rack space, offsite copy of the backups</text>
+<text class="d-title" x="32" y="235">Power</text>
+<rect class="d-fill-blue" x="136" y="220" width="28.0" height="20" rx="3"/>
+<text class="d-sub" x="174.02461538461537" y="235" text-anchor="start"><tspan class="d-title-small">828 francs</tspan><tspan class="d-sub">, 4.8%</tspan></text>
+<text class="d-meta" x="136" y="258" text-anchor="start">300 watts on average, 2,628 kWh at 31.5 centimes</text>
+<path class="d-axis" d="M 32 276 H 728"/>
+<text class="d-title" x="32" y="302">Total</text>
+<text class="d-title" x="136" y="302">17,128 francs per year</text>
+</svg>

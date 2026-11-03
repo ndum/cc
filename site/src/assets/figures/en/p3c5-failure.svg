@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 388" role="img" aria-labelledby="p3c5-failure-en-title p3c5-failure-en-desc">
+<title id="p3c5-failure-en-title">The failure of a node</title>
+<desc id="p3c5-failure-en-desc">In the target state of task C, node 1 and node 2 at the bottom run VMs of several members, and the disks of these VMs live in the system datastore of their node. In the example node 2 has been switched off hard. Its VMs and disks can no longer be reached, while node 1 keeps running. At the top, monitoring on the front-end checks the nodes regularly and gets no answer from node 2 anymore. On the right you record the states with times in your log. Your proposal with a rule, an alternative and the trade-off builds on this log and decides how the scheduler places new VMs on the nodes. Notice that the disks stay on the failed node. As long as it is off, nobody can reach them.</desc>
+<defs><marker id="p3c5-failure-en-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"/></marker><marker id="p3c5-failure-en-head-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head d-head-accent" d="M 0 1 L 9 5 L 0 9 z"/></marker></defs>
+<rect class="d-ground" x="0" y="0" width="760" height="388" rx="14"/>
+<rect class="d-band d-band-2" x="16" y="16" width="384" height="196" rx="12"/>
+<text class="d-label d-label-blue" x="32" y="40" text-anchor="start">FRONT-END</text>
+<rect class="d-band d-band-1" x="424" y="16" width="320" height="196" rx="12"/>
+<text class="d-label" x="440" y="40" text-anchor="start">YOUR ANALYSIS</text>
+<path class="d-arrow" d="M 384 164 L 438 164" marker-end="url(#p3c5-failure-en-head)"/>
+<path class="d-arrow" d="M 584 136 L 584 114" marker-end="url(#p3c5-failure-en-head)"/>
+<path class="d-arrow d-dashed" d="M 440 84 L 386 84" marker-end="url(#p3c5-failure-en-head)"/>
+<rect class="d-shadow" x="32" y="57.5" width="352" height="56" rx="10"/>
+<rect class="d-tile" x="32" y="56" width="352" height="56" rx="10"/>
+<g class="d-icon" transform="translate(44 75) scale(0.75)"><circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M4.2 6l2.3 1.8M17.5 16.2l2.3 1.8M4.2 18l2.3-1.8M17.5 7.8 19.8 6M2.5 12h3M18.5 12h3"/></g>
+<text class="d-title" x="72" y="81" text-anchor="start">Scheduler</text>
+<text class="d-sub" x="72" y="97" text-anchor="start">places new VMs on the nodes</text>
+<rect class="d-shadow" x="32" y="137.5" width="352" height="56" rx="10"/>
+<rect class="d-tile" x="32" y="136" width="352" height="56" rx="10"/>
+<g class="d-icon" transform="translate(44 155) scale(0.75)"><path d="M4 20h16"/><path d="M7 16v-4M12 16V8M17 16v-7"/></g>
+<text class="d-title" x="72" y="161" text-anchor="start">Monitoring</text>
+<text class="d-sub" x="72" y="177" text-anchor="start">checks the nodes regularly</text>
+<rect class="d-shadow" x="440" y="57.5" width="288" height="56" rx="10"/>
+<rect class="d-tile d-tile-accent" x="440" y="56" width="288" height="56" rx="10"/>
+<g class="d-icon d-icon-accent" transform="translate(452 75) scale(0.75)"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></g>
+<text class="d-title" x="480" y="81" text-anchor="start">Your proposal</text>
+<text class="d-sub" x="480" y="97" text-anchor="start">rule, alternative, trade-off</text>
+<rect class="d-shadow" x="440" y="137.5" width="288" height="56" rx="10"/>
+<rect class="d-tile" x="440" y="136" width="288" height="56" rx="10"/>
+<g class="d-icon" transform="translate(452 155) scale(0.75)"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></g>
+<text class="d-title" x="480" y="161" text-anchor="start">Your log</text>
+<text class="d-sub" x="480" y="177" text-anchor="start">states with times</text>
+<path class="d-arrow d-arrow-accent" d="M 208 192 L 208 250" marker-end="url(#p3c5-failure-en-head-accent)"/>
+<path class="d-line d-dashed" d="M 208 232 L 568 232"/>
+<path class="d-arrow d-dashed" d="M 568 232 L 568 250" marker-end="url(#p3c5-failure-en-head)"/>
+<text class="d-sub" x="576" y="246" text-anchor="start">no answer</text>
+<rect class="d-band d-band-2" x="16" y="252" width="352" height="120" rx="12"/>
+<text class="d-label d-label-blue" x="32" y="276" text-anchor="start">NODE 1</text>
+<rect class="d-band d-band-2" x="392" y="252" width="352" height="120" rx="12"/>
+<text class="d-label d-label-blue" x="408" y="276" text-anchor="start">NODE 2</text>
+<text class="d-meta" x="352" y="276" text-anchor="end">keeps running</text>
+<rect class="d-tag" x="463.25600000000003" y="263" width="107" height="18" rx="9"/>
+<text class="d-tag-text" x="516.7560000000001" y="275.5" text-anchor="middle">switched off hard</text>
+<rect class="d-shadow" x="32" y="293.5" width="136" height="56" rx="10"/>
+<rect class="d-tile d-tile-violet" x="32" y="292" width="136" height="56" rx="10"/>
+<g class="d-icon d-icon-violet" transform="translate(44 311) scale(0.75)"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="8.5" y="8.5" width="7" height="7" rx="1"/></g>
+<text class="d-title d-title-violet" x="72" y="317" text-anchor="start">VMs</text>
+<text class="d-sub" x="72" y="333" text-anchor="start">of the members</text>
+<rect class="d-shadow" x="184" y="293.5" width="168" height="56" rx="10"/>
+<rect class="d-tile" x="184" y="292" width="168" height="56" rx="10"/>
+<g class="d-icon" transform="translate(196 311) scale(0.75)"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M7 14h.01M11 14h6"/></g>
+<text class="d-title" x="224" y="317" text-anchor="start">System datastore</text>
+<text class="d-sub" x="224" y="333" text-anchor="start">disks of the VMs</text>
+<rect class="d-strip" x="408" y="292" width="136" height="56" rx="8"/>
+<text class="d-sub" x="476" y="324" text-anchor="middle">VMs out of reach</text>
+<rect class="d-strip" x="560" y="292" width="168" height="56" rx="8"/>
+<text class="d-sub" x="644" y="324" text-anchor="middle">disks out of reach</text>
+</svg>

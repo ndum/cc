@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 272" role="img" aria-labelledby="p6c3-incident-en-title p6c3-incident-en-desc">
+<title id="p6c3-incident-en-title">The timeline of an incident</title>
+<desc id="p6c3-incident-en-desc">An incident on a timeline in five phases. After the incident starts, Prometheus detects it and sends an alert. The team then assesses the incident with the logs in Loki and the latest commits in Git and fixes it with git revert, which Argo CD rolls out, until the service runs again. It then informs the affected members and later writes a blameless postmortem with a timeline and measures. Below the axis are the time to the alert and the time to restore. The mean of the time to restore over many incidents is the MTTR.</desc>
+<defs><marker id="p6c3-incident-en-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"/></marker><marker id="p6c3-incident-en-head-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head d-head-accent" d="M 0 1 L 9 5 L 0 9 z"/></marker></defs>
+<rect class="d-ground" x="0" y="0" width="780" height="272" rx="14"/>
+<path class="d-grid" d="M 24 16 V 132"/>
+<path class="d-grid" d="M 168 16 V 132"/>
+<path class="d-grid" d="M 312 16 V 132"/>
+<path class="d-grid" d="M 456 16 V 132"/>
+<path class="d-grid" d="M 590 16 V 132"/>
+<rect class="d-shadow" x="36" y="25.5" width="120" height="72" rx="10"/>
+<rect class="d-tile" x="36" y="24" width="120" height="72" rx="10"/>
+<text class="d-title" x="96" y="50" text-anchor="middle">Detect</text>
+<text class="d-sub" x="96" y="65" text-anchor="middle">alert from</text>
+<text class="d-sub" x="96" y="80" text-anchor="middle">Prometheus</text>
+<rect class="d-shadow" x="180" y="25.5" width="120" height="72" rx="10"/>
+<rect class="d-tile" x="180" y="24" width="120" height="72" rx="10"/>
+<text class="d-title" x="240" y="50" text-anchor="middle">Assess</text>
+<text class="d-sub" x="240" y="65" text-anchor="middle">logs in Loki,</text>
+<text class="d-sub" x="240" y="80" text-anchor="middle">commits in Git</text>
+<rect class="d-shadow" x="324" y="25.5" width="120" height="72" rx="10"/>
+<rect class="d-tile" x="324" y="24" width="120" height="72" rx="10"/>
+<text class="d-title" x="384" y="50" text-anchor="middle">Fix</text>
+<text class="d-code" x="384" y="65" text-anchor="middle">git revert,</text>
+<text class="d-sub" x="384" y="80" text-anchor="middle">Argo CD rolls out</text>
+<rect class="d-shadow" x="468" y="25.5" width="110" height="72" rx="10"/>
+<rect class="d-tile" x="468" y="24" width="110" height="72" rx="10"/>
+<text class="d-title" x="523" y="50" text-anchor="middle">Inform</text>
+<text class="d-sub" x="523" y="65" text-anchor="middle">the affected</text>
+<text class="d-sub" x="523" y="80" text-anchor="middle">members</text>
+<rect class="d-shadow" x="620" y="25.5" width="144" height="72" rx="10"/>
+<rect class="d-tile" x="620" y="24" width="144" height="72" rx="10"/>
+<text class="d-title" x="692" y="50" text-anchor="middle">Postmortem</text>
+<text class="d-sub" x="692" y="65" text-anchor="middle">blameless</text>
+<text class="d-sub" x="692" y="80" text-anchor="middle">timeline, measures</text>
+<path class="d-line d-line-accent" d="M 24 132 L 456 132"/>
+<path class="d-line" d="M 456 132 L 590 132"/>
+<path class="d-line d-dashed" d="M 590 132 L 620 132"/>
+<path class="d-arrow" d="M 620 132 L 762 132" marker-end="url(#p6c3-incident-en-head)"/>
+<text class="d-sub" x="605" y="152" text-anchor="middle">later</text>
+<circle class="d-ground" cx="24" cy="132" r="7"/>
+<circle class="d-fill-blue" cx="24" cy="132" r="4.5"/>
+<text class="d-sub" x="20" y="152" text-anchor="start">incident starts</text>
+<circle class="d-ground" cx="168" cy="132" r="7"/>
+<circle class="d-fill-blue" cx="168" cy="132" r="4.5"/>
+<text class="d-sub" x="168" y="152" text-anchor="middle">alert</text>
+<circle class="d-ground" cx="312" cy="132" r="7"/>
+<circle class="d-fill-blue" cx="312" cy="132" r="4.5"/>
+<text class="d-sub" x="312" y="152" text-anchor="middle">cause found</text>
+<circle class="d-ground" cx="456" cy="132" r="7"/>
+<circle class="d-fill-blue" cx="456" cy="132" r="4.5"/>
+<text class="d-sub" x="456" y="152" text-anchor="middle">service restored</text>
+<path class="d-line" d="M 24 172 L 24 178 L 168 178 L 168 172"/>
+<text class="d-sub" x="96" y="194" text-anchor="middle">time to the alert</text>
+<path class="d-line" d="M 24 216 L 24 222 L 456 222 L 456 216"/>
+<text class="d-sub" x="240" y="238" text-anchor="middle">time to restore</text>
+<text class="d-sub" x="240" y="255" text-anchor="middle"><tspan class="d-title-small">MTTR</tspan><tspan class="d-sub">, its mean over many incidents</tspan></text>
+</svg>

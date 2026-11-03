@@ -1,0 +1,31 @@
+# One application per folder in members/, a new member is a new folder
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: members
+  namespace: argocd
+spec:
+  goTemplate: true
+  generators:
+    - git:
+        repoURL: http://FRONTEND:3000/wolkenwerk/platform.git
+        revision: main
+        directories:
+          - path: members/*
+        # Look for new member folders every minute, the default is three minutes
+        requeueAfterSeconds: 60
+  template:
+    metadata:
+      name: 'member-{{.path.basename}}'
+    spec:
+      project: default
+      source:
+        repoURL: http://FRONTEND:3000/wolkenwerk/platform.git
+        targetRevision: main
+        path: '{{.path.path}}'
+      destination:
+        server: https://kubernetes.default.svc
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true

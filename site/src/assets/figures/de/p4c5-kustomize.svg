@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 468" role="img" aria-labelledby="p4c5-kustomize-de-title p4c5-kustomize-de-desc">
+<title id="p4c5-kustomize-de-title">Ein Namespace aus der Vorlage</title>
+<desc id="p4c5-kustomize-de-desc">Oben liegt die Vorlage templates/member, eine Component von Kustomize mit dem Namespace member, einer ResourceQuota mit requests.cpu 1, einer LimitRange mit dem Standard 250m pro Container und einer NetworkPolicy, die nur den eigenen Namespace und kube-system durchlässt. In der Mitte setzt der Ordner members/velo den Namespace velo und ersetzt mit einem Patch requests.cpu durch 2. Das ApplicationSet members liest den Ordner mit dem Generator git und erzeugt die Application member-velo. Argo CD rendert sie mit Kustomize, unten stehen die Objekte im Cluster. Achte auf die Unterschiede zur Vorlage. Der Namespace heisst velo und die Quota erlaubt 2 CPU, alles andere kommt unverändert aus der Vorlage.</desc>
+<defs><marker id="p4c5-kustomize-de-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"/></marker><marker id="p4c5-kustomize-de-head-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head d-head-accent" d="M 0 1 L 9 5 L 0 9 z"/></marker></defs>
+<rect class="d-ground" x="0" y="0" width="760" height="468" rx="14"/>
+<rect class="d-band d-band-2" x="16" y="16" width="728" height="120" rx="12"/>
+<text class="d-label d-label-blue" x="32" y="40" text-anchor="start">VORLAGE</text>
+<text class="d-code" x="101.6616" y="40" text-anchor="start">templates/member</text>
+<rect class="d-tag" x="654" y="27" width="74" height="18" rx="9"/>
+<text class="d-tag-text" x="691" y="39.5" text-anchor="middle">Component</text>
+<rect class="d-band d-band-2" x="16" y="176" width="332" height="116" rx="12"/>
+<text class="d-label d-label-blue" x="32" y="200" text-anchor="start">MITGLIED</text>
+<text class="d-code" x="103.70759999999999" y="200" text-anchor="start">members/velo</text>
+<rect class="d-tag" x="241" y="187" width="91" height="18" rx="9"/>
+<text class="d-tag-text" x="286.5" y="199.5" text-anchor="middle">Kustomization</text>
+<rect class="d-band d-band-3" x="372" y="176" width="372" height="116" rx="12"/>
+<text class="d-label d-label-violet" x="388" y="200" text-anchor="start">ARGO CD</text>
+<rect class="d-band d-band-3" x="16" y="332" width="728" height="120" rx="12"/>
+<text class="d-label d-label-violet" x="32" y="356" text-anchor="start">IM CLUSTER</text>
+<text class="d-meta" x="728" y="356" text-anchor="end">von Argo CD angewendet</text>
+<path class="d-arrow" d="M 182 176 L 182 138" marker-end="url(#p4c5-kustomize-de-head)"/>
+<text class="d-code" x="194" y="161" text-anchor="start">components</text>
+<path class="d-arrow d-arrow-accent" d="M 388 246 L 350 246" marker-end="url(#p4c5-kustomize-de-head-accent)"/>
+<text class="d-sub" x="369" y="239" text-anchor="middle">liest</text>
+<path class="d-arrow d-arrow-accent" d="M 534 246 L 580 246" marker-end="url(#p4c5-kustomize-de-head-accent)"/>
+<text class="d-sub" x="558" y="239" text-anchor="middle">erzeugt</text>
+<path class="d-arrow d-arrow-accent" d="M 655 278 L 655 330" marker-end="url(#p4c5-kustomize-de-head-accent)"/>
+<text class="d-sub" x="645" y="316" text-anchor="end">rendert mit Kustomize</text>
+<rect class="d-shadow" x="32" y="53.5" width="162" height="64" rx="10"/>
+<rect class="d-tile" x="32" y="52" width="162" height="64" rx="10"/>
+<text class="d-title" x="113" y="74" text-anchor="middle">Namespace</text>
+<text class="d-sub" x="113" y="89" text-anchor="middle">Platzhalter</text>
+<text class="d-code" x="113" y="104" text-anchor="middle">name: member</text>
+<rect class="d-shadow" x="210" y="53.5" width="162" height="64" rx="10"/>
+<rect class="d-tile" x="210" y="52" width="162" height="64" rx="10"/>
+<text class="d-title" x="291" y="74" text-anchor="middle">ResourceQuota</text>
+<text class="d-sub" x="291" y="89" text-anchor="middle">Grenze des Namespaces</text>
+<text class="d-code" x="291" y="104" text-anchor="middle">requests.cpu: 1</text>
+<rect class="d-shadow" x="388" y="53.5" width="162" height="64" rx="10"/>
+<rect class="d-tile" x="388" y="52" width="162" height="64" rx="10"/>
+<text class="d-title" x="469" y="74" text-anchor="middle">LimitRange</text>
+<text class="d-sub" x="469" y="89" text-anchor="middle">Standard pro Container</text>
+<text class="d-code" x="469" y="104" text-anchor="middle">default cpu: 250m</text>
+<rect class="d-shadow" x="566" y="53.5" width="162" height="64" rx="10"/>
+<rect class="d-tile" x="566" y="52" width="162" height="64" rx="10"/>
+<text class="d-title" x="647" y="74" text-anchor="middle">NetworkPolicy</text>
+<text class="d-sub" x="647" y="89" text-anchor="middle">eigener Namespace und</text>
+<text class="d-code" x="647" y="104" text-anchor="middle">kube-system</text>
+<rect class="d-shadow" x="32" y="215.5" width="142" height="50" rx="10"/>
+<rect class="d-tile" x="32" y="214" width="142" height="50" rx="10"/>
+<text class="d-title" x="103" y="236" text-anchor="middle">Namespace</text>
+<text class="d-code" x="103" y="252" text-anchor="middle">namespace: velo</text>
+<rect class="d-shadow" x="186" y="215.5" width="146" height="50" rx="10"/>
+<rect class="d-tile" x="186" y="214" width="146" height="50" rx="10"/>
+<text class="d-title" x="259" y="236" text-anchor="middle">Patch</text>
+<text class="d-code" x="259" y="252" text-anchor="middle">requests.cpu: 2</text>
+<rect class="d-shadow" x="388" y="215.5" width="146" height="64" rx="10"/>
+<rect class="d-tile" x="388" y="214" width="146" height="64" rx="10"/>
+<g class="d-icon" transform="translate(400 237) scale(0.75)"><circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M4.2 6l2.3 1.8M17.5 16.2l2.3 1.8M4.2 18l2.3-1.8M17.5 7.8 19.8 6M2.5 12h3M18.5 12h3"/></g>
+<text class="d-title" x="428" y="236" text-anchor="start">members</text>
+<text class="d-sub" x="428" y="251" text-anchor="start">ApplicationSet</text>
+<text class="d-code" x="428" y="266" text-anchor="start">git: members/*</text>
+<rect class="d-shadow" x="582" y="215.5" width="146" height="64" rx="10"/>
+<rect class="d-tile" x="582" y="214" width="146" height="64" rx="10"/>
+<g class="d-icon" transform="translate(594 237) scale(0.75)"><path d="M20 12a8 8 0 0 1-14.3 4.9M4 12A8 8 0 0 1 18.3 7.1"/><path d="M18.5 3v4.3h-4.3M5.5 21v-4.3h4.3"/></g>
+<text class="d-title" x="622" y="236" text-anchor="start">member-velo</text>
+<text class="d-sub" x="622" y="251" text-anchor="start">Application</text>
+<text class="d-code" x="622" y="266" text-anchor="start">members/velo</text>
+<rect class="d-shadow" x="32" y="369.5" width="162" height="64" rx="10"/>
+<rect class="d-tile" x="32" y="368" width="162" height="64" rx="10"/>
+<text class="d-title" x="113" y="390" text-anchor="middle">Namespace</text>
+<text class="d-sub" x="113" y="405" text-anchor="middle">umbenannt</text>
+<text class="d-code" x="113" y="420" text-anchor="middle">name: velo</text>
+<rect class="d-shadow" x="210" y="369.5" width="162" height="64" rx="10"/>
+<rect class="d-tile d-tile-accent" x="210" y="368" width="162" height="64" rx="10"/>
+<text class="d-title" x="291" y="390" text-anchor="middle">ResourceQuota</text>
+<text class="d-sub" x="291" y="405" text-anchor="middle">Wert aus dem Patch</text>
+<text class="d-code" x="291" y="420" text-anchor="middle">requests.cpu: 2</text>
+<rect class="d-shadow" x="388" y="369.5" width="162" height="64" rx="10"/>
+<rect class="d-tile" x="388" y="368" width="162" height="64" rx="10"/>
+<text class="d-title" x="469" y="390" text-anchor="middle">LimitRange</text>
+<text class="d-sub" x="469" y="405" text-anchor="middle">Standard pro Container</text>
+<text class="d-code" x="469" y="420" text-anchor="middle">default cpu: 250m</text>
+<rect class="d-shadow" x="566" y="369.5" width="162" height="64" rx="10"/>
+<rect class="d-tile" x="566" y="368" width="162" height="64" rx="10"/>
+<text class="d-title" x="647" y="390" text-anchor="middle">NetworkPolicy</text>
+<text class="d-sub" x="647" y="405" text-anchor="middle">Namespace velo und</text>
+<text class="d-code" x="647" y="420" text-anchor="middle">kube-system</text>
+</svg>

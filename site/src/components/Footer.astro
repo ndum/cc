@@ -1,0 +1,34 @@
+---
+// The footer of Starlight with a line on the licences of the course below it
+import Default from '@astrojs/starlight/components/Footer.astro';
+
+const english = Astro.locals.starlightRoute.lang === 'en';
+const repo = 'https://github.com/ndum/cc';
+const ccBySa = english ? 'https://creativecommons.org/licenses/by-sa/4.0/' : 'https://creativecommons.org/licenses/by-sa/4.0/deed.de';
+const mit = `${repo}/blob/main/LICENSES/MIT.txt`;
+---
+
+<Default><slot /></Default>
+{
+  english ? (
+    <p class="lt-licence">
+      Text and figures are licensed under <a href={ccBySa}>CC BY-SA 4.0</a> and the code under the <a href={mit}>MIT License</a>. The sources are on <a href={repo}>GitHub</a>.
+    </p>
+  ) : (
+    <p class="lt-licence">
+      Texte und Abbildungen stehen unter <a href={ccBySa}>CC BY-SA 4.0</a> und der Code unter der <a href={mit}>MIT-Lizenz</a>. Die Quellen liegen auf <a href={repo}>GitHub</a>.
+    </p>
+  )
+}
+
+<style>
+  .lt-licence {
+    margin-top: 2rem;
+    font-size: var(--sl-text-xs);
+    color: var(--sl-color-gray-3);
+    text-align: center;
+  }
+  .lt-licence a {
+    color: inherit;
+  }
+</style>

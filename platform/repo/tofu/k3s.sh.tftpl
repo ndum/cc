@@ -1,0 +1,16 @@
+#!/bin/sh
+# Runs at every boot through the OpenNebula context, k3s installs only once
+command -v k3s >/dev/null 2>&1 && exit 0
+
+# Pods and services get their own ranges, the defaults 10.42.0.0/16 and 10.43.0.0/16 can overlap a lab network.
+# host-gw routes pod traffic directly, both VMs share cc-net and VXLAN inside VXLAN loses packets in nested VMs
+%{ if role == "server" ~}
+curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION="${k3s_version}" K3S_TOKEN="${token}" sh -s - server \
+  --tls-san ${ip} \
+  --cluster-cidr 10.52.0.0/16 \
+  --service-cidr 10.53.0.0/16 \
+  --flannel-backend host-gw
+%{ else ~}
+until curl -ksf https://${server_ip}:6443/ping >/dev/null; do sleep 5; done
+curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION="${k3s_version}" K3S_URL="https://${server_ip}:6443" K3S_TOKEN="${token}" sh -s - agent
+%{ endif ~}

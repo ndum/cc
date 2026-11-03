@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 524" role="img" aria-labelledby="p2c1-architecture-de-title p2c1-architecture-de-desc">
+<title id="p2c1-architecture-de-title">Die Bausteine von OpenNebula</title>
+<desc id="p2c1-architecture-de-desc">Die Bausteine von OpenNebula in drei Bereichen übereinander. Oben greifen Sunstone, die CLI und OpenTofu über die API auf Port 2633 auf oned zu. In der Mitte verwaltet oned auf dem Front-end alle Objekte, speichert sie in MariaDB, lässt den Scheduler Knoten wählen und erhält Zustände von onemonitord. Die Treiber für Hosts, VMs, Transfer, Netze und Datastores führen die Aufträge aus. Unten arbeiten die beiden Knoten mit libvirt und KVM. Ihr Datastore 0 hält die Disks laufender VMs. Achte darauf, dass auf den Knoten kein Dienst von OpenNebula läuft. Die Treiber erreichen sie über SSH.</desc>
+<defs><marker id="p2c1-architecture-de-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"/></marker><marker id="p2c1-architecture-de-head-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head d-head-accent" d="M 0 1 L 9 5 L 0 9 z"/></marker></defs>
+<rect class="d-ground" x="0" y="0" width="760" height="524" rx="14"/>
+<rect class="d-band d-band-1" x="16" y="16" width="728" height="108" rx="12"/>
+<text class="d-label" x="32" y="40" text-anchor="start">ZUGANG</text>
+<rect class="d-band d-band-2" x="16" y="164" width="728" height="188" rx="12"/>
+<text class="d-label d-label-blue" x="32" y="188" text-anchor="start">FRONT-END</text>
+<rect class="d-band d-band-2" x="16" y="400" width="352" height="108" rx="12"/>
+<text class="d-label d-label-blue" x="32" y="424" text-anchor="start">KNOTEN 1</text>
+<rect class="d-band d-band-2" x="392" y="400" width="352" height="108" rx="12"/>
+<text class="d-label d-label-blue" x="408" y="424" text-anchor="start">KNOTEN 2</text>
+<path class="d-arrow d-arrow-accent" d="M 140 108 L 140 198" marker-end="url(#p2c1-architecture-de-head-accent)"/>
+<path class="d-arrow d-arrow-accent" d="M 380 108 L 380 198" marker-end="url(#p2c1-architecture-de-head-accent)"/>
+<path class="d-arrow d-arrow-accent" d="M 620 108 L 620 198" marker-end="url(#p2c1-architecture-de-head-accent)"/>
+<text class="d-meta" x="388" y="148" text-anchor="start">API 2633</text>
+<path class="d-line" d="M 105 256 L 105 280"/>
+<path class="d-line" d="M 275 256 L 275 280"/>
+<path class="d-line" d="M 445 256 L 445 280"/>
+<path class="d-arrow d-arrow-accent" d="M 635 256 L 635 278" marker-end="url(#p2c1-architecture-de-head-accent)"/>
+<path class="d-line d-line-accent" d="M 635 336 L 635 376"/>
+<path class="d-line d-line-accent" d="M 192 376 L 635 376"/>
+<path class="d-arrow d-arrow-accent" d="M 192 376 L 192 398" marker-end="url(#p2c1-architecture-de-head-accent)"/>
+<path class="d-arrow d-arrow-accent" d="M 568 376 L 568 398" marker-end="url(#p2c1-architecture-de-head-accent)"/>
+<text class="d-sub" x="643" y="368" text-anchor="start">SSH</text>
+<rect class="d-shadow" x="32" y="53.5" width="216" height="56" rx="10"/>
+<rect class="d-tile" x="32" y="52" width="216" height="56" rx="10"/>
+<text class="d-title" x="140" y="77" text-anchor="middle">Sunstone</text>
+<text class="d-sub" x="140" y="93" text-anchor="middle">Port 2616</text>
+<rect class="d-shadow" x="272" y="53.5" width="216" height="56" rx="10"/>
+<rect class="d-tile" x="272" y="52" width="216" height="56" rx="10"/>
+<text class="d-title" x="380" y="77" text-anchor="middle">CLI</text>
+<text class="d-code" x="380" y="93" text-anchor="middle">onevm, onehost</text>
+<rect class="d-shadow" x="512" y="53.5" width="216" height="56" rx="10"/>
+<rect class="d-tile" x="512" y="52" width="216" height="56" rx="10"/>
+<text class="d-title" x="620" y="77" text-anchor="middle">OpenTofu</text>
+<text class="d-sub" x="620" y="93" text-anchor="middle">ab Teil 4</text>
+<rect class="d-shadow" x="32" y="201.5" width="696" height="56" rx="10"/>
+<rect class="d-tile d-tile-accent" x="32" y="200" width="696" height="56" rx="10"/>
+<text class="d-title" x="380" y="225" text-anchor="middle">oned</text>
+<text class="d-sub" x="380" y="241" text-anchor="middle">verwaltet alle Objekte</text>
+<rect class="d-shadow" x="32" y="281.5" width="146" height="56" rx="10"/>
+<rect class="d-tile" x="32" y="280" width="146" height="56" rx="10"/>
+<g class="d-icon" transform="translate(44 299) scale(0.75)"><ellipse cx="12" cy="5.5" rx="7.5" ry="2.5"/><path d="M4.5 5.5v13c0 1.4 3.4 2.5 7.5 2.5s7.5-1.1 7.5-2.5v-13"/><path d="M4.5 12c0 1.4 3.4 2.5 7.5 2.5s7.5-1.1 7.5-2.5"/></g>
+<text class="d-title" x="72" y="305" text-anchor="start">MariaDB</text>
+<text class="d-sub" x="72" y="321" text-anchor="start">Datenbank</text>
+<rect class="d-shadow" x="202" y="281.5" width="146" height="56" rx="10"/>
+<rect class="d-tile" x="202" y="280" width="146" height="56" rx="10"/>
+<g class="d-icon" transform="translate(214 299) scale(0.75)"><circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M4.2 6l2.3 1.8M17.5 16.2l2.3 1.8M4.2 18l2.3-1.8M17.5 7.8 19.8 6M2.5 12h3M18.5 12h3"/></g>
+<text class="d-title" x="242" y="305" text-anchor="start">Scheduler</text>
+<text class="d-sub" x="242" y="321" text-anchor="start">wählt Knoten</text>
+<rect class="d-shadow" x="372" y="281.5" width="146" height="56" rx="10"/>
+<rect class="d-tile" x="372" y="280" width="146" height="56" rx="10"/>
+<g class="d-icon" transform="translate(384 299) scale(0.75)"><path d="M4 20h16"/><path d="M7 16v-4M12 16V8M17 16v-7"/></g>
+<text class="d-title" x="412" y="305" text-anchor="start">Monitoring</text>
+<text class="d-code" x="412" y="321" text-anchor="start">onemonitord</text>
+<rect class="d-shadow" x="542" y="281.5" width="186" height="56" rx="10"/>
+<rect class="d-tile" x="542" y="280" width="186" height="56" rx="10"/>
+<g class="d-icon" transform="translate(554 299) scale(0.75)"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></g>
+<text class="d-title" x="582" y="305" text-anchor="start">Treiber</text>
+<text class="d-code" x="582" y="321" text-anchor="start">IM, VMM, TM, VNM, DS</text>
+<rect class="d-shadow" x="32" y="437.5" width="130" height="56" rx="10"/>
+<rect class="d-tile" x="32" y="436" width="130" height="56" rx="10"/>
+<g class="d-icon" transform="translate(44 455) scale(0.75)"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="8.5" y="8.5" width="7" height="7" rx="1"/></g>
+<text class="d-title" x="72" y="461" text-anchor="start">libvirt</text>
+<text class="d-sub" x="72" y="477" text-anchor="start">VMs mit KVM</text>
+<rect class="d-shadow" x="186" y="437.5" width="166" height="56" rx="10"/>
+<rect class="d-tile" x="186" y="436" width="166" height="56" rx="10"/>
+<g class="d-icon" transform="translate(198 455) scale(0.75)"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M7 14h.01M11 14h6"/></g>
+<text class="d-title" x="226" y="461" text-anchor="start">Datastore 0</text>
+<text class="d-sub" x="226" y="477" text-anchor="start">Disks laufender VMs</text>
+<rect class="d-shadow" x="408" y="437.5" width="130" height="56" rx="10"/>
+<rect class="d-tile" x="408" y="436" width="130" height="56" rx="10"/>
+<g class="d-icon" transform="translate(420 455) scale(0.75)"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="8.5" y="8.5" width="7" height="7" rx="1"/></g>
+<text class="d-title" x="448" y="461" text-anchor="start">libvirt</text>
+<text class="d-sub" x="448" y="477" text-anchor="start">VMs mit KVM</text>
+<rect class="d-shadow" x="562" y="437.5" width="166" height="56" rx="10"/>
+<rect class="d-tile" x="562" y="436" width="166" height="56" rx="10"/>
+<g class="d-icon" transform="translate(574 455) scale(0.75)"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M7 14h.01M11 14h6"/></g>
+<text class="d-title" x="602" y="461" text-anchor="start">Datastore 0</text>
+<text class="d-sub" x="602" y="477" text-anchor="start">Disks laufender VMs</text>
+</svg>

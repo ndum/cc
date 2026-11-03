@@ -1,0 +1,42 @@
+# The exporters of OpenNebula outside the cluster, the addresses come from the personal parameters
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: opennebula
+spec:
+  jobName: opennebula
+  staticConfigs:
+    - labels:
+        role: front-end
+      targets:
+        - FRONTEND_IP:9925
+---
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: opennebula-hosts
+spec:
+  jobName: opennebula-hosts
+  staticConfigs:
+    - labels:
+        role: front-end
+      targets:
+        - FRONTEND_IP:9100
+    - labels:
+        role: node
+      targets:
+        - NODE1_IP:9100
+        - NODE2_IP:9100
+---
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: opennebula-libvirt
+spec:
+  jobName: opennebula-libvirt
+  staticConfigs:
+    - labels:
+        role: node
+      targets:
+        - NODE1_IP:9926
+        - NODE2_IP:9926

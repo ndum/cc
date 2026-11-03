@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webshop
+  labels:
+    app: webshop
+spec:
+  # No replicas here, the HorizontalPodAutoscaler sets them. A value in Git would fight with it
+  selector:
+    matchLabels:
+      app: webshop
+  template:
+    metadata:
+      labels:
+        app: webshop
+    spec:
+      # The profile restricted of the member namespace requires these settings
+      securityContext:
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: webshop
+          image: ghcr.io/ndum/cc/webshop:1.0.0
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ["ALL"]
+          ports:
+            - name: http
+              containerPort: 8080
+          env:
+            - name: SHOP_NAME
+              value: Veloatelier Matte
+            # Work per request in milliseconds, makes the load test visible in the CPU
+            - name: WORK_MS
+              value: "20"
+            # Share of requests answered with an error, raise it to break the SLO on purpose
+            - name: FAIL_PERCENT
+              value: "0"
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            # 6 pods with 250m stay below the quota of 2 CPU with room for the pods of a rollout
+            limits:
+              cpu: 250m
+              memory: 128Mi
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            timeoutSeconds: 3
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            # A busy pod may need longer than the default second, a failed liveness check restarts it
+            timeoutSeconds: 3
