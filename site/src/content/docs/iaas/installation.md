@@ -61,7 +61,7 @@ Rollen für Funktionen, die das Inventar nicht einschaltet, etwa Ceph, ein gerou
 
 ## OneDeploy einrichten
 
-Das Skript `lab/one-deploy/install.sh` installiert Ansible aus den Paketen von Ubuntu, holt OneDeploy in der Kursversion nach `~/cc-lab/one-deploy` und installiert die Ansible-Collections, die OneDeploy braucht.
+Das Skript `lab/one-deploy/install.sh` installiert Ansible aus den Paketen von Ubuntu, holt OneDeploy in der Kursversion nach `~/cc-lab/one-deploy` und installiert die Ansible-Collections, die OneDeploy braucht. Dieselben Schritte zeigt die [Anleitung zu den Playbooks](https://github.com/OpenNebula/one-deploy/wiki/sys_use) im Wiki von OneDeploy einzeln.
 
 ```bash
 ~/cc/lab/one-deploy/install.sh
@@ -82,7 +82,7 @@ chmod 600 ~/cc-lab/inventory.yml
 
 ::code{file="lab/one-deploy/make-inventory.sh" lines="18-42"}
 
-Die Gruppe `frontend` enthält das Front-end, die Gruppe `node` die beiden Knoten. Weil Ansible auf dem Front-end läuft, verbindet es sich dort lokal statt über SSH. Diese Verbindungsart wählt `ansible_connection: local`. Unter `vars` stehen Werte, die für alle Rechner gelten. `one_version` legt die Version von OpenNebula fest, `ds` mit `mode: ssh` bedeutet, dass die Knoten Images über SSH erhalten und kein gemeinsamer Speicher nötig ist. Netze für die VMs deiner Mitglieder legst du in Kapitel 2.3 selbst an, das Inventar enthält deshalb noch keine.
+Die Gruppe `frontend` enthält das Front-end, die Gruppe `node` die beiden Knoten. Weil Ansible auf dem Front-end läuft, verbindet es sich dort lokal statt über SSH. Diese Verbindungsart wählt `ansible_connection: local`. Unter `vars` stehen Werte, die für alle Rechner gelten. `one_version` legt die Version von OpenNebula fest, `ds` mit `mode: ssh` bedeutet, dass die Knoten Images über SSH erhalten und kein gemeinsamer Speicher nötig ist. Netze für die VMs deiner Mitglieder legst du in Kapitel 2.3 selbst an, das Inventar enthält deshalb noch keine. Wie Ansible Gruppen, Variablen und Verbindungsarten in einem Inventar liest, beschreibt die [Anleitung zum Inventar](https://docs.ansible.com/projects/ansible-core/2.20/inventory_guide/intro_inventory.html) von ansible-core 2.20.
 
 Vor der Installation prüfst du, ob Ansible alle drei VMs erreicht.
 
@@ -99,7 +99,7 @@ Das Beispiel des Kurses hinterlegt auf jedem Knoten einen Gruss mit dem Namen de
 
 ::code{file="examples/ansible/motd.yml"}
 
-Starte es zweimal. Im ersten Lauf melden beide Tasks `changed`, worauf der Handler läuft. Den Gruss selbst siehst du bei der nächsten Anmeldung an einem Knoten oder mit `cat /etc/motd`. Der zweite Lauf meldet überall `ok` und `changed=0`. Der Handler läuft diesmal nicht, weil sich nichts geändert hat. Die Zeile `gather_facts: true` ist nötig, weil OneDeploy in seiner Konfiguration das automatische Sammeln von Facts abschaltet.
+Starte es zweimal. Im ersten Lauf melden beide Tasks `changed`, worauf der Handler läuft. Den Gruss selbst siehst du bei der nächsten Anmeldung an einem Knoten oder mit `cat /etc/motd`. Der zweite Lauf meldet überall `ok` und `changed=0`. Der Handler läuft diesmal nicht, weil sich nichts geändert hat. Die Zeile `gather_facts: true` ist nötig, weil OneDeploy in seiner Konfiguration das automatische Sammeln von Facts abschaltet. Aufbau, Ablauf und Idempotenz eines Playbooks erklärt die [Einführung in Playbooks](https://docs.ansible.com/projects/ansible-core/2.20/playbook_guide/playbooks_intro.html) von ansible-core 2.20.
 
 ```bash
 cd ~/cc-lab/one-deploy
@@ -108,7 +108,7 @@ ansible-playbook -i ../inventory.yml ~/cc/examples/ansible/motd.yml
 
 ## OpenNebula installieren
 
-Der Lauf von OneDeploy dauert einige Minuten, im Lab des Kurses zwischen eineinhalb und drei, bei einem langsamen Netz deutlich länger. Ansible zeigt dabei jede Rolle und jeden Task mit dem Ergebnis pro Rechner.
+Der Lauf von OneDeploy dauert einige Minuten, im Lab des Kurses zwischen eineinhalb und drei, bei einem langsamen Netz deutlich länger. Ansible zeigt dabei jede Rolle und jeden Task mit dem Ergebnis pro Rechner. Den Ablauf mit Steuerrechner, Inventar und Playbooks beschreibt auch die [Anleitung zu OneDeploy](https://docs.opennebula.io/7.4/getting_started/install_opennebula/one_deploy/one_deploy_overview/) von OpenNebula 7.4.
 
 ```bash
 cd ~/cc-lab/one-deploy
@@ -170,7 +170,7 @@ Nach einer Korrektur startest du den Lauf noch einmal. Weil Ansible den Zielzust
 
 ## Die CLI als dein Benutzer
 
-Die Befehle von OpenNebula wie `onehost` oder `onevm` melden sich mit dem Benutzer und Passwort aus der Datei `~/.one/one_auth` an der API an. Damit du nicht jedes Mal zu `oneadmin` wechseln musst, legst du diese Datei mit dem Passwort aus dem Inventar für deinen eigenen Benutzer an. Nur du darfst sie lesen.
+Die Befehle von OpenNebula wie `onehost` oder `onevm` melden sich mit dem Benutzer und Passwort aus der Datei `~/.one/one_auth` an der API an. Damit du nicht jedes Mal zu `oneadmin` wechseln musst, legst du diese Datei mit dem Passwort aus dem Inventar für deinen eigenen Benutzer an. Nur du darfst sie lesen. Welche Variablen und Dateien die CLI sonst noch liest, steht in der [Konfiguration der CLI](https://docs.opennebula.io/7.4/product/operation_references/command_line_interface/cli_configuration/) von OpenNebula 7.4.
 
 ```bash
 mkdir -p ~/.one

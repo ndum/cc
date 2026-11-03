@@ -43,7 +43,7 @@ Under "Infrastructure › Hosts", Sunstone shows the states with their full name
 onehost show <node> | sed -n '/HOST SHARES/,/LOCAL SYSTEM/p'
 ```
 
-The scheduler plans with the reserved capacity. Once a node is fully reserved, no further VM starts there, even if its real usage would leave room. With the values `RESERVED_CPU` and `RESERVED_MEM` on the host, the platform team can adjust the capacity. A positive value keeps a reserve free. A negative value allows **overcommitment**, which means that more is reserved on the node than it has. Overcommitment lowers the cost because VMs rarely all work at full load at the same time. If they do all work at once, all of them slow down. Overcommitting memory is riskier than overcommitting CPU, because VMs crash when memory runs out. Missing CPU time only slows them down.
+The scheduler plans with the reserved capacity. Once a node is fully reserved, no further VM starts there, even if its real usage would leave room. With the values `RESERVED_CPU` and `RESERVED_MEM` on the host, the platform team can adjust the capacity. A positive value keeps a reserve free. A negative value allows **overcommitment**, which means that more is reserved on the node than it has. Overcommitment lowers the cost because VMs rarely all work at full load at the same time. If they do all work at once, all of them slow down. Overcommitting memory is riskier than overcommitting CPU, because VMs crash when memory runs out. Missing CPU time only slows them down. The [guide to overcommitment](https://docs.opennebula.io/7.4/product/cloud_system_administration/capacity_planning/overcommitment/) of OpenNebula 7.4 shows how to write `RESERVED_CPU` and `RESERVED_MEM`, as absolute values or in percent.
 
 ## Placement by the scheduler
 
@@ -84,7 +84,7 @@ The difference between `poff` and `unde` matters for capacity. A powered-off VM 
 
 ## Migration
 
-`onevm migrate` moves a VM to another node. Without further options OpenNebula pauses the VM briefly, copies its memory and disk and lets it continue on the target. With `--live` the VM keeps running during the migration. Only the last part of its memory follows at the end, in a very short moment. In the lab, migrating a small VM took 7 seconds without the option and 10 seconds with `--live`.
+`onevm migrate` moves a VM to another node. Without further options OpenNebula pauses the VM briefly, copies its memory and disk and lets it continue on the target. With `--live` the VM keeps running during the migration. Only the last part of its memory follows at the end, in a very short moment. In the lab, migrating a small VM took 7 seconds without the option and 10 seconds with `--live`. The [guide to VM instances](https://docs.opennebula.io/7.4/product/virtual_machines_operation/virtual_machines/vm_instances/) explains both kinds of migration.
 
 ```bash
 onevm migrate --live web-1 <other-node>
@@ -101,7 +101,7 @@ onevm list
 onehost offline <node>
 ```
 
-After the maintenance you start the node again and release it with `onehost enable`. New VMs then land on both nodes again. The moved VMs stay where they are until you bring them back yourself.
+After the maintenance you start the node again and release it with `onehost enable`. New VMs then land on both nodes again. The moved VMs stay where they are until you bring them back yourself. The [guide to hosts](https://docs.opennebula.io/7.4/product/cluster_configuration/hosts_and_clusters/hosts/) covers `onehost flush` and the commands for the states of a host.
 
 Maintenance only works if the remaining nodes have enough capacity for all VMs. With two nodes, each one must be able to carry all VMs alone. Whoever plans such a reserve keeps it free for maintenance and failures and includes it in the cost.
 

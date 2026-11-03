@@ -29,14 +29,14 @@ Erzeuge den Schlüssel im Terminal des Clients. Die Passphrase schützt den priv
 ssh-keygen -t ed25519 -C "cc-lab"
 ```
 
-Den öffentlichen Schlüssel aus `~/.ssh/id_ed25519.pub` kopierst du mit `ssh-copy-id` auf jeden Server. Der Befehl fragt ein letztes Mal nach dem Passwort und trägt den Schlüssel auf dem Server in `~/.ssh/authorized_keys` ein.
+Den öffentlichen Schlüssel aus `~/.ssh/id_ed25519.pub` kopierst du mit `ssh-copy-id` auf jeden Server. Der Befehl fragt ein letztes Mal nach dem Passwort und trägt den Schlüssel auf dem Server in `~/.ssh/authorized_keys` ein. Beide Schritte zeigt auch die [Anleitung zu OpenSSH](https://ubuntu.com/server/docs/how-to/security/openssh-server/) in der Dokumentation von Ubuntu Server.
 
 ```bash
 ssh-copy-id cc@<adresse>
 ```
 
 :::selfhost
-Ohne Client arbeitest du auf deinem PC. Windows 11, macOS und Linux bringen OpenSSH mit, unter Windows erzeugst du den Schlüssel in der PowerShell mit demselben Befehl. Windows kennt kein `ssh-copy-id`. Dort hängst du den öffentlichen Schlüssel mit diesem Befehl in der PowerShell an `~/.ssh/authorized_keys` des Servers an.
+Ohne Client arbeitest du auf deinem PC. Windows 11, macOS und Linux bringen OpenSSH mit, unter Windows erzeugst du den Schlüssel in der PowerShell mit demselben Befehl. Wie OpenSSH unter Windows mit Schlüsseln arbeitet, beschreibt die [Anleitung von Microsoft](https://learn.microsoft.com/en-us/windows-server/administration/openssh/openssh_keymanagement). Windows kennt kein `ssh-copy-id`. Dort hängst du den öffentlichen Schlüssel mit diesem Befehl in der PowerShell an `~/.ssh/authorized_keys` des Servers an.
 
 ```powershell
 type $env:USERPROFILE\.ssh\id_ed25519.pub | ssh cc@<adresse> "umask 077; mkdir -p ~/.ssh; cat >> ~/.ssh/authorized_keys"
@@ -47,7 +47,7 @@ Die SSH-Konfiguration aus dem nächsten Abschnitt liegt unter Windows in `%USERP
 
 ## Eine SSH-Konfiguration
 
-Damit du dir keine Adressen merken musst, legst du auf dem Client die Datei `~/.ssh/config` an, etwa mit `nano ~/.ssh/config`. Danach genügt `ssh mmuster-fe`. Ersetze die Namen und Adressen durch deine eigenen aus `/etc/cc-lab.env`.
+Damit du dir keine Adressen merken musst, legst du auf dem Client die Datei `~/.ssh/config` an, etwa mit `nano ~/.ssh/config`. Danach genügt `ssh mmuster-fe`. Ersetze die Namen und Adressen durch deine eigenen aus `/etc/cc-lab.env`. Alle Einträge dieser Datei beschreibt die [Handbuchseite zu ssh_config](https://manpages.ubuntu.com/manpages/resolute/man5/ssh_config.5.html).
 
 ```text
 Host mmuster-fe
@@ -81,7 +81,7 @@ Danach gibt `ssh mmuster-node1 hostname` den Namen des Knotens aus, ohne nach ei
 
 Für deine Meilensteine legst du ein privates Repo an, entweder auf dem GitLab deiner Schule oder auf GitHub. Nenne es `cc-` und deinen Code, also zum Beispiel `cc-mmuster`. Deine Dozentin oder dein Dozent bekommt Lesezugriff. In dieses Repo kommen die Berichte der Checks, eine Kopie von `/etc/cc-lab.env` und pro Meilenstein die Screenshots der Basis. Für die Zusatzaufträge kommen ihre Dokumentation, dein Code und dein Screencast oder ein Link darauf dazu. Die genaue Struktur steht unter [Leistungsbeurteilung](../../assessment/).
 
-Klone das Repo auf das Front-end, denn dort entstehen die meisten Dateien. Damit das Front-end auf GitLab oder GitHub zugreifen kann, legst du seinen öffentlichen Schlüssel in deinem Konto ab. `cat ~/.ssh/id_ed25519.pub` zeigt ihn auf dem Front-end. Du kopierst ihn im Terminal des Clients und fügst ihn im Browser des Clients in den Einstellungen deines Kontos ein.
+Klone das Repo auf das Front-end, denn dort entstehen die meisten Dateien. Damit das Front-end auf GitLab oder GitHub zugreifen kann, legst du seinen öffentlichen Schlüssel in deinem Konto ab. `cat ~/.ssh/id_ed25519.pub` zeigt ihn auf dem Front-end. Du kopierst ihn im Terminal des Clients und fügst ihn im Browser des Clients in den Einstellungen deines Kontos ein. Wo diese Einstellung liegt, zeigen die Anleitungen von [GitLab](https://docs.gitlab.com/user/ssh/) und von [GitHub](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account).
 
 ```bash
 git clone git@github.com:mmuster/cc-mmuster.git

@@ -37,7 +37,7 @@ onemarketapp export "Ubuntu Minimal 26.04" ubuntu-26.04 --datastore default
 oneimage list
 ```
 
-The image is ready as soon as `oneimage list` shows `rdy` in the column `STAT`.
+The image is ready as soon as `oneimage list` shows `rdy` in the column `STAT`. The [marketplace guide](https://docs.opennebula.io/7.4/product/apps-marketplace/managing_marketplaces/marketapps/) of OpenNebula 7.4 describes the other commands of `onemarketapp`.
 
 ## Image formats
 
@@ -65,6 +65,8 @@ A **template** describes a VM, and you can start any number of VMs from it. The 
 onetemplate create ~/cc/lab/iaas/ubuntu.tpl
 onetemplate list
 ```
+
+The [guide to VM templates](https://docs.opennebula.io/7.4/product/virtual_machines_operation/virtual_machines/vm_templates/) shows how to create, update and share templates.
 
 ## Contextualization
 
@@ -103,7 +105,7 @@ onevm show web-1 | grep -E 'IP=|HOST'
 ssh root@<address-of-the-vm>
 ```
 
-Inside the VM you can see what contextualization has set up. `hostname` shows the name, `ip -br addr` the address and `ip link show eth0` the MTU. `curl -I https://ubuntu.com` checks whether the VM reaches the internet through the gateway. Sunstone shows the screen of the VM in the browser of the client. Click the VM under "Instances › VMs", open the menu with the three dots at the top right and choose "Console", then "VNC".
+Inside the VM you can see what contextualization has set up. `hostname` shows the name, `ip -br addr` the address and `ip link show eth0` the MTU. `curl -I https://ubuntu.com` checks whether the VM reaches the internet through the gateway. Sunstone shows the screen of the VM in the browser of the client. Click the VM under "Instances › VMs", open the menu with the three dots at the top right and choose "Console", then "VNC". For further commands on running VMs and the ways to reach their console, see the [guide to VM instances](https://docs.opennebula.io/7.4/product/virtual_machines_operation/virtual_machines/vm_instances/).
 
 ![The VM web-1 in Sunstone with the menu open. Under Console, VNC is available, while SSH and RDP are greyed out because the template enables them for no network card. Below, the Info tab shows the state, the node and the address of the VM.](../../../../assets/screenshots/sunstone-vm-menu.png)
 

@@ -80,7 +80,7 @@ From now on you work on the client. Open a terminal there and log in with your u
 ssh cc@<address>
 ```
 
-To make the address survive a reboot, you put it into the network settings. Ubuntu manages the network with netplan, which reads its settings from YAML files in `/etc/netplan/`. Minimal Ubuntu has no editor yet, so the generator's block for the SSH session writes the file with `tee`, protects it with `chmod 600` and applies the settings with `netplan try`.
+To make the address survive a reboot, you put it into the network settings. Ubuntu manages the network with netplan, which reads its settings from YAML files in `/etc/netplan/`. The [guide to static IP addresses](https://netplan.readthedocs.io/en/1.2/using-static-ip-addresses/) for netplan 1.2, the version in Ubuntu 26.04, shows how such a file sets a fixed address with a route and DNS. Minimal Ubuntu has no editor yet, so the generator's block for the SSH session writes the file with `tee`, protects it with `chmod 600` and applies the settings with `netplan try`.
 
 Copy the block of the server you are logged in to, paste it into the SSH session and start it with Enter. The first `sudo` of a session asks for your password. `netplan try` then waits for you to confirm with Enter. Without a confirmation, for example because the SSH connection drops, netplan restores the old settings after two minutes. Then check the address, the route through the gateway and the connection to the internet. Minimal Ubuntu has no `ping`, but it has `curl`.
 

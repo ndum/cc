@@ -29,14 +29,14 @@ Create the key in the terminal of the client. The passphrase protects the privat
 ssh-keygen -t ed25519 -C "cc-lab"
 ```
 
-`ssh-copy-id` copies the public key from `~/.ssh/id_ed25519.pub` to a server. It asks for the password one last time and adds the key to `~/.ssh/authorized_keys` on the server.
+`ssh-copy-id` copies the public key from `~/.ssh/id_ed25519.pub` to a server. It asks for the password one last time and adds the key to `~/.ssh/authorized_keys` on the server. The [OpenSSH guide](https://ubuntu.com/server/docs/how-to/security/openssh-server/) in the Ubuntu Server documentation shows both steps as well.
 
 ```bash
 ssh-copy-id cc@<address>
 ```
 
 :::selfhost
-Without a client you work on your PC. Windows 11, macOS and Linux ship with OpenSSH, and on Windows you create the key in PowerShell with the same command. Windows has no `ssh-copy-id`. There this PowerShell command appends the public key to `~/.ssh/authorized_keys` on the server.
+Without a client you work on your PC. Windows 11, macOS and Linux ship with OpenSSH, and on Windows you create the key in PowerShell with the same command. Microsoft's [guide to key-based authentication](https://learn.microsoft.com/en-us/windows-server/administration/openssh/openssh_keymanagement) explains how OpenSSH handles keys on Windows. Windows has no `ssh-copy-id`. There this PowerShell command appends the public key to `~/.ssh/authorized_keys` on the server.
 
 ```powershell
 type $env:USERPROFILE\.ssh\id_ed25519.pub | ssh cc@<address> "umask 077; mkdir -p ~/.ssh; cat >> ~/.ssh/authorized_keys"
@@ -47,7 +47,7 @@ On Windows the SSH configuration of the next section lives in `%USERPROFILE%\.ss
 
 ## An SSH configuration
 
-So that you do not have to remember addresses, create the file `~/.ssh/config` on the client, for example with `nano ~/.ssh/config`. After that, `ssh mmuster-fe` is all you type. Replace the names and addresses with your own from `/etc/cc-lab.env`.
+So that you do not have to remember addresses, create the file `~/.ssh/config` on the client, for example with `nano ~/.ssh/config`. After that, `ssh mmuster-fe` is all you type. Replace the names and addresses with your own from `/etc/cc-lab.env`. The [ssh_config manual page](https://manpages.ubuntu.com/manpages/resolute/man5/ssh_config.5.html) describes every entry this file can hold.
 
 ```text
 Host mmuster-fe
@@ -81,7 +81,7 @@ After that, `ssh mmuster-node1 hostname` prints the node's name without asking f
 
 For your milestones you create a private repo, either on your school's GitLab or on GitHub. Name it `cc-` followed by your code, for example `cc-mmuster`, and give your instructor read access. The repo holds the reports of the checks, a copy of `/etc/cc-lab.env` and the screenshots of the base for every milestone. For the advanced tasks their documentation, your code and your screencast or a link to it go there too. [Assessment](../../assessment/) describes the exact layout.
 
-Clone the repo onto the front-end, where most of the files come from. To let the front-end reach GitLab or GitHub, add its public key to your account. `cat ~/.ssh/id_ed25519.pub` on the front-end shows it. Copy it in the terminal of the client and paste it into the settings of your account in the browser of the client.
+Clone the repo onto the front-end, where most of the files come from. To let the front-end reach GitLab or GitHub, add its public key to your account. `cat ~/.ssh/id_ed25519.pub` on the front-end shows it. Copy it in the terminal of the client and paste it into the settings of your account in the browser of the client. The guides of [GitLab](https://docs.gitlab.com/user/ssh/) and [GitHub](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account) show where that setting is.
 
 ```bash
 git clone git@github.com:mmuster/cc-mmuster.git

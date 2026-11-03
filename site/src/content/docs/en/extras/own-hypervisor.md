@@ -30,13 +30,13 @@ You need no client as on smartlearn, your PC takes its role. You log in to the s
 
 ## Hyper-V
 
-On Windows 11 Pro, Education and Enterprise, Hyper-V is the easiest way. Turn on Hyper-V in the Windows features, restart and download the ISO of Ubuntu Server 26.04 LTS from [ubuntu.com](https://ubuntu.com/download/server). The script `lab/hyperv/new-lab.ps1` then creates an internal network with NAT and the three VMs. Run it in a PowerShell as administrator, with your personal code and the path to the ISO.
+On Windows 11 Pro, Education and Enterprise, Hyper-V is the easiest way. Turn on Hyper-V in the Windows features, restart and download the ISO of Ubuntu Server 26.04 LTS from [ubuntu.com](https://ubuntu.com/download/server). Microsoft's [guide to installing Hyper-V](https://learn.microsoft.com/en-us/windows-server/virtualization/hyper-v/get-started/install-hyper-v?pivots=windows) shows how to turn it on. The script `lab/hyperv/new-lab.ps1` then creates an internal network with NAT and the three VMs. Run it in a PowerShell as administrator, with your personal code and the path to the ISO.
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File new-lab.ps1 -Code mmuster -Iso "$env:USERPROFILE\Downloads\ubuntu-26.04-live-server-amd64.iso"
 ```
 
-The script gives the front-end 16 GB of RAM, the nodes 8 GB and every VM four virtual CPUs. It turns on nested virtualization, which requires fixed memory, and picks the Secure Boot template for third-party systems, without which Ubuntu does not start.
+The script gives the front-end 16 GB of RAM, the nodes 8 GB and every VM four virtual CPUs. It turns on nested virtualization, which requires fixed memory, and picks the Secure Boot template for third-party systems, without which Ubuntu does not start. Microsoft's [guide to nested virtualization](https://learn.microsoft.com/en-us/windows-server/virtualization/hyper-v/enable-nested-virtualization) lists what else it needs under Hyper-V.
 
 ::code{file="lab/hyperv/new-lab.ps1" lines="48-52"}
 
@@ -44,13 +44,13 @@ The script creates the lab network 192.168.210.0/24 with NAT, and your PC itself
 
 ## VMware
 
-In VMware Workstation you turn on nested virtualization for both nodes in the VM settings, under "Processors" with "Virtualize Intel VT-x/EPT or AMD-V/RVI". On ESXi the option is called "Expose hardware assisted virtualization to the guest OS".
+In VMware Workstation you turn on nested virtualization for both nodes in the VM settings, under "Processors" with "Virtualize Intel VT-x/EPT or AMD-V/RVI". The [VMware Workstation Pro documentation](https://techdocs.broadcom.com/us/en/vmware-cis/desktop-hypervisors/workstation-pro/26H1/using-vmware-workstation-pro/configuring-virtual-machine-hardware-settings/configuring-virtual-machine-processor-settings.html) explains the option. On ESXi the option is called "Expose hardware assisted virtualization to the guest OS".
 
 On Windows the option only works while the Windows hypervisor is not running. If VMware reports "Virtualized Intel VT-x/EPT is not supported on this platform" at startup, memory integrity, WSL 2 or Docker Desktop are using that hypervisor. Hyper-V or smartlearn is the better way in that case.
 
 ## VirtualBox
 
-In VirtualBox the option is called "Enable Nested VT-x/AMD-V" and sits under "System" and "Processor". On the command line you turn it on with `VBoxManage` while the VM is off. VirtualBox on Windows has the same limitation as VMware.
+In VirtualBox the option is called "Enable Nested VT-x/AMD-V" and sits under "System" and "Processor". On the command line you turn it on with `VBoxManage` while the VM is off. The [VirtualBox manual](https://docs.oracle.com/en/virtualization/virtualbox/7.2/user/AdvancedTopics.html#nested-virt) describes both ways. VirtualBox on Windows has the same limitation as VMware.
 
 ```bash
 VBoxManage modifyvm "mmuster-node1" --nested-hw-virt on
@@ -58,7 +58,7 @@ VBoxManage modifyvm "mmuster-node1" --nested-hw-virt on
 
 ## Proxmox
 
-In Proxmox VE you set the type under "Hardware" and "Processors" to `host` for both nodes. The VM then sees the CPU with all its features, virtualization included. The following file on the Proxmox host shows whether it allows nested virtualization. It has to contain `Y` or `1`, and on AMD processors the path says `kvm_amd`.
+In Proxmox VE you set the type under "Hardware" and "Processors" to `host` for both nodes. The VM then sees the CPU with all its features, virtualization included. The following file on the Proxmox host shows whether it allows nested virtualization. It has to contain `Y` or `1`, and on AMD processors the path says `kvm_amd`. The [page on nested virtualization](https://pve.proxmox.com/wiki/Nested_Virtualization) in the Proxmox VE wiki covers the settings on the host and in the VM.
 
 ```bash
 cat /sys/module/kvm_intel/parameters/nested

@@ -38,7 +38,7 @@ On smartlearn you always work on the client. It is a VM with the Kali Linux desk
 
 On the client you can copy commands from the course and paste them into the terminal. The consoles of the servers on smartlearn do not allow pasting, so you only need a server's console at the very beginning, until it has an address and SSH works.
 
-Your instructor sets up the client in the template. If `ip -br addr` in the client's terminal shows no address in 192.168.210.0/24, set it yourself with `nmcli`. The first command lists the connections, on Kali the wired one is usually called "Wired connection 1".
+Your instructor sets up the client in the template. If `ip -br addr` in the client's terminal shows no address in 192.168.210.0/24, set it yourself with `nmcli`. The first command lists the connections, on Kali the wired one is usually called "Wired connection 1". The [NetworkManager reference manual](https://networkmanager.dev/docs/api/latest/nmcli.html) covers every `nmcli` command.
 
 ```bash
 nmcli connection show
@@ -80,6 +80,8 @@ If you install Ubuntu yourself, choose these settings during the installation:
 3. The same user name on all three VMs, for example `cc`
 4. The box "Install OpenSSH server" checked
 5. No additional snaps
+
+Ubuntu's [installation guide](https://canonical-subiquity.readthedocs-hosted.com/en/latest/tutorial/screen-by-screen.html) walks through the installer screen by screen.
 
 Then take a snapshot of every VM. It brings you back to a fresh installation at any time.
 :::

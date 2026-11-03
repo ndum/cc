@@ -27,7 +27,7 @@ Für alle Schritte dieses Kapitels meldest du dich vom Client aus per SSH an den
 echo "$USER ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/$USER
 ```
 
-Danach läuft `sudo -n true` ohne Rückfrage durch.
+Danach läuft `sudo -n true` ohne Rückfrage durch. Was eine solche Zeile erlaubt, beschreibt die [Handbuchseite zu sudoers](https://manpages.ubuntu.com/manpages/resolute/man5/sudoers-rs.5.html) von Ubuntu 26.04.
 
 ## Das Kursrepo
 
@@ -37,6 +37,8 @@ Die Skripte des Kurses liegen im Kursrepo. Die minimale Installation von Ubuntu 
 sudo apt install -y git
 git clone https://github.com/ndum/cc.git
 ```
+
+`git clone` legt das Repo in einem neuen Ordner `cc` ab, wie die [Dokumentation von Git](https://git-scm.com/docs/git-clone) beschreibt.
 
 ## Das Vorbereitungsskript
 
@@ -62,7 +64,7 @@ Der Dienst `cc-gateway` verbindet das Front-end mit dem internen Netz deiner Clo
 sudo cc-gateway status
 ```
 
-Die Ausgabe nennt das Gateway auf `cc-br`, das VXLAN mit Kennung und Multicast-Gruppe, die Weiterleitung und die NAT-Regel mit deinem internen Netz.
+Die Ausgabe nennt das Gateway auf `cc-br`, das VXLAN mit Kennung und Multicast-Gruppe, die Weiterleitung und die NAT-Regel mit deinem internen Netz. Diese Regel steht in der Tabelle `cc_gateway` von nftables. Regeln dieser Art erklärt die [Anleitung zu NAT](https://wiki.nftables.org/wiki-nftables/index.php/Performing_Network_Address_Translation_%28NAT%29) im Wiki von nftables.
 
 Auf smartlearn kannst du von jeder VM einen Snapshot anlegen. Ein Snapshot der drei Server am Ende dieses Kapitels bringt dich zum vorbereiteten Lab zurück, falls später etwas schiefgeht.
 

@@ -58,7 +58,7 @@ onevnet list
 
 ::code{file="lab/iaas/make-network.sh" lines="16-37"}
 
-`VN_MAD` picks the driver, `PHYDEV` the interface on the nodes, `VLAN_ID` the VXLAN identifier and `BRIDGE` the name of the bridge on the nodes. `AR` is the address range from which OpenNebula hands out addresses to the VMs. The VMs receive `GATEWAY` and `DNS` through the context, as chapter 2.4 shows.
+`VN_MAD` picks the driver, `PHYDEV` the interface on the nodes, `VLAN_ID` the VXLAN identifier and `BRIDGE` the name of the bridge on the nodes. `AR` is the address range from which OpenNebula hands out addresses to the VMs. The VMs receive `GATEWAY` and `DNS` through the context, as chapter 2.4 shows. The [guide to virtual networks](https://docs.opennebula.io/7.4/product/cluster_configuration/networking_system/manage_vnets/) of OpenNebula 7.4 explains these attributes and the commands for networks and address ranges.
 
 In Sunstone the network is under "Networks › Virtual networks". Its "Info" tab shows the same values.
 

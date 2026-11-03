@@ -37,7 +37,7 @@ onemarketapp export "Ubuntu Minimal 26.04" ubuntu-26.04 --datastore default
 oneimage list
 ```
 
-Das Image ist bereit, sobald `oneimage list` in der Spalte `STAT` den Wert `rdy` zeigt.
+Das Image ist bereit, sobald `oneimage list` in der Spalte `STAT` den Wert `rdy` zeigt. Die übrigen Befehle von `onemarketapp` beschreibt die [Anleitung zum Marketplace](https://docs.opennebula.io/7.4/product/apps-marketplace/managing_marketplaces/marketapps/) von OpenNebula 7.4.
 
 ## Formate von Images
 
@@ -65,6 +65,8 @@ Eine **Vorlage** beschreibt eine VM. Aus derselben Vorlage startest du beliebig 
 onetemplate create ~/cc/lab/iaas/ubuntu.tpl
 onetemplate list
 ```
+
+Wie du Vorlagen anlegst, änderst und mit anderen teilst, zeigt die [Anleitung zu VM-Vorlagen](https://docs.opennebula.io/7.4/product/virtual_machines_operation/virtual_machines/vm_templates/).
 
 ## Kontextualisierung
 
@@ -103,7 +105,7 @@ onevm show web-1 | grep -E 'IP=|HOST'
 ssh root@<adresse-der-vm>
 ```
 
-Was die Kontextualisierung eingerichtet hat, siehst du in der VM. `hostname` zeigt den Namen, `ip -br addr` die Adresse und `ip link show eth0` die MTU. Mit `curl -I https://ubuntu.com` prüfst du, ob die VM über das Gateway ins Internet kommt. Sunstone zeigt den Bildschirm der VM im Browser des Clients. Dazu klickst du unter «Instances › VMs» auf die VM, öffnest oben rechts das Menü mit den drei Punkten und wählst «Console» und dann «VNC».
+Was die Kontextualisierung eingerichtet hat, siehst du in der VM. `hostname` zeigt den Namen, `ip -br addr` die Adresse und `ip link show eth0` die MTU. Mit `curl -I https://ubuntu.com` prüfst du, ob die VM über das Gateway ins Internet kommt. Sunstone zeigt den Bildschirm der VM im Browser des Clients. Dazu klickst du unter «Instances › VMs» auf die VM, öffnest oben rechts das Menü mit den drei Punkten und wählst «Console» und dann «VNC». Weitere Befehle für laufende VMs und die Wege zu ihrer Konsole findest du in der [Anleitung zu VM-Instanzen](https://docs.opennebula.io/7.4/product/virtual_machines_operation/virtual_machines/vm_instances/).
 
 ![Die VM web-1 in Sunstone mit dem geöffneten Menü. Unter Console steht VNC bereit, SSH und RDP sind ausgegraut, weil die Vorlage sie für keine Netzkarte freigibt. Darunter zeigt der Reiter Info den Zustand, den Knoten und die Adresse der VM.](../../../assets/screenshots/sunstone-vm-menu.png)
 

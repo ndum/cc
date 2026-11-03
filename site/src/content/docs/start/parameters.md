@@ -80,7 +80,7 @@ Ab jetzt arbeitest du am Client. Öffne dort ein Terminal und melde dich mit dei
 ssh cc@<adresse>
 ```
 
-Damit die Adresse auch einen Neustart übersteht, legst du sie in den Einstellungen des Netzes fest. Ubuntu verwaltet das Netz mit netplan, das seine Einstellungen aus YAML-Dateien in `/etc/netplan/` liest. Das minimale Ubuntu hat noch keinen Editor. Der Block des Generators für die SSH-Sitzung schreibt die Datei deshalb mit `tee`, schützt sie mit `chmod 600` und übernimmt die Einstellungen mit `netplan try`.
+Damit die Adresse auch einen Neustart übersteht, legst du sie in den Einstellungen des Netzes fest. Ubuntu verwaltet das Netz mit netplan, das seine Einstellungen aus YAML-Dateien in `/etc/netplan/` liest. Wie eine solche Datei eine feste Adresse mit Route und DNS festlegt, zeigt die [Anleitung zu festen Adressen](https://netplan.readthedocs.io/en/1.2/using-static-ip-addresses/) von netplan 1.2, der Version in Ubuntu 26.04. Das minimale Ubuntu hat noch keinen Editor. Der Block des Generators für die SSH-Sitzung schreibt die Datei deshalb mit `tee`, schützt sie mit `chmod 600` und übernimmt die Einstellungen mit `netplan try`.
 
 Kopiere den Block des Servers, an dem du gerade angemeldet bist. Füge ihn in die SSH-Sitzung ein und starte ihn mit Enter. Beim ersten `sudo` einer Sitzung fragt der Server nach deinem Passwort. `netplan try` wartet danach auf deine Bestätigung mit Enter. Bleibt sie aus, etwa weil die SSH-Verbindung abbricht, stellt netplan nach zwei Minuten die alten Einstellungen wieder her. Prüfe anschliessend die Adresse, die Route über das Gateway und die Verbindung ins Internet. Das minimale Ubuntu enthält kein `ping`, `curl` ist dabei.
 

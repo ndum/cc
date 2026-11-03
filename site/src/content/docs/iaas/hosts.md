@@ -43,7 +43,7 @@ Unter «Infrastructure › Hosts» zeigt Sunstone die Zustände mit ihrem ausges
 onehost show <knoten> | sed -n '/HOST SHARES/,/LOCAL SYSTEM/p'
 ```
 
-Der Scheduler plant mit der reservierten Kapazität. Ist ein Knoten voll reserviert, startet dort keine VM mehr, auch wenn er real noch Luft hätte. Mit den Werten `RESERVED_CPU` und `RESERVED_MEM` im Host kann das Plattform-Team die Kapazität anpassen. Ein positiver Wert hält Reserve frei. Ein negativer Wert erlaubt **Überbuchung**, dann ist auf dem Knoten mehr reserviert, als er hat. Überbuchung senkt die Kosten, weil selten alle VMs gleichzeitig voll arbeiten. Arbeiten doch alle gleichzeitig, werden alle langsamer. Beim Arbeitsspeicher ist Überbuchung heikler als bei der CPU, weil VMs bei fehlendem Speicher abstürzen. Fehlende CPU-Zeit bremst sie nur.
+Der Scheduler plant mit der reservierten Kapazität. Ist ein Knoten voll reserviert, startet dort keine VM mehr, auch wenn er real noch Luft hätte. Mit den Werten `RESERVED_CPU` und `RESERVED_MEM` im Host kann das Plattform-Team die Kapazität anpassen. Ein positiver Wert hält Reserve frei. Ein negativer Wert erlaubt **Überbuchung**, dann ist auf dem Knoten mehr reserviert, als er hat. Überbuchung senkt die Kosten, weil selten alle VMs gleichzeitig voll arbeiten. Arbeiten doch alle gleichzeitig, werden alle langsamer. Beim Arbeitsspeicher ist Überbuchung heikler als bei der CPU, weil VMs bei fehlendem Speicher abstürzen. Fehlende CPU-Zeit bremst sie nur. Wie du `RESERVED_CPU` und `RESERVED_MEM` absolut oder in Prozent angibst, zeigt die [Anleitung zur Überbuchung](https://docs.opennebula.io/7.4/product/cloud_system_administration/capacity_planning/overcommitment/) von OpenNebula 7.4.
 
 ## Platzierung durch den Scheduler
 
@@ -84,7 +84,7 @@ Der Unterschied zwischen `poff` und `unde` zählt für die Kapazität. Eine ausg
 
 ## Migration
 
-Mit `onevm migrate` verschiebst du eine VM auf einen anderen Knoten. Ohne weitere Option hält OpenNebula die VM kurz an, kopiert ihren Arbeitsspeicher und ihre Disk und lässt sie auf dem Ziel weiterlaufen. Mit `--live` läuft die VM während der Migration weiter. Nur der letzte Teil des Arbeitsspeichers folgt am Schluss in einem sehr kurzen Moment. Im Lab dauerte die Migration einer kleinen VM ohne Option 7 Sekunden und mit `--live` 10 Sekunden.
+Mit `onevm migrate` verschiebst du eine VM auf einen anderen Knoten. Ohne weitere Option hält OpenNebula die VM kurz an, kopiert ihren Arbeitsspeicher und ihre Disk und lässt sie auf dem Ziel weiterlaufen. Mit `--live` läuft die VM während der Migration weiter. Nur der letzte Teil des Arbeitsspeichers folgt am Schluss in einem sehr kurzen Moment. Im Lab dauerte die Migration einer kleinen VM ohne Option 7 Sekunden und mit `--live` 10 Sekunden. Beide Arten der Migration erklärt die [Anleitung zu VM-Instanzen](https://docs.opennebula.io/7.4/product/virtual_machines_operation/virtual_machines/vm_instances/).
 
 ```bash
 onevm migrate --live web-1 <anderer-knoten>
@@ -101,7 +101,7 @@ onevm list
 onehost offline <knoten>
 ```
 
-Nach der Wartung startest du den Knoten wieder und gibst ihn mit `onehost enable` frei. Neue VMs landen dann wieder auf beiden Knoten. Die verschobenen VMs bleiben, wo sie sind, bis du sie selbst zurückholst.
+Nach der Wartung startest du den Knoten wieder und gibst ihn mit `onehost enable` frei. Neue VMs landen dann wieder auf beiden Knoten. Die verschobenen VMs bleiben, wo sie sind, bis du sie selbst zurückholst. `onehost flush` und die Befehle für die Zustände eines Hosts stehen in der [Anleitung zu den Hosts](https://docs.opennebula.io/7.4/product/cluster_configuration/hosts_and_clusters/hosts/).
 
 Die Wartung klappt nur, wenn die übrigen Knoten genug Kapazität für alle VMs haben. Bei zwei Knoten heisst das, dass jeder allein alle VMs tragen muss. Wer eine solche Reserve plant, hält sie für Wartung und Ausfälle frei und rechnet sie in die Kosten ein.
 
