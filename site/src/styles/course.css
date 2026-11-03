@@ -589,6 +589,14 @@ cc-params {
   font-size: var(--sl-text-xs);
   color: var(--sl-color-gray-3);
 }
+.cc-params-note {
+  margin-block: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  border-inline-start: 0.3rem solid var(--sl-color-orange);
+  border-radius: 0.3rem;
+  background: color-mix(in srgb, var(--sl-color-orange-low) 35%, transparent);
+  font-size: var(--sl-text-sm);
+}
 .cc-params-error {
   color: var(--sl-color-red-high);
 }

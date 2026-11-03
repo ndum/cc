@@ -2,8 +2,9 @@
  * <cc-params>: the parameter generator of chapter 0.3.
  *
  * Students type their personal code and the name of the network interface of their servers. The
- * element shows the addresses of the three servers, the two commands for a first address at the
- * console of each server, its netplan file and the content of /etc/cc-lab.env. Everything is
+ * element shows the addresses of the three servers and, in the order of chapter 0.3, the two
+ * commands for a first address at the console of each server, the commands for its SSH session that
+ * write and apply its netplan file and the command that writes /etc/cc-lab.env. Everything is
  * computed in the browser, nothing leaves the page. The last input is kept in localStorage, so the
  * values are still there on the next visit.
  */
@@ -26,15 +27,16 @@ const TEXT = {
     ifaceHint: 'Der Name, den ip -br link auf deinen Servern zeigt, nicht einfach ein Beispiel aus dem Kurs',
     invalidCode: 'Der Code beginnt mit einem Buchstaben und hat 2 bis 16 Kleinbuchstaben oder Ziffern.',
     invalidIface: 'Der Name der Schnittstelle besteht aus Kleinbuchstaben und Ziffern.',
-    missingIface: 'Sobald du den Namen der Netzwerkschnittstelle eingibst, erscheinen hier die Befehle für die Konsole und die Dateien für netplan.',
+    missingIface: 'Sobald du den Namen der Netzwerkschnittstelle eingibst, erscheinen hier die Blöcke für die Konsole und die SSH-Sitzung jedes Servers.',
+    ifaceUsed: (iface) => ['Die Befehle für die Konsole und für netplan verwenden die Schnittstelle ', { code: iface }, '. Zeigt ', { code: 'ip -br link' }, ' auf deinen Servern einen anderen Namen, korrigiere ihn oben.'],
     addresses: 'Adressen deiner drei Server',
     vm: 'Server',
     host: 'Hostname',
     address: 'Adresse',
     names: { fe: 'Front-end', node1: 'Knoten 1', node2: 'Knoten 2' },
     console: (role) => `An der Konsole ${{ fe: 'des Front-ends', node1: 'von Knoten 1', node2: 'von Knoten 2' }[role]} tippen`,
-    netplan: (role) => `/etc/netplan/60-cc-lab.yaml auf ${{ fe: 'dem Front-end', node1: 'Knoten 1', node2: 'Knoten 2' }[role]}`,
-    result: 'Inhalt von /etc/cc-lab.env',
+    ssh: (role) => `In der SSH-Sitzung auf ${{ fe: 'dem Front-end', node1: 'Knoten 1', node2: 'Knoten 2' }[role]} einfügen`,
+    env: 'In der SSH-Sitzung auf jedem der drei Server einfügen',
     copy: 'Kopieren',
     copied: 'Kopiert',
     milestones: 'Deine Werte für die Meilensteine',
@@ -56,15 +58,16 @@ const TEXT = {
     ifaceHint: 'The name ip -br link shows on your servers, not just an example from the course',
     invalidCode: 'The code starts with a letter and has 2 to 16 lower case letters or digits.',
     invalidIface: 'The interface name consists of lower case letters and digits.',
-    missingIface: 'Once you enter the name of the network interface, the commands for the console and the netplan files appear here.',
+    missingIface: 'Once you enter the name of the network interface, the blocks for the console and the SSH session of every server appear here.',
+    ifaceUsed: (iface) => ['The commands for the console and for netplan use the interface ', { code: iface }, '. If ', { code: 'ip -br link' }, ' shows another name on your servers, correct it above.'],
     addresses: 'Addresses of your three servers',
     vm: 'Server',
     host: 'Host name',
     address: 'Address',
     names: { fe: 'Front-end', node1: 'Node 1', node2: 'Node 2' },
     console: (role) => `Type at the console of ${{ fe: 'the front-end', node1: 'node 1', node2: 'node 2' }[role]}`,
-    netplan: (role) => `/etc/netplan/60-cc-lab.yaml on ${{ fe: 'the front-end', node1: 'node 1', node2: 'node 2' }[role]}`,
-    result: 'Content of /etc/cc-lab.env',
+    ssh: (role) => `Paste into the SSH session on ${{ fe: 'the front-end', node1: 'node 1', node2: 'node 2' }[role]}`,
+    env: 'Paste into the SSH session on each of the three servers',
     copy: 'Copy',
     copied: 'Copied',
     milestones: 'Your values for the milestones',
@@ -132,6 +135,16 @@ function block(label, text, t) {
   return wrap;
 }
 
+/** A paragraph from strings and { code } parts, built from text nodes so no input becomes HTML */
+function paragraph(className, parts) {
+  const element = document.createElement('p');
+  element.className = className;
+  for (const part of parts) {
+    element.append(typeof part === 'string' ? part : Object.assign(document.createElement('code'), { textContent: part.code }));
+  }
+  return element;
+}
+
 /** A labelled table with a header row */
 function table(label, head, rows) {
   const title = document.createElement('p');
@@ -151,6 +164,25 @@ function table(label, head, rows) {
 /** The two commands that give a server its first address before SSH works */
 function consoleText(ip, iface) {
   return [`sudo ip link set ${iface} up`, `sudo ip addr add ${ip}/24 dev ${iface}`].join('\n');
+}
+
+/**
+ * The commands for the SSH session that write the netplan file of a server and apply it. netplan try
+ * comes last, because it waits for Enter and would take the next pasted line as the answer
+ */
+function sshText(ip, iface) {
+  return [
+    "sudo tee /etc/netplan/60-cc-lab.yaml <<'EOF'",
+    netplanText(ip, iface),
+    'EOF',
+    'sudo chmod 600 /etc/netplan/60-cc-lab.yaml',
+    'sudo netplan try',
+  ].join('\n');
+}
+
+/** The command for the SSH session that writes /etc/cc-lab.env, the same on all three servers */
+function envText(lines) {
+  return ["sudo tee /etc/cc-lab.env <<'EOF'", ...lines, 'EOF'].join('\n');
 }
 
 class CcParams extends HTMLElement {
@@ -192,16 +224,20 @@ class CcParams extends HTMLElement {
       const hosts = { fe: params.feHost, node1: params.node1Host, node2: params.node2Host };
 
       const perServer = ifaceOk
-        ? ROLES.flatMap((role) => [
-            block(t.console(role), consoleText(ips[role], iface), t),
-            block(t.netplan(role), netplanText(ips[role], iface), t),
-          ])
+        ? [
+            // The name of the interface is the most common mistake, so the result repeats it
+            paragraph('cc-params-note', t.ifaceUsed(iface)),
+            ...ROLES.flatMap((role) => [
+              block(t.console(role), consoleText(ips[role], iface), t),
+              block(t.ssh(role), sshText(ips[role], iface), t),
+            ]),
+          ]
         : [Object.assign(document.createElement('p'), { className: 'cc-params-hint', textContent: t.missingIface })];
 
       result.replaceChildren(
         ...table(t.addresses, [t.vm, t.host, t.address], ROLES.map((role) => [t.names[role], hosts[role], `${ips[role]}/24`])),
         ...perServer,
-        block(t.result, envLines(params, ips, lang).join('\n'), t),
+        block(t.env, envText(envLines(params, ips, lang)), t),
         ...table(t.milestones, t.msHead, t.msRows(ms)),
       );
       result.hidden = false;
