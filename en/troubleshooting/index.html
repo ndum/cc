@@ -1,0 +1,595 @@
+<!DOCTYPE html><html lang="en" dir="ltr" data-theme="dark" data-has-toc data-has-sidebar class="astro-rlm2zbci"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>Troubleshooting | HFI - Cloud Computing (CC)</title><link rel="canonical" href="https://cc.ndum.ch/en/troubleshooting/"/><link rel="alternate" hreflang="de-CH" href="https://cc.ndum.ch/troubleshooting/"/><link rel="alternate" hreflang="en" href="https://cc.ndum.ch/en/troubleshooting/"/><link rel="alternate" hreflang="x-default" href="https://cc.ndum.ch/troubleshooting/"/><link rel="sitemap" href="/sitemap-index.xml"/><link rel="shortcut icon" href="/favicon.svg" type="image/svg+xml"/><meta name="generator" content="Astro v7.4.0"/><meta name="generator" content="Starlight v0.42.6"/><meta property="og:title" content="Troubleshooting"/><meta property="og:type" content="article"/><meta property="og:url" content="https://cc.ndum.ch/en/troubleshooting/"/><meta property="og:locale" content="en"/><meta property="og:description" content="A procedure for faults in your lab and the common problems of all parts, sorted by layer, with cause and fix."/><meta property="og:site_name" content="HFI - Cloud Computing (CC)"/><meta name="twitter:card" content="summary_large_image"/><meta name="description" content="A procedure for faults in your lab and the common problems of all parts, sorted by layer, with cause and fix."/><script type="module" src="/_astro/Head.astro_astro_type_script_index_0_lang.MMCFzYWf.js"></script><script>
+	window.StarlightThemeProvider = (() => {
+		const storedTheme =
+			typeof localStorage !== 'undefined' && localStorage.getItem('starlight-theme');
+		const theme =
+			storedTheme ||
+			(window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+		document.documentElement.dataset.theme = theme === 'light' ? 'light' : 'dark';
+		return {
+			updatePickers(theme = storedTheme || 'auto') {
+				document.querySelectorAll('starlight-theme-select').forEach((picker) => {
+					const select = picker.querySelector('select');
+					if (select) select.value = theme;
+					/** @type {HTMLTemplateElement | null} */
+					const tmpl = document.querySelector(`#theme-icons`);
+					const newIcon = tmpl && tmpl.content.querySelector('.' + theme);
+					if (newIcon) {
+						const oldIcon = picker.querySelector('svg.label-icon');
+						if (oldIcon) {
+							oldIcon.replaceChildren(...newIcon.cloneNode(true).childNodes);
+						}
+					}
+				});
+			},
+		};
+	})();
+</script><template id="theme-icons"><svg aria-hidden="true" class="light astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M5 12a1 1 0 0 0-1-1H3a1 1 0 0 0 0 2h1a1 1 0 0 0 1-1Zm.64 5-.71.71a1 1 0 0 0 0 1.41 1 1 0 0 0 1.41 0l.71-.71A1 1 0 0 0 5.64 17ZM12 5a1 1 0 0 0 1-1V3a1 1 0 0 0-2 0v1a1 1 0 0 0 1 1Zm5.66 2.34a1 1 0 0 0 .7-.29l.71-.71a1 1 0 1 0-1.41-1.41l-.66.71a1 1 0 0 0 0 1.41 1 1 0 0 0 .66.29Zm-12-.29a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.71-.71a1.004 1.004 0 1 0-1.43 1.41l.73.71ZM21 11h-1a1 1 0 0 0 0 2h1a1 1 0 0 0 0-2Zm-2.64 6A1 1 0 0 0 17 18.36l.71.71a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.76-.66ZM12 6.5a5.5 5.5 0 1 0 5.5 5.5A5.51 5.51 0 0 0 12 6.5Zm0 9a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Zm0 3.5a1 1 0 0 0-1 1v1a1 1 0 0 0 2 0v-1a1 1 0 0 0-1-1Z"/></svg><svg aria-hidden="true" class="dark astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.64 13a1 1 0 0 0-1.05-.14 8.049 8.049 0 0 1-3.37.73 8.15 8.15 0 0 1-8.14-8.1 8.59 8.59 0 0 1 .25-2A1 1 0 0 0 8 2.36a10.14 10.14 0 1 0 14 11.69 1 1 0 0 0-.36-1.05Zm-9.5 6.69A8.14 8.14 0 0 1 7.08 5.22v.27a10.15 10.15 0 0 0 10.14 10.14 9.784 9.784 0 0 0 2.1-.22 8.11 8.11 0 0 1-7.18 4.32v-.04Z"/></svg><svg aria-hidden="true" class="auto astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg></template><link rel="stylesheet" href="/_astro/print.ehPL0gv-.css" media="print"><link rel="stylesheet" href="/_astro/middleware.BaZU1OVM.css"><script type="module" src="/_astro/page.cNngjUgL.js"></script></head><body class="astro-rlm2zbci"><a class="sl-skip-link astro-bmgq2fky" href="#_top">Skip to content</a><div class="page sl-flex astro-ogthqvzv"><header class="header astro-ogthqvzv"><div class="header astro-pknpegvt"><div class="title-wrapper sl-flex astro-pknpegvt"><a href="/en/" class="site-title sl-flex astro-drgrrgkq"><span class="astro-drgrrgkq" translate="no">HFI - Cloud Computing (CC)</span></a></div><div class="sl-flex print:hidden astro-pknpegvt"><site-search class="astro-pknpegvt astro-nssz7xfl" data-translations="{&quot;placeholder&quot;:&quot;Search&quot;}"><button data-open-modal disabled aria-label="Search" aria-keyshortcuts="Control+K" class="astro-nssz7xfl"><svg aria-hidden="true" class="astro-nssz7xfl astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.71 20.29 18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 0-14 7 7 0 0 1 0 14Z"/></svg><span class="sl-hidden md:sl-block astro-nssz7xfl" aria-hidden="true">Search</span><kbd class="sl-hidden md:sl-flex astro-nssz7xfl" style="display: none;"><kbd class="astro-nssz7xfl">Ctrl</kbd><kbd class="astro-nssz7xfl">K</kbd></kbd></button><dialog style="padding:0" aria-label="Search" class="astro-nssz7xfl"><div class="dialog-frame sl-flex astro-nssz7xfl"><button data-close-modal class="sl-flex md:sl-hidden astro-nssz7xfl">Cancel</button><div class="search-container astro-nssz7xfl"><div id="starlight__search" class="astro-nssz7xfl"></div></div></div></dialog></site-search><script>
+	(() => {
+		const openBtn = document.querySelector('button[data-open-modal]');
+		const shortcut = openBtn?.querySelector('kbd');
+		if (!openBtn || !(shortcut instanceof HTMLElement)) return;
+		const platformKey = shortcut.querySelector('kbd');
+		if (platformKey && /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform)) {
+			platformKey.textContent = '⌘';
+			openBtn.setAttribute('aria-keyshortcuts', 'Meta+K');
+		}
+		shortcut.style.display = '';
+	})();
+</script><script type="module" src="/_astro/Search.astro_astro_type_script_index_0_lang.Djc9ZKGJ.js"></script></div><div class="sl-hidden md:sl-flex print:hidden right-group astro-pknpegvt"><div class="sl-flex social-icons astro-pknpegvt"><a href="https://github.com/ndum/cc" rel="me" class="sl-flex astro-vvaccv3s"><span class="sr-only astro-vvaccv3s">GitHub</span><svg aria-hidden="true" class="astro-vvaccv3s astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.12.83-.26.83-.57L9 21.07c-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.09-.73.09-.73 1.2.09 1.83 1.24 1.83 1.24 1.08 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18a4.65 4.65 0 0 1 1.23 3.22c0 4.61-2.8 5.63-5.48 5.92.42.36.81 1.1.81 2.22l-.01 3.29c0 .31.2.69.82.57A12 12 0 0 0 12 .3Z"/></svg></a></div><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-scmnraha"><span class="sr-only astro-scmnraha">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-scmnraha astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-scmnraha"><option value="dark" class="astro-scmnraha">Dark</option><option value="light" class="astro-scmnraha">Light</option><option value="auto" selected class="astro-scmnraha">Auto</option></select><svg aria-hidden="true" class="icon caret astro-scmnraha astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script><script type="module">var e=`starlight-theme`,t=e=>e===`auto`||e===`dark`||e===`light`?e:`auto`,n=()=>t(typeof localStorage<`u`&&localStorage.getItem(e));function r(t){typeof localStorage<`u`&&localStorage.setItem(e,t===`light`||t===`dark`?t:``)}var i=()=>matchMedia(`(prefers-color-scheme: light)`).matches?`light`:`dark`;function a(e){StarlightThemeProvider.updatePickers(e),document.documentElement.dataset.theme=e===`auto`?i():e,r(e)}matchMedia(`(prefers-color-scheme: light)`).addEventListener(`change`,()=>{n()===`auto`&&a(`auto`)});var o=class extends HTMLElement{constructor(){super(),a(n()),this.querySelector(`select`)?.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&a(t(e.currentTarget.value))})}};customElements.define(`starlight-theme-select`,o);</script><starlight-lang-select><label style="--sl-select-width: 7em" class="astro-scmnraha"><span class="sr-only astro-scmnraha">Select language</span><svg aria-hidden="true" class="icon label-icon astro-scmnraha astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path fill-rule="evenodd" d="M8.516 3a.94.94 0 0 0-.941.94v1.15H2.94a.94.94 0 1 0 0 1.882h7.362a7.422 7.422 0 0 1-1.787 3.958 7.42 7.42 0 0 1-1.422-2.425.94.94 0 1 0-1.774.627 9.303 9.303 0 0 0 1.785 3.043 7.422 7.422 0 0 1-4.164 1.278.94.94 0 1 0 0 1.881 9.303 9.303 0 0 0 5.575-1.855 9.303 9.303 0 0 0 4.11 1.74l-.763 1.525a.968.968 0 0 0-.016.034l-1.385 2.77a.94.94 0 1 0 1.683.841l1.133-2.267h5.806l1.134 2.267a.94.94 0 0 0 1.683-.841l-1.385-2.769a.95.95 0 0 0-.018-.036l-3.476-6.951a.94.94 0 0 0-1.682 0l-1.82 3.639a7.423 7.423 0 0 1-3.593-1.256 9.303 9.303 0 0 0 2.27-5.203h1.894a.94.94 0 0 0 0-1.881H9.456V3.94A.94.94 0 0 0 8.516 3Zm6.426 11.794a1.068 1.068 0 0 1-.02.039l-.703 1.407h3.924l-1.962-3.924-1.24 2.478Z" clip-rule="evenodd"/></svg><select autocomplete="off" class="astro-scmnraha"><option value="/troubleshooting/" class="astro-scmnraha">Deutsch</option><option value="/en/troubleshooting/" selected class="astro-scmnraha">English</option></select><svg aria-hidden="true" class="icon caret astro-scmnraha astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-lang-select><script type="module">var e=class extends HTMLElement{constructor(){super();let e=this.querySelector(`select`);e&&(e.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&(window.location.pathname=e.currentTarget.value)}),window.addEventListener(`pageshow`,t=>{if(!t.persisted)return;let n=e.querySelector(`option[selected]`)?.index;n!==e.selectedIndex&&(e.selectedIndex=n??0)}))}};customElements.define(`starlight-lang-select`,e);</script></div></div></header><nav class="sidebar print:hidden astro-ogthqvzv" aria-label="Main"><button popovertarget="starlight__sidebar" class="sl-menu-button sl-flex md:sl-hidden print:hidden astro-lloqvvyf"><svg aria-hidden="true" class="open-menu astro-lloqvvyf astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M3 8h18a1 1 0 1 0 0-2H3a1 1 0 0 0 0 2Zm18 8H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Zm0-5H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Z"/></svg><svg aria-hidden="true" class="close-menu astro-lloqvvyf astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="m13.41 12 6.3-6.29a1.004 1.004 0 1 0-1.42-1.42L12 10.59l-6.29-6.3a1.004 1.004 0 0 0-1.42 1.42l6.3 6.29-6.3 6.29a1 1 0 0 0 0 1.42.998.998 0 0 0 1.42 0l6.29-6.3 6.29 6.3a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.42L13.41 12Z"/></svg><span class="sr-only astro-lloqvvyf">Menu</span></button><script type="module">var e=class extends HTMLElement{constructor(){super();let e=matchMedia(`(min-width: 50em)`),t=()=>{this.popover=e.matches?null:`auto`};t(),e.addEventListener(`change`,()=>t()),this.addEventListener(`toggle`,({newState:e})=>this.trapFocus(e===`open`))}trapFocus(e){document.querySelectorAll(`.main-frame, .sl-skip-link`).forEach(t=>{t.toggleAttribute(`inert`,e)})}};customElements.define(`sl-sidebar-pane`,e);</script><sl-sidebar-pane popover id="starlight__sidebar" class="sidebar-pane astro-ogthqvzv"><div class="sidebar-content sl-flex astro-ogthqvzv"><sl-sidebar-state-persist data-hash="1q72mqo" class="astro-wkj266cr"><script aria-hidden="true">
+		(() => {
+			try {
+				if (!matchMedia('(min-width: 50em)').matches) return;
+				/** @type {HTMLElement | null} */
+				const target = document.querySelector('sl-sidebar-state-persist');
+				const state = JSON.parse(sessionStorage.getItem('sl-sidebar-state') || '0');
+				if (!target || !state || target.dataset.hash !== state.hash) return;
+				window._starlightScrollRestore = state.scroll;
+				customElements.define(
+					'sl-sidebar-restore',
+					class SidebarRestore extends HTMLElement {
+						connectedCallback() {
+							try {
+								const idx = parseInt(this.dataset.index || '');
+								const details = this.closest('details');
+								if (details && typeof state.open[idx] === 'boolean') details.open = state.open[idx];
+							} catch {}
+						}
+					}
+				);
+			} catch {}
+		})();
+	</script><ul class="top-level astro-ez73slyg"><li class="astro-ez73slyg"><details class="astro-ez73slyg"><summary class="astro-ez73slyg"><span class="group-label astro-ez73slyg"><span class="large astro-ez73slyg">0 Getting started</span></span><svg aria-hidden="true" class="caret astro-ez73slyg astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="0"></sl-sidebar-restore><ul class="astro-ez73slyg"><li class="astro-ez73slyg"><a href="/en/start/overview/" class="astro-ez73slyg"><span class="astro-ez73slyg">0.1 Course overview</span></a></li><li class="astro-ez73slyg"><a href="/en/start/lab/" class="astro-ez73slyg"><span class="astro-ez73slyg">0.2 The lab</span></a></li><li class="astro-ez73slyg"><a href="/en/start/parameters/" class="astro-ez73slyg"><span class="astro-ez73slyg">0.3 Personal parameters</span></a></li><li class="astro-ez73slyg"><a href="/en/start/prepare/" class="astro-ez73slyg"><span class="astro-ez73slyg">0.4 Preparing the VMs</span></a></li><li class="astro-ez73slyg"><a href="/en/start/tools/" class="astro-ez73slyg"><span class="astro-ez73slyg">0.5 Tools and hand-in repo</span></a></li><li class="astro-ez73slyg"><a href="/en/start/competences/" class="astro-ez73slyg"><span class="astro-ez73slyg">0.6 Competence grid</span></a></li></ul></details></li><li class="astro-ez73slyg"><details class="astro-ez73slyg"><summary class="astro-ez73slyg"><span class="group-label astro-ez73slyg"><span class="large astro-ez73slyg">1 Cloud basics</span></span><svg aria-hidden="true" class="caret astro-ez73slyg astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="1"></sl-sidebar-restore><ul class="astro-ez73slyg"><li class="astro-ez73slyg"><a href="/en/basics/characteristics/" class="astro-ez73slyg"><span class="astro-ez73slyg">1.1 Characteristics of a cloud</span></a></li><li class="astro-ez73slyg"><a href="/en/basics/models/" class="astro-ez73slyg"><span class="astro-ez73slyg">1.2 Service and deployment models</span></a></li><li class="astro-ez73slyg"><a href="/en/basics/virtualization/" class="astro-ez73slyg"><span class="astro-ez73slyg">1.3 Virtualization</span></a></li><li class="astro-ez73slyg"><a href="/en/basics/sovereignty/" class="astro-ez73slyg"><span class="astro-ez73slyg">1.4 Sovereignty, law and cost</span></a></li><li class="astro-ez73slyg"><a href="/en/basics/competences/" class="astro-ez73slyg"><span class="astro-ez73slyg">1.5 Competence grid</span></a></li></ul></details></li><li class="astro-ez73slyg"><details class="astro-ez73slyg"><summary class="astro-ez73slyg"><span class="group-label astro-ez73slyg"><span class="large astro-ez73slyg">2 Building IaaS</span></span><svg aria-hidden="true" class="caret astro-ez73slyg astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="2"></sl-sidebar-restore><ul class="astro-ez73slyg"><li class="astro-ez73slyg"><a href="/en/iaas/architecture/" class="astro-ez73slyg"><span class="astro-ez73slyg">2.1 Architecture of OpenNebula</span></a></li><li class="astro-ez73slyg"><a href="/en/iaas/installation/" class="astro-ez73slyg"><span class="astro-ez73slyg">2.2 Installation with OneDeploy</span></a></li><li class="astro-ez73slyg"><a href="/en/iaas/networks/" class="astro-ez73slyg"><span class="astro-ez73slyg">2.3 Virtual networks</span></a></li><li class="astro-ez73slyg"><a href="/en/iaas/images/" class="astro-ez73slyg"><span class="astro-ez73slyg">2.4 Images, templates and context</span></a></li><li class="astro-ez73slyg"><a href="/en/iaas/hosts/" class="astro-ez73slyg"><span class="astro-ez73slyg">2.5 Operating hosts</span></a></li><li class="astro-ez73slyg"><a href="/en/iaas/competences/" class="astro-ez73slyg"><span class="astro-ez73slyg">2.6 Competence grid</span></a></li></ul></details></li><li class="astro-ez73slyg"><details class="astro-ez73slyg"><summary class="astro-ez73slyg"><span class="group-label astro-ez73slyg"><span class="large astro-ez73slyg">3 Tenants and self-service</span></span><svg aria-hidden="true" class="caret astro-ez73slyg astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="3"></sl-sidebar-restore><ul class="astro-ez73slyg"><li class="astro-ez73slyg"><a href="/en/tenants/groups/" class="astro-ez73slyg"><span class="astro-ez73slyg">3.1 Users, groups and VDCs</span></a></li><li class="astro-ez73slyg"><a href="/en/tenants/quotas/" class="astro-ez73slyg"><span class="astro-ez73slyg">3.2 Quotas</span></a></li><li class="astro-ez73slyg"><a href="/en/tenants/showback/" class="astro-ez73slyg"><span class="astro-ez73slyg">3.3 Showback</span></a></li><li class="astro-ez73slyg"><a href="/en/tenants/self-service/" class="astro-ez73slyg"><span class="astro-ez73slyg">3.4 Self-service</span></a></li><li class="astro-ez73slyg"><a href="/en/tenants/advanced/" class="astro-ez73slyg"><span class="astro-ez73slyg">3.5 Advanced tasks</span><span class="sl-badge note small  astro-ez73slyg astro-5qxlfd7c">Advanced</span></a></li><li class="astro-ez73slyg"><a href="/en/tenants/competences/" class="astro-ez73slyg"><span class="astro-ez73slyg">3.6 Competence grid</span></a></li></ul></details></li><li class="astro-ez73slyg"><details class="astro-ez73slyg"><summary class="astro-ez73slyg"><span class="group-label astro-ez73slyg"><span class="large astro-ez73slyg">4 Platform as code</span></span><svg aria-hidden="true" class="caret astro-ez73slyg astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="4"></sl-sidebar-restore><ul class="astro-ez73slyg"><li class="astro-ez73slyg"><a href="/en/platform/iac/" class="astro-ez73slyg"><span class="astro-ez73slyg">4.1 Infrastructure as code</span></a></li><li class="astro-ez73slyg"><a href="/en/platform/opentofu/" class="astro-ez73slyg"><span class="astro-ez73slyg">4.2 OpenTofu with OpenNebula</span></a></li><li class="astro-ez73slyg"><a href="/en/platform/kubernetes/" class="astro-ez73slyg"><span class="astro-ez73slyg">4.3 Kubernetes as code</span></a></li><li class="astro-ez73slyg"><a href="/en/platform/gitops/" class="astro-ez73slyg"><span class="astro-ez73slyg">4.4 GitOps with Argo CD</span></a></li><li class="astro-ez73slyg"><a href="/en/platform/templates/" class="astro-ez73slyg"><span class="astro-ez73slyg">4.5 Platform templates</span></a></li><li class="astro-ez73slyg"><a href="/en/platform/advanced/" class="astro-ez73slyg"><span class="astro-ez73slyg">4.6 Advanced tasks</span><span class="sl-badge note small  astro-ez73slyg astro-5qxlfd7c">Advanced</span></a></li><li class="astro-ez73slyg"><a href="/en/platform/competences/" class="astro-ez73slyg"><span class="astro-ez73slyg">4.7 Competence grid</span></a></li></ul></details></li><li class="astro-ez73slyg"><details class="astro-ez73slyg"><summary class="astro-ez73slyg"><span class="group-label astro-ez73slyg"><span class="large astro-ez73slyg">5 Observability, scaling and AI</span></span><svg aria-hidden="true" class="caret astro-ez73slyg astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="5"></sl-sidebar-restore><ul class="astro-ez73slyg"><li class="astro-ez73slyg"><a href="/en/observability/metrics/" class="astro-ez73slyg"><span class="astro-ez73slyg">5.1 Metrics with Prometheus</span></a></li><li class="astro-ez73slyg"><a href="/en/observability/logs/" class="astro-ez73slyg"><span class="astro-ez73slyg">5.2 Logs with Loki</span></a></li><li class="astro-ez73slyg"><a href="/en/observability/slo/" class="astro-ez73slyg"><span class="astro-ez73slyg">5.3 Alerts and SLOs</span></a></li><li class="astro-ez73slyg"><a href="/en/observability/autoscaling/" class="astro-ez73slyg"><span class="astro-ez73slyg">5.4 Autoscaling</span></a></li><li class="astro-ez73slyg"><a href="/en/observability/advanced/" class="astro-ez73slyg"><span class="astro-ez73slyg">5.5 Advanced tasks</span><span class="sl-badge note small  astro-ez73slyg astro-5qxlfd7c">Advanced</span></a></li><li class="astro-ez73slyg"><a href="/en/observability/competences/" class="astro-ez73slyg"><span class="astro-ez73slyg">5.6 Competence grid</span></a></li></ul></details></li><li class="astro-ez73slyg"><details class="astro-ez73slyg"><summary class="astro-ez73slyg"><span class="group-label astro-ez73slyg"><span class="large astro-ez73slyg">6 Operations</span></span><svg aria-hidden="true" class="caret astro-ez73slyg astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="6"></sl-sidebar-restore><ul class="astro-ez73slyg"><li class="astro-ez73slyg"><a href="/en/operations/security/" class="astro-ez73slyg"><span class="astro-ez73slyg">6.1 Security</span></a></li><li class="astro-ez73slyg"><a href="/en/operations/backup/" class="astro-ez73slyg"><span class="astro-ez73slyg">6.2 Backup and restore</span></a></li><li class="astro-ez73slyg"><a href="/en/operations/sla/" class="astro-ez73slyg"><span class="astro-ez73slyg">6.3 SLA and operations concept</span></a></li><li class="astro-ez73slyg"><a href="/en/operations/cost/" class="astro-ez73slyg"><span class="astro-ez73slyg">6.4 Cost and resource efficiency</span></a></li><li class="astro-ez73slyg"><a href="/en/operations/advanced/" class="astro-ez73slyg"><span class="astro-ez73slyg">6.5 Advanced tasks</span><span class="sl-badge note small  astro-ez73slyg astro-5qxlfd7c">Advanced</span></a></li><li class="astro-ez73slyg"><a href="/en/operations/competences/" class="astro-ez73slyg"><span class="astro-ez73slyg">6.6 Competence grid</span></a></li></ul></details></li><li class="astro-ez73slyg"><details class="astro-ez73slyg"><summary class="astro-ez73slyg"><span class="group-label astro-ez73slyg"><span class="large astro-ez73slyg">Supplements</span></span><svg aria-hidden="true" class="caret astro-ez73slyg astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="7"></sl-sidebar-restore><ul class="astro-ez73slyg"><li class="astro-ez73slyg"><a href="/en/extras/own-hypervisor/" class="astro-ez73slyg"><span class="astro-ez73slyg">A hypervisor of your own</span></a></li><li class="astro-ez73slyg"><a href="/en/extras/opennebula/" class="astro-ez73slyg"><span class="astro-ez73slyg">OpenNebula in depth</span></a></li><li class="astro-ez73slyg"><a href="/en/extras/network/" class="astro-ez73slyg"><span class="astro-ez73slyg">Linux networking in the lab</span></a></li><li class="astro-ez73slyg"><a href="/en/extras/kubernetes/" class="astro-ez73slyg"><span class="astro-ez73slyg">Kubernetes basics</span></a></li><li class="astro-ez73slyg"><a href="/en/extras/platform-tools/" class="astro-ez73slyg"><span class="astro-ez73slyg">Tools of the platform</span></a></li></ul></details></li><li class="astro-ez73slyg"><details class="astro-ez73slyg"><summary class="astro-ez73slyg"><span class="group-label astro-ez73slyg"><span class="large astro-ez73slyg">Assessment</span></span><svg aria-hidden="true" class="caret astro-ez73slyg astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="8"></sl-sidebar-restore><ul class="astro-ez73slyg"><li class="astro-ez73slyg"><a href="/en/assessment/" class="astro-ez73slyg"><span class="astro-ez73slyg">Overview</span></a></li><li class="astro-ez73slyg"><a href="/en/assessment/milestone-1/" class="astro-ez73slyg"><span class="astro-ez73slyg">IaaS for Wolkenwerk (Milestone 1)</span></a></li><li class="astro-ez73slyg"><a href="/en/assessment/milestone-2/" class="astro-ez73slyg"><span class="astro-ez73slyg">Platform as code (Milestone 2)</span></a></li><li class="astro-ez73slyg"><a href="/en/assessment/milestone-3/" class="astro-ez73slyg"><span class="astro-ez73slyg">Observability, scaling and AI (Milestone 3)</span></a></li><li class="astro-ez73slyg"><a href="/en/assessment/milestone-4/" class="astro-ez73slyg"><span class="astro-ez73slyg">Operations and a member of your own (Milestone 4)</span></a></li><li class="astro-ez73slyg"><a href="/en/assessment/exam/" class="astro-ez73slyg"><span class="astro-ez73slyg">Exam</span></a></li></ul></details></li><li class="astro-ez73slyg"><details open class="astro-ez73slyg"><summary class="astro-ez73slyg"><span class="group-label astro-ez73slyg"><span class="large astro-ez73slyg">Reference</span></span><svg aria-hidden="true" class="caret astro-ez73slyg astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="9"></sl-sidebar-restore><ul class="astro-ez73slyg"><li class="astro-ez73slyg"><a href="/en/glossary/" class="astro-ez73slyg"><span class="astro-ez73slyg">Glossary</span></a></li><li class="astro-ez73slyg"><a href="/en/lab-reference/" class="astro-ez73slyg"><span class="astro-ez73slyg">Lab reference</span></a></li><li class="astro-ez73slyg"><a href="/en/troubleshooting/" aria-current="page" class="astro-ez73slyg"><span class="astro-ez73slyg">Troubleshooting</span></a></li></ul></details></li></ul><script aria-hidden="true">
+		(() => {
+			const scroller = document.getElementById('starlight__sidebar');
+			if (!window._starlightScrollRestore || !scroller) return;
+			scroller.scrollTop = window._starlightScrollRestore;
+			delete window._starlightScrollRestore;
+		})();
+	</script></sl-sidebar-state-persist><div class="md:sl-hidden"><div class="mobile-preferences sl-flex astro-uz3f2oy4"><div class="social-icons astro-uz3f2oy4"><a href="https://github.com/ndum/cc" rel="me" class="sl-flex astro-vvaccv3s"><span class="sr-only astro-vvaccv3s">GitHub</span><svg aria-hidden="true" class="astro-vvaccv3s astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.12.83-.26.83-.57L9 21.07c-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.09-.73.09-.73 1.2.09 1.83 1.24 1.83 1.24 1.08 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18a4.65 4.65 0 0 1 1.23 3.22c0 4.61-2.8 5.63-5.48 5.92.42.36.81 1.1.81 2.22l-.01 3.29c0 .31.2.69.82.57A12 12 0 0 0 12 .3Z"/></svg></a></div><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-scmnraha"><span class="sr-only astro-scmnraha">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-scmnraha astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-scmnraha"><option value="dark" class="astro-scmnraha">Dark</option><option value="light" class="astro-scmnraha">Light</option><option value="auto" selected class="astro-scmnraha">Auto</option></select><svg aria-hidden="true" class="icon caret astro-scmnraha astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script><starlight-lang-select><label style="--sl-select-width: 7em" class="astro-scmnraha"><span class="sr-only astro-scmnraha">Select language</span><svg aria-hidden="true" class="icon label-icon astro-scmnraha astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path fill-rule="evenodd" d="M8.516 3a.94.94 0 0 0-.941.94v1.15H2.94a.94.94 0 1 0 0 1.882h7.362a7.422 7.422 0 0 1-1.787 3.958 7.42 7.42 0 0 1-1.422-2.425.94.94 0 1 0-1.774.627 9.303 9.303 0 0 0 1.785 3.043 7.422 7.422 0 0 1-4.164 1.278.94.94 0 1 0 0 1.881 9.303 9.303 0 0 0 5.575-1.855 9.303 9.303 0 0 0 4.11 1.74l-.763 1.525a.968.968 0 0 0-.016.034l-1.385 2.77a.94.94 0 1 0 1.683.841l1.133-2.267h5.806l1.134 2.267a.94.94 0 0 0 1.683-.841l-1.385-2.769a.95.95 0 0 0-.018-.036l-3.476-6.951a.94.94 0 0 0-1.682 0l-1.82 3.639a7.423 7.423 0 0 1-3.593-1.256 9.303 9.303 0 0 0 2.27-5.203h1.894a.94.94 0 0 0 0-1.881H9.456V3.94A.94.94 0 0 0 8.516 3Zm6.426 11.794a1.068 1.068 0 0 1-.02.039l-.703 1.407h3.924l-1.962-3.924-1.24 2.478Z" clip-rule="evenodd"/></svg><select autocomplete="off" class="astro-scmnraha"><option value="/troubleshooting/" class="astro-scmnraha">Deutsch</option><option value="/en/troubleshooting/" selected class="astro-scmnraha">English</option></select><svg aria-hidden="true" class="icon caret astro-scmnraha astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-lang-select></div></div></div></sl-sidebar-pane></nav><div class="main-frame astro-ogthqvzv"><script type="module">var e=document.getElementById(`starlight__sidebar`),t=e?.querySelector(`sl-sidebar-state-persist`),n=`sl-sidebar-state`,r=()=>{let r=[],i=t?.dataset.hash||``;try{let e=sessionStorage.getItem(n),t=JSON.parse(e||`{}`);Array.isArray(t.open)&&t.hash===i&&(r=t.open)}catch{}return{hash:i,open:r,scroll:e?.scrollTop||0}},i=e=>{try{sessionStorage.setItem(n,JSON.stringify(e))}catch{}},a=()=>i(r()),o=(e,t)=>{let n=r();n.open[t]=e,i(n)};t?.addEventListener(`click`,e=>{if(!(e.target instanceof Element))return;let t=e.target.closest(`summary`)?.closest(`details`);if(!t)return;let n=t.querySelector(`sl-sidebar-restore`),r=parseInt(n?.dataset.index||``);isNaN(r)||o(!t.open,r)}),addEventListener(`visibilitychange`,()=>{document.visibilityState===`hidden`&&a()});</script><div class="lg:sl-flex astro-kk5qjijy"><aside class="right-sidebar-container print:hidden astro-kk5qjijy"><div class="right-sidebar astro-kk5qjijy"><div class="lg:sl-hidden astro-5jw5e7fz"><mobile-starlight-toc data-min-h="2" data-max-h="3" class="astro-ec7qe6jg"><nav aria-labelledby="starlight__on-this-page--mobile" class="astro-ec7qe6jg"><details id="starlight__mobile-toc" class="astro-ec7qe6jg"><summary id="starlight__on-this-page--mobile" class="sl-flex astro-ec7qe6jg"><span class="toggle sl-flex astro-ec7qe6jg">On this page<svg aria-hidden="true" class="caret astro-ec7qe6jg astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></span><span class="display-current astro-ec7qe6jg"></span></summary><div class="dropdown astro-ec7qe6jg"><ul class="isMobile astro-qoa5ihji" style="--depth: 0;"><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#_top" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Overview</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#handling-a-fault" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Handling a fault</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#lab-and-vms" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Lab and VMs</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#opennebula" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">OpenNebula</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#network" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Network</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#opentofu-and-k3s" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">OpenTofu and k3s</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#gitops" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">GitOps</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#observability" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Observability</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#ai-service-and-triage" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">AI service and triage</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#operations" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Operations</span></a></li></ul></div></details></nav></mobile-starlight-toc><script type="module" src="/_astro/MobileTableOfContents.astro_astro_type_script_index_0_lang.C3fM4Kra.js"></script></div><div class="right-sidebar-panel sl-hidden lg:sl-block astro-5jw5e7fz"><div class="sl-container astro-5jw5e7fz"><starlight-toc data-min-h="2" data-max-h="3"><nav aria-labelledby="starlight__on-this-page"><h2 id="starlight__on-this-page">On this page</h2><ul class="astro-qoa5ihji" style="--depth: 0;"><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#_top" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Overview</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#handling-a-fault" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Handling a fault</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#lab-and-vms" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Lab and VMs</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#opennebula" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">OpenNebula</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#network" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Network</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#opentofu-and-k3s" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">OpenTofu and k3s</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#gitops" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">GitOps</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#observability" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Observability</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#ai-service-and-triage" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">AI service and triage</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#operations" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Operations</span></a></li></ul></nav></starlight-toc><script type="module" src="/_astro/TableOfContents.astro_astro_type_script_index_0_lang.BpJaGz7G.js"></script></div></div></div></aside><div class="main-pane astro-kk5qjijy"><main data-pagefind-body class="astro-rlm2zbci" lang="en" dir="ltr"><div class="content-panel astro-vrdjozuv"><div class="sl-container astro-vrdjozuv"><h1 id="_top" class="astro-obpc4a67">Troubleshooting</h1></div></div><div class="content-panel astro-vrdjozuv"><div class="sl-container astro-vrdjozuv"><div class="sl-markdown-content"><p>The tables on this page show problems that came up while the course was tried out. Before you search them for your symptom, go through the steps in the next section. They also help with problems that no table lists.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="handling-a-fault">Handling a fault</h2><a class="sl-anchor-link" href="#handling-a-fault"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Handling a fault”</span></a></div>
+<ol>
+<li>Pin down the symptom. Who reports what, since when, and what is the exact error message?</li>
+<li>Narrow down the layer and work from the bottom up. <code dir="auto">onehost list</code> shows the nodes, <code dir="auto">onevm list</code> the VMs, <code dir="auto">kubectl get nodes</code> the cluster and <code dir="auto">kubectl -n argocd get applications</code> the sync with Git. Only then is it worth looking at the application.</li>
+<li>Read the logs and events of that layer, such as <code dir="auto">journalctl -u &#x3C;service></code>, <code dir="auto">kubectl describe</code> and <code dir="auto">kubectl get events</code>, Loki in Grafana or the <code dir="auto">MONITORING</code> section of <code dir="auto">onehost show</code>.</li>
+<li>Look for the latest change. <code dir="auto">git log</code> in the platform repo shows what came through Git. Also think of anything you or someone else changed by hand.</li>
+<li>Fix the cause where the state comes from. What comes from Git gets fixed in Git, what comes from code gets fixed in the code. Self-heal immediately reverts a manual change to an object that Argo CD manages.</li>
+<li>Check that the symptom is gone and run the check of the part. Then write down cause, fix and prevention in a few sentences.</li>
+</ol>
+<p>The addresses, ports and commands for these steps are in the <a href="../lab-reference/">lab reference</a>.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="lab-and-vms">Lab and VMs</h2><a class="sl-anchor-link" href="#lab-and-vms"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Lab and VMs”</span></a></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Symptom</th><th>Cause</th><th>Fix</th><th>Chapter</th></tr></thead><tbody><tr><td>VMware reports "Virtualized Intel VT-x/EPT is not supported on this platform"</td><td>The Windows hypervisor is running, for example because of memory integrity, WSL 2 or Docker Desktop</td><td>Use Hyper-V instead of VMware or work on smartlearn</td><td><a href="../extras/own-hypervisor/">Own hypervisor</a></td></tr><tr><td>A node does not start on your PC for lack of memory</td><td>Your PC does not have enough RAM for the size of the nodes</td><td>Set the nodes to 8 GB</td><td><a href="../extras/own-hypervisor/">Own hypervisor</a></td></tr><tr><td><code dir="auto">ssh</code> reports "Connection timed out"</td><td>The server has no address, or the interface name in the generator is wrong</td><td>Check <code dir="auto">ip -br addr</code> at the console, repeat the two commands with the name from <code dir="auto">ip -br link</code></td><td><a href="../start/parameters/">0.3</a></td></tr><tr><td>A server can no longer be reached after a reboot</td><td>It only had the temporary address from the console, the netplan file is missing</td><td>Set the temporary address at the console again, paste the generator's netplan block in an SSH session</td><td><a href="../start/parameters/">0.3</a></td></tr><tr><td><code dir="auto">git: command not found</code></td><td>The minimal Ubuntu install has no Git</td><td><code dir="auto">sudo apt install -y git</code></td><td><a href="../start/prepare/">0.4</a></td></tr><tr><td><code dir="auto">prepare.sh</code> reports "This VM has no address"</td><td>Wrong role, or the addresses in <code dir="auto">/etc/cc-lab.env</code> do not match the VM</td><td>Check the role, compare <code dir="auto">ip -br a</code> with <code dir="auto">/etc/cc-lab.env</code></td><td><a href="../start/prepare/">0.4</a></td></tr><tr><td><code dir="auto">prepare.sh</code> reports "sees no vmx or svm flag"</td><td>Nested virtualization is off for the node</td><td>On smartlearn tell your instructor, on Hyper-V run <code dir="auto">Set-VMProcessor -ExposeVirtualizationExtensions $true</code> with the VM switched off</td><td><a href="../start/lab/">0.2</a>, <a href="../extras/own-hypervisor/">Own hypervisor</a></td></tr><tr><td>Values from <code dir="auto">/etc/cc-lab.env</code> end in an invisible character</td><td>The file came through a Windows editor with CR LF line endings</td><td>Run <code dir="auto">prepare.sh</code> again, it removes the characters</td><td><a href="../start/parameters/">0.3</a></td></tr><tr><td>The <code dir="auto">start</code> check shows <code dir="auto">[!!]</code> for SSH without a password</td><td>The front-end's key is missing on a node</td><td><code dir="auto">ssh-copy-id</code> from the front-end to the node</td><td><a href="../start/tools/">0.5</a></td></tr></tbody></table>
+<div class="sl-heading-wrapper level-h2"><h2 id="opennebula">OpenNebula</h2><a class="sl-anchor-link" href="#opennebula"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “OpenNebula”</span></a></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Symptom</th><th>Cause</th><th>Fix</th><th>Chapter</th></tr></thead><tbody><tr><td>OneDeploy reports <code dir="auto">UNREACHABLE</code> for a node</td><td>The front-end's key is missing on the node, or the node is off</td><td>Add the key, start the VM</td><td><a href="../iaas/installation/">2.2</a></td></tr><tr><td>"Please make sure each cluster member can resolve all Front-end hostnames" or "Could not find the requested service rsyslog.service"</td><td><code dir="auto">prepare.sh</code> did not run on every VM</td><td>Run <code dir="auto">prepare.sh</code> with the right role on each VM</td><td><a href="../iaas/installation/">2.2</a></td></tr><tr><td>"opennebula-fireedge ... Depends nodejs" or "Failed to set permissions on the temporary files"</td><td>The Node.js pin or the acl package is missing on the front-end</td><td>Run <code dir="auto">sudo ~/cc/lab/prepare.sh fe</code> again</td><td><a href="../iaas/installation/">2.2</a></td></tr><tr><td>A host shows <code dir="auto">err</code> in <code dir="auto">onehost list</code></td><td>SSH from the front-end as <code dir="auto">oneadmin</code> to the node fails, KVM is missing, or the node is down</td><td><code dir="auto">onehost show &#x3C;node></code>, section <code dir="auto">MONITORING</code>, on the node <code dir="auto">ls /dev/kvm</code></td><td><a href="../iaas/hosts/">2.5</a></td></tr><tr><td>The web interface does not load</td><td>Port 2616 cannot be reached from the client</td><td>Use the front-end's address in the lab network in the client's browser, check on the front-end that <code dir="auto">opennebula-fireedge</code> runs</td><td><a href="../iaas/installation/">2.2</a></td></tr><tr><td>Commands like <code dir="auto">onevm list</code> fail to log in</td><td><code dir="auto">~/.one/one_auth</code> is missing</td><td>Create the file as in 2.2</td><td><a href="../iaas/installation/">2.2</a></td></tr><tr><td><code dir="auto">onetemplate instantiate</code> finds no suitable host</td><td>A node is disabled or fully reserved</td><td><code dir="auto">onehost list</code>, <code dir="auto">onehost enable</code>, delete VMs no longer needed</td><td><a href="../iaas/hosts/">2.5</a></td></tr><tr><td>A VM stays <code dir="auto">pending</code> with "Not enough capacity on datastores"</td><td>The node monitoring still shows the old free space</td><td><code dir="auto">onehost forceupdate</code></td><td><a href="../operations/backup/">6.2</a></td></tr><tr><td>A member cannot see <code dir="auto">cc-net</code></td><td>The group is still in the VDC <code dir="auto">default</code>, or the cluster is missing from the VDC</td><td><code dir="auto">onevdc show wolkenwerk</code>, run <code dir="auto">make-tenants.sh</code> again</td><td><a href="../tenants/groups/">3.1</a></td></tr><tr><td>A member can no longer start a VM</td><td>Its quota is used up</td><td><code dir="auto">onegroup show &#x3C;group></code>, clean up VMs or change the quota on purpose</td><td><a href="../tenants/quotas/">3.2</a></td></tr><tr><td><code dir="auto">Not authorized to perform CREATE DOCUMENT</code> when starting a service</td><td>The group may not create documents</td><td><code dir="auto">oneacl create "@&#x3C;gid> DOCUMENT/* CREATE"</code></td><td><a href="../tenants/advanced/">3.5</a></td></tr><tr><td><code dir="auto">oneshowback list</code> shows a cost of 0</td><td>The VM started before the prices were set, or <code dir="auto">calculate</code> is missing</td><td>End the VM with <code dir="auto">onevm terminate</code>, start it again from the template and run <code dir="auto">oneshowback calculate</code> after a while</td><td><a href="../tenants/showback/">3.3</a></td></tr><tr><td>The OneFlow service does not grow</td><td>The load was too short, or OneFlow averages over all VMs of the role</td><td><code dir="auto">oneflow show</code>, at least three minutes of load, load in every VM of the role</td><td><a href="../tenants/advanced/">3.5</a></td></tr><tr><td>A restored VM belongs to <code dir="auto">oneadmin</code></td><td><code dir="auto">oneimage restore</code> creates new objects</td><td><code dir="auto">onevm chown &#x3C;vm> &#x3C;user> &#x3C;group></code></td><td><a href="../operations/backup/">6.2</a></td></tr><tr><td><code dir="auto">onevm backup</code> refuses a VM</td><td>The VM already belongs to a backup job</td><td><code dir="auto">onebackupjob backup praxis-nightly</code> backs up all VMs of the job</td><td><a href="../operations/backup/">6.2</a></td></tr><tr><td>After the restore, a file created shortly before the backup is missing</td><td>Ubuntu had not written it to disk yet</td><td>Run <code dir="auto">sync</code> in the VM before the backup</td><td><a href="../operations/backup/">6.2</a></td></tr></tbody></table>
+<div class="sl-heading-wrapper level-h2"><h2 id="network">Network</h2><a class="sl-anchor-link" href="#network"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Network”</span></a></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Symptom</th><th>Cause</th><th>Fix</th><th>Chapter</th></tr></thead><tbody><tr><td><code dir="auto">make-network.sh</code> finds no interface</td><td>SSH from the front-end to node 1 is missing</td><td>Add the key, or pass the interface as an argument</td><td><a href="../iaas/networks/">2.3</a></td></tr><tr><td>The VM runs, but SSH to its address hangs</td><td><code dir="auto">cc-gateway</code> is not running, or multicast is blocked in the smartlearn network</td><td><code dir="auto">sudo cc-gateway status</code>, <code dir="auto">bridge fdb show dev cc-vxlan</code></td><td><a href="../iaas/networks/">2.3</a></td></tr><tr><td>SSH to a VM asks for a password</td><td>The key was not stored with <code dir="auto">oneadmin</code> or the group admin when the VM started</td><td>Store the key with <code dir="auto">oneuser update --append</code>, end the VM and start it again from the template</td><td><a href="../iaas/images/">2.4</a>, <a href="../tenants/groups/#working-as-a-member">3.1</a></td></tr><tr><td>Downloads inside a VM break off</td><td>MTU 1500 instead of 1450 in the network</td><td>Check <code dir="auto">GUEST_MTU</code> with <code dir="auto">onevnet show cc-net</code>, restart the VM</td><td><a href="../iaas/networks/">2.3</a></td></tr><tr><td>After hardening, Gitea can no longer be reached from the client</td><td>The firewall lets in only SSH and port 2616 from outside</td><td>That is intended, reach Gitea through a tunnel from the client</td><td><a href="../operations/security/">6.1</a></td></tr><tr><td>No login possible after hardening</td><td>The client's key is missing on the front-end or does not match</td><td>Log in at the front-end's console, remove <code dir="auto">/etc/ssh/sshd_config.d/10-cc-hardening.conf</code>, reload SSH with <code dir="auto">sudo systemctl reload ssh</code>, add the key with <code dir="auto">ssh-copy-id</code> and harden again</td><td><a href="../operations/security/">6.1</a></td></tr></tbody></table>
+<div class="sl-heading-wrapper level-h2"><h2 id="opentofu-and-k3s">OpenTofu and k3s</h2><a class="sl-anchor-link" href="#opentofu-and-k3s"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “OpenTofu and k3s”</span></a></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Symptom</th><th>Cause</th><th>Fix</th><th>Chapter</th></tr></thead><tbody><tr><td><code dir="auto">tofu apply</code> fails because no node has enough memory</td><td>VMs from part 2 or 3 are still running</td><td><code dir="auto">onehost list</code>, terminate VMs, delete services with <code dir="auto">oneflow delete</code></td><td><a href="../platform/opentofu/">4.2</a></td></tr><tr><td><code dir="auto">Inconsistent dependency lock file</code></td><td><code dir="auto">tofu init</code> has not run in this copy</td><td><code dir="auto">tofu init</code> in the <code dir="auto">tofu</code> folder</td><td><a href="../platform/opentofu/">4.2</a></td></tr><tr><td>The provider fails to log in</td><td><code dir="auto">OPENNEBULA_USERNAME</code> and <code dir="auto">OPENNEBULA_PASSWORD</code> are not set, for example in a new shell</td><td>Repeat the two <code dir="auto">export</code> lines from 4.2</td><td><a href="../platform/opentofu/">4.2</a></td></tr><tr><td>After a change to the start script, <code dir="auto">tofu plan</code> shows only <code dir="auto">update in-place</code></td><td>The start script exits when k3s is already installed, so a running VM does not pick up the change</td><td><code dir="auto">tofu apply -replace</code> for the VMs concerned</td><td><a href="../operations/backup/">6.2</a></td></tr><tr><td>Nodes do not become <code dir="auto">Ready</code></td><td>The start script is still running or failed</td><td><code dir="auto">ssh root@&#x3C;server> journalctl -u one-context</code>, <code dir="auto">systemctl status k3s</code>, if needed <code dir="auto">tofu apply -replace</code></td><td><a href="../platform/kubernetes/">4.3</a></td></tr><tr><td>SSH or kubectl refuse after a rebuild</td><td>An old key in <code dir="auto">known_hosts</code>, an old kubeconfig</td><td><code dir="auto">ssh-keygen -R &#x3C;address></code>, fetch the kubeconfig again with <code dir="auto">get-kubeconfig.sh</code></td><td><a href="../platform/kubernetes/">4.3</a></td></tr><tr><td>A node is <code dir="auto">NotReady</code></td><td>k3s is not running on that VM, or the VM is off</td><td><code dir="auto">onevm list</code>, <code dir="auto">ssh root@&#x3C;address> systemctl status k3s</code> or <code dir="auto">k3s-agent</code></td><td><a href="../platform/kubernetes/">4.3</a></td></tr><tr><td>The agent's disk is full, <code dir="auto">KubePersistentVolumeFillingUp</code></td><td>The VM's disk is too small for the Ollama image</td><td>Set <code dir="auto">disk_size</code> to 30 GB, <code dir="auto">tofu apply</code></td><td><a href="../observability/advanced/">5.5</a></td></tr></tbody></table>
+<div class="sl-heading-wrapper level-h2"><h2 id="gitops">GitOps</h2><a class="sl-anchor-link" href="#gitops"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “GitOps”</span></a></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Symptom</th><th>Cause</th><th>Fix</th><th>Chapter</th></tr></thead><tbody><tr><td>Argo CD shows <code dir="auto">authentication required</code></td><td>Wrong token, or a line break in the secret</td><td>Rewrite the secret with <code dir="auto">bootstrap-argocd.sh</code></td><td><a href="../platform/gitops/">4.4</a></td></tr><tr><td>Applications stay <code dir="auto">Unknown</code></td><td>The <code dir="auto">FRONTEND</code> placeholder was not replaced, or Gitea is not running</td><td><code dir="auto">grep -r FRONTEND ~/platform</code>, <code dir="auto">systemctl status gitea</code></td><td><a href="../platform/gitops/">4.4</a></td></tr><tr><td><code dir="auto">git push</code> is rejected</td><td>Wrong token or <code dir="auto">~/.git-credentials</code></td><td>Rewrite the file as in 4.4</td><td><a href="../platform/gitops/">4.4</a></td></tr><tr><td>An Application reports a sync error</td><td>A commit contains an invalid manifest</td><td><code dir="auto">kubectl -n argocd describe application &#x3C;name></code>, <code dir="auto">git log</code>, undo the commit with <code dir="auto">git revert</code></td><td><a href="../platform/gitops/">4.4</a></td></tr><tr><td>Pods hang in <code dir="auto">ImagePullBackOff</code> or <code dir="auto">ErrImagePull</code></td><td>Wrong image tag, or the image cannot be reached</td><td><code dir="auto">kubectl describe pod</code>, check the tag in Git</td><td><a href="../platform/gitops/">4.4</a></td></tr><tr><td>A manual change disappears after a few seconds</td><td>Self-heal restores the state from Git</td><td>That is intended, make the change in Git</td><td><a href="../platform/gitops/">4.4</a></td></tr><tr><td>A new folder under <code dir="auto">members</code> does not show up</td><td>The push is missing, or the ApplicationSet has not polled yet</td><td><code dir="auto">git log origin/main</code>, wait a minute</td><td><a href="../platform/templates/">4.5</a></td></tr><tr><td>The first requests to a new pod fail with <code dir="auto">Connection refused</code></td><td>The NetworkPolicy does not know the pod's address yet</td><td>Wait a few seconds</td><td><a href="../platform/templates/">4.5</a></td></tr><tr><td>A deployment is synced but has no pods</td><td>The quota or the <code dir="auto">restricted</code> profile rejects them</td><td><code dir="auto">kubectl -n &#x3C;ns> get events</code>, adjust requests or <code dir="auto">securityContext</code></td><td><a href="../platform/templates/">4.5</a>, <a href="../operations/security/">6.1</a></td></tr></tbody></table>
+<div class="sl-heading-wrapper level-h2"><h2 id="observability">Observability</h2><a class="sl-anchor-link" href="#observability"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Observability”</span></a></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Symptom</th><th>Cause</th><th>Fix</th><th>Chapter</th></tr></thead><tbody><tr><td><code dir="auto">monitoring</code> stays <code dir="auto">OutOfSync</code> with an annotation that is too large</td><td><code dir="auto">ServerSideApply</code> is missing in the Application</td><td>Take the Application from the additions of part 5</td><td><a href="../observability/metrics/">5.1</a></td></tr><tr><td>Grafana does not start because the secret is missing</td><td><code dir="auto">make-secrets.sh</code> did not run, or after a rebuild the Sealed Secrets key is missing</td><td>Run the script or apply the key, restart the pod</td><td><a href="../observability/metrics/">5.1</a>, <a href="../operations/backup/">6.2</a></td></tr><tr><td>The OpenNebula targets are <code dir="auto">down</code></td><td>The exporters were not started, or the address placeholders were not replaced</td><td><code dir="auto">install-exporters.sh</code>, <code dir="auto">grep -r _IP ~/platform/monitoring</code></td><td><a href="../observability/metrics/">5.1</a></td></tr><tr><td>The OpenNebula exporter reports 0 hosts</td><td>It has been running for only a few seconds</td><td>Wait half a minute</td><td><a href="../observability/metrics/">5.1</a></td></tr><tr><td>The web shop target is <code dir="auto">down</code></td><td>The NetworkPolicy does not admit <code dir="auto">monitoring</code></td><td>Take the NetworkPolicy from the additions of part 5</td><td><a href="../observability/metrics/">5.1</a></td></tr><tr><td>Loki is missing the logs of one node</td><td>Alloy reads only the pods on its own node, and <code dir="auto">NODE_NAME</code> is missing</td><td>Take the values from the additions of part 5</td><td><a href="../observability/logs/">5.2</a></td></tr><tr><td>The burn rate alert does not fire</td><td>The error rate over one hour is still too low</td><td>Wait, or raise <code dir="auto">FAIL_PERCENT</code></td><td><a href="../observability/slo/">5.3</a></td></tr><tr><td>The HPA shows <code dir="auto">&#x3C;unknown></code></td><td>metrics-server needs about a minute after starting</td><td>Wait</td><td><a href="../observability/autoscaling/">5.4</a></td></tr><tr><td>The HPA stays below <code dir="auto">maxReplicas</code> with the event <code dir="auto">exceeded quota</code></td><td>The pods' requests no longer fit into the quota</td><td>Adjust limits or quota, leave room for the rollout</td><td><a href="../observability/autoscaling/">5.4</a></td></tr></tbody></table>
+<div class="sl-heading-wrapper level-h2"><h2 id="ai-service-and-triage">AI service and triage</h2><a class="sl-anchor-link" href="#ai-service-and-triage"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “AI service and triage”</span></a></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Symptom</th><th>Cause</th><th>Fix</th><th>Chapter</th></tr></thead><tbody><tr><td>The model answers very slowly</td><td>The VM sees no AVX2 because <code dir="auto">host-passthrough</code> is missing</td><td>Add the <code dir="auto">cpumodel</code> block in <code dir="auto">main.tf</code>, restart the VM</td><td><a href="../observability/advanced/">5.5</a></td></tr><tr><td>Your triage service gets no alerts</td><td>Alertmanager has no route to your receiver, or the alert is not <code dir="auto">firing</code></td><td>Alertmanager UI on port 30093, logs of the service</td><td><a href="../observability/advanced/">5.5</a></td></tr><tr><td>A new member's alert does not reach your triage service</td><td>The Alertmanager route does not match the labels of the new rule</td><td>Compare the labels of the rule with the route, for example with <code dir="auto">amtool config routes test</code></td><td><a href="../operations/advanced/">6.5</a></td></tr></tbody></table>
+<div class="sl-heading-wrapper level-h2"><h2 id="operations">Operations</h2><a class="sl-anchor-link" href="#operations"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Operations”</span></a></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Symptom</th><th>Cause</th><th>Fix</th><th>Chapter</th></tr></thead><tbody><tr><td>A namespace lacks the <code dir="auto">restricted</code> profile</td><td>A patch with <code dir="auto">op: add</code> on <code dir="auto">/metadata/labels</code> replaced all labels</td><td>Set the label with a merge patch</td><td><a href="../observability/advanced/">5.5</a>, <a href="../operations/security/">6.1</a></td></tr><tr><td>A SealedSecret reports "not managed by SealedSecret"</td><td>The secret existed before the controller arrived</td><td>Annotate with <code dir="auto">sealedsecrets.bitnami.com/managed=true</code>, restart the controller</td><td><a href="../operations/security/">6.1</a></td></tr><tr><td>The <code dir="auto">secrets</code> Application stays in an error state</td><td>The Sealed Secrets controller is not running yet</td><td>Wait, the Application retries</td><td><a href="../operations/security/">6.1</a></td></tr><tr><td><code dir="auto">crontab: command not found</code></td><td>Ubuntu 26.04 ships without cron</td><td>Set up the timer with <code dir="auto">install-backup-timer.sh</code></td><td><a href="../operations/backup/">6.2</a></td></tr><tr><td>New snapshots do not arrive on the front-end</td><td>The <code dir="auto">cc-backup-k3s.timer</code> timer is not active</td><td><code dir="auto">systemctl list-timers</code>, enable the timer</td><td><a href="../operations/backup/">6.2</a></td></tr><tr><td>After the cluster rebuild, metrics, logs and the audit log are gone</td><td>The volume data lived on the disks of the old VMs</td><td>That is expected, take screenshots and copy the audit log before the rebuild</td><td><a href="../operations/backup/">6.2</a></td></tr><tr><td>Argo CD ignores new commits after a restore</td><td>The controllers are working with the old state</td><td>Restart the controllers in <code dir="auto">argocd</code> and <code dir="auto">monitoring</code> and the Sealed Secrets controller</td><td><a href="../operations/advanced/">6.5</a></td></tr><tr><td>The node swaps and every VM slows down</td><td>A member's VM is too large for the free memory</td><td>Keep the VM at 1 GB or less</td><td><a href="../operations/cost/">6.4</a></td></tr></tbody></table></div><footer class="sl-flex astro-7u27nsfc"><div class="meta sl-flex astro-7u27nsfc"></div><div data-pagefind-ignore style="display: contents"><div class="pagination-links print:hidden astro-d2wubx5p" dir="ltr"><a href="/en/lab-reference/" rel="prev" class="astro-d2wubx5p"><svg aria-hidden="true" class="astro-d2wubx5p astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.5rem;"><path d="M17 11H9.41l3.3-3.29a1.004 1.004 0 1 0-1.42-1.42l-5 5a1 1 0 0 0-.21.33 1 1 0 0 0 0 .76 1 1 0 0 0 .21.33l5 5a1.002 1.002 0 0 0 1.639-.325 1 1 0 0 0-.219-1.095L9.41 13H17a1 1 0 0 0 0-2Z"/></svg><span class="astro-d2wubx5p">Previous<br class="astro-d2wubx5p"><span class="link-title astro-d2wubx5p">Lab reference</span></span></a></div></div></footer><p class="lt-licence astro-jo6i4kqk">Text and figures are licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/" class="astro-jo6i4kqk">CC BY-SA 4.0</a> and the code under the <a href="https://github.com/ndum/cc/blob/main/LICENSES/MIT.txt" class="astro-jo6i4kqk">MIT License</a>. The sources are on <a href="https://github.com/ndum/cc" class="astro-jo6i4kqk">GitHub</a>.</p></div></div></main></div></div></div></div></body></html>

@@ -1,0 +1,605 @@
+<!DOCTYPE html><html lang="de-CH" dir="ltr" data-theme="dark" data-has-toc data-has-sidebar class="astro-rlm2zbci"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>Zusatzaufträge | HFI - Cloud Computing (CC)</title><link rel="canonical" href="https://cc.ndum.ch/tenants/advanced/"/><link rel="alternate" hreflang="de-CH" href="https://cc.ndum.ch/tenants/advanced/"/><link rel="alternate" hreflang="en" href="https://cc.ndum.ch/en/tenants/advanced/"/><link rel="alternate" hreflang="x-default" href="https://cc.ndum.ch/tenants/advanced/"/><link rel="sitemap" href="/sitemap-index.xml"/><link rel="shortcut icon" href="/favicon.svg" type="image/svg+xml"/><meta name="generator" content="Astro v7.4.0"/><meta name="generator" content="Starlight v0.42.6"/><meta property="og:title" content="Zusatzaufträge"/><meta property="og:type" content="article"/><meta property="og:url" content="https://cc.ndum.ch/tenants/advanced/"/><meta property="og:locale" content="de-CH"/><meta property="og:description" content="Ein Dienst der Treuhand in OneFlow, der nach Last und Zeitplan wächst, ein monatlicher Bericht aus dem Showback mit der Kostendeckung und die Folgen eines ausgefallenen Knotens mit einem Vorschlag für die Platzierung der VMs."/><meta property="og:site_name" content="HFI - Cloud Computing (CC)"/><meta name="twitter:card" content="summary_large_image"/><meta name="description" content="Ein Dienst der Treuhand in OneFlow, der nach Last und Zeitplan wächst, ein monatlicher Bericht aus dem Showback mit der Kostendeckung und die Folgen eines ausgefallenen Knotens mit einem Vorschlag für die Platzierung der VMs."/><script type="module" src="/_astro/Head.astro_astro_type_script_index_0_lang.MMCFzYWf.js"></script><script>
+	window.StarlightThemeProvider = (() => {
+		const storedTheme =
+			typeof localStorage !== 'undefined' && localStorage.getItem('starlight-theme');
+		const theme =
+			storedTheme ||
+			(window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+		document.documentElement.dataset.theme = theme === 'light' ? 'light' : 'dark';
+		return {
+			updatePickers(theme = storedTheme || 'auto') {
+				document.querySelectorAll('starlight-theme-select').forEach((picker) => {
+					const select = picker.querySelector('select');
+					if (select) select.value = theme;
+					/** @type {HTMLTemplateElement | null} */
+					const tmpl = document.querySelector(`#theme-icons`);
+					const newIcon = tmpl && tmpl.content.querySelector('.' + theme);
+					if (newIcon) {
+						const oldIcon = picker.querySelector('svg.label-icon');
+						if (oldIcon) {
+							oldIcon.replaceChildren(...newIcon.cloneNode(true).childNodes);
+						}
+					}
+				});
+			},
+		};
+	})();
+</script><template id="theme-icons"><svg aria-hidden="true" class="light astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M5 12a1 1 0 0 0-1-1H3a1 1 0 0 0 0 2h1a1 1 0 0 0 1-1Zm.64 5-.71.71a1 1 0 0 0 0 1.41 1 1 0 0 0 1.41 0l.71-.71A1 1 0 0 0 5.64 17ZM12 5a1 1 0 0 0 1-1V3a1 1 0 0 0-2 0v1a1 1 0 0 0 1 1Zm5.66 2.34a1 1 0 0 0 .7-.29l.71-.71a1 1 0 1 0-1.41-1.41l-.66.71a1 1 0 0 0 0 1.41 1 1 0 0 0 .66.29Zm-12-.29a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.71-.71a1.004 1.004 0 1 0-1.43 1.41l.73.71ZM21 11h-1a1 1 0 0 0 0 2h1a1 1 0 0 0 0-2Zm-2.64 6A1 1 0 0 0 17 18.36l.71.71a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.76-.66ZM12 6.5a5.5 5.5 0 1 0 5.5 5.5A5.51 5.51 0 0 0 12 6.5Zm0 9a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Zm0 3.5a1 1 0 0 0-1 1v1a1 1 0 0 0 2 0v-1a1 1 0 0 0-1-1Z"/></svg><svg aria-hidden="true" class="dark astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.64 13a1 1 0 0 0-1.05-.14 8.049 8.049 0 0 1-3.37.73 8.15 8.15 0 0 1-8.14-8.1 8.59 8.59 0 0 1 .25-2A1 1 0 0 0 8 2.36a10.14 10.14 0 1 0 14 11.69 1 1 0 0 0-.36-1.05Zm-9.5 6.69A8.14 8.14 0 0 1 7.08 5.22v.27a10.15 10.15 0 0 0 10.14 10.14 9.784 9.784 0 0 0 2.1-.22 8.11 8.11 0 0 1-7.18 4.32v-.04Z"/></svg><svg aria-hidden="true" class="auto astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg></template><link rel="stylesheet" href="/_astro/print.ehPL0gv-.css" media="print"><link rel="stylesheet" href="/_astro/middleware.BaZU1OVM.css"><script type="module" src="/_astro/page.cNngjUgL.js"></script></head><body class="astro-rlm2zbci"><a class="sl-skip-link astro-bmgq2fky" href="#_top">Zum Inhalt springen</a><div class="page sl-flex astro-ogthqvzv"><header class="header astro-ogthqvzv"><div class="header astro-pknpegvt"><div class="title-wrapper sl-flex astro-pknpegvt"><a href="/" class="site-title sl-flex astro-drgrrgkq"><span class="astro-drgrrgkq" translate="no">HFI - Cloud Computing (CC)</span></a></div><div class="sl-flex print:hidden astro-pknpegvt"><site-search class="astro-pknpegvt astro-nssz7xfl" data-translations="{&quot;placeholder&quot;:&quot;Suchen&quot;,&quot;clear_search&quot;:&quot;Löschen&quot;,&quot;load_more&quot;:&quot;Mehr Ergebnisse laden&quot;,&quot;search_label&quot;:&quot;Diese Seite durchsuchen&quot;,&quot;filters_label&quot;:&quot;Filter&quot;,&quot;zero_results&quot;:&quot;Keine Ergebnisse für [SEARCH_TERM]&quot;,&quot;many_results&quot;:&quot;[COUNT] Ergebnisse für [SEARCH_TERM]&quot;,&quot;one_result&quot;:&quot;[COUNT] Ergebnis für [SEARCH_TERM]&quot;,&quot;alt_search&quot;:&quot;Keine Ergebnisse für [SEARCH_TERM]. Stattdessen werden Ergebnisse für [DIFFERENT_TERM] angezeigt&quot;,&quot;search_suggestion&quot;:&quot;Keine Ergebnisse für [SEARCH_TERM]. Versuche eine der folgenden Suchen:&quot;,&quot;searching&quot;:&quot;Suche nach [SEARCH_TERM] …&quot;}"><button data-open-modal disabled aria-label="Suchen" aria-keyshortcuts="Control+K" class="astro-nssz7xfl"><svg aria-hidden="true" class="astro-nssz7xfl astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.71 20.29 18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 0-14 7 7 0 0 1 0 14Z"/></svg><span class="sl-hidden md:sl-block astro-nssz7xfl" aria-hidden="true">Suchen</span><kbd class="sl-hidden md:sl-flex astro-nssz7xfl" style="display: none;"><kbd class="astro-nssz7xfl">Strg</kbd><kbd class="astro-nssz7xfl">K</kbd></kbd></button><dialog style="padding:0" aria-label="Suchen" class="astro-nssz7xfl"><div class="dialog-frame sl-flex astro-nssz7xfl"><button data-close-modal class="sl-flex md:sl-hidden astro-nssz7xfl">Abbrechen</button><div class="search-container astro-nssz7xfl"><div id="starlight__search" class="astro-nssz7xfl"></div></div></div></dialog></site-search><script>
+	(() => {
+		const openBtn = document.querySelector('button[data-open-modal]');
+		const shortcut = openBtn?.querySelector('kbd');
+		if (!openBtn || !(shortcut instanceof HTMLElement)) return;
+		const platformKey = shortcut.querySelector('kbd');
+		if (platformKey && /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform)) {
+			platformKey.textContent = '⌘';
+			openBtn.setAttribute('aria-keyshortcuts', 'Meta+K');
+		}
+		shortcut.style.display = '';
+	})();
+</script><script type="module" src="/_astro/Search.astro_astro_type_script_index_0_lang.Djc9ZKGJ.js"></script></div><div class="sl-hidden md:sl-flex print:hidden right-group astro-pknpegvt"><div class="sl-flex social-icons astro-pknpegvt"><a href="https://github.com/ndum/cc" rel="me" class="sl-flex astro-vvaccv3s"><span class="sr-only astro-vvaccv3s">GitHub</span><svg aria-hidden="true" class="astro-vvaccv3s astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.12.83-.26.83-.57L9 21.07c-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.09-.73.09-.73 1.2.09 1.83 1.24 1.83 1.24 1.08 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18a4.65 4.65 0 0 1 1.23 3.22c0 4.61-2.8 5.63-5.48 5.92.42.36.81 1.1.81 2.22l-.01 3.29c0 .31.2.69.82.57A12 12 0 0 0 12 .3Z"/></svg></a></div><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-scmnraha"><span class="sr-only astro-scmnraha">Farbschema wählen</span><svg aria-hidden="true" class="icon label-icon astro-scmnraha astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-scmnraha"><option value="dark" class="astro-scmnraha">Dunkel</option><option value="light" class="astro-scmnraha">Hell</option><option value="auto" selected class="astro-scmnraha">System</option></select><svg aria-hidden="true" class="icon caret astro-scmnraha astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script><script type="module">var e=`starlight-theme`,t=e=>e===`auto`||e===`dark`||e===`light`?e:`auto`,n=()=>t(typeof localStorage<`u`&&localStorage.getItem(e));function r(t){typeof localStorage<`u`&&localStorage.setItem(e,t===`light`||t===`dark`?t:``)}var i=()=>matchMedia(`(prefers-color-scheme: light)`).matches?`light`:`dark`;function a(e){StarlightThemeProvider.updatePickers(e),document.documentElement.dataset.theme=e===`auto`?i():e,r(e)}matchMedia(`(prefers-color-scheme: light)`).addEventListener(`change`,()=>{n()===`auto`&&a(`auto`)});var o=class extends HTMLElement{constructor(){super(),a(n()),this.querySelector(`select`)?.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&a(t(e.currentTarget.value))})}};customElements.define(`starlight-theme-select`,o);</script><starlight-lang-select><label style="--sl-select-width: 7em" class="astro-scmnraha"><span class="sr-only astro-scmnraha">Sprache wählen</span><svg aria-hidden="true" class="icon label-icon astro-scmnraha astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path fill-rule="evenodd" d="M8.516 3a.94.94 0 0 0-.941.94v1.15H2.94a.94.94 0 1 0 0 1.882h7.362a7.422 7.422 0 0 1-1.787 3.958 7.42 7.42 0 0 1-1.422-2.425.94.94 0 1 0-1.774.627 9.303 9.303 0 0 0 1.785 3.043 7.422 7.422 0 0 1-4.164 1.278.94.94 0 1 0 0 1.881 9.303 9.303 0 0 0 5.575-1.855 9.303 9.303 0 0 0 4.11 1.74l-.763 1.525a.968.968 0 0 0-.016.034l-1.385 2.77a.94.94 0 1 0 1.683.841l1.133-2.267h5.806l1.134 2.267a.94.94 0 0 0 1.683-.841l-1.385-2.769a.95.95 0 0 0-.018-.036l-3.476-6.951a.94.94 0 0 0-1.682 0l-1.82 3.639a7.423 7.423 0 0 1-3.593-1.256 9.303 9.303 0 0 0 2.27-5.203h1.894a.94.94 0 0 0 0-1.881H9.456V3.94A.94.94 0 0 0 8.516 3Zm6.426 11.794a1.068 1.068 0 0 1-.02.039l-.703 1.407h3.924l-1.962-3.924-1.24 2.478Z" clip-rule="evenodd"/></svg><select autocomplete="off" class="astro-scmnraha"><option value="/tenants/advanced/" class="astro-scmnraha">Deutsch</option><option value="/en/tenants/advanced/" class="astro-scmnraha">English</option></select><svg aria-hidden="true" class="icon caret astro-scmnraha astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-lang-select><script type="module">var e=class extends HTMLElement{constructor(){super();let e=this.querySelector(`select`);e&&(e.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&(window.location.pathname=e.currentTarget.value)}),window.addEventListener(`pageshow`,t=>{if(!t.persisted)return;let n=e.querySelector(`option[selected]`)?.index;n!==e.selectedIndex&&(e.selectedIndex=n??0)}))}};customElements.define(`starlight-lang-select`,e);</script></div></div></header><nav class="sidebar print:hidden astro-ogthqvzv" aria-label="Hauptnavigation"><button popovertarget="starlight__sidebar" class="sl-menu-button sl-flex md:sl-hidden print:hidden astro-lloqvvyf"><svg aria-hidden="true" class="open-menu astro-lloqvvyf astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M3 8h18a1 1 0 1 0 0-2H3a1 1 0 0 0 0 2Zm18 8H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Zm0-5H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Z"/></svg><svg aria-hidden="true" class="close-menu astro-lloqvvyf astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="m13.41 12 6.3-6.29a1.004 1.004 0 1 0-1.42-1.42L12 10.59l-6.29-6.3a1.004 1.004 0 0 0-1.42 1.42l6.3 6.29-6.3 6.29a1 1 0 0 0 0 1.42.998.998 0 0 0 1.42 0l6.29-6.3 6.29 6.3a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.42L13.41 12Z"/></svg><span class="sr-only astro-lloqvvyf">Menü</span></button><script type="module">var e=class extends HTMLElement{constructor(){super();let e=matchMedia(`(min-width: 50em)`),t=()=>{this.popover=e.matches?null:`auto`};t(),e.addEventListener(`change`,()=>t()),this.addEventListener(`toggle`,({newState:e})=>this.trapFocus(e===`open`))}trapFocus(e){document.querySelectorAll(`.main-frame, .sl-skip-link`).forEach(t=>{t.toggleAttribute(`inert`,e)})}};customElements.define(`sl-sidebar-pane`,e);</script><sl-sidebar-pane popover id="starlight__sidebar" class="sidebar-pane astro-ogthqvzv"><div class="sidebar-content sl-flex astro-ogthqvzv"><sl-sidebar-state-persist data-hash="0972ihb" class="astro-wkj266cr"><script aria-hidden="true">
+		(() => {
+			try {
+				if (!matchMedia('(min-width: 50em)').matches) return;
+				/** @type {HTMLElement | null} */
+				const target = document.querySelector('sl-sidebar-state-persist');
+				const state = JSON.parse(sessionStorage.getItem('sl-sidebar-state') || '0');
+				if (!target || !state || target.dataset.hash !== state.hash) return;
+				window._starlightScrollRestore = state.scroll;
+				customElements.define(
+					'sl-sidebar-restore',
+					class SidebarRestore extends HTMLElement {
+						connectedCallback() {
+							try {
+								const idx = parseInt(this.dataset.index || '');
+								const details = this.closest('details');
+								if (details && typeof state.open[idx] === 'boolean') details.open = state.open[idx];
+							} catch {}
+						}
+					}
+				);
+			} catch {}
+		})();
+	</script><ul class="top-level astro-ez73slyg"><li class="astro-ez73slyg"><details class="astro-ez73slyg"><summary class="astro-ez73slyg"><span class="group-label astro-ez73slyg"><span class="large astro-ez73slyg">0 Start</span></span><svg aria-hidden="true" class="caret astro-ez73slyg astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="0"></sl-sidebar-restore><ul class="astro-ez73slyg"><li class="astro-ez73slyg"><a href="/start/overview/" class="astro-ez73slyg"><span class="astro-ez73slyg">0.1 Kursüberblick</span></a></li><li class="astro-ez73slyg"><a href="/start/lab/" class="astro-ez73slyg"><span class="astro-ez73slyg">0.2 Das Lab</span></a></li><li class="astro-ez73slyg"><a href="/start/parameters/" class="astro-ez73slyg"><span class="astro-ez73slyg">0.3 Persönliche Parameter</span></a></li><li class="astro-ez73slyg"><a href="/start/prepare/" class="astro-ez73slyg"><span class="astro-ez73slyg">0.4 VMs vorbereiten</span></a></li><li class="astro-ez73slyg"><a href="/start/tools/" class="astro-ez73slyg"><span class="astro-ez73slyg">0.5 Werkzeuge und Abgabe-Repo</span></a></li><li class="astro-ez73slyg"><a href="/start/competences/" class="astro-ez73slyg"><span class="astro-ez73slyg">0.6 Kompetenzraster</span></a></li></ul></details></li><li class="astro-ez73slyg"><details class="astro-ez73slyg"><summary class="astro-ez73slyg"><span class="group-label astro-ez73slyg"><span class="large astro-ez73slyg">1 Cloud-Grundlagen</span></span><svg aria-hidden="true" class="caret astro-ez73slyg astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="1"></sl-sidebar-restore><ul class="astro-ez73slyg"><li class="astro-ez73slyg"><a href="/basics/characteristics/" class="astro-ez73slyg"><span class="astro-ez73slyg">1.1 Merkmale einer Cloud</span></a></li><li class="astro-ez73slyg"><a href="/basics/models/" class="astro-ez73slyg"><span class="astro-ez73slyg">1.2 Service- und Bereitstellungsmodelle</span></a></li><li class="astro-ez73slyg"><a href="/basics/virtualization/" class="astro-ez73slyg"><span class="astro-ez73slyg">1.3 Virtualisierung</span></a></li><li class="astro-ez73slyg"><a href="/basics/sovereignty/" class="astro-ez73slyg"><span class="astro-ez73slyg">1.4 Souveränität, Recht und Kosten</span></a></li><li class="astro-ez73slyg"><a href="/basics/competences/" class="astro-ez73slyg"><span class="astro-ez73slyg">1.5 Kompetenzraster</span></a></li></ul></details></li><li class="astro-ez73slyg"><details class="astro-ez73slyg"><summary class="astro-ez73slyg"><span class="group-label astro-ez73slyg"><span class="large astro-ez73slyg">2 IaaS aufbauen</span></span><svg aria-hidden="true" class="caret astro-ez73slyg astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="2"></sl-sidebar-restore><ul class="astro-ez73slyg"><li class="astro-ez73slyg"><a href="/iaas/architecture/" class="astro-ez73slyg"><span class="astro-ez73slyg">2.1 Architektur von OpenNebula</span></a></li><li class="astro-ez73slyg"><a href="/iaas/installation/" class="astro-ez73slyg"><span class="astro-ez73slyg">2.2 Installation mit OneDeploy</span></a></li><li class="astro-ez73slyg"><a href="/iaas/networks/" class="astro-ez73slyg"><span class="astro-ez73slyg">2.3 Virtuelle Netze</span></a></li><li class="astro-ez73slyg"><a href="/iaas/images/" class="astro-ez73slyg"><span class="astro-ez73slyg">2.4 Images, Vorlagen und Kontext</span></a></li><li class="astro-ez73slyg"><a href="/iaas/hosts/" class="astro-ez73slyg"><span class="astro-ez73slyg">2.5 Hosts betreiben</span></a></li><li class="astro-ez73slyg"><a href="/iaas/competences/" class="astro-ez73slyg"><span class="astro-ez73slyg">2.6 Kompetenzraster</span></a></li></ul></details></li><li class="astro-ez73slyg"><details open class="astro-ez73slyg"><summary class="astro-ez73slyg"><span class="group-label astro-ez73slyg"><span class="large astro-ez73slyg">3 Mandanten und Self-Service</span></span><svg aria-hidden="true" class="caret astro-ez73slyg astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="3"></sl-sidebar-restore><ul class="astro-ez73slyg"><li class="astro-ez73slyg"><a href="/tenants/groups/" class="astro-ez73slyg"><span class="astro-ez73slyg">3.1 Benutzer, Gruppen und VDCs</span></a></li><li class="astro-ez73slyg"><a href="/tenants/quotas/" class="astro-ez73slyg"><span class="astro-ez73slyg">3.2 Quotas</span></a></li><li class="astro-ez73slyg"><a href="/tenants/showback/" class="astro-ez73slyg"><span class="astro-ez73slyg">3.3 Showback</span></a></li><li class="astro-ez73slyg"><a href="/tenants/self-service/" class="astro-ez73slyg"><span class="astro-ez73slyg">3.4 Self-Service</span></a></li><li class="astro-ez73slyg"><a href="/tenants/advanced/" aria-current="page" class="astro-ez73slyg"><span class="astro-ez73slyg">3.5 Zusatzaufträge</span><span class="sl-badge note small  astro-ez73slyg astro-5qxlfd7c">Zusatz</span></a></li><li class="astro-ez73slyg"><a href="/tenants/competences/" class="astro-ez73slyg"><span class="astro-ez73slyg">3.6 Kompetenzraster</span></a></li></ul></details></li><li class="astro-ez73slyg"><details class="astro-ez73slyg"><summary class="astro-ez73slyg"><span class="group-label astro-ez73slyg"><span class="large astro-ez73slyg">4 Plattform per Code</span></span><svg aria-hidden="true" class="caret astro-ez73slyg astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="4"></sl-sidebar-restore><ul class="astro-ez73slyg"><li class="astro-ez73slyg"><a href="/platform/iac/" class="astro-ez73slyg"><span class="astro-ez73slyg">4.1 Infrastructure as Code</span></a></li><li class="astro-ez73slyg"><a href="/platform/opentofu/" class="astro-ez73slyg"><span class="astro-ez73slyg">4.2 OpenTofu mit OpenNebula</span></a></li><li class="astro-ez73slyg"><a href="/platform/kubernetes/" class="astro-ez73slyg"><span class="astro-ez73slyg">4.3 Kubernetes per Code</span></a></li><li class="astro-ez73slyg"><a href="/platform/gitops/" class="astro-ez73slyg"><span class="astro-ez73slyg">4.4 GitOps mit Argo CD</span></a></li><li class="astro-ez73slyg"><a href="/platform/templates/" class="astro-ez73slyg"><span class="astro-ez73slyg">4.5 Plattform-Vorlagen</span></a></li><li class="astro-ez73slyg"><a href="/platform/advanced/" class="astro-ez73slyg"><span class="astro-ez73slyg">4.6 Zusatzaufträge</span><span class="sl-badge note small  astro-ez73slyg astro-5qxlfd7c">Zusatz</span></a></li><li class="astro-ez73slyg"><a href="/platform/competences/" class="astro-ez73slyg"><span class="astro-ez73slyg">4.7 Kompetenzraster</span></a></li></ul></details></li><li class="astro-ez73slyg"><details class="astro-ez73slyg"><summary class="astro-ez73slyg"><span class="group-label astro-ez73slyg"><span class="large astro-ez73slyg">5 Observability, Skalierung und KI</span></span><svg aria-hidden="true" class="caret astro-ez73slyg astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="5"></sl-sidebar-restore><ul class="astro-ez73slyg"><li class="astro-ez73slyg"><a href="/observability/metrics/" class="astro-ez73slyg"><span class="astro-ez73slyg">5.1 Metriken mit Prometheus</span></a></li><li class="astro-ez73slyg"><a href="/observability/logs/" class="astro-ez73slyg"><span class="astro-ez73slyg">5.2 Logs mit Loki</span></a></li><li class="astro-ez73slyg"><a href="/observability/slo/" class="astro-ez73slyg"><span class="astro-ez73slyg">5.3 Alerts und SLOs</span></a></li><li class="astro-ez73slyg"><a href="/observability/autoscaling/" class="astro-ez73slyg"><span class="astro-ez73slyg">5.4 Autoscaling</span></a></li><li class="astro-ez73slyg"><a href="/observability/advanced/" class="astro-ez73slyg"><span class="astro-ez73slyg">5.5 Zusatzaufträge</span><span class="sl-badge note small  astro-ez73slyg astro-5qxlfd7c">Zusatz</span></a></li><li class="astro-ez73slyg"><a href="/observability/competences/" class="astro-ez73slyg"><span class="astro-ez73slyg">5.6 Kompetenzraster</span></a></li></ul></details></li><li class="astro-ez73slyg"><details class="astro-ez73slyg"><summary class="astro-ez73slyg"><span class="group-label astro-ez73slyg"><span class="large astro-ez73slyg">6 Betrieb</span></span><svg aria-hidden="true" class="caret astro-ez73slyg astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="6"></sl-sidebar-restore><ul class="astro-ez73slyg"><li class="astro-ez73slyg"><a href="/operations/security/" class="astro-ez73slyg"><span class="astro-ez73slyg">6.1 Sicherheit</span></a></li><li class="astro-ez73slyg"><a href="/operations/backup/" class="astro-ez73slyg"><span class="astro-ez73slyg">6.2 Backup und Wiederherstellung</span></a></li><li class="astro-ez73slyg"><a href="/operations/sla/" class="astro-ez73slyg"><span class="astro-ez73slyg">6.3 SLA und Betriebskonzept</span></a></li><li class="astro-ez73slyg"><a href="/operations/cost/" class="astro-ez73slyg"><span class="astro-ez73slyg">6.4 Kosten und Ressourceneffizienz</span></a></li><li class="astro-ez73slyg"><a href="/operations/advanced/" class="astro-ez73slyg"><span class="astro-ez73slyg">6.5 Zusatzaufträge</span><span class="sl-badge note small  astro-ez73slyg astro-5qxlfd7c">Zusatz</span></a></li><li class="astro-ez73slyg"><a href="/operations/competences/" class="astro-ez73slyg"><span class="astro-ez73slyg">6.6 Kompetenzraster</span></a></li></ul></details></li><li class="astro-ez73slyg"><details class="astro-ez73slyg"><summary class="astro-ez73slyg"><span class="group-label astro-ez73slyg"><span class="large astro-ez73slyg">Ergänzungen</span></span><svg aria-hidden="true" class="caret astro-ez73slyg astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="7"></sl-sidebar-restore><ul class="astro-ez73slyg"><li class="astro-ez73slyg"><a href="/extras/own-hypervisor/" class="astro-ez73slyg"><span class="astro-ez73slyg">Eigener Hypervisor</span></a></li><li class="astro-ez73slyg"><a href="/extras/opennebula/" class="astro-ez73slyg"><span class="astro-ez73slyg">OpenNebula im Detail</span></a></li><li class="astro-ez73slyg"><a href="/extras/network/" class="astro-ez73slyg"><span class="astro-ez73slyg">Linux-Netz im Lab</span></a></li><li class="astro-ez73slyg"><a href="/extras/kubernetes/" class="astro-ez73slyg"><span class="astro-ez73slyg">Kubernetes-Grundlagen</span></a></li><li class="astro-ez73slyg"><a href="/extras/platform-tools/" class="astro-ez73slyg"><span class="astro-ez73slyg">Werkzeuge der Plattform</span></a></li></ul></details></li><li class="astro-ez73slyg"><details class="astro-ez73slyg"><summary class="astro-ez73slyg"><span class="group-label astro-ez73slyg"><span class="large astro-ez73slyg">Leistungsbeurteilung</span></span><svg aria-hidden="true" class="caret astro-ez73slyg astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="8"></sl-sidebar-restore><ul class="astro-ez73slyg"><li class="astro-ez73slyg"><a href="/assessment/" class="astro-ez73slyg"><span class="astro-ez73slyg">Übersicht</span></a></li><li class="astro-ez73slyg"><a href="/assessment/milestone-1/" class="astro-ez73slyg"><span class="astro-ez73slyg">IaaS für Wolkenwerk (Meilenstein 1)</span></a></li><li class="astro-ez73slyg"><a href="/assessment/milestone-2/" class="astro-ez73slyg"><span class="astro-ez73slyg">Plattform per Code (Meilenstein 2)</span></a></li><li class="astro-ez73slyg"><a href="/assessment/milestone-3/" class="astro-ez73slyg"><span class="astro-ez73slyg">Observability, Skalierung und KI (Meilenstein 3)</span></a></li><li class="astro-ez73slyg"><a href="/assessment/milestone-4/" class="astro-ez73slyg"><span class="astro-ez73slyg">Betrieb und ein eigenes Mitglied (Meilenstein 4)</span></a></li><li class="astro-ez73slyg"><a href="/assessment/exam/" class="astro-ez73slyg"><span class="astro-ez73slyg">Prüfung</span></a></li></ul></details></li><li class="astro-ez73slyg"><details class="astro-ez73slyg"><summary class="astro-ez73slyg"><span class="group-label astro-ez73slyg"><span class="large astro-ez73slyg">Nachschlagen</span></span><svg aria-hidden="true" class="caret astro-ez73slyg astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="9"></sl-sidebar-restore><ul class="astro-ez73slyg"><li class="astro-ez73slyg"><a href="/glossary/" class="astro-ez73slyg"><span class="astro-ez73slyg">Glossar</span></a></li><li class="astro-ez73slyg"><a href="/lab-reference/" class="astro-ez73slyg"><span class="astro-ez73slyg">Lab-Referenz</span></a></li><li class="astro-ez73slyg"><a href="/troubleshooting/" class="astro-ez73slyg"><span class="astro-ez73slyg">Fehlerbehebung</span></a></li></ul></details></li></ul><script aria-hidden="true">
+		(() => {
+			const scroller = document.getElementById('starlight__sidebar');
+			if (!window._starlightScrollRestore || !scroller) return;
+			scroller.scrollTop = window._starlightScrollRestore;
+			delete window._starlightScrollRestore;
+		})();
+	</script></sl-sidebar-state-persist><div class="md:sl-hidden"><div class="mobile-preferences sl-flex astro-uz3f2oy4"><div class="social-icons astro-uz3f2oy4"><a href="https://github.com/ndum/cc" rel="me" class="sl-flex astro-vvaccv3s"><span class="sr-only astro-vvaccv3s">GitHub</span><svg aria-hidden="true" class="astro-vvaccv3s astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.12.83-.26.83-.57L9 21.07c-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.09-.73.09-.73 1.2.09 1.83 1.24 1.83 1.24 1.08 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18a4.65 4.65 0 0 1 1.23 3.22c0 4.61-2.8 5.63-5.48 5.92.42.36.81 1.1.81 2.22l-.01 3.29c0 .31.2.69.82.57A12 12 0 0 0 12 .3Z"/></svg></a></div><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-scmnraha"><span class="sr-only astro-scmnraha">Farbschema wählen</span><svg aria-hidden="true" class="icon label-icon astro-scmnraha astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-scmnraha"><option value="dark" class="astro-scmnraha">Dunkel</option><option value="light" class="astro-scmnraha">Hell</option><option value="auto" selected class="astro-scmnraha">System</option></select><svg aria-hidden="true" class="icon caret astro-scmnraha astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script><starlight-lang-select><label style="--sl-select-width: 7em" class="astro-scmnraha"><span class="sr-only astro-scmnraha">Sprache wählen</span><svg aria-hidden="true" class="icon label-icon astro-scmnraha astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path fill-rule="evenodd" d="M8.516 3a.94.94 0 0 0-.941.94v1.15H2.94a.94.94 0 1 0 0 1.882h7.362a7.422 7.422 0 0 1-1.787 3.958 7.42 7.42 0 0 1-1.422-2.425.94.94 0 1 0-1.774.627 9.303 9.303 0 0 0 1.785 3.043 7.422 7.422 0 0 1-4.164 1.278.94.94 0 1 0 0 1.881 9.303 9.303 0 0 0 5.575-1.855 9.303 9.303 0 0 0 4.11 1.74l-.763 1.525a.968.968 0 0 0-.016.034l-1.385 2.77a.94.94 0 1 0 1.683.841l1.133-2.267h5.806l1.134 2.267a.94.94 0 0 0 1.683-.841l-1.385-2.769a.95.95 0 0 0-.018-.036l-3.476-6.951a.94.94 0 0 0-1.682 0l-1.82 3.639a7.423 7.423 0 0 1-3.593-1.256 9.303 9.303 0 0 0 2.27-5.203h1.894a.94.94 0 0 0 0-1.881H9.456V3.94A.94.94 0 0 0 8.516 3Zm6.426 11.794a1.068 1.068 0 0 1-.02.039l-.703 1.407h3.924l-1.962-3.924-1.24 2.478Z" clip-rule="evenodd"/></svg><select autocomplete="off" class="astro-scmnraha"><option value="/tenants/advanced/" class="astro-scmnraha">Deutsch</option><option value="/en/tenants/advanced/" class="astro-scmnraha">English</option></select><svg aria-hidden="true" class="icon caret astro-scmnraha astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-lang-select></div></div></div></sl-sidebar-pane></nav><div class="main-frame astro-ogthqvzv"><script type="module">var e=document.getElementById(`starlight__sidebar`),t=e?.querySelector(`sl-sidebar-state-persist`),n=`sl-sidebar-state`,r=()=>{let r=[],i=t?.dataset.hash||``;try{let e=sessionStorage.getItem(n),t=JSON.parse(e||`{}`);Array.isArray(t.open)&&t.hash===i&&(r=t.open)}catch{}return{hash:i,open:r,scroll:e?.scrollTop||0}},i=e=>{try{sessionStorage.setItem(n,JSON.stringify(e))}catch{}},a=()=>i(r()),o=(e,t)=>{let n=r();n.open[t]=e,i(n)};t?.addEventListener(`click`,e=>{if(!(e.target instanceof Element))return;let t=e.target.closest(`summary`)?.closest(`details`);if(!t)return;let n=t.querySelector(`sl-sidebar-restore`),r=parseInt(n?.dataset.index||``);isNaN(r)||o(!t.open,r)}),addEventListener(`visibilitychange`,()=>{document.visibilityState===`hidden`&&a()});</script><div class="lg:sl-flex astro-kk5qjijy"><aside class="right-sidebar-container print:hidden astro-kk5qjijy"><div class="right-sidebar astro-kk5qjijy"><div class="lg:sl-hidden astro-5jw5e7fz"><mobile-starlight-toc data-min-h="2" data-max-h="2" class="astro-ec7qe6jg"><nav aria-labelledby="starlight__on-this-page--mobile" class="astro-ec7qe6jg"><details id="starlight__mobile-toc" class="astro-ec7qe6jg"><summary id="starlight__on-this-page--mobile" class="sl-flex astro-ec7qe6jg"><span class="toggle sl-flex astro-ec7qe6jg">Auf dieser Seite<svg aria-hidden="true" class="caret astro-ec7qe6jg astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></span><span class="display-current astro-ec7qe6jg"></span></summary><div class="dropdown astro-ec7qe6jg"><ul class="isMobile astro-qoa5ihji" style="--depth: 0;"><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#_top" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Überblick</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#rahmen-und-bewertung" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Rahmen und Bewertung</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#elastizität" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Elastizität</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#dienste-und-rollen" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Dienste und Rollen</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#regeln-nach-last" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Regeln nach Last</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#regeln-nach-zeitplan" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Regeln nach Zeitplan</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#quota-und-kapazität" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Quota und Kapazität</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#timer-von-systemd" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Timer von systemd</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#der-monatliche-bericht" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Der monatliche Bericht</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#kostendeckung" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Kostendeckung</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#folgen-eines-ausfalls" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Folgen eines Ausfalls</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#platzierung-und-ausfall" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Platzierung und Ausfall</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#elastizität-mit-oneflow-auftrag-a" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Elastizität mit OneFlow (Auftrag A)</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#showback-als-bericht-auftrag-b" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Showback als Bericht (Auftrag B)</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#ausfall-eines-knotens-auftrag-c" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Ausfall eines Knotens (Auftrag C)</span></a></li></ul></div></details></nav></mobile-starlight-toc><script type="module" src="/_astro/MobileTableOfContents.astro_astro_type_script_index_0_lang.C3fM4Kra.js"></script></div><div class="right-sidebar-panel sl-hidden lg:sl-block astro-5jw5e7fz"><div class="sl-container astro-5jw5e7fz"><starlight-toc data-min-h="2" data-max-h="2"><nav aria-labelledby="starlight__on-this-page"><h2 id="starlight__on-this-page">Auf dieser Seite</h2><ul class="astro-qoa5ihji" style="--depth: 0;"><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#_top" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Überblick</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#rahmen-und-bewertung" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Rahmen und Bewertung</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#elastizität" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Elastizität</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#dienste-und-rollen" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Dienste und Rollen</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#regeln-nach-last" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Regeln nach Last</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#regeln-nach-zeitplan" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Regeln nach Zeitplan</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#quota-und-kapazität" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Quota und Kapazität</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#timer-von-systemd" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Timer von systemd</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#der-monatliche-bericht" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Der monatliche Bericht</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#kostendeckung" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Kostendeckung</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#folgen-eines-ausfalls" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Folgen eines Ausfalls</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#platzierung-und-ausfall" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Platzierung und Ausfall</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#elastizität-mit-oneflow-auftrag-a" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Elastizität mit OneFlow (Auftrag A)</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#showback-als-bericht-auftrag-b" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Showback als Bericht (Auftrag B)</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#ausfall-eines-knotens-auftrag-c" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Ausfall eines Knotens (Auftrag C)</span></a></li></ul></nav></starlight-toc><script type="module" src="/_astro/TableOfContents.astro_astro_type_script_index_0_lang.BpJaGz7G.js"></script></div></div></div></aside><div class="main-pane astro-kk5qjijy"><main data-pagefind-body class="astro-rlm2zbci" lang="de-CH" dir="ltr"><div class="content-panel astro-vrdjozuv"><div class="sl-container astro-vrdjozuv"><h1 id="_top" class="astro-obpc4a67">Zusatzaufträge</h1></div></div><div class="content-panel astro-vrdjozuv"><div class="sl-container astro-vrdjozuv"><div class="sl-markdown-content"><div class="lt-box lt-assignment" role="group" aria-labelledby="lt-box-1"><p class="lt-box-title" id="lt-box-1"><span class="lt-box-kind">Auftrag</span></p><p>«Bevor alle vier Mitglieder auf die Cloud wechseln, hat der Vorstand noch drei Anliegen», schreibt Beat Kläy. «Die Treuhand braucht Ende Monat mehr Leistung und will dafür nicht jedes Mal anrufen. Jeden Monat soll ein Bericht zeigen, was die Mitglieder kosten und ob das unsere Kosten deckt. Ausserdem möchte ich wissen, was die Mitglieder merken, wenn ein Knoten ausfällt. Wie verteilen wir die VMs, damit ein Ausfall möglichst wenig trifft?»</p></div>
+<div class="lt-box lt-goals" role="group" aria-labelledby="lt-box-2"><p class="lt-box-title" id="lt-box-2"><span class="lt-box-kind">Lernziele</span></p><p>Nach diesem Kapitel kannst du:</p><ul>
+<li>Elastizität von Self-Service unterscheiden</li>
+<li>Einen Dienst in OneFlow mit Rollen und Regeln für die Elastizität entwerfen</li>
+<li>Regeln nach Last und nach Zeitplan aufeinander und auf die Quota abstimmen</li>
+<li>Eine wiederkehrende Aufgabe mit einem Timer von systemd planen</li>
+<li>Aus dem Showback die Kostendeckung der Genossenschaft berechnen</li>
+<li>Die Folgen eines ausgefallenen Knotens für die Mitglieder beurteilen</li>
+<li>Eine Strategie für die Platzierung der VMs vorschlagen und gegen eine Alternative abwägen</li>
+</ul></div>
+<div class="sl-heading-wrapper level-h2"><h2 id="rahmen-und-bewertung">Rahmen und Bewertung</h2><a class="sl-anchor-link" href="#rahmen-und-bewertung"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Abschnitt betitelt „Rahmen und Bewertung“</span></a></div>
+<p>Dieses Kapitel gibt dir keine Anleitung zum Nachbauen. Du entwirfst eine eigene Lösung, setzt sie in deinem Lab um und begründest deine Entscheide. Die Abschnitte zu den Konzepten erklären, was du dafür wissen musst. Sie nennen auch Abwägungen, an denen sich ein eigener Entscheid festmachen lässt.</p>
+<ul>
+<li>Die drei Aufträge sind die Zusatzaufträge von <a href="../../assessment/milestone-1/">Meilenstein 1</a>. Weder die Basis noch Teil 4 setzen sie voraus.</li>
+<li>Für alle drei zusammen rechnest du mit vier bis sechs Stunden. Du kannst auch nur einzelne bearbeiten.</li>
+<li>Du zeigst sie live im Unterricht oder in einem Screencast von höchstens zehn Minuten, wie es der Meilenstein unter <a href="../../assessment/milestone-1/#zusatzauftr%C3%A4ge-zeigen">Zusatzaufträge zeigen</a> beschreibt. In derselben Vorführung beantwortest du die zwei Fragen aus dem Check <code dir="auto">m1</code>.</li>
+<li>Zu jedem Auftrag gehört eine <a href="../../assessment/#dokumentation-der-zusatzauftr%C3%A4ge">Dokumentation in fünf Teilen</a></li>
+<li>Jeder Auftrag gibt 0 bis 3 Punkte nach den <a href="../../assessment/#stufen-der-zusatzauftr%C3%A4ge">Stufen der Zusatzaufträge</a>, ohne Dokumentation höchstens 1 Punkt</li>
+<li>KI-Assistenten setzt du nach den <a href="../../start/overview/#ki-werkzeuge">Regeln des Kurses</a> ein. In der Vorführung erklärst du jede Zeile deiner Lösung selbst.</li>
+</ul>
+<div class="sl-heading-wrapper level-h2"><h2 id="elastizität">Elastizität</h2><a class="sl-anchor-link" href="#elastizität"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Abschnitt betitelt „Elastizität“</span></a></div>
+<p><strong>Elastizität</strong> gehört zu den <a href="../../basics/characteristics/#die-f%C3%BCnf-merkmale-nach-nist">fünf Merkmalen einer Cloud</a>, das NIST nennt sie Rapid Elasticity. Ressourcen wachsen mit der Last und schrumpfen wieder, ohne dass jemand eingreift. Beim Self-Service aus Kapitel 3.4 startet ein Mitglied selbst eine VM, bei der Elastizität ändert das System die Zahl der VMs nach festen Regeln. Diese müssen den Dienst der Treuhand rechtzeitig wachsen und wieder schrumpfen lassen, denn jede VM, die länger läuft als nötig, erscheint in ihrem Showback.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="dienste-und-rollen">Dienste und Rollen</h2><a class="sl-anchor-link" href="#dienste-und-rollen"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Abschnitt betitelt „Dienste und Rollen“</span></a></div>
+<p>OneFlow verwaltet Dienste aus mehreren VMs, gegliedert in Rollen wie eine Datenbank oder mehrere Anwendungsserver. Jede Rolle startet ihre VMs aus einer VM-Vorlage, die Zahl dieser VMs ist die <strong>Kardinalität</strong> der Rolle. Eine <strong>Dienstvorlage</strong> beschreibt den Aufbau, beim Instanziieren entsteht aus ihr der Dienst. Du legst sie mit <code dir="auto">oneflow-template</code> oder in Sunstone an und beschreibst darin jede Rolle vor allem mit diesen Angaben.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Angabe</th><th>Bedeutung</th></tr></thead><tbody><tr><td><code dir="auto">template_id</code></td><td>Nummer der VM-Vorlage, aus der die Rolle ihre VMs startet</td></tr><tr><td><code dir="auto">cardinality</code></td><td>Zahl der VMs beim Start</td></tr><tr><td><code dir="auto">min_vms</code>, <code dir="auto">max_vms</code></td><td>Grenzen, innerhalb derer die Regeln die Kardinalität ändern</td></tr><tr><td><code dir="auto">elasticity_policies</code></td><td>Regeln nach Last</td></tr><tr><td><code dir="auto">scheduled_policies</code></td><td>Regeln nach Zeitplan</td></tr><tr><td><code dir="auto">cooldown</code></td><td>Sekunden nach einer Änderung, in denen keine weitere Regel greift</td></tr></tbody></table>
+<details class="lt-box lt-details"><summary>Rechte, Quota und Besitzer der Dienstvorlage</summary><p>OpenNebula speichert Dienstvorlagen und Dienste als Dokumente. Das Recht, Dokumente anzulegen, haben die Mitglieder seit <a href="../groups/#gruppen-und-gruppenadmins">Kapitel 3.1</a>. Dienstvorlagen tragen wie VM-Vorlagen Rechte für Besitzer, Gruppe und alle anderen. Die VMs eines Dienstes gehören seinem Besitzer, zählen gegen die Quota von dessen Gruppe und übernehmen wie in Kapitel 2.4 seinen SSH-Schlüssel. Instanziiert <code dir="auto">treuhand-admin</code> den Dienst, belastet er also die Quota der Treuhand. Offen ist, wer die Dienstvorlage anlegt.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Dienstvorlage von</th><th>Folge</th></tr></thead><tbody><tr><td>Plattform-Team</td><td>Teil des <a href="../self-service/#der-servicekatalog">Katalogs</a> aus Kapitel 3.4, vom Plattform-Team gepflegt und auch für andere Mitglieder nutzbar</td></tr><tr><td>Treuhand</td><td>gehört der Treuhand, die ihre Regeln selbst anpasst und verantwortet</td></tr></tbody></table></details>
+<div class="sl-heading-wrapper level-h2"><h2 id="regeln-nach-last">Regeln nach Last</h2><a class="sl-anchor-link" href="#regeln-nach-last"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Abschnitt betitelt „Regeln nach Last“</span></a></div>
+<p>Eine Regel nach Last prüft einen Ausdruck wie <code dir="auto">CPU > 75</code> über die VMs einer Rolle. Gilt er eine Zeit lang, ändert sie die Kardinalität. OneFlow nimmt dafür das Mittel aller laufenden VMs der Rolle und prüft die Regeln nur alle 90 Sekunden.</p>
+<details class="lt-box lt-details"><summary>Ausdruck, Perioden, Cooldown und Messwerte aus dem Lab</summary><p><code dir="auto">CPU</code> ist die Auslastung einer CPU in Prozent aus der Überwachung. Auch Werte, die eine Anwendung selbst über OneGate meldet, etwa die Länge einer Warteschlange, sind möglich. Dafür braucht die VM ein Token im Kontext und einen Weg zu OneGate, das im Lab nur lokal auf dem Front-end hört, wie die <a href="../../iaas/installation/#die-installierten-dienste">Liste der Dienste</a> in Kapitel 2.2 zeigt. Für den Auftrag genügt die CPU. Gilt der Ausdruck über <code dir="auto">period_number</code> aufeinanderfolgende Perioden von <code dir="auto">period</code> Sekunden, ändern <code dir="auto">type</code> und <code dir="auto">adjust</code> die Kardinalität, etwa mit <code dir="auto">CHANGE</code> und <code dir="auto">1</code> um eine VM oder mit <code dir="auto">PERCENTAGE_CHANGE</code> um einen Anteil.</p><p>Weil OneFlow das Mittel nimmt, ergeben eine VM unter Volllast und eine leere 50 %. Bei einer höheren Schwelle wächst die Rolle also nicht, solange nur eine arbeitet. Ob das passt, hängt davon ab, wie sich die Last der Treuhand verteilt. Nach jeder Änderung steht der Dienst im Zustand <code dir="auto">COOLDOWN</code> und keine Regel greift, auch nicht die einer anderen Rolle. Die Dauer setzt <code dir="auto">cooldown</code>, sonst gilt der Standardwert aus <code dir="auto">/etc/one/oneflow-server.conf</code>.</p><p>Dort legt <code dir="auto">:autoscaler_interval:</code> die 90 Sekunden fest. Eine kürzere Periode wirkt also wie eine von 90 Sekunden, dazu kommt die Verzögerung der Überwachung. Im Lab lief die zweite VM rund zweieinhalb Minuten nach dem Beginn der Last, mit einer Regel über zwei Perioden von 30 Sekunden. Ohne Last schrumpfte der Dienst nach knapp sechs Minuten, weil die Regel zum Schrumpfen absichtlich träger war. So springt er bei kurzen Schwankungen nicht hin und her, die Treuhand bezahlt die zusätzliche VM aber etwas länger.</p></details>
+<div class="sl-heading-wrapper level-h2"><h2 id="regeln-nach-zeitplan">Regeln nach Zeitplan</h2><a class="sl-anchor-link" href="#regeln-nach-zeitplan"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Abschnitt betitelt „Regeln nach Zeitplan“</span></a></div>
+<p>Eine Regel nach Zeitplan ändert die Kardinalität zu einer festen Zeit, ohne auf die Last zu warten, mit <code dir="auto">recurrence</code> wiederkehrend im Format von cron oder mit <code dir="auto">start_time</code> einmal. In derselben Rolle deckt der Zeitplan die bekannte Spitze am Monatsende ab, die Regel nach Last unerwartete Spitzen.</p>
+<details class="lt-box lt-details"><summary>Art der Änderung, Messwert aus dem Lab und Zusammenspiel mit der Last</summary><p><code dir="auto">type</code> und <code dir="auto">adjust</code> bestimmen die Änderung, <code dir="auto">CARDINALITY</code> setzt eine feste Zahl von VMs. Im Lab löste eine Regel, die alle zwei Minuten galt, bei der ersten Prüfung nach der geraden Minute aus und setzte die Rolle von einer auf zwei VMs. Eine Regel nach Zeitplan greift also bis zu 90 Sekunden nach ihrer Zeit.</p><p>Weil beide Regeln dieselbe Kardinalität ändern, prüfst du, ob die Regel zum Schrumpfen wegnimmt, was der Zeitplan eben hinzugefügt hat, solange die Last noch fehlt. Lege auch fest, welche Tage für die Treuhand zum Monatsende gehören und wann der Dienst wieder klein sein soll.</p></details>
+<div class="sl-heading-wrapper level-h2"><h2 id="quota-und-kapazität">Quota und Kapazität</h2><a class="sl-anchor-link" href="#quota-und-kapazität"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Abschnitt betitelt „Quota und Kapazität“</span></a></div>
+<p>Jede VM des Dienstes zählt gegen die <a href="../quotas/#die-quotas-der-mitglieder">Quota der Treuhand</a> von vier VMs, 2 CPU und 4096 MB, neben ihren anderen VMs wie <code dir="auto">treuhand-1</code> aus Kapitel 3.3. <code dir="auto">max_vms</code>, die Grösse der VMs und die Quota müssen also zusammenpassen.</p>
+<details class="lt-box lt-details"><summary>Dienst über der Quota und Platz auf den Knoten</summary><p>VMs über der Quota lehnt OpenNebula ab wie in Kapitel 3.2, der Dienst steht dann auf <code dir="auto">FAILED_SCALING</code>. Keine seiner Regeln greift mehr, bis die Quota wieder Platz hat und jemand <code dir="auto">oneflow recover</code> aufruft. Ob die Knoten den Platz auch haben, sagt die Quota nicht, wie Kapitel 3.2 unter <a href="../quotas/#quota-und-%C3%BCberbuchung">Quota und Überbuchung</a> zeigt. Ab Kapitel 4.2 belegt zudem der Kubernetes-Cluster die Knoten.</p></details>
+<div class="sl-heading-wrapper level-h2"><h2 id="timer-von-systemd">Timer von systemd</h2><a class="sl-anchor-link" href="#timer-von-systemd"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Abschnitt betitelt „Timer von systemd“</span></a></div>
+<p>Ubuntu 26.04 bringt auf den Servern des Labs kein cron mit. Wiederkehrende Aufgaben plant systemd mit Timern, Units mit der Endung <code dir="auto">.timer</code>, die beim Ablaufen ohne weitere Angabe den Dienst gleichen Namens mit der Endung <code dir="auto">.service</code> starten. Dieser führt dein Skript aus.</p>
+<details class="lt-box lt-details"><summary>Zeitpunkt, Art der Unit und Anmeldung der CLI</summary><p>Den Zeitpunkt legt <code dir="auto">OnCalendar=</code> mit einem Kalenderausdruck fest, <code dir="auto">monthly</code> steht etwa für den Ersten jedes Monats um Mitternacht. <code dir="auto">systemd-analyze calendar</code> zeigt, wann ein Ausdruck das nächste Mal zutrifft. Mit <code dir="auto">Persistent=</code> holt systemd einen Lauf, den der ausgeschaltete Server verpasst hat, nach dem nächsten Start nach. Ohne diese Option fällt er aus.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Art</th><th>Läuft</th><th>Benutzer des Dienstes</th></tr></thead><tbody><tr><td>Unit des Systems</td><td>auch ohne Anmeldung</td><td>mit <code dir="auto">User=</code> festgelegt</td></tr><tr><td>Unit eines Benutzers</td><td>nur während seiner Anmeldung, ausser nach <code dir="auto">loginctl enable-linger</code></td><td>der Benutzer selbst</td></tr></tbody></table><p>Die CLI von OpenNebula meldet sich im Dienst mit <code dir="auto">~/.one/one_auth</code> des Benutzers an, unter dem er läuft, wie <a href="../../iaas/installation/#die-cli-als-dein-benutzer">Kapitel 2.2</a> zeigt. <code dir="auto">systemctl list-timers</code> zeigt die Timer mit letztem und nächstem Lauf, <code dir="auto">journalctl</code> mit dem Namen des Dienstes die Ausgabe deines Skripts.</p></details>
+<aside aria-label="Kein Passwort in Git" class="starlight-aside starlight-aside--caution"><p class="starlight-aside__title" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" class="starlight-aside__icon"><path d="M12 16a1 1 0 1 0 0 2 1 1 0 0 0 0-2Zm10.67 1.47-8.05-14a3 3 0 0 0-5.24 0l-8 14A3 3 0 0 0 3.94 22h16.12a3 3 0 0 0 2.61-4.53Zm-1.73 2a1 1 0 0 1-.88.51H3.94a1 1 0 0 1-.88-.51 1 1 0 0 1 0-1l8-14a1 1 0 0 1 1.78 0l8.05 14a1 1 0 0 1 .05 1.02v-.02ZM12 8a1 1 0 0 0-1 1v4a1 1 0 0 0 2 0V9a1 1 0 0 0-1-1Z"></path></svg>Kein Passwort in Git</p><div class="starlight-aside__content"><p><code dir="auto">~/.one/one_auth</code> enthält das Passwort von <code dir="auto">oneadmin</code>. Skript und Units kommen als Dateien des Auftrags in dein Abgabe-Repo. Schreib das Passwort deshalb in keine dieser Dateien und kopiere auch <code dir="auto">one_auth</code> nicht ins Repo.</p></div></aside>
+<div class="sl-heading-wrapper level-h2"><h2 id="der-monatliche-bericht">Der monatliche Bericht</h2><a class="sl-anchor-link" href="#der-monatliche-bericht"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Abschnitt betitelt „Der monatliche Bericht“</span></a></div>
+<p>OpenNebula bringt den Timer <code dir="auto">opennebula-showback.timer</code> mit, der den Showback täglich berechnet. Wann er läuft, zeigt <code dir="auto">systemctl list-timers</code>.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Weg für deinen Bericht</th><th>Nachteil</th></tr></thead><tbody><tr><td>Auf der Berechnung von OpenNebula aufbauen</td><td>läuft dein Timer zur selben Zeit wie der von OpenNebula, ist offen, welcher zuerst fertig ist</td></tr><tr><td>Selbst berechnen</td><td>dein Skript wiederholt eine Arbeit, die OpenNebula schon erledigt</td></tr></tbody></table>
+<details class="lt-box lt-details"><summary>Befehle, Optionen und ein zweiter Lauf</summary><p>Laut der <a href="https://docs.opennebula.io/7.4/product/cloud_system_administration/multitenancy/showback/">Dokumentation zum Showback</a> führst du <code dir="auto">oneshowback calculate</code> als <code dir="auto">oneadmin</code> aus, bei vielen VMs nur für die fehlenden Monate, weil die Berechnung aufwendig ist. <code dir="auto">oneshowback list</code> wählt mit <code dir="auto">-s</code> und <code dir="auto">-e</code> die Monate, gibt mit <code dir="auto">--csv</code> CSV aus und beschränkt sich mit <code dir="auto">-g</code> auf eine Gruppe. Enthält der Bereich den laufenden Monat, rechnet OpenNebula bis heute. Läuft dein Skript zweimal für denselben Monat, etwa nach einem Neustart, soll dieselbe Datei ohne doppelte Zeilen entstehen. Jahr und Monat im Dateinamen zeigen, welchen Monat sie enthält.</p></details>
+<div class="sl-heading-wrapper level-h2"><h2 id="kostendeckung">Kostendeckung</h2><a class="sl-anchor-link" href="#kostendeckung"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Abschnitt betitelt „Kostendeckung“</span></a></div>
+<p>Die Preise in der Vorlage <code dir="auto">ubuntu</code> sind für den Fall erfunden. Ob sie die Kosten der Genossenschaft decken, zeigt die <strong>Kostendeckung</strong>, das Verhältnis der Summe aus dem Showback eines Monats zu allen Kosten dieses Monats. Unter 100 % decken die Preise die Kosten nicht, auch wenn die Genossenschaft sie verrechnet.</p>
+<details class="lt-box lt-details"><summary>Kosten, Annahmen und Wege bei fehlender Deckung</summary><p>Zu den Kosten gehören laut <a href="../showback/#die-kosten-einer-vm">Kapitel 3.3</a> die Hardware über ihre Lebensdauer, Strom, Lizenzen, Backup, die Arbeit des Plattform-Teams und die Reserve für Wartung aus Kapitel 2.5.</p><p>Ein Monat im Lab mit wenigen VMs, die oft erst seit einigen Tagen laufen, sagt wenig über den Betrieb. Deine Annahmen, etwa wie viele VMs im Mittel laufen oder was die Genossenschaft im Jahr kostet, legst du offen. Werte dafür nennt die Aufgabe «Kostenmodell» in Kapitel 3.3. Ebenso lässt sich rechnen, ab wie vielen VMs im Mittel die Preise die Kosten decken. Reicht die Deckung nicht, kann die Genossenschaft die Preise erhöhen, für mehr Auslastung sorgen oder von jedem Mitglied einen festen Beitrag für die Arbeit des Plattform-Teams verlangen. Jeder Weg trifft die Mitglieder anders, etwa die Gemeinde mit ihrem festen Budget.</p></details>
+<div class="sl-heading-wrapper level-h2"><h2 id="folgen-eines-ausfalls">Folgen eines Ausfalls</h2><a class="sl-anchor-link" href="#folgen-eines-ausfalls"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Abschnitt betitelt „Folgen eines Ausfalls“</span></a></div>
+<p>Fällt ein Knoten aus, zeigt ihn <code dir="auto">onehost list</code> nach einiger Zeit als <code dir="auto">err</code> und <code dir="auto">onevm list</code> seine VMs als <code dir="auto">unkn</code>, wie <a href="../../iaas/hosts/#ausfall-eines-knotens">Kapitel 2.5</a> beschreibt. An ihre Disks im Datastore <code dir="auto">system</code> des Knotens kommt niemand, solange er aus ist. Wer die VMs eines ausgefallenen Knotens anderswo startet, muss vorher sicherstellen, dass der Knoten wirklich aus ist. Ohne dieses <strong>Fencing</strong> kann nach einem kurzen Netzfehler dieselbe VM auf zwei Hosts laufen. Im Lab fehlen gemeinsamer Speicher und ein Hook für ausgefallene Hosts bewusst, damit drei Server genügen. Ein Ausfall trifft die Mitglieder also, bis der Knoten wieder läuft.</p>
+<details class="lt-box lt-details"><summary>Hook für ausgefallene Hosts und das Verhalten von OneFlow</summary><p>OpenNebula liefert ein Skript mit, das als Hook starten kann, sobald ein Host in den Zustand <code dir="auto">ERROR</code> wechselt. Seine Optionen bestimmen, was mit den VMs geschieht.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Option</th><th>Wirkung</th></tr></thead><tbody><tr><td><code dir="auto">-m</code></td><td>verschiebt die VMs auf einen anderen Host, nur mit gemeinsamem Speicher wie NFS oder Ceph, VMs auf lokalen Datastores starten erst mit ihrem Host wieder</td></tr><tr><td><code dir="auto">-r</code></td><td>löscht die VMs und legt sie neu an, ihr Zustand geht verloren, was für VMs ohne eigene Daten genügen kann</td></tr><tr><td><code dir="auto">-p</code></td><td>wartet einige Zyklen der Überwachung ab, ein Host, der in dieser Zeit zurückkommt, behält seine VMs</td></tr></tbody></table><p>Wann ein Host als ausgefallen gilt, hängt von den Zeiten der Überwachung in <code dir="auto">/etc/one/monitord.conf</code> ab.</p><p>OneFlow kennt den Zustand der Knoten nicht. Bis OpenNebula den Ausfall nach einigen Minuten erkennt, meldet es die VMs des Knotens noch als laufend, die Regeln eines Dienstes arbeiten also mit falschen Werten. Fällt die Last scheinbar, verkleinert OneFlow die Rolle und beendet dabei ihre ältesten VMs, auch eine gesunde auf dem anderen Knoten. Steht danach eine VM auf <code dir="auto">unkn</code>, wechselt der Dienst in den Zustand <code dir="auto">WARNING</code>, in dem OneFlow weder Regeln auswertet noch VMs ersetzt. Im Lab hatte der Dienst der Treuhand so einige Minuten lang keine VM, die arbeitete. Holst du eine VM mit <code dir="auto">onevm recover --recreate</code> auf den anderen Knoten, bleibt ihr alter Ordner im System-Datastore des ausgefallenen Knotens liegen. Du räumst ihn selbst weg, sobald der Knoten zurück ist, denn OpenNebula kennt ihn nicht mehr.</p></details>
+<div class="sl-heading-wrapper level-h2"><h2 id="platzierung-und-ausfall">Platzierung und Ausfall</h2><a class="sl-anchor-link" href="#platzierung-und-ausfall"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Abschnitt betitelt „Platzierung und Ausfall“</span></a></div>
+<p>Wo eine neue VM läuft, entscheidet der Scheduler nach den Regeln aus <a href="../../iaas/hosts/#platzierung-durch-den-scheduler">Kapitel 2.5</a>. Die Strategie in <code dir="auto">/etc/one/schedulers/rank.conf</code> gilt für alle VMs ohne eigene Regel, <code dir="auto">SCHED_RANK</code> und <code dir="auto">SCHED_REQUIREMENTS</code> in einer Vorlage geben einzelnen Mitgliedern oder Diensten eigene Regeln.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Regel</th><th>Wirkung</th><th>Bei einem Ausfall</th></tr></thead><tbody><tr><td>Striping, im Lab eingestellt</td><td>verteilt die VMs nach der Zahl laufender VMs auf die Knoten, ob zwei VMs eines Dienstes getrennt landen, hängt auch von den übrigen ab</td><td>trifft es weniger VMs</td></tr><tr><td>Packing</td><td>füllt zuerst einen Knoten, leere Knoten lassen sich ausschalten</td><td>trifft es mehr VMs auf einmal</td></tr><tr><td>VM-Gruppe mit <code dir="auto">ANTI_AFFINED</code></td><td>trennt die VMs einer Rolle der VM-Gruppe strikt nach Host, mit zwei Knoten laufen also höchstens zwei</td><td>läuft nur noch eine VM der Rolle</td></tr></tbody></table>
+<details class="lt-box lt-details"><summary>VM-Gruppen und die Reserve der Knoten</summary><p>Eine VM-Gruppe fasst VMs in eigenen Rollen zusammen, die mit den Rollen von OneFlow nichts zu tun haben. Für jede Rolle legt sie fest, ob ihre VMs auf denselben Host gehören (<code dir="auto">AFFINED</code>) oder auf verschiedene (<code dir="auto">ANTI_AFFINED</code>). Der Scheduler hält das strikt ein. Ohne passenden Host bleibt die VM in <code dir="auto">pend</code>.</p><p>Dazu kommt die Reserve. Bei zwei Knoten muss jeder allein alle VMs tragen, bei einer <a href="../../iaas/hosts/#wartung-eines-knotens">Wartung</a> mit Vorwarnung und bei einem Ausfall ohne. Die Quotas der vier Mitglieder ergeben zusammen mehr, als ein Knoten trägt. Schöpfen alle sie aus, haben nach einem Ausfall nicht alle VMs Platz. Ein Vorschlag für die Platzierung sagt deshalb auch, welche Mitglieder Vorrang haben. Wie sehr sie auf Verfügbarkeit angewiesen sind, zeigt ihr <a href="../../basics/sovereignty/#schutzbedarf">Schutzbedarf</a> aus Kapitel 1.4.</p></details>
+<div class="sl-heading-wrapper level-h2"><h2 id="elastizität-mit-oneflow-auftrag-a">Elastizität mit OneFlow (Auftrag A)</h2><a class="sl-anchor-link" href="#elastizität-mit-oneflow-auftrag-a"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Abschnitt betitelt „Elastizität mit OneFlow (Auftrag A)“</span></a></div>
+<p>Die Treuhand braucht Ende Monat mehr Leistung, ohne dass jemand eingreift. Ihr Dienst in OneFlow wächst vor der bekannten Spitze nach Zeitplan, bei unerwarteten Spitzen nach Last und schrumpft danach wieder.</p>
+<figure class="lt-figure fig"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 524" role="img" aria-labelledby="p3c5-oneflow-de-title p3c5-oneflow-de-desc">
+<title id="p3c5-oneflow-de-title">Der Dienst der Treuhand in OneFlow</title>
+<desc id="p3c5-oneflow-de-desc">Im Zielzustand von Auftrag A liest OneFlow oben auf dem Front-end die Rollen und Regeln deiner Dienstvorlage. Die Regeln nach Zeitplan richten sich nach der Systemzeit, die Regeln nach Last nach der CPU, die das Monitoring für jede VM misst. Nach diesen Werten ändert OneFlow die Kardinalität einer Rolle. Unten läuft der Dienst in der Gruppe treuhand. Ein Teil seiner VMs läuft immer, weitere VMs kommen nach Last oder Zeitplan dazu und gehen danach wieder. Daneben läuft treuhand-1, eine andere VM der Gruppe. Achte auf die Linien unter den VMs. Die Rolle bleibt zwischen min_vms und max_vms. Alle VMs des Dienstes passen zusammen mit treuhand-1 in die Quota der Treuhand.</desc>
+<defs><marker id="p3c5-oneflow-de-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"></path></marker><marker id="p3c5-oneflow-de-head-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head d-head-accent" d="M 0 1 L 9 5 L 0 9 z"></path></marker></defs>
+<rect class="d-ground" x="0" y="0" width="760" height="524" rx="14"></rect>
+<rect class="d-band d-band-2" x="16" y="16" width="728" height="196" rx="12"></rect>
+<text class="d-label d-label-blue" x="32" y="40" text-anchor="start">FRONT-END</text>
+<rect class="d-band d-band-1" x="16" y="252" width="728" height="256" rx="12"></rect>
+<text class="d-label" x="32" y="276" text-anchor="start">GRUPPE</text>
+<text class="d-code" x="92.8528" y="276" text-anchor="start">treuhand</text>
+<rect class="d-band d-band-3" x="232" y="292" width="496" height="104" rx="12"></rect>
+<text class="d-label d-label-violet" x="248" y="316" text-anchor="start">DIENST</text>
+<path class="d-arrow" d="M 248 84 L 310 84" marker-end="url(#p3c5-oneflow-de-head)"></path>
+<text class="d-sub" x="280" y="76" text-anchor="middle">Regeln</text>
+<path class="d-arrow" d="M 248 164 L 310 164" marker-end="url(#p3c5-oneflow-de-head)"></path>
+<text class="d-sub" x="280" y="156" text-anchor="middle">Zeitplan</text>
+<path class="d-arrow" d="M 560 124 L 498 124" marker-end="url(#p3c5-oneflow-de-head)"></path>
+<text class="d-sub" x="528" y="116" text-anchor="middle">Last</text>
+<rect class="d-shadow" x="32" y="57.5" width="216" height="56" rx="10"></rect>
+<rect class="d-tile d-tile-accent" x="32" y="56" width="216" height="56" rx="10"></rect>
+<g class="d-icon d-icon-accent" transform="translate(44 75) scale(0.75)"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"></path><path d="M14 3v5h5M9 13h6M9 17h4"></path></g>
+<text class="d-title" x="72" y="81" text-anchor="start">Dienstvorlage</text>
+<text class="d-sub" x="72" y="97" text-anchor="start">deine Rollen und Regeln</text>
+<rect class="d-shadow" x="32" y="137.5" width="216" height="56" rx="10"></rect>
+<rect class="d-tile" x="32" y="136" width="216" height="56" rx="10"></rect>
+<g class="d-icon" transform="translate(44 155) scale(0.75)"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></g>
+<text class="d-title" x="72" y="161" text-anchor="start">Systemzeit</text>
+<text class="d-sub" x="72" y="177" text-anchor="start">Datum und Uhrzeit</text>
+<rect class="d-shadow" x="312" y="57.5" width="184" height="136" rx="10"></rect>
+<rect class="d-tile" x="312" y="56" width="184" height="136" rx="10"></rect>
+<g class="d-icon" transform="translate(324 115) scale(0.75)"><path d="M20 12a8 8 0 0 1-14.3 4.9M4 12A8 8 0 0 1 18.3 7.1"></path><path d="M18.5 3v4.3h-4.3M5.5 21v-4.3h4.3"></path></g>
+<text class="d-title" x="352" y="114" text-anchor="start">OneFlow</text>
+<text class="d-sub" x="352" y="129" text-anchor="start">prüft die Regeln</text>
+<text class="d-code" x="352" y="144" text-anchor="start">opennebula-flow</text>
+<rect class="d-shadow" x="560" y="97.5" width="168" height="56" rx="10"></rect>
+<rect class="d-tile" x="560" y="96" width="168" height="56" rx="10"></rect>
+<g class="d-icon" transform="translate(572 115) scale(0.75)"><path d="M4 20h16"></path><path d="M7 16v-4M12 16V8M17 16v-7"></path></g>
+<text class="d-title" x="600" y="121" text-anchor="start">Monitoring</text>
+<text class="d-sub" x="600" y="137" text-anchor="start">CPU jeder VM</text>
+<path class="d-arrow d-arrow-accent" d="M 404 192 L 404 290" marker-end="url(#p3c5-oneflow-de-head-accent)"></path>
+<text class="d-sub" x="412" y="236" text-anchor="start">ändert die Kardinalität</text>
+<path class="d-arrow" d="M 644 292 L 644 154" marker-end="url(#p3c5-oneflow-de-head)"></path>
+<text class="d-code" x="652" y="236" text-anchor="start">CPU</text>
+<rect class="d-shadow" x="32" y="329.5" width="184" height="52" rx="10"></rect>
+<rect class="d-tile d-tile-violet" x="32" y="328" width="184" height="52" rx="10"></rect>
+<g class="d-icon d-icon-violet" transform="translate(44 345) scale(0.75)"><rect x="4" y="4" width="16" height="16" rx="2"></rect><rect x="8.5" y="8.5" width="7" height="7" rx="1"></rect></g>
+<text class="d-title d-title-violet" x="72" y="351" text-anchor="start">treuhand-1</text>
+<text class="d-sub" x="72" y="367" text-anchor="start">andere VM der Gruppe</text>
+<rect class="d-shadow" x="248" y="329.5" width="168" height="52" rx="10"></rect>
+<rect class="d-tile d-tile-violet" x="248" y="328" width="168" height="52" rx="10"></rect>
+<g class="d-icon d-icon-violet" transform="translate(260 345) scale(0.75)"><rect x="4" y="4" width="16" height="16" rx="2"></rect><rect x="8.5" y="8.5" width="7" height="7" rx="1"></rect></g>
+<text class="d-title d-title-violet" x="288" y="351" text-anchor="start">VMs der Rolle</text>
+<text class="d-sub" x="288" y="367" text-anchor="start">laufen immer</text>
+<rect class="d-strip" x="432" y="328" width="280" height="52" rx="8"></rect>
+<text class="d-sub" x="572" y="358" text-anchor="middle">weitere VMs nach Last oder Zeitplan</text>
+<path class="d-line" d="M 248 412 L 416 412"></path>
+<path class="d-line" d="M 248 407 L 248 417"></path>
+<path class="d-line" d="M 416 407 L 416 417"></path>
+<text class="d-code" x="332" y="428" text-anchor="middle">min_vms</text>
+<path class="d-line" d="M 248 444 L 712 444"></path>
+<path class="d-line" d="M 248 439 L 248 449"></path>
+<path class="d-line" d="M 712 439 L 712 449"></path>
+<text class="d-code" x="480" y="460" text-anchor="middle">max_vms</text>
+<path class="d-line d-line-accent" d="M 32 476 L 728 476"></path>
+<path class="d-line d-line-accent" d="M 32 471 L 32 481"></path>
+<path class="d-line d-line-accent" d="M 728 471 L 728 481"></path>
+<text class="d-sub" x="380" y="492" text-anchor="middle">Quota der Treuhand</text>
+</svg></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Ausgangslage</th><th>Ergebnis</th></tr></thead><tbody><tr><td>Aus der Basis hast du die Gruppe <code dir="auto">treuhand</code> mit ihrem Admin <code dir="auto">treuhand-admin</code>, ihrer Quota und der VM <code dir="auto">treuhand-1</code> aus Kapitel 3.3, dazu die Vorlage <code dir="auto">ubuntu</code> und das Netz <code dir="auto">cc-net</code>. OneFlow läuft seit Kapitel 2.2 auf dem Front-end, einen Dienst hast du aber noch nicht angelegt. Anders als <code dir="auto">praxis-admin</code> in Kapitel 3.1 hat <code dir="auto">treuhand-admin</code> noch keinen SSH-Schlüssel.</td><td>In der Gruppe <code dir="auto">treuhand</code> läuft ein Dienst mit mindestens einer Rolle. Die Zahl seiner VMs steigt unter Last und vor dem Monatsende und sinkt danach wieder, ohne die Quota der Treuhand zu sprengen.</td></tr></tbody></table>
+<div class="sl-heading-wrapper level-h3"><h3 id="vorgehen">Vorgehen</h3><a class="sl-anchor-link" href="#vorgehen"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Abschnitt betitelt „Vorgehen“</span></a></div>
+<ol>
+<li>Plane die Rollen des Dienstes und ihre Grenzen passend zur Quota der Treuhand.</li>
+<li>Schreibe eine Dienstvorlage mit Regeln nach Last und nach Zeitplan.</li>
+<li>Starte den Dienst als Admin der Treuhand und prüfe, dass er läuft.</li>
+<li>Erzeuge Last in einer VM des Dienstes und beobachte, wie die Rolle wächst und wieder schrumpft.</li>
+<li>Belege die Regel nach Zeitplan, ohne bis zum Monatsende zu warten.</li>
+<li>Halte Werte, Zeiten und deinen Entscheid für die Dokumentation fest.</li>
+</ol>
+<div class="sl-heading-wrapper level-h3"><h3 id="anforderungen">Anforderungen</h3><a class="sl-anchor-link" href="#anforderungen"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Abschnitt betitelt „Anforderungen“</span></a></div>
+<ol>
+<li>Ein Dienst in OneFlow läuft in der Gruppe <code dir="auto">treuhand</code>, seine VMs zählen gegen die Quota der Treuhand.</li>
+<li>Eine Rolle wächst unter Last und schrumpft ohne Last wieder, innerhalb fester Grenzen.</li>
+<li>Eine Regel nach Zeitplan vergrössert den Dienst vor dem Monatsende und verkleinert ihn danach, in derselben oder in einer eigenen Rolle.</li>
+<li>Die Grenzen der Rolle passen zur Quota der Treuhand, auch neben ihren anderen VMs.</li>
+</ol>
+<div class="sl-heading-wrapper level-h3"><h3 id="vorführung">Vorführung</h3><a class="sl-anchor-link" href="#vorführung"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Abschnitt betitelt „Vorführung“</span></a></div>
+<ul>
+<li>Den Dienst mit seinen Rollen und Regeln</li>
+<li>Das Wachsen unter Last und das Schrumpfen danach, mit den Zeiten aus deinem Lab</li>
+<li>Wie du belegst, dass die Regel nach Zeitplan auslöst</li>
+<li>Warum du Schwellen, Perioden und Grenzen so gewählt hast</li>
+</ul>
+<details class="lt-box lt-details"><summary>Hinweise aus dem Lab</summary><ul>
+<li><code dir="auto">oneflow show</code> zeigt die Rollen, ihre VMs und im Log des Dienstes jede Änderung der Kardinalität</li>
+<li>Last erzeugst du in einer VM des Dienstes mit einem Prozess, der die CPU voll auslastet, etwa <code dir="auto">yes</code>. Starte sie vor der Vorführung, denn das Wachsen dauert einige Minuten.</li>
+<li>Antwortet OneFlow nicht, prüfst du den Dienst <code dir="auto">opennebula-flow</code> aus <a href="../../iaas/installation/#die-installierten-dienste">Kapitel 2.2</a></li>
+</ul></details>
+<details class="lt-box lt-details"><summary>Quellen</summary><ul>
+<li><a href="https://docs.opennebula.io/7.4/product/virtual_machines_operation/multi-vm_workflows/appflow_use_cli/">OneFlow Services Management</a> mit dem Aufbau einer Dienstvorlage und den Befehlen <code dir="auto">oneflow-template</code> und <code dir="auto">oneflow</code></li>
+<li><a href="https://docs.opennebula.io/7.4/product/virtual_machines_operation/multi-vm_workflows/appflow_elasticity/">OneFlow Services Auto-scaling</a> mit den Regeln nach Last und Zeitplan, ihren Ausdrücken und den Zuständen eines Dienstes</li>
+<li><a href="https://docs.opennebula.io/7.4/product/cloud_system_administration/resource_monitoring/metrics/">Resource Metrics</a> mit den Werten der Überwachung einer VM</li>
+<li><a href="https://docs.opennebula.io/7.4/product/operation_references/opennebula_services_configuration/oneflow/">OneFlow Configuration</a> mit den Standardwerten des Servers und seinen Logs</li>
+<li><a href="../groups/#als-mitglied-arbeiten">Kapitel 3.1</a> für die Arbeit als Mitglied mit <code dir="auto">ONE_AUTH</code>, in Sunstone die Ansicht <code dir="auto">groupadmin</code> aus Kapitel 3.4</li>
+</ul></details>
+<div class="sl-heading-wrapper level-h2"><h2 id="showback-als-bericht-auftrag-b">Showback als Bericht (Auftrag B)</h2><a class="sl-anchor-link" href="#showback-als-bericht-auftrag-b"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Abschnitt betitelt „Showback als Bericht (Auftrag B)“</span></a></div>
+<p>Der Vorstand will jeden Monat sehen, was die Mitglieder gekostet haben, ohne dass jemand daran denken muss. Ein eigenes Skript mit einem eigenen Timer legt den Bericht ab, aus ihm berechnest du die Kostendeckung der Genossenschaft.</p>
+<figure class="lt-figure fig"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 388" role="img" aria-labelledby="p3c5-report-de-title p3c5-report-de-desc">
+<title id="p3c5-report-de-title">Der monatliche Bericht aus dem Showback</title>
+<desc id="p3c5-report-de-desc">Im Zielzustand von Auftrag B startet oben auf dem Front-end dein Timer einmal im Monat deinen Dienst, eine Unit von systemd. Der Dienst führt dein Skript aus. Das Skript fragt den Showback von OpenNebula ab und legt den Bericht des vergangenen Monats als CSV-Datei ab, die den Monat im Namen trägt. Daneben berechnet der Timer opennebula-showback.timer, den OpenNebula mitbringt, den Showback täglich. Unten berechnest du aus dem Bericht und den Kosten eines Monats die Kostendeckung, also die Summe des Showbacks geteilt durch alle Kosten. Die Kosten beruhen auf deinen Annahmen. Daraus machst du dem Vorstand einen Vorschlag. Achte darauf, dass zwei Timer am Showback arbeiten, deiner und der von OpenNebula.</desc>
+<defs><marker id="p3c5-report-de-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"></path></marker><marker id="p3c5-report-de-head-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head d-head-accent" d="M 0 1 L 9 5 L 0 9 z"></path></marker></defs>
+<rect class="d-ground" x="0" y="0" width="760" height="388" rx="14"></rect>
+<rect class="d-band d-band-2" x="16" y="16" width="728" height="212" rx="12"></rect>
+<text class="d-label d-label-blue" x="32" y="40" text-anchor="start">FRONT-END</text>
+<path class="d-arrow" d="M 232 84 L 286 84" marker-end="url(#p3c5-report-de-head)"></path>
+<text class="d-sub" x="260" y="76" text-anchor="middle">startet</text>
+<path class="d-arrow" d="M 464 84 L 518 84" marker-end="url(#p3c5-report-de-head)"></path>
+<text class="d-sub" x="492" y="76" text-anchor="middle">führt aus</text>
+<path class="d-arrow" d="M 264 180 L 310 180" marker-end="url(#p3c5-report-de-head)"></path>
+<text class="d-sub" x="288" y="172" text-anchor="middle">täglich</text>
+<path class="d-arrow" d="M 552 112 L 552 134 L 400 134 L 400 150" marker-end="url(#p3c5-report-de-head)"></path>
+<text class="d-sub" x="476" y="127" text-anchor="middle">fragt ab</text>
+<path class="d-arrow" d="M 680 112 L 680 150" marker-end="url(#p3c5-report-de-head)"></path>
+<text class="d-sub" x="688" y="136" text-anchor="start">legt ab</text>
+<rect class="d-shadow" x="32" y="57.5" width="200" height="56" rx="10"></rect>
+<rect class="d-tile d-tile-accent" x="32" y="56" width="200" height="56" rx="10"></rect>
+<g class="d-icon d-icon-accent" transform="translate(44 75) scale(0.75)"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></g>
+<text class="d-title" x="72" y="81" text-anchor="start">Dein Timer</text>
+<text class="d-sub" x="72" y="97" text-anchor="start">einmal im Monat</text>
+<rect class="d-shadow" x="288" y="57.5" width="176" height="56" rx="10"></rect>
+<rect class="d-tile" x="288" y="56" width="176" height="56" rx="10"></rect>
+<g class="d-icon" transform="translate(300 75) scale(0.75)"><circle cx="12" cy="12" r="3"></circle><path d="M12 2.5v3M12 18.5v3M4.2 6l2.3 1.8M17.5 16.2l2.3 1.8M4.2 18l2.3-1.8M17.5 7.8 19.8 6M2.5 12h3M18.5 12h3"></path></g>
+<text class="d-title" x="328" y="81" text-anchor="start">Dein Dienst</text>
+<text class="d-sub" x="328" y="97" text-anchor="start">Unit von systemd</text>
+<rect class="d-shadow" x="520" y="57.5" width="208" height="56" rx="10"></rect>
+<rect class="d-tile d-tile-accent" x="520" y="56" width="208" height="56" rx="10"></rect>
+<g class="d-icon d-icon-accent" transform="translate(532 75) scale(0.75)"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"></path><path d="M14 3v5h5M9 13h6M9 17h4"></path></g>
+<text class="d-title" x="560" y="81" text-anchor="start">Dein Skript</text>
+<text class="d-sub" x="560" y="97" text-anchor="start">Showback des Vormonats</text>
+<rect class="d-shadow" x="32" y="153.5" width="232" height="56" rx="10"></rect>
+<rect class="d-tile" x="32" y="152" width="232" height="56" rx="10"></rect>
+<g class="d-icon" transform="translate(44 171) scale(0.75)"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></g>
+<text class="d-title" x="72" y="177" text-anchor="start">Timer von OpenNebula</text>
+<text class="d-code" x="72" y="193" text-anchor="start">opennebula-showback.timer</text>
+<rect class="d-shadow" x="312" y="153.5" width="176" height="56" rx="10"></rect>
+<rect class="d-tile" x="312" y="152" width="176" height="56" rx="10"></rect>
+<g class="d-icon" transform="translate(324 171) scale(0.75)"><ellipse cx="12" cy="5.5" rx="7.5" ry="2.5"></ellipse><path d="M4.5 5.5v13c0 1.4 3.4 2.5 7.5 2.5s7.5-1.1 7.5-2.5v-13"></path><path d="M4.5 12c0 1.4 3.4 2.5 7.5 2.5s7.5-1.1 7.5-2.5"></path></g>
+<text class="d-title" x="352" y="177" text-anchor="start">Showback</text>
+<text class="d-sub" x="352" y="193" text-anchor="start">Kosten pro VM</text>
+<rect class="d-shadow" x="520" y="153.5" width="208" height="56" rx="10"></rect>
+<rect class="d-tile" x="520" y="152" width="208" height="56" rx="10"></rect>
+<g class="d-icon" transform="translate(532 171) scale(0.75)"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"></path><path d="M14 3v5h5M9 13h6M9 17h4"></path></g>
+<text class="d-title" x="560" y="177" text-anchor="start">Bericht</text>
+<text class="d-sub" x="560" y="193" text-anchor="start">CSV, Monat im Namen</text>
+<rect class="d-band d-band-1" x="16" y="252" width="728" height="120" rx="12"></rect>
+<text class="d-label" x="32" y="276" text-anchor="start">AUSWERTUNG</text>
+<path class="d-arrow d-arrow-accent" d="M 624 208 L 624 240 L 388 240 L 388 290" marker-end="url(#p3c5-report-de-head-accent)"></path>
+<path class="d-arrow" d="M 536 320 L 490 320" marker-end="url(#p3c5-report-de-head)"></path>
+<path class="d-arrow d-arrow-accent" d="M 288 320 L 234 320" marker-end="url(#p3c5-report-de-head-accent)"></path>
+<rect class="d-shadow" x="32" y="293.5" width="200" height="56" rx="10"></rect>
+<rect class="d-tile" x="32" y="292" width="200" height="56" rx="10"></rect>
+<g class="d-icon" transform="translate(44 311) scale(0.75)"><circle cx="9" cy="8" r="3.5"></circle><path d="M2.5 20a6.5 6.5 0 0 1 13 0"></path><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M18 14.2a6.5 6.5 0 0 1 3.5 5.8"></path></g>
+<text class="d-title" x="72" y="317" text-anchor="start">Vorstand</text>
+<text class="d-sub" x="72" y="333" text-anchor="start">erhält deinen Vorschlag</text>
+<rect class="d-shadow" x="288" y="293.5" width="200" height="56" rx="10"></rect>
+<rect class="d-tile d-tile-accent" x="288" y="292" width="200" height="56" rx="10"></rect>
+<g class="d-icon d-icon-accent" transform="translate(300 311) scale(0.75)"><path d="M4 20h16"></path><path d="M7 16v-4M12 16V8M17 16v-7"></path></g>
+<text class="d-title" x="328" y="317" text-anchor="start">Kostendeckung</text>
+<text class="d-sub" x="328" y="333" text-anchor="start">Showback durch Kosten</text>
+<rect class="d-shadow" x="536" y="293.5" width="192" height="56" rx="10"></rect>
+<rect class="d-tile" x="536" y="292" width="192" height="56" rx="10"></rect>
+<g class="d-icon" transform="translate(548 311) scale(0.75)"><circle cx="12" cy="12" r="9"></circle><path d="M14.5 9c-.5-1-1.5-1.5-2.5-1.5-1.7 0-2.8 1-2.8 2.2 0 2.9 5.6 1.6 5.6 4.5 0 1.2-1.2 2.3-2.8 2.3-1.1 0-2.2-.6-2.7-1.6M12 6v1.5M12 16.5V18"></path></g>
+<text class="d-title" x="576" y="317" text-anchor="start">Kosten im Monat</text>
+<text class="d-sub" x="576" y="333" text-anchor="start">deine Annahmen</text>
+</svg></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Ausgangslage</th><th>Ergebnis</th></tr></thead><tbody><tr><td>Seit Kapitel 3.3 trägt die Vorlage <code dir="auto">ubuntu</code> Preise. Dort hast du den Showback von Hand berechnet und als CSV exportiert. OpenNebula berechnet ihn mit seinem Timer <code dir="auto">opennebula-showback.timer</code> täglich, einen eigenen Timer und einen Bericht pro Monat hast du aber noch nicht.</td><td>Ein eigener Timer von systemd startet einmal im Monat dein Skript, das den Showback des vergangenen Monats als CSV-Datei ablegt. Aus einem Bericht mit Daten berechnest du die Kosten pro Mitglied und die Kostendeckung der Genossenschaft.</td></tr></tbody></table>
+<div class="sl-heading-wrapper level-h3"><h3 id="vorgehen-1">Vorgehen</h3><a class="sl-anchor-link" href="#vorgehen-1"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Abschnitt betitelt „Vorgehen“</span></a></div>
+<ol>
+<li>Probiere von Hand aus, wie du den Showback eines einzelnen Monats berechnest und als CSV ausgibst.</li>
+<li>Schreibe das Skript für den Bericht des vergangenen Monats so, dass ein zweiter Lauf dieselbe Datei ergibt.</li>
+<li>Lege Dienst und Timer von systemd an und entscheide, unter welchem Benutzer und wann sie laufen.</li>
+<li>Starte einen Lauf von Hand und prüfe die Datei und den nächsten Lauf des Timers.</li>
+<li>Berechne aus einem Bericht mit Daten die Kosten pro Mitglied und die Kostendeckung.</li>
+<li>Halte Werte, Annahmen und deinen Entscheid für die Dokumentation fest.</li>
+</ol>
+<div class="sl-heading-wrapper level-h3"><h3 id="anforderungen-1">Anforderungen</h3><a class="sl-anchor-link" href="#anforderungen-1"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Abschnitt betitelt „Anforderungen“</span></a></div>
+<ol>
+<li>Ein eigenes Skript legt den Showback des vergangenen Monats als CSV-Datei ab, deren Name den Monat nennt.</li>
+<li>Ein eigener Timer von systemd startet das Skript einmal im Monat. Sein Name enthält <code dir="auto">showback</code> und beginnt nicht mit <code dir="auto">opennebula-</code>.</li>
+<li>Läuft das Skript ein zweites Mal für denselben Monat, entsteht dieselbe Datei ohne doppelte Zeilen.</li>
+<li>Aus dem Bericht berechnest du die Kosten pro Mitglied und die Kostendeckung der Genossenschaft mit offengelegten Annahmen.</li>
+</ol>
+<div class="sl-heading-wrapper level-h3"><h3 id="vorführung-1">Vorführung</h3><a class="sl-anchor-link" href="#vorführung-1"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Abschnitt betitelt „Vorführung“</span></a></div>
+<ul>
+<li>Den Timer mit seinem letzten und seinem nächsten Lauf</li>
+<li>Einen Lauf, den du von Hand startest, mit der Datei, die er ablegt</li>
+<li>Die Kostendeckung mit deinen Annahmen und einem Vorschlag an den Vorstand</li>
+</ul>
+<details class="lt-box lt-details"><summary>Hinweise aus dem Lab</summary><ul>
+<li>Das Skript schreibst du etwa in Bash oder Python, beides ist auf dem Front-end vorhanden</li>
+<li>Lief dein Lab im vergangenen Monat noch nicht, ist der Bericht für diesen Monat leer. Plane deshalb, wie du in der Vorführung einen Bericht mit Daten zeigst, zum Beispiel für den laufenden Monat.</li>
+<li>Fehlt die Datei nach einem Lauf, zeigt <code dir="auto">journalctl</code>, was dein Dienst ausgegeben hat</li>
+</ul></details>
+<details class="lt-box lt-details"><summary>Quellen</summary><ul>
+<li>Die <a href="https://docs.opennebula.io/7.4/product/cloud_system_administration/multitenancy/showback/">Dokumentation zum Showback</a> von OpenNebula 7.4 zu <code dir="auto">oneshowback calculate</code> und <code dir="auto">oneshowback list</code> mit ihren Optionen</li>
+<li>Die Handbuchseiten von Ubuntu 26.04 zu <a href="https://manpages.ubuntu.com/manpages/resolute/man5/systemd.timer.5.html">systemd.timer</a>, <a href="https://manpages.ubuntu.com/manpages/resolute/man5/systemd.service.5.html">systemd.service</a> und den Kalenderausdrücken in <a href="https://manpages.ubuntu.com/manpages/resolute/man7/systemd.time.7.html">systemd.time</a></li>
+<li><a href="../showback/">Kapitel 3.3</a> zu Preisen, Showback und dem Export als CSV, dazu dort die Aufgabe «Kostenmodell» mit einer einfachen Rechnung zur Kostendeckung</li>
+</ul></details>
+<div class="sl-heading-wrapper level-h2"><h2 id="ausfall-eines-knotens-auftrag-c">Ausfall eines Knotens (Auftrag C)</h2><a class="sl-anchor-link" href="#ausfall-eines-knotens-auftrag-c"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Abschnitt betitelt „Ausfall eines Knotens (Auftrag C)“</span></a></div>
+<p>Beat Kläy will wissen, was die Mitglieder bei einem Ausfall merken. Du schaltest einen Knoten ohne Vorwarnung aus, beobachtest die Folgen und leitest daraus einen Vorschlag ab, wie Wolkenwerk seine VMs platzieren soll.</p>
+<figure class="lt-figure fig"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 388" role="img" aria-labelledby="p3c5-failure-de-title p3c5-failure-de-desc">
+<title id="p3c5-failure-de-title">Der Ausfall eines Knotens</title>
+<desc id="p3c5-failure-de-desc">Im Zielzustand von Auftrag C laufen unten auf Knoten 1 und Knoten 2 VMs mehrerer Mitglieder. Ihre Disks liegen im Datastore system ihres Knotens. Im Beispiel ist Knoten 2 hart ausgeschaltet. Seine VMs und Disks sind nicht mehr erreichbar, Knoten 1 läuft weiter. Oben prüft das Monitoring auf dem Front-end die Knoten regelmässig und bekommt von Knoten 2 keine Antwort mehr. Rechts hältst du die Zustände mit Zeiten in deinem Protokoll fest. Darauf stützt sich dein Vorschlag mit Regel, Alternative und Abwägung. Er legt fest, wie der Scheduler neue VMs auf die Knoten verteilt. Achte darauf, dass die Disks auf dem ausgefallenen Knoten liegen. Solange er aus ist, kommt niemand an sie heran.</desc>
+<defs><marker id="p3c5-failure-de-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"></path></marker><marker id="p3c5-failure-de-head-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head d-head-accent" d="M 0 1 L 9 5 L 0 9 z"></path></marker></defs>
+<rect class="d-ground" x="0" y="0" width="760" height="388" rx="14"></rect>
+<rect class="d-band d-band-2" x="16" y="16" width="384" height="196" rx="12"></rect>
+<text class="d-label d-label-blue" x="32" y="40" text-anchor="start">FRONT-END</text>
+<rect class="d-band d-band-1" x="424" y="16" width="320" height="196" rx="12"></rect>
+<text class="d-label" x="440" y="40" text-anchor="start">DEINE AUSWERTUNG</text>
+<path class="d-arrow" d="M 384 164 L 438 164" marker-end="url(#p3c5-failure-de-head)"></path>
+<path class="d-arrow" d="M 584 136 L 584 114" marker-end="url(#p3c5-failure-de-head)"></path>
+<path class="d-arrow d-dashed" d="M 440 84 L 386 84" marker-end="url(#p3c5-failure-de-head)"></path>
+<rect class="d-shadow" x="32" y="57.5" width="352" height="56" rx="10"></rect>
+<rect class="d-tile" x="32" y="56" width="352" height="56" rx="10"></rect>
+<g class="d-icon" transform="translate(44 75) scale(0.75)"><circle cx="12" cy="12" r="3"></circle><path d="M12 2.5v3M12 18.5v3M4.2 6l2.3 1.8M17.5 16.2l2.3 1.8M4.2 18l2.3-1.8M17.5 7.8 19.8 6M2.5 12h3M18.5 12h3"></path></g>
+<text class="d-title" x="72" y="81" text-anchor="start">Scheduler</text>
+<text class="d-sub" x="72" y="97" text-anchor="start">platziert neue VMs auf den Knoten</text>
+<rect class="d-shadow" x="32" y="137.5" width="352" height="56" rx="10"></rect>
+<rect class="d-tile" x="32" y="136" width="352" height="56" rx="10"></rect>
+<g class="d-icon" transform="translate(44 155) scale(0.75)"><path d="M4 20h16"></path><path d="M7 16v-4M12 16V8M17 16v-7"></path></g>
+<text class="d-title" x="72" y="161" text-anchor="start">Monitoring</text>
+<text class="d-sub" x="72" y="177" text-anchor="start">prüft die Knoten regelmässig</text>
+<rect class="d-shadow" x="440" y="57.5" width="288" height="56" rx="10"></rect>
+<rect class="d-tile d-tile-accent" x="440" y="56" width="288" height="56" rx="10"></rect>
+<g class="d-icon d-icon-accent" transform="translate(452 75) scale(0.75)"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"></path><path d="M14 3v5h5M9 13h6M9 17h4"></path></g>
+<text class="d-title" x="480" y="81" text-anchor="start">Dein Vorschlag</text>
+<text class="d-sub" x="480" y="97" text-anchor="start">Regel, Alternative, Abwägung</text>
+<rect class="d-shadow" x="440" y="137.5" width="288" height="56" rx="10"></rect>
+<rect class="d-tile" x="440" y="136" width="288" height="56" rx="10"></rect>
+<g class="d-icon" transform="translate(452 155) scale(0.75)"><rect x="4" y="3" width="16" height="18" rx="2"></rect><path d="M8 8h8M8 12h8M8 16h5"></path></g>
+<text class="d-title" x="480" y="161" text-anchor="start">Dein Protokoll</text>
+<text class="d-sub" x="480" y="177" text-anchor="start">Zustände mit Zeiten</text>
+<path class="d-arrow d-arrow-accent" d="M 208 192 L 208 250" marker-end="url(#p3c5-failure-de-head-accent)"></path>
+<path class="d-line d-dashed" d="M 208 232 L 568 232"></path>
+<path class="d-arrow d-dashed" d="M 568 232 L 568 250" marker-end="url(#p3c5-failure-de-head)"></path>
+<text class="d-sub" x="576" y="246" text-anchor="start">keine Antwort</text>
+<rect class="d-band d-band-2" x="16" y="252" width="352" height="120" rx="12"></rect>
+<text class="d-label d-label-blue" x="32" y="276" text-anchor="start">KNOTEN 1</text>
+<rect class="d-band d-band-2" x="392" y="252" width="352" height="120" rx="12"></rect>
+<text class="d-label d-label-blue" x="408" y="276" text-anchor="start">KNOTEN 2</text>
+<text class="d-meta" x="352" y="276" text-anchor="end">läuft weiter</text>
+<rect class="d-tag" x="480.8736" y="263" width="112" height="18" rx="9"></rect>
+<text class="d-tag-text" x="536.8736" y="275.5" text-anchor="middle">hart ausgeschaltet</text>
+<rect class="d-shadow" x="32" y="293.5" width="136" height="56" rx="10"></rect>
+<rect class="d-tile d-tile-violet" x="32" y="292" width="136" height="56" rx="10"></rect>
+<g class="d-icon d-icon-violet" transform="translate(44 311) scale(0.75)"><rect x="4" y="4" width="16" height="16" rx="2"></rect><rect x="8.5" y="8.5" width="7" height="7" rx="1"></rect></g>
+<text class="d-title d-title-violet" x="72" y="317" text-anchor="start">VMs</text>
+<text class="d-sub" x="72" y="333" text-anchor="start">der Mitglieder</text>
+<rect class="d-shadow" x="184" y="293.5" width="168" height="56" rx="10"></rect>
+<rect class="d-tile" x="184" y="292" width="168" height="56" rx="10"></rect>
+<g class="d-icon" transform="translate(196 311) scale(0.75)"><rect x="3" y="6" width="18" height="12" rx="2"></rect><path d="M7 14h.01M11 14h6"></path></g>
+<text class="d-title" x="224" y="317" text-anchor="start">Datastore system</text>
+<text class="d-sub" x="224" y="333" text-anchor="start">Disks der VMs</text>
+<rect class="d-strip" x="408" y="292" width="136" height="56" rx="8"></rect>
+<text class="d-sub" x="476" y="324" text-anchor="middle">VMs nicht erreichbar</text>
+<rect class="d-strip" x="560" y="292" width="168" height="56" rx="8"></rect>
+<text class="d-sub" x="644" y="324" text-anchor="middle">Disks nicht erreichbar</text>
+</svg></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Ausgangslage</th><th>Ergebnis</th></tr></thead><tbody><tr><td>Aus der Basis laufen die VMs <code dir="auto">web-1</code> bis <code dir="auto">web-3</code> aus Teil 2 sowie <code dir="auto">praxis-1</code> und <code dir="auto">treuhand-1</code> aus Teil 3, der Scheduler verteilt sie mit Striping auf beide Knoten. Ihre Disks liegen im Datastore <code dir="auto">system</code> ihres Knotens, gemeinsamen Speicher und einen Hook für ausgefallene Hosts hat das Lab nicht. Einen Ausfall kennst du bisher nur aus der Beschreibung in Kapitel 2.5.</td><td>Nach einem harten Ausfall laufen wieder alle VMs. Dein Protokoll hält mit Zeiten fest, was OpenNebula dazwischen zu Knoten, VMs und Diensten zeigte und was du tun musstest. Darauf stützt sich dein Vorschlag für die Platzierung mit einer Alternative und der Abwägung für die vier Mitglieder.</td></tr></tbody></table>
+<div class="sl-heading-wrapper level-h3"><h3 id="vorgehen-2">Vorgehen</h3><a class="sl-anchor-link" href="#vorgehen-2"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Abschnitt betitelt „Vorgehen“</span></a></div>
+<ol>
+<li>Verteile VMs mehrerer Mitglieder auf beide Knoten und halte fest, welche VM wo läuft.</li>
+<li>Lege von allen drei Servern einen Snapshot an und bereite vor, wie du Zustände mit Zeiten festhältst.</li>
+<li>Schalte einen Knoten hart aus und beobachte Knoten, VMs und Dienste, bis OpenNebula den Ausfall meldet.</li>
+<li>Schalte den Knoten wieder ein und bringe alle VMs zum Laufen.</li>
+<li>Leite aus deinen Beobachtungen einen Vorschlag für die Platzierung ab und wäge ihn gegen eine Alternative ab.</li>
+<li>Halte Zeiten, Schritte und deinen Entscheid für die Dokumentation fest.</li>
+</ol>
+<aside aria-label="Snapshot vor dem Ausfall" class="starlight-aside starlight-aside--caution"><p class="starlight-aside__title" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" class="starlight-aside__icon"><path d="M12 16a1 1 0 1 0 0 2 1 1 0 0 0 0-2Zm10.67 1.47-8.05-14a3 3 0 0 0-5.24 0l-8 14A3 3 0 0 0 3.94 22h16.12a3 3 0 0 0 2.61-4.53Zm-1.73 2a1 1 0 0 1-.88.51H3.94a1 1 0 0 1-.88-.51 1 1 0 0 1 0-1l8-14a1 1 0 0 1 1.78 0l8.05 14a1 1 0 0 1 .05 1.02v-.02ZM12 8a1 1 0 0 0-1 1v4a1 1 0 0 0 2 0V9a1 1 0 0 0-1-1Z"></path></svg>Snapshot vor dem Ausfall</p><div class="starlight-aside__content"><p>Lege von allen drei Servern einen Snapshot an, bevor du den Knoten hart ausschaltest, wie <a href="../../start/prepare/">Kapitel 0.4</a> es empfiehlt. Damit kommst du zurück, falls eine VM danach nicht mehr startet.</p></div></aside>
+<div class="sl-heading-wrapper level-h3"><h3 id="anforderungen-2">Anforderungen</h3><a class="sl-anchor-link" href="#anforderungen-2"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Abschnitt betitelt „Anforderungen“</span></a></div>
+<ol>
+<li>Vor dem Ausfall laufen VMs mehrerer Mitglieder auf beiden Knoten. Du hältst fest, welche VM wo läuft.</li>
+<li>Du schaltest einen Knoten hart aus und hältst mit Zeiten fest, was OpenNebula danach zu Knoten, VMs und Diensten anzeigt.</li>
+<li>Nach dem Wiedereinschalten laufen alle VMs wieder. Du hältst fest, was du dafür tun musstest.</li>
+<li>Dein Vorschlag für die Platzierung stützt sich auf deine Beobachtungen. Er nennt eine Strategie oder Regel, eine Alternative und die Abwägung für die vier Mitglieder.</li>
+</ol>
+<div class="sl-heading-wrapper level-h3"><h3 id="vorführung-2">Vorführung</h3><a class="sl-anchor-link" href="#vorführung-2"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Abschnitt betitelt „Vorführung“</span></a></div>
+<ul>
+<li>Die Verteilung der VMs vor dem Ausfall</li>
+<li>Den Zustand von Knoten und VMs während des Ausfalls mit den Zeiten, die du gemessen hast</li>
+<li>Was du nach dem Wiedereinschalten tun musstest</li>
+<li>Deinen Vorschlag mit Alternative und Abwägung</li>
+</ul>
+<details class="lt-box lt-details"><summary>Hinweise aus dem Lab</summary><ul>
+<li>Ein echter Ausfall kündigt sich nicht an. Schalte die VM des Knotens deshalb aus, ohne Ubuntu darin herunterzufahren.</li>
+<li>Beobachte <code dir="auto">onehost list</code> und <code dir="auto">onevm list</code> in kurzen Abständen und notiere die Zeiten. Läuft der Dienst aus Auftrag A, beobachte auch ihn.</li>
+<li>Zeigst du den Auftrag nach Kapitel 4.2, beachte den Hinweis zum Kubernetes-Cluster unter <a href="../../assessment/milestone-1/#zusatzauftr%C3%A4ge-zeigen">Zusatzaufträge zeigen</a> im Meilenstein</li>
+<li>Setzt du einen Teil deines Vorschlags im Lab um, etwa für die VMs eines Mitglieds, kannst du seine Wirkung in der Vorführung zeigen</li>
+</ul></details>
+<details class="lt-box lt-details"><summary>Quellen</summary><ul>
+<li><a href="../../iaas/hosts/">Kapitel 2.5</a> mit den Zuständen von Hosts und VMs, dem Scheduler, der Wartung und dem Ausfall eines Knotens</li>
+<li>Der Abschnitt <a href="../../iaas/hosts/#lebenszyklus-einer-vm">Lebenszyklus einer VM</a> in Kapitel 2.5 mit den Befehlen, die den Zustand einer VM ändern</li>
+<li><a href="../quotas/#quota-und-%C3%BCberbuchung">Kapitel 3.2</a> zu Quota und Überbuchung</li>
+<li><a href="https://docs.opennebula.io/7.4/product/cloud_system_administration/scheduler/rank_scheduler/">Rank Scheduler</a> mit den Strategien des Schedulers</li>
+<li><a href="https://docs.opennebula.io/7.4/product/cloud_system_administration/capacity_planning/affinity/">VM Groups (Affinity)</a> mit den Regeln für VM-Gruppen</li>
+<li><a href="https://docs.opennebula.io/7.4/product/control_plane_configuration/high_availability/vm_ha/">VM HA</a> mit dem Hook für ausgefallene Hosts</li>
+</ul></details></div><footer class="sl-flex astro-7u27nsfc"><div class="meta sl-flex astro-7u27nsfc"></div><div data-pagefind-ignore style="display: contents"><div class="pagination-links print:hidden astro-d2wubx5p" dir="ltr"><a href="/tenants/self-service/" rel="prev" class="astro-d2wubx5p"><svg aria-hidden="true" class="astro-d2wubx5p astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.5rem;"><path d="M17 11H9.41l3.3-3.29a1.004 1.004 0 1 0-1.42-1.42l-5 5a1 1 0 0 0-.21.33 1 1 0 0 0 0 .76 1 1 0 0 0 .21.33l5 5a1.002 1.002 0 0 0 1.639-.325 1 1 0 0 0-.219-1.095L9.41 13H17a1 1 0 0 0 0-2Z"/></svg><span class="astro-d2wubx5p">Vorherige Seite<br class="astro-d2wubx5p"><span class="link-title astro-d2wubx5p">3.4 Self-Service</span></span></a><a href="/tenants/competences/" rel="next" class="astro-d2wubx5p"><svg aria-hidden="true" class="astro-d2wubx5p astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.5rem;"><path d="M17.92 11.62a1.001 1.001 0 0 0-.21-.33l-5-5a1.003 1.003 0 1 0-1.42 1.42l3.3 3.29H7a1 1 0 0 0 0 2h7.59l-3.3 3.29a1.002 1.002 0 0 0 .325 1.639 1 1 0 0 0 1.095-.219l5-5a1 1 0 0 0 .21-.33 1 1 0 0 0 0-.76Z"/></svg><span class="astro-d2wubx5p">Nächste Seite<br class="astro-d2wubx5p"><span class="link-title astro-d2wubx5p">3.6 Kompetenzraster</span></span></a></div></div></footer><p class="lt-licence astro-jo6i4kqk">Texte und Abbildungen stehen unter <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.de" class="astro-jo6i4kqk">CC BY-SA 4.0</a> und der Code unter der <a href="https://github.com/ndum/cc/blob/main/LICENSES/MIT.txt" class="astro-jo6i4kqk">MIT-Lizenz</a>. Die Quellen liegen auf <a href="https://github.com/ndum/cc" class="astro-jo6i4kqk">GitHub</a>.</p></div></div></main></div></div></div></div></body></html>
