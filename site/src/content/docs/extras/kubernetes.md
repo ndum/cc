@@ -44,7 +44,7 @@ Das ReplicaSet heisst `webshop-7d4f56cb9b`. Der zweite Teil ist ein Hash der Pod
 |---|---|---|
 | Deployment `webshop` | `spec.selector.matchLabels` | erkennt daran seine Pods |
 | Service `webshop` | `spec.selector` | schickt Anfragen an die bereiten Pods mit diesem Label |
-| ServiceMonitor `webshop` aus [Kapitel 5.1](../../observability/metrics/) | `spec.selector.matchLabels` | lässt Prometheus den Service mit diesem Label abfragen |
+| ServiceMonitor `webshop` aus [Kapitel 5.1](../../observability/metrics/) | `spec.selector.matchLabels` | lässt Prometheus die Metriken des Services mit diesem Label abholen |
 | Alloy aus [Kapitel 5.2](../../observability/logs/) | Regel in `discovery.relabel` | übernimmt das Label nach Loki, `{app="webshop"}` findet die Logs |
 
 Zusätzlich setzt der Deployment-Controller an jedem Pod das Label `pod-template-hash`, damit sich alte und neue Pods unterscheiden lassen. Selektoren vergleichen auf Gleichheit wie `app=webshop` oder mit Mengen wie `app in (webshop, shop)`. Ein Service kennt nur die Gleichheit. Auf der Kommandozeile wählt `-l` nach Labels, etwa `kubectl -n velo get pods -l app=webshop`.
