@@ -124,6 +124,10 @@ onebackupjob list
 
 ::code{file="platform/operations/backup-job.sh"}
 
+Sunstone shows the job under "Storage › BackupJobs". The "Info" tab lists the last run and the values of the job.
+
+![The backup job praxis-nightly in Sunstone, logged in as oneadmin. Its last run took 6 seconds. Under Attributes, BACKUP_VMS names VM 27 and DATASTORE_ID the datastore backups with ID 100. FS_FREEZE is NONE and KEEP_LAST is 10. MODE FULL means that every backup copies the whole disk. In the lab, the job runs with the personal values 4 a.m. and ten backups. The front-end runs on UTC and Sunstone converts times to the time zone of the browser, so the run at 4 a.m. shows up as 05:00:06.](../../../../assets/screenshots/sunstone-backupjob.png)
+
 Once a VM belongs to a backup job, `onevm backup` refuses it. An extra backup then comes from `onebackupjob backup praxis-nightly`, which backs up all VMs of the job.
 
 To restore, `oneimage restore` turns a backup into a new template with a new image. In the lab, 20 seconds to a minute after the command, the new VM held the test file from before the backup again. Template, image and VM then belong to `oneadmin`, and `onevm chown` gives the VM back to the member. The new VM has a new number. So that the backup job keeps backing it up, you enter it in the job.
@@ -138,6 +142,10 @@ onebackupjob update praxis-nightly /tmp/job.tpl --append
 ```
 
 The new VM gets its first backup of its own the next night. If you do not want to wait that long, `onebackupjob backup praxis-nightly` takes it right away.
+
+Sunstone lists the backups under "Storage › Backups".
+
+![The practice's backups under Storage › Backups in Sunstone, in the table view. Every backup is an image of the type Backup in the datastore backups and, like its VM, belongs to praxis-admin and the group praxis. Its name starts with the number of the VM, followed by the day and time on the front-end. Backups 2 and 4 come from earlier VMs named praxis-1 with the numbers 25 and 26, which no longer exist, so a backup stays when its VM is deleted. Backups 6 and 9 belong to the restored VM 27. Its disk has grown since the restore, which is why backup 9 from the night is larger. Sunstone rounds its 1.5 GB up to 2 GB.](../../../../assets/screenshots/sunstone-backups.png)
 
 Backups count against the datastore quota. A member with many large backups needs space there, and that space costs money. Chapter 6.4 comes back to it.
 
