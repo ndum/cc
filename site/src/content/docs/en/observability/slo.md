@@ -37,11 +37,11 @@ The rules are in your repo at `monitoring/config/webshop-slo.yaml`, as a Prometh
 
 ::code{file="platform/observability/repo/monitoring/config/webshop-slo.yaml"}
 
-The first two rules are recording rules. Prometheus regularly computes the error ratio over five minutes and over one hour and stores each as a time series of its own, `webshop:error_ratio:rate5m` and `webshop:error_ratio:rate1h`. Alerts and dashboards read these series instead of repeating the calculation every time. `clamp_min` prevents a division by zero when nobody is shopping.
+The first two rules are [recording rules](https://prometheus.io/docs/prometheus/3.15/configuration/recording_rules/). Prometheus regularly computes the error ratio over five minutes and over one hour and stores each as a time series of its own, `webshop:error_ratio:rate5m` and `webshop:error_ratio:rate1h`. Alerts and dashboards read these series instead of repeating the calculation every time. `clamp_min` prevents a division by zero when nobody is shopping.
 
 ## Burn rate
 
-An alert on "more than 0.5% errors" would fire at every short spike. The **burn rate** measures how fast the budget is being used up. A burn rate of 1 uses up the budget in exactly the 7 days, while at 14.4 it would be gone after 168 / 14.4 ≈ 12 hours. The alert `WebshopErrorBudgetBurn` fires when the error ratios over five minutes and over one hour have both been above 14.4 × 0.5% = 7.2% for two minutes.
+An alert on "more than 0.5% errors" would fire at every short spike. The **burn rate** measures how fast the budget is being used up. A burn rate of 1 uses up the budget in exactly the 7 days, while at 14.4 it would be gone after 168 / 14.4 ≈ 12 hours. The alert `WebshopErrorBudgetBurn` fires when the error ratios over five minutes and over one hour have both been above 14.4 × 0.5% = 7.2% for two minutes. The field `for` of the [alerting rule](https://prometheus.io/docs/prometheus/3.15/configuration/alerting_rules/) sets this wait.
 
 In milestone 3 the target from your [personal values](../../start/parameters/#your-values-for-the-milestones) applies. The error budget is then 1 minus your target, so 1% at 99.0%. You replace `0.005` in both lines of the alert with your budget, and the threshold becomes 14.4 × 1% = 14.4%.
 
@@ -62,7 +62,7 @@ Symptoms justify waking someone up, because they are sure to affect customers. C
 
 ## Alertmanager
 
-Prometheus evaluates the rules and sends firing alerts to Alertmanager. Alertmanager groups similar alerts, suppresses repetitions and forwards them to receivers such as email, a chat or a webhook. The routing is part of the kube-prometheus-stack values.
+Prometheus evaluates the rules and sends firing alerts to Alertmanager. Alertmanager groups similar alerts, suppresses repetitions and forwards them to receivers such as email, a chat or a webhook. The routing is part of the kube-prometheus-stack values, and the [Alertmanager 0.34 configuration](https://prometheus.io/docs/alerting/0.34/configuration/#route) describes its fields.
 
 ```yaml
 route:

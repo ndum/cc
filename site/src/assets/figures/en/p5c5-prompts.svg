@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 352" role="img" aria-labelledby="p5c5-prompts-en-title p5c5-prompts-en-desc">
+<title id="p5c5-prompts-en-title">Two versions of the prompt compared</title>
+<desc id="p5c5-prompts-en-desc">The target state of task C. At the top left, the platform repo holds two versions of the prompt, and a commit leads from the current one to the improved one. At the top right you fire the real fault through Git and keep the alert with its context. In the k3s cluster, the triage service from task B sends the same alert with one of the two versions to the language model from task A in every run, several times for each version. For every answer you note the duration and whether cause and action fit the real fault. The evaluation shows what the new version improved, what it did not and which limit remains. Notice that only the version of the prompt changes between the runs.</desc>
+<defs><marker id="p5c5-prompts-en-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"/></marker><marker id="p5c5-prompts-en-head-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head d-head-accent" d="M 0 1 L 9 5 L 0 9 z"/></marker></defs>
+<rect class="d-ground" x="0" y="0" width="760" height="352" rx="14"/>
+<rect class="d-band d-band-2" x="16" y="16" width="360" height="108" rx="12"/>
+<text class="d-label d-label-blue" x="32" y="40" text-anchor="start">PLATFORM REPO</text>
+<path class="d-arrow" d="M 168 80 L 222 80" marker-end="url(#p5c5-prompts-en-head)"/>
+<text class="d-sub" x="195" y="72" text-anchor="middle">commit</text>
+<rect class="d-band d-band-1" x="392" y="16" width="352" height="108" rx="12"/>
+<text class="d-label" x="408" y="40" text-anchor="start">SAME INPUT</text>
+<path class="d-arrow" d="M 556 80 L 578 80" marker-end="url(#p5c5-prompts-en-head)"/>
+<rect class="d-band d-band-3" x="16" y="148" width="728" height="108" rx="12"/>
+<text class="d-label d-label-violet" x="32" y="172" text-anchor="start">K3S CLUSTER</text>
+<rect class="d-tag" x="586" y="158" width="142" height="18" rx="9"/>
+<text class="d-tag-text" x="657" y="170.5" text-anchor="middle">several runs per version</text>
+<path class="d-arrow d-arrow-accent" d="M 196 124 L 196 182" marker-end="url(#p5c5-prompts-en-head-accent)"/>
+<text class="d-sub" x="204" y="140" text-anchor="start">one version per run</text>
+<path class="d-arrow d-arrow-accent" d="M 654 108 L 654 136 L 400 136 L 400 182" marker-end="url(#p5c5-prompts-en-head-accent)"/>
+<path class="d-arrow" d="M 424 204 L 518 204" marker-end="url(#p5c5-prompts-en-head)"/>
+<text class="d-sub" x="471" y="196" text-anchor="middle">question</text>
+<path class="d-arrow" d="M 520 222 L 426 222" marker-end="url(#p5c5-prompts-en-head)"/>
+<text class="d-sub" x="471" y="238" text-anchor="middle">answer</text>
+<path class="d-arrow" d="M 228 240 L 228 278" marker-end="url(#p5c5-prompts-en-head)"/>
+<text class="d-sub" x="236" y="266" text-anchor="start">every answer</text>
+<path class="d-arrow" d="M 424 308 L 518 308" marker-end="url(#p5c5-prompts-en-head)"/>
+<rect class="d-shadow" x="32" y="53.5" width="136" height="56" rx="10"/>
+<rect class="d-tile" x="32" y="52" width="136" height="56" rx="10"/>
+<g class="d-icon" transform="translate(44 71) scale(0.75)"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></g>
+<text class="d-title" x="72" y="77" text-anchor="start">Version 1</text>
+<text class="d-sub" x="72" y="93" text-anchor="start">current</text>
+<rect class="d-shadow" x="224" y="53.5" width="136" height="56" rx="10"/>
+<rect class="d-tile" x="224" y="52" width="136" height="56" rx="10"/>
+<g class="d-icon" transform="translate(236 71) scale(0.75)"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></g>
+<text class="d-title" x="264" y="77" text-anchor="start">Version 2</text>
+<text class="d-sub" x="264" y="93" text-anchor="start">improved</text>
+<rect class="d-shadow" x="408" y="53.5" width="148" height="56" rx="10"/>
+<rect class="d-tile" x="408" y="52" width="148" height="56" rx="10"/>
+<g class="d-icon" transform="translate(420 71) scale(0.75)"><circle cx="6" cy="6" r="2.5"/><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="9" r="2.5"/><path d="M6 8.5v7M18 11.5c0 3-6 2-10.5 5"/></g>
+<text class="d-title" x="448" y="77" text-anchor="start">Real fault</text>
+<text class="d-sub" x="448" y="93" text-anchor="start">fired through Git</text>
+<rect class="d-shadow" x="580" y="53.5" width="148" height="56" rx="10"/>
+<rect class="d-tile" x="580" y="52" width="148" height="56" rx="10"/>
+<g class="d-icon" transform="translate(592 71) scale(0.75)"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/></g>
+<text class="d-title" x="620" y="77" text-anchor="start">Same alert</text>
+<text class="d-sub" x="620" y="93" text-anchor="start">with context</text>
+<rect class="d-shadow" x="32" y="185.5" width="392" height="56" rx="10"/>
+<rect class="d-tile d-tile-violet" x="32" y="184" width="392" height="56" rx="10"/>
+<g class="d-icon d-icon-violet" transform="translate(44 203) scale(0.75)"><circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M4.2 6l2.3 1.8M17.5 16.2l2.3 1.8M4.2 18l2.3-1.8M17.5 7.8 19.8 6M2.5 12h3M18.5 12h3"/></g>
+<text class="d-title d-title-violet" x="72" y="209" text-anchor="start">Triage service</text>
+<text class="d-sub" x="72" y="225" text-anchor="start">from task B</text>
+<rect class="d-shadow" x="520" y="185.5" width="208" height="56" rx="10"/>
+<rect class="d-tile d-tile-violet" x="520" y="184" width="208" height="56" rx="10"/>
+<g class="d-icon d-icon-violet" transform="translate(532 203) scale(0.75)"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2.5V6M15 2.5V6M9 18v3.5M15 18v3.5M2.5 9H6M2.5 15H6M18 9h3.5M18 15h3.5"/><path d="M10 10h4v4h-4z"/></g>
+<text class="d-title d-title-violet" x="560" y="209" text-anchor="start">Language model</text>
+<text class="d-sub" x="560" y="225" text-anchor="start">from task A</text>
+<rect class="d-shadow" x="32" y="281.5" width="392" height="56" rx="10"/>
+<rect class="d-tile" x="32" y="280" width="392" height="56" rx="10"/>
+<g class="d-icon" transform="translate(44 299) scale(0.75)"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></g>
+<text class="d-title" x="72" y="305" text-anchor="start">Every run</text>
+<text class="d-sub" x="72" y="321" text-anchor="start">duration and whether cause and action fit the real fault</text>
+<rect class="d-shadow" x="520" y="281.5" width="208" height="56" rx="10"/>
+<rect class="d-tile d-tile-accent" x="520" y="280" width="208" height="56" rx="10"/>
+<g class="d-icon d-icon-accent" transform="translate(532 299) scale(0.75)"><path d="M4 20h16"/><path d="M7 16v-4M12 16V8M17 16v-7"/></g>
+<text class="d-title" x="560" y="305" text-anchor="start">Evaluation</text>
+<text class="d-sub" x="560" y="321" text-anchor="start">better, not better, limit</text>
+</svg>

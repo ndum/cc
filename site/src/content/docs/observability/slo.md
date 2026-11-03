@@ -37,11 +37,11 @@ Die Regeln liegen in deinem Repo unter `monitoring/config/webshop-slo.yaml`, als
 
 ::code{file="platform/observability/repo/monitoring/config/webshop-slo.yaml"}
 
-Die ersten zwei Regeln sind Recording Rules. Prometheus berechnet den Fehleranteil über fünf Minuten und über eine Stunde regelmässig und speichert beide als eigene Zeitreihen. Sie heissen `webshop:error_ratio:rate5m` und `webshop:error_ratio:rate1h`. Alerts und Dashboards lesen diese Reihen, statt dieselbe Rechnung jedes Mal neu zu machen. `clamp_min` verhindert eine Division durch null, wenn gerade niemand einkauft.
+Die ersten zwei Regeln sind [Recording Rules](https://prometheus.io/docs/prometheus/3.15/configuration/recording_rules/). Prometheus berechnet den Fehleranteil über fünf Minuten und über eine Stunde regelmässig und speichert beide als eigene Zeitreihen. Sie heissen `webshop:error_ratio:rate5m` und `webshop:error_ratio:rate1h`. Alerts und Dashboards lesen diese Reihen, statt dieselbe Rechnung jedes Mal neu zu machen. `clamp_min` verhindert eine Division durch null, wenn gerade niemand einkauft.
 
 ## Burn Rate
 
-Ein Alert auf «mehr als 0,5 % Fehler» würde bei jeder kurzen Spitze auslösen. Die **Burn Rate** gibt an, wie schnell das Budget verbraucht wird. Eine Burn Rate von 1 braucht es genau in den 7 Tagen auf, bei 14,4 wäre es nach 168 / 14,4 ≈ 12 Stunden weg. Der Alert `WebshopErrorBudgetBurn` löst aus, wenn beide Fehleranteile über 14,4 × 0,5 % = 7,2 % liegen, der über fünf Minuten wie der über eine Stunde. Das muss zwei Minuten lang so bleiben.
+Ein Alert auf «mehr als 0,5 % Fehler» würde bei jeder kurzen Spitze auslösen. Die **Burn Rate** gibt an, wie schnell das Budget verbraucht wird. Eine Burn Rate von 1 braucht es genau in den 7 Tagen auf, bei 14,4 wäre es nach 168 / 14,4 ≈ 12 Stunden weg. Der Alert `WebshopErrorBudgetBurn` löst aus, wenn beide Fehleranteile über 14,4 × 0,5 % = 7,2 % liegen, der über fünf Minuten wie der über eine Stunde. Das muss zwei Minuten lang so bleiben. Diese Wartezeit legt das Feld `for` der [Alerting Rule](https://prometheus.io/docs/prometheus/3.15/configuration/alerting_rules/) fest.
 
 In Meilenstein 3 gilt das Ziel aus deinen [persönlichen Werten](../../start/parameters/#deine-werte-für-die-meilensteine). Das Fehlerbudget ist dann 1 minus dein Ziel, bei 99,0 % also 1 %. Du ersetzt `0.005` in beiden Zeilen des Alerts durch dein Budget. Mit 1 % liegt die Schwelle bei 14,4 × 1 % = 14,4 %.
 
@@ -62,7 +62,7 @@ Für Symptome darf man Menschen wecken, denn sie betreffen die Kundschaft sicher
 
 ## Alertmanager
 
-Prometheus wertet die Regeln aus und schickt auslösende Alerts an Alertmanager. Alertmanager fasst ähnliche Alerts zusammen, unterdrückt Wiederholungen und leitet sie an Empfänger weiter, etwa per E-Mail, in einen Chat oder an einen Webhook. Die Weiterleitung steht in den Werten von kube-prometheus-stack.
+Prometheus wertet die Regeln aus und schickt auslösende Alerts an Alertmanager. Alertmanager fasst ähnliche Alerts zusammen, unterdrückt Wiederholungen und leitet sie an Empfänger weiter, etwa per E-Mail, in einen Chat oder an einen Webhook. Die Weiterleitung steht in den Werten von kube-prometheus-stack, ihre Felder beschreibt die [Konfiguration von Alertmanager 0.34](https://prometheus.io/docs/alerting/0.34/configuration/#route).
 
 ```yaml
 route:

@@ -21,7 +21,7 @@ After this chapter you can:
 
 ## The HorizontalPodAutoscaler
 
-The **HorizontalPodAutoscaler (HPA)** adjusts the number of pods of a deployment to a metric, usually CPU. It compares the average utilization of the pods with a target, measured as a percentage of their CPU request. The Kubernetes documentation gives the calculation.
+The **HorizontalPodAutoscaler (HPA)** adjusts the number of pods of a deployment to a metric, usually CPU. It compares the average utilization of the pods with a target, measured as a percentage of their CPU request. The [Kubernetes 1.36 documentation](https://v1-36.docs.kubernetes.io/docs/concepts/workloads/autoscaling/horizontal-pod-autoscale/#algorithm-details) gives the calculation.
 
 ```text
 desired pods = ceil(current pods × current utilization / target)

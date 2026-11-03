@@ -61,7 +61,7 @@ sed -i "s/FRONTEND_IP/$CC_FE_IP/; s/NODE1_IP/$CC_NODE1_IP/; s/NODE2_IP/$CC_NODE2
 git status
 ```
 
-`git status` zeigt neue Applications in `apps`, den Ordner `monitoring` und geänderte Dateien in `webshop` und `templates/member`. Bevor du pushst, legst du das Passwort für Grafana als Secret an, damit es nicht in Git landet.
+`git status` zeigt neue Applications in `apps`, den Ordner `monitoring` und geänderte Dateien in `webshop` und `templates/member`. Bevor du pushst, legst du das Passwort für Grafana als [Secret](https://v1-36.docs.kubernetes.io/docs/concepts/configuration/secret/) an, damit es nicht in Git landet.
 
 ::code{file="platform/observability/make-secrets.sh"}
 
@@ -69,17 +69,17 @@ git status
 ~/cc/platform/observability/make-secrets.sh
 ```
 
-Die Application `monitoring` holt das Chart aus dem Repo der Community und die Werte aus deinem Gitea. Argo CD kann dafür mehrere Quellen in einer Application verbinden.
+Die Application `monitoring` holt das Chart aus dem Repo der Community und die Werte aus deinem Gitea. Argo CD kann dafür [mehrere Quellen in einer Application](https://argo-cd.readthedocs.io/en/release-3.5/user-guide/multiple_sources/) verbinden.
 
 ::code{file="platform/observability/repo/apps/monitoring.yaml"}
 
 ::code{file="platform/observability/repo/monitoring/kube-prometheus-stack.yaml"}
 
-k3s führt Scheduler, Controller Manager und Proxy in einem einzigen Prozess aus. Die Monitore, die das Chart dafür mitbringt, fänden nichts und blieben rot. Darum sind sie abgeschaltet.
+k3s führt Scheduler, Controller Manager und Proxy in einem einzigen Prozess aus. Die Monitore, die das Chart dafür mitbringt, fänden nichts und blieben rot. Darum sind sie abgeschaltet. Das [README des Charts in der Version 92.17.0](https://github.com/prometheus-community/helm-charts/tree/kube-prometheus-stack-92.17.0/charts/kube-prometheus-stack) beschreibt die Installation, die Werte und für Argo CD die Option `ServerSideApply`.
 
 ## OpenNebula als Ziel
 
-Für die IaaS-Schicht bringt OpenNebula eigene Exporter mit, im Paket `opennebula-prometheus-kvm`. Der OpenNebula-Exporter läuft auf dem Front-end und liefert auf Port 9925 Hosts, VMs und Datastores, wie OpenNebula sie sieht. Auf dem Front-end und auf beiden Knoten liefert node_exporter auf Port 9100 die Werte des Betriebssystems. Die Knoten haben zusätzlich den Libvirt-Exporter auf Port 9926, er zeigt die VMs, wie KVM sie sieht. Das Paket `opennebula-prometheus` installierst du nicht, es brächte ein zweites Prometheus mit.
+Für die IaaS-Schicht bringt OpenNebula eigene Exporter mit, im Paket `opennebula-prometheus-kvm`. Der OpenNebula-Exporter läuft auf dem Front-end und liefert auf Port 9925 Hosts, VMs und Datastores, wie OpenNebula sie sieht. Auf dem Front-end und auf beiden Knoten liefert node_exporter auf Port 9100 die Werte des Betriebssystems. Die Knoten haben zusätzlich den Libvirt-Exporter auf Port 9926, er zeigt die VMs, wie KVM sie sieht. Das Paket `opennebula-prometheus` installierst du nicht, es brächte ein zweites Prometheus mit. Für die Exporter folgt das Skript unten der [Anleitung von OpenNebula 7.4](https://docs.opennebula.io/7.4/product/cloud_system_administration/prometheus/install/), die zusätzlich dieses Paket installiert.
 
 ::code{file="platform/observability/install-exporters.sh"}
 
@@ -87,7 +87,7 @@ Für die IaaS-Schicht bringt OpenNebula eigene Exporter mit, im Paket `opennebul
 ~/cc/platform/observability/install-exporters.sh
 ```
 
-Im Lab meldeten alle sechs Ziele `ok`. Der OpenNebula-Exporter kannte die Hosts wenige Sekunden bis eine halbe Minute nach dem Start. Prometheus erreicht die Exporter über drei ScrapeConfigs mit den Adressen aus deinen Parametern. Neue ScrapeConfigs und ServiceMonitors übernimmt Prometheus erst, wenn der Config-Reloader die geänderte Konfiguration sieht. Im Lab erschienen die Jobs der Ziele ausserhalb des Clusters zwei bis fünf Minuten nach dem Push, der Job `webshop` nach knapp vier Minuten.
+Im Lab meldeten alle sechs Ziele `ok`. Der OpenNebula-Exporter kannte die Hosts wenige Sekunden bis eine halbe Minute nach dem Start. Prometheus erreicht die Exporter über drei [ScrapeConfigs](https://github.com/prometheus-operator/prometheus-operator/blob/v0.94.2/Documentation/developer/scrapeconfig.md#use-scrapeconfig-to-scrape-an-external-target) mit den Adressen aus deinen Parametern. Neue ScrapeConfigs und ServiceMonitors übernimmt Prometheus erst, wenn der Config-Reloader die geänderte Konfiguration sieht. Im Lab erschienen die Jobs der Ziele ausserhalb des Clusters zwei bis fünf Minuten nach dem Push, der Job `webshop` nach knapp vier Minuten.
 
 In Prometheus zeigt «Status › Target health» jedes Ziel mit seinem Zustand.
 
@@ -99,11 +99,11 @@ In Prometheus zeigt «Status › Target health» jedes Ziel mit seinem Zustand.
 
 ## Der Webshop als Ziel
 
-Für den Webshop genügt ein ServiceMonitor neben seinem Deployment. Prometheus holt die Metriken dann bei jedem Pod hinter dem Service `webshop` ab.
+Für den Webshop genügt ein [ServiceMonitor](https://github.com/prometheus-operator/prometheus-operator/blob/v0.94.2/Documentation/developer/getting-started.md#using-servicemonitors) neben seinem Deployment. Prometheus holt die Metriken dann bei jedem Pod hinter dem Service `webshop` ab.
 
 ::code{file="platform/observability/repo/webshop/servicemonitor.yaml"}
 
-Die NetworkPolicy der Mitglieder aus Kapitel 4.5 liess bisher nur den eigenen Namespace und `kube-system` durch. Ohne Änderung käme Prometheus nicht an `/metrics`. Die neue Fassung der Vorlage lässt auch den Namespace `monitoring` zu.
+Die [NetworkPolicy](https://v1-36.docs.kubernetes.io/docs/concepts/services-networking/network-policies/) der Mitglieder aus Kapitel 4.5 liess bisher nur den eigenen Namespace und `kube-system` durch. Ohne Änderung käme Prometheus nicht an `/metrics`. Die neue Fassung der Vorlage lässt auch den Namespace `monitoring` zu.
 
 ::code{file="platform/observability/repo/templates/member/networkpolicy.yaml"}
 
@@ -146,7 +146,7 @@ Grafana zeigt Abfragen als Dashboards. Im Browser des Clients meldest du dich un
 Das Dashboard kommt aus einer ConfigMap und Grafana hat im Lab kein Volume. Was du in der Oberfläche von Grafana änderst, ist nach dem nächsten Neustart des Pods weg, auch ein eigenes Panel für Meilenstein 3. Ein Panel, das bleiben soll, gehört deshalb in Git.
 :::
 
-Für ein eigenes Panel kopierst du in `monitoring/config/dashboard-wolkenwerk.yaml` ein bestehendes Panel. Gib ihm einen eigenen `title`, deine Abfrage in `expr` und einen freien Platz in `gridPos`, etwa unter den bestehenden Panels mit `"y": 28`. Die Panels der Datei haben keine `id`, auch dein Panel braucht keine. Pushe danach die Änderung. Ein Panel, das du in Grafana entworfen hast, findest du als JSON im Menü des Panels unter «Inspect» und «Panel JSON».
+Für ein eigenes Panel kopierst du in `monitoring/config/dashboard-wolkenwerk.yaml` ein bestehendes Panel. Gib ihm einen eigenen `title`, deine Abfrage in `expr` und einen freien Platz in `gridPos`, etwa unter den bestehenden Panels mit `"y": 28`. Die Panels der Datei haben keine `id`, auch dein Panel braucht keine. Pushe danach die Änderung. Ein Panel, das du in Grafana entworfen hast, findest du als JSON im Menü des Panels unter «Inspect» und «Panel JSON». Die Felder eines Dashboards und seiner Panels beschreibt das [JSON-Modell von Grafana 13.3](https://grafana.com/docs/grafana/v13.3/dashboards/build-dashboards/view-dashboard-json-model/).
 
 ::::exercise[Lab]
 Rolle den Stack aus, installiere die Exporter und zeige in Prometheus, dass alle Ziele `up` sind. Öffne das Dashboard «Wolkenwerk platform» und erzeuge mit `curl` Verkehr auf den Webshop.

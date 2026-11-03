@@ -1,6 +1,8 @@
 ---
 title: Zusatzaufträge
 description: Ein lokales Sprachmodell als Dienst der Plattform, ein eigener Triage-Dienst mit Freigabe durch einen Menschen und bessere Fragen an das Modell.
+tableOfContents:
+  maxHeadingLevel: 2
 sidebar:
   order: 5
   badge:
@@ -85,9 +87,7 @@ Ollama bietet unter `/v1/chat/completions` auch die Schnittstelle von OpenAI an,
 
 ## Der Ablauf einer Triage
 
-Triage heisst die erste Einschätzung eines Alerts. Ein Triage-Dienst nimmt den Alert an, sammelt Kontext, fragt das Modell und legt den Vorschlag einer Person vor. Die Abbildung zeigt einen möglichen Aufbau, deine Lösung kann anders aussehen.
-
-![Der Ablauf einer Triage. Prometheus wertet eine Regel aus und schickt den Alert an Alertmanager. Ein eigener Empfänger leitet ihn als Webhook an deinen Triage-Dienst weiter. Der Dienst holt Logzeilen aus Loki und den Zustand des betroffenen Deployments aus der Kubernetes-API und fragt damit ein lokales Sprachmodell. Den Vorschlag mit Ursache und Aktion legt er einer Person vor. Sie gibt ihn mit ihrem Namen frei oder lehnt ihn ab. Nur eine freigegebene Aktion von einer festen Liste läuft, mit den Rechten, die sie braucht. Jeder Alert, jeder Vorschlag und jeder Entscheid landet im Audit-Log.](../../../assets/figures/de/p5c6-triage.svg)
+Triage heisst die erste Einschätzung eines Alerts. Ein Triage-Dienst nimmt den Alert an, sammelt Kontext, fragt das Modell und legt den Vorschlag einer Person vor. [Auftrag B](#triage-mit-freigabe-auftrag-b) zeigt diesen Ablauf in einer Abbildung.
 
 Alertmanager ruft den Dienst über einen Webhook auf, eine HTTP-Anfrage mit den Alerts als JSON. Dafür braucht es statt des Empfängers `null` einen eigenen Empfänger und eine Route in den Werten von kube-prometheus-stack ([Kapitel 5.3](../slo/#alertmanager)). Eine offene Gruppe schickt Alertmanager nach `repeat_interval` erneut, dein Dienst sollte bekannte Alerts also erkennen. Weil eine Antwort des Modells im Lab gut zwölf Sekunden dauerte, nimmt er den Alert besser sofort an und fragt das Modell danach.
 
@@ -141,30 +141,49 @@ Weil ein Modell nicht immer gleich antwortet, braucht ein fairer Vergleich zweie
 
 Wolkenwerk will ein Sprachmodell im eigenen Cluster, vorerst für ein einziges Mitglied. Du betreibst es wie die anderen Dienste aus Git, misst seine Geschwindigkeit und erklärst die Werte.
 
-Deine Lösung erfüllt diese Anforderungen:
+![Ein Sprachmodell im Cluster. Der Zielzustand von Auftrag A. Oben links liegt auf dem Front-end das Plattform-Repo wolkenwerk/platform in Gitea. Argo CD im Cluster k3s holt daraus das Sprachmodell mit seinen Requests und Limits und die Regel für den Zugriff. Das Modell läuft auf einer VM des Clusters mit 6 GB und vier Kernen. Vor dem Modell steht eine NetworkPolicy. Sie lässt nur Fragen aus dem Namespace eines Mitglieds mit dem Label durch, die Frage eines anderen Mitglieds weist sie ab. Die Antwort des Modells nennt Tokens und Dauer, daraus misst du oben rechts die Tokens pro Sekunde für das Lesen und das Schreiben. Achte darauf, dass die NetworkPolicy beim Modell steht und Namespaces nach ihrem Label auswählt.](../../../assets/figures/de/p5c5-model.svg)
+
+### Ausgangslage und Ergebnis
+
+Aus der Basis hast du den Cluster aus Kapitel 4.2 mit den VMs `k3s-server` und `k3s-agent`, je mit vier Kernen, 6 GB Arbeitsspeicher und 30 GB Disk. Über Argo CD kommen aus deinem Plattform-Repo `wolkenwerk/platform` der Webshop, die Namespaces `velo` und `gemeinde` der Mitglieder und seit Kapitel 5.1 der Monitoring-Stack. Die NetworkPolicy der Vorlage regelt bisher nur, wer die Pods der Mitglieder erreicht.
+
+Am Ende läuft ein Sprachmodell als Dienst in deinem Cluster, kommt über Argo CD aus deinem Plattform-Repo und hat Requests und Limits, die zu ihm und zur VM passen. Du kennst seine Tokens pro Sekunde für das Lesen und das Schreiben. Von den Mitgliedern `velo` und `gemeinde` erreicht nur eines das Modell.
+
+### Vorgehen
+
+1. Wähle Programm und Modell und schätze ab, wie viel Speicher, CPU und Disk sie brauchen.
+2. Prüfe den freien Platz auf den Nodes und lege danach Requests und Limits fest.
+3. Plane, wie das Modell einmal heruntergeladen wird und wo seine Dateien einen Neustart des Pods überstehen.
+4. Lege den Dienst in deinem Plattform-Repo an und lass ihn von Argo CD ausrollen.
+5. Miss die Tokens pro Sekunde für Lesen und Schreiben, mehrmals mit derselben Frage und einmal mit einer neuen.
+6. Gib einem einzigen Mitglied Zugriff mit einer Regel in Git und prüfe ihn aus seinem Namespace und aus einem anderen.
+7. Halte Werte, Zeiten und deinen Entscheid für die Dokumentation fest.
+
+### Anforderungen
 
 1. Ein Sprachmodell läuft als Dienst in deinem Cluster und kommt über Argo CD aus deinem Plattform-Repo.
 2. Requests und Limits für CPU und Speicher sind gesetzt und passen zum Modell und zur VM, auf der es läuft.
 3. Du hast die Tokens pro Sekunde für das Lesen der Frage und das Schreiben der Antwort gemessen, mehrmals mit derselben Frage und einmal mit einer neuen.
 4. Von den Mitgliedern erreicht nur eines das Modell. Die Regel dafür steht in Git und wirkt im Cluster.
 
-In der Vorführung zeigst du:
+### Vorführung
 
 - Die Application in Argo CD und den Pod des Modells mit Requests und Limits
 - Eine Messung mit den Tokens pro Sekunde aus der Antwort der Schnittstelle und deine Erklärung dazu
 - Einen Aufruf aus dem Namespace des Mitglieds mit Zugriff und einen gescheiterten aus einem anderen Namespace
 
-Dabei helfen dir:
+### Quellen
 
 - [Die Schnittstelle von Ollama](https://github.com/ollama/ollama/blob/v0.40.13/docs/api.md), aus deren Antwort du mit der Zahl der Tokens und der Dauer in Nanosekunden die Tokens pro Sekunde rechnest
 - [Ollama in Docker](https://github.com/ollama/ollama/blob/v0.40.13/docs/docker.mdx) zum Betrieb als Container und zum Ort, an dem Ollama die Modelle ablegt
 - [Die FAQ von Ollama](https://github.com/ollama/ollama/blob/v0.40.13/docs/faq.mdx) zu den Umgebungsvariablen für die Zeit im Speicher und für gleichzeitige Anfragen
 - [Die Seite des Modells](https://ollama.com/library/llama3.2) mit Grössen und Sprachen von Llama 3.2
 - [Die Hooks von Argo CD](https://argo-cd.readthedocs.io/en/release-3.5/user-guide/sync-waves/), etwa für einen Job, der das Modell nach dem Sync herunterlädt
+- [Volumes und Speicher in k3s](https://docs.k3s.io/add-ons/storage) mit dem Local Path Provisioner, der Volumes auf der Disk eines Nodes anlegt
 - [Kapitel 4.3](../../platform/kubernetes/#requests-limits-und-scheduling) zu Requests und Limits
 - [Kapitel 4.5](../../platform/templates/#networkpolicy) und die [Dokumentation von Kubernetes 1.36](https://v1-36.docs.kubernetes.io/docs/concepts/services-networking/network-policies/) zur NetworkPolicy, die Namespaces über Labels auswählt
 
-Hinweise aus dem Lab:
+### Hinweise aus dem Lab
 
 - Programm und Modell wählst du selbst, erprobt hat der Kurs Ollama 0.40.13 mit `llama3.2:3b`
 - Wie du das Modell einmal herunterlädst und wo seine Dateien einen Neustart des Pods überstehen, gehört zu deinem Entwurf
@@ -174,9 +193,27 @@ Hinweise aus dem Lab:
 
 ## Triage mit Freigabe (Auftrag B)
 
-Kommt nachts ein Alert, soll die Person auf Pikett zuerst eine Einschätzung lesen, entscheiden soll aber ein Mensch. Dein eigener Triage-Dienst holt diese Einschätzung beim Modell aus Auftrag A und führt eine Aktion erst nach einer Freigabe aus.
+Kommt nachts ein Alert, soll die Person auf Pikett zuerst eine Einschätzung lesen, entscheiden soll aber ein Mensch. Dein eigener Triage-Dienst holt diese Einschätzung beim Modell aus Auftrag A und führt eine Aktion erst nach einer Freigabe aus. Die Abbildung zeigt einen möglichen Aufbau, deine Lösung kann anders aussehen.
 
-Deine Lösung erfüllt diese Anforderungen:
+![Der Ablauf einer Triage. Prometheus wertet eine Regel aus und schickt den Alert an Alertmanager. Ein eigener Empfänger leitet ihn als Webhook an deinen Triage-Dienst weiter. Der Dienst holt Logzeilen aus Loki und den Zustand des betroffenen Deployments aus der Kubernetes-API und fragt damit ein lokales Sprachmodell. Den Vorschlag mit Ursache und Aktion legt er einer Person vor. Sie gibt ihn mit ihrem Namen frei oder lehnt ihn ab. Nur eine freigegebene Aktion von einer festen Liste läuft, mit den Rechten, die sie braucht. Jeder Alert, jeder Vorschlag und jeder Entscheid landet im Audit-Log.](../../../assets/figures/de/p5c6-triage.svg)
+
+### Ausgangslage und Ergebnis
+
+Aus der Basis hast du Prometheus, Alertmanager und Loki im Namespace `monitoring` und die Regeln des Webshops aus Kapitel 5.3 wie `WebshopErrorBudgetBurn`. Alertmanager schickt bisher jeden Alert an den Empfänger `null`. Das Sprachmodell aus Auftrag A läuft im Cluster.
+
+Am Ende bekommt dein Triage-Dienst die Alerts des Webshops über einen eigenen Empfänger und zeigt zu jedem einer Person den Vorschlag des Modells. Eine Aktion von deiner festen Liste läuft erst nach ihrer Freigabe mit Namen und nur mit den Rechten, die sie in den Namespaces ihrer Ziele braucht. Ein Audit-Log hält jeden Schritt fest und übersteht einen Neustart des Dienstes.
+
+### Vorgehen
+
+1. Entwirf den Ablauf vom Alert bis zur Aktion und lege fest, welche Aktionen und Ziele auf deine Listen kommen.
+2. Leite die Alerts des Webshops mit einer Route und einem eigenen Empfänger in den Werten in Git an deinen Dienst.
+3. Lass den Dienst zu jedem Alert Kontext aus der Plattform holen und damit das Modell aus Auftrag A fragen.
+4. Lege jeden Vorschlag einer Person zur Freigabe mit ihrem Namen vor und schreibe jeden Schritt in ein Audit-Log, das einen Neustart übersteht.
+5. Beschränke die Rechte des Dienstes auf seine Aktionen in den Namespaces seiner Ziele und prüfe sie.
+6. Löse einen Alert über Git aus, gib einen Vorschlag frei und lehne einen anderen ab.
+7. Halte Werte, Zeiten und deinen Entscheid für die Dokumentation fest.
+
+### Anforderungen
 
 1. Alertmanager schickt die Alerts des Webshops über einen eigenen Empfänger an deinen Dienst. Route und Empfänger stehen in den Werten in Git.
 2. Der Dienst gibt dem Modell Kontext aus der Plattform mit und zeigt einer Person Zusammenfassung, Ursache und vorgeschlagene Aktion.
@@ -185,14 +222,14 @@ Deine Lösung erfüllt diese Anforderungen:
 5. Ein Audit-Log hält jeden Alert, jeden Vorschlag und jede Entscheidung mit Zeit und Namen fest und übersteht einen Neustart des Dienstes.
 6. Du hast einen Vorschlag freigegeben und einen anderen abgelehnt und beurteilst beide in der Dokumentation kritisch.
 
-In der Vorführung zeigst du:
+### Vorführung
 
 - Einen Alert, den du vor der Vorführung über Git ausgelöst hast, mit dem Vorschlag dazu
 - Eine Freigabe und eine Ablehnung mit deinem Namen und die Einträge dazu im Audit-Log
 - Mit `kubectl auth can-i`, was der Dienst darf und was nicht
 - Was geschieht, wenn das Modell eine Aktion oder ein Ziel ausserhalb deiner Listen nennt
 
-Dabei helfen dir:
+### Quellen
 
 - [Kapitel 5.1](../metrics/#der-stack) mit den Werten von kube-prometheus-stack, in denen du Route und Empfänger ergänzt
 - [Kapitel 5.3](../slo/#alertmanager) zur Weiterleitung durch Alertmanager
@@ -204,10 +241,10 @@ Dabei helfen dir:
 - [Die Annotation `kubectl.kubernetes.io/restartedAt`](https://v1-36.docs.kubernetes.io/docs/reference/labels-annotations-taints/#kubectl-k8s-io-restart-at), mit der `kubectl rollout restart` ein Deployment neu startet
 - [Die API von Alertmanager](https://github.com/prometheus/alertmanager/blob/v0.34.2/api/v2/openapi.yaml), die auch Alerts annimmt, die du selbst schickst
 
-Hinweise aus dem Lab:
+### Hinweise aus dem Lab
 
 - Die Sprache wählst du selbst, für HTTP und JSON reicht die Standardbibliothek von Python wie beim Webshop aus [Kapitel 4.4](../../platform/gitops/#der-webshop)
-- Dein Code braucht ein Image im Cluster, ein eigenes oder ein offizielles Image einer Sprache mit deinem Code als ConfigMap
+- Dein Code braucht ein Image im Cluster, ein eigenes oder ein offizielles Image einer Sprache mit deinem Code als [ConfigMap](https://v1-36.docs.kubernetes.io/docs/concepts/configuration/configmap/)
 - Eine Seite für die Freigabe erreichst du wie Grafana über einen Tunnel vom Client aus
 - Für Tests schickst du eigene Alerts an die API von Alertmanager, statt jedes Mal einige Minuten auf den Alert nach Burn Rate zu warten
 - Plane die Route so, dass sie in Zusatzauftrag A von Meilenstein 4 ohne Umbau auch die Alerts eines neuen Mitglieds an deinen Dienst schickt
@@ -217,27 +254,45 @@ Hinweise aus dem Lab:
 
 Simone Wyss will an Zahlen sehen, ob das Modell mit besseren Fragen besser antwortet. Du verbesserst die Frage deines Triage-Dienstes und vergleichst die alte und die neue Fassung am selben Alert mit demselben Kontext.
 
-Deine Lösung erfüllt diese Anforderungen:
+![Zwei Fassungen der Frage im Vergleich. Der Zielzustand von Auftrag C. Oben links stehen im Plattform-Repo zwei Fassungen der Frage, ein Commit führt von der bisherigen zur verbesserten. Oben rechts löst du den echten Fehler über Git aus und hältst den Alert mit seinem Kontext fest. Im Cluster k3s schickt der Triage-Dienst aus Auftrag B in jedem Durchlauf denselben Alert mit einer der beiden Fassungen an das Sprachmodell aus Auftrag A, mehrmals für jede Fassung. Zu jeder Antwort hältst du die Dauer fest und ob Ursache und Aktion zum echten Fehler passen. Die Auswertung zeigt, was die neue Fassung verbessert hat, was nicht und welche Grenze bleibt. Achte darauf, dass sich zwischen den Durchläufen nur die Fassung der Frage ändert.](../../../assets/figures/de/p5c5-prompts.svg)
+
+### Ausgangslage und Ergebnis
+
+Aus Auftrag B hast du deinen Triage-Dienst, der das Modell aus Auftrag A fragt und seine Vorschläge im Audit-Log festhält. Den Alert `WebshopErrorBudgetBurn` löst du wie in Kapitel 5.3 über Git aus und kennst damit den wirklichen Fehler.
+
+Am Ende stehen die alte und die neue Fassung der Frage in Git, ein Commit zeigt den Unterschied. Eine Tabelle hält für mehrere Durchläufe beider Fassungen am selben Alert die Dauer fest und ob Ursache und Aktion zum wirklichen Fehler passen. Deine Auswertung zeigt, was die neue Fassung verbessert hat und was nicht.
+
+### Vorgehen
+
+1. Lege vor dem ersten Durchlauf fest, was als gute Antwort gilt.
+2. Bereite einen Alert mit seinem Kontext vor, den du mehrmals gleich schicken kannst.
+3. Lass die bisherige Frage mehrmals laufen und halte bei jedem Durchlauf Dauer, Ursache und Aktion fest.
+4. Verbessere die Frage in einem eigenen Commit.
+5. Wiederhole die Messung mit der neuen Fassung am selben Alert mit demselben Kontext.
+6. Vergleiche beide Fassungen in einer Tabelle und suche eine Grenze, die auch die bessere Frage nicht aufhebt.
+7. Halte Werte, Zeiten und deinen Entscheid für die Dokumentation fest.
+
+### Anforderungen
 
 1. Beide Fassungen der Frage stehen in Git, ein Commit zeigt den Unterschied.
 2. Du vergleichst beide Fassungen am selben Alert mit demselben Kontext, jede in mehreren Durchläufen.
 3. Für jeden Durchlauf misst du mindestens die Dauer und hältst fest, ob Ursache und Aktion zum wirklichen Fehler passen.
 4. Deine Auswertung nennt, was die neue Fassung verbessert hat und was nicht. Sie zeigt auch eine Grenze, die eine bessere Frage nicht aufhebt.
 
-In der Vorführung zeigst du:
+### Vorführung
 
 - Die beiden Fassungen der Frage und den Commit dazwischen
 - Deine Tabelle mit den Messungen beider Fassungen
 - Einen Durchlauf mit der neuen Fassung am selben Alert
 
-Dabei helfen dir:
+### Quellen
 
 - [Die Schnittstelle von Ollama](https://github.com/ollama/ollama/blob/v0.40.13/docs/api.md) mit Optionen wie der Temperatur und einem `seed` für wiederholbare Antworten
 - [Strukturierte Antworten in Ollama](https://github.com/ollama/ollama/blob/v0.40.13/docs/capabilities/structured-outputs.mdx), wo ein JSON-Schema die Form der Antwort festlegt
 - [Der Leitfaden zum Prompting](https://dev.meta.ai/llama/docs/how-to-guides/prompting/) von Meta mit weiteren Techniken für Llama, etwa Beispielen in der Frage oder mehr Kontext gegen Halluzinationen
 - [Kapitel 5.3](../slo/#einen-alert-auslösen), wo du den echten Fehler über Git auslöst und damit die richtige Antwort kennst
 
-Hinweise aus dem Lab:
+### Hinweise aus dem Lab
 
 - Welche Techniken du ausprobierst, entscheidest du
 - Liegt die Frage ausserhalb des Codes, etwa in einer ConfigMap, änderst du sie ohne neues Image

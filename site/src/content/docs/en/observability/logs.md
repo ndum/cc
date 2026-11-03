@@ -26,17 +26,17 @@ After this chapter you can:
 
 Loki collects logs centrally and keeps them beyond the end of a pod. A full-text search engine indexes all of the text. Loki only indexes a few labels such as namespace and pod and searches the text when you run a query. This keeps Loki small, but every search has to start by narrowing down with labels.
 
-Alloy from Grafana runs as a **DaemonSet**, with one pod per node. Each of them reads the logs of the pods on its node, adds labels and sends them to Loki. Both came into your repo with the copy in chapter 5.1, as two applications in `apps/loki.yaml`.
+Alloy from Grafana runs as a **DaemonSet**, with one pod per node. Each of them reads the logs of the pods on its node, adds labels and sends them to Loki. Both came into your repo with the copy in chapter 5.1, as two applications in `apps/loki.yaml`. The [Alloy 1.21 guide for Kubernetes](https://grafana.com/docs/alloy/v1.21/set-up/install/kubernetes/) installs the same chart with Helm.
 
 ![The path of the logs in the cluster. Two nodes of the cluster, k3s-server and k3s-agent. On each node the pods write their logs to stdout and stderr. Alloy runs as a DaemonSet with one pod per node, reads the logs of the pods on its node and sends them to Loki with the labels namespace, pod, container and app. Loki runs as a single process, indexes only the labels and keeps the logs for three days. In Grafana you query Loki under "Explore" with LogQL. A query such as {namespace="velo", app="webshop"} |= "404" first selects the streams by their labels and then searches the text. It also finds lines of pods that no longer exist.](../../../../assets/figures/en/p5c2-logs.svg)
 
 ::code{file="platform/observability/repo/monitoring/loki.yaml"}
 
-Here Loki runs as a single process and stores its data on the disk of a node. That is enough for a lab. In production you would spread Loki over several processes and keep the data in object storage. Loki deletes logs older than three days.
+Here Loki runs as a single process and stores its data on the disk of a node. That is enough for a lab. In production you would spread Loki over several processes and keep the data in object storage. Loki deletes logs older than three days. The mode `SingleBinary` also appears in the [Loki 3.6 guide to the monolithic chart](https://grafana.com/docs/loki/v3.6.x/setup/install/helm/install-monolithic/), there with object storage.
 
 ::code{file="platform/observability/repo/monitoring/alloy.yaml"}
 
-The Alloy configuration is a chain of four components. `discovery.kubernetes` finds the pods of its own node. `discovery.relabel` turns Kubernetes details into the labels `namespace`, `pod`, `container` and `app`. `loki.source.kubernetes` reads the logs, and `loki.write` sends them to Loki. In the test setup, a configuration with a block written on one line failed with "expected TERMINATOR". Alloy wants every attribute on a line of its own.
+The Alloy configuration is a chain of four components. `discovery.kubernetes` finds the pods of its own node. `discovery.relabel` turns Kubernetes details into the labels `namespace`, `pod`, `container` and `app`. `loki.source.kubernetes` reads the logs, and `loki.write` sends them to Loki. More examples with these components are in the [Alloy 1.21 guide to Kubernetes logs](https://grafana.com/docs/alloy/v1.21/collect/logs-in-kubernetes/). In the test setup, a configuration with a block written on one line failed with "expected TERMINATOR". Alloy wants every attribute on a line of its own.
 
 In the lab, Loki and Alloy were ready a little over two minutes after the push. Argo CD had created their applications about 40 seconds earlier.
 

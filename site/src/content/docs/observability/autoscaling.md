@@ -21,7 +21,7 @@ Nach diesem Kapitel kannst du:
 
 ## Der HorizontalPodAutoscaler
 
-Der **HorizontalPodAutoscaler (HPA)** passt die Zahl der Pods eines Deployments an eine Metrik an, meist die CPU. Er vergleicht die mittlere Auslastung der Pods mit einem Ziel, gemessen in Prozent ihres CPU-Requests. Die Kubernetes-Dokumentation gibt die Rechnung an.
+Der **HorizontalPodAutoscaler (HPA)** passt die Zahl der Pods eines Deployments an eine Metrik an, meist die CPU. Er vergleicht die mittlere Auslastung der Pods mit einem Ziel, gemessen in Prozent ihres CPU-Requests. Die [Dokumentation von Kubernetes 1.36](https://v1-36.docs.kubernetes.io/docs/concepts/workloads/autoscaling/horizontal-pod-autoscale/#algorithm-details) gibt die Rechnung an.
 
 ```text
 gewünschte Pods = aufrunden(aktuelle Pods × aktuelle Auslastung / Ziel)

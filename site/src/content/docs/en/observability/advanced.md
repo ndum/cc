@@ -1,6 +1,8 @@
 ---
 title: Advanced tasks
 description: A local language model as a service of the platform, a triage service of your own with approval by a person, and better questions to the model.
+tableOfContents:
+  maxHeadingLevel: 2
 sidebar:
   order: 5
   badge:
@@ -85,9 +87,7 @@ Under `/v1/chat/completions`, Ollama also offers the OpenAI interface that many 
 
 ## The flow of a triage
 
-Triage is the first assessment of an alert. A triage service accepts the alert, collects context, asks the model and puts the proposal in front of a person. The figure shows one possible design, and your solution may look different.
-
-![The flow of a triage. Prometheus evaluates a rule and sends the alert to Alertmanager. A receiver of your own forwards it as a webhook to your triage service. The service fetches log lines from Loki and the state of the affected deployment from the Kubernetes API and asks a local language model with this context. It shows the proposal with cause and action to a person, who approves it with their name or rejects it. Only an approved action from a fixed list runs, with only the rights it needs. Every alert, proposal and decision lands in the audit log.](../../../../assets/figures/en/p5c6-triage.svg)
+Triage is the first assessment of an alert. A triage service accepts the alert, collects context, asks the model and puts the proposal in front of a person. [Task B](#triage-with-approval-task-b) shows this flow in a figure.
 
 Alertmanager calls the service through a webhook, an HTTP request that carries the alerts as JSON. Instead of the receiver `null`, this needs a receiver of your own and a route in the kube-prometheus-stack values ([chapter 5.3](../slo/#alertmanager)). Alertmanager sends an open group again after `repeat_interval`, so your service should recognize alerts it already knows. Since an answer of the model took a little over twelve seconds in the lab, the service is better off accepting the alert right away and asking the model afterwards.
 
@@ -141,30 +141,49 @@ Because a model does not always give the same answer to the same question, a fai
 
 Wolkenwerk wants a language model in its own cluster, for a single member to start with. You run it from Git like the other services, measure its speed and explain the values.
 
-Your solution meets these requirements:
+![A language model in the cluster. The target state of task A. At the top left, the platform repo wolkenwerk/platform sits in Gitea on the front-end. Argo CD in the k3s cluster pulls the language model with its requests and limits and the access rule from it. The model runs on a cluster VM with 6 GB and four cores. A NetworkPolicy stands in front of the model. It only lets in questions from the namespace of a member with the label and refuses the question of another member. The model's answer reports tokens and durations, and at the top right you measure the tokens per second for reading and for writing from them. Notice that the NetworkPolicy sits next to the model and selects namespaces by their label.](../../../../assets/figures/en/p5c5-model.svg)
+
+### Starting point and result
+
+From the base you have the cluster of chapter 4.2 with the VMs `k3s-server` and `k3s-agent`, each with four cores, 6 GB of memory and a 30 GB disk. Through Argo CD your platform repo `wolkenwerk/platform` brings the web shop, the member namespaces `velo` and `gemeinde` and, since chapter 5.1, the monitoring stack. So far the template's NetworkPolicy only controls who reaches the members' pods.
+
+At the end a language model runs as a service in your cluster, comes from your platform repo through Argo CD and has requests and limits that fit the model and the VM. You know its tokens per second for reading and for writing. Of the members `velo` and `gemeinde`, only one reaches the model.
+
+### Approach
+
+1. Choose the program and the model and estimate how much memory, CPU and disk they need.
+2. Check the free room on the nodes, then set requests and limits.
+3. Plan how the model gets downloaded once and where its files survive a restart of the pod.
+4. Add the service to your platform repo and let Argo CD roll it out.
+5. Measure the tokens per second for reading and writing, several times with the same question and once with a new one.
+6. Give a single member access with a rule in Git and test it from that member's namespace and from another one.
+7. Record values, times and your decision for the documentation.
+
+### Requirements
 
 1. A language model runs as a service in your cluster and comes from your platform repo through Argo CD.
 2. Requests and limits for CPU and memory are set and fit the model and the VM it runs on.
 3. You measured the tokens per second for reading the question and for writing the answer, several times with the same question and once with a new one.
 4. Only one of the members reaches the model. The rule for that is in Git and takes effect in the cluster.
 
-In the showing you present:
+### Showing
 
 - The application in Argo CD and the model's pod with its requests and limits
 - A measurement with the tokens per second from the answer of the API, and your explanation of it
 - A call from the namespace of the member with access and a failing call from another namespace
 
-These sources help you:
+### Sources
 
 - [The Ollama API](https://github.com/ollama/ollama/blob/v0.40.13/docs/api.md), whose answers carry the token counts and the durations in nanoseconds that give you the tokens per second
 - [Ollama in Docker](https://github.com/ollama/ollama/blob/v0.40.13/docs/docker.mdx) on running it as a container and where it keeps its models
 - [The Ollama FAQ](https://github.com/ollama/ollama/blob/v0.40.13/docs/faq.mdx) on the environment variables for the time in memory and for parallel requests
 - [The model page](https://ollama.com/library/llama3.2) with the sizes and languages of Llama 3.2
 - [The hooks of Argo CD](https://argo-cd.readthedocs.io/en/release-3.5/user-guide/sync-waves/), for example for a job that downloads the model after the sync
+- [Volumes and storage in k3s](https://docs.k3s.io/add-ons/storage) with the Local Path Provisioner, which creates volumes on the disk of a node
 - [Chapter 4.3](../../platform/kubernetes/#requests-limits-and-scheduling) on requests and limits
 - [Chapter 4.5](../../platform/templates/#networkpolicy) and the [Kubernetes 1.36 documentation](https://v1-36.docs.kubernetes.io/docs/concepts/services-networking/network-policies/) on the NetworkPolicy and how it selects namespaces by label
 
-Notes from the lab:
+### Notes from the lab
 
 - The program and the model are your choice, and the course tested Ollama 0.40.13 with `llama3.2:3b`
 - How you download the model once and where its files survive a restart of the pod is part of your design
@@ -174,9 +193,27 @@ Notes from the lab:
 
 ## Triage with approval (Task B)
 
-When an alert comes in at night, the person on call should first read an assessment, but a human still decides. Your own triage service gets that assessment from the model of task A and runs an action only after an approval.
+When an alert comes in at night, the person on call should first read an assessment, but a human still decides. Your own triage service gets that assessment from the model of task A and runs an action only after an approval. The figure shows one possible design, and your solution may look different.
 
-Your solution meets these requirements:
+![The flow of a triage. Prometheus evaluates a rule and sends the alert to Alertmanager. A receiver of your own forwards it as a webhook to your triage service. The service fetches log lines from Loki and the state of the affected deployment from the Kubernetes API and asks a local language model with this context. It shows the proposal with cause and action to a person, who approves it with their name or rejects it. Only an approved action from a fixed list runs, with only the rights it needs. Every alert, proposal and decision lands in the audit log.](../../../../assets/figures/en/p5c6-triage.svg)
+
+### Starting point and result
+
+From the base you have Prometheus, Alertmanager and Loki in the namespace `monitoring` and the web shop rules of chapter 5.3 such as `WebshopErrorBudgetBurn`. So far Alertmanager sends every alert to the receiver `null`. The language model from task A runs in the cluster.
+
+At the end your triage service receives the web shop alerts through a receiver of your own and shows a person the model's proposal for each of them. An action from your fixed list runs only after its approval by name and only with the rights it needs in the namespaces of its targets. An audit log records every step and survives a restart of the service.
+
+### Approach
+
+1. Sketch the flow from the alert to the action and decide which actions and targets go on your lists.
+2. Route the web shop alerts to your service with a route and a receiver of your own in the values in Git.
+3. Have the service fetch context from the platform for every alert and ask the model of task A with it.
+4. Put every proposal in front of a person for approval by name and write every step to an audit log that survives a restart.
+5. Limit the rights of the service to its actions in the namespaces of its targets and check them.
+6. Fire an alert through Git, approve one proposal and reject another.
+7. Record values, times and your decision for the documentation.
+
+### Requirements
 
 1. Alertmanager sends the web shop alerts to your service through a receiver of your own. Route and receiver are in the values in Git.
 2. The service gives the model context from the platform and shows a person the summary, the cause and the proposed action.
@@ -185,14 +222,14 @@ Your solution meets these requirements:
 5. An audit log records every alert, proposal and decision with time and name and survives a restart of the service.
 6. You approved one proposal, rejected another and assess both critically in your documentation.
 
-In the showing you present:
+### Showing
 
 - An alert you triggered through Git before the showing, with its proposal
 - An approval and a rejection under your name and the matching entries in the audit log
 - What the service may and may not do, checked with `kubectl auth can-i`
 - What happens when the model names an action or a target outside your lists
 
-These sources help you:
+### Sources
 
 - [Chapter 5.1](../metrics/#the-stack) with the kube-prometheus-stack values, where you add route and receiver
 - [Chapter 5.3](../slo/#alertmanager) on routing in Alertmanager
@@ -204,10 +241,10 @@ These sources help you:
 - [The annotation `kubectl.kubernetes.io/restartedAt`](https://v1-36.docs.kubernetes.io/docs/reference/labels-annotations-taints/#kubectl-k8s-io-restart-at), which `kubectl rollout restart` uses to restart a deployment
 - [The Alertmanager API](https://github.com/prometheus/alertmanager/blob/v0.34.2/api/v2/openapi.yaml), which also accepts alerts you send yourself
 
-Notes from the lab:
+### Notes from the lab
 
 - The language is your choice, and the Python standard library covers HTTP and JSON, as in the web shop of [chapter 4.4](../../platform/gitops/#the-web-shop)
-- Your code needs an image in the cluster, either one of your own or an official image of a language with your code in a ConfigMap
+- Your code needs an image in the cluster, either one of your own or an official image of a language with your code in a [ConfigMap](https://v1-36.docs.kubernetes.io/docs/concepts/configuration/configmap/)
 - You reach an approval page the same way as Grafana, through a tunnel from the client
 - For tests you send your own alerts to the Alertmanager API instead of waiting several minutes for the burn rate alert each time
 - Plan the route so that it also forwards the alerts of a new member in advanced task A of milestone 4 without a rebuild
@@ -217,27 +254,45 @@ Notes from the lab:
 
 Simone Wyss wants numbers that show whether better questions get better answers. You improve the prompt of your triage service and compare the old and the new version on the same alert with the same context.
 
-Your solution meets these requirements:
+![Two versions of the prompt compared. The target state of task C. At the top left, the platform repo holds two versions of the prompt, and a commit leads from the current one to the improved one. At the top right you fire the real fault through Git and keep the alert with its context. In the k3s cluster, the triage service from task B sends the same alert with one of the two versions to the language model from task A in every run, several times for each version. For every answer you note the duration and whether cause and action fit the real fault. The evaluation shows what the new version improved, what it did not and which limit remains. Notice that only the version of the prompt changes between the runs.](../../../../assets/figures/en/p5c5-prompts.svg)
+
+### Starting point and result
+
+From task B you have your triage service, which asks the model from task A and records its proposals in the audit log. You fire the alert `WebshopErrorBudgetBurn` through Git as in chapter 5.3, so you know the real fault.
+
+At the end the old and the new version of the prompt are in Git, and a commit shows the difference. A table records the duration of several runs of both versions on the same alert and whether cause and action fit the real fault. Your evaluation shows what the new version improved and what it did not.
+
+### Approach
+
+1. Decide before the first run what counts as a good answer.
+2. Prepare an alert with its context that you can send the same way several times.
+3. Run the current prompt several times and record duration, cause and action for every run.
+4. Improve the prompt in a commit of its own.
+5. Repeat the measurement with the new version on the same alert with the same context.
+6. Compare both versions in a table and look for a limit that even the better prompt does not remove.
+7. Record values, times and your decision for the documentation.
+
+### Requirements
 
 1. Both versions of the prompt are in Git, and a commit shows the difference.
 2. You compare both versions on the same alert with the same context, with several runs each.
 3. For every run you measure at least the duration and note whether cause and action fit the real fault.
 4. Your evaluation states what the new version improved and what it did not, and it names a limit that a better prompt does not remove.
 
-In the showing you present:
+### Showing
 
 - The two versions of the prompt and the commit between them
 - Your table with the measurements of both versions
 - A run of the new version on the same alert
 
-These sources help you:
+### Sources
 
 - [The Ollama API](https://github.com/ollama/ollama/blob/v0.40.13/docs/api.md) with options such as the temperature and a `seed` for repeatable answers
 - [Structured outputs in Ollama](https://github.com/ollama/ollama/blob/v0.40.13/docs/capabilities/structured-outputs.mdx), where a JSON schema fixes the shape of the answer
 - [Meta's prompting guide](https://dev.meta.ai/llama/docs/how-to-guides/prompting/) with further techniques for Llama, such as examples in the prompt or more context against hallucinations
 - [Chapter 5.3](../slo/#firing-an-alert), where you trigger the real fault through Git and so know the right answer
 
-Notes from the lab:
+### Notes from the lab
 
 - Which techniques you try is up to you
 - If the prompt lives outside the code, for example in a ConfigMap, you can change it without building a new image

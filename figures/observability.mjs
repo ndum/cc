@@ -495,6 +495,205 @@ function triage(lang) {
   return figure({ id, width: 778, height: 344, title: t.title, desc: t.desc, body });
 }
 
+// Chapter 5.5, the target states of tasks A and C. They show what runs at the end and how the parts are
+// connected, but no values that would answer a requirement. Task B uses the flow of a triage above.
+const MODEL = {
+  de: {
+    title: 'Ein Sprachmodell im Cluster',
+    desc:
+      'Der Zielzustand von Auftrag A. Oben links liegt auf dem Front-end das Plattform-Repo wolkenwerk/platform ' +
+      'in Gitea. Argo CD im Cluster k3s holt daraus das Sprachmodell mit seinen Requests und Limits und die Regel ' +
+      'für den Zugriff. Das Modell läuft auf einer VM des Clusters mit 6 GB und vier Kernen. Vor dem Modell steht ' +
+      'eine NetworkPolicy. Sie lässt nur Fragen aus dem Namespace eines Mitglieds mit dem Label durch, die Frage ' +
+      'eines anderen Mitglieds weist sie ab. Die Antwort des Modells nennt Tokens und Dauer, daraus misst du oben ' +
+      'rechts die Tokens pro Sekunde für das Lesen und das Schreiben. Achte darauf, dass die NetworkPolicy beim ' +
+      'Modell steht und Namespaces nach ihrem Label auswählt.',
+    fe: 'Front-end',
+    gitea: ['Gitea', 'wolkenwerk/platform'],
+    cluster: 'Cluster k3s',
+    argocd: ['Argo CD', 'gleicht mit Git ab'],
+    pulls: 'holt',
+    rolls: 'rollt Modell und Regel aus',
+    model: ['Sprachmodell', 'Requests und Limits'],
+    vm: 'VM mit 6 GB und vier Kernen',
+    allowed: ['Mitglied mit Zugriff', 'Namespace mit dem Label'],
+    other: ['Anderes Mitglied', 'Namespace ohne das Label'],
+    question: 'Frage',
+    refused: 'abgewiesen',
+    measure: ['Tokens pro Sekunde', 'Lesen und Schreiben'],
+    answer: 'Antwort mit Tokens und Dauer',
+  },
+  en: {
+    title: 'A language model in the cluster',
+    desc:
+      'The target state of task A. At the top left, the platform repo wolkenwerk/platform sits in Gitea on the ' +
+      'front-end. Argo CD in the k3s cluster pulls the language model with its requests and limits and the access ' +
+      'rule from it. The model runs on a cluster VM with 6 GB and four cores. A NetworkPolicy stands in front of ' +
+      'the model. It only lets in questions from the namespace of a member with the label and refuses the ' +
+      "question of another member. The model's answer reports tokens and durations, and at the top right you " +
+      'measure the tokens per second for reading and for writing from them. Notice that the NetworkPolicy sits ' +
+      'next to the model and selects namespaces by their label.',
+    fe: 'Front-end',
+    gitea: ['Gitea', 'wolkenwerk/platform'],
+    cluster: 'k3s cluster',
+    argocd: ['Argo CD', 'syncs from Git'],
+    pulls: 'pulls',
+    rolls: 'rolls out model and rule',
+    model: ['Language model', 'requests and limits'],
+    vm: 'VM with 6 GB and four cores',
+    allowed: ['Member with access', 'namespace with the label'],
+    other: ['Other member', 'namespace without the label'],
+    question: 'question',
+    refused: 'refused',
+    measure: ['Tokens per second', 'reading and writing'],
+    answer: 'answer with tokens and durations',
+  },
+};
+
+function model(lang) {
+  const t = MODEL[lang];
+  const id = `p5c5-model-${lang}`;
+  const H = 56;
+  // The members on the left, the model behind its NetworkPolicy on the right
+  const LEFT = 32;
+  const RIGHT = 496;
+  const W = 232;
+  const GATE = 456;
+  const tagW = Math.ceil(measure('NetworkPolicy', SIZE.sub, { bold: true })) + 14;
+  const body = [
+    band(16, 16, 264, 108, 2),
+    label(32, 40, t.fe, 'start', { tone: 'blue' }),
+    band(16, 148, 728, 284, 3),
+    label(32, 172, t.cluster, 'start', { tone: 'violet' }),
+    // Argo CD pulls from Gitea and rolls out the model with its rule
+    arrow(id, [[LEFT + W / 2, 184], [LEFT + W / 2, 110]]),
+    note(LEFT + W / 2 + 8, 140, t.pulls),
+    arrow(id, [[LEFT + W, 212], [612, 212], [612, 270]], { accent: true }),
+    note(LEFT + W + 16, 204, t.rolls),
+    // The answer carries the counts and durations the measurement needs
+    arrow(id, [[680, 272], [680, 110]]),
+    note(672, 184, t.answer, 'end'),
+    // The NetworkPolicy only lets in the member with the label
+    line([[GATE, 264], [GATE, 416]], { tone: 'violet' }),
+    tag(GATE - tagW / 2, 240, 'NetworkPolicy'),
+    arrow(id, [[LEFT + W, 300], [RIGHT - 2, 300]], { accent: true }),
+    note((LEFT + W + GATE) / 2, 292, t.question, 'middle'),
+    line([[LEFT + W, 380], [GATE - 6, 380]], { dashed: true }),
+    note((LEFT + W + GATE) / 2, 372, t.refused, 'middle'),
+    tile(LEFT, 52, W, H, ...t.gitea, { icon: 'repo', code: true }),
+    tile(RIGHT, 52, W, H, ...t.measure, { icon: 'chart' }),
+    tile(LEFT, 184, W, H, ...t.argocd, { icon: 'sync', tone: 'violet' }),
+    tile(LEFT, 272, W, H, ...t.allowed, { icon: 'group', tone: 'violet' }),
+    tile(LEFT, 352, W, H, ...t.other, { icon: 'group', tone: 'violet' }),
+    tile(RIGHT, 272, W, H, ...t.model, { icon: 'model', accent: true }),
+    strip(RIGHT, 340, W, 28, t.vm),
+  ];
+  return figure({ id, width: 760, height: 448, title: t.title, desc: t.desc, body });
+}
+
+const PROMPTS = {
+  de: {
+    title: 'Zwei Fassungen der Frage im Vergleich',
+    desc:
+      'Der Zielzustand von Auftrag C. Oben links stehen im Plattform-Repo zwei Fassungen der Frage, ein Commit ' +
+      'führt von der bisherigen zur verbesserten. Oben rechts löst du den echten Fehler über Git aus und hältst ' +
+      'den Alert mit seinem Kontext fest. Im Cluster k3s schickt der Triage-Dienst aus Auftrag B in jedem ' +
+      'Durchlauf denselben Alert mit einer der beiden Fassungen an das Sprachmodell aus Auftrag A, mehrmals für ' +
+      'jede Fassung. Zu jeder Antwort hältst du die Dauer fest und ob Ursache und Aktion zum echten Fehler ' +
+      'passen. Die Auswertung zeigt, was die neue Fassung verbessert hat, was nicht und welche Grenze bleibt. ' +
+      'Achte darauf, dass sich zwischen den Durchläufen nur die Fassung der Frage ändert.',
+    repo: 'Plattform-Repo',
+    versions: [
+      ['Fassung 1', 'bisher'],
+      ['Fassung 2', 'verbessert'],
+    ],
+    commit: 'Commit',
+    same: 'Gleiche Eingabe',
+    fault: ['Echter Fehler', 'über Git ausgelöst'],
+    alert: ['Derselbe Alert', 'mit Kontext'],
+    cluster: 'Cluster k3s',
+    runs: 'mehrere Durchläufe je Fassung',
+    perRun: 'eine Fassung je Durchlauf',
+    triage: ['Triage-Dienst', 'aus Auftrag B'],
+    model: ['Sprachmodell', 'aus Auftrag A'],
+    question: 'Frage',
+    answer: 'Antwort',
+    every: 'jede Antwort',
+    run: ['Jeder Durchlauf', 'Dauer und ob Ursache und Aktion zum echten Fehler passen'],
+    result: ['Auswertung', 'besser, nicht besser, Grenze'],
+  },
+  en: {
+    title: 'Two versions of the prompt compared',
+    desc:
+      'The target state of task C. At the top left, the platform repo holds two versions of the prompt, and a ' +
+      'commit leads from the current one to the improved one. At the top right you fire the real fault through ' +
+      'Git and keep the alert with its context. In the k3s cluster, the triage service from task B sends the ' +
+      'same alert with one of the two versions to the language model from task A in every run, several times ' +
+      'for each version. For every answer you note the duration and whether cause and action fit the real ' +
+      'fault. The evaluation shows what the new version improved, what it did not and which limit remains. ' +
+      'Notice that only the version of the prompt changes between the runs.',
+    repo: 'Platform repo',
+    versions: [
+      ['Version 1', 'current'],
+      ['Version 2', 'improved'],
+    ],
+    commit: 'commit',
+    same: 'Same input',
+    fault: ['Real fault', 'fired through Git'],
+    alert: ['Same alert', 'with context'],
+    cluster: 'k3s cluster',
+    runs: 'several runs per version',
+    perRun: 'one version per run',
+    triage: ['Triage service', 'from task B'],
+    model: ['Language model', 'from task A'],
+    question: 'question',
+    answer: 'answer',
+    every: 'every answer',
+    run: ['Every run', 'duration and whether cause and action fit the real fault'],
+    result: ['Evaluation', 'better, not better, limit'],
+  },
+};
+
+function prompts(lang) {
+  const t = PROMPTS[lang];
+  const id = `p5c5-prompts-${lang}`;
+  const H = 56;
+  const runsW = Math.ceil(measure(t.runs, SIZE.sub, { bold: true })) + 14;
+  const body = [
+    // What changes, the prompt in Git, and what stays the same, the alert with its context
+    band(16, 16, 360, 108, 2),
+    label(32, 40, t.repo, 'start', { tone: 'blue' }),
+    arrow(id, [[168, 80], [222, 80]]),
+    note(195, 72, t.commit, 'middle'),
+    band(392, 16, 352, 108, 1),
+    label(408, 40, t.same),
+    arrow(id, [[556, 80], [578, 80]]),
+    // Both inputs reach the triage service, which asks the model once per run
+    band(16, 148, 728, 108, 3),
+    label(32, 172, t.cluster, 'start', { tone: 'violet' }),
+    tag(744 - 16 - runsW, 158, t.runs),
+    arrow(id, [[196, 124], [196, 182]], { accent: true }),
+    note(204, 140, t.perRun),
+    arrow(id, [[654, 108], [654, 136], [400, 136], [400, 182]], { accent: true }),
+    arrow(id, [[424, 204], [518, 204]]),
+    note(471, 196, t.question, 'middle'),
+    arrow(id, [[520, 222], [426, 222]]),
+    note(471, 238, t.answer, 'middle'),
+    // Every answer is measured, the table of runs leads to the evaluation
+    arrow(id, [[228, 240], [228, 278]]),
+    note(236, 266, t.every),
+    arrow(id, [[424, 308], [518, 308]]),
+    ...t.versions.map(([title, sub], i) => tile(i ? 224 : 32, 52, 136, H, title, sub, { icon: 'doc' })),
+    tile(408, 52, 148, H, ...t.fault, { icon: 'repo' }),
+    tile(580, 52, 148, H, ...t.alert, { icon: 'bell' }),
+    tile(32, 184, 392, H, ...t.triage, { icon: 'cog', tone: 'violet' }),
+    tile(520, 184, 208, H, ...t.model, { icon: 'model', tone: 'violet' }),
+    tile(32, 280, 392, H, ...t.run, { icon: 'logs' }),
+    tile(520, 280, 208, H, ...t.result, { icon: 'chart', accent: true }),
+  ];
+  return figure({ id, width: 760, height: 352, title: t.title, desc: t.desc, body });
+}
+
 for (const lang of Object.keys(SCRAPE)) {
   const dir = join(ROOT, 'site', 'src', 'assets', 'figures', lang);
   mkdirSync(dir, { recursive: true });
@@ -503,4 +702,6 @@ for (const lang of Object.keys(SCRAPE)) {
   writeFileSync(join(dir, 'p5c3-budget.svg'), budget(lang));
   writeFileSync(join(dir, 'p5c4-hpa.svg'), hpa(lang));
   writeFileSync(join(dir, 'p5c6-triage.svg'), triage(lang));
+  writeFileSync(join(dir, 'p5c5-model.svg'), model(lang));
+  writeFileSync(join(dir, 'p5c5-prompts.svg'), prompts(lang));
 }
