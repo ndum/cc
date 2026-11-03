@@ -396,11 +396,12 @@ lt-tabs {
 .fig .d-icon-accent {
   stroke: var(--fig-blue);
 }
-.fig .d-tag-violet {
+/* The tone classes carry two class names, so they win over the base rules of a tag that follow */
+.fig .d-tag.d-tag-violet {
   fill: var(--fig-violet-card);
   stroke: var(--fig-violet-border);
 }
-.fig .d-tag-text-violet {
+.fig .d-tag-text.d-tag-text-violet {
   fill: var(--fig-violet-text);
 }
 .fig .d-label-teal {
