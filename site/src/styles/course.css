@@ -81,6 +81,24 @@
 .lt-selfhost[open] > summary {
   margin-bottom: 0.5rem;
 }
+/* More on a section: closed and quiet, so that a long page shows the core of each section first */
+.lt-details {
+  --lt-color: var(--sl-color-gray-4);
+  --lt-bg: var(--sl-color-gray-6);
+  padding-block: 0.5rem;
+}
+.lt-details > summary {
+  margin: 0;
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--sl-color-gray-2);
+}
+.lt-details > summary:hover {
+  color: var(--sl-color-white);
+}
+.lt-details[open] > summary {
+  margin-bottom: 0.5rem;
+}
 .lt-box > :last-child {
   margin-bottom: 0;
 }

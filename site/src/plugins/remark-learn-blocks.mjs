@@ -10,6 +10,8 @@
  *   :::solution[Optional title]       collapsible <details>, code allowed inside
  *   :::selfhost[Optional title]       collapsed <details> with steps that only a lab on an own
  *                                     hypervisor needs, so that smartlearn users can skip them
+ *   :::details[Optional title]        collapsed <details> with more on a section, so that a long
+ *                                     page shows the core of each section first
  *   :::tabs[Optional accessible name]
  *   ::tab{label="Template"}           starts a tab panel (leaf directive, no closing line)
  *   :::
@@ -43,6 +45,7 @@ const DEFAULT_LABELS = {
     question: 'Frage',
     selfhost: 'Eigener Hypervisor',
     selfhostHint: 'Auf smartlearn überspringst du diesen Teil.',
+    details: 'Mehr dazu',
   },
   en: {
     assignment: 'Assignment',
@@ -58,6 +61,7 @@ const DEFAULT_LABELS = {
     question: 'Question',
     selfhost: 'Own hypervisor',
     selfhostHint: 'On smartlearn you skip this part.',
+    details: 'More on this',
   },
 };
 
@@ -105,6 +109,7 @@ export default function remarkLearnBlocks(options = {}) {
         if (node.name === 'tabs') return void transformTabs(node, file, t);
         if (node.name === 'solution') return void transformSolution(node, t);
         if (node.name === 'selfhost') return void transformSelfhost(node, t);
+        if (node.name === 'details') return void transformDetails(node, t);
         if (node.name === 'quiz') return void transformQuiz(node, file, t, `lt-box-${++boxCount}`);
         // transformQuiz already turned the questions of a quiz into boxes
         if (node.name === 'question') {
@@ -114,7 +119,7 @@ export default function remarkLearnBlocks(options = {}) {
         if (BOXES.has(node.name)) return void transformBox(node, t, `lt-box-${++boxCount}`);
         if (STARLIGHT_ASIDES.has(node.name)) return;
         file.fail(
-          `Unknown directive ":::${node.name}". Known: assignment, goals, deepdive, exercise, selfcheck, solution, selfhost, ` +
+          `Unknown directive ":::${node.name}". Known: assignment, goals, deepdive, exercise, selfcheck, solution, selfhost, details, ` +
             `tabs, quiz (and Starlight's note, tip, caution, danger).`,
           node,
         );
@@ -210,6 +215,17 @@ function transformSelfhost(node, t) {
     type: 'ltTitle',
     data: { hName: 'summary' },
     children: titleChildren(t.selfhost, label ?? [{ type: 'text', value: t.selfhostHint }]),
+  });
+}
+
+/** More on a section stays closed, the title says what the box holds */
+function transformDetails(node, t) {
+  const label = takeLabel(node);
+  node.data = { hName: 'details', hProperties: { className: ['lt-box', 'lt-details'] } };
+  node.children.unshift({
+    type: 'ltTitle',
+    data: { hName: 'summary' },
+    children: label ?? [{ type: 'text', value: t.details }],
   });
 }
 
