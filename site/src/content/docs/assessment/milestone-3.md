@@ -7,7 +7,7 @@ description: Der Auftrag des dritten Meilensteins mit den sieben Anforderungen d
 «Vor der Saison will der Vorstand drei Dinge sehen», schreibt Simone Wyss. «Dass ihr merkt, wenn der Webshop leidet, bevor die Kundschaft es tut. Dass er am Samstag mitwächst. Und was unser eigenes Sprachmodell im Betrieb wirklich taugt.»
 :::
 
-Meilenstein 3 umfasst Teil 5. In der Basis überwachst du Plattform und Webshop, legst ein SLO mit Alert fest und lässt den Shop unter Last wachsen. In den Zusatzaufträgen betreibst du ein lokales Sprachmodell, baust einen eigenen Triage-Dienst mit Freigabe und verbesserst die Fragen an das Modell. Meilenstein 3 ist eine Einzelarbeit und gehört mit Meilenstein 4 zur Abgabe 2.
+Meilenstein 3 umfasst Teil 5. In der Basis überwachst du Plattform und Webshop, legst ein SLO mit Alert fest und lässt den Shop unter Last wachsen. In den Zusatzaufträgen betreibst du ein lokales Sprachmodell, baust einen eigenen Triage-Dienst mit Freigabe und verbesserst die Fragen an das Modell. Meilenstein 3 gehört mit Meilenstein 4 zur Abgabe 2.
 
 ## Basis
 
@@ -19,9 +19,9 @@ Alles läuft in deinem eigenen Lab mit deinen persönlichen Parametern aus Kapit
 4. Du findest den Fehler eines Deployments mit LogQL in Loki.
 5. Das SLO des Webshops ist mit dem Ziel aus deinen [persönlichen Werten](../../start/parameters/) als Regel hinterlegt, du löst den Alert über Git aus und beendest ihn wieder.
 6. Der Webshop wächst unter Last mit dem HPA bis zu deiner persönlichen Obergrenze und schrumpft wieder, du zeigst den Lasttest im Dashboard.
-7. Eine eigene Zeichnung zeigt den Weg einer Metrik vom Exporter bis ins Dashboard und den Weg eines Alerts, der Check `m3` ist grün.
+7. Der Check `m3` ist grün.
 
-Die Dokumentation zeigt zu jeder Anforderung einen Screenshot mit einem oder zwei Sätzen dazu und enthält den Bericht des Checks `m3` und deine Zeichnung. Den Bericht erzeugt `python3 ~/cc/checks/check.py m3` auf dem Front-end. Der Alert nach Burn Rate feuerte im Lab vier bis sechs Minuten nach dem Push. Nach einem Lasttest in der Stunde davor kann es zehn Minuten und länger dauern. Der HPA schrumpft erst nach fünf Minuten. Plane diese Wartezeiten für die Screenshots ein.
+Die Basis belegst du mit dem Bericht des Checks `m3` und mit einem Screenshot zu jeder Anforderung. Den Bericht erzeugt `python3 ~/cc/checks/check.py m3` auf dem Front-end. Der Alert nach Burn Rate feuerte im Lab vier bis sechs Minuten nach dem Push. Nach einem Lasttest in der Stunde davor kann es zehn Minuten und länger dauern. Der HPA schrumpft erst nach fünf Minuten. Plane diese Wartezeiten für die Screenshots ein.
 
 ## Zusatzaufträge
 
@@ -45,7 +45,7 @@ Die Zusatzaufträge zeigst du live im Unterricht oder in einem Screencast von h�
 
 ## Abgabe
 
-Im Ordner `m3/` deines Abgabe-Repos liegen die Dokumentation mit den Screenshots und der Zeichnung sowie `platform/`, eine Kopie deines Repos `platform` aus Gitea ohne den Ordner `.git`, ohne State und ohne Passwörter. Für Auftrag B kommt das Audit-Log deines Triage-Dienstes dazu, für die Vorführung der Screencast oder ein Link darauf. Liegt der Code deines Triage-Dienstes nicht im Plattform-Repo, legst du ihn in den Ordner `m3/triage/`.
+Im Ordner `m3/` deines Abgabe-Repos liegen die Screenshots der Basis. Für die Zusatzaufträge kommen ihre Dokumentation und `platform/` dazu, eine Kopie deines Repos `platform` aus Gitea ohne den Ordner `.git`, ohne State und ohne Passwörter. Für Auftrag B kommt das Audit-Log deines Triage-Dienstes dazu, für die Vorführung der Screencast oder ein Link darauf. Liegt der Code deines Triage-Dienstes nicht im Plattform-Repo, legst du ihn in den Ordner `m3/triage/`.
 
 Die Berichte der Checks legst du in `reports/`. Wie das Repo aufgebaut ist und wie du einen Tag setzt, steht in der [Übersicht](../).
 
@@ -59,7 +59,7 @@ Die Berichte der Checks legst du in `reports/`. Wie das Repo aufgebaut ist und w
 | Fehlersuche mit LogQL | 3 |
 | SLO mit persönlichem Ziel, Alert über Git ausgelöst und beendet | 3 |
 | HPA mit persönlicher Obergrenze, Lasttest im Dashboard | 3 |
-| Zeichnung mit den Wegen von Metrik und Alert, Check `m3` | 3 |
+| Check `m3` grün | 3 |
 | **Basis** | **21** |
 
 | Zusatzauftrag | Punkte |
@@ -69,4 +69,4 @@ Die Berichte der Checks legst du in `reports/`. Wie das Repo aufgebaut ist und w
 | C · Bessere Fragen mit gemessenem Vergleich | 3 |
 | **Zusatz** | **9** |
 
-Meilenstein 3 gibt zusammen höchstens 30 Punkte. Eine Anforderung der Basis gibt 3 Punkte, wenn Bericht und Screenshot sie belegen. Für eine nur teilweise erfüllte Anforderung gibt es 1 Punkt. Beantwortest du eine der zwei Fragen nicht oder falsch, bekommt der Zusatzauftrag, zu dem sie gehört, höchstens 1 Punkt.
+Meilenstein 3 gibt zusammen höchstens 30 Punkte. Eine Anforderung der Basis gibt 3 Punkte, wenn Bericht und Screenshot sie belegen. Für eine nur teilweise erfüllte Anforderung gibt es 1 Punkt. Beantwortest du eine der zwei Fragen nicht oder falsch, bekommt der Zusatzauftrag, zu dem sie gehört, höchstens 1 Punkt. Ohne Dokumentation gibt ein Zusatzauftrag höchstens 1 Punkt.

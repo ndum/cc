@@ -79,7 +79,7 @@ After that, `ssh mmuster-node1 hostname` prints the node's name without asking f
 
 ## The hand-in repo
 
-For your milestones you create a private repo, either on your school's GitLab or on GitHub. Name it `cc-` followed by your code, for example `cc-mmuster`, and give your instructor read access. The repo holds your code, the reports of the checks, a copy of `/etc/cc-lab.env` and documentation with screenshots for every milestone. For the advanced tasks your screencast or a link to it goes there too. [Assessment](../../assessment/) describes the exact layout.
+For your milestones you create a private repo, either on your school's GitLab or on GitHub. Name it `cc-` followed by your code, for example `cc-mmuster`, and give your instructor read access. The repo holds the reports of the checks, a copy of `/etc/cc-lab.env` and the screenshots of the base for every milestone. For the advanced tasks their documentation, your code and your screencast or a link to it go there too. [Assessment](../../assessment/) describes the exact layout.
 
 Clone the repo onto the front-end, where most of the files come from. To let the front-end reach GitLab or GitHub, add its public key to your account. `cat ~/.ssh/id_ed25519.pub` on the front-end shows it. Copy it in the terminal of the client and paste it into the settings of your account in the browser of the client.
 
@@ -103,7 +103,7 @@ Copy the report into the folder `reports/` of your hand-in repo, commit it and p
 
 ## Screencasts
 
-You prove the base of a milestone with documentation and screenshots, it needs no screencast. You show the advanced tasks either live in class or in a screencast. Screencasts follow these rules:
+You prove the base of a milestone with the check report and screenshots, it needs no screencast. You show the advanced tasks either live in class or in a screencast. Screencasts follow these rules:
 
 1. At most ten minutes, one recording without cuts
 2. First `cat /etc/cc-lab.env` and the report of the milestone check with its hash and your two questions
@@ -111,7 +111,7 @@ You prove the base of a milestone with documentation and screenshots, it needs n
 4. Your answers to the two questions and your own decisions with the reasons behind them
 5. Audio with your voice, so your instructor hears how you explain
 
-You record the screencast on your PC, where smartlearn runs in the browser. On Windows the Snipping Tool or OBS Studio does that, on macOS the built-in screen recording. Put the screencast into your hand-in repo or onto storage such as OneDrive and add the link to the documentation of the milestone.
+You record the screencast on your PC, where smartlearn runs in the browser. On Windows the Snipping Tool or OBS Studio does that, on macOS the built-in screen recording. Put the screencast into your hand-in repo or onto storage such as OneDrive and add the link to the documentation of the advanced tasks.
 
 ::::exercise[Lab]
 Set up SSH with a key and a configuration on the client and connect the front-end to the nodes. Create your hand-in repo and upload the report of the check `start`.

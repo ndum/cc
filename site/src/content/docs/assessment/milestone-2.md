@@ -7,7 +7,7 @@ description: Der Auftrag des zweiten Meilensteins mit den sieben Anforderungen d
 «Der Vorstand will sehen, dass ihr die Plattform jederzeit neu bauen könnt», schreibt Simone Wyss. «Werft sie vor seinen Augen weg und baut sie wieder auf, mit dem Webshop des Veloateliers und dem Platz für ein weiteres Mitglied.»
 :::
 
-Meilenstein 2 umfasst Teil 4. In der Basis baust du auf deiner Cloud einen Kubernetes-Cluster aus Code, rollst den Webshop mit GitOps aus und gibst den Mitgliedern Namespaces aus einer Vorlage. In den Zusatzaufträgen baust du die Plattform neu, nimmst ein eigenes Mitglied auf und schützt den Branch `main`. Meilenstein 2 ist eine Einzelarbeit und gehört mit Meilenstein 1 zur Abgabe 1.
+Meilenstein 2 umfasst Teil 4. In der Basis baust du auf deiner Cloud einen Kubernetes-Cluster aus Code, rollst den Webshop mit GitOps aus und gibst den Mitgliedern Namespaces aus einer Vorlage. In den Zusatzaufträgen baust du die Plattform neu, nimmst ein eigenes Mitglied auf und schützt den Branch `main`. Meilenstein 2 gehört mit Meilenstein 1 zur Abgabe 1.
 
 ## Basis
 
@@ -21,7 +21,7 @@ Alles läuft in deinem eigenen Lab mit deinen persönlichen Parametern aus Kapit
 6. Die ResourceQuota der Gemeinde hat die Grenzen aus deinen [persönlichen Werten](../../start/parameters/) und kommt über einen Pull Request.
 7. Du zeigst die Quota an ihrer Grenze und die Trennung der Namespaces durch die NetworkPolicy, der Check `m2` ist grün.
 
-Die Dokumentation zeigt zu jeder Anforderung einen Screenshot mit einem oder zwei Sätzen dazu und enthält den Bericht des Checks `m2`. Diesen Bericht erzeugt `python3 ~/cc/checks/check.py m2` auf dem Front-end. Für den Pull Request genügt ein Screenshot aus Gitea mit dem Diff und dem Merge.
+Die Basis belegst du mit dem Bericht des Checks `m2` und mit einem Screenshot zu jeder Anforderung. Den Bericht erzeugt `python3 ~/cc/checks/check.py m2` auf dem Front-end. Für den Pull Request genügt ein Screenshot aus Gitea mit dem Diff und dem Merge.
 
 ## Zusatzaufträge
 
@@ -45,7 +45,7 @@ Die Zusatzaufträge zeigst du live im Unterricht oder in einem Screencast von h�
 
 ## Abgabe
 
-Im Ordner `m2/` deines Abgabe-Repos liegen die Dokumentation mit den Screenshots und `platform/`, eine Kopie deines Repos `platform` aus Gitea ohne den Ordner `.git`, ohne State und ohne Tokens. Für die Vorführung kommt der Screencast oder ein Link darauf dazu.
+Im Ordner `m2/` deines Abgabe-Repos liegen die Screenshots der Basis. Für die Zusatzaufträge kommen ihre Dokumentation und `platform/` dazu, eine Kopie deines Repos `platform` aus Gitea ohne den Ordner `.git`, ohne State und ohne Tokens. Für die Vorführung kommt der Screencast oder ein Link darauf dazu.
 
 Die Berichte der Checks legst du in `reports/`. Wie das Repo aufgebaut ist und wie du einen Tag setzt, steht in der [Übersicht](../).
 
@@ -69,4 +69,4 @@ Die Berichte der Checks legst du in `reports/`. Wie das Repo aufgebaut ist und w
 | C · Schutz des Branches `main` | 3 |
 | **Zusatz** | **9** |
 
-Meilenstein 2 gibt zusammen höchstens 30 Punkte. Eine Anforderung der Basis gibt 3 Punkte, wenn Bericht und Screenshot sie belegen. Für eine nur teilweise erfüllte Anforderung gibt es 1 Punkt. Beantwortest du eine der zwei Fragen nicht oder falsch, bekommt der Zusatzauftrag, zu dem sie gehört, höchstens 1 Punkt.
+Meilenstein 2 gibt zusammen höchstens 30 Punkte. Eine Anforderung der Basis gibt 3 Punkte, wenn Bericht und Screenshot sie belegen. Für eine nur teilweise erfüllte Anforderung gibt es 1 Punkt. Beantwortest du eine der zwei Fragen nicht oder falsch, bekommt der Zusatzauftrag, zu dem sie gehört, höchstens 1 Punkt. Ohne Dokumentation gibt ein Zusatzauftrag höchstens 1 Punkt.

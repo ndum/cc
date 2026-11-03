@@ -7,7 +7,7 @@ description: The assignment of the second milestone with the seven base requirem
 "The board wants to see that you can rebuild the platform at any time," Simone Wyss writes. "Throw it away in front of them and build it again, with the bike shop's web shop and room for another member."
 :::
 
-Milestone 2 covers part 4. In the base you build a Kubernetes cluster from code on your cloud, roll out the web shop with GitOps and give the members namespaces from a template. In the advanced tasks you rebuild the platform, add a member of your own and protect the branch `main`. Milestone 2 is individual work and belongs with milestone 1 to hand-in 1.
+Milestone 2 covers part 4. In the base you build a Kubernetes cluster from code on your cloud, roll out the web shop with GitOps and give the members namespaces from a template. In the advanced tasks you rebuild the platform, add a member of your own and protect the branch `main`. Milestone 2 belongs with milestone 1 to hand-in 1.
 
 ## Base
 
@@ -21,7 +21,7 @@ Everything runs in your own lab with your personal parameters from chapter 0.3. 
 6. The municipality's ResourceQuota uses your [personal values](../../start/parameters/) and arrives through a pull request.
 7. You show the quota at its limit and the separation of the namespaces by the NetworkPolicy, and the check `m2` is green.
 
-The documentation has a screenshot for each requirement with one or two sentences about it, plus the report of the check `m2`, which `python3 ~/cc/checks/check.py m2` writes on the front-end. For a pull request, a screenshot from Gitea with the diff and the merge is enough.
+You prove the base with the report of the check `m2` and one screenshot per requirement. `python3 ~/cc/checks/check.py m2` writes the report on the front-end. For a pull request, a screenshot from Gitea with the diff and the merge is enough.
 
 ## Advanced tasks
 
@@ -45,7 +45,7 @@ You show the advanced tasks live in class or in a screencast of at most ten minu
 
 ## Hand-in
 
-The folder `m2/` of your hand-in repo holds the documentation with the screenshots and `platform/`, a copy of your repo `platform` from Gitea without the `.git` folder, without state and without tokens. The showing adds the screencast or a link to it.
+The folder `m2/` of your hand-in repo holds the screenshots of the base. The advanced tasks add their documentation and `platform/`, a copy of your repo `platform` from Gitea without the `.git` folder, without state and without tokens. The showing adds the screencast or a link to it.
 
 You put the reports of the checks in `reports/`. The [overview](../) describes how the repo is structured and how you set a tag.
 
@@ -69,4 +69,4 @@ You put the reports of the checks in `reports/`. The [overview](../) describes h
 | C · Protection of the branch `main` | 3 |
 | **Advanced** | **9** |
 
-Milestone 2 is worth up to 30 points in total. A base requirement gets 3 points when the report and a screenshot prove it, and 1 point when it is only partly met. If you leave one of the two questions unanswered or answer it wrongly, the advanced task it belongs to gets at most 1 point.
+Milestone 2 is worth up to 30 points in total. A base requirement gets 3 points when the report and a screenshot prove it, and 1 point when it is only partly met. If you leave one of the two questions unanswered or answer it wrongly, the advanced task it belongs to gets at most 1 point. Without documentation an advanced task gets at most 1 point.

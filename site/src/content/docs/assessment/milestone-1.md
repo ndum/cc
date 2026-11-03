@@ -7,7 +7,7 @@ description: Der Auftrag des ersten Meilensteins mit den sieben Anforderungen de
 «Die vier Mitglieder sollen ab nächstem Monat auf unserer eigenen Cloud arbeiten», schreibt Simone Wyss. «Zeig dem Vorstand, dass sie läuft, dass jedes Mitglied nur seine eigenen Maschinen sieht, was es verbraucht und wie die Treuhand Ende Monat mehr Leistung bekommt.»
 :::
 
-Meilenstein 1 umfasst Teil 0 bis Teil 3. In der Basis baust du in deinem Lab die IaaS für Wolkenwerk Bern auf und teilst sie unter den vier Mitgliedern auf. In den Zusatzaufträgen lässt du einen Dienst elastisch wachsen, automatisierst den Showback und prüfst, was ein Knotenausfall für die Mitglieder bedeutet. Meilenstein 1 ist eine Einzelarbeit und gehört mit Meilenstein 2 zur Abgabe 1.
+Meilenstein 1 umfasst Teil 0 bis Teil 3. In der Basis baust du in deinem Lab die IaaS für Wolkenwerk Bern auf und teilst sie unter den vier Mitgliedern auf. In den Zusatzaufträgen lässt du einen Dienst elastisch wachsen, automatisierst den Showback und prüfst, was ein Knotenausfall für die Mitglieder bedeutet. Meilenstein 1 gehört mit Meilenstein 2 zur Abgabe 1.
 
 ## Basis
 
@@ -21,7 +21,7 @@ Alles läuft in deinem eigenen Lab mit deinen persönlichen Parametern aus Kapit
 6. Die Quotas der Mitglieder sind gesetzt, die Gemeinde hat die Quota aus deinen [persönlichen Werten](../../start/parameters/). Du zeigst die Meldung an der Grenze.
 7. Die Vorlage `ubuntu` hat Preise, der Showback eines Monats liegt als CSV vor. Ein Benutzer eines Mitglieds startet eine VM im Self-Service.
 
-Die Dokumentation zeigt zu jeder Anforderung einen Screenshot mit einem oder zwei Sätzen dazu und enthält den Bericht des Checks `m1`. Diesen Bericht erzeugt `python3 ~/cc/checks/check.py m1` auf dem Front-end. Mach die Screenshots, bevor du mit Kapitel 4.2 beginnst. Dort entfernst du die VMs von Teil 2 und 3, weil der Kubernetes-Cluster ihren Platz braucht.
+Die Basis belegst du mit dem Bericht des Checks `m1` und mit einem Screenshot zu jeder Anforderung. Den Bericht erzeugt `python3 ~/cc/checks/check.py m1` auf dem Front-end. Mach die Screenshots, bevor du mit Kapitel 4.2 beginnst. Dort entfernst du die VMs von Teil 2 und 3, weil der Kubernetes-Cluster ihren Platz braucht.
 
 ## Zusatzaufträge
 
@@ -47,7 +47,7 @@ Nach Kapitel 4.2 belegt der Kubernetes-Cluster die Knoten. Führst du Auftrag A 
 
 ## Abgabe
 
-Im Ordner `m1/` deines Abgabe-Repos liegen die Dokumentation mit den Screenshots, der Showback als CSV und deine angepassten Skripte und Vorlagen, falls du welche geändert hast. Für Auftrag B kommen das Skript und die Units des Timers dazu, für die Vorführung der Screencast oder ein Link darauf.
+Im Ordner `m1/` deines Abgabe-Repos liegen die Screenshots der Basis. Für die Zusatzaufträge kommen ihre Dokumentation, für Auftrag B das Skript und die Units des Timers und für die Vorführung der Screencast oder ein Link darauf dazu.
 
 Die Berichte der Checks legst du in `reports/`. Wie das Repo aufgebaut ist und wie du einen Tag setzt, steht in der [Übersicht](../).
 
@@ -71,4 +71,4 @@ Die Berichte der Checks legst du in `reports/`. Wie das Repo aufgebaut ist und w
 | C · Ausfall eines Knotens und Vorschlag zur Platzierung | 3 |
 | **Zusatz** | **9** |
 
-Meilenstein 1 gibt zusammen höchstens 30 Punkte. Eine Anforderung der Basis gibt 3 Punkte, wenn Bericht und Screenshot sie belegen. Für eine nur teilweise erfüllte Anforderung gibt es 1 Punkt. Beantwortest du eine der zwei Fragen nicht oder falsch, bekommt der Zusatzauftrag, zu dem sie gehört, höchstens 1 Punkt.
+Meilenstein 1 gibt zusammen höchstens 30 Punkte. Eine Anforderung der Basis gibt 3 Punkte, wenn Bericht und Screenshot sie belegen. Für eine nur teilweise erfüllte Anforderung gibt es 1 Punkt. Beantwortest du eine der zwei Fragen nicht oder falsch, bekommt der Zusatzauftrag, zu dem sie gehört, höchstens 1 Punkt. Ohne Dokumentation gibt ein Zusatzauftrag höchstens 1 Punkt.

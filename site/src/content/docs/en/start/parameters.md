@@ -130,7 +130,7 @@ On the internal network the address range for the VMs runs from `.10` to `.209`,
 The table at the end of the generator lists your personal values for the four milestones, such as the quota of the municipality in milestone 1 or the time of the backup job in milestone 4. In the chapters you work with the values they give, only the milestone asks for your own. The generator shows them again whenever you enter your code.
 
 :::note
-The documentation of every milestone starts with the content of `/etc/cc-lab.env`, and a screencast of the advanced tasks starts with the command `cat /etc/cc-lab.env`. It shows your instructor that the screenshots and the showing come from your lab.
+A copy of `/etc/cc-lab.env` lies in your hand-in repo, and a screencast of the advanced tasks starts with the command `cat /etc/cc-lab.env`. It shows your instructor that the screenshots and the showing come from your lab.
 :::
 
 ::::exercise[Lab]

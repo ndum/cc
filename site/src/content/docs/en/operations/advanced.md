@@ -27,7 +27,7 @@ After this chapter you can:
 
 The three tasks set a goal and requirements, and you design the way there yourself, building on the state of your base for milestone 4. The sections before the tasks explain the concepts and point out where you have to weigh options. You find commands and files in the documentation and in the chapters the hints point to.
 
-Plan four to six hours for all three tasks. You show them together, live in class or in a screencast, as the page [milestone 4](../../assessment/milestone-4/#showing-the-advanced-tasks) describes, and you answer the two questions from the check `m4` during the showing. You may use AI assistants under the [rules of the course](../../start/overview/#ai-tools). Your documentation states what you used them for, and you must be able to explain everything you show.
+Plan four to six hours for all three tasks. You show them together, live in class or in a screencast, as the page [milestone 4](../../assessment/milestone-4/#showing-the-advanced-tasks) describes, and you answer the two questions from the check `m4` during the showing. For every task you write documentation, and [Assessment](../../assessment/#documenting-the-advanced-tasks) lists its parts. You may use AI assistants under the [rules of the course](../../start/overview/#ai-tools). Your documentation states what you used them for, and you must be able to explain everything you show.
 
 Each task is worth 0 to 3 points by the [levels of the advanced tasks](../../assessment/#levels-of-the-advanced-tasks). For 3 points you justify a decision of your own with an alternative and a trade-off, and the sections below name some opportunities for that.
 

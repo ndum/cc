@@ -7,7 +7,7 @@ description: Der Auftrag des vierten Meilensteins mit den sieben Anforderungen d
 «Die fünfte Organisation hat ja gesagt», schreibt Simone Wyss. «Jetzt brauchen wir alles, was der Vorstand verlangt hat. Eine Einschätzung des Schutzbedarfs, ein SLA und einen Preis. Sie soll sicher und mit Backup auf unserer Plattform laufen. Und wenn bei ihr etwas schiefgeht, will ich danach einen ehrlichen Bericht.»
 :::
 
-Meilenstein 4 umfasst Teil 6. In der Basis härtest du die Plattform, sicherst Cluster und VMs, stellst eine VM wieder her und legst RPO und RTO der vier Mitglieder fest. In den Zusatzaufträgen entwirfst du ein fünftes Mitglied von Wolkenwerk Bern selbst, bringst es auf deine Plattform, gibst ihm ein SLA und einen Preis und schreibst nach einem Vorfall ein Postmortem. Meilenstein 4 ist eine Einzelarbeit und gehört mit Meilenstein 3 zur Abgabe 2.
+Meilenstein 4 umfasst Teil 6. In der Basis härtest du die Plattform, sicherst Cluster und VMs und stellst eine VM wieder her. In den Zusatzaufträgen entwirfst du ein fünftes Mitglied von Wolkenwerk Bern selbst, bringst es auf deine Plattform, gibst ihm ein SLA und einen Preis und schreibst nach einem Vorfall ein Postmortem. Meilenstein 4 gehört mit Meilenstein 3 zur Abgabe 2.
 
 ## Basis
 
@@ -19,9 +19,9 @@ Alles läuft in deinem eigenen Lab mit deinen persönlichen Parametern aus Kapit
 4. Der Cluster k3s läuft mit etcd und Snapshots, ein Timer kopiert die Snapshots auf das Front-end.
 5. Der Backup-Datastore ist angelegt. Ein Backup-Job sichert eine VM jede Nacht zur Zeit aus deinen [persönlichen Werten](../../start/parameters/) und behält so viele Backups, wie sie verlangen.
 6. Du hast die VM aus ihrem Backup wiederhergestellt.
-7. Eine Tabelle nennt RPO und RTO der vier Mitglieder mit Begründung, wie in der Übung «RPO und RTO» in Kapitel 6.2, der Check `m4` ist grün.
+7. Der Check `m4` ist grün.
 
-Die Dokumentation zeigt zu jeder Anforderung einen Screenshot mit einem oder zwei Sätzen dazu und enthält den Bericht des Checks `m4` und die Tabelle mit RPO und RTO. Den Bericht erzeugt `python3 ~/cc/checks/check.py m4` auf dem Front-end. Für die Sicherung genügt die VM `praxis-1` aus Kapitel 6.2. Machst du Zusatzauftrag A, kann es stattdessen die VM deines eigenen Mitglieds sein.
+Die Basis belegst du mit dem Bericht des Checks `m4` und mit einem Screenshot zu jeder Anforderung. Den Bericht erzeugt `python3 ~/cc/checks/check.py m4` auf dem Front-end. Für die Sicherung genügt die VM `praxis-1` aus Kapitel 6.2. Machst du Zusatzauftrag A, kann es stattdessen die VM deines eigenen Mitglieds sein.
 
 ## Zusatzaufträge
 
@@ -45,7 +45,7 @@ Die Zusatzaufträge zeigst du live im Unterricht oder in einem Screencast von h�
 
 ## Abgabe
 
-Im Ordner `m4/` deines Abgabe-Repos liegen die Dokumentation mit den Screenshots und der Tabelle mit RPO und RTO sowie `platform/`, eine Kopie deines Repos `platform` aus Gitea ohne den Ordner `.git`, ohne State und ohne Passwörter. SealedSecrets dürfen drin sein. Für Auftrag A kommt das Audit-Log deines Triage-Dienstes dazu, für Auftrag C `postmortem-entwurf.md` vom Modell und `postmortem.md` mit deiner Korrektur, für die Vorführung der Screencast oder ein Link darauf. Eigene Skripte, etwa für die Zeitlinie, legst du dazu, falls sie nicht im Plattform-Repo stehen.
+Im Ordner `m4/` deines Abgabe-Repos liegen die Screenshots der Basis. Für die Zusatzaufträge kommen ihre Dokumentation und `platform/` dazu, eine Kopie deines Repos `platform` aus Gitea ohne den Ordner `.git`, ohne State und ohne Passwörter. SealedSecrets dürfen drin sein. Für Auftrag A kommt das Audit-Log deines Triage-Dienstes dazu, für Auftrag C `postmortem-entwurf.md` vom Modell und `postmortem.md` mit deiner Korrektur, für die Vorführung der Screencast oder ein Link darauf. Eigene Skripte, etwa für die Zeitlinie, legst du dazu, falls sie nicht im Plattform-Repo stehen.
 
 Das Token von k3s, den Schlüssel von Sealed Secrets und die Backups gibst du nicht ab. Die Berichte der Checks legst du in `reports/`. Wie das Repo aufgebaut ist und wie du einen Tag setzt, steht in der [Übersicht](../).
 
@@ -59,7 +59,7 @@ Das Token von k3s, den Schlüssel von Sealed Secrets und die Backups gibst du ni
 | etcd mit Snapshots, Timer kopiert sie auf das Front-end | 3 |
 | Backup-Datastore und Backup-Job mit den persönlichen Werten | 3 |
 | VM aus dem Backup wiederhergestellt | 3 |
-| RPO und RTO der vier Mitglieder begründet, Check `m4` | 3 |
+| Check `m4` grün | 3 |
 | **Basis** | **21** |
 
 | Zusatzauftrag | Punkte |
@@ -69,4 +69,4 @@ Das Token von k3s, den Schlüssel von Sealed Secrets und die Backups gibst du ni
 | C · Postmortem korrigiert, Kostenmodell für das Mitglied | 3 |
 | **Zusatz** | **9** |
 
-Meilenstein 4 gibt zusammen höchstens 30 Punkte. Eine Anforderung der Basis gibt 3 Punkte, wenn Bericht und Screenshot sie belegen. Für eine nur teilweise erfüllte Anforderung gibt es 1 Punkt. Beantwortest du eine der zwei Fragen nicht oder falsch, bekommt der Zusatzauftrag, zu dem sie gehört, höchstens 1 Punkt.
+Meilenstein 4 gibt zusammen höchstens 30 Punkte. Eine Anforderung der Basis gibt 3 Punkte, wenn Bericht und Screenshot sie belegen. Für eine nur teilweise erfüllte Anforderung gibt es 1 Punkt. Beantwortest du eine der zwei Fragen nicht oder falsch, bekommt der Zusatzauftrag, zu dem sie gehört, höchstens 1 Punkt. Ohne Dokumentation gibt ein Zusatzauftrag höchstens 1 Punkt.

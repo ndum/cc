@@ -28,7 +28,7 @@ The three tasks in this chapter are the advanced tasks of [milestone 2](../../as
 
 Plan four to six hours for all three tasks together. You can also take on only some of them, since each one is worth 0 to 3 points by the [levels of the advanced tasks](../../assessment/#levels-of-the-advanced-tasks). A task that runs gets 1 point. If you also explain it on your own lab with your values and outputs, it gets 2. For 3 points you add a decision of your own with an alternative and a trade-off, which is why the sections below often name more than one way.
 
-You show the tasks live in class or in a screencast of at most ten minutes, as the milestone page describes, and you answer the two questions from the report of the check `m2` along the way. You may use AI assistants under the [course rules](../../start/overview/#ai-tools). Your documentation states what you used them for, and in the showing you explain every line you show in your own words.
+You show the tasks live in class or in a screencast of at most ten minutes, as the milestone page describes, and you answer the two questions from the report of the check `m2` along the way. For every task you write documentation, and [Assessment](../../assessment/#documenting-the-advanced-tasks) lists its parts. You may use AI assistants under the [course rules](../../start/overview/#ai-tools). Your documentation states what you used them for, and in the showing you explain every line you show in your own words.
 
 ## Practicing the rebuild
 

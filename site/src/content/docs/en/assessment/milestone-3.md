@@ -7,7 +7,7 @@ description: The assignment of the third milestone with the seven base requireme
 "Before the season the board wants to see three things," Simone Wyss writes. "That you notice when the web shop suffers before customers do. That it grows with the load on Saturdays. And how good our own language model really is in operations."
 :::
 
-Milestone 3 covers part 5. In the base you monitor the platform and the web shop, set an SLO with an alert and let the shop grow under load. In the advanced tasks you run a local language model, build a triage service of your own with approval and improve the questions you ask the model. Milestone 3 is individual work and belongs with milestone 4 to hand-in 2.
+Milestone 3 covers part 5. In the base you monitor the platform and the web shop, set an SLO with an alert and let the shop grow under load. In the advanced tasks you run a local language model, build a triage service of your own with approval and improve the questions you ask the model. Milestone 3 belongs with milestone 4 to hand-in 2.
 
 ## Base
 
@@ -19,9 +19,9 @@ Everything runs in your own lab with your personal parameters from chapter 0.3. 
 4. You find the fault of a deployment with LogQL in Loki.
 5. The web shop SLO is stored as a rule with the target from your [personal values](../../start/parameters/), and you fire the alert through Git and end it again.
 6. The web shop grows under load with the HPA up to your personal maximum and shrinks again, and you show the load test in the dashboard.
-7. A drawing of your own shows the path of a metric from the exporter to the dashboard and the path of an alert, and the check `m3` is green.
+7. The check `m3` is green.
 
-The documentation has a screenshot for each requirement with one or two sentences about it, plus the report of the check `m3`, which `python3 ~/cc/checks/check.py m3` writes on the front-end, and your drawing. In the lab the burn rate alert fired four to six minutes after the push. After a load test in the hour before, it can take ten minutes and longer. The HPA only shrinks after five minutes. Leave time for these waits when you take the screenshots.
+You prove the base with the report of the check `m3` and one screenshot per requirement. `python3 ~/cc/checks/check.py m3` writes the report on the front-end. In the lab the burn rate alert fired four to six minutes after the push. After a load test in the hour before, it can take ten minutes and longer. The HPA only shrinks after five minutes. Leave time for these waits when you take the screenshots.
 
 ## Advanced tasks
 
@@ -45,7 +45,7 @@ You show the advanced tasks live in class or in a screencast of at most ten minu
 
 ## Hand-in
 
-The folder `m3/` of your hand-in repo holds the documentation with the screenshots and the drawing, and `platform/`, a copy of your repo `platform` from Gitea without the `.git` folder, without state and without passwords. Task B adds the audit log of your triage service, and the showing adds the screencast or a link to it. If the code of your triage service is not in the platform repo, put it into the folder `m3/triage/`.
+The folder `m3/` of your hand-in repo holds the screenshots of the base. The advanced tasks add their documentation and `platform/`, a copy of your repo `platform` from Gitea without the `.git` folder, without state and without passwords. Task B adds the audit log of your triage service, and the showing adds the screencast or a link to it. If the code of your triage service is not in the platform repo, put it into the folder `m3/triage/`.
 
 You put the reports of the checks in `reports/`. The [overview](../) describes how the repo is structured and how you set a tag.
 
@@ -59,7 +59,7 @@ You put the reports of the checks in `reports/`. The [overview](../) describes h
 | Troubleshooting with LogQL | 3 |
 | SLO with your personal target, alert fired through Git and ended | 3 |
 | HPA with your personal maximum, load test in the dashboard | 3 |
-| Drawing with the paths of metric and alert, check `m3` | 3 |
+| Check `m3` green | 3 |
 | **Base** | **21** |
 
 | Advanced task | Points |
@@ -69,4 +69,4 @@ You put the reports of the checks in `reports/`. The [overview](../) describes h
 | C · Better questions with a measured comparison | 3 |
 | **Advanced** | **9** |
 
-Milestone 3 is worth up to 30 points in total. A base requirement gets 3 points when the report and a screenshot prove it, and 1 point when it is only partly met. If you leave one of the two questions unanswered or answer it wrongly, the advanced task it belongs to gets at most 1 point.
+Milestone 3 is worth up to 30 points in total. A base requirement gets 3 points when the report and a screenshot prove it, and 1 point when it is only partly met. If you leave one of the two questions unanswered or answer it wrongly, the advanced task it belongs to gets at most 1 point. Without documentation an advanced task gets at most 1 point.

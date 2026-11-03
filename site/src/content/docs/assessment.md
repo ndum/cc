@@ -1,20 +1,29 @@
 ---
 title: Leistungsbeurteilung
-description: Wie die vier Meilensteine zwei Noten ergeben, was Basis und Zusatzaufträge verlangen, wie du die Basis dokumentierst und die Zusatzaufträge zeigst und wie dein Abgabe-Repo aufgebaut ist.
+description: Wie die Meilensteine und die Prüfung deine Modulnote ergeben, was Basis und Zusatzaufträge verlangen, wie du die Basis belegst und die Zusatzaufträge dokumentierst und zeigst und wie dein Abgabe-Repo aufgebaut ist.
 ---
 
-Deine Modulnote setzt sich aus vier Meilensteinen zusammen. Je zwei davon gibst du gemeinsam ab. Jede Abgabe ergibt eine Note.
+Deine Modulnote setzt sich aus zwei Noten zusammen.
 
-| Abgabe | Meilensteine | Gewicht |
+| Note | Grundlage | Gewicht |
 |---|---|---|
-| Abgabe 1 | Meilenstein 1 IaaS für Wolkenwerk und Meilenstein 2 Plattform per Code | 50 % |
-| Abgabe 2 | Meilenstein 3 Observability, Skalierung und KI und Meilenstein 4 Betrieb und ein eigenes Mitglied | 50 % |
+| Note 1 | Die vier Meilensteine in zwei Abgaben | 60 % |
+| Note 2 | Die [Prüfung](exam/) gegen Ende des Moduls | 40 % |
 
-Die Modulnote ist der Durchschnitt der beiden Noten. Die Termine der Abgaben, den Weg der Abgabe und die Regeln zu Verspätungen erfährst du von deiner Dozentin oder deinem Dozenten.
+Die Modulnote ist 0,6 × Note 1 + 0,4 × Note 2. Gerundet wird nach den Regeln der Schule. Eine Mindestnote für die einzelnen Noten gibt es nicht, eine schwächere Note kann die andere ausgleichen. Die Termine der Abgaben und der Prüfung, den Weg der Abgabe und die Regeln zu Verspätungen erfährst du von deiner Dozentin oder deinem Dozenten.
+
+## Note 1 aus den Meilensteinen
+
+Je zwei Meilensteine gibst du gemeinsam ab. Jede Abgabe ergibt eine Note, Note 1 ist der Durchschnitt dieser beiden Noten.
+
+| Abgabe | Meilensteine |
+|---|---|
+| Abgabe 1 | Meilenstein 1 IaaS für Wolkenwerk und Meilenstein 2 Plattform per Code |
+| Abgabe 2 | Meilenstein 3 Observability, Skalierung und KI und Meilenstein 4 Betrieb und ein eigenes Mitglied |
 
 ## Punkte und Note
 
-Jeder Meilenstein gibt höchstens 30 Punkte, 21 für die Basis und 9 für die Zusatzaufträge. Eine Abgabe umfasst zwei Meilensteine und damit höchstens 60 Punkte. Die Note einer Abgabe ist 5 × Punkte / 60 + 1. Mit einer vollständigen Basis in beiden Meilensteinen erreichst du 42 Punkte und die Note 4,5, mit allen Zusatzaufträgen dazu die Note 6. Gerundet wird nach den Regeln der Schule.
+Jeder Meilenstein gibt höchstens 30 Punkte, 21 für die Basis und 9 für die Zusatzaufträge. Eine Abgabe umfasst zwei Meilensteine und damit höchstens 60 Punkte. Die Note einer Abgabe ist 5 × Punkte / 60 + 1. Mit einer vollständigen Basis in beiden Meilensteinen erreichst du 42 Punkte und die Note 4,5, mit allen Zusatzaufträgen dazu die Note 6. Ohne Zusatzaufträge ist Note 1 also höchstens eine 4,5.
 
 | Punkte | Note |
 |---|---|
@@ -28,9 +37,9 @@ Jeder Meilenstein gibt höchstens 30 Punkte, 21 für die Basis und 9 für die Zu
 
 ## Die Meilensteine
 
-Jeder Meilenstein ist eine Einzelarbeit in deinem eigenen Lab. Sein Auftrag erscheint zusammen mit den Teilen des Kurses, zu denen er gehört. [Meilenstein 1](milestone-1/) gehört zu Teil 0 bis Teil 3, [Meilenstein 2](milestone-2/) zu Teil 4, [Meilenstein 3](milestone-3/) zu Teil 5 und [Meilenstein 4](milestone-4/) zu Teil 6. Jeder Meilenstein besteht aus der Basis mit sieben Anforderungen und aus drei Zusatzaufträgen, die darüber hinausgehen.
+Der Auftrag eines Meilensteins erscheint zusammen mit den Teilen des Kurses, zu denen er gehört. [Meilenstein 1](milestone-1/) gehört zu Teil 0 bis Teil 3, [Meilenstein 2](milestone-2/) zu Teil 4, [Meilenstein 3](milestone-3/) zu Teil 5 und [Meilenstein 4](milestone-4/) zu Teil 6. Jeder Meilenstein besteht aus der Basis mit sieben Anforderungen und aus drei Zusatzaufträgen, die darüber hinausgehen.
 
-Hilfe unter Studierenden ist erlaubt. Eine Lösung miteinander zu besprechen gehört zum Lernen. Deine persönlichen Werte, dein Bericht und deine Antworten auf die Fragen zeigen, ob die Lösung in deinem Lab läuft und ob du sie verstehst.
+Du darfst im Team arbeiten. Eine Lösung miteinander zu besprechen und gemeinsam Fehler zu suchen gehört zum Lernen. Dein Lab baust du aber selbst auf und du gibst allein ab. Deshalb trägt jedes Lab seine eigenen [persönlichen Parameter](../start/parameters/). Dein Bericht und deine Antworten auf die Fragen zeigen, ob die Lösung in deinem Lab läuft und ob du sie verstehst.
 
 ## Basis
 
@@ -42,15 +51,27 @@ Die Basis umfasst die Arbeit, die du mit den Kapiteln und ihren Skripten im Unte
 | 1 | die Anforderung ist nur teilweise erfüllt, etwa zeigt der Screenshot sie, aber der Check ist rot |
 | 0 | die Anforderung fehlt |
 
-Einige Anforderungen prüft kein Check, etwa eine Zeichnung oder eine Tabelle mit RPO und RTO. Diese belegst du allein mit der Dokumentation. Der Check des Meilensteins zeigt die Anforderungen der Basis mit `[ok]` oder `[!!]` und zählt nur sie. Spuren der Zusatzaufträge markiert er mit `[+ok]` oder `[+!!]` und zählt sie getrennt. Diese Zählung geht nicht in die Basis ein.
+Der Check des Meilensteins zeigt die Anforderungen der Basis mit `[ok]` oder `[!!]` und zählt nur sie. Spuren der Zusatzaufträge markiert er mit `[+ok]` oder `[+!!]` und zählt sie getrennt. Diese Zählung geht nicht in die Basis ein.
 
-## Dokumentation
+## Belege der Basis
 
-Die Basis belegst du mit einer Dokumentation in einem freien Format, als Markdown, Word oder PDF. Einen Screencast brauchst du dafür nicht. Die Dokumentation beginnt mit dem Inhalt deiner Datei `/etc/cc-lab.env`. Danach folgt zu jeder der sieben Anforderungen ein Screenshot mit einem oder zwei Sätzen, die sagen, was er belegt. Auf jedem Screenshot aus dem Terminal ist die Eingabeaufforderung mit dem Namen deiner VM zu sehen. Zur Dokumentation gehören der Bericht des Checks `m1` bis `m4` und die Dateien, die der Meilenstein verlangt.
+Die Basis belegst du nur mit dem Bericht des Checks und mit Screenshots. Einen Text, eine Zeichnung oder einen Screencast brauchst du dafür nicht. Zu jeder der sieben Anforderungen legst du mindestens einen Screenshot in den Ordner des Meilensteins. Sein Dateiname beginnt mit der Nummer der Anforderung, etwa `4-migration.png`. Auf jedem Screenshot aus dem Terminal ist die Eingabeaufforderung mit dem Namen deiner VM zu sehen. Den Bericht des Checks `m1` bis `m4` legst du in `reports/`.
 
 ## Zusatzaufträge
 
 Jeder Meilenstein hat drei Zusatzaufträge A, B und C. Sie verlangen mehr eigene Arbeit als die Basis, rechne mit vier bis sechs Stunden pro Meilenstein. Du kannst einzelne Zusatzaufträge wählen, jeder gibt für sich 0 bis 3 Punkte. Die Kapitel, die dir dabei helfen, nennt der Meilenstein beim Auftrag.
+
+## Dokumentation der Zusatzaufträge
+
+Zu jedem Zusatzauftrag, den du machst, schreibst du eine Dokumentation in einem freien Format, als Markdown, Word oder PDF. Sie enthält diese fünf Teile.
+
+1. Eine Skizze deiner Lösung mit den beteiligten Komponenten
+2. Deine Umsetzung mit deinen Werten, Ausgaben und Screenshots
+3. Deinen eigenen Entscheid mit einer Alternative und einer Abwägung
+4. Die Dateien, die der Auftrag nennt, etwa Skripte oder Manifeste
+5. Wofür du einen KI-Assistenten eingesetzt hast
+
+Ohne diese Dokumentation gibt ein Zusatzauftrag höchstens 1 Punkt, auch wenn er in der Vorführung läuft.
 
 ## Stufen der Zusatzaufträge
 
@@ -60,20 +81,24 @@ Jeder Zusatzauftrag wird nach denselben Stufen bewertet.
 |---|---|
 | 0 | fehlt |
 | 1 | läuft |
-| 2 | läuft und ist an deinem eigenen Lab erklärt, mit deinen Werten und Ausgaben |
+| 2 | läuft und ist in der Dokumentation und in der Vorführung an deinem eigenen Lab erklärt, mit deinen Werten und Ausgaben |
 | 3 | dazu ein eigener Entscheid mit einer Alternative und einer Abwägung |
 
 ## Zusatzaufträge zeigen
 
-Die Zusatzaufträge eines Meilensteins zeigst du in einer Vorführung, entweder live im Unterricht oder in einem Screencast von höchstens zehn Minuten. Für eine Vorführung im Unterricht gehst du selbst auf deine Dozentin oder deinen Dozenten zu und vereinbarst einen Termin. Die Vorführung muss bis zur Abgabe stattgefunden haben, zu der der Meilenstein gehört, ein Screencast liegt bis dahin im Abgabe-Repo. Eine spätere Vorführung oder ein Screencast, der erst danach im Repo liegt, zählt nicht mehr.
+Die Zusatzaufträge eines Meilensteins zeigst du in einer Vorführung, entweder live im Unterricht oder in einem Screencast von höchstens zehn Minuten. Für eine Vorführung im Unterricht gehst du selbst auf deine Dozentin oder deinen Dozenten zu und vereinbarst einen Termin. Die Vorführung muss bis zur Abgabe stattgefunden haben, zu der der Meilenstein gehört. Ein Screencast und die Dokumentation liegen bis dahin im Abgabe-Repo. Eine spätere Vorführung oder ein Screencast, der erst danach im Repo liegt, zählt nicht mehr.
 
 Der Screencast ist eine einzige Aufnahme ohne Schnitt. Er beginnt mit `cat /etc/cc-lab.env` und dem Bericht des Checks des Meilensteins mit seinem Hash und deinen zwei Fragen. Danach führst du die Zusatzaufträge in deinem Lab vor. Die Regeln stehen auch in [Kapitel 0.5](../start/tools/#screencasts).
 
 ## Persönliche Werte und Fragen
 
-Einige Werte der Basis kommen aus deinem persönlichen Code, etwa die Quota der Gemeinde oder das Ziel des SLO. Der [Parameter-Generator](../start/parameters/) zeigt sie dir unter dem Inhalt von `/etc/cc-lab.env`. Zu jedem Meilenstein gibt es einen eigenen Check, `m1` bis `m4`. Er führt den Check des Teils aus, prüft deine persönlichen Werte und zieht aus deinem Code zwei Fragen. Eine Lösung aus einem anderen Lab fällt deshalb im Check auf.
+Einige Werte der Basis kommen aus deinem persönlichen Code, etwa die Quota der Gemeinde oder das Ziel des SLO. Der [Parameter-Generator](../start/parameters/) zeigt sie dir am Ende in einer Tabelle. Zu jedem Meilenstein gibt es einen eigenen Check, `m1` bis `m4`. Er führt den Check des Teils aus, prüft deine persönlichen Werte und zieht aus deinem Code zwei Fragen. Eine Lösung aus einem anderen Lab fällt deshalb im Check auf.
 
 Die zwei Fragen beantwortest du in der Vorführung der Zusatzaufträge, live oder im Screencast. Jede Frage gehört zu einem Zusatzauftrag. Beantwortest du eine Frage nicht oder falsch, bekommt der Zusatzauftrag, zu dem sie gehört, höchstens 1 Punkt.
+
+## Note 2 aus der Prüfung
+
+Die Prüfung ist eine Einzelprüfung von 60 Minuten gegen Ende des Moduls. Alle Hilfsmittel sind erlaubt, auch das Internet und KI-Assistenten. Form und Termin stehen noch nicht fest. Die Seite [Prüfung](exam/) sammelt, was bekannt ist.
 
 ## Abgeben
 
@@ -84,10 +109,10 @@ cc-mmuster/
   README.md          dein Code, Name der Dozentin oder des Dozenten, Inhaltsverzeichnis
   cc-lab.env         eine Kopie von /etc/cc-lab.env
   reports/           die Berichte der Checks aus ~/cc-reports
-  m1/                Dokumentation mit Screenshots, Dateien, Link zum Screencast
+  m1/                Screenshots der Basis, Dokumentation und Dateien der Zusatzaufträge
   m2/
   m3/
   m4/
 ```
 
-In der Dokumentation jedes Meilensteins hältst du fest, wofür du einen KI-Assistenten eingesetzt hast. Einen Screencast legst du in den Ordner des Meilensteins oder verlinkst ihn in der Dokumentation, wenn er für das Repo zu gross ist, etwa auf OneDrive.
+Einen Screencast legst du in den Ordner des Meilensteins. Ist er für das Repo zu gross, liegt er etwa auf OneDrive und die Dokumentation der Zusatzaufträge verlinkt ihn.

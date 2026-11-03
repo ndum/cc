@@ -57,13 +57,13 @@ Every part of the course builds a layer or extends one. The header line of each 
 
 ## Assessment
 
-Your grade comes from four milestones. You hand in milestones 1 and 2 together and get your first grade for them. Milestones 3 and 4 make up the second grade. Both grades count the same. Your instructor announces the dates. [Assessment](../../assessment/) has the details.
+Your module grade is made up of two grades. Grade 1 comes from the four milestones and counts 60%. You hand in milestones 1 and 2 together, and milestones 3 and 4 as well, and grade 1 is the average of these two hand-ins. Grade 2 comes from an exam of 60 minutes towards the end of the module and counts 40%. Your instructor announces the dates. [Assessment](../../assessment/) has the details.
 
-Every milestone is individual work in two parts. You prove the base with documentation with screenshots and the check report in your hand-in repo. A complete base gives you a 4.5. You show the advanced tasks live in class or in a screencast of at most ten minutes, and they take you up to a 6. Your environment carries your [personal parameters](../parameters/) such as host names and networks. Every lab therefore looks a little different, and a copied solution stands out.
+Every milestone has two parts. You prove the base with the check report and screenshots in your hand-in repo. A complete base gives you a 4.5. You document the advanced tasks and show them live in class or in a screencast of at most ten minutes, and they take you up to a 6. You may work in a team, but you build your lab yourself and hand in on your own. Your environment carries your [personal parameters](../parameters/) such as host names and networks. Every lab therefore looks a little different, and a copied solution stands out.
 
 ## AI tools
 
-You may use AI assistants to write code, configuration and scripts. Two rules apply. First, the documentation of every milestone states what you used an AI assistant for. Second, you must be able to explain everything you hand in. Your instructor asks questions during the showing, and a solution you cannot explain does not count as yours.
+You may use AI assistants to write code, configuration and scripts. Two rules apply. First, the documentation of your advanced tasks states what you used an AI assistant for. Second, you must be able to explain everything you hand in. Your instructor asks questions during the showing, and a solution you cannot explain does not count as yours.
 
 In the advanced tasks of part 5 you run a local language model on your platform. There you put a small model to work in operations and check where its suggestions hold and where they do not.
 

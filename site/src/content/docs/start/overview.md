@@ -57,13 +57,13 @@ Jeder Teil des Kurses baut eine Schicht auf oder erweitert sie. In der Kopfzeile
 
 ## Leistungsbeurteilung
 
-Deine Modulnote entsteht aus vier Meilensteinen. Die Meilensteine 1 und 2 gibst du zusammen ab und erhältst dafür die erste Note. Die Meilensteine 3 und 4 ergeben die zweite Note. Beide Noten zählen gleich viel. Die Termine gibt deine Dozentin oder dein Dozent bekannt. Die Einzelheiten stehen unter [Leistungsbeurteilung](../../assessment/).
+Deine Modulnote entsteht aus zwei Noten. Note 1 kommt aus den vier Meilensteinen und zählt 60 %. Die Meilensteine 1 und 2 gibst du zusammen ab, ebenso die Meilensteine 3 und 4. Note 1 ist der Durchschnitt dieser beiden Abgaben. Note 2 kommt aus einer Prüfung von 60 Minuten gegen Ende des Moduls und zählt 40 %. Die Termine gibt deine Dozentin oder dein Dozent bekannt. Die Einzelheiten stehen unter [Leistungsbeurteilung](../../assessment/).
 
-Jeder Meilenstein ist eine Einzelarbeit mit zwei Teilen. Die Basis belegst du mit einer Dokumentation mit Screenshots und dem Bericht des Checks in deinem Abgabe-Repo. Eine vollständige Basis ergibt die Note 4,5. Die Zusatzaufträge zeigst du live im Unterricht oder in einem Screencast von höchstens zehn Minuten, mit ihnen erreichst du bis zur Note 6. Deine Umgebung trägt deine [persönlichen Parameter](../parameters/) wie Hostnamen und Netze. Deshalb sieht jedes Lab ein wenig anders aus, eine kopierte Lösung fällt auf.
+Jeder Meilenstein hat zwei Teile. Die Basis belegst du mit dem Bericht des Checks und mit Screenshots in deinem Abgabe-Repo. Eine vollständige Basis ergibt die Note 4,5. Die Zusatzaufträge dokumentierst du und zeigst sie live im Unterricht oder in einem Screencast von höchstens zehn Minuten, mit ihnen erreichst du bis zur Note 6. Du darfst im Team arbeiten, dein Lab baust du aber selbst auf und du gibst allein ab. Deine Umgebung trägt deine [persönlichen Parameter](../parameters/) wie Hostnamen und Netze. Deshalb sieht jedes Lab ein wenig anders aus, eine kopierte Lösung fällt auf.
 
 ## KI-Werkzeuge
 
-Du darfst KI-Assistenten verwenden, um Code, Konfigurationen und Skripte zu schreiben. Zwei Regeln gelten dabei. Erstens hältst du in der Dokumentation jedes Meilensteins fest, wofür du einen KI-Assistenten eingesetzt hast. Zweitens musst du alles erklären können, was du abgibst. In der Vorführung fragt deine Dozentin oder dein Dozent nach. Eine Lösung, die du nicht erklären kannst, zählt nicht als deine.
+Du darfst KI-Assistenten verwenden, um Code, Konfigurationen und Skripte zu schreiben. Zwei Regeln gelten dabei. Erstens hältst du in der Dokumentation deiner Zusatzaufträge fest, wofür du einen KI-Assistenten eingesetzt hast. Zweitens musst du alles erklären können, was du abgibst. In der Vorführung fragt deine Dozentin oder dein Dozent nach. Eine Lösung, die du nicht erklären kannst, zählt nicht als deine.
 
 In den Zusatzaufträgen von Teil 5 betreibst du ein lokales Sprachmodell auf deiner Plattform. Dort setzt du ein kleines Modell im Betrieb ein und prüfst, wo seine Vorschläge stimmen und wo nicht.
 

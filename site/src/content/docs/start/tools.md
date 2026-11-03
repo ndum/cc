@@ -79,7 +79,7 @@ Danach gibt `ssh mmuster-node1 hostname` den Namen des Knotens aus, ohne nach ei
 
 ## Das Abgabe-Repo
 
-Für deine Meilensteine legst du ein privates Repo an, entweder auf dem GitLab deiner Schule oder auf GitHub. Nenne es `cc-` und deinen Code, also zum Beispiel `cc-mmuster`. Deine Dozentin oder dein Dozent bekommt Lesezugriff. In dieses Repo kommen dein Code, die Berichte der Checks, eine Kopie von `/etc/cc-lab.env` und pro Meilenstein eine Dokumentation mit Screenshots. Für die Zusatzaufträge kommt dein Screencast dazu oder ein Link darauf. Die genaue Struktur steht unter [Leistungsbeurteilung](../../assessment/).
+Für deine Meilensteine legst du ein privates Repo an, entweder auf dem GitLab deiner Schule oder auf GitHub. Nenne es `cc-` und deinen Code, also zum Beispiel `cc-mmuster`. Deine Dozentin oder dein Dozent bekommt Lesezugriff. In dieses Repo kommen die Berichte der Checks, eine Kopie von `/etc/cc-lab.env` und pro Meilenstein die Screenshots der Basis. Für die Zusatzaufträge kommen ihre Dokumentation, dein Code und dein Screencast oder ein Link darauf dazu. Die genaue Struktur steht unter [Leistungsbeurteilung](../../assessment/).
 
 Klone das Repo auf das Front-end, denn dort entstehen die meisten Dateien. Damit das Front-end auf GitLab oder GitHub zugreifen kann, legst du seinen öffentlichen Schlüssel in deinem Konto ab. `cat ~/.ssh/id_ed25519.pub` zeigt ihn auf dem Front-end. Du kopierst ihn im Terminal des Clients und fügst ihn im Browser des Clients in den Einstellungen deines Kontos ein.
 
@@ -103,7 +103,7 @@ Kopiere den Bericht in dein Abgabe-Repo in den Ordner `reports/` und lade ihn mi
 
 ## Screencasts
 
-Die Basis eines Meilensteins belegst du mit einer Dokumentation und Screenshots, ein Screencast ist dafür nicht nötig. Die Zusatzaufträge zeigst du live im Unterricht oder in einem Screencast. Für Screencasts gelten diese Regeln:
+Die Basis eines Meilensteins belegst du mit dem Bericht des Checks und mit Screenshots, ein Screencast ist dafür nicht nötig. Die Zusatzaufträge zeigst du live im Unterricht oder in einem Screencast. Für Screencasts gelten diese Regeln:
 
 1. Höchstens zehn Minuten, in einer Aufnahme ohne Schnitt
 2. Zuerst `cat /etc/cc-lab.env` und der Bericht des Checks des Meilensteins mit seinem Hash und deinen zwei Fragen
@@ -111,7 +111,7 @@ Die Basis eines Meilensteins belegst du mit einer Dokumentation und Screenshots,
 4. Die Antworten auf die zwei Fragen und deine eigenen Entscheide mit ihrer Begründung
 5. Ton mit deiner Stimme, damit deine Dozentin oder dein Dozent hört, wie du erklärst
 
-Den Screencast nimmst du auf deinem PC auf, auf dem auch smartlearn im Browser läuft. Unter Windows geht das mit dem Snipping Tool oder mit OBS Studio, unter macOS mit der Bildschirmaufnahme. Lege den Screencast in dein Abgabe-Repo oder auf einen Speicher wie OneDrive und trag den Link in der Dokumentation des Meilensteins ein.
+Den Screencast nimmst du auf deinem PC auf, auf dem auch smartlearn im Browser läuft. Unter Windows geht das mit dem Snipping Tool oder mit OBS Studio, unter macOS mit der Bildschirmaufnahme. Lege den Screencast in dein Abgabe-Repo oder auf einen Speicher wie OneDrive und trag den Link in der Dokumentation der Zusatzaufträge ein.
 
 ::::exercise[Lab]
 Richte SSH mit Schlüssel und Konfiguration auf dem Client ein und verbinde das Front-end mit den Knoten. Lege dein Abgabe-Repo an und lade den Bericht des Checks `start` hoch.

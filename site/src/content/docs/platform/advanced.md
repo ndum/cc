@@ -28,7 +28,7 @@ Die drei Aufträge in diesem Kapitel sind die Zusatzaufträge von [Meilenstein 2
 
 Für alle drei Aufträge zusammen rechnest du mit vier bis sechs Stunden. Du kannst auch nur einzelne bearbeiten, denn jeder gibt für sich 0 bis 3 Punkte nach den [Stufen der Zusatzaufträge](../../assessment/#stufen-der-zusatzaufträge). Ein Auftrag, der läuft, gibt 1 Punkt. Erklärst du ihn an deinem eigenen Lab mit deinen Werten und Ausgaben, gibt er 2 Punkte. Für 3 Punkte begründest du zusätzlich einen eigenen Entscheid mit einer Alternative und einer Abwägung. Die Abschnitte unten nennen darum oft mehr als einen Weg.
 
-Du zeigst die Aufträge live im Unterricht oder in einem Screencast von höchstens zehn Minuten, wie es die Seite des Meilensteins beschreibt. Dabei beantwortest du auch die zwei Fragen aus dem Bericht des Checks `m2`. KI-Assistenten darfst du nach den [Regeln des Kurses](../../start/overview/#ki-werkzeuge) einsetzen. Wofür du sie genutzt hast, hältst du in der Dokumentation fest. In der Vorführung erklärst du jede Zeile, die du zeigst, selbst.
+Du zeigst die Aufträge live im Unterricht oder in einem Screencast von höchstens zehn Minuten, wie es die Seite des Meilensteins beschreibt. Dabei beantwortest du auch die zwei Fragen aus dem Bericht des Checks `m2`. Zu jedem Auftrag schreibst du eine Dokumentation, ihre Teile nennt die [Leistungsbeurteilung](../../assessment/#dokumentation-der-zusatzaufträge). KI-Assistenten darfst du nach den [Regeln des Kurses](../../start/overview/#ki-werkzeuge) einsetzen. Wofür du sie genutzt hast, hältst du in der Dokumentation fest. In der Vorführung erklärst du jede Zeile, die du zeigst, selbst.
 
 ## Den Neubau üben
 

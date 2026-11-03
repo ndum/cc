@@ -28,7 +28,7 @@ After this chapter you can:
 
 The three tasks in this chapter belong to [milestone 3](../../assessment/milestone-3/), and each one builds on the one before. Your triage service from task B asks the model from task A, and task C improves the questions it asks. The chapter explains the concepts and lists the requirements of each task. There are no instructions to follow and no ready-made files. You design the setup and justify it yourself.
 
-Plan four to six hours for all three tasks together. You show them live in class or in a screencast, as the [milestone page](../../assessment/milestone-3/#showing-the-advanced-tasks) describes. You may use AI assistants under the [rules of the course](../../start/overview/#ai-tools). Each task is worth 0 to 3 points by the [levels of the advanced tasks](../../assessment/#levels-of-the-advanced-tasks). The top level asks for a decision of your own with an alternative and a trade-off, such as the choice of the model or the rights of your service.
+Plan four to six hours for all three tasks together. You show them live in class or in a screencast, as the [milestone page](../../assessment/milestone-3/#showing-the-advanced-tasks) describes. For every task you write documentation, and [Assessment](../../assessment/#documenting-the-advanced-tasks) lists its parts. You may use AI assistants under the [rules of the course](../../start/overview/#ai-tools). Each task is worth 0 to 3 points by the [levels of the advanced tasks](../../assessment/#levels-of-the-advanced-tasks). The top level asks for a decision of your own with an alternative and a trade-off, such as the choice of the model or the rights of your service.
 
 ## A model in your own cluster
 

@@ -130,7 +130,7 @@ Im internen Netz reicht der Adressbereich für die VMs von `.10` bis `.209`. Er 
 Die Tabelle am Ende des Generators nennt deine persönlichen Werte für die vier Meilensteine, etwa die Quota der Gemeinde in Meilenstein 1 oder die Uhrzeit des Backup-Jobs in Meilenstein 4. In den Kapiteln arbeitest du mit den Werten, die dort stehen. Erst der Meilenstein verlangt deine eigenen. Der Generator zeigt sie jedes Mal wieder an, wenn du deinen Code eingibst.
 
 :::note
-Die Dokumentation jedes Meilensteins beginnt mit dem Inhalt von `/etc/cc-lab.env`, ein Screencast der Zusatzaufträge mit dem Befehl `cat /etc/cc-lab.env`. Deine Dozentin oder dein Dozent sieht daran, dass Screenshots und Vorführung aus deinem Lab stammen.
+Eine Kopie von `/etc/cc-lab.env` liegt in deinem Abgabe-Repo, ein Screencast der Zusatzaufträge beginnt mit dem Befehl `cat /etc/cc-lab.env`. Deine Dozentin oder dein Dozent sieht daran, dass Screenshots und Vorführung aus deinem Lab stammen.
 :::
 
 ::::exercise[Lab]
