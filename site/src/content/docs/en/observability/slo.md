@@ -75,7 +75,7 @@ receivers:
   - name: "null"
 ```
 
-In the base every alert goes to the receiver `null`, which sends nothing. The alerts only appear in the Alertmanager interface on port 30093 of the server. Like Prometheus, you reach the interface through a tunnel. Add `-L 9093:<server-address>:30093` to the command of chapter 5.1 and open `http://localhost:9093/` in the browser of the client. You set up a receiver of your own with a route in advanced task B of [chapter 5.5](../advanced/#task-b--triage-with-approval). `group_wait` waits 30 seconds for more alerts of the same group, and `repeat_interval` repeats an open alert only after four hours.
+In the base every alert goes to the receiver `null`, which sends nothing. The alerts only appear in the Alertmanager interface on port 30093 of the server. Like Prometheus, you reach the interface through a tunnel. Add `-L 9093:<server-address>:30093` to the command of chapter 5.1 and open `http://localhost:9093/` in the browser of the client. You set up a receiver of your own with a route in advanced task B of [chapter 5.5](../advanced/#triage-with-approval-task-b). `group_wait` waits 30 seconds for more alerts of the same group, and `repeat_interval` repeats an open alert only after four hours.
 
 ## Firing an alert
 

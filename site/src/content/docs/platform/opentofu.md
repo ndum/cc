@@ -169,7 +169,7 @@ tofu apply -replace='opennebula_virtual_machine.k3s["k3s-agent"]'
 
 Im Lab dauerte das knapp zwei Minuten, weil OpenNebula die alte VM zuerst herunterfährt. War der alte Agent dem Cluster schon beigetreten, lehnt der Server den neuen ab. k3s merkt sich für jeden Namen eines Nodes ein Passwort, das die neue VM nicht kennt. Der neue Agent meldet dann «Node password rejected, duplicate hostname» und bleibt `NotReady`. Lösche in diesem Fall den alten Node mit `kubectl delete node k3s-agent`, sobald kubectl aus Kapitel 4.3 läuft. Im Lab trat der neue Agent danach innert Sekunden bei.
 
-Ob der Code alles beschreibt, zeigt erst ein ganzer Neubau. `tofu destroy` löscht alles, was im State steht, `tofu apply` baut es wieder auf. Für den leeren Cluster von Teil 4 dauerte das im Lab etwa zwei Minuten. Die Basis verlangt nur die VMs aus OpenTofu und einen Plan ohne Änderungen. Den Neubau der ganzen Plattform planst und misst du im Zusatzauftrag A in [Kapitel 4.6](../advanced/#auftrag-a--neubau-der-plattform). Wie das Startskript Kubernetes installiert, zeigt Kapitel 4.3.
+Ob der Code alles beschreibt, zeigt erst ein ganzer Neubau. `tofu destroy` löscht alles, was im State steht, `tofu apply` baut es wieder auf. Für den leeren Cluster von Teil 4 dauerte das im Lab etwa zwei Minuten. Die Basis verlangt nur die VMs aus OpenTofu und einen Plan ohne Änderungen. Den Neubau der ganzen Plattform planst und misst du im Zusatzauftrag A in [Kapitel 4.6](../advanced/#neubau-der-plattform-auftrag-a). Wie das Startskript Kubernetes installiert, zeigt Kapitel 4.3.
 
 ::::exercise[Lab]
 Räume die Knoten auf, installiere die Werkzeuge und lege die beiden VMs mit OpenTofu an. Zeige mit `tofu plan`, dass danach keine Änderungen offen sind.

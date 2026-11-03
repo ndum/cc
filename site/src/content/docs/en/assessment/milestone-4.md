@@ -1,5 +1,5 @@
 ---
-title: Milestone 4 · Operations and a member of your own
+title: Operations and a member of your own (Milestone 4)
 description: The assignment of the fourth milestone with the seven base requirements, the three advanced tasks with a member of your own, the showing, the content of the hand-in and the rubric.
 ---
 
@@ -27,17 +27,17 @@ You prove the base with the report of the check `m4` and one screenshot per requ
 
 Plan four to six hours for the three advanced tasks. Each one is worth 0 to 3 points by the [levels of the advanced tasks](../#levels-of-the-advanced-tasks). Every task you do needs [documentation in five parts](../#documenting-the-advanced-tasks). Tasks B and C build on the member from task A. The concepts and the requirements of each task are in [chapter 6.5](../../operations/advanced/).
 
-### A · A member of your own
+### A member of your own (Task A)
 
-You design a fifth member of Wolkenwerk with its protection needs and bring it onto both layers of your platform, with a group, quota and VM in OpenNebula and a namespace from the template with its application in the cluster. An alert of the application reaches your triage service from advanced task B of milestone 3. You fire it through Git, decide on the proposal and fix the fault. Ideas for the member and the requirements are in [chapter 6.5](../../operations/advanced/#task-a--a-member-of-your-own).
+You design a fifth member of Wolkenwerk with its protection needs and bring it onto both layers of your platform, with a group, quota and VM in OpenNebula and a namespace from the template with its application in the cluster. An alert of the application reaches your triage service from advanced task B of milestone 3. You fire it through Git, decide on the proposal and fix the fault. Ideas for the member and the requirements are in [chapter 6.5](../../operations/advanced/#a-member-of-your-own-task-a).
 
-### B · Cluster restore and SLA
+### Cluster restore and SLA (Task B)
 
-You restore the cluster from an etcd snapshot and measure the time until it runs again. Based on that time and the architecture of your lab you write an SLA for your member with availability, support hours, RPO and RTO. You may do the restore before the showing and show its traces there, such as the snapshot, the times and the state afterwards. The requirements are in [chapter 6.5](../../operations/advanced/#task-b--cluster-restore-and-sla), the parts of an SLA in [chapter 6.3](../../operations/sla/).
+You restore the cluster from an etcd snapshot and measure the time until it runs again. Based on that time and the architecture of your lab you write an SLA for your member with availability, support hours, RPO and RTO. You may do the restore before the showing and show its traces there, such as the snapshot, the times and the state afterwards. The requirements are in [chapter 6.5](../../operations/advanced/#cluster-restore-and-sla-task-b), the parts of an SLA in [chapter 6.3](../../operations/sla/).
 
-### C · Postmortem and cost model
+### Postmortem and cost model (Task C)
 
-For the incident from task A you build a timeline from the data without the model. From it the local model drafts a postmortem, which you correct. You record what was right, what was wrong and what you changed. You also work out a cost model for your member with the monthly price, a comparison with the showback and a right-sizing proposal. The requirements are in [chapter 6.5](../../operations/advanced/#task-c--postmortem-and-cost-model), the full cost in [chapter 6.4](../../operations/cost/).
+For the incident from task A you build a timeline from the data without the model. From it the local model drafts a postmortem, which you correct. You record what was right, what was wrong and what you changed. You also work out a cost model for your member with the monthly price, a comparison with the showback and a right-sizing proposal. The requirements are in [chapter 6.5](../../operations/advanced/#postmortem-and-cost-model-task-c), the full cost in [chapter 6.4](../../operations/cost/).
 
 ## Showing the advanced tasks
 
@@ -64,9 +64,9 @@ You do not hand in the k3s token, the Sealed Secrets key or the backups. You put
 
 | Advanced task | Points |
 |---|---|
-| A · A member of your own end to end with alert and decision | 3 |
-| B · Cluster from a snapshot with the measured time, SLA for the member | 3 |
-| C · Postmortem corrected, cost model for the member | 3 |
+| A member of your own end to end with alert and decision (Task A) | 3 |
+| Cluster from a snapshot with the measured time, SLA for the member (Task B) | 3 |
+| Postmortem corrected, cost model for the member (Task C) | 3 |
 | **Advanced** | **9** |
 
 Milestone 4 is worth up to 30 points in total. A base requirement gets 3 points when the report and a screenshot prove it, and 1 point when it is only partly met. If you leave one of the two questions unanswered or answer it wrongly, the advanced task it belongs to gets at most 1 point. Without documentation an advanced task gets at most 1 point.

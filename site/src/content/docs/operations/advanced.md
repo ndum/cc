@@ -28,7 +28,7 @@ Nach diesem Kapitel kannst du:
 Dieses Kapitel gibt dir keine Anleitung zum Nachbauen. Zu jedem Auftrag entwirfst du eine eigene Lösung, setzt sie in deinem Lab um und begründest deine Entscheide. Die Abschnitte vor den Aufträgen erklären die Konzepte und zeigen, wo du abwägen musst. Dabei gelten diese Bedingungen:
 
 - Die Aufträge sind die Zusatzaufträge von [Meilenstein 4](../../assessment/milestone-4/) und bauen auf dem Stand deiner Basis auf
-- Auftrag A setzt deinen Triage-Dienst aus Zusatzauftrag B von Meilenstein 3 voraus, wie ihn [Kapitel 5.5](../../observability/advanced/#auftrag-b--triage-mit-freigabe) beschreibt. Die Aufträge B und C bauen auf dem Mitglied aus Auftrag A auf.
+- Auftrag A setzt deinen Triage-Dienst aus Zusatzauftrag B von Meilenstein 3 voraus, wie ihn [Kapitel 5.5](../../observability/advanced/#triage-mit-freigabe-auftrag-b) beschreibt. Die Aufträge B und C bauen auf dem Mitglied aus Auftrag A auf.
 - Für alle drei Aufträge zusammen rechnest du mit vier bis sechs Stunden
 - Du zeigst sie live im Unterricht oder in einem Screencast von höchstens zehn Minuten, wie es der Meilenstein unter [Zusatzaufträge zeigen](../../assessment/milestone-4/#zusatzaufträge-zeigen) beschreibt. Dabei beantwortest du die zwei Fragen aus dem Check `m4`.
 - Zu jedem Auftrag schreibst du eine Dokumentation in fünf Teilen, wie sie die [Leistungsbeurteilung](../../assessment/#dokumentation-der-zusatzaufträge) beschreibt
@@ -156,7 +156,7 @@ Für dein Mitglied wählst du die Verteilung und begründest deine Annahmen.
 
 Backups im Backup-Datastore gehören in die Rechnung, wenn das Mitglied viele oder grosse davon hat. Für das Right-Sizing vergleichst du Requests und Quota deines Mitglieds mit dem Verbrauch aus den Abfragen von [Kapitel 6.4](../cost/#right-sizing). Im Lab des Kurses reservierte das Mitglied `probe` 64 MiB Speicher und nutzte höchstens 21 MiB.
 
-## Auftrag A · Ein eigenes Mitglied
+## Ein eigenes Mitglied (Auftrag A)
 
 Du nimmst ein fünftes Mitglied, das du selbst entworfen hast, auf beiden Ebenen deiner Plattform auf und überwachst seine Anwendung. Ihr Alert erreicht deinen Triage-Dienst aus Meilenstein 3, du entscheidest über dessen Vorschlag und behebst den Fehler über Git.
 
@@ -192,7 +192,7 @@ Hinweise aus dem Lab:
 - Der Triage-Dienst schlug dort einen Neustart vor. Das Team lehnte ab, denn solange Git null Replikas verlangt, startet auch ein Neustart keinen Pod.
 - Argo CD stellt immer wieder den Zustand aus Git her, behoben ist die Störung erst mit dem richtigen Stand in Git
 
-## Auftrag B · Cluster wiederherstellen und SLA
+## Cluster wiederherstellen und SLA (Auftrag B)
 
 Du stellst den Cluster aus einem Snapshot von etcd wieder her und misst die Zeit, bis die Plattform für dein Mitglied wieder läuft. Auf diese Zeit und die Architektur deines Labs stützt du ein SLA für das Mitglied.
 
@@ -228,7 +228,7 @@ Hinweise aus dem Lab:
 Ein Snapshot von etcd bringt keine Daten aus Volumes zurück. Kopiere deshalb vorher das Audit-Log deines Triage-Dienstes aus Auftrag A in dein Abgabe-Repo. Lege zudem in smartlearn oder in deinem Hypervisor einen Snapshot der drei Server an, damit du bei einem Fehlschlag zurückkannst.
 :::
 
-## Auftrag C · Postmortem und Kostenmodell
+## Postmortem und Kostenmodell (Auftrag C)
 
 Zum Vorfall aus Auftrag A schreibt das lokale Modell einen Entwurf des Postmortems aus einer Zeitlinie, die du ohne Modell aus den Daten aufbaust. Du korrigierst den Entwurf und rechnest dazu ein Kostenmodell für dein Mitglied.
 
@@ -253,7 +253,7 @@ Dabei helfen dir:
 - Ein [Beispiel](https://sre.google/sre-book/example-postmortem/) im selben Buch mit einem vollständigen Aufbau samt Zeitlinie
 - Die [Dokumentation von Prometheus 3.15](https://prometheus.io/docs/prometheus/3.15/configuration/alerting_rules/#inspecting-alerts-during-runtime) zur Zeitreihe `ALERTS`
 - Die [Schnittstelle von Ollama 0.40.13](https://github.com/ollama/ollama/blob/v0.40.13/docs/api.md) mit der Option `format`
-- [Zusatzauftrag A von Meilenstein 3](../../observability/advanced/#auftrag-a--ein-lokales-sprachmodell), denn das Modell erreichst du vom Front-end aus so, wie du es dort bereitgestellt hast
+- [Zusatzauftrag A von Meilenstein 3](../../observability/advanced/#ein-lokales-sprachmodell-auftrag-a), denn das Modell erreichst du vom Front-end aus so, wie du es dort bereitgestellt hast
 - [Kapitel 6.4](../cost/) zu den Vollkosten und Abfragen und [Kapitel 3.3](../../tenants/showback/#kosten-berechnen) zum Showback mit `oneshowback`
 - [Invoicing and Chargeback](https://www.finops.org/framework/capabilities/invoicing-chargeback/) der FinOps Foundation zu Showback und Chargeback
 

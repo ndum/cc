@@ -107,7 +107,7 @@ Die VMs der Mitglieder sichert OpenNebula selbst. Backups landen in einem Datast
 
 ::code{file="platform/operations/backup-datastore.sh"}
 
-Seit Kapitel 4.2 laufen in OpenNebula nur noch die beiden VMs von k3s. Diese beiden sicherst du nicht auf diesem Weg, ihr Zustand steckt in Git und in den Snapshots von etcd. Zum Üben startest du als `praxis-admin` die VM `praxis-1` aus der Vorlage `ubuntu` mit 1 GB. Mehr Speicher hat ein Knoten neben k3s nicht frei. Diese VM sicherst du und stellst sie wieder her. Damit du die Wiederherstellung prüfen kannst, legst du vor dem Backup eine Testdatei an. `onevm show` zeigt die Adresse der VM. Machst du Zusatzauftrag A aus [Kapitel 6.5](../advanced/#auftrag-a--ein-eigenes-mitglied), kannst du stattdessen die VM deines eigenen Mitglieds nehmen.
+Seit Kapitel 4.2 laufen in OpenNebula nur noch die beiden VMs von k3s. Diese beiden sicherst du nicht auf diesem Weg, ihr Zustand steckt in Git und in den Snapshots von etcd. Zum Üben startest du als `praxis-admin` die VM `praxis-1` aus der Vorlage `ubuntu` mit 1 GB. Mehr Speicher hat ein Knoten neben k3s nicht frei. Diese VM sicherst du und stellst sie wieder her. Damit du die Wiederherstellung prüfen kannst, legst du vor dem Backup eine Testdatei an. `onevm show` zeigt die Adresse der VM. Machst du Zusatzauftrag A aus [Kapitel 6.5](../advanced/#ein-eigenes-mitglied-auftrag-a), kannst du stattdessen die VM deines eigenen Mitglieds nehmen.
 
 Ein Backup von Hand startet `onevm backup`, auch bei einer laufenden VM. Das Backup einer VM mit 1 GB Speicher und Ubuntu 26.04 dauerte im Lab sechs bis elf Sekunden. Das Backup-Image war 1004 MB gross.
 

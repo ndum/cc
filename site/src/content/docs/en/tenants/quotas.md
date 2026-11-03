@@ -50,7 +50,7 @@ Groups and users without a limit of their own fall back to default quotas. `oneg
 
 ## The quotas of the members
 
-The members pay and need different amounts. The fiduciary office gets more room than the others because it needs more at the end of the month. If you let its service grow in [advanced task A](../advanced/#task-a--elasticity-with-oneflow), every VM of the service counts against this quota.
+The members pay and need different amounts. The fiduciary office gets more room than the others because it needs more at the end of the month. If you let its service grow in [advanced task A](../advanced/#elasticity-with-oneflow-task-a), every VM of the service counts against this quota.
 
 | Member | Group | VMs | CPU | Memory |
 |---|---|---|---|---|

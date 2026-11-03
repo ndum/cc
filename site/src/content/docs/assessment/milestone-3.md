@@ -1,5 +1,5 @@
 ---
-title: Meilenstein 3 · Observability, Skalierung und KI
+title: Observability, Skalierung und KI (Meilenstein 3)
 description: Der Auftrag des dritten Meilensteins mit den sieben Anforderungen der Basis, den drei Zusatzaufträgen mit dem lokalen Sprachmodell, der Vorführung, dem Inhalt der Abgabe und dem Bewertungsraster.
 ---
 
@@ -27,17 +27,17 @@ Die Basis belegst du mit dem Bericht des Checks `m3` und mit einem Screenshot zu
 
 Die drei Zusatzaufträge drehen sich um das lokale Sprachmodell und bauen aufeinander auf. Rechne mit vier bis sechs Stunden. [Kapitel 5.5](../../observability/advanced/) erklärt die Konzepte und nennt zu jedem Auftrag die Anforderungen. Jeder Auftrag gibt 0 bis 3 Punkte nach den [Stufen der Zusatzaufträge](../#stufen-der-zusatzaufträge). Zu jedem Auftrag, den du machst, gehört eine [Dokumentation in fünf Teilen](../#dokumentation-der-zusatzaufträge).
 
-### A · Ein lokales Sprachmodell
+### Ein lokales Sprachmodell (Auftrag A)
 
-Ein lokales Sprachmodell läuft als Dienst deiner Plattform. Du misst die Tokens pro Sekunde und erklärst, wovon sie abhängen. Ein Mitglied hat Zugriff auf das Modell, ein anderes nicht. Die Anforderungen stehen in [Kapitel 5.5](../../observability/advanced/#auftrag-a--ein-lokales-sprachmodell).
+Ein lokales Sprachmodell läuft als Dienst deiner Plattform. Du misst die Tokens pro Sekunde und erklärst, wovon sie abhängen. Ein Mitglied hat Zugriff auf das Modell, ein anderes nicht. Die Anforderungen stehen in [Kapitel 5.5](../../observability/advanced/#ein-lokales-sprachmodell-auftrag-a).
 
-### B · Triage mit Freigabe
+### Triage mit Freigabe (Auftrag B)
 
-Dein eigener Triage-Dienst bekommt die Alerts des Webshops, fragt das Modell aus Auftrag A und schlägt Ursache und Aktion vor. Eine Aktion läuft nur nach einer Freigabe, der Dienst hat minimale Rechte und schreibt ein Audit-Log. Du gibst einen Vorschlag frei und lehnst einen anderen ab, das Audit-Log zeigt beide Entscheide. In der Dokumentation beurteilst du beide Vorschläge kritisch und hältst fest, was stimmte und was falsch war. Die Anforderungen stehen in [Kapitel 5.5](../../observability/advanced/#auftrag-b--triage-mit-freigabe).
+Dein eigener Triage-Dienst bekommt die Alerts des Webshops, fragt das Modell aus Auftrag A und schlägt Ursache und Aktion vor. Eine Aktion läuft nur nach einer Freigabe, der Dienst hat minimale Rechte und schreibt ein Audit-Log. Du gibst einen Vorschlag frei und lehnst einen anderen ab, das Audit-Log zeigt beide Entscheide. In der Dokumentation beurteilst du beide Vorschläge kritisch und hältst fest, was stimmte und was falsch war. Die Anforderungen stehen in [Kapitel 5.5](../../observability/advanced/#triage-mit-freigabe-auftrag-b).
 
-### C · Bessere Fragen an das Modell
+### Bessere Fragen an das Modell (Auftrag C)
 
-Du verbesserst die Frage, die dein Triage-Dienst an das Modell stellt. Du vergleichst die Vorschläge zum selben Alert vorher und nachher und hältst das gemessene Ergebnis fest, etwa die Dauer und ob die vorgeschlagene Aktion zum Fehler passt. Die Anforderungen stehen in [Kapitel 5.5](../../observability/advanced/#auftrag-c--bessere-fragen-an-das-modell).
+Du verbesserst die Frage, die dein Triage-Dienst an das Modell stellt. Du vergleichst die Vorschläge zum selben Alert vorher und nachher und hältst das gemessene Ergebnis fest, etwa die Dauer und ob die vorgeschlagene Aktion zum Fehler passt. Die Anforderungen stehen in [Kapitel 5.5](../../observability/advanced/#bessere-fragen-an-das-modell-auftrag-c).
 
 ## Zusatzaufträge zeigen
 
@@ -64,9 +64,9 @@ Die Berichte der Checks legst du in `reports/`. Wie das Repo aufgebaut ist und w
 
 | Zusatzauftrag | Punkte |
 |---|---|
-| A · Lokales Sprachmodell gemessen, Zugriff gesteuert | 3 |
-| B · Triage mit Freigabe und Ablehnung, kritisch beurteilt | 3 |
-| C · Bessere Fragen mit gemessenem Vergleich | 3 |
+| Lokales Sprachmodell gemessen, Zugriff gesteuert (Auftrag A) | 3 |
+| Triage mit Freigabe und Ablehnung, kritisch beurteilt (Auftrag B) | 3 |
+| Bessere Fragen mit gemessenem Vergleich (Auftrag C) | 3 |
 | **Zusatz** | **9** |
 
 Meilenstein 3 gibt zusammen höchstens 30 Punkte. Eine Anforderung der Basis gibt 3 Punkte, wenn Bericht und Screenshot sie belegen. Für eine nur teilweise erfüllte Anforderung gibt es 1 Punkt. Beantwortest du eine der zwei Fragen nicht oder falsch, bekommt der Zusatzauftrag, zu dem sie gehört, höchstens 1 Punkt. Ohne Dokumentation gibt ein Zusatzauftrag höchstens 1 Punkt.

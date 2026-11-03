@@ -137,7 +137,7 @@ Eine VM-Gruppe fasst VMs in eigenen Rollen zusammen, die mit den Rollen von OneF
 
 Dazu kommt die Reserve. Bei zwei Knoten muss jeder allein alle VMs tragen, bei einer [Wartung](../../iaas/hosts/#wartung-eines-knotens) mit Vorwarnung und bei einem Ausfall ohne. Die Quotas der vier Mitglieder ergeben zusammen mehr, als ein Knoten trägt. Schöpfen alle sie aus, haben nach einem Ausfall nicht alle VMs Platz. Ein Vorschlag für die Platzierung sagt deshalb auch, welche Mitglieder Vorrang haben. Wie sehr sie auf Verfügbarkeit angewiesen sind, zeigt ihr [Schutzbedarf](../../basics/sovereignty/#schutzbedarf) aus Kapitel 1.4.
 
-## Auftrag A · Elastizität mit OneFlow
+## Elastizität mit OneFlow (Auftrag A)
 
 Die Treuhand braucht Ende Monat mehr Leistung, ohne dass jemand eingreift. Ihr Dienst in OneFlow wächst vor der bekannten Spitze nach Zeitplan, bei unerwarteten Spitzen nach Last und schrumpft danach wieder.
 
@@ -170,7 +170,7 @@ Hinweise aus dem Lab:
 - Für die Regel nach Zeitplan planst du einen Beleg, ohne bis zum Monatsende zu warten
 - Antwortet OneFlow nicht, prüfst du den Dienst `opennebula-flow` aus [Kapitel 2.2](../../iaas/installation/#die-installierten-dienste)
 
-## Auftrag B · Showback als Bericht
+## Showback als Bericht (Auftrag B)
 
 Der Vorstand will jeden Monat sehen, was die Mitglieder gekostet haben, ohne dass jemand daran denken muss. Ein eigenes Skript mit einem eigenen Timer legt den Bericht ab, aus ihm berechnest du die Kostendeckung der Genossenschaft.
 
@@ -199,7 +199,7 @@ Hinweise aus dem Lab:
 - Lief dein Lab im vergangenen Monat noch nicht, ist der Bericht für diesen Monat leer. Plane deshalb, wie du in der Vorführung einen Bericht mit Daten zeigst, zum Beispiel für den laufenden Monat.
 - Fehlt die Datei nach einem Lauf, zeigt `journalctl`, was dein Dienst ausgegeben hat
 
-## Auftrag C · Ausfall eines Knotens
+## Ausfall eines Knotens (Auftrag C)
 
 Beat Kläy will wissen, was die Mitglieder bei einem Ausfall merken. Du schaltest einen Knoten ohne Vorwarnung aus, beobachtest die Folgen und leitest daraus einen Vorschlag ab, wie Wolkenwerk seine VMs platzieren soll.
 

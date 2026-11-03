@@ -28,7 +28,7 @@ After this chapter you can:
 This chapter gives you no recipe to follow. For each task you design a solution of your own, build it in your lab and justify your decisions. The sections before the tasks explain the concepts and point out where you have to weigh options. These conditions apply:
 
 - The tasks are the advanced tasks of [milestone 4](../../assessment/milestone-4/) and build on the state of your base
-- Task A needs your triage service from advanced task B of milestone 3, as [chapter 5.5](../../observability/advanced/#task-b--triage-with-approval) describes it. Tasks B and C build on the member from task A.
+- Task A needs your triage service from advanced task B of milestone 3, as [chapter 5.5](../../observability/advanced/#triage-with-approval-task-b) describes it. Tasks B and C build on the member from task A.
 - Plan four to six hours for all three tasks together
 - You show them live in class or in a screencast of at most ten minutes, as the milestone describes under [Showing the advanced tasks](../../assessment/milestone-4/#showing-the-advanced-tasks). During the showing you answer the two questions from the check `m4`.
 - For each task you write documentation in five parts, as [Assessment](../../assessment/#documenting-the-advanced-tasks) describes
@@ -156,7 +156,7 @@ For your member you choose how to split the cost and justify your assumptions.
 
 Backups take space in the backup datastore and belong in the calculation if the member has many or large ones. For right-sizing you compare your member's requests and quota with the use that the queries from [chapter 6.4](../cost/#right-sizing) measure. In the course lab, the member `probe` reserved 64 MiB of memory and used at most 21 MiB.
 
-## Task A · A member of your own
+## A member of your own (Task A)
 
 You onboard a fifth member that you designed yourself on both layers of your platform and monitor its application. Its alert reaches your triage service from milestone 3, and you decide on the proposal and fix the fault through Git.
 
@@ -192,7 +192,7 @@ Notes from the lab:
 - The triage service proposed a restart there. The team rejected it, because a restart starts no pod as long as Git asks for zero replicas.
 - Argo CD keeps restoring the state from Git, so the fault is only fixed once the right state is back in Git
 
-## Task B · Cluster restore and SLA
+## Cluster restore and SLA (Task B)
 
 You restore the cluster from an etcd snapshot and measure the time until the platform runs again for your member. You base an SLA for the member on that time and on the architecture of your lab.
 
@@ -228,7 +228,7 @@ Notes from the lab:
 An etcd snapshot brings back no data from volumes. Copy the audit log of your triage service from task A into your hand-in repo first. Also take a snapshot of the three servers in smartlearn or in your hypervisor, so that you can go back if the restore fails.
 :::
 
-## Task C · Postmortem and cost model
+## Postmortem and cost model (Task C)
 
 For the incident from task A, the local model drafts a postmortem from a timeline that you build from the data without the model. You correct the draft and also work out a cost model for your member.
 
@@ -253,7 +253,7 @@ These sources help you:
 - An [example postmortem](https://sre.google/sre-book/example-postmortem/) in the same book with a complete structure and a timeline
 - The [documentation of Prometheus 3.15](https://prometheus.io/docs/prometheus/3.15/configuration/alerting_rules/#inspecting-alerts-during-runtime) on the series `ALERTS`
 - The [API of Ollama 0.40.13](https://github.com/ollama/ollama/blob/v0.40.13/docs/api.md) with the option `format`
-- [Advanced task A of milestone 3](../../observability/advanced/#task-a--a-local-language-model), since you reach the model from the front-end the way you deployed it there
+- [Advanced task A of milestone 3](../../observability/advanced/#a-local-language-model-task-a), since you reach the model from the front-end the way you deployed it there
 - [Chapter 6.4](../cost/) on the full cost and the queries, and [chapter 3.3](../../tenants/showback/#calculating-costs) on showback with `oneshowback`
 - [Invoicing and Chargeback](https://www.finops.org/framework/capabilities/invoicing-chargeback/) of the FinOps Foundation on showback and chargeback
 

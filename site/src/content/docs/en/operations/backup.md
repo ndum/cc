@@ -107,7 +107,7 @@ OpenNebula backs up the member VMs itself. Backups go to a datastore of type `BA
 
 ::code{file="platform/operations/backup-datastore.sh"}
 
-Since chapter 4.2 only the two k3s VMs run in OpenNebula. You do not back them up this way, since their state lives in Git and in the etcd snapshots. To practice, start the VM `praxis-1` from the template `ubuntu` with 1 GB as `praxis-admin`. A node has no more memory to spare next to k3s. You back up this VM and restore it. So that you can check the restore, create a test file before the backup. `onevm show` shows the address of the VM. If you do advanced task A from [chapter 6.5](../advanced/#task-a--a-member-of-your-own), you can use the VM of your own member instead.
+Since chapter 4.2 only the two k3s VMs run in OpenNebula. You do not back them up this way, since their state lives in Git and in the etcd snapshots. To practice, start the VM `praxis-1` from the template `ubuntu` with 1 GB as `praxis-admin`. A node has no more memory to spare next to k3s. You back up this VM and restore it. So that you can check the restore, create a test file before the backup. `onevm show` shows the address of the VM. If you do advanced task A from [chapter 6.5](../advanced/#a-member-of-your-own-task-a), you can use the VM of your own member instead.
 
 `onevm backup` starts a backup by hand, even for a running VM. In the lab, backing up a VM with 1 GB of memory and Ubuntu 26.04 took six to eleven seconds, and the backup image was 1004 MB.
 

@@ -1,5 +1,5 @@
 ---
-title: Meilenstein 2 · Plattform per Code
+title: Plattform per Code (Meilenstein 2)
 description: Der Auftrag des zweiten Meilensteins mit den sieben Anforderungen der Basis, den drei Zusatzaufträgen, der Vorführung, dem Inhalt der Abgabe und dem Bewertungsraster.
 ---
 
@@ -27,17 +27,17 @@ Die Basis belegst du mit dem Bericht des Checks `m2` und mit einem Screenshot zu
 
 Für die drei Zusatzaufträge rechnest du mit vier bis sechs Stunden. Jeder gibt 0 bis 3 Punkte nach den [Stufen der Zusatzaufträge](../#stufen-der-zusatzaufträge). Zu jedem Auftrag, den du machst, gehört eine [Dokumentation in fünf Teilen](../#dokumentation-der-zusatzaufträge). Die Begriffe dazu und die Anforderungen an jeden Auftrag stehen in [Kapitel 4.6](../../platform/advanced/).
 
-### A · Neubau der Plattform
+### Neubau der Plattform (Auftrag A)
 
-Du reisst den Cluster mit `tofu destroy` ab, baust ihn mit `tofu apply` und dem Bootstrap von Argo CD neu auf und misst die Zeit, bis alles aus Git wieder steht. Dabei erklärst du, was State und Drift für den Neubau bedeuten. Im Lab lief der Webshop mit dem Stand von Teil 4 nach knapp drei Minuten wieder. Starte den Neubau deshalb früh in der Vorführung und erkläre den Code, während er läuft. [Kapitel 4.6](../../platform/advanced/#auftrag-a--neubau-der-plattform) beschreibt den Auftrag.
+Du reisst den Cluster mit `tofu destroy` ab, baust ihn mit `tofu apply` und dem Bootstrap von Argo CD neu auf und misst die Zeit, bis alles aus Git wieder steht. Dabei erklärst du, was State und Drift für den Neubau bedeuten. Im Lab lief der Webshop mit dem Stand von Teil 4 nach knapp drei Minuten wieder. Starte den Neubau deshalb früh in der Vorführung und erkläre den Code, während er läuft. [Kapitel 4.6](../../platform/advanced/#neubau-der-plattform-auftrag-a) beschreibt den Auftrag.
 
-### B · Ein eigenes Mitglied
+### Ein eigenes Mitglied (Auftrag B)
 
-Ein weiteres Mitglied nach deiner Wahl bekommt per Pull Request einen Namespace aus der Vorlage mit eigenen, begründeten Grenzen. Dazu legst du in Argo CD ein AppProject an, das nur den Namespace dieses Mitglieds erlaubt. [Kapitel 4.6](../../platform/advanced/#auftrag-b--ein-eigenes-mitglied) beschreibt den Auftrag, die Vorlage kennst du aus Kapitel 4.5.
+Ein weiteres Mitglied nach deiner Wahl bekommt per Pull Request einen Namespace aus der Vorlage mit eigenen, begründeten Grenzen. Dazu legst du in Argo CD ein AppProject an, das nur den Namespace dieses Mitglieds erlaubt. [Kapitel 4.6](../../platform/advanced/#ein-eigenes-mitglied-auftrag-b) beschreibt den Auftrag, die Vorlage kennst du aus Kapitel 4.5.
 
-### C · Schutz des Branches
+### Schutz des Branches (Auftrag C)
 
-In Gitea schützt du den Branch `main` so, dass Änderungen nur über einen Pull Request mit Review hineinkommen. Du zeigst, dass Gitea einen direkten Push abweist. [Kapitel 4.6](../../platform/advanced/#auftrag-c--schutz-des-branches) beschreibt den Auftrag.
+In Gitea schützt du den Branch `main` so, dass Änderungen nur über einen Pull Request mit Review hineinkommen. Du zeigst, dass Gitea einen direkten Push abweist. [Kapitel 4.6](../../platform/advanced/#schutz-des-branches-auftrag-c) beschreibt den Auftrag.
 
 ## Zusatzaufträge zeigen
 
@@ -64,9 +64,9 @@ Die Berichte der Checks legst du in `reports/`. Wie das Repo aufgebaut ist und w
 
 | Zusatzauftrag | Punkte |
 |---|---|
-| A · Neubau der Plattform mit gemessener Zeit | 3 |
-| B · Eigenes Mitglied mit AppProject | 3 |
-| C · Schutz des Branches `main` | 3 |
+| Neubau der Plattform mit gemessener Zeit (Auftrag A) | 3 |
+| Eigenes Mitglied mit AppProject (Auftrag B) | 3 |
+| Schutz des Branches `main` (Auftrag C) | 3 |
 | **Zusatz** | **9** |
 
 Meilenstein 2 gibt zusammen höchstens 30 Punkte. Eine Anforderung der Basis gibt 3 Punkte, wenn Bericht und Screenshot sie belegen. Für eine nur teilweise erfüllte Anforderung gibt es 1 Punkt. Beantwortest du eine der zwei Fragen nicht oder falsch, bekommt der Zusatzauftrag, zu dem sie gehört, höchstens 1 Punkt. Ohne Dokumentation gibt ein Zusatzauftrag höchstens 1 Punkt.

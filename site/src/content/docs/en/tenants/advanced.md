@@ -137,7 +137,7 @@ A VM group puts VMs into roles of its own, which have nothing to do with the rol
 
 Then there is the reserve. With two nodes, each one has to carry all VMs on its own, during [maintenance](../../iaas/hosts/#maintenance-of-a-node) with warning and during a failure without. The quotas of the four members add up to more than one node can carry. If all members use their full quota, not every VM finds room after a failure. A placement proposal therefore also says which members get priority. How much they depend on availability shows in their [protection needs](../../basics/sovereignty/#protection-needs) from chapter 1.4.
 
-## Task A · Elasticity with OneFlow
+## Elasticity with OneFlow (Task A)
 
 The fiduciary office needs more power at the end of the month without anyone stepping in. Its OneFlow service grows by schedule ahead of the known peak and by load during unexpected peaks, then shrinks again.
 
@@ -170,7 +170,7 @@ Notes from the lab:
 - For the rule by schedule, plan a proof that does not wait for the end of the month
 - If OneFlow does not answer, check the service `opennebula-flow` from [chapter 2.2](../../iaas/installation/#the-installed-services)
 
-## Task B · Showback as a report
+## Showback as a report (Task B)
 
 The board wants to see every month what the members have cost, without anyone having to remember it. A script and a timer of your own store the report, and from it you calculate the cooperative's cost coverage.
 
@@ -199,7 +199,7 @@ Notes from the lab:
 - If your lab did not run yet in the past month, the report for that month is empty. Plan how to show a report with data in the showing, for example one for the current month.
 - If the file is missing after a run, `journalctl` shows what your service printed
 
-## Task C · Failure of a node
+## Failure of a node (Task C)
 
 Beat Kläy wants to know what the members notice when a node fails. You switch off a node without warning, observe what happens and derive a proposal for how Wolkenwerk should place its VMs.
 

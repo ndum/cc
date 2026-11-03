@@ -75,7 +75,7 @@ receivers:
   - name: "null"
 ```
 
-In der Basis gehen alle Alerts an den Empfänger `null`, der nichts verschickt. Sie erscheinen nur in der Oberfläche von Alertmanager auf Port 30093 des Servers. Die Oberfläche erreichst du wie Prometheus über einen Tunnel. Ergänze dazu den Befehl aus Kapitel 5.1 um `-L 9093:<adresse-des-servers>:30093` und öffne im Browser des Clients `http://localhost:9093/`. Einen eigenen Empfänger mit einer Route richtest du in Zusatzauftrag B aus [Kapitel 5.5](../advanced/#auftrag-b--triage-mit-freigabe) ein. `group_wait` wartet 30 Sekunden auf weitere Alerts derselben Gruppe, `repeat_interval` wiederholt einen offenen Alert erst nach vier Stunden.
+In der Basis gehen alle Alerts an den Empfänger `null`, der nichts verschickt. Sie erscheinen nur in der Oberfläche von Alertmanager auf Port 30093 des Servers. Die Oberfläche erreichst du wie Prometheus über einen Tunnel. Ergänze dazu den Befehl aus Kapitel 5.1 um `-L 9093:<adresse-des-servers>:30093` und öffne im Browser des Clients `http://localhost:9093/`. Einen eigenen Empfänger mit einer Route richtest du in Zusatzauftrag B aus [Kapitel 5.5](../advanced/#triage-mit-freigabe-auftrag-b) ein. `group_wait` wartet 30 Sekunden auf weitere Alerts derselben Gruppe, `repeat_interval` wiederholt einen offenen Alert erst nach vier Stunden.
 
 ## Einen Alert auslösen
 

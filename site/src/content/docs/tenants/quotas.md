@@ -50,7 +50,7 @@ Für alle Gruppen und Benutzer ohne eigene Grenze gelten Standardquotas. `onegro
 
 ## Die Quotas der Mitglieder
 
-Die Mitglieder zahlen und brauchen unterschiedlich viel. Die Treuhand bekommt mehr Platz als die anderen, weil sie Ende Monat mehr braucht. Lässt du ihren Dienst im [Zusatzauftrag A](../advanced/#auftrag-a--elastizität-mit-oneflow) wachsen, zählt jede seiner VMs gegen diese Quota.
+Die Mitglieder zahlen und brauchen unterschiedlich viel. Die Treuhand bekommt mehr Platz als die anderen, weil sie Ende Monat mehr braucht. Lässt du ihren Dienst im [Zusatzauftrag A](../advanced/#elastizität-mit-oneflow-auftrag-a) wachsen, zählt jede seiner VMs gegen diese Quota.
 
 | Mitglied | Gruppe | VMs | CPU | Arbeitsspeicher |
 |---|---|---|---|---|

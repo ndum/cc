@@ -1,5 +1,5 @@
 ---
-title: Meilenstein 1 · IaaS für Wolkenwerk
+title: IaaS für Wolkenwerk (Meilenstein 1)
 description: Der Auftrag des ersten Meilensteins mit den sieben Anforderungen der Basis, den drei Zusatzaufträgen, der Vorführung, dem Inhalt der Abgabe und dem Bewertungsraster.
 ---
 
@@ -31,17 +31,17 @@ In Kapitel 4.2 entfernst du die VMs von Teil 2 und 3, weil der Kubernetes-Cluste
 
 Für die drei Zusatzaufträge rechnest du mit vier bis sechs Stunden. Jeder gibt 0 bis 3 Punkte nach den [Stufen der Zusatzaufträge](../#stufen-der-zusatzaufträge). Zu jedem Auftrag, den du machst, gehört eine [Dokumentation in fünf Teilen](../#dokumentation-der-zusatzaufträge). [Kapitel 3.5](../../tenants/advanced/) erklärt die Konzepte dazu und nennt für jeden Auftrag die Anforderungen an deine Lösung.
 
-### A · Elastizität mit OneFlow
+### Elastizität mit OneFlow (Auftrag A)
 
-Die Treuhand betreibt einen Dienst in OneFlow, der nach Last und nach Zeitplan wächst und danach wieder schrumpft. Du zeigst das Wachsen unter Last und das Schrumpfen ohne Last und begründest deine Regeln. Starte die Last vor der Vorführung, das Wachsen braucht einige Minuten. Die Anforderungen nennt [Auftrag A in Kapitel 3.5](../../tenants/advanced/#auftrag-a--elastizität-mit-oneflow).
+Die Treuhand betreibt einen Dienst in OneFlow, der nach Last und nach Zeitplan wächst und danach wieder schrumpft. Du zeigst das Wachsen unter Last und das Schrumpfen ohne Last und begründest deine Regeln. Starte die Last vor der Vorführung, das Wachsen braucht einige Minuten. Die Anforderungen nennt [Auftrag A in Kapitel 3.5](../../tenants/advanced/#elastizität-mit-oneflow-auftrag-a).
 
-### B · Showback als Bericht
+### Showback als Bericht (Auftrag B)
 
-Ein eigenes Skript mit einem eigenen systemd-Timer legt den Showback des vergangenen Monats als CSV ab. Aus dem CSV berechnest du, ob die Preise die Kosten der Genossenschaft decken. OpenNebula 7.4 bringt schon den Timer `opennebula-showback.timer` mit, der den Showback täglich berechnet. Der Name deines Timers enthält deshalb `showback`, beginnt aber nicht mit `opennebula-`. [Auftrag B in Kapitel 3.5](../../tenants/advanced/#auftrag-b--showback-als-bericht) nennt die Anforderungen, [Kapitel 3.3](../../tenants/showback/) erklärt Preise und Showback.
+Ein eigenes Skript mit einem eigenen systemd-Timer legt den Showback des vergangenen Monats als CSV ab. Aus dem CSV berechnest du, ob die Preise die Kosten der Genossenschaft decken. OpenNebula 7.4 bringt schon den Timer `opennebula-showback.timer` mit, der den Showback täglich berechnet. Der Name deines Timers enthält deshalb `showback`, beginnt aber nicht mit `opennebula-`. [Auftrag B in Kapitel 3.5](../../tenants/advanced/#showback-als-bericht-auftrag-b) nennt die Anforderungen, [Kapitel 3.3](../../tenants/showback/) erklärt Preise und Showback.
 
-### C · Ausfall eines Knotens
+### Ausfall eines Knotens (Auftrag C)
 
-Du schaltest einen Knoten aus und zeigst, was mit den VMs der Mitglieder geschieht. Daraus leitest du einen Vorschlag für die Platzierung der VMs ab, etwa Packing oder Striping, den du für die Mitglieder von Wolkenwerk begründest. [Auftrag C in Kapitel 3.5](../../tenants/advanced/#auftrag-c--ausfall-eines-knotens) nennt die Anforderungen, [Kapitel 2.5](../../iaas/hosts/) beschreibt Scheduler, Wartung und Ausfall.
+Du schaltest einen Knoten aus und zeigst, was mit den VMs der Mitglieder geschieht. Daraus leitest du einen Vorschlag für die Platzierung der VMs ab, etwa Packing oder Striping, den du für die Mitglieder von Wolkenwerk begründest. [Auftrag C in Kapitel 3.5](../../tenants/advanced/#ausfall-eines-knotens-auftrag-c) nennt die Anforderungen, [Kapitel 2.5](../../iaas/hosts/) beschreibt Scheduler, Wartung und Ausfall.
 
 ## Zusatzaufträge zeigen
 
@@ -70,9 +70,9 @@ Die Berichte der Checks legst du in `reports/`. Wie das Repo aufgebaut ist und w
 
 | Zusatzauftrag | Punkte |
 |---|---|
-| A · Elastizität mit OneFlow | 3 |
-| B · Showback als Bericht mit Kostendeckung | 3 |
-| C · Ausfall eines Knotens und Vorschlag zur Platzierung | 3 |
+| Elastizität mit OneFlow (Auftrag A) | 3 |
+| Showback als Bericht mit Kostendeckung (Auftrag B) | 3 |
+| Ausfall eines Knotens und Vorschlag zur Platzierung (Auftrag C) | 3 |
 | **Zusatz** | **9** |
 
 Meilenstein 1 gibt zusammen höchstens 30 Punkte. Eine Anforderung der Basis gibt 3 Punkte, wenn Bericht und Screenshot sie belegen. Für eine nur teilweise erfüllte Anforderung gibt es 1 Punkt. Beantwortest du eine der zwei Fragen nicht oder falsch, bekommt der Zusatzauftrag, zu dem sie gehört, höchstens 1 Punkt. Ohne Dokumentation gibt ein Zusatzauftrag höchstens 1 Punkt.

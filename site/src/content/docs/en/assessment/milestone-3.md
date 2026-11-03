@@ -1,5 +1,5 @@
 ---
-title: Milestone 3 · Observability, scaling and AI
+title: Observability, scaling and AI (Milestone 3)
 description: The assignment of the third milestone with the seven base requirements, the three advanced tasks with the local language model, the showing, the content of the hand-in and the rubric.
 ---
 
@@ -27,17 +27,17 @@ You prove the base with the report of the check `m3` and one screenshot per requ
 
 The three advanced tasks are about the local language model, and each builds on the one before. Plan four to six hours. [Chapter 5.5](../../observability/advanced/) explains the concepts and lists the requirements of each task. Each task is worth 0 to 3 points by the [levels of the advanced tasks](../#levels-of-the-advanced-tasks). Every task you do needs [documentation in five parts](../#documenting-the-advanced-tasks).
 
-### A · A local language model
+### A local language model (Task A)
 
-A local language model runs as a service of your platform. You measure the tokens per second and explain what they depend on. One member has access to the model, another does not. The requirements are in [chapter 5.5](../../observability/advanced/#task-a--a-local-language-model).
+A local language model runs as a service of your platform. You measure the tokens per second and explain what they depend on. One member has access to the model, another does not. The requirements are in [chapter 5.5](../../observability/advanced/#a-local-language-model-task-a).
 
-### B · Triage with approval
+### Triage with approval (Task B)
 
-A triage service of your own receives the web shop alerts, asks the model from task A and proposes a cause and an action. An action only runs after an approval, and the service has minimal rights and writes an audit log. You approve one proposal and reject another, and the audit log shows both decisions. In the documentation you assess both proposals critically and record what was right and what was wrong. The requirements are in [chapter 5.5](../../observability/advanced/#task-b--triage-with-approval).
+A triage service of your own receives the web shop alerts, asks the model from task A and proposes a cause and an action. An action only runs after an approval, and the service has minimal rights and writes an audit log. You approve one proposal and reject another, and the audit log shows both decisions. In the documentation you assess both proposals critically and record what was right and what was wrong. The requirements are in [chapter 5.5](../../observability/advanced/#triage-with-approval-task-b).
 
-### C · Better questions to the model
+### Better questions to the model (Task C)
 
-You improve the question your triage service asks the model. You compare the proposals for the same alert before and after and record the measured result, for example the duration and whether the proposed action fits the fault. The requirements are in [chapter 5.5](../../observability/advanced/#task-c--better-questions-to-the-model).
+You improve the question your triage service asks the model. You compare the proposals for the same alert before and after and record the measured result, for example the duration and whether the proposed action fits the fault. The requirements are in [chapter 5.5](../../observability/advanced/#better-questions-to-the-model-task-c).
 
 ## Showing the advanced tasks
 
@@ -64,9 +64,9 @@ You put the reports of the checks in `reports/`. The [overview](../) describes h
 
 | Advanced task | Points |
 |---|---|
-| A · Local language model measured, access controlled | 3 |
-| B · Triage with an approval and a rejection, critically assessed | 3 |
-| C · Better questions with a measured comparison | 3 |
+| Local language model measured, access controlled (Task A) | 3 |
+| Triage with an approval and a rejection, critically assessed (Task B) | 3 |
+| Better questions with a measured comparison (Task C) | 3 |
 | **Advanced** | **9** |
 
 Milestone 3 is worth up to 30 points in total. A base requirement gets 3 points when the report and a screenshot prove it, and 1 point when it is only partly met. If you leave one of the two questions unanswered or answer it wrongly, the advanced task it belongs to gets at most 1 point. Without documentation an advanced task gets at most 1 point.

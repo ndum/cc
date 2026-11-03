@@ -137,7 +137,7 @@ Was ein Dienst an das Modell schickt, heisst Prompt. Er nennt meist eine Rolle, 
 
 Weil ein Modell nicht immer gleich antwortet, braucht ein fairer Vergleich zweier Fassungen denselben Alert mit demselben Kontext und mehrere Durchläufe pro Fassung, sonst misst du den Zufall. Was als gute Antwort gilt, legst du vorher fest, etwa gültiges JSON, den wirklichen Fehler als Ursache und eine passende Aktion. Den wirklichen Fehler kennst du, wenn du ihn selbst über Git auslöst. Auch eine gute Frage ersetzt die Prüfung durch einen Menschen nicht.
 
-## Auftrag A · Ein lokales Sprachmodell
+## Ein lokales Sprachmodell (Auftrag A)
 
 Wolkenwerk will ein Sprachmodell im eigenen Cluster, vorerst für ein einziges Mitglied. Du betreibst es wie die anderen Dienste aus Git, misst seine Geschwindigkeit und erklärst die Werte.
 
@@ -172,7 +172,7 @@ Hinweise aus dem Lab:
 - `kubectl describe node` zeigt unter `Allocated resources`, wie viel schon vergeben ist
 - Den Zugriff belegst du mit einem kurzlebigen Test-Pod im Namespace eines Mitglieds, wie ihn Kapitel 4.5 für den Webshop verwendet
 
-## Auftrag B · Triage mit Freigabe
+## Triage mit Freigabe (Auftrag B)
 
 Kommt nachts ein Alert, soll die Person auf Pikett zuerst eine Einschätzung lesen, entscheiden soll aber ein Mensch. Dein eigener Triage-Dienst holt diese Einschätzung beim Modell aus Auftrag A und führt eine Aktion erst nach einer Freigabe aus.
 
@@ -213,7 +213,7 @@ Hinweise aus dem Lab:
 - Plane die Route so, dass sie in Zusatzauftrag A von Meilenstein 4 ohne Umbau auch die Alerts eines neuen Mitglieds an deinen Dienst schickt
 - Der Check `m3` meldet als Spur dieses Auftrags, ob Alertmanager einen Empfänger neben `null` kennt
 
-## Auftrag C · Bessere Fragen an das Modell
+## Bessere Fragen an das Modell (Auftrag C)
 
 Simone Wyss will an Zahlen sehen, ob das Modell mit besseren Fragen besser antwortet. Du verbesserst die Frage deines Triage-Dienstes und vergleichst die alte und die neue Fassung am selben Alert mit demselben Kontext.
 

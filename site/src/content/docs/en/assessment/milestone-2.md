@@ -1,5 +1,5 @@
 ---
-title: Milestone 2 · Platform as code
+title: Platform as code (Milestone 2)
 description: The assignment of the second milestone with the seven base requirements, the three advanced tasks, the showing, the content of the hand-in and the rubric.
 ---
 
@@ -27,17 +27,17 @@ You prove the base with the report of the check `m2` and one screenshot per requ
 
 Plan four to six hours for the three advanced tasks. Each one is worth 0 to 3 points by the [levels of the advanced tasks](../#levels-of-the-advanced-tasks). Every task you do needs [documentation in five parts](../#documenting-the-advanced-tasks). [Chapter 4.6](../../platform/advanced/) explains the concepts behind them and lists the requirements of each task.
 
-### A · Rebuilding the platform
+### Rebuilding the platform (Task A)
 
-You tear the cluster down with `tofu destroy`, rebuild it with `tofu apply` and the Argo CD bootstrap, and measure the time until everything from Git is back. Along the way you explain what state and drift mean for a rebuild. In the lab, with the platform as it stood after part 4, the web shop ran again after just under three minutes. Start the rebuild early in the showing and explain the code while it runs. [Chapter 4.6](../../platform/advanced/#task-a--rebuilding-the-platform) describes the task.
+You tear the cluster down with `tofu destroy`, rebuild it with `tofu apply` and the Argo CD bootstrap, and measure the time until everything from Git is back. Along the way you explain what state and drift mean for a rebuild. In the lab, with the platform as it stood after part 4, the web shop ran again after just under three minutes. Start the rebuild early in the showing and explain the code while it runs. [Chapter 4.6](../../platform/advanced/#rebuilding-the-platform-task-a) describes the task.
 
-### B · A member of your own
+### A member of your own (Task B)
 
-One more member of your choice gets a namespace from the template through a pull request, with limits of your own that you justify. You also create an Argo CD AppProject that allows only this member's namespace. [Chapter 4.6](../../platform/advanced/#task-b--a-member-of-your-own) describes the task, and you know the template from chapter 4.5.
+One more member of your choice gets a namespace from the template through a pull request, with limits of your own that you justify. You also create an Argo CD AppProject that allows only this member's namespace. [Chapter 4.6](../../platform/advanced/#a-member-of-your-own-task-b) describes the task, and you know the template from chapter 4.5.
 
-### C · Branch protection
+### Branch protection (Task C)
 
-In Gitea you protect the branch `main` so that changes only get in through a reviewed pull request. You show that Gitea rejects a direct push. [Chapter 4.6](../../platform/advanced/#task-c--branch-protection) describes the task.
+In Gitea you protect the branch `main` so that changes only get in through a reviewed pull request. You show that Gitea rejects a direct push. [Chapter 4.6](../../platform/advanced/#branch-protection-task-c) describes the task.
 
 ## Showing the advanced tasks
 
@@ -64,9 +64,9 @@ You put the reports of the checks in `reports/`. The [overview](../) describes h
 
 | Advanced task | Points |
 |---|---|
-| A · Rebuilding the platform with the measured time | 3 |
-| B · A member of your own with an AppProject | 3 |
-| C · Protection of the branch `main` | 3 |
+| Rebuilding the platform with the measured time (Task A) | 3 |
+| A member of your own with an AppProject (Task B) | 3 |
+| Protection of the branch `main` (Task C) | 3 |
 | **Advanced** | **9** |
 
 Milestone 2 is worth up to 30 points in total. A base requirement gets 3 points when the report and a screenshot prove it, and 1 point when it is only partly met. If you leave one of the two questions unanswered or answer it wrongly, the advanced task it belongs to gets at most 1 point. Without documentation an advanced task gets at most 1 point.

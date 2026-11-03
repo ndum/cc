@@ -127,7 +127,7 @@ The account `platform` is the administrator of your Gitea and owns the organizat
 
 A fix in an emergency waits for a review too, and the outage lasts longer. Teams therefore often keep a documented emergency path that they use rarely and review afterwards. Argo CD only reads the repo and does not notice the protection.
 
-## Task A · Rebuilding the platform
+## Rebuilding the platform (Task A)
 
 Beat Kläy wants to know how long the bike shop's web shop is down if everything is gone. You tear the platform down, rebuild it from the code alone and time the outage.
 
@@ -164,7 +164,7 @@ Notes from the lab:
 The times and notes here assume the platform as it stood after part 4. A later rebuild takes longer and loses the metrics and logs of part 5. Until chapter 6.1 you run `make-secrets.sh` before the bootstrap, and from chapter 6.1 on you back up the Sealed Secrets key before the teardown as in chapter 6.2. Otherwise Grafana does not start.
 :::
 
-## Task B · A member of your own
+## A member of your own (Task B)
 
 Before the next member joins, Beat Kläy wants to see that it can only work in its own area. A member of your choice gets a namespace from the template through a pull request, like the municipality, and an AppProject in Argo CD restricts its applications to that namespace.
 
@@ -198,7 +198,7 @@ Notes from the lab:
 - Before you open the pull request, `kubectl kustomize` shows what the template produces for your member
 - Argo CD shows the reason for a rejection on the application in its interface
 
-## Task C · Branch protection
+## Branch protection (Task C)
 
 Nobody should change the platform without a second person looking at the change first. Changes therefore only reach `main` of the repo `wolkenwerk/platform` through a reviewed pull request, and Gitea enforces the rule itself.
 

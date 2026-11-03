@@ -1,5 +1,5 @@
 ---
-title: Milestone 1 · IaaS for Wolkenwerk
+title: IaaS for Wolkenwerk (Milestone 1)
 description: The assignment of the first milestone with the seven base requirements, the three advanced tasks, the showing, the content of the hand-in and the rubric.
 ---
 
@@ -31,17 +31,17 @@ In chapter 4.2 you remove the VMs of parts 2 and 3 because the Kubernetes cluste
 
 Plan four to six hours for the three advanced tasks. Each one is worth 0 to 3 points by the [levels of the advanced tasks](../#levels-of-the-advanced-tasks). Every task you do needs [documentation in five parts](../#documenting-the-advanced-tasks). [Chapter 3.5](../../tenants/advanced/) explains the concepts behind them and lists the requirements for your solution to each task.
 
-### A · Elasticity with OneFlow
+### Elasticity with OneFlow (Task A)
 
-The fiduciary office runs a OneFlow service that grows by load and by schedule and shrinks again afterwards. You show it growing under load and shrinking without load, and you justify your rules. Start the load before the showing, since growing takes a few minutes. [Task A in chapter 3.5](../../tenants/advanced/#task-a--elasticity-with-oneflow) lists the requirements.
+The fiduciary office runs a OneFlow service that grows by load and by schedule and shrinks again afterwards. You show it growing under load and shrinking without load, and you justify your rules. Start the load before the showing, since growing takes a few minutes. [Task A in chapter 3.5](../../tenants/advanced/#elasticity-with-oneflow-task-a) lists the requirements.
 
-### B · Showback as a report
+### Showback as a report (Task B)
 
-A script and a systemd timer of your own store the showback of the past month as CSV. From the CSV you calculate whether the prices cover the cooperative's costs. OpenNebula 7.4 already ships the timer `opennebula-showback.timer`, which calculates the showback daily, so the name of your timer contains `showback` but does not start with `opennebula-`. [Task B in chapter 3.5](../../tenants/advanced/#task-b--showback-as-a-report) lists the requirements, and [chapter 3.3](../../tenants/showback/) explains prices and showback.
+A script and a systemd timer of your own store the showback of the past month as CSV. From the CSV you calculate whether the prices cover the cooperative's costs. OpenNebula 7.4 already ships the timer `opennebula-showback.timer`, which calculates the showback daily, so the name of your timer contains `showback` but does not start with `opennebula-`. [Task B in chapter 3.5](../../tenants/advanced/#showback-as-a-report-task-b) lists the requirements, and [chapter 3.3](../../tenants/showback/) explains prices and showback.
 
-### C · Failure of a node
+### Failure of a node (Task C)
 
-You power off a node and show what happens to the members' VMs. From that you derive a proposal for placing the VMs, for example packing or striping, and justify it for the members of Wolkenwerk. [Task C in chapter 3.5](../../tenants/advanced/#task-c--failure-of-a-node) lists the requirements, and [chapter 2.5](../../iaas/hosts/) covers the scheduler, maintenance and failure.
+You power off a node and show what happens to the members' VMs. From that you derive a proposal for placing the VMs, for example packing or striping, and justify it for the members of Wolkenwerk. [Task C in chapter 3.5](../../tenants/advanced/#failure-of-a-node-task-c) lists the requirements, and [chapter 2.5](../../iaas/hosts/) covers the scheduler, maintenance and failure.
 
 ## Showing the advanced tasks
 
@@ -70,9 +70,9 @@ You put the reports of the checks in `reports/`. The [overview](../) describes h
 
 | Advanced task | Points |
 |---|---|
-| A · Elasticity with OneFlow | 3 |
-| B · Showback as a report with cost coverage | 3 |
-| C · Failure of a node and a placement proposal | 3 |
+| Elasticity with OneFlow (Task A) | 3 |
+| Showback as a report with cost coverage (Task B) | 3 |
+| Failure of a node and a placement proposal (Task C) | 3 |
 | **Advanced** | **9** |
 
 Milestone 1 is worth up to 30 points in total. A base requirement gets 3 points when the report and a screenshot prove it, and 1 point when it is only partly met. If you leave one of the two questions unanswered or answer it wrongly, the advanced task it belongs to gets at most 1 point. Without documentation an advanced task gets at most 1 point.

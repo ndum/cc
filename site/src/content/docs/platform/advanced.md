@@ -127,7 +127,7 @@ Das Konto `platform` ist der Administrator deines Gitea und besitzt die Organisa
 
 Auch eine Korrektur im Notfall wartet auf ein Review, der Ausfall dauert dann länger. Teams halten darum oft einen dokumentierten Notfallweg bereit, den sie selten nutzen und danach prüfen. Argo CD liest das Repo nur und merkt vom Schutz nichts.
 
-## Auftrag A · Neubau der Plattform
+## Neubau der Plattform (Auftrag A)
 
 Beat Kläy will wissen, wie lange der Webshop des Veloateliers stillsteht, wenn alles weg ist. Du reisst die Plattform ab, baust sie allein aus dem Code wieder auf und misst die Ausfallzeit.
 
@@ -164,7 +164,7 @@ Hinweise aus dem Lab:
 Die Zeiten und Hinweise hier gelten für den Stand von Teil 4. Ein späterer Neubau dauert länger und verliert die Metriken und Logs aus Teil 5. Bis Kapitel 6.1 führst du vor dem Bootstrap `make-secrets.sh` aus, ab Kapitel 6.1 sicherst du vor dem Abriss den Schlüssel von Sealed Secrets wie in Kapitel 6.2. Sonst startet Grafana nicht.
 :::
 
-## Auftrag B · Ein eigenes Mitglied
+## Ein eigenes Mitglied (Auftrag B)
 
 Bevor das nächste Mitglied dazukommt, will Beat Kläy sehen, dass es nur in seinem eigenen Bereich arbeiten kann. Ein Mitglied nach deiner Wahl bekommt wie die Gemeinde per Pull Request einen Namespace aus der Vorlage, ein AppProject in Argo CD beschränkt seine Applications auf diesen Namespace.
 
@@ -198,7 +198,7 @@ Hinweise aus dem Lab:
 - Bevor du den Pull Request öffnest, zeigt dir `kubectl kustomize`, was die Vorlage für dein Mitglied erzeugt
 - Den Grund einer Ablehnung zeigt Argo CD in seiner Oberfläche bei der Application
 
-## Auftrag C · Schutz des Branches
+## Schutz des Branches (Auftrag C)
 
 An der Plattform soll niemand etwas ändern, das keine zweite Person angeschaut hat. Auf `main` des Repos `wolkenwerk/platform` kommen Änderungen darum nur noch über einen Pull Request mit Review, Gitea setzt diese Regel selbst durch.
 

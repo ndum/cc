@@ -137,7 +137,7 @@ What a service sends to the model is called a prompt. It usually names a role, t
 
 Because a model does not always give the same answer to the same question, a fair comparison of two versions needs the same alert with the same context and several runs per version. Otherwise you measure chance. Decide beforehand what counts as a good answer, for example valid JSON, the real fault as the cause and a fitting action. You know the real fault when you triggered it yourself through Git. Even a good prompt does not replace a review by a person.
 
-## Task A · A local language model
+## A local language model (Task A)
 
 Wolkenwerk wants a language model in its own cluster, for a single member to start with. You run it from Git like the other services, measure its speed and explain the values.
 
@@ -172,7 +172,7 @@ Notes from the lab:
 - `kubectl describe node` shows under `Allocated resources` how much is already taken
 - A short-lived test pod in a member's namespace, like the one chapter 4.5 uses for the web shop, proves the access rule
 
-## Task B · Triage with approval
+## Triage with approval (Task B)
 
 When an alert comes in at night, the person on call should first read an assessment, but a human still decides. Your own triage service gets that assessment from the model of task A and runs an action only after an approval.
 
@@ -213,7 +213,7 @@ Notes from the lab:
 - Plan the route so that it also forwards the alerts of a new member in advanced task A of milestone 4 without a rebuild
 - The check `m3` reports as a trace of this task whether Alertmanager knows a receiver besides `null`
 
-## Task C · Better questions to the model
+## Better questions to the model (Task C)
 
 Simone Wyss wants numbers that show whether better questions get better answers. You improve the prompt of your triage service and compare the old and the new version on the same alert with the same context.
 
