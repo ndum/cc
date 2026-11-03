@@ -21,11 +21,11 @@ After this chapter you can:
 
 ## RPO and RTO
 
-Two numbers describe what an outage may cost. The recovery point objective (RPO) is the point in time to which data must be recovered after an outage. If you back up every night, you can lose up to 24 hours of data. The recovery time objective (RTO) is the longest time a service may be down before the damage is no longer acceptable. Both terms come from contingency planning, and NIST defines them in [SP 800-34](https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-34r1.pdf).
+Two numbers describe what an outage may cost. The **recovery point objective** (RPO) is the point in time to which data must be recovered after an outage. If you back up every night, you can lose up to 24 hours of data. The **recovery time objective** (RTO) is the longest time a service may be down before the damage is no longer acceptable. Both terms come from contingency planning, and NIST defines them in [SP 800-34](https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-34r1.pdf).
 
 A small RPO calls for frequent backups, a small RTO for a fast restore that has been practiced. Both cost money. The fiduciary office would hate to lose half a day of bookings at the end of the month, while the web shop can easily get by without a day of logs.
 
-A common rule of thumb is the 3-2-1 rule, which the US agency CISA describes in [Data Backup Options](https://www.cisa.gov/sites/default/files/publications/data_backup_options.pdf). You keep three copies of important data on two different media, one of them offsite.
+A common rule of thumb is the **3-2-1 rule**, which the US agency CISA describes in [Data Backup Options](https://www.cisa.gov/sites/default/files/publications/data_backup_options.pdf). You keep three copies of important data on two different media, one of them offsite.
 
 ## The limits of Git
 
@@ -52,7 +52,9 @@ In part 4 you installed k3s with its default database, SQLite. For snapshots, k3
 
 The file came into your repo with the copy in chapter 6.1. `tofu plan` only shows a change to the context of the two VMs. The start script runs at every boot, but it stops right away when k3s is already installed. A changed installation therefore only affects new VMs. So you rebuild the cluster. That is also the first restore drill, because the rebuild shows how much Git alone brings back.
 
-Before the rebuild, save the Sealed Secrets key, otherwise the new cluster cannot decrypt the Grafana password.
+:::caution[Before the rebuild]
+The rebuild replaces both k3s VMs along with their disks. Metrics, logs and the audit log of a triage service from milestone 3 are gone afterwards. Take the screenshots for milestone 3 first and copy the audit log into your hand-in repo. Also save the Sealed Secrets key with the first two lines below, or the new cluster cannot decrypt the Grafana password.
+:::
 
 ```bash
 mkdir -p ~/backup/k3s && chmod 700 ~/backup ~/backup/k3s
@@ -77,7 +79,11 @@ In the lab, with the whole stack of part 5, `tofu apply` took just under three m
 
 ## Saving the snapshots
 
-A snapshot on the server does not help if the server itself is lost. The script copies the snapshots to the front-end, along with the k3s token and the Sealed Secrets key. Without the old server's token, k3s does not start from a snapshot, because the token encrypts confidential data in the database.
+A snapshot on the server does not help if the server itself is lost. The script copies the snapshots to the front-end, along with the k3s token and the Sealed Secrets key.
+
+:::caution[Keep the token and the key]
+Without the old server's token, k3s does not start from a snapshot, because the token encrypts confidential data in the database. Without the Sealed Secrets key, nobody can open a SealedSecret from Git anymore. Keep both in `~/backup/k3s`. They never go into Git, your hand-in repo or a screencast.
+:::
 
 ::code{file="platform/operations/backup-k3s.sh"}
 

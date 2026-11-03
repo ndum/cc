@@ -23,19 +23,21 @@ Nach diesem Kapitel kannst du:
 - Einen Preis für ein Mitglied aus den Vollkosten ableiten
 :::
 
-## Rahmen
+## Rahmen und Bewertung
 
-Die drei Aufträge geben Ziel und Anforderungen vor, den Weg dorthin entwirfst du selbst. Du baust auf dem Stand deiner Basis von Meilenstein 4 auf. Die Abschnitte vor den Aufträgen erklären die Konzepte und zeigen, wo du abwägen musst. Befehle und Dateien findest du in der Dokumentation und in den Kapiteln, auf die die Hinweise zeigen.
+Dieses Kapitel gibt dir keine Anleitung zum Nachbauen. Zu jedem Auftrag entwirfst du eine eigene Lösung, setzt sie in deinem Lab um und begründest deine Entscheide. Die Abschnitte vor den Aufträgen erklären die Konzepte und zeigen, wo du abwägen musst. Dabei gelten diese Bedingungen:
 
-Für alle drei Aufträge rechnest du mit vier bis sechs Stunden. Du zeigst sie gemeinsam live im Unterricht oder in einem Screencast, wie es die Seite [Meilenstein 4](../../assessment/milestone-4/#zusatzaufträge-zeigen) beschreibt. Dabei beantwortest du die zwei Fragen aus dem Check `m4`. Zu jedem Auftrag schreibst du eine Dokumentation, ihre Teile nennt die [Leistungsbeurteilung](../../assessment/#dokumentation-der-zusatzaufträge). KI-Assistenten darfst du nach den [Regeln des Kurses](../../start/overview/#ki-werkzeuge) einsetzen. In der Dokumentation hältst du fest, wofür du sie gebraucht hast. Erklären musst du alles können, was du zeigst.
-
-Jeder Auftrag gibt 0 bis 3 Punkte nach den [Stufen der Zusatzaufträge](../../assessment/#stufen-der-zusatzaufträge). Für 3 Punkte begründest du einen eigenen Entscheid mit einer Alternative und einer Abwägung. Die Abschnitte unten nennen dafür einige Gelegenheiten.
-
-Auftrag A setzt deinen Triage-Dienst aus Zusatzauftrag B von Meilenstein 3 voraus, den [Kapitel 5.5](../../observability/advanced/#auftrag-b--triage-mit-freigabe) beschreibt. Die Aufträge B und C bauen auf dem Mitglied aus Auftrag A auf.
+- Die Aufträge sind die Zusatzaufträge von [Meilenstein 4](../../assessment/milestone-4/) und bauen auf dem Stand deiner Basis auf
+- Auftrag A setzt deinen Triage-Dienst aus Zusatzauftrag B von Meilenstein 3 voraus, wie ihn [Kapitel 5.5](../../observability/advanced/#auftrag-b--triage-mit-freigabe) beschreibt. Die Aufträge B und C bauen auf dem Mitglied aus Auftrag A auf.
+- Für alle drei Aufträge zusammen rechnest du mit vier bis sechs Stunden
+- Du zeigst sie live im Unterricht oder in einem Screencast von höchstens zehn Minuten, wie es der Meilenstein unter [Zusatzaufträge zeigen](../../assessment/milestone-4/#zusatzaufträge-zeigen) beschreibt. Dabei beantwortest du die zwei Fragen aus dem Check `m4`.
+- Zu jedem Auftrag schreibst du eine Dokumentation in fünf Teilen, wie sie die [Leistungsbeurteilung](../../assessment/#dokumentation-der-zusatzaufträge) beschreibt
+- Jeder Auftrag gibt 0 bis 3 Punkte nach den [Stufen der Zusatzaufträge](../../assessment/#stufen-der-zusatzaufträge), 3 Punkte nur mit einem eigenen Entscheid samt Alternative und Abwägung. Ohne Dokumentation gibt er höchstens 1 Punkt.
+- KI-Assistenten setzt du nach den [Regeln des Kurses](../../start/overview/#ki-werkzeuge) ein. Jede Zeile deiner Lösung musst du in der Vorführung erklären können.
 
 ## Ein Mitglied entwerfen
 
-Das fünfte Mitglied wählst du frei. Es soll eine kleine Organisation aus der Region sein, die zu einer Genossenschaft wie Wolkenwerk passt. Sie hat einen Dienst auf einer VM und eine Anwendung im Cluster. Die Tabelle gibt einige Ideen, falls dir keine eigene kommt.
+Das fünfte Mitglied wählst du frei, eine kleine Organisation aus der Region mit einem Dienst auf einer VM und einer Anwendung im Cluster. Die Tabelle gibt einige Ideen.
 
 | Idee | Was sie braucht |
 |---|---|
@@ -46,91 +48,117 @@ Das fünfte Mitglied wählst du frei. Es soll eine kleine Organisation aus der R
 | Bäckerei mit Bestellungen | Bestellungen bis 18 Uhr, Spitzen vor Feiertagen |
 | Architekturbüro | grosse Pläne, Backups wichtiger als Verfügbarkeit |
 
-Bevor du etwas anlegst, schätzt du den Schutzbedarf ein. Wie in [Kapitel 6.1](../security/#schutzbedarf) stufst du Vertraulichkeit, Integrität und Verfügbarkeit ein und begründest jede Stufe. Daraus folgen die späteren Entscheide, etwa die Grösse der Quota, die Rechte des Triage-Dienstes, das RPO im SLA und der Preis. Eine Physiotherapie mit Notizen unter Berufsgeheimnis braucht andere Antworten als ein Quartierverein mit einer öffentlichen Website.
+Bevor du etwas anlegst, stufst du den Schutzbedarf des Mitglieds wie in [Kapitel 6.1](../security/#schutzbedarf) ein und begründest jede Stufe. Daraus folgen deine Entscheide zu Quota, Rechten des Triage-Dienstes, RPO und Preis. Das Lab setzt dabei zwei Grenzen:
 
-Zwei Grenzen setzt das Lab. Die Knoten haben neben den VMs von k3s wenig Arbeitsspeicher frei, die VM des Mitglieds hat darum höchstens 1 GB. Im Lab lief eine VM mit 1 GB neben dem Server von k3s, der Knoten lagerte dafür rund 200 MB auf die Disk aus. Die Anwendung im Cluster muss das Profil `restricted` erfüllen, das die Vorlage seit Kapitel 6.1 in jedem Namespace eines Mitglieds verlangt. Eine statische Website mit dem Image `nginxinc/nginx-unprivileged` genügt, eine kleine eigene App ebenso.
+- Die VM des Mitglieds hat höchstens 1 GB Arbeitsspeicher. Schon damit lagerte ein Knoten im Lab neben dem Server von k3s rund 200 MB auf die Disk aus.
+- Die Anwendung im Cluster erfüllt das Profil `restricted`, das die Vorlage seit Kapitel 6.1 verlangt. Eine statische Website mit dem Image `nginxinc/nginx-unprivileged` genügt, eine kleine eigene App ebenso.
 
 ## Ein Mitglied auf zwei Ebenen
 
-Ein Mitglied gibt es auf beiden Ebenen der Plattform. In OpenNebula ist es eine Gruppe mit einem Gruppenadmin in einem VDC, mit einer Quota und mit Preisen für den Showback. Im Cluster ist es ein Ordner in `members/`, aus dem Argo CD einen Namespace mit ResourceQuota, LimitRange, NetworkPolicy und dem Profil `restricted` macht. Voneinander wissen die beiden Ebenen nichts. Dass Gruppe und Namespace zum selben Mitglied gehören, zeigen nur die Namen und deine Dokumentation.
+Ein Mitglied gibt es auf beiden Ebenen der Plattform. Die Ebenen wissen nichts voneinander, nur die Namen und deine Dokumentation zeigen, dass Gruppe und Namespace zusammengehören.
 
-Bei den vier Mitgliedern haben das Skript aus [Kapitel 3.1](../../tenants/groups/) und die Pull Requests aus [Kapitel 4.5](../../platform/templates/#der-antrag-der-gemeinde) diese Arbeit erledigt. Beim fünften legst du selbst fest, in welcher Reihenfolge du vorgehst und was du von Hand, mit einem eigenen Skript oder über Git erledigst. Ein Skript kostet beim ersten Mitglied mehr Zeit, hält aber jeden Schritt fest und lässt sich beim nächsten wiederverwenden. Auch das VDC ist ein Entscheid. Im VDC `wolkenwerk` teilt das neue Mitglied den Cluster mit den anderen vier. Ein eigenes VDC kann ihm einen anderen Ausschnitt zuteilen, etwa nur einen Knoten.
+| Ebene | Das Mitglied | Seine Grenze |
+|---|---|---|
+| OpenNebula | eine Gruppe mit Gruppenadmin in einem VDC und mit Preisen für den Showback | die Quota der Gruppe |
+| Cluster | ein Ordner in `members/`, aus dem Argo CD einen Namespace mit LimitRange, NetworkPolicy und dem Profil `restricted` macht | die ResourceQuota im Namespace |
 
-Bei den Grenzen wägst du ab. Eine grosszügige Quota erspart dem Mitglied Anfragen beim Plattform-Team. Im Preismodell aus [Kapitel 6.4](../cost/#ein-preis-für-das-neue-mitglied) zählt sie aber als reservierte Kapazität und macht das Mitglied teurer. Eine knappe Quota passt zu einem kleinen Budget, bremst aber eine Anwendung, die zu Spitzenzeiten wachsen muss. Die Quota in OpenNebula und die ResourceQuota im Cluster sind zwei getrennte Grenzen, die du je für sich begründest.
+Bei den vier Mitgliedern erledigten das Skript aus [Kapitel 3.1](../../tenants/groups/) und die Pull Requests aus [Kapitel 4.5](../../platform/templates/#der-antrag-der-gemeinde) diese Arbeit. Beim fünften wählst du zwischen Handarbeit, einem eigenen Skript und Git. Ein Skript kostet beim ersten Mitglied mehr Zeit, hält aber jeden Schritt fest und lässt sich wiederverwenden. Ein eigenes VDC statt `wolkenwerk` kann dem Mitglied einen anderen Ausschnitt geben, etwa nur einen Knoten.
+
+Beide Grenzen begründest du je für sich. Eine grosszügige Quota erspart dem Mitglied Anfragen beim Plattform-Team, zählt im Preismodell aus [Kapitel 6.4](../cost/#ein-preis-für-das-neue-mitglied) aber als reservierte Kapazität. Eine knappe Quota passt zu einem kleinen Budget, bremst aber eine Anwendung, die zu Spitzenzeiten wachsen muss.
 
 ## Alerts für ein Mitglied
 
-Die Regeln eines Mitglieds gehören als `PrometheusRule` in seinen Ordner im Plattform-Repo. Sie kommen dann mit dem Pull Request des Mitglieds und verschwinden mit ihm. Die Werte von kube-prometheus-stack aus Kapitel 5.1 lassen Prometheus die Regeln aller Namespaces lesen, ein besonderes Label für den Selektor brauchst du deshalb nicht.
+Die Regeln eines Mitglieds liegen als `PrometheusRule` in seinem Ordner im Plattform-Repo und kommen und gehen mit seinem Pull Request. Dank der Werte von kube-prometheus-stack aus Kapitel 5.1 liest Prometheus die Regeln aller Namespaces, ein besonderes Label braucht es nicht.
 
-Ein guter Alert meldet ein Symptom, das die Kundschaft des Mitglieds bemerkt, wie [Kapitel 5.3](../../observability/slo/#symptome-und-ursachen) erklärt. Bei einer kleinen Website genügt oft die Frage, ob noch ein Pod bereit ist. Die Metriken von kube-state-metrics beschreiben dafür jedes Deployment. Die Dauer in `for` legt fest, wie lange die Bedingung gelten muss, bevor der Alert auslöst. Ist sie zu kurz, meldet der Alert schon einen gewöhnlichen Neustart. Ist sie zu lang, kommt die Meldung spät.
+Ein guter Alert meldet ein Symptom, das die Kundschaft bemerkt, wie [Kapitel 5.3](../../observability/slo/#symptome-und-ursachen) erklärt. Bei einer kleinen Website genügt oft die Frage, ob noch ein Pod bereit ist. Die Metriken von kube-state-metrics liefern dazu die Labels `namespace` und `deployment`, aus denen dein Triage-Dienst sein Ziel ablesen kann. Labels wie `severity` setzt du selbst in der Alert-Regel. Mit einer zu kurzen Dauer in `for` meldet der Alert schon einen gewöhnlichen Neustart, mit einer zu langen kommt er spät.
 
-Die Labels eines Alerts tragen, was ein Empfänger wissen muss. Metriken zu einem Deployment bringen `namespace` und `deployment` mit, daraus kann dein Triage-Dienst sein Ziel ablesen. Weitere Labels wie `severity` setzt du selbst in der Alert-Regel.
+Alertmanager reicht jeden Alert von der obersten Route an die erste Unterroute weiter, deren Matcher zu seinen Labels passen. Mit `continue` prüft er auch die folgenden Routen. In der Basis gibt es nur die oberste Route mit dem Empfänger `null`. Woran Alertmanager die Alerts für die Triage erkennt, entscheidest du, etwa am Namen, am Namespace oder an einem eigenen Label. `amtool config routes test` zeigt, welche Route ein Alert nimmt, wie das [README von Alertmanager](https://github.com/prometheus/alertmanager/blob/v0.34.2/README.md#amtool) beschreibt.
 
-Alertmanager leitet Alerts über einen Baum von Routen weiter. Jeder Alert beginnt bei der obersten Route. Die erste Unterroute, deren Matcher zu seinen Labels passen, übernimmt ihn. Mit `continue` prüft Alertmanager auch die folgenden Routen. In der Basis gibt es nur die oberste Route mit dem Empfänger `null`. Für dein Mitglied entscheidest du, woran Alertmanager die Alerts für die Triage erkennt, etwa am Namen des Alerts, am Namespace oder an einem eigenen Label, das jede Regel für die Triage trägt. Eine Route pro Mitglied liest sich leicht. Dafür änderst du bei jedem neuen Mitglied die Werte von Alertmanager. Mit einem gemeinsamen Label entscheiden die Regeln der Mitglieder selbst und die Route bleibt gleich. Welche Route ein Alert mit bestimmten Labels nimmt, zeigt `amtool config routes test`, wie das [README von Alertmanager](https://github.com/prometheus/alertmanager/blob/v0.34.2/README.md#amtool) beschreibt.
-
-Den Alert löst du über Git aus, etwa mit null Replikas oder einem Image, das es nicht gibt. Im Lab des Kurses kam der Alert zwei Minuten, nachdem der letzte Pod weg war. Der Triage-Dienst schlug einen Neustart vor. Das Team lehnte ab, denn solange Git null Replikas verlangt, startet auch ein Neustart keinen Pod. Argo CD stellt immer wieder den Zustand aus Git her, behoben ist die Störung erst mit dem richtigen Stand in Git.
+| Weg | Vorteil | Nachteil |
+|---|---|---|
+| Eine Route pro Mitglied | leicht zu lesen | bei jedem neuen Mitglied änderst du die Werte von Alertmanager |
+| Ein gemeinsames Label für die Triage | die Route bleibt gleich, die Regeln der Mitglieder entscheiden | jede Regel für die Triage muss das Label tragen |
 
 ## Rechte des Triage-Dienstes
 
-Nach den Anforderungen von Meilenstein 3 hat dein Triage-Dienst nur die Rechte, die er für den Webshop braucht. Für das neue Mitglied entscheidest du, ob er dort etwas lesen oder tun darf. In Kubernetes ist das eine `Role` mit `RoleBinding` im Namespace des Mitglieds. Eine `ClusterRole` mit `ClusterRoleBinding` gälte dagegen in allen Namespaces zugleich. [Kapitel 6.1](../security/#rechte-auf-der-plattform) erklärt die Rollen. Mit `kubectl auth can-i` und `--as` prüfst du, was ein ServiceAccount wirklich darf.
+Nach Meilenstein 3 darf dein Triage-Dienst nur, was er für den Webshop braucht. Was er beim neuen Mitglied lesen oder tun darf, legst du mit einer `Role` und einem `RoleBinding` in dessen Namespace fest. Eine `ClusterRole` mit `ClusterRoleBinding` gälte in allen Namespaces zugleich. [Kapitel 6.1](../security/#rechte-auf-der-plattform) erklärt die Rollen, `kubectl auth can-i` mit `--as` zeigt, was ein ServiceAccount wirklich darf.
 
-Die Rechte in Kubernetes gelten nur für Anfragen an die API von Kubernetes. Logs, die dein Dienst aus Loki holt, schützen sie nicht. Loki läuft im Lab mit `auth_enabled: false` und liefert jedem, der es erreicht, die Logs aller Namespaces. Ob dein Dienst die Logs des neuen Mitglieds liest, legst du deshalb im Dienst selbst fest.
+Diese Rechte gelten nur für die API von Kubernetes, nicht für die Logs in Loki. Loki läuft im Lab mit `auth_enabled: false` und liefert jedem, der es erreicht, die Logs aller Namespaces. Ob dein Dienst die Logs des Mitglieds liest, regelst du deshalb im Dienst selbst und begründest es mit dem Schutzbedarf.
 
-Die Abwägung hängt vom Schutzbedarf ab. Ohne Rechte und ohne Logs fehlt dem Modell der Kontext, sein Vorschlag bleibt allgemein. Mit Leserechten sieht es mehr, aber auch Daten des Mitglieds, denn Logs können Personendaten enthalten. Mit dem Recht, ein Deployment neu zu starten, kann ein falscher Vorschlag nach einer unbedachten Freigabe Schaden anrichten. Was dein Dienst beim Mitglied darf, legst du fest und begründest es mit dessen Einstufung.
+| Rechte beim Mitglied | Folge |
+|---|---|
+| Keine Rechte, keine Logs | dem Modell fehlt der Kontext, sein Vorschlag bleibt allgemein |
+| Leserechte | das Modell sieht mehr, auch Daten des Mitglieds, denn Logs können Personendaten enthalten |
+| Neustart eines Deployments | ein falscher Vorschlag kann nach einer unbedachten Freigabe Schaden anrichten |
 
 ## Wiederherstellung aus einem Snapshot
 
-In der Basis hast du den Cluster auf etcd umgestellt und die Snapshots mit dem Token und dem Schlüssel von Sealed Secrets auf das Front-end kopiert. Ein Snapshot ist eine Kopie der ganzen Datenbank des Clusters zu einem Zeitpunkt. Er enthält alle Objekte, auch die Secrets, die Applications von Argo CD und dessen Passwort. Die Daten in den Volumes enthält er nicht. Metriken, Logs und alles andere, was Pods auf eine Disk schreiben, liegen ausserhalb der Datenbank.
+Ein **Snapshot** ist eine Kopie der ganzen Datenbank des Clusters zu einem Zeitpunkt, mit allen Objekten bis zu den Secrets, den Applications von Argo CD und dessen Passwort. Was Pods in Volumes schreiben, etwa Metriken und Logs, enthält er nicht. Ohne das Token des alten Servers ist er nutzlos, denn damit verschlüsselt k3s vertrauliche Daten in der Datenbank, wie die Seite [Backup and Restore](https://docs.k3s.io/datastore/backup-restore) von k3s beschreibt.
 
-Ohne das Token des alten Servers lässt sich ein Snapshot nicht verwenden. Mit dem Token verschlüsselt k3s vertrauliche Daten in der Datenbank, wie die Seite [Backup and Restore](https://docs.k3s.io/datastore/backup-restore) von k3s beschreibt. Darum liegt es mit den Snapshots auf dem Front-end.
+Auf einem bestehenden Server setzt k3s die Datenbank mit `--cluster-reset` und `--cluster-reset-restore-path` auf einen Snapshot zurück. Der Server wird dabei zum einzigen Mitglied eines neuen etcd-Clusters. Ist der Server verloren, braucht ein neuer Server die Kopie des Snapshots und das alte Token. Die [Dokumentation der Snapshots](https://docs.k3s.io/cli/etcd-snapshot) beschreibt beide Fälle.
 
-Auf einem einzelnen Server setzt k3s die Datenbank mit den Optionen `--cluster-reset` und `--cluster-reset-restore-path` auf einen Snapshot zurück. Der Server wird dabei zum einzigen Mitglied eines neuen etcd-Clusters mit dem Inhalt des Snapshots. Ist der Server selbst verloren, braucht ein neuer Server die Kopie des Snapshots und das alte Token. Die [Dokumentation der Snapshots](https://docs.k3s.io/cli/etcd-snapshot) beschreibt beide Fälle.
-
-Controller wie Argo CD und der Operator von Prometheus beobachten den Cluster laufend und merken sich den Stand, den sie zuletzt gesehen haben. Nach dem Zurücksetzen passt dieser Stand nicht mehr zur Datenbank. Im Lab des Kurses löschte eine Übung den Namespace `argocd`. Die API war 13 Sekunden nach dem Zurücksetzen wieder da, mit dem Namespace und allen Applications. Danach übernahm Argo CD aber keinen neuen Commit mehr und der Operator meldete Fehler beim Beobachten. Ein Neustart der Controller in `argocd` und `monitoring` sowie des Controllers von Sealed Secrets behob beides. Auch die [Dokumentation von Kubernetes](https://v1-36.docs.kubernetes.io/docs/tasks/administer-cluster/configure-upgrade-etcd/#restoring-an-etcd-cluster) empfiehlt nach einer Wiederherstellung von etcd, die Komponenten neu zu starten, damit sie nicht mit veralteten Daten arbeiten.
-
-Läuft Argo CD wieder, gleicht es den Cluster mit Git ab. Was seit dem Snapshot in Git dazukam, rollt es dabei wieder aus. Verloren ist, was nur im Cluster lag und nach dem Snapshot entstand, etwa ein Secret, das jemand mit `kubectl` angelegt hat. Mit Snapshots alle sechs Stunden geht im schlimmsten Fall die Arbeit von sechs Stunden verloren.
+Controller wie Argo CD und der Operator von Prometheus merken sich den zuletzt gesehenen Stand, der nach dem Zurücksetzen nicht mehr stimmt. Im Lab des Kurses war die API 13 Sekunden nach dem Zurücksetzen mit dem zuvor gelöschten Namespace `argocd` und allen Applications zurück. Argo CD übernahm aber keine Commits mehr und der Operator meldete Fehler beim Beobachten, bis die Controller in `argocd` und `monitoring` und der Controller von Sealed Secrets neu gestartet waren. Diesen Neustart empfiehlt auch die [Dokumentation von Kubernetes](https://v1-36.docs.kubernetes.io/docs/tasks/administer-cluster/configure-upgrade-etcd/#restoring-an-etcd-cluster). Danach rollt Argo CD aus, was seit dem Snapshot in Git dazukam. Verloren ist, was nach dem Snapshot nur im Cluster entstand, etwa ein Secret aus `kubectl`. Bei Snapshots alle sechs Stunden ist das höchstens die Arbeit von sechs Stunden.
 
 ## Die Zeit messen
 
-Lege vor der Übung fest, wann die Uhr startet und wann sie stoppt. Die 13 Sekunden aus dem Lab messen nur, bis die API wieder antwortete. Für das Mitglied zählt, wann seine Anwendung wieder erreichbar ist und Argo CD Änderungen aus Git übernimmt. Zum RTO gehört auch die Zeit davor. Jemand muss den Ausfall bemerken, die zuständige Person muss reagieren und den passenden Snapshot wählen.
+Lege vor der Übung fest, wann die Uhr startet und wann sie stoppt. Die 13 Sekunden aus dem Lab messen nur, bis die API wieder antwortete. Für das Mitglied zählt, wann seine Anwendung läuft und Argo CD Änderungen aus Git übernimmt. Zum RTO gehört auch die Zeit, bis jemand den Ausfall bemerkt, reagiert und den passenden Snapshot wählt.
 
-Ein gelöschter Namespace ist ein anderer Fall als ein verlorener Server. Im ersten genügt der Snapshot auf dem Server selbst. Im zweiten brauchst du einen neuen Server, die Kopie auf dem Front-end und das Token. Im Lab des Kurses ersetzte `tofu apply` den verlorenen Server. Die neue VM wartete zehn Minuten in `pending`, weil OpenNebula für die Disk des Knotens noch den alten Wert kannte. Kapitel 6.2 beschreibt dasselbe beim Neubau. Vom Zurücksetzen bis zur laufenden Anwendung des Mitglieds verging danach knapp eine Minute. Die Volumes von local-path auf der Disk des alten Servers gab es nur noch als Objekte ohne ihre Ordner. Ihre Pods warteten deshalb mit der Meldung «does not exist». Einen eigenen Snapshot hat der neue Server erst wieder, wenn k3s den nächsten nach Zeitplan schreibt. Welchen Fall du übst, entscheidest du. Im SLA schreibst du, für welchen Fall deine Zeit gilt.
+| Fall | Du brauchst | Im Lab des Kurses |
+|---|---|---|
+| Gelöschter Namespace | den Snapshot auf dem Server selbst | API nach 13 Sekunden zurück, danach Neustart der Controller |
+| Verlorener Server | einen neuen Server, die Kopie des Snapshots auf dem Front-end und das Token | vom Zurücksetzen bis zur laufenden Anwendung des Mitglieds knapp eine Minute |
+
+Die Volumes von local-path auf der Disk des verlorenen Servers blieben nur als Objekte ohne ihre Ordner zurück, ihre Pods warteten mit der Meldung «does not exist». Welchen Fall du übst, entscheidest du. Im SLA schreibst du, für welchen Fall deine Zeit gilt.
 
 ## Ein SLA auf Messwerten
 
-[Kapitel 6.3](../sla/) beschreibt die Teile eines SLA und welche Verfügbarkeit die Architektur des Labs ehrlich zulässt. Für dein Mitglied stützt du die Zusagen auf das, was du gemessen und gesichert hast.
+[Kapitel 6.3](../sla/) beschreibt die Teile eines SLA und die Verfügbarkeit, die das Lab ehrlich zulässt. Für dein Mitglied stützt du jede Zusage auf Messungen und Sicherungen.
 
-Das RTO folgt aus deiner Messung und aus den Betriebszeiten. Ohne Pikett behebt das Team einen Ausfall am Samstagabend erst am Montag. Das SLA sagt deshalb, ob das RTO rund um die Uhr gilt oder nur zu den Supportzeiten. Das RPO folgt aus den Sicherungen. Für den Zustand im Cluster sind das die Snapshots alle sechs Stunden, für die VM des Mitglieds der Zeitplan ihres Backup-Jobs. Steht die VM in keinem Backup-Job, kann das SLA für ihre Daten kein RPO zusagen.
+- Das RTO folgt aus deiner Messung und den Betriebszeiten. Ohne Pikett wird ein Ausfall am Samstagabend erst am Montag behoben. Das SLA sagt deshalb, ob das RTO rund um die Uhr oder nur zu den Supportzeiten gilt.
+- Das RPO folgt aus den Sicherungen, für den Cluster aus den Snapshots alle sechs Stunden, für die VM aus ihrem Backup-Job. Ohne Backup-Job kann das SLA für die Daten der VM kein RPO zusagen.
+- Die Verfügbarkeit folgt aus der Architektur mit nur einem Front-end und einem Server von k3s. Eine höhere Zusage verlangt etwa einen Pikettdienst oder drei Server für k3s und erhöht den Preis aus Auftrag C.
 
-Die Verfügbarkeit leitest du aus der Architektur ab. Das Lab hat ein Front-end und einen Server von k3s, beide nur einmal. Eine höhere Zusage verlangt mehr Aufwand, etwa einen Pikettdienst oder drei Server für k3s. Das erhöht auch den Preis aus Auftrag C. Das SLO, das du intern verfolgst, setzt du strenger als das SLA. Dann bemerkst du ein Problem, bevor die Zusage bricht. Das Kapitel [Service Level Objectives](https://sre.google/sre-book/service-level-objectives/) im SRE-Buch von Google erklärt diesen Unterschied.
+Intern setzt du das SLO strenger als das SLA, damit du ein Problem bemerkst, bevor die Zusage bricht. Das Kapitel [Service Level Objectives](https://sre.google/sre-book/service-level-objectives/) im SRE-Buch von Google erklärt den Unterschied.
 
 ## Ein Postmortem aus Daten
 
-Die Zeitlinie ist der wichtigste Teil eines Postmortems und zugleich der mühsamste. Bei Wolkenwerk liegen die Fakten an drei Orten. Prometheus speichert für jeden Alert im Zustand `pending` oder `firing` eine Zeitreihe `ALERTS` mit dem Namen und dem Zustand des Alerts. Daraus lassen sich Beginn und Ende ablesen. Dein Triage-Dienst hält Vorschläge und Entscheide in seinem Audit-Log fest. Die Änderungen stehen im Verlauf des Plattform-Repos in Git. Ein Programm kann diese drei Quellen abfragen und nach der Zeit ordnen, ohne dass ein Modell beteiligt ist. Alerts wie `Watchdog`, der immer auslöst und nur zeigt, dass die Alarmierung läuft, gehören nicht in die Zeitlinie. Dasselbe gilt für `InfoInhibitor`, der nur Alerts der Stufe info unterdrückt.
+Die Zeitlinie ist der wichtigste und mühsamste Teil eines Postmortems. Bei Wolkenwerk liegen ihre Fakten an drei Orten.
 
-Das Modell schreibt danach nur den Text um die Zeitlinie herum, etwa Zusammenfassung, Auswirkung, Ursachen und Massnahmen. Eine gute Frage an das Modell verlangt einen Bericht ohne Schuldzuweisung, der nur die gelieferten Fakten verwendet und eine fehlende Angabe als fehlend benennt. Mit der Option `format` gibt Ollama die Antwort als JSON oder nach einem JSON-Schema zurück. Eine solche Antwort lässt sich in ein Dokument mit festen Abschnitten einsetzen. Wie du das Modell vom Front-end aus erreichst, hängt davon ab, wie du es in Meilenstein 3 bereitgestellt hast.
+| Quelle | Was sie liefert |
+|---|---|
+| Zeitreihe `ALERTS` in Prometheus | Name und Zustand jedes Alerts in `pending` oder `firing`, daraus Beginn und Ende |
+| Audit-Log deines Triage-Dienstes | Vorschläge und Entscheide |
+| Verlauf des Plattform-Repos in Git | die Änderungen |
 
-Im Lab des Kurses ging es um einen Vorfall wie in Kapitel 5.3, über Git stand `FAIL_PERCENT` auf 60. Das Modell `llama3.2:3b` schrieb den Entwurf in 33 Sekunden. Die Zeitlinie stimmte, weil ein Programm sie aus den Daten gebaut hatte. Der Entwurf des Modells enthielt dagegen mehrere Fehler.
+Ein Programm fragt diese Quellen ab und ordnet sie nach der Zeit, ganz ohne Modell. Das Modell schreibt nur den Text darum herum, etwa Zusammenfassung, Auswirkung, Ursachen und Massnahmen. Eine gute Frage verlangt einen Bericht ohne Schuldzuweisung, der nur die gelieferten Fakten verwendet und Fehlendes als fehlend benennt. Mit der Option `format` antwortet Ollama in JSON oder nach einem JSON-Schema, passend für ein Dokument mit festen Abschnitten.
 
-- Die Ausfallzeit gab er mit etwa einer Stunde an, die Fehler dauerten rund zehn Minuten.
-- Den Umbau auf etcd machte er für eine Verzögerung der Snapshots verantwortlich, die es nie gab.
-- Denselben Umbau lobte er als Gewinn an Stabilität, ohne dass ein Fakt das zeigte.
-- Er erfand Verantwortliche wie «Teamleiter A» und schrieb Massnahmen unter «Was schlecht lief».
-- Die richtige Ursache, `FAIL_PERCENT` auf 60, übernahm er aus dem Vorschlag des Triage-Dienstes.
+Im Lab des Kurses stand über Git `FAIL_PERCENT` auf 60 wie beim Vorfall in Kapitel 5.3. Das Modell `llama3.2:3b` schrieb den Entwurf in 33 Sekunden. Die Zeitlinie aus dem Programm stimmte, der Entwurf enthielt dagegen mehrere Fehler.
 
-Ein zweiter Entwurf über eine halbe Stunde nannte 13 Minuten Auswirkung. Im nächsten Satz schrieb er, die Benutzer hätten keine Ausfälle bemerkt, obwohl 60 % der Anfragen scheiterten. Ein Entwurf spart Tipparbeit, sieht aber auch dann wie ein fertiger Bericht aus, wenn seine Aussagen falsch sind. Deine Korrektur prüft deshalb jede Zahl, jede Ursache und jede genannte Person gegen die Zeitlinie. Entwurf und korrigierte Fassung bleiben als zwei Dateien erhalten, damit man sieht, was du geändert hast.
+- Er gab etwa eine Stunde Ausfall an, die Fehler dauerten rund zehn Minuten
+- Er machte den Umbau auf etcd für eine Verzögerung der Snapshots verantwortlich, die es nie gab
+- Er lobte denselben Umbau ohne einen Fakt als Gewinn an Stabilität
+- Er erfand Verantwortliche wie «Teamleiter A» und schrieb Massnahmen unter «Was schlecht lief»
+- Die richtige Ursache übernahm er aus dem Vorschlag des Triage-Dienstes
+
+Ein zweiter Entwurf über eine halbe Stunde nannte 13 Minuten Auswirkung und schrieb gleich danach, die Benutzer hätten keine Ausfälle bemerkt, obwohl 60 % der Anfragen scheiterten. Weil ein Entwurf auch mit falschen Aussagen fertig aussieht, prüft deine Korrektur jede Zahl, jede Ursache und jede genannte Person gegen die Zeitlinie.
 
 ## Das Kostenmodell eines Mitglieds
 
-[Kapitel 6.4](../cost/) hat die Vollkosten von Wolkenwerk auf 17’128 Franken im Jahr geschätzt und nach reservierten Ressourcen verteilt. Ein Mitglied mit einem Namespace von 1 CPU und 1 GB und einer VM mit einer halben CPU und 1 GB trug davon 16,3 %, rund 233 Franken im Monat. Mit den Preisen des Showbacks aus Kapitel 3.3 kostete dasselbe Mitglied rund 86 Franken. Den Unterschied macht vor allem die Arbeit des Plattform-Teams, die im Showback fehlt.
+In [Kapitel 6.4](../cost/) kostete ein Mitglied mit einem Namespace von 1 CPU und 1 GB und einer VM mit einer halben CPU und 1 GB rund 233 Franken im Monat, 16,3 % der Vollkosten von 17’128 Franken im Jahr. Nach den Preisen des Showbacks aus Kapitel 3.3 waren es rund 86 Franken, vor allem weil dort die Arbeit des Plattform-Teams fehlt.
 
-Für dein Mitglied triffst du eigene Annahmen und begründest sie. Du kannst die Kosten nach Reservierung verteilen, nach gemessenem Verbrauch oder als Grundbeitrag pro Mitglied mit einem Anteil nach Verbrauch. Nach Reservierung ist die Rechnung einfach und planbar, eine grosszügige Quota wird aber teuer. Nach Verbrauch folgt der Preis dem tatsächlichen Gebrauch, schwankt aber von Monat zu Monat und braucht Messwerte über längere Zeit. Backups belegen Platz im Backup-Datastore und gehören in die Rechnung, wenn das Mitglied viele oder grosse davon hat.
+Für dein Mitglied wählst du die Verteilung und begründest deine Annahmen.
 
-Für das Right-Sizing vergleichst du Requests und Quota deines Mitglieds mit dem gemessenen Verbrauch, mit den Abfragen aus [Kapitel 6.4](../cost/#right-sizing). Im Lab des Kurses reservierte das Mitglied `probe` 64 MiB Speicher und nutzte höchstens 21 MiB. Für einen Entscheid misst du länger als eine Stunde, mindestens einen Tag mit typischer Last.
+| Verteilung | Eigenschaft |
+|---|---|
+| Nach Reservierung | einfach und planbar, eine grosszügige Quota wird aber teuer |
+| Nach gemessenem Verbrauch | folgt dem tatsächlichen Gebrauch, schwankt aber von Monat zu Monat und braucht Messwerte über längere Zeit |
+| Grundbeitrag und Anteil nach Verbrauch | der Grundbeitrag deckt die Arbeit, der Verbrauch kommt nach Showback dazu |
+
+Backups im Backup-Datastore gehören in die Rechnung, wenn das Mitglied viele oder grosse davon hat. Für das Right-Sizing vergleichst du Requests und Quota deines Mitglieds mit dem Verbrauch aus den Abfragen von [Kapitel 6.4](../cost/#right-sizing). Im Lab des Kurses reservierte das Mitglied `probe` 64 MiB Speicher und nutzte höchstens 21 MiB.
 
 ## Auftrag A · Ein eigenes Mitglied
 
-Du nimmst ein fünftes Mitglied, das du selbst entworfen hast, auf beiden Ebenen deiner Plattform auf und überwachst seine Anwendung. Ein Alert der Anwendung erreicht deinen Triage-Dienst aus Meilenstein 3. Du entscheidest über dessen Vorschlag und behebst den Fehler über Git.
+Du nimmst ein fünftes Mitglied, das du selbst entworfen hast, auf beiden Ebenen deiner Plattform auf und überwachst seine Anwendung. Ihr Alert erreicht deinen Triage-Dienst aus Meilenstein 3, du entscheidest über dessen Vorschlag und behebst den Fehler über Git.
 
 Deine Lösung erfüllt diese Anforderungen:
 
@@ -147,7 +175,22 @@ In der Vorführung zeigst du:
 - Den Alert in Alertmanager, den Vorschlag deines Triage-Dienstes und deinen Entscheid im Audit-Log
 - Mit `kubectl auth can-i`, was dein Triage-Dienst im Namespace des Mitglieds darf
 
-Gruppen, Gruppenadmins und VDCs kennst du aus [Kapitel 3.1](../../tenants/groups/), Quotas aus [Kapitel 3.2](../../tenants/quotas/) und die Preise aus [Kapitel 3.3](../../tenants/showback/). Die Dokumentation von OpenNebula 7.4 beschreibt [Gruppen](https://docs.opennebula.io/7.4/product/cloud_system_administration/multitenancy/manage_groups/), [VDCs](https://docs.opennebula.io/7.4/product/cloud_system_administration/multitenancy/manage_vdcs/), [Quotas](https://docs.opennebula.io/7.4/product/cloud_system_administration/capacity_planning/quotas/) und den [Showback](https://docs.opennebula.io/7.4/product/cloud_system_administration/multitenancy/showback/). Den Weg eines Namespace über einen Pull Request zeigt [Kapitel 4.5](../../platform/templates/#der-antrag-der-gemeinde). Was das Profil `restricted` verlangt, steht in [Kapitel 6.1](../security/#pod-security-admission) und in den [Pod Security Standards](https://v1-36.docs.kubernetes.io/docs/concepts/security/pod-security-standards/) von Kubernetes 1.36. Für die Regel helfen [Kapitel 5.3](../../observability/slo/) und die Anleitung des Prometheus Operator 0.94 zu [Regeln](https://github.com/prometheus-operator/prometheus-operator/blob/v0.94.2/Documentation/developer/alerting.md#deploying-prometheus-rules). Die Weiterleitung mit `route`, Matchern und `webhook_config` beschreibt die [Konfiguration von Alertmanager 0.34](https://prometheus.io/docs/alerting/0.34/configuration/#route), der Version in kube-prometheus-stack 92.17.0. Rollen und Bindungen erklärt die [Dokumentation zu RBAC](https://v1-36.docs.kubernetes.io/docs/reference/access-authn-authz/rbac/).
+Dabei helfen dir:
+
+- [Kapitel 3.1](../../tenants/groups/) zu Gruppen, Gruppenadmins und VDCs, [Kapitel 3.2](../../tenants/quotas/) zu Quotas und [Kapitel 3.3](../../tenants/showback/) zu den Preisen
+- Die Dokumentation von OpenNebula 7.4 zu [Gruppen](https://docs.opennebula.io/7.4/product/cloud_system_administration/multitenancy/manage_groups/), [VDCs](https://docs.opennebula.io/7.4/product/cloud_system_administration/multitenancy/manage_vdcs/), [Quotas](https://docs.opennebula.io/7.4/product/cloud_system_administration/capacity_planning/quotas/) und zum [Showback](https://docs.opennebula.io/7.4/product/cloud_system_administration/multitenancy/showback/)
+- [Kapitel 4.5](../../platform/templates/#der-antrag-der-gemeinde) mit dem Weg eines Namespace über einen Pull Request
+- [Kapitel 6.1](../security/#pod-security-admission) und die [Pod Security Standards](https://v1-36.docs.kubernetes.io/docs/concepts/security/pod-security-standards/) von Kubernetes 1.36 zum Profil `restricted`
+- [Kapitel 5.3](../../observability/slo/) und die Anleitung des Prometheus Operator 0.94 zu [Regeln](https://github.com/prometheus-operator/prometheus-operator/blob/v0.94.2/Documentation/developer/alerting.md#deploying-prometheus-rules) für die Alert-Regel
+- Die [Konfiguration von Alertmanager 0.34](https://prometheus.io/docs/alerting/0.34/configuration/#route), der Version in kube-prometheus-stack 92.17.0, zu `route`, Matchern und `webhook_config`
+- Die [Dokumentation zu RBAC](https://v1-36.docs.kubernetes.io/docs/reference/access-authn-authz/rbac/) zu Rollen und Bindungen
+
+Hinweise aus dem Lab:
+
+- Den Alert löst du über Git aus, etwa mit null Replikas oder einem Image, das es nicht gibt
+- Im Lab des Kurses kam der Alert zwei Minuten, nachdem der letzte Pod weg war
+- Der Triage-Dienst schlug dort einen Neustart vor. Das Team lehnte ab, denn solange Git null Replikas verlangt, startet auch ein Neustart keinen Pod.
+- Argo CD stellt immer wieder den Zustand aus Git her, behoben ist die Störung erst mit dem richtigen Stand in Git
 
 ## Auftrag B · Cluster wiederherstellen und SLA
 
@@ -168,13 +211,26 @@ In der Vorführung zeigst du:
 - Einen Commit, den Argo CD nach der Wiederherstellung übernommen hat
 - Das SLA und die Begründung von RPO und RTO
 
-Die Wiederherstellung darfst du vor der Vorführung machen. Dann zeigst du sie an ihren Spuren, etwa am Snapshot, an deinen Zeiten und am Zustand danach.
+Dabei helfen dir:
 
-Snapshots, ihre Kopie und das Token kennst du aus [Kapitel 6.2](../backup/#snapshots-sichern). Die [Dokumentation der Snapshots](https://docs.k3s.io/cli/etcd-snapshot) von k3s beschreibt die Wiederherstellung auf einem bestehenden Server und auf neuen Hosts. Lege vor der Übung in smartlearn oder in deinem Hypervisor einen Snapshot der drei Server an, damit du bei einem Fehlschlag zurückkannst. Die Teile eines SLA und die Tabelle der Ausfallzeiten stehen in [Kapitel 6.3](../sla/), RPO und RTO in [Kapitel 6.2](../backup/#rpo-und-rto). Das Kapitel [Service Level Objectives](https://sre.google/sre-book/service-level-objectives/) im SRE-Buch erklärt, warum ein internes SLO strenger sein soll als das SLA.
+- [Kapitel 6.2](../backup/#snapshots-sichern) zu den Snapshots, ihrer Kopie und dem Token
+- Die [Dokumentation der Snapshots](https://docs.k3s.io/cli/etcd-snapshot) von k3s zur Wiederherstellung auf einem bestehenden Server und auf neuen Hosts
+- [Kapitel 6.3](../sla/) mit den Teilen eines SLA und der Tabelle der Ausfallzeiten, [Kapitel 6.2](../backup/#rpo-und-rto) mit RPO und RTO
+- Das Kapitel [Service Level Objectives](https://sre.google/sre-book/service-level-objectives/) im SRE-Buch, das erklärt, warum ein internes SLO strenger sein soll als das SLA
+
+Hinweise aus dem Lab:
+
+- Die Wiederherstellung darfst du vor der Vorführung machen. Dort zeigst du sie an ihren Spuren, etwa am Snapshot, an deinen Zeiten und am Zustand danach.
+- Als `tofu apply` im Lab einen verlorenen Server ersetzte, wartete die neue VM zehn Minuten in `pending`. Wie beim Neubau in Kapitel 6.2 kannte OpenNebula für die Disk des Knotens noch den alten Wert.
+- Einen eigenen Snapshot hat ein neuer Server erst wieder, wenn k3s den nächsten nach Zeitplan schreibt
+
+:::caution[Vor der Wiederherstellung]
+Ein Snapshot von etcd bringt keine Daten aus Volumes zurück. Kopiere deshalb vorher das Audit-Log deines Triage-Dienstes aus Auftrag A in dein Abgabe-Repo. Lege zudem in smartlearn oder in deinem Hypervisor einen Snapshot der drei Server an, damit du bei einem Fehlschlag zurückkannst.
+:::
 
 ## Auftrag C · Postmortem und Kostenmodell
 
-Zum Vorfall aus Auftrag A lässt du das lokale Modell aus einer Zeitlinie einen Entwurf des Postmortems schreiben. Die Zeitlinie baust du ohne Modell aus den Daten auf, den Entwurf korrigierst du selbst. Dazu rechnest du ein Kostenmodell für dein Mitglied.
+Zum Vorfall aus Auftrag A schreibt das lokale Modell einen Entwurf des Postmortems aus einer Zeitlinie, die du ohne Modell aus den Daten aufbaust. Du korrigierst den Entwurf und rechnest dazu ein Kostenmodell für dein Mitglied.
 
 Deine Lösung erfüllt diese Anforderungen:
 
@@ -191,4 +247,18 @@ In der Vorführung zeigst du:
 - Das Kostenmodell und den Showback deines Mitglieds für einen Monat
 - Deinen Vorschlag zum Right-Sizing mit den Messwerten
 
-[Kapitel 6.3](../sla/#postmortems) beschreibt Postmortems ohne Schuldzuweisung und verweist auf das Kapitel [Postmortem Culture](https://sre.google/sre-book/postmortem-culture/) des SRE-Buchs von Google. Ein [Beispiel](https://sre.google/sre-book/example-postmortem/) im selben Buch zeigt einen vollständigen Aufbau mit Zeitlinie. Die Zeitreihe `ALERTS` erklärt die [Dokumentation von Prometheus 3.15](https://prometheus.io/docs/prometheus/3.15/configuration/alerting_rules/#inspecting-alerts-during-runtime), die Option `format` die [Schnittstelle von Ollama 0.40.13](https://github.com/ollama/ollama/blob/v0.40.13/docs/api.md). Das Modell erreichst du so, wie du es in [Zusatzauftrag A von Meilenstein 3](../../observability/advanced/#auftrag-a--ein-lokales-sprachmodell) bereitgestellt hast. Für die Kosten nimmst du die Vollkosten und die Abfragen aus [Kapitel 6.4](../cost/), den Showback mit `oneshowback` aus [Kapitel 3.3](../../tenants/showback/#kosten-berechnen). Die FinOps Foundation beschreibt Showback und Chargeback unter [Invoicing and Chargeback](https://www.finops.org/framework/capabilities/invoicing-chargeback/).
+Dabei helfen dir:
+
+- [Kapitel 6.3](../sla/#postmortems) zu Postmortems ohne Schuldzuweisung und das Kapitel [Postmortem Culture](https://sre.google/sre-book/postmortem-culture/) des SRE-Buchs von Google
+- Ein [Beispiel](https://sre.google/sre-book/example-postmortem/) im selben Buch mit einem vollständigen Aufbau samt Zeitlinie
+- Die [Dokumentation von Prometheus 3.15](https://prometheus.io/docs/prometheus/3.15/configuration/alerting_rules/#inspecting-alerts-during-runtime) zur Zeitreihe `ALERTS`
+- Die [Schnittstelle von Ollama 0.40.13](https://github.com/ollama/ollama/blob/v0.40.13/docs/api.md) mit der Option `format`
+- [Zusatzauftrag A von Meilenstein 3](../../observability/advanced/#auftrag-a--ein-lokales-sprachmodell), denn das Modell erreichst du vom Front-end aus so, wie du es dort bereitgestellt hast
+- [Kapitel 6.4](../cost/) zu den Vollkosten und Abfragen und [Kapitel 3.3](../../tenants/showback/#kosten-berechnen) zum Showback mit `oneshowback`
+- [Invoicing and Chargeback](https://www.finops.org/framework/capabilities/invoicing-chargeback/) der FinOps Foundation zu Showback und Chargeback
+
+Hinweise aus dem Lab:
+
+- `Watchdog` löst immer aus und zeigt nur, dass die Alarmierung läuft. Er gehört nicht in die Zeitlinie, ebenso wenig `InfoInhibitor`, der nur Alerts der Stufe info unterdrückt.
+- Für einen Entscheid zum Right-Sizing misst du länger als eine Stunde, mindestens einen Tag mit typischer Last
+- Entwurf und Korrektur bleiben als zwei Dateien erhalten, damit man sieht, was du geändert hast

@@ -21,11 +21,11 @@ Nach diesem Kapitel kannst du:
 
 ## RPO und RTO
 
-Zwei Zahlen beschreiben, was ein Ausfall kosten darf. Das Recovery Point Objective (RPO) ist der Zeitpunkt, bis zu dem Daten nach einem Ausfall wiederhergestellt sein müssen. Wer jede Nacht sichert, kann bis zu 24 Stunden Daten verlieren. Das Recovery Time Objective (RTO) ist die längste Zeit, die ein Dienst ausfallen darf, bevor der Schaden nicht mehr tragbar ist. Beide Begriffe stammen aus der Notfallplanung. Das NIST definiert sie in [SP 800-34](https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-34r1.pdf).
+Zwei Zahlen beschreiben, was ein Ausfall kosten darf. Das **Recovery Point Objective** (RPO) ist der Zeitpunkt, bis zu dem Daten nach einem Ausfall wiederhergestellt sein müssen. Wer jede Nacht sichert, kann bis zu 24 Stunden Daten verlieren. Das **Recovery Time Objective** (RTO) ist die längste Zeit, die ein Dienst ausfallen darf, bevor der Schaden nicht mehr tragbar ist. Beide Begriffe stammen aus der Notfallplanung. Das NIST definiert sie in [SP 800-34](https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-34r1.pdf).
 
 Ein kleines RPO verlangt häufige Backups, ein kleines RTO eine schnelle und geübte Wiederherstellung. Beides kostet. Die Treuhand verliert am Monatsende ungern einen halben Tag Buchungen, der Webshop verkraftet einen verlorenen Tag Logs ohne Weiteres.
 
-Als Faustregel gilt die Regel 3-2-1, die die amerikanische Behörde CISA in [Data Backup Options](https://www.cisa.gov/sites/default/files/publications/data_backup_options.pdf) beschreibt. Man hält drei Kopien wichtiger Daten auf zwei verschiedenen Medien, eine davon ausser Haus.
+Als Faustregel gilt die **Regel 3-2-1**, die die amerikanische Behörde CISA in [Data Backup Options](https://www.cisa.gov/sites/default/files/publications/data_backup_options.pdf) beschreibt. Man hält drei Kopien wichtiger Daten auf zwei verschiedenen Medien, eine davon ausser Haus.
 
 ## Grenzen von Git
 
@@ -52,7 +52,9 @@ In Teil 4 hast du k3s mit seiner Standard-Datenbank SQLite installiert. Für Sna
 
 Die Datei kam beim Kopieren in Kapitel 6.1 in dein Repo. `tofu plan` zeigt nur eine Änderung am Kontext der beiden VMs. Das Startskript läuft zwar bei jedem Start, endet aber sofort, wenn k3s schon installiert ist. Eine geänderte Installation wirkt deshalb erst auf neuen VMs. Du baust den Cluster also neu. Das ist zugleich die erste Übung zur Wiederherstellung, denn der Neubau zeigt, wie viel Git allein zurückbringt.
 
-Sichere vor dem Neubau den Schlüssel von Sealed Secrets, sonst kann der neue Cluster das Passwort von Grafana nicht entschlüsseln.
+:::caution[Vor dem Neubau]
+Der Neubau ersetzt beide VMs von k3s mit ihren Disks. Metriken, Logs und das Audit-Log eines Triage-Dienstes aus Meilenstein 3 sind danach weg. Mach deshalb vorher die Screenshots für Meilenstein 3 und kopiere das Audit-Log in dein Abgabe-Repo. Sichere zudem mit den ersten beiden Zeilen unten den Schlüssel von Sealed Secrets, sonst kann der neue Cluster das Passwort von Grafana nicht entschlüsseln.
+:::
 
 ```bash
 mkdir -p ~/backup/k3s && chmod 700 ~/backup ~/backup/k3s
@@ -77,7 +79,11 @@ Mit dem ganzen Stack aus Teil 5 dauerte `tofu apply` für diesen Neubau im Lab k
 
 ## Snapshots sichern
 
-Ein Snapshot auf dem Server hilft nicht, wenn der Server selbst verloren ist. Das Skript kopiert die Snapshots auf das Front-end, dazu das Token von k3s und den Schlüssel von Sealed Secrets. Ohne das Token des alten Servers startet k3s mit einem Snapshot nicht, denn das Token verschlüsselt vertrauliche Daten in der Datenbank.
+Ein Snapshot auf dem Server hilft nicht, wenn der Server selbst verloren ist. Das Skript kopiert die Snapshots auf das Front-end, dazu das Token von k3s und den Schlüssel von Sealed Secrets.
+
+:::caution[Token und Schlüssel aufbewahren]
+Ohne das Token des alten Servers startet k3s mit einem Snapshot nicht, denn das Token verschlüsselt vertrauliche Daten in der Datenbank. Ohne den Schlüssel von Sealed Secrets öffnet niemand mehr ein SealedSecret aus Git. Bewahre beide in `~/backup/k3s` auf. Sie gehören weder in Git noch in dein Abgabe-Repo oder in einen Screencast.
+:::
 
 ::code{file="platform/operations/backup-k3s.sh"}
 

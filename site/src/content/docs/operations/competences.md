@@ -24,4 +24,4 @@ Mit diesem Raster schätzt du ein, ob du deine Plattform sicher, wiederherstellb
 | den Cluster aus einem Snapshot wiederherstellen (Zusatz) | Beschreibe die Schritte und was danach noch zu tun ist. | [Zusatzaufträge](../advanced/#wiederherstellung-aus-einem-snapshot) |
 | ein Postmortem verfassen und prüfen (Zusatz) | Prüfe einen Entwurf des Modells gegen seine Zeitlinie und korrigiere ihn. | [Zusatzaufträge](../advanced/#ein-postmortem-aus-daten) |
 
-Mit diesem Teil schliesst du [Meilenstein 4](../../assessment/milestone-4/) ab und hast die Inhalte des Kurses durch. Zeilen mit dem Vermerk «Zusatz» gehören zu einem Zusatzauftrag und zählen nicht zur Basis.
+Mit diesem Teil schliesst du [Meilenstein 4](../../assessment/milestone-4/) ab und hast die Inhalte des Kurses durch. Zeilen mit dem Vermerk «Zusatz» gehören zu einem Zusatzauftrag aus [Kapitel 6.5](../advanced/) und zählen nicht zur Basis. Meilenstein 4 gibst du zusammen mit Meilenstein 3 als Abgabe 2 ab. Gegen Ende des Moduls folgt die [Prüfung](../../assessment/exam/).

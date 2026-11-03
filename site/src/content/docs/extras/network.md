@@ -70,7 +70,7 @@ Auf Knoten 1 nennt `netplan status` den Stub von systemd-resolved und für `eth0
 
 ## Bridges und VXLAN
 
-Eine Bridge verbindet Schnittstellen auf Schicht 2 wie ein Switch. Sie merkt sich, hinter welchem Port welche MAC-Adresse liegt. Rahmen an eine bekannte Adresse schickt sie nur an diesen Port. Ein VXLAN-Gerät ist ein Port, der Rahmen in UDP-Pakete packt und über eine andere Schnittstelle verschickt.
+Eine **Bridge** verbindet Schnittstellen auf Schicht 2 wie ein Switch. Sie merkt sich, hinter welchem Port welche MAC-Adresse liegt. Rahmen an eine bekannte Adresse schickt sie nur an diesen Port. Ein **VXLAN-Gerät** ist ein Port, der Rahmen in UDP-Pakete packt und über eine andere Schnittstelle verschickt.
 
 Auf dem Front-end legt `cc-gateway` beides an, `cc-vxlan` in der Bridge `cc-br` mit der Adresse des Gateways. Auf den Knoten legt OpenNebula die Bridge `ccbr5862` und das VXLAN-Gerät `eth0.5862` an, sobald dort eine VM aus cc-net läuft. Die Karten der VMs hängen mit Namen wie `one-12-0` in derselben Bridge, wie die Ergänzung [OpenNebula im Detail](../opennebula/) zeigt. Die Bridge auf einem Knoten hat keine Adresse.
 
@@ -91,7 +91,7 @@ ip_forward=1
 
 Die Ausgabe zeigt die Bridge mit dem Gateway, das VXLAN mit Kennung und Gruppe, die Weiterleitung und die Regel für NAT.
 
-Wohin ein VXLAN-Gerät einen Rahmen schickt, steht in seiner Forwarding-Tabelle. Für jede MAC-Adresse, von der schon ein Paket kam, nennt sie den Server dahinter. Alle anderen Ziele erreicht es über die Multicast-Gruppe 239.0.22.230, wie die [Dokumentation des Kernels](https://docs.kernel.org/networking/vxlan.html) beschreibt. In der Tabelle steht dafür ein Eintrag mit der Adresse `00:00:00:00:00:00`. Pakete an diese Gruppe erreichen alle Server, die ihr beigetreten sind. `ip maddr` zeigt die Mitgliedschaft auf `eth0`.
+Wohin ein VXLAN-Gerät einen Rahmen schickt, steht in seiner **Forwarding-Tabelle**. Für jede MAC-Adresse, von der schon ein Paket kam, nennt sie den Server dahinter. Alle anderen Ziele erreicht es über die Multicast-Gruppe 239.0.22.230, wie die [Dokumentation des Kernels](https://docs.kernel.org/networking/vxlan.html) beschreibt. In der Tabelle steht dafür ein Eintrag mit der Adresse `00:00:00:00:00:00`. Pakete an diese Gruppe erreichen alle Server, die ihr beigetreten sind. `ip maddr` zeigt die Mitgliedschaft auf `eth0`.
 
 ```bash
 bridge fdb show dev cc-vxlan
@@ -119,7 +119,7 @@ ip route get 9.9.9.9
 
 ## NAT und Firewall mit nftables
 
-nftables ist der Paketfilter des Linux-Kernels. Regeln stehen in Ketten, Ketten in Tabellen. Eine Basiskette hängt an einem Hook, einer festen Stelle auf dem Weg eines Pakets durch den Kernel. Pakete an das Front-end selbst laufen durch `input`, Pakete zum Weiterleiten durch `prerouting`, `forward` und `postrouting`, wie die [Handbuchseite von nft](https://manpages.ubuntu.com/manpages/resolute/man8/nft.8.html) beschreibt. Auf dem Front-end liegen zwei Tabellen des Kurses.
+nftables ist der Paketfilter des Linux-Kernels. Regeln stehen in Ketten, Ketten in Tabellen. Eine Basiskette hängt an einem **Hook**, einer festen Stelle auf dem Weg eines Pakets durch den Kernel. Pakete an das Front-end selbst laufen durch `input`, Pakete zum Weiterleiten durch `prerouting`, `forward` und `postrouting`, wie die [Handbuchseite von nft](https://manpages.ubuntu.com/manpages/resolute/man8/nft.8.html) beschreibt. Auf dem Front-end liegen zwei Tabellen des Kurses.
 
 | Tabelle | Familie | Kette | Inhalt | Kapitel |
 |---|---|---|---|---|

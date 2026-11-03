@@ -21,7 +21,7 @@ Nach diesem Kapitel kannst du:
 
 ## Vollkostenrechnung
 
-Kapitel 3.3 hat Preise pro Stunde für CPU, Arbeitsspeicher und Disk in die Vorlage geschrieben. Eine VM mit einer halben CPU und 1 GB kostete damit rund 35 Franken im Monat. Die Preise waren für den Fall erfunden. Ob sie die Kosten decken, zeigt erst eine Rechnung, die alle Kosten enthält. Die Übung in Kapitel 3.3 rechnete mit vereinfachten Zahlen, ohne Front-end und mit wenig Arbeit. Hier kommen alle Posten dazu, darum fällt das Total deutlich höher aus.
+Kapitel 3.3 hat Preise pro Stunde für CPU, Arbeitsspeicher und Disk in die Vorlage geschrieben. Eine VM mit einer halben CPU und 1 GB kostete damit rund 35 Franken im Monat. Die Preise waren für den Fall erfunden. Ob sie die Kosten decken, zeigt erst eine **Vollkostenrechnung**, die alle Kosten enthält. Die Übung in Kapitel 3.3 rechnete mit vereinfachten Zahlen, ohne Front-end und mit wenig Arbeit. Hier kommen alle Posten dazu, darum fällt das Total deutlich höher aus.
 
 | Posten | Annahme | pro Jahr |
 |---|---|---|
@@ -51,7 +51,7 @@ Die Rechnung nimmt an, dass die Plattform voll belegt ist. Tatsächlich belegen 
 
 ## Right-Sizing
 
-Eine Quota und die Requests eines Pods reservieren Ressourcen, auch wenn der Pod sie nie nutzt. Right-Sizing heisst, die Reservierung an den gemessenen Verbrauch anzupassen. Beides steht in Prometheus. Die erste Abfrage zeigt die Requests pro Namespace, die zweite das 95. Perzentil des tatsächlichen Verbrauchs der letzten Stunde.
+Eine Quota und die Requests eines Pods reservieren Ressourcen, auch wenn der Pod sie nie nutzt. **Right-Sizing** heisst, die Reservierung an den gemessenen Verbrauch anzupassen. Beides steht in Prometheus. Die erste Abfrage zeigt die Requests pro Namespace, die zweite das 95. Perzentil des tatsächlichen Verbrauchs der letzten Stunde.
 
 ```text
 sum by (namespace) (kube_pod_container_resource_requests{resource="cpu"})
@@ -91,6 +91,10 @@ onevm list
 oneimage list
 kubectl top pods -A --sort-by=cpu | tail
 ```
+
+:::caution[Vor dem Löschen]
+Gelöschte VMs, Images und Backups lassen sich nicht zurückholen. Behalte die VM aus deinem Backup-Job und ihre Backups, bis der Check `m4` grün ist und die Screenshots von Meilenstein 4 im Abgabe-Repo liegen. Die Objekte deines eigenen Mitglieds aus Kapitel 6.5 brauchst du bis zur Vorführung.
+:::
 
 Im Lab nutzte eine VM mit 1 GB Arbeitsspeicher im Leerlauf 253 MB. Der Knoten musste trotzdem das ganze GB bereithalten und lagerte dafür rund 200 MB auf die Disk aus. Eine VM, die nur tagsüber gebraucht wird, lässt sich mit `onevm undeploy` aus Kapitel 4.2 nachts vom Knoten nehmen. Sie belegt dann nur noch ihre Disk.
 

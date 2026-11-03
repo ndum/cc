@@ -21,7 +21,7 @@ After this chapter you can:
 
 ## Full cost
 
-Chapter 3.3 put hourly prices for CPU, memory and disk into the template. With them, a VM with half a CPU and 1 GB cost around 35 francs a month. The prices were invented for the case. Only a calculation that includes all costs shows whether they cover them. The exercise in chapter 3.3 used simplified numbers, without the front-end and with little labor. Here every item is included, so the total comes out much higher.
+Chapter 3.3 put hourly prices for CPU, memory and disk into the template. With them, a VM with half a CPU and 1 GB cost around 35 francs a month. The prices were invented for the case. Only a **full cost calculation**, which includes all costs, shows whether they cover them. The exercise in chapter 3.3 used simplified numbers, without the front-end and with little labor. Here every item is included, so the total comes out much higher.
 
 | Item | Assumption | per year |
 |---|---|---|
@@ -51,7 +51,7 @@ The calculation assumes the platform is fully booked. In fact, the k3s VMs alone
 
 ## Right-sizing
 
-A quota and a pod's requests reserve resources, even if the pod never uses them. Right-sizing means adjusting the reservation to the measured use. Prometheus has both numbers. The first query shows the requests per namespace, the second the 95th percentile of the actual use over the last hour.
+A quota and a pod's requests reserve resources, even if the pod never uses them. **Right-sizing** means adjusting the reservation to the measured use. Prometheus has both numbers. The first query shows the requests per namespace, the second the 95th percentile of the actual use over the last hour.
 
 ```text
 sum by (namespace) (kube_pod_container_resource_requests{resource="cpu"})
@@ -91,6 +91,10 @@ onevm list
 oneimage list
 kubectl top pods -A --sort-by=cpu | tail
 ```
+
+:::caution[Before you delete]
+Deleted VMs, images and backups cannot be brought back. Keep the VM in your backup job and its backups until the check `m4` is green and the screenshots of milestone 4 are in your hand-in repo. You need the objects of your own member from chapter 6.5 until the showing.
+:::
 
 In the lab, a VM with 1 GB of memory used 253 MB when idle. The node still had to hold the whole GB and swapped around 200 MB to disk for it. A VM that is only needed during the day can be taken off the node at night with `onevm undeploy` from chapter 4.2. It then only occupies its disk.
 

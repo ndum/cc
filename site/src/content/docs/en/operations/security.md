@@ -15,7 +15,7 @@ After this chapter you can:
 - Assess a member's protection needs for confidentiality, integrity and availability
 - Harden the front-end with SSH keys, a firewall and automatic updates
 - Explain how TLS protects a connection and where you use SSH tunnels in the lab instead
-- Define and check the rights of a ServiceAccount with a Role and a RoleBinding
+- Explain roles and bindings in Kubernetes and check the rights of a ServiceAccount
 - Require the restricted profile for member pods with Pod Security Admission
 - Store secrets encrypted in Git
 - Show who may do what on your platform
@@ -39,7 +39,7 @@ The measures follow from the protection needs. The platform needs a baseline for
 
 ## The attack surface of the lab
 
-The attack surface is everything an attacker can reach over the network. After part 5, your front-end accepts connections on several ports.
+The **attack surface** is everything an attacker can reach over the network. After part 5, your front-end accepts connections on several ports.
 
 | Port | Service | Who needs it |
 |---|---|---|
@@ -53,7 +53,7 @@ The nodes and the VMs in cc-net talk to the front-end on further ports, for exam
 
 ## Hardening the front-end
 
-Hardening means switching off or shielding everything that is not needed. The course script does three things.
+**Hardening** means switching off or shielding everything that is not needed. The course script does three things.
 
 ::code{file="platform/operations/harden-frontend.sh"}
 
@@ -61,7 +61,11 @@ Afterwards, SSH accepts keys only, and nobody can log in directly as `root`. A p
 
 ![The protection layers of front-end and cluster. In the middle the front-end. Its firewall, the nftables table cc_firewall, drops everything it does not explicitly allow. The client and other hosts reach only SSH on port 22 and the web interface on port 2616, and SSH accepts only keys and does not let root log in directly. The nodes and cc-net reach everything, including Gitea on port 3000, the API on port 2633 and the exporters on ports 9100 and 9925. Every day, unattended-upgrades installs security updates. On the right the cluster. Pod Security Admission enforces the profile restricted in the member namespaces, NetworkPolicies separate the members, and Prometheus may only read, in all namespaces. A SealedSecret comes encrypted from Gitea, and only the Sealed Secrets controller in kube-system can decrypt it with its key.](../../../../assets/figures/en/p6c1-security.svg)
 
-First check that you can log in from the client with your key. Keep the existing connection open until a new login with the key works. You run the script on the front-end and the attempt without a key from the client.
+:::caution[Check your key login]
+After hardening, SSH no longer accepts passwords, and from the client you only reach SSH and Sunstone. Make sure beforehand that you can log in from the client with your key. Keep the existing connection open until a new login with the key works. Otherwise the front-end's console is your only way back in.
+:::
+
+You run the script on the front-end and the attempt without a key from the client.
 
 ```bash
 sudo ~/cc/platform/operations/harden-frontend.sh
@@ -76,7 +80,7 @@ From now on you open Gitea through a tunnel from the client. The tunnel to Grafa
 
 The firewall decides who can reach a service. It does nothing about what happens to the data on the way. Almost every web interface in the lab speaks plain HTTP, including Sunstone on port 2616, Gitea on port 3000, Argo CD, Grafana and the web shop. Anyone who can read the traffic between browser and service sees passwords, session cookies and content in plain text. The same goes for the token in `~/.git-credentials` that Git uses to push to the `platform` repo. The connection over which Argo CD fetches the repo from Gitea is not encrypted either.
 
-TLS (Transport Layer Security) protects a connection in three ways. Encryption keeps the content confidential. Every block sent carries an authentication tag that lets the receiver detect any change in transit, which protects integrity. The server also proves its identity with a certificate. This tells the other side, a browser for example, whether it is talking to the right server or to someone in between. The current version, TLS 1.3, is specified in [RFC 8446](https://www.rfc-editor.org/rfc/rfc8446).
+**TLS** (Transport Layer Security) protects a connection in three ways. Encryption keeps the content confidential. Every block sent carries an authentication tag that lets the receiver detect any change in transit, which protects integrity. The server also proves its identity with a certificate. This tells the other side, a browser for example, whether it is talking to the right server or to someone in between. The current version, TLS 1.3, is specified in [RFC 8446](https://www.rfc-editor.org/rfc/rfc8446).
 
 A certificate binds a public key to a name, such as the server's hostname or IP address. It is signed by a certificate authority (CA). Browsers and other programs keep a list of CAs they trust. When they connect, they check that the certificate comes from one of these CAs, has not expired and matches the address they asked for. During the handshake, the server then proves that it holds the private key belonging to the certificate. An attacker can copy the certificate but cannot provide that proof.
 
@@ -116,7 +120,7 @@ Since part 3, the platform has separated rights on several levels. On each of th
 
 ### Roles in Kubernetes
 
-Kubernetes controls access to its API with role-based access control, RBAC for short ([Kubernetes documentation](https://kubernetes.io/docs/reference/access-authn-authz/rbac/)). Every API request has a sender, a verb and a resource. RBAC calls the sender a subject. A subject is a user, a group or a ServiceAccount. Kubernetes does not manage users and groups itself. They come from elsewhere, for example from the client certificate someone logs in with. A ServiceAccount, by contrast, is an object in a namespace and gives a program in the cluster an identity of its own. The verb states what should happen, such as `get`, `list`, `watch`, `create`, `patch` or `delete`. The resource is the kind of object, such as `deployments` from the API group `apps`, or `secrets` from the core group, which YAML writes as `""`.
+Kubernetes controls access to its API with role-based access control, **RBAC** for short ([Kubernetes documentation](https://kubernetes.io/docs/reference/access-authn-authz/rbac/)). Every API request has a sender, a verb and a resource. RBAC calls the sender a subject. A subject is a user, a group or a ServiceAccount. Kubernetes does not manage users and groups itself. They come from elsewhere, for example from the client certificate someone logs in with. A ServiceAccount, by contrast, is an object in a namespace and gives a program in the cluster an identity of its own. The verb states what should happen, such as `get`, `list`, `watch`, `create`, `patch` or `delete`. The resource is the kind of object, such as `deployments` from the API group `apps`, or `secrets` from the core group, which YAML writes as `""`.
 
 You grant rights in two steps. A role lists which verbs are allowed on which resources. A binding then connects subjects to exactly one role. Both come in a namespaced flavor and a cluster-wide one.
 
@@ -140,7 +144,7 @@ kubectl get clusterrole monitoring-kube-prometheus-prometheus -o yaml
 
 The first command shows the binding with the ServiceAccount, the second the rules of the role. The chart builds their names from `monitoring`, the name Argo CD installs it under. Secrets do not appear in the rules, so Prometheus cannot read any password, not even the one of Grafana.
 
-This approach is called least privilege. Every identity gets the smallest set of rights that lets it do its job ([RBAC good practices](https://kubernetes.io/docs/concepts/security/rbac-good-practices/)). If someone takes control of Prometheus, they can read objects in the cluster but neither change nor delete anything. A service that has to act needs a Role with the few verbs it uses, in exactly the namespace where it acts. The triage service of the advanced tasks in chapter 5.5 is such a case.
+This approach is called **least privilege**. Every identity gets the smallest set of rights that lets it do its job ([RBAC good practices](https://kubernetes.io/docs/concepts/security/rbac-good-practices/)). If someone takes control of Prometheus, they can read objects in the cluster but neither change nor delete anything. A service that has to act needs a Role with the few verbs it uses, in exactly the namespace where it acts. The triage service of the advanced tasks in chapter 5.5 is such a case.
 
 `kubectl auth can-i` checks whether the rules work. The `--as` option asks on behalf of another subject, and a ServiceAccount is written as `system:serviceaccount:<namespace>:<name>` ([kubectl auth can-i](https://kubernetes.io/docs/reference/kubectl/generated/kubectl_auth/kubectl_auth_can-i/)). `--list` shows all rights in a namespace at once.
 
@@ -201,7 +205,7 @@ git status
 
 `git status` lists the two new applications and three changed files, the namespace template, the web shop and the k3s template. The copy leaves the kube-prometheus-stack values from part 5 alone, so a route to the triage service from advanced task B of milestone 3 stays in place. If you changed one of the three files yourself, `git diff` shows what the copy overwrote.
 
-If a member in your repo has a label of its own on its namespace, such as `ai: allowed` from chapter 5.5, it has to be written as a merge patch. A patch with `op: add` on `/metadata/labels` replaces all labels, and the namespace loses its profile. In the lab this happened to `velo`. Push the changes and wait until the controller runs. Argo CD only creates it at its next poll of the repo, in the lab after two to three minutes. The `until` loop waits for it. Until the folder `secrets` is in the repo, the application `secrets` shows `Unknown` with "app path does not exist", which is normal at this point. Then install `kubeseal` and seal the password.
+If a member in your repo has a label of its own on its namespace, for example for access to the model from chapter 5.5, it has to be written as a merge patch. A patch with `op: add` on `/metadata/labels` replaces all labels, and the namespace loses its profile. In the lab this happened to `velo`. Push the changes and wait until the controller runs. Argo CD only creates it at its next poll of the repo, in the lab after two to three minutes. The `until` loop waits for it. Until the folder `secrets` is in the repo, the application `secrets` shows `Unknown` with "app path does not exist", which is normal at this point. Then install `kubeseal` and seal the password.
 
 ::code{file="platform/operations/seal-secrets.sh"}
 
@@ -229,7 +233,7 @@ The last line prints `SealedSecret` once Argo CD has synced the SealedSecret, in
 The front-end and the k3s VMs get Ubuntu's security updates automatically. A reboot, for a new kernel for example, does not happen on its own. If the file `/var/run/reboot-required` exists, one is needed. You update the platform software yourself, OpenNebula through its packages, k3s through the variable `k3s_version` and a rebuild, and the charts through their versions in Git. Because each of these versions is in Git, you can trace what ran when.
 
 ::::exercise[Protection needs]
-Take your assessment of the four members from chapter 1.4 and check which measures of this chapter contribute to which protection goal. If you do the advanced task of milestone 4, also assess your own member for confidentiality, integrity and availability, and justify each level in one sentence.
+Take your assessment of the four members from chapter 1.4 and check which measures of this chapter contribute to which protection goal. If you do advanced task A from chapter 6.5, also assess your own member for confidentiality, integrity and availability, and justify each level in one sentence.
 
 :::solution
 The assessment from chapter 1.4 still holds, for example the practice with very high confidentiality, high integrity and high availability. The firewall, key-only access and the profile `restricted` protect the confidentiality and integrity of every member. Sealed Secrets keep passwords out of plain text in Git. For the practice's very high confidentiality that is not enough on its own, because the web interfaces in the lab run without TLS. A member of your own such as a daycare center with data on children would have very high confidentiality, high integrity and normal availability, because registrations can wait a day. Other levels are just as right if you justify them soundly.

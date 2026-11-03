@@ -70,7 +70,7 @@ On node 1, `netplan status` shows the systemd-resolved stub and, for `eth0`, the
 
 ## Bridges and VXLAN
 
-A bridge connects interfaces at layer 2 like a switch. It learns which MAC address sits behind which port and sends frames for a known address only to that port. A VXLAN device is a port that wraps frames in UDP packets and sends them out through another interface.
+A **bridge** connects interfaces at layer 2 like a switch. It learns which MAC address sits behind which port and sends frames for a known address only to that port. A **VXLAN device** is a port that wraps frames in UDP packets and sends them out through another interface.
 
 On the front-end `cc-gateway` creates both, `cc-vxlan` inside the bridge `cc-br`, which holds the gateway address. On the nodes OpenNebula creates the bridge `ccbr5862` and the VXLAN device `eth0.5862` as soon as a VM from cc-net runs there. The VM NICs join the same bridge with names such as `one-12-0`, as the supplement [OpenNebula in depth](../opennebula/) shows. The bridge on a node has no address.
 
@@ -91,7 +91,7 @@ ip_forward=1
 
 The output shows the bridge with the gateway, the VXLAN with identifier and group, forwarding and the NAT rule.
 
-A VXLAN device decides where to send a frame from its forwarding table. For every MAC address it has already received a packet from, the table names the server behind it. All other destinations go to the multicast group 239.0.22.230, as the [kernel documentation](https://docs.kernel.org/networking/vxlan.html) describes, and the table holds an entry with the address `00:00:00:00:00:00` for this case. Packets to the group reach every server that joined it. `ip maddr` shows this membership on `eth0`.
+A VXLAN device decides where to send a frame from its **forwarding table**. For every MAC address it has already received a packet from, the table names the server behind it. All other destinations go to the multicast group 239.0.22.230, as the [kernel documentation](https://docs.kernel.org/networking/vxlan.html) describes, and the table holds an entry with the address `00:00:00:00:00:00` for this case. Packets to the group reach every server that joined it. `ip maddr` shows this membership on `eth0`.
 
 ```bash
 bridge fdb show dev cc-vxlan
@@ -119,7 +119,7 @@ ip route get 9.9.9.9
 
 ## NAT and the firewall with nftables
 
-nftables is the packet filter of the Linux kernel. Rules live in chains, and chains live in tables. A base chain attaches to a hook, a fixed point on a packet's way through the kernel. Packets for the front-end itself pass `input`, while packets to be forwarded pass `prerouting`, `forward` and `postrouting`, as the [nft manual page](https://manpages.ubuntu.com/manpages/resolute/man8/nft.8.html) describes. The front-end holds two tables of the course.
+nftables is the packet filter of the Linux kernel. Rules live in chains, and chains live in tables. A base chain attaches to a **hook**, a fixed point on a packet's way through the kernel. Packets for the front-end itself pass `input`, while packets to be forwarded pass `prerouting`, `forward` and `postrouting`, as the [nft manual page](https://manpages.ubuntu.com/manpages/resolute/man8/nft.8.html) describes. The front-end holds two tables of the course.
 
 | Table | Family | Chain | Contents | Chapter |
 |---|---|---|---|---|

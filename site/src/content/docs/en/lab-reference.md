@@ -30,11 +30,11 @@ All three VMs have the same file `/etc/cc-lab.env`. Scripts and checks read it w
 | Front-end `mmuster-fe` | `CC_FE_IP`, plus `CC_GUEST_GATEWAY` in `cc-net` | OpenNebula, gateway with NAT for `cc-net`, Gitea, OpenTofu, kubectl, backups |
 | Nodes `mmuster-node1` and `mmuster-node2` | `CC_NODE1_IP`, `CC_NODE2_IP` | KVM and libvirt for the VMs of the cloud |
 | `k3s-server` | `CC_K3S_SERVER_IP` | control plane with etcd, also runs pods |
-| `k3s-agent` | `CC_K3S_AGENT_IP` | node for pods, Ollama among them |
+| `k3s-agent` | `CC_K3S_AGENT_IP` | node for pods, with the advanced tasks of part 5 also for Ollama |
 | Member VMs | from `CC_GUEST_FIRST` | leases from `cc-net`, shown by `onevnet show cc-net` |
 | Client | 192.168.210.10 on smartlearn | Kali Linux with a browser and a terminal, where you work, with your own hypervisor your PC takes this role |
 
-From the client you log in to the front-end with `ssh mmuster-fe`, as set up in [chapter 0.5](../start/tools/). On smartlearn the client is the Kali VM, with your own hypervisor it is your PC. You reach the VMs in `cc-net` only from the front-end, for example with `ssh root@$CC_K3S_SERVER_IP`.
+From the client you log in to the front-end with `ssh mmuster-fe`, as set up in [chapter 0.5](../start/tools/). On smartlearn the client is the Kali VM, with your own hypervisor it is your PC. You reach the VMs in `cc-net` only from the front-end, for example with `ssh root@$CC_K3S_SERVER_IP`. The fixed addresses of the three servers are in `/etc/netplan/60-cc-lab.yaml`, which you created with the generator's block in chapter 0.3.
 
 ## Services and ports
 
@@ -101,6 +101,7 @@ The front-end also has `~/cc` with the course repo, `~/platform` with your platf
 | `onevm terminate <vm>`, `onevm terminate --hard <vm>` | shut down and delete a VM |
 | `onevm migrate --live <vm> <node>` | move a running VM to another node |
 | `onevm backup -d backups <vm>` | back up a VM to the backup datastore |
+| `onebackupjob list`, `onebackupjob backup <job>` | list the backup jobs, start an extra backup |
 | `oneimage list`, `oneimage restore -d default <backup-image>` | list images and backups, restore a backup |
 | `onevnet show cc-net` | address range and leases of the internal network |
 | `onegroup list`, `onegroup show <group>` | member groups with quota and usage |
@@ -133,6 +134,7 @@ Run these in `~/platform/tofu` after setting `OPENNEBULA_USERNAME` and `OPENNEBU
 | `kubectl top nodes`, `kubectl top pods -A` | current CPU and memory use |
 | `kubectl -n <ns> get resourcequota,limitrange,networkpolicy` | the limits of a member |
 | `kubectl -n <ns> get hpa` | state of the autoscaler |
+| `ssh root@<CC_K3S_SERVER_IP> k3s etcd-snapshot ls` | etcd snapshots on the server |
 
 ### Argo CD and Git
 
@@ -159,4 +161,5 @@ Run these in `~/platform/tofu` after setting `OPENNEBULA_USERNAME` and `OPENNEBU
 | Command | Purpose |
 |---|---|
 | `python3 ~/cc/checks/check.py <name>` | run the check of a part, such as `iaas`, `platform` or `operations` |
+| `python3 ~/cc/checks/check.py m1` to `m4` | the check of a milestone with your personal values and two questions for the showing, whose report proves the base together with the screenshots |
 | `ls ~/cc-reports` | saved reports with their hash |

@@ -6,7 +6,7 @@ sidebar:
 ---
 
 :::assignment
-"The new organization wants an SLA before it signs," writes Simone Wyss. "What can we honestly promise? And please write down how we actually organize operations. After last Saturday, the board would also like a short report on what happened."
+"The new organization wants an SLA before it signs," writes Simone Wyss. "What can we honestly promise? And please write down how we actually organize operations. After last Saturday, the board would also like to know how we learn from an incident without looking for someone to blame."
 :::
 
 :::goals
@@ -20,7 +20,7 @@ After this chapter you can:
 
 ## SLA, SLO and SLI
 
-Chapter 5.3 set an SLO for the web shop, 99.5% of requests without a server error over seven days. An SLO is an internal goal of the platform team. A service level agreement (SLA), by contrast, is an agreement with the member, and missing it has consequences, such as a credit. The SLA is therefore set looser than the SLO. A missed SLO can then be noticed and fixed before the SLA breaks.
+Chapter 5.3 set an SLO for the web shop, 99.5% of requests without a server error over seven days. An SLO is an internal goal of the platform team. A **service level agreement** (SLA), by contrast, is an agreement with the member, and missing it has consequences, such as a credit. The SLA is therefore set looser than the SLO. A missed SLO can then be noticed and fixed before the SLA breaks.
 
 An SLA covers more than a percentage.
 
@@ -50,7 +50,7 @@ Honest promises are therefore along the lines of 99% during office hours with a 
 
 ## The operations concept
 
-An operations concept describes how operations are organized, so they do not depend on one person's memory. A few pages are enough for Wolkenwerk.
+An **operations concept** describes how operations are organized, so they do not depend on one person's memory. A few pages are enough for Wolkenwerk.
 
 | Topic | Content at Wolkenwerk |
 |---|---|
@@ -64,15 +64,15 @@ An operations concept describes how operations are organized, so they do not dep
 | Documentation | README in the platform repo, instructions for recurring incidents |
 | Cost | monthly showback from chapter 3.3, full cost from chapter 6.4 |
 
-Instructions for a recurring incident are called a runbook. A runbook describes symptoms, first checks and measures, for example for the alert `WebshopErrorBudgetBurn`. A good runbook can be followed by someone who did not build the system.
+Instructions for a recurring incident are called a **runbook**. A runbook describes symptoms, first checks and measures, for example for the alert `WebshopErrorBudgetBurn`. A good runbook can be followed by someone who did not build the system.
 
-The time from the start of an incident until the service runs again is the time to restore. Its mean over many incidents is the MTTR (mean time to restore). The figure shows the phases of an incident on a timeline.
+The time from the start of an incident until the service runs again is the time to restore. Its mean over many incidents is the **MTTR** (mean time to restore). The figure shows the phases of an incident on a timeline.
 
 ![The timeline of an incident. An incident on a timeline in five phases. After the incident starts, Prometheus detects it and sends an alert. The team then assesses the incident with the logs in Loki and the latest commits in Git and fixes it with git revert, which Argo CD rolls out, until the service runs again. It then informs the affected members and later writes a blameless postmortem with a timeline and measures. Below the axis are the time to the alert and the time to restore. The mean of the time to restore over many incidents is the MTTR.](../../../../assets/figures/en/p6c3-incident.svg)
 
 ## Postmortems
 
-After an incident, the team writes a postmortem. It records what happened, what the impact was, which causes contributed and which measures prevent a repeat. Postmortems come from the operation of large services, and Google's [book on site reliability engineering](https://sre.google/sre-book/postmortem-culture/) describes them at length. A postmortem does not look for culprits. It assumes that everyone involved acted reasonably with the information they had, and asks which systems and processes made the failure possible.
+After an incident, the team writes a **postmortem**. It records what happened, what the impact was, which causes contributed and which measures prevent a repeat. Postmortems come from the operation of large services, and Google's [book on site reliability engineering](https://sre.google/sre-book/postmortem-culture/) describes them at length. A postmortem does not look for culprits. It assumes that everyone involved acted reasonably with the information they had, and asks which systems and processes made the failure possible.
 
 The timeline is the most important part, and it is tedious to collect. At Wolkenwerk the alerts are in Prometheus and the changes in Git. Every measure names a role as its owner rather than a person. Advanced task C in [chapter 6.5](../advanced/#a-postmortem-from-data) shows how the local model drafts a postmortem from such a timeline and where it goes wrong.
 

@@ -15,7 +15,7 @@ Nach diesem Kapitel kannst du:
 - Den Schutzbedarf eines Mitglieds nach Vertraulichkeit, Integrität und Verfügbarkeit einschätzen
 - Das Front-end mit SSH-Schlüsseln, einer Firewall und automatischen Updates härten
 - Erklären, wie TLS eine Verbindung schützt und wo du im Lab stattdessen SSH-Tunnel nutzt
-- Die Rechte eines ServiceAccounts mit Role und RoleBinding festlegen und prüfen
+- Rollen und Bindings in Kubernetes erklären und die Rechte eines ServiceAccounts prüfen
 - Pods der Mitglieder mit Pod Security Admission auf das Profil restricted verpflichten
 - Secrets verschlüsselt in Git ablegen
 - Zeigen, wer auf deiner Plattform was darf
@@ -39,7 +39,7 @@ Aus dem Schutzbedarf folgen die Massnahmen. Die Plattform braucht eine Grundsich
 
 ## Die Angriffsfläche des Labs
 
-Zur Angriffsfläche gehört alles, was ein Angreifer über das Netz erreicht. Nach Teil 5 nimmt dein Front-end Verbindungen auf mehreren Ports an.
+Zur **Angriffsfläche** gehört alles, was ein Angreifer über das Netz erreicht. Nach Teil 5 nimmt dein Front-end Verbindungen auf mehreren Ports an.
 
 | Port | Dienst | Wer braucht ihn |
 |---|---|---|
@@ -53,7 +53,7 @@ Die Knoten und die VMs in cc-net sprechen mit dem Front-end über weitere Ports,
 
 ## Das Front-end härten
 
-Härten heisst, alles abzuschalten oder abzuschotten, was nicht gebraucht wird. Das Skript des Kurses macht drei Dinge.
+**Härten** heisst, alles abzuschalten oder abzuschotten, was nicht gebraucht wird. Das Skript des Kurses macht drei Dinge.
 
 ::code{file="platform/operations/harden-frontend.sh"}
 
@@ -61,7 +61,11 @@ Danach nimmt SSH nur noch Schlüssel an. Direkt als `root` kann sich niemand meh
 
 ![Die Schutzschichten von Front-end und Cluster. In der Mitte das Front-end. Seine Firewall, die Tabelle cc_firewall von nftables, weist alles ab, was sie nicht ausdrücklich erlaubt. Der Client und andere Rechner erreichen nur SSH auf Port 22 und die Weboberfläche auf Port 2616. SSH nimmt nur Schlüssel an und lässt root nicht direkt herein. Die Knoten und cc-net erreichen alles, auch Gitea auf Port 3000, die API auf Port 2633 und die Exporter auf den Ports 9100 und 9925. Jeden Tag installiert unattended-upgrades die Sicherheitsupdates. Rechts der Cluster. Pod Security Admission verlangt in den Namespaces der Mitglieder das Profil restricted. NetworkPolicies trennen die Mitglieder, Prometheus darf in allen Namespaces nur lesen. Ein SealedSecret kommt verschlüsselt aus Gitea, nur der Controller von Sealed Secrets in kube-system kann es mit seinem Schlüssel entschlüsseln.](../../../assets/figures/de/p6c1-security.svg)
 
-Prüfe vorher, dass du dich vom Client aus mit deinem Schlüssel anmelden kannst. Lass die bestehende Verbindung offen, bis eine neue Anmeldung mit dem Schlüssel klappt. Das Skript startest du auf dem Front-end, den Versuch ohne Schlüssel vom Client aus.
+:::caution[Anmeldung mit Schlüssel prüfen]
+Nach der Härtung nimmt SSH kein Passwort mehr an und vom Client aus erreichst du nur noch SSH und Sunstone. Prüfe deshalb vorher, dass du dich vom Client aus mit deinem Schlüssel anmelden kannst. Lass die bestehende Verbindung offen, bis eine neue Anmeldung mit dem Schlüssel klappt. Sonst erreichst du das Front-end nur noch über seine Konsole.
+:::
+
+Das Skript startest du auf dem Front-end, den Versuch ohne Schlüssel vom Client aus.
 
 ```bash
 sudo ~/cc/platform/operations/harden-frontend.sh
@@ -76,7 +80,7 @@ Gitea öffnest du von nun an über einen Tunnel vom Client aus. Den lokalen Port
 
 Die Firewall bestimmt, wer einen Dienst erreicht. Was unterwegs mit den Daten geschieht, regelt sie nicht. Fast alle Weboberflächen im Lab sprechen reines HTTP, darunter Sunstone auf Port 2616, Gitea auf Port 3000, Argo CD, Grafana und der Webshop. Wer den Verkehr zwischen Browser und Dienst mitlesen kann, sieht Passwörter, Session-Cookies und Inhalte im Klartext. Dasselbe gilt für das Token in `~/.git-credentials`, mit dem Git ins Repo `platform` pusht. Auch die Verbindung, über die Argo CD das Repo aus Gitea holt, ist nicht verschlüsselt.
 
-TLS (Transport Layer Security) schützt eine Verbindung auf drei Arten. Die Verschlüsselung hält den Inhalt vertraulich. Jeder übertragene Block trägt einen Prüfwert, an dem der Empfänger eine Veränderung unterwegs erkennt. Das sichert die Integrität. Zudem weist sich der Server mit einem Zertifikat aus. Daran erkennt die Gegenseite, etwa ein Browser, ob sie mit dem richtigen Server spricht oder mit jemandem dazwischen. Die aktuelle Version TLS 1.3 ist in [RFC 8446](https://www.rfc-editor.org/rfc/rfc8446) festgelegt.
+**TLS** (Transport Layer Security) schützt eine Verbindung auf drei Arten. Die Verschlüsselung hält den Inhalt vertraulich. Jeder übertragene Block trägt einen Prüfwert, an dem der Empfänger eine Veränderung unterwegs erkennt. Das sichert die Integrität. Zudem weist sich der Server mit einem Zertifikat aus. Daran erkennt die Gegenseite, etwa ein Browser, ob sie mit dem richtigen Server spricht oder mit jemandem dazwischen. Die aktuelle Version TLS 1.3 ist in [RFC 8446](https://www.rfc-editor.org/rfc/rfc8446) festgelegt.
 
 Ein Zertifikat bindet einen öffentlichen Schlüssel an einen Namen, etwa den Hostnamen oder die IP-Adresse des Servers. Unterschrieben ist es von einer Zertifizierungsstelle, der Certificate Authority (CA). Browser und andere Programme führen eine Liste von CAs, denen sie vertrauen. Beim Verbindungsaufbau prüfen sie, ob das Zertifikat von einer dieser CAs stammt, noch gültig ist und zur aufgerufenen Adresse passt. Im Handshake beweist der Server danach, dass er den privaten Schlüssel zum Zertifikat besitzt. Ein Angreifer kann das Zertifikat kopieren, diesen Beweis aber nicht erbringen.
 
@@ -116,7 +120,7 @@ Die Plattform trennt Rechte seit Teil 3 auf mehreren Ebenen. Auf jeder Ebene bek
 
 ### Rollen in Kubernetes
 
-Kubernetes regelt den Zugriff auf seine API mit Role-Based Access Control, kurz RBAC ([Dokumentation von Kubernetes](https://kubernetes.io/docs/reference/access-authn-authz/rbac/)). Jede Anfrage an die API hat einen Absender, ein Verb und eine Ressource. Den Absender nennt RBAC Subject. Das kann ein Benutzer sein, eine Gruppe oder ein ServiceAccount. Benutzer und Gruppen verwaltet Kubernetes nicht selbst. Sie stammen etwa aus dem Client-Zertifikat, mit dem sich jemand anmeldet. Ein ServiceAccount ist dagegen ein Objekt in einem Namespace und gibt einem Programm im Cluster eine eigene Identität. Das Verb sagt, was geschehen soll, etwa `get`, `list`, `watch`, `create`, `patch` oder `delete`. Die Ressource ist die Art des Objekts, etwa `deployments` aus der API-Gruppe `apps` oder `secrets` aus der Kerngruppe, die in YAML als `""` erscheint.
+Kubernetes regelt den Zugriff auf seine API mit Role-Based Access Control, kurz **RBAC** ([Dokumentation von Kubernetes](https://kubernetes.io/docs/reference/access-authn-authz/rbac/)). Jede Anfrage an die API hat einen Absender, ein Verb und eine Ressource. Den Absender nennt RBAC Subject. Das kann ein Benutzer sein, eine Gruppe oder ein ServiceAccount. Benutzer und Gruppen verwaltet Kubernetes nicht selbst. Sie stammen etwa aus dem Client-Zertifikat, mit dem sich jemand anmeldet. Ein ServiceAccount ist dagegen ein Objekt in einem Namespace und gibt einem Programm im Cluster eine eigene Identität. Das Verb sagt, was geschehen soll, etwa `get`, `list`, `watch`, `create`, `patch` oder `delete`. Die Ressource ist die Art des Objekts, etwa `deployments` aus der API-Gruppe `apps` oder `secrets` aus der Kerngruppe, die in YAML als `""` erscheint.
 
 Rechte vergibst du in zwei Schritten. Eine Rolle zählt auf, welche Verben auf welchen Ressourcen erlaubt sind. Ein Binding verbindet danach Subjects mit genau einer Rolle. Von beiden gibt es eine Fassung für einen Namespace und eine für den ganzen Cluster.
 
@@ -140,7 +144,7 @@ kubectl get clusterrole monitoring-kube-prometheus-prometheus -o yaml
 
 Die erste Zeile zeigt das Binding mit dem ServiceAccount, die zweite die Regeln der Rolle. Ihre Namen bildet das Chart aus dem Namen `monitoring`, unter dem Argo CD es installiert. Secrets kommen in den Regeln nicht vor. Prometheus kann also kein Passwort lesen, auch das von Grafana nicht.
 
-Dieses Vorgehen heisst Least Privilege. Jede Identität bekommt die kleinsten Rechte, mit denen sie ihre Aufgabe erfüllt ([RBAC Good Practices](https://kubernetes.io/docs/concepts/security/rbac-good-practices/)). Bringt jemand Prometheus unter seine Kontrolle, kann er Objekte im Cluster lesen, aber nichts ändern oder löschen. Ein Dienst, der handeln soll, braucht dagegen eine Role mit den wenigen Verben, die er braucht, in genau dem Namespace, in dem er handelt. Der Triage-Dienst der Zusatzaufträge in Kapitel 5.5 ist ein solcher Fall.
+Dieses Vorgehen heisst **Least Privilege**. Jede Identität bekommt die kleinsten Rechte, mit denen sie ihre Aufgabe erfüllt ([RBAC Good Practices](https://kubernetes.io/docs/concepts/security/rbac-good-practices/)). Bringt jemand Prometheus unter seine Kontrolle, kann er Objekte im Cluster lesen, aber nichts ändern oder löschen. Ein Dienst, der handeln soll, braucht dagegen eine Role mit den wenigen Verben, die er braucht, in genau dem Namespace, in dem er handelt. Der Triage-Dienst der Zusatzaufträge in Kapitel 5.5 ist ein solcher Fall.
 
 Mit `kubectl auth can-i` prüfst du, ob die Regeln greifen. Die Option `--as` stellt die Frage im Namen eines anderen Subjects. Ein ServiceAccount heisst dabei `system:serviceaccount:<namespace>:<name>` ([kubectl auth can-i](https://kubernetes.io/docs/reference/kubectl/generated/kubectl_auth/kubectl_auth_can-i/)). Mit `--list` siehst du alle Rechte in einem Namespace auf einmal.
 
@@ -201,7 +205,7 @@ git status
 
 `git status` zeigt die zwei neuen Applications und drei geänderte Dateien, die Vorlage des Namespace, den Webshop und die Vorlage für k3s. Die Werte von kube-prometheus-stack aus Teil 5 lässt die Kopie unberührt. Eine Route zum Triage-Dienst aus Zusatzauftrag B von Meilenstein 3 bleibt also erhalten. Hast du eine der drei Dateien selbst angepasst, zeigt `git diff`, was die Kopie überschrieben hat.
 
-Hat ein Mitglied in deinem Repo ein eigenes Label am Namespace, etwa `ai: allowed` aus Kapitel 5.5, muss es als Merge-Patch formuliert sein. Ein Patch mit `op: add` auf `/metadata/labels` ersetzt alle Labels. Der Namespace verliert dabei das Profil, im Lab passierte das mit `velo`. Pushe die Änderungen und warte, bis der Controller läuft. Argo CD legt ihn erst bei der nächsten Abfrage des Repos an, im Lab nach zwei bis drei Minuten. Die Schleife mit `until` wartet darauf. Bis der Ordner `secrets` im Repo liegt, zeigt die Application `secrets` den Zustand `Unknown` mit «app path does not exist». Das ist an dieser Stelle normal. Installiere dann `kubeseal` und versiegle das Passwort.
+Hat ein Mitglied in deinem Repo ein eigenes Label am Namespace, etwa für den Zugriff auf das Modell aus Kapitel 5.5, muss es als Merge-Patch formuliert sein. Ein Patch mit `op: add` auf `/metadata/labels` ersetzt alle Labels. Der Namespace verliert dabei das Profil, im Lab passierte das mit `velo`. Pushe die Änderungen und warte, bis der Controller läuft. Argo CD legt ihn erst bei der nächsten Abfrage des Repos an, im Lab nach zwei bis drei Minuten. Die Schleife mit `until` wartet darauf. Bis der Ordner `secrets` im Repo liegt, zeigt die Application `secrets` den Zustand `Unknown` mit «app path does not exist». Das ist an dieser Stelle normal. Installiere dann `kubeseal` und versiegle das Passwort.
 
 ::code{file="platform/operations/seal-secrets.sh"}
 
@@ -229,7 +233,7 @@ Die letzte Zeile gibt `SealedSecret` aus, sobald Argo CD das SealedSecret übern
 Das Front-end und die VMs von k3s bekommen Sicherheitsupdates von Ubuntu automatisch. Ein Neustart, etwa für einen neuen Kernel, geschieht nicht von selbst. Gibt es die Datei `/var/run/reboot-required`, ist einer nötig. Die Software der Plattform aktualisierst du selbst, OpenNebula mit den Paketen, k3s über die Variable `k3s_version` und einen Neubau, die Charts über ihre Versionen in Git. Weil jede dieser Versionen in Git steht, lässt sich nachvollziehen, was wann lief.
 
 ::::exercise[Schutzbedarf]
-Nimm deine Einstufung der vier Mitglieder aus Kapitel 1.4 und prüfe, welche Massnahmen dieses Kapitels zu welchem Schutzziel beitragen. Machst du den Zusatzauftrag von Meilenstein 4, stufst du danach auch dein eigenes Mitglied nach Vertraulichkeit, Integrität und Verfügbarkeit ein und begründest jede Stufe in einem Satz.
+Nimm deine Einstufung der vier Mitglieder aus Kapitel 1.4 und prüfe, welche Massnahmen dieses Kapitels zu welchem Schutzziel beitragen. Machst du Zusatzauftrag A aus Kapitel 6.5, stufst du danach auch dein eigenes Mitglied nach Vertraulichkeit, Integrität und Verfügbarkeit ein und begründest jede Stufe in einem Satz.
 
 :::solution
 Die Einstufung aus Kapitel 1.4 gilt weiter, etwa die Praxis mit Vertraulichkeit sehr hoch, Integrität hoch und Verfügbarkeit hoch. Die Firewall, der Zugang nur mit Schlüssel und das Profil `restricted` schützen Vertraulichkeit und Integrität aller Mitglieder. Dank Sealed Secrets liegen keine Passwörter im Klartext in Git. Für die sehr hohe Vertraulichkeit der Praxis reicht das allein nicht, weil die Weboberflächen im Lab ohne TLS laufen. Ein eigenes Mitglied wie eine Kindertagesstätte mit Daten von Kindern hätte eine sehr hohe Vertraulichkeit, eine hohe Integrität und eine normale Verfügbarkeit, weil sich Anmeldungen um einen Tag verschieben lassen. Andere Stufen sind ebenso richtig, wenn du sie schlüssig begründest.

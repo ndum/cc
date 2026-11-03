@@ -18,11 +18,12 @@ The glossary explains the terms of the course briefly and points to the chapter 
 | Argo CD | A set of controllers in the cluster that reads manifests from Git, compares them with the cluster and brings the cluster in line with Git. | [4.4](../platform/gitops/) |
 | Burn rate | How fast a service uses up its error budget. At a burn rate of 1, the budget runs out exactly at the end of the period. | [5.3](../observability/slo/) |
 | Chargeback | Usage is charged to the budget of the unit that caused it. | [3.3](../tenants/showback/) |
+| Check | A course script that tests the state of your lab and writes a report with a hash. Together with the screenshots, the report of the checks `m1` to `m4` proves the base of a milestone. | [0.5](../start/tools/) |
 | Client | The VM you work from on smartlearn, a Kali Linux desktop with a browser for the web interfaces and a terminal for SSH to the servers. With your own hypervisor, your PC takes this role. | [0.2](../start/lab/) |
 | Container | A process with its own view of the file system, network and processes. It shares the kernel with the host and brings only its application. | [1.3](../basics/virtualization/) |
 | Contextualization | OpenNebula hands a VM its address, name, keys and scripts at boot, and the `one-context` package sets the VM up with them. | [2.4](../iaas/images/) |
 | Control plane | The part of Kubernetes that runs the cluster, with the API server, scheduler, controllers and database. In k3s it runs on the server. | [4.3](../platform/kubernetes/) |
-| Datastore | A storage location in OpenNebula. `default` holds the images, `system` the disks of running VMs, `files` smaller files. | [2.4](../iaas/images/) |
+| Datastore | A storage location in OpenNebula. `default` holds the images, `system` the disks of running VMs, `files` smaller files, and from chapter 6.2 on `backups` the VM backups. | [2.4](../iaas/images/) |
 | Deployment | Keeps a number of identical pods running and replaces them during an update. | [4.3](../platform/kubernetes/) |
 | Drift | A difference between the actual state and the code, for example after a manual change. `tofu plan` shows it. | [4.1](../platform/iac/) |
 | Elasticity | Resources grow with the load and shrink again, following rules and without manual work. | [3.5](../tenants/advanced/) |
@@ -49,12 +50,14 @@ The glossary explains the terms of the course briefly and points to the chapter 
 | Kustomize | Builds the objects for each member from a template and small adjustments without copying the template. | [4.5](../platform/templates/) |
 | KVM | The hypervisor in the Linux kernel. It uses the virtualization features of the CPU and runs the VMs on the nodes. | [0.2](../start/lab/) |
 | Language model | A model that generates text token by token. It writes likely text and does not check whether it is true. | [5.5](../observability/advanced/) |
+| Least privilege | Every identity gets only the smallest set of rights it needs for its job, such as read-only rights for Prometheus in the course. | [6.1](../operations/security/) |
 | LimitRange | Sets defaults and upper limits for the requests and limits of each container in a namespace. | [4.5](../platform/templates/) |
 | LogQL | The query language of Loki. A query first selects streams by labels and then filters the text. | [5.2](../observability/logs/) |
 | Loki | Collects logs centrally and keeps them after a pod is gone. It indexes only a few labels, not the text. | [5.2](../observability/logs/) |
 | Namespace | A separate area in the Kubernetes cluster. In the course every member gets its own, with a quota and rules. | [4.3](../platform/kubernetes/) |
 | NAT | Network address translation replaces the source address of packets so that machines on an internal network reach the internet through a single address. | [0.2](../start/lab/) |
 | Nested virtualization | A VM passes the virtualization features of the CPU on to its own operating system, so VMs can run inside it. | [0.2](../start/lab/) |
+| netplan | Sets up the network of an Ubuntu server from YAML files in `/etc/netplan/`. In the course it fixes the addresses of the three servers. | [0.3](../start/parameters/) |
 | NetworkPolicy | Defines who may reach a pod over the cluster network. Without a policy, every pod reaches every other. | [4.5](../platform/templates/) |
 | nftables | The packet filter of Linux. In the course it holds the NAT of the gateway and the firewall of the front-end, each in a table of its own. | [6.1](../operations/security/) |
 | Node | A VM on which OpenNebula runs the virtual machines of the members. The course has two nodes with KVM. | [0.2](../start/lab/) |
@@ -76,11 +79,13 @@ The glossary explains the terms of the course briefly and points to the chapter 
 | Provider | Translates the blocks in OpenTofu code into calls to an API, such as the OpenNebula API on port 2633. | [4.2](../platform/opentofu/) |
 | Pull request | A request in Gitea to merge a branch into `main`. Others review the change before it takes effect. | [4.5](../platform/templates/) |
 | Quota | An upper limit on the resources a group or user may take. | [3.2](../tenants/quotas/) |
+| RBAC | Role-based access control. Kubernetes allows a request only what a Role or ClusterRole grants the sender through a binding. | [6.1](../operations/security/) |
 | Recording rule | A rule that Prometheus evaluates regularly and stores as a new time series, so alerts and dashboards can read it quickly. | [5.3](../observability/slo/) |
 | ResourceQuota | Limits the CPU, memory and objects that all pods of a namespace may request together. | [4.5](../platform/templates/) |
 | Right-sizing | Adjusting reserved resources to the measured use. | [6.4](../operations/cost/) |
 | RPO | Recovery point objective. The point in time to which data must be recovered after an outage. It says how much data loss is acceptable. | [6.2](../operations/backup/) |
 | RTO | Recovery time objective. The longest time a service may be down before the damage becomes unacceptable. | [6.2](../operations/backup/) |
+| Runbook | Instructions for a recurring incident with its symptoms, first checks and measures. | [6.3](../operations/sla/) |
 | SaaS | Software as a service. Users get a finished application and manage only their data and access rights. | [1.2](../basics/models/) |
 | Sealed Secrets | Encrypts a Secret with the public key of a controller into a SealedSecret that may go into Git. Only the controller can decrypt it. | [6.1](../operations/security/) |
 | Self-heal | Argo CD reverts whatever someone changes in the cluster by hand, so the cluster matches Git again. | [4.4](../platform/gitops/) |
@@ -89,12 +94,13 @@ The glossary explains the terms of the course briefly and points to the chapter 
 | SLA | Service level agreement. An agreement with the member on the quality of a service, with consequences if it is missed. | [6.3](../operations/sla/) |
 | SLI | Service level indicator. A measurement of how well a service works from the customer's view, usually as the share of good events. | [5.3](../observability/slo/) |
 | SLO | Service level objective. The internal target for an SLI over a period. For the web shop it is 99.5% of requests without server errors over seven days. | [5.3](../observability/slo/) |
-| Snapshot | A copy of the k3s database at a point in time. With it and the server's token, the cluster can be reset to that state. | [6.2](../operations/backup/) |
-| SSH key | A pair of a private and a public key that lets you log in to a server without a password. | [0.5](../start/tools/) |
+| Snapshot | A saved state at one point in time, in smartlearn of a whole VM, in k3s of the cluster database. With an etcd snapshot and the server's token, the cluster can be reset to that state. | [0.4](../start/prepare/), [6.2](../operations/backup/) |
+| SSH key | A pair of a private and a public key that lets you log in to a server without a password. After the hardening in chapter 6.1, the front-end accepts keys only. | [0.5](../start/tools/) |
 | State | The file in which OpenTofu records which object in OpenNebula belongs to which block in the code. It holds secret values and stays out of Git. | [4.1](../platform/iac/) |
 | Sunstone | The OpenNebula web interface on port 2616 of the front-end, for the platform team and the members. | [2.1](../iaas/architecture/) |
 | Template | Describes a VM in OpenNebula that you can start as many times as you like, such as `ubuntu` in the course. | [2.4](../iaas/images/) |
 | Tenant | An organization that shares a cloud with others and sees only its own resources. | [3.1](../tenants/groups/) |
+| TLS | Transport Layer Security. Encrypts a connection, makes changes in transit detectable and identifies the server with a certificate. | [6.1](../operations/security/) |
 | Triage | The first assessment of an alert. In the advanced tasks you build a service that uses the local model to propose a cause and an action from a fixed list, and a person approves it. | [5.5](../observability/advanced/) |
 | VDC | Virtual data center. A slice of the infrastructure that OpenNebula assigns to one or more groups. | [3.1](../tenants/groups/) |
 | VXLAN | A way to carry a network for VMs inside UDP packets across an existing network. In the course it connects the VMs of your cloud through the front-end and the nodes. | [2.3](../iaas/networks/) |

@@ -23,10 +23,12 @@ The addresses, ports and commands for these steps are in the [lab reference](../
 | Symptom | Cause | Fix | Chapter |
 |---|---|---|---|
 | VMware reports "Virtualized Intel VT-x/EPT is not supported on this platform" | The Windows hypervisor is running, for example because of memory integrity, WSL 2 or Docker Desktop | Use Hyper-V instead of VMware or work on smartlearn | [Own hypervisor](../extras/own-hypervisor/) |
-| A node does not start on your own computer for lack of memory | The computer does not have enough RAM for the size of the nodes | Set the nodes to 8 GB | [Own hypervisor](../extras/own-hypervisor/) |
-| `git: command not found` | The minimal Ubuntu install has no Git | `sudo apt install -y git` | [0.2](../start/lab/) |
+| A node does not start on your PC for lack of memory | Your PC does not have enough RAM for the size of the nodes | Set the nodes to 8 GB | [Own hypervisor](../extras/own-hypervisor/) |
+| `ssh` reports "Connection timed out" | The server has no address, or the interface name in the generator is wrong | Check `ip -br addr` at the console, repeat the two commands with the name from `ip -br link` | [0.3](../start/parameters/) |
+| A server can no longer be reached after a reboot | It only had the temporary address from the console, the netplan file is missing | Set the temporary address at the console again, paste the generator's netplan block in an SSH session | [0.3](../start/parameters/) |
+| `git: command not found` | The minimal Ubuntu install has no Git | `sudo apt install -y git` | [0.4](../start/prepare/) |
 | `prepare.sh` reports "This VM has no address" | Wrong role, or the addresses in `/etc/cc-lab.env` do not match the VM | Check the role, compare `ip -br a` with `/etc/cc-lab.env` | [0.4](../start/prepare/) |
-| `prepare.sh` reports "sees no vmx or svm flag" | Nested virtualization is off for the node | Turn it on in smartlearn, or on Hyper-V run `Set-VMProcessor -ExposeVirtualizationExtensions $true` with the VM switched off | [1.3](../basics/virtualization/) |
+| `prepare.sh` reports "sees no vmx or svm flag" | Nested virtualization is off for the node | On smartlearn tell your instructor, on Hyper-V run `Set-VMProcessor -ExposeVirtualizationExtensions $true` with the VM switched off | [0.2](../start/lab/), [Own hypervisor](../extras/own-hypervisor/) |
 | Values from `/etc/cc-lab.env` end in an invisible character | The file came through a Windows editor with CR LF line endings | Run `prepare.sh` again, it removes the characters | [0.3](../start/parameters/) |
 | The `start` check shows `[!!]` for SSH without a password | The front-end's key is missing on a node | `ssh-copy-id` from the front-end to the node | [0.5](../start/tools/) |
 
@@ -48,6 +50,8 @@ The addresses, ports and commands for these steps are in the [lab reference](../
 | `oneshowback list` shows a cost of 0 | The VM started before the prices were set, or `calculate` is missing | Restart the VM, run `oneshowback calculate` after a while | [3.3](../tenants/showback/) |
 | The OneFlow service does not grow | The load was too short, or OneFlow averages over all VMs of the role | `oneflow show`, at least three minutes of load, load in every VM of the role | [3.5](../tenants/advanced/) |
 | A restored VM belongs to `oneadmin` | `oneimage restore` creates new objects | `onevm chown <vm> <user> <group>` | [6.2](../operations/backup/) |
+| `onevm backup` refuses a VM | The VM already belongs to a backup job | `onebackupjob backup praxis-nightly` backs up all VMs of the job | [6.2](../operations/backup/) |
+| After the restore, a file created shortly before the backup is missing | Ubuntu had not written it to disk yet | Run `sync` in the VM before the backup | [6.2](../operations/backup/) |
 
 ## Network
 
@@ -58,7 +62,7 @@ The addresses, ports and commands for these steps are in the [lab reference](../
 | SSH to a VM asks for a password | The key was not stored with `oneadmin` or the group admin when the VM started | Store the key with `oneuser update --append`, restart the VM | [2.4](../iaas/images/), [3.4](../tenants/self-service/) |
 | Downloads inside a VM break off | MTU 1500 instead of 1450 in the network | Check `GUEST_MTU` with `onevnet show cc-net`, restart the VM | [2.3](../iaas/networks/) |
 | After hardening, Gitea can no longer be reached from the client | The firewall lets in only SSH and port 2616 from outside | That is intended, reach Gitea through a tunnel from the client | [6.1](../operations/security/) |
-| No login possible after hardening | No key was stored | Log in through the smartlearn console, remove `/etc/ssh/sshd_config.d/10-cc-hardening.conf`, add a key and harden again | [6.1](../operations/security/) |
+| No login possible after hardening | The client's key is missing on the front-end or does not match | Log in at the front-end's console, remove `/etc/ssh/sshd_config.d/10-cc-hardening.conf`, reload SSH with `sudo systemctl reload ssh`, add the key with `ssh-copy-id` and harden again | [6.1](../operations/security/) |
 
 ## OpenTofu and k3s
 
@@ -67,7 +71,7 @@ The addresses, ports and commands for these steps are in the [lab reference](../
 | `tofu apply` fails because no node has enough memory | VMs from part 2 or 3 are still running | `onehost list`, terminate VMs, delete services with `oneflow delete` | [4.2](../platform/opentofu/) |
 | `Inconsistent dependency lock file` | `tofu init` has not run in this copy | `tofu init` in the `tofu` folder | [4.2](../platform/opentofu/) |
 | The provider fails to log in | `OPENNEBULA_USERNAME` and `OPENNEBULA_PASSWORD` are not set, for example in a new shell | Repeat the two `export` lines from 4.2 | [4.2](../platform/opentofu/) |
-| After a change to the start script, `tofu plan` shows only `update in-place` | The start script runs only at the first boot of a VM | `tofu apply -replace` for the VMs concerned | [6.2](../operations/backup/) |
+| After a change to the start script, `tofu plan` shows only `update in-place` | The start script exits when k3s is already installed, so a running VM does not pick up the change | `tofu apply -replace` for the VMs concerned | [6.2](../operations/backup/) |
 | Nodes do not become `Ready` | The start script is still running or failed | `ssh root@<server> journalctl -u one-context`, `systemctl status k3s`, if needed `tofu apply -replace` | [4.3](../platform/kubernetes/) |
 | SSH or kubectl refuse after a rebuild | An old key in `known_hosts`, an old kubeconfig | `ssh-keygen -R <address>`, fetch the kubeconfig again with `get-kubeconfig.sh` | [4.3](../platform/kubernetes/) |
 | A node is `NotReady` | k3s is not running on that VM, or the VM is off | `onevm list`, `ssh root@<address> systemctl status k3s` or `k3s-agent` | [4.3](../platform/kubernetes/) |
@@ -118,5 +122,6 @@ The addresses, ports and commands for these steps are in the [lab reference](../
 | The `secrets` Application stays in an error state | The Sealed Secrets controller is not running yet | Wait, the Application retries | [6.1](../operations/security/) |
 | `crontab: command not found` | Ubuntu 26.04 ships without cron | Set up the timer with `install-backup-timer.sh` | [6.2](../operations/backup/) |
 | New snapshots do not arrive on the front-end | The `cc-backup-k3s.timer` timer is not active | `systemctl list-timers`, enable the timer | [6.2](../operations/backup/) |
-| Argo CD ignores new commits after a restore | The controllers are working with the old state | Restart the controllers in `argocd` and `monitoring` | [6.5](../operations/advanced/) |
+| After the cluster rebuild, metrics, logs and the audit log are gone | The volume data lived on the disks of the old VMs | That is expected, take screenshots and copy the audit log before the rebuild | [6.2](../operations/backup/) |
+| Argo CD ignores new commits after a restore | The controllers are working with the old state | Restart the controllers in `argocd` and `monitoring` and the Sealed Secrets controller | [6.5](../operations/advanced/) |
 | The node swaps and every VM slows down | A member's VM is too large for the free memory | Keep the VM at 1 GB or less | [6.4](../operations/cost/) |

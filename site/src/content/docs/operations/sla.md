@@ -6,7 +6,7 @@ sidebar:
 ---
 
 :::assignment
-«Die neue Organisation will ein SLA, bevor sie unterschreibt», schreibt Simone Wyss. «Was können wir ehrlich versprechen? Und schreibt bitte auf, wie wir den Betrieb überhaupt organisieren. Nach dem letzten Samstag möchte der Vorstand auch einen kurzen Bericht, was passiert ist.»
+«Die neue Organisation will ein SLA, bevor sie unterschreibt», schreibt Simone Wyss. «Was können wir ehrlich versprechen? Und schreibt bitte auf, wie wir den Betrieb überhaupt organisieren. Nach dem letzten Samstag möchte der Vorstand auch wissen, wie wir aus einer Störung lernen, ohne Schuldige zu suchen.»
 :::
 
 :::goals
@@ -20,7 +20,7 @@ Nach diesem Kapitel kannst du:
 
 ## SLA, SLO und SLI
 
-Kapitel 5.3 hat ein SLO für den Webshop festgelegt, 99,5 % der Anfragen ohne Serverfehler über sieben Tage. Ein SLO ist ein internes Ziel des Plattform-Teams. Ein Service Level Agreement (SLA) ist dagegen eine Vereinbarung mit dem Mitglied. Wird es verfehlt, hat das Folgen, etwa eine Gutschrift. Darum setzt man das SLA lockerer an als das SLO. Ein verfehltes SLO lässt sich dann bemerken und beheben, bevor das SLA bricht.
+Kapitel 5.3 hat ein SLO für den Webshop festgelegt, 99,5 % der Anfragen ohne Serverfehler über sieben Tage. Ein SLO ist ein internes Ziel des Plattform-Teams. Ein **Service Level Agreement** (SLA) ist dagegen eine Vereinbarung mit dem Mitglied. Wird es verfehlt, hat das Folgen, etwa eine Gutschrift. Darum setzt man das SLA lockerer an als das SLO. Ein verfehltes SLO lässt sich dann bemerken und beheben, bevor das SLA bricht.
 
 Ein SLA regelt mehr als eine Prozentzahl.
 
@@ -50,7 +50,7 @@ Ehrlich sind darum Zusagen wie 99 % zu Bürozeiten mit einer Reaktionszeit von v
 
 ## Das Betriebskonzept
 
-Ein Betriebskonzept beschreibt, wie der Betrieb organisiert ist, damit er nicht vom Gedächtnis einer Person abhängt. Für Wolkenwerk genügen wenige Seiten.
+Ein **Betriebskonzept** beschreibt, wie der Betrieb organisiert ist, damit er nicht vom Gedächtnis einer Person abhängt. Für Wolkenwerk genügen wenige Seiten.
 
 | Thema | Inhalt bei Wolkenwerk |
 |---|---|
@@ -64,15 +64,15 @@ Ein Betriebskonzept beschreibt, wie der Betrieb organisiert ist, damit er nicht 
 | Dokumentation | README im Plattform-Repo, Anleitungen für wiederkehrende Störungen |
 | Kosten | Showback pro Monat aus Kapitel 3.3, Vollkosten aus Kapitel 6.4 |
 
-Eine Anleitung für eine wiederkehrende Störung heisst Runbook. Sie beschreibt Symptome, erste Prüfungen und Massnahmen, etwa für den Alert `WebshopErrorBudgetBurn`. Ein gutes Runbook kann auch eine Person befolgen, die das System nicht gebaut hat.
+Eine Anleitung für eine wiederkehrende Störung heisst **Runbook**. Sie beschreibt Symptome, erste Prüfungen und Massnahmen, etwa für den Alert `WebshopErrorBudgetBurn`. Ein gutes Runbook kann auch eine Person befolgen, die das System nicht gebaut hat.
 
-Die Zeit vom Beginn einer Störung, bis der Dienst wieder läuft, heisst Zeit bis zur Wiederherstellung. Ihr Mittelwert über viele Störungen ist die MTTR (Mean Time to Restore). Die Abbildung zeigt die Phasen einer Störung auf einer Zeitachse.
+Die Zeit vom Beginn einer Störung, bis der Dienst wieder läuft, heisst Zeit bis zur Wiederherstellung. Ihr Mittelwert über viele Störungen ist die **MTTR** (Mean Time to Restore). Die Abbildung zeigt die Phasen einer Störung auf einer Zeitachse.
 
 ![Die Zeitlinie einer Störung. Eine Störung auf einer Zeitachse in fünf Phasen. Nach ihrem Beginn erkennt Prometheus die Störung und schickt einen Alert. Danach ordnet das Team die Störung mit den Logs in Loki und den letzten Commits in Git ein. Es behebt sie mit git revert, das Argo CD ausrollt, bis der Dienst wieder läuft. Dann informiert es die betroffenen Mitglieder und schreibt später ein Postmortem ohne Schuldzuweisung mit Zeitlinie und Massnahmen. Unter der Achse stehen die Zeit bis zum Alert und die Zeit bis zur Wiederherstellung. Der Mittelwert der Zeit bis zur Wiederherstellung über viele Störungen ist die MTTR.](../../../assets/figures/de/p6c3-incident.svg)
 
 ## Postmortems
 
-Nach einer Störung schreibt das Team ein Postmortem. Es hält fest, was passiert ist, welche Auswirkung es hatte, welche Ursachen dazu beitrugen und welche Massnahmen eine Wiederholung verhindern. Postmortems stammen aus dem Betrieb grosser Dienste. Das [Buch zu Site Reliability Engineering](https://sre.google/sre-book/postmortem-culture/) von Google beschreibt sie ausführlich. Ein Postmortem sucht keine Schuldigen. Es geht davon aus, dass alle Beteiligten mit ihrem damaligen Wissen vernünftig gehandelt haben. Gefragt ist, welche Systeme und Abläufe den Fehler möglich gemacht haben.
+Nach einer Störung schreibt das Team ein **Postmortem**. Es hält fest, was passiert ist, welche Auswirkung es hatte, welche Ursachen dazu beitrugen und welche Massnahmen eine Wiederholung verhindern. Postmortems stammen aus dem Betrieb grosser Dienste. Das [Buch zu Site Reliability Engineering](https://sre.google/sre-book/postmortem-culture/) von Google beschreibt sie ausführlich. Ein Postmortem sucht keine Schuldigen. Es geht davon aus, dass alle Beteiligten mit ihrem damaligen Wissen vernünftig gehandelt haben. Gefragt ist, welche Systeme und Abläufe den Fehler möglich gemacht haben.
 
 Die Zeitlinie ist der wichtigste Teil und zugleich mühsam zu sammeln. Bei Wolkenwerk liegen die Alerts in Prometheus und die Änderungen in Git. Jede Massnahme nennt eine Rolle als Verantwortliche statt einer Person. Wie das lokale Modell aus einer solchen Zeitlinie einen Entwurf schreibt und wo es dabei irrt, zeigt Zusatzauftrag C in [Kapitel 6.5](../advanced/#ein-postmortem-aus-daten).
 

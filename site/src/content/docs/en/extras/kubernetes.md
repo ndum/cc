@@ -26,7 +26,7 @@ Pods are short-lived. When a pod is deleted or its node fails, a controller repl
 
 ## ReplicaSets and deployments
 
-A ReplicaSet keeps a number of identical pods from one template running. A deployment manages ReplicaSets and replaces the pods step by step when the template changes. You only write the deployment, and the cluster creates the ReplicaSet and the pods. The names show the chain, here for two web shop pods in the lab.
+A **ReplicaSet** keeps a number of identical pods from one template running. A **deployment** manages ReplicaSets and replaces the pods step by step when the template changes. You only write the deployment, and the cluster creates the ReplicaSet and the pods. The names show the chain, here for two web shop pods in the lab.
 
 ```text
 NAME                       READY   STATUS    RESTARTS   AGE
@@ -38,7 +38,7 @@ The ReplicaSet is called `webshop-7d4f56cb9b`. The second part is a hash of the 
 
 ## Labels and selectors
 
-[Labels](https://v1-36.docs.kubernetes.io/docs/concepts/overview/working-with-objects/labels/) are key-value pairs attached to an object, and a selector picks objects by their labels. With a shared label one object can refer to others without knowing their names. In the web shop, the deployment, the pods and the service all carry the label `app: webshop`.
+[Labels](https://v1-36.docs.kubernetes.io/docs/concepts/overview/working-with-objects/labels/) are key-value pairs attached to an object, and a **selector** picks objects by their labels. With a shared label one object can refer to others without knowing their names. In the web shop, the deployment, the pods and the service all carry the label `app: webshop`.
 
 | Object | Field | Effect |
 |---|---|---|
@@ -117,7 +117,7 @@ The web shop uses neither. Its settings, `SHOP_NAME` and from part 5 on `WORK_MS
 
 ## Requests and limits
 
-Each container can set two values for CPU and memory. The request is what the scheduler reserves for it, and the limit is the ceiling. Above its CPU limit the kernel throttles the container, and above its memory limit the kernel may kill it. `50m` means five hundredths of a core, and `64Mi` means 64 mebibytes. The web shop requests `50m` and `64Mi` and may use up to `500m` and `128Mi`, from part 5 on only up to `250m` of CPU.
+Each container can set two values for CPU and memory. The **request** is what the scheduler reserves for it, and the **limit** is the ceiling. Above its CPU limit the kernel throttles the container, and above its memory limit the kernel may kill it. `50m` means five hundredths of a core, and `64Mi` means 64 mebibytes. The web shop requests `50m` and `64Mi` and may use up to `500m` and `128Mi`, from part 5 on only up to `250m` of CPU.
 
 In the member namespaces, a LimitRange sets values for containers that bring none, and a ResourceQuota caps the total, both from [chapter 4.5](../../platform/templates/). The HorizontalPodAutoscaler of [chapter 5.4](../../observability/autoscaling/) measures CPU as a percentage of the request. [Chapter 4.3](../../platform/kubernetes/) explains how the scheduler plans with requests, and the [resource management documentation](https://v1-36.docs.kubernetes.io/docs/concepts/configuration/manage-resources-containers/) has the rules.
 

@@ -22,7 +22,7 @@ After this chapter you can:
 
 At the core of OpenNebula sits the program `oned`, which systemd runs as the service `opennebula`. It accepts every request through the API, checks permissions and quotas, and keeps the state of all objects in a database, each object stored as an XML document. OpenNebula uses SQLite unless configured otherwise, and OneDeploy sets up MariaDB in the lab. `onevm show <vm> -x` prints such a document. Settings live in `/etc/one/oned.conf` and messages in `/var/log/one/oned.log`, as the [oned documentation](https://docs.opennebula.io/7.4/product/operation_references/opennebula_services_configuration/oned/) describes.
 
-`oned` hands the actual work on hosts, VMs and disks to drivers, separate programs it launches at startup. `onemonitord` collects monitoring data, `one_sched` places new VMs, `one_vmm_exec` controls the VMs, `one_tm` moves disks to the nodes and `one_datastore` manages the images. All of them run as the user `oneadmin`.
+`oned` hands the actual work on hosts, VMs and disks to **drivers**, separate programs it launches at startup. `onemonitord` collects monitoring data, `one_sched` places new VMs, `one_vmm_exec` controls the VMs, `one_tm` moves disks to the nodes and `one_datastore` manages the images. All of them run as the user `oneadmin`.
 
 ```bash
 systemctl status opennebula --no-pager
@@ -56,7 +56,7 @@ onehost show <node>
 
 ## Web interface and add-on services
 
-Sunstone is a React application served by FireEdge. FireEdge runs on Node.js as the service `opennebula-fireedge` on port 2616. For every action it calls the same XML-RPC API as the CLI, at `http://localhost:2633/RPC2`. A VM console in the browser goes through guacd on port 4822, the Apache Guacamole proxy, which connects to the VM over VNC. The views from [chapter 3.4](../../tenants/self-service/) live in `/etc/one/fireedge/sunstone/`, as the [FireEdge documentation](https://docs.opennebula.io/7.4/product/operation_references/opennebula_services_configuration/fireedge/) describes.
+Sunstone is a React application served by **FireEdge**. FireEdge runs on Node.js as the service `opennebula-fireedge` on port 2616. For every action it calls the same XML-RPC API as the CLI, at `http://localhost:2633/RPC2`. A VM console in the browser goes through guacd on port 4822, the Apache Guacamole proxy, which connects to the VM over VNC. The views from [chapter 3.4](../../tenants/self-service/) live in `/etc/one/fireedge/sunstone/`, as the [FireEdge documentation](https://docs.opennebula.io/7.4/product/operation_references/opennebula_services_configuration/fireedge/) describes.
 
 The menu on the left divides Sunstone into sections such as "Instances", "Templates", "Storage", "Networks", "Infrastructure" and "System".
 
@@ -160,7 +160,7 @@ The first command shows the API address registered in the zone. The second shows
 
 ## Users, groups, VDCs and ACLs
 
-Every object belongs to a user and a group and carries permissions for the owner, the group and everyone else, much like a file on Unix. `oneadmin` with ID 0 and the members of the group `oneadmin` may do everything. OpenNebula also creates the [service user](https://docs.opennebula.io/7.4/product/cloud_system_administration/multitenancy/manage_users/) `serveradmin`, through which OpenNebula services pass on requests of their users to `oned`. ACLs grant users or groups additional rights on whole kinds of objects. A VDC assigns clusters, hosts, networks and datastores to groups, and a group without a VDC of its own belongs to `default` with all clusters. [Chapter 3.1](../../tenants/groups/) builds the members from these pieces, and chapter 3.4 shows the order in which `oned` checks permissions.
+Every object belongs to a user and a group and carries permissions for the owner, the group and everyone else, much like a file on Unix. `oneadmin` with ID 0 and the members of the group `oneadmin` may do everything. OpenNebula also creates the [service user](https://docs.opennebula.io/7.4/product/cloud_system_administration/multitenancy/manage_users/) `serveradmin`, through which OpenNebula services pass on requests of their users to `oned`. **ACLs** grant users or groups additional rights on whole kinds of objects. A **VDC** assigns clusters, hosts, networks and datastores to groups, and a group without a VDC of its own belongs to `default` with all clusters. [Chapter 3.1](../../tenants/groups/) builds the members from these pieces, and chapter 3.4 shows the order in which `oned` checks permissions.
 
 ```bash
 oneuser list

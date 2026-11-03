@@ -24,4 +24,4 @@ Use this grid to judge whether you can run your platform securely, recoverably a
 | restore the cluster from a snapshot (advanced) | Describe the steps and what remains to be done afterwards. | [Advanced tasks](../advanced/#restoring-from-a-snapshot) |
 | write and check a postmortem (advanced) | Check a draft of the model against its timeline and correct it. | [Advanced tasks](../advanced/#a-postmortem-from-data) |
 
-With this part you complete [milestone 4](../../assessment/milestone-4/) and have covered the content of the course. Rows marked as advanced belong to an advanced task and are not part of the base.
+With this part you complete [milestone 4](../../assessment/milestone-4/) and have covered the content of the course. Rows marked as advanced belong to an advanced task from [chapter 6.5](../advanced/) and are not part of the base. You hand in milestone 4 together with milestone 3 as hand-in 2. The [exam](../../assessment/exam/) follows towards the end of the module.

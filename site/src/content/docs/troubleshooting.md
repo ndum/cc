@@ -23,10 +23,12 @@ Die Adressen, Ports und Befehle für diese Schritte stehen in der [Lab-Referenz]
 | Symptom | Ursache | Was hilft | Kapitel |
 |---|---|---|---|
 | VMware meldet «Virtualized Intel VT-x/EPT is not supported on this platform» | Der Hypervisor von Windows läuft, etwa wegen Speicherintegrität, WSL 2 oder Docker Desktop | Hyper-V statt VMware verwenden oder auf smartlearn arbeiten | [Eigener Hypervisor](../extras/own-hypervisor/) |
-| Ein Knoten startet auf dem eigenen Rechner nicht, zu wenig Speicher | Der Rechner hat nicht genug RAM für die Grösse der Knoten | Knoten auf 8 GB stellen | [Eigener Hypervisor](../extras/own-hypervisor/) |
-| `git: command not found` | Die minimale Installation von Ubuntu enthält kein Git | `sudo apt install -y git` | [0.2](../start/lab/) |
+| Ein Knoten startet auf deinem PC nicht, zu wenig Speicher | Dein PC hat nicht genug RAM für die Grösse der Knoten | Knoten auf 8 GB stellen | [Eigener Hypervisor](../extras/own-hypervisor/) |
+| `ssh` meldet «Connection timed out» | Der Server hat keine Adresse, oder der Name der Schnittstelle im Generator stimmt nicht | An der Konsole `ip -br addr` prüfen, die beiden Befehle mit dem Namen aus `ip -br link` wiederholen | [0.3](../start/parameters/) |
+| Nach einem Neustart ist ein Server nicht mehr erreichbar | Er hatte nur die vorläufige Adresse von der Konsole, die Datei für netplan fehlt | An der Konsole die vorläufige Adresse setzen, per SSH den Block für netplan aus dem Generator einfügen | [0.3](../start/parameters/) |
+| `git: command not found` | Die minimale Installation von Ubuntu enthält kein Git | `sudo apt install -y git` | [0.4](../start/prepare/) |
 | `prepare.sh` meldet «This VM has no address» | Falsche Rolle, oder die Adressen in `/etc/cc-lab.env` passen nicht zur VM | Rolle prüfen, `ip -br a` mit `/etc/cc-lab.env` vergleichen | [0.4](../start/prepare/) |
-| `prepare.sh` meldet «sees no vmx or svm flag» | Verschachtelte Virtualisierung ist für den Knoten ausgeschaltet | Auf smartlearn einschalten, bei Hyper-V `Set-VMProcessor -ExposeVirtualizationExtensions $true` bei ausgeschalteter VM | [1.3](../basics/virtualization/) |
+| `prepare.sh` meldet «sees no vmx or svm flag» | Verschachtelte Virtualisierung ist für den Knoten ausgeschaltet | Auf smartlearn der Dozentin oder dem Dozenten melden, bei Hyper-V `Set-VMProcessor -ExposeVirtualizationExtensions $true` bei ausgeschalteter VM | [0.2](../start/lab/), [Eigener Hypervisor](../extras/own-hypervisor/) |
 | Werte aus `/etc/cc-lab.env` enden mit einem unsichtbaren Zeichen | Die Datei kam über einen Windows-Editor mit Zeilenenden CR LF | `prepare.sh` noch einmal ausführen, es entfernt die Zeichen | [0.3](../start/parameters/) |
 | Check `start` meldet `[!!]` bei SSH ohne Passwort | Der Schlüssel des Front-ends fehlt auf einem Knoten | `ssh-copy-id` vom Front-end auf den Knoten | [0.5](../start/tools/) |
 
@@ -48,6 +50,8 @@ Die Adressen, Ports und Befehle für diese Schritte stehen in der [Lab-Referenz]
 | `oneshowback list` zeigt Kosten 0 | VM vor dem Eintragen der Preise gestartet, oder `calculate` fehlt | VM neu starten, nach einer Weile `oneshowback calculate` | [3.3](../tenants/showback/) |
 | Der Dienst von OneFlow wächst nicht | Last zu kurz, oder OneFlow nimmt das Mittel aller VMs der Rolle | `oneflow show`, mindestens drei Minuten Last, in allen VMs der Rolle Last erzeugen | [3.5](../tenants/advanced/) |
 | Eine wiederhergestellte VM gehört `oneadmin` | `oneimage restore` legt neue Objekte an | `onevm chown <vm> <benutzer> <gruppe>` | [6.2](../operations/backup/) |
+| `onevm backup` lehnt eine VM ab | Die VM steht schon in einem Backup-Job | `onebackupjob backup praxis-nightly` sichert alle VMs des Jobs | [6.2](../operations/backup/) |
+| Nach der Wiederherstellung fehlt eine Datei, die kurz vor dem Backup entstand | Ubuntu hatte sie noch nicht auf die Disk geschrieben | Vor dem Backup in der VM `sync` ausführen | [6.2](../operations/backup/) |
 
 ## Netz
 
@@ -58,7 +62,7 @@ Die Adressen, Ports und Befehle für diese Schritte stehen in der [Lab-Referenz]
 | SSH auf eine VM verlangt ein Passwort | Der Schlüssel war bei `oneadmin` oder beim Gruppenadmin nicht hinterlegt, als die VM startete | Schlüssel mit `oneuser update --append` hinterlegen, VM neu starten | [2.4](../iaas/images/), [3.4](../tenants/self-service/) |
 | Downloads in einer VM brechen ab | MTU 1500 statt 1450 im Netz | `GUEST_MTU` mit `onevnet show cc-net` prüfen, VM neu starten | [2.3](../iaas/networks/) |
 | Nach der Härtung ist Gitea vom Client aus nicht mehr erreichbar | Die Firewall lässt von aussen nur SSH und Port 2616 zu | so gewollt, Gitea über einen Tunnel vom Client erreichen | [6.1](../operations/security/) |
-| Nach der Härtung keine Anmeldung mehr | Kein Schlüssel hinterlegt | Über die Konsole von smartlearn anmelden, `/etc/ssh/sshd_config.d/10-cc-hardening.conf` entfernen, Schlüssel eintragen und neu härten | [6.1](../operations/security/) |
+| Nach der Härtung keine Anmeldung mehr | Der Schlüssel des Clients fehlt auf dem Front-end oder passt nicht | An der Konsole des Front-ends anmelden, `/etc/ssh/sshd_config.d/10-cc-hardening.conf` entfernen, SSH mit `sudo systemctl reload ssh` neu laden, den Schlüssel mit `ssh-copy-id` eintragen und neu härten | [6.1](../operations/security/) |
 
 ## OpenTofu und k3s
 
@@ -67,7 +71,7 @@ Die Adressen, Ports und Befehle für diese Schritte stehen in der [Lab-Referenz]
 | `tofu apply` scheitert, kein Knoten hat genug Speicher | VMs aus Teil 2 oder 3 laufen noch | `onehost list`, VMs beenden, Dienste mit `oneflow delete` löschen | [4.2](../platform/opentofu/) |
 | `Inconsistent dependency lock file` | `tofu init` fehlt in dieser Kopie | `tofu init` im Ordner `tofu` | [4.2](../platform/opentofu/) |
 | Der Provider meldet einen Fehler bei der Anmeldung | `OPENNEBULA_USERNAME` und `OPENNEBULA_PASSWORD` fehlen, etwa in einer neuen Shell | die beiden `export` aus 4.2 wiederholen | [4.2](../platform/opentofu/) |
-| `tofu plan` zeigt nach einer Änderung am Startskript nur `update in-place` | Das Startskript läuft nur beim ersten Start einer VM | `tofu apply -replace` für die betroffenen VMs | [6.2](../operations/backup/) |
+| `tofu plan` zeigt nach einer Änderung am Startskript nur `update in-place` | Das Startskript beendet sich, wenn k3s schon installiert ist, eine laufende VM übernimmt die Änderung deshalb nicht | `tofu apply -replace` für die betroffenen VMs | [6.2](../operations/backup/) |
 | Nodes werden nicht `Ready` | Das Startskript läuft noch oder ist gescheitert | `ssh root@<server> journalctl -u one-context`, `systemctl status k3s`, notfalls `tofu apply -replace` | [4.3](../platform/kubernetes/) |
 | SSH oder kubectl verweigern nach einem Neubau | Alter Schlüssel in `known_hosts`, alte kubeconfig | `ssh-keygen -R <adresse>`, kubeconfig mit `get-kubeconfig.sh` neu holen | [4.3](../platform/kubernetes/) |
 | Ein Node ist `NotReady` | k3s läuft auf dieser VM nicht, oder die VM ist aus | `onevm list`, `ssh root@<adresse> systemctl status k3s` oder `k3s-agent` | [4.3](../platform/kubernetes/) |
@@ -118,5 +122,6 @@ Die Adressen, Ports und Befehle für diese Schritte stehen in der [Lab-Referenz]
 | Die Application `secrets` bleibt bei einem Fehler | Der Controller von Sealed Secrets läuft noch nicht | warten, die Application versucht es erneut | [6.1](../operations/security/) |
 | `crontab: command not found` | Ubuntu 26.04 bringt kein cron mit | den Timer mit `install-backup-timer.sh` einrichten | [6.2](../operations/backup/) |
 | Neue Snapshots kommen nicht auf dem Front-end an | Der Timer `cc-backup-k3s.timer` ist nicht aktiv | `systemctl list-timers`, Timer aktivieren | [6.2](../operations/backup/) |
-| Argo CD übernimmt nach einem Restore keine Commits | Die Controller arbeiten mit dem alten Stand | Controller in `argocd` und `monitoring` neu starten | [6.5](../operations/advanced/) |
+| Nach dem Neubau des Clusters fehlen Metriken, Logs und das Audit-Log | Die Daten der Volumes lagen auf den Disks der alten VMs | so gewollt, vor dem Neubau Screenshots machen und das Audit-Log kopieren | [6.2](../operations/backup/) |
+| Argo CD übernimmt nach einem Restore keine Commits | Die Controller arbeiten mit dem alten Stand | Controller in `argocd` und `monitoring` und den Controller von Sealed Secrets neu starten | [6.5](../operations/advanced/) |
 | Der Knoten lagert aus, alle VMs werden langsam | Die VM eines Mitglieds ist zu gross für den freien Speicher | VM mit höchstens 1 GB | [6.4](../operations/cost/) |
