@@ -138,11 +138,12 @@ def check_start(env, report):
     report.check("masquerade" in out, tr("NAT für das Gastnetz ist aktiv", "NAT for the guest network is active"))
     for node in nodes:
         code, out = ssh(node, "hostname; . /etc/os-release; echo $VERSION_ID; grep -cwE 'vmx|svm' /proc/cpuinfo; systemctl is-active rsyslog; "
-                              "sudo -n true 2>/dev/null && echo sudo-ok || echo sudo-no")
+                              "sudo -n true 2>/dev/null && echo sudo-ok || echo sudo-no; "
+                              "swapon --show --noheadings | grep -q . && echo swap-ok || echo swap-no")
         if not report.check(code == 0, tr(f"SSH ohne Passwort auf {node}", f"SSH without password to {node}"),
                             tr("Kapitel 0.4 zeigt, wie der Schlüssel auf die Knoten kommt.", "Chapter 0.4 shows how the key gets to the nodes.")):
             continue
-        name, version, flags, rsyslog, sudo = (out.splitlines() + ["", "", "0", "", ""])[:5]
+        name, version, flags, rsyslog, sudo, swap = (out.splitlines() + ["", "", "0", "", "", ""])[:6]
         report.check(name == node, tr(f"{node} trägt seinen Namen", f"{node} has its name"))
         report.check(version == "26.04", tr(f"{node} läuft mit Ubuntu 26.04", f"{node} runs Ubuntu 26.04"), f"VERSION_ID={version}")
         report.check(flags.isdigit() and int(flags) > 0, tr(f"{node} sieht die Virtualisierung der CPU", f"{node} sees the virtualisation of the CPU"),
@@ -150,6 +151,9 @@ def check_start(env, report):
         report.check(rsyslog == "active", tr(f"rsyslog läuft auf {node}", f"rsyslog runs on {node}"))
         report.check(sudo == "sudo-ok", tr(f"sudo ohne Passwort auf {node}", f"sudo without password on {node}"),
                      tr("Kapitel 0.4 zeigt die Zeile für sudo.", "Chapter 0.4 shows the line for sudo."))
+        # Without swap the kernel kills a VM as soon as the VMs of a node and the node itself need more than its memory
+        report.check(swap == "swap-ok", tr(f"{node} hat Swap", f"{node} has swap"),
+                     tr("prepare.sh legt ihn an, Kapitel 0.4.", "prepare.sh creates it, chapter 0.4."))
 
 
 def check_install(env, report):
@@ -317,6 +321,19 @@ def kube_json(*args):
         return None
 
 
+def check_nodes(report):
+    """One check that kubectl reaches the cluster and both nodes are Ready, returns False without an answer of kubectl"""
+    nodes = kube_json("get", "nodes")
+    ready = [n for n in (nodes or {}).get("items", [])
+             if any(c.get("type") == "Ready" and c.get("status") == "True" for c in n.get("status", {}).get("conditions", []))]
+    # A k3s VM that the kernel of its node killed for lack of memory leaves a node NotReady, the other checks then fail for no visible reason
+    hint = (tr("get-kubeconfig.sh aus Kapitel 4.3", "get-kubeconfig.sh from chapter 4.3") if nodes is None else
+            tr("onevm list zeigt, ob beide k3s-VMs laufen, free -h auf den Knoten den Speicher und den Swap.",
+               "onevm list shows whether both k3s VMs run, free -h on the nodes shows memory and swap."))
+    report.check(len(ready) == 2, tr("kubectl erreicht den Cluster, zwei Nodes sind Ready", "kubectl reaches the cluster, two nodes are Ready"), hint)
+    return nodes is not None
+
+
 def http(url, token=None):
     """Returns (status, body) of a GET request, status 0 when nothing answers"""
     request = urllib.request.Request(url)
@@ -394,8 +411,7 @@ def check_observability(env, report):
     for target, name in ((f"{fe}:9925", "OpenNebula"), (f"{node1}:9926", "libvirt"), (f"{node2}:9926", "libvirt")):
         report.check(http(f"http://{target}/metrics")[0] == 200, tr(f"Der Exporter {name} antwortet auf {target}", f"The {name} exporter answers on {target}"),
                      tr("install-exporters.sh aus Kapitel 5.1", "install-exporters.sh from chapter 5.1"))
-    if not report.check(run("kubectl", "get", "nodes")[0] == 0, tr("kubectl erreicht den Cluster", "kubectl reaches the cluster"),
-                        tr("get-kubeconfig.sh aus Kapitel 4.3", "get-kubeconfig.sh from chapter 4.3")):
+    if not check_nodes(report):
         return
     apps = {a["metadata"]["name"]: a.get("status", {}) for a in (kube_json("get", "applications", "-n", "argocd") or {}).get("items", [])}
     for name in ("monitoring", "monitoring-config", "loki", "alloy"):
@@ -466,8 +482,7 @@ def check_operations(env, report):
                  tr("harden-frontend.sh aus Kapitel 6.1", "harden-frontend.sh from chapter 6.1"))
     report.check('"1"' in run("apt-config", "dump", "APT::Periodic::Unattended-Upgrade")[1],
                  tr("Sicherheitsupdates laufen automatisch", "Security updates run automatically"))
-    if not report.check(run("kubectl", "get", "nodes")[0] == 0, tr("kubectl erreicht den Cluster", "kubectl reaches the cluster"),
-                        tr("get-kubeconfig.sh aus Kapitel 4.3", "get-kubeconfig.sh from chapter 4.3")):
+    if not check_nodes(report):
         return
     apps = {a["metadata"]["name"]: a.get("status", {}) for a in (kube_json("get", "applications", "-n", "argocd") or {}).get("items", [])}
     for name in ("sealed-secrets", "secrets"):

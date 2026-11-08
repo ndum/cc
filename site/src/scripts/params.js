@@ -154,12 +154,13 @@ function moveText(ips) {
 
 /**
  * The block for the client of chapter 0.4. It appends a host entry per server to ~/.ssh/config, so a
- * name like mmuster-fe stands for the new address and the user cc, and copies the key to each server
+ * name like mmuster-fe stands for the new address and the user vmadmin of the smartlearn template,
+ * and copies the key to each server
  */
 function sshText(hosts, ips) {
   return [
     "cat >> ~/.ssh/config <<'EOF'",
-    ...ROLES.flatMap((role, i) => [...(i ? [''] : []), `Host ${hosts[role]}`, `  HostName ${ips[role]}`, '  User cc']),
+    ...ROLES.flatMap((role, i) => [...(i ? [''] : []), `Host ${hosts[role]}`, `  HostName ${ips[role]}`, '  User vmadmin']),
     'EOF',
     ...ROLES.map((role) => `ssh-copy-id ${hosts[role]}`),
   ].join('\n');
