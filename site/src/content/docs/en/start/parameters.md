@@ -36,27 +36,21 @@ It takes five steps until your three servers have addresses of their own and kno
 4. Log in again at the new address
 5. Create the file `/etc/cc-lab.env`
 
-The output of the generator follows this order. With a hypervisor of your own, steps 2 to 4 differ, the box "Own hypervisor" at the end of [Setting the addresses](#setting-the-addresses) describes them. The section [The values](#the-values) at the end explains what each value means.
+The next two sections explain what happens on the servers along the way. Then come the generator and the work with its blocks. With a hypervisor of your own, steps 2 to 4 of this list differ, the box "Own hypervisor" at the end of [Setting the addresses](#setting-the-addresses) describes them.
 
 ## The network interface
 
-Every server connects to the lab network through a network interface. Ubuntu names it after the virtual network card the hypervisor gives the VM, so check it on all three servers as soon as you are logged in.
+Every server connects to the lab network through a network interface. Ubuntu names it after the virtual network card the hypervisor gives the VM. You check it on every server as soon as you are logged in.
 
 ```bash
 ip -br link
 ```
 
-The output has one line per interface. `lo` is the interface the server uses to talk to itself. The second line is the one you need, its name comes first. On smartlearn it is `eth0` on all three servers, which is why its address lives in the file `/etc/netplan/00-eth0.yaml`.
+The output has one line per interface. `lo` is the interface the server uses to talk to itself. The second line is the one you need, its name comes first. On smartlearn it is `eth0` on all three servers.
 
-## The generator
+## Addresses with netplan
 
-Open this page in the browser of the client, so you can copy the output of the generator and paste it into the terminal of the client. Enter your code. You only need the name of the network interface with a hypervisor of your own, on smartlearn you leave the field empty. The calculation runs only in the browser, nothing leaves this page. Your input is still there the next time you visit.
-
-<cc-params></cc-params>
-
-## Setting the addresses
-
-Work through the servers one at a time, first the front-end and then the two nodes. The smartlearn template starts them with these default addresses.
+The smartlearn template starts the three servers with fixed default addresses. They are the same in every environment, so each server first gets its own address from the generator.
 
 | Server | Default address |
 |---|---|
@@ -64,23 +58,31 @@ Work through the servers one at a time, first the front-end and then the two nod
 | Node 1 | 192.168.210.138 |
 | Node 2 | 192.168.210.139 |
 
+Ubuntu manages the network with netplan, which reads its settings from YAML files in `/etc/netplan/`. On smartlearn the address of a server, with its route and DNS, lives in `00-eth0.yaml`, named after its interface. The [guide to static IP addresses](https://netplan.readthedocs.io/en/1.2/using-static-ip-addresses/) for netplan 1.2, the version in Ubuntu 26.04, shows how such a file sets a fixed address. Minimal Ubuntu has no editor yet, so a block of the generator changes the address in this file with `sed` and shows it with `grep`, and `netplan apply` applies it at once.
+
+From that moment the server only answers at its new address, so an SSH session that runs on the old address freezes. You end it and log in again at the new address. The file also applies after a reboot, so the address stays.
+
 :::caution[No second netplan file]
-On smartlearn you only change the address in `/etc/netplan/00-eth0.yaml`. Do not add another file to `/etc/netplan/` there, such as `60-cc-lab.yaml`. A second file for the same interface confuses the network of the server.
+On smartlearn you only change the address in `/etc/netplan/00-eth0.yaml`. Do not add another file to `/etc/netplan/` there, such as `60-cc-lab.yaml`. Next to `00-eth0.yaml` with its fixed address, the server would then have two settings for the same interface, and its network gets confused.
 :::
 
-### Over SSH at the default address
+## The generator
 
-Open a terminal on the client and log in at the default address of the server with the first command the generator shows for it. The first time, SSH asks whether you trust the server's key. After `yes` the server asks for your user's password. Then check the network interface with `ip -br link`.
+Open this page in the browser of the client, so you can copy the output of the generator and paste it into the terminal of the client. Enter your code. You only need the name of the network interface with a hypervisor of your own, on smartlearn you leave the field empty. The calculation runs only in the browser, nothing leaves this page. Your input is still there the next time you visit.
 
-### Changing the address
+The generator first shows the addresses of your three servers. Then come four blocks for every server, the login at the default address, the change of the address, the login at the new address and the file `/etc/cc-lab.env`. Your values for the milestones are at the very bottom.
 
-Ubuntu manages the network with netplan, which reads its settings from YAML files in `/etc/netplan/`. The [guide to static IP addresses](https://netplan.readthedocs.io/en/1.2/using-static-ip-addresses/) for netplan 1.2, the version in Ubuntu 26.04, shows how such a file sets a fixed address with a route and DNS. Minimal Ubuntu has no editor yet, so the generator's second block uses `sed` to replace the default address in `00-eth0.yaml` with yours, shows the changed line with `grep` and applies the settings with `netplan apply`.
+<cc-params></cc-params>
 
-Copy the block of the server you are logged in to, paste it into the SSH session and start it with Enter. The first `sudo` of a session asks for your password. After `netplan apply` the server only answers at its new address, so the SSH session hangs. End it with Enter followed by the characters `~` and `.`.
+## Setting the addresses
 
-### At the new address
+Work through the servers one at a time, first the front-end and then the two nodes. For each server you go through its four blocks in the generator from top to bottom.
 
-Log in at the new address with the generator's third command. Here too SSH asks about the key the first time. Then check the address, the route through the gateway and the connection to the internet. Minimal Ubuntu has no `ping`, but it has `curl`.
+1. Open a terminal on the client and log in at the server's default address with its first block. The first time, SSH asks whether you trust the server's key. After `yes` the server asks for your user's password.
+2. Check with `ip -br link` that the interface is called `eth0`.
+3. Paste the second block into the SSH session and start it with Enter. `sudo` asks for your password. The output of `grep` shows your new address next to gateway and DNS on 192.168.210.1. Then the session freezes. End it with Enter followed by the characters `~` and `.`, or close the terminal. If your addresses are exactly the default addresses, the session keeps running and you log out with `exit`.
+4. Log in at the new address with the third block. Here too SSH asks about the key the first time.
+5. Check the address, the route through the gateway and the connection to the internet. Minimal Ubuntu has no `ping`, but it has `curl`.
 
 ```bash
 ip -br addr
@@ -88,11 +90,14 @@ ip route
 curl -sI https://ubuntu.com | head -1
 ```
 
+Then stay in this session, in the next section the fourth block creates the file with your values.
+
 | Symptom | Cause | What helps |
 |---|---|---|
 | `ssh` to the default address reports "Connection timed out" | The server is not running or has another address | Check on smartlearn that the VM runs, look at `ip -br addr` on its console |
-| The line from `grep` still shows the default address | You pasted the block of another server, or the address is written differently in the file. If the generator gives you exactly the default address, this is correct | Look at the file with `cat /etc/netplan/00-eth0.yaml` and paste the block of the right server |
+| `grep` still shows the default address | You pasted the block of another server, or the address is written differently in the file. If the generator gives you exactly the default address, this is correct | Look at the file with `cat /etc/netplan/00-eth0.yaml` and paste the block of the right server |
 | The new address does not answer | The file has an error or the address is wrong | Log in on the smartlearn console, check `ip -br addr` and `/etc/netplan/00-eth0.yaml` |
+| `ssh` reports "REMOTE HOST IDENTIFICATION HAS CHANGED" | The server was set up again and the client still has the old key | Run `ssh-keygen -R <address>` on the client and log in again |
 | `ip route` shows no line `default via 192.168.210.1` | The route is missing in the file | Look at the file with `cat`, ask your instructor |
 | `curl` reports "Could not resolve host" | The DNS is missing | `resolvectl status` shows the DNS, on smartlearn it must be 192.168.210.1 |
 | `curl` waits and gives up | No way to the internet | Check address and gateway, otherwise ask your instructor |
@@ -105,7 +110,7 @@ Otherwise read the interface name with `ip -br link` on the console of each serv
 
 ## The file on the servers
 
-Stay in the same SSH session. The last block of the generator creates the file `/etc/cc-lab.env`, from which the scripts of the course read your values. It is the same on all three servers. Paste it, start it with Enter and check the file with `cat /etc/cc-lab.env`. Then log out with `exit` and move on to the next server.
+Stay in the SSH session at the new address. The server's fourth block creates the file `/etc/cc-lab.env`, from which the scripts of the course read your values. It is the same on all three servers. Paste it and start it with Enter, `sudo` asks for your password again in the new session. Then check the file with `cat /etc/cc-lab.env`. Then log out with `exit` and move on to the next server.
 
 If a value turns out to be wrong later, for example because you mistyped an address, fix the file on all three servers and run the preparation script from [chapter 0.4](../prepare/) again.
 
@@ -139,6 +144,6 @@ A copy of `/etc/cc-lab.env` lies in your hand-in repo, and a screencast of the a
 Generate your parameters and give each of the three servers its address. Create `/etc/cc-lab.env` and explain three of the values to a classmate in your own words.
 
 :::solution
-The file has 16 lines and is the same on all three servers. The host names start with your code, the internal network lies within 172.16.0.0/12 and ends in `.0/24`, and the VXLAN identifier lies between 1000 and 9999. `ssh cc@<address>` works from the client at the new address of every server, also after a reboot, and the default addresses no longer answer.
+The file has 16 lines and is the same on all three servers. The host names start with your code, the internal network lies within 172.16.0.0/12 and ends in `.0/24`, and the VXLAN identifier lies between 1000 and 9999. `ssh cc@<address>` works from the client at the new address of every server, also after a reboot, and the default addresses no longer answer unless they are your own addresses.
 :::
 ::::

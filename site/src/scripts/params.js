@@ -36,11 +36,12 @@ const TEXT = {
     address: 'Adresse',
     names: { fe: 'Front-end', node1: 'Knoten 1', node2: 'Knoten 2' },
     login: (role) => `Am Client an der Standardadresse ${{ fe: 'des Front-ends', node1: 'von Knoten 1', node2: 'von Knoten 2' }[role]} anmelden`,
-    move: (role) => `In der SSH-Sitzung auf ${{ fe: 'dem Front-end', node1: 'Knoten 1', node2: 'Knoten 2' }[role]} einfügen, danach bleibt sie hängen`,
+    move: (role) => `In der SSH-Sitzung auf ${{ fe: 'dem Front-end', node1: 'Knoten 1', node2: 'Knoten 2' }[role]} einfügen`,
     relogin: (role) => `Am Client an der neuen Adresse ${{ fe: 'des Front-ends', node1: 'von Knoten 1', node2: 'von Knoten 2' }[role]} anmelden`,
     console: (role) => `An der Konsole ${{ fe: 'des Front-ends', node1: 'von Knoten 1', node2: 'von Knoten 2' }[role]} tippen`,
     ssh: (role) => `In der SSH-Sitzung auf ${{ fe: 'dem Front-end', node1: 'Knoten 1', node2: 'Knoten 2' }[role]} einfügen`,
-    env: 'In der SSH-Sitzung auf jedem der drei Server einfügen',
+    env: (role) => `In der neuen SSH-Sitzung auf ${{ fe: 'dem Front-end', node1: 'Knoten 1', node2: 'Knoten 2' }[role]} einfügen`,
+    envSelfhost: 'In der SSH-Sitzung auf jedem der drei Server einfügen',
     copy: 'Kopieren',
     copied: 'Kopiert',
     milestones: 'Deine Werte für die Meilensteine',
@@ -70,11 +71,12 @@ const TEXT = {
     address: 'Address',
     names: { fe: 'Front-end', node1: 'Node 1', node2: 'Node 2' },
     login: (role) => `On the client, log in to ${{ fe: 'the front-end', node1: 'node 1', node2: 'node 2' }[role]} at its default address`,
-    move: (role) => `Paste into the SSH session on ${{ fe: 'the front-end', node1: 'node 1', node2: 'node 2' }[role]}, it hangs afterwards`,
+    move: (role) => `Paste into the SSH session on ${{ fe: 'the front-end', node1: 'node 1', node2: 'node 2' }[role]}`,
     relogin: (role) => `On the client, log in to ${{ fe: 'the front-end', node1: 'node 1', node2: 'node 2' }[role]} at its new address`,
     console: (role) => `Type at the console of ${{ fe: 'the front-end', node1: 'node 1', node2: 'node 2' }[role]}`,
     ssh: (role) => `Paste into the SSH session on ${{ fe: 'the front-end', node1: 'node 1', node2: 'node 2' }[role]}`,
-    env: 'Paste into the SSH session on each of the three servers',
+    env: (role) => `Paste into the new SSH session on ${{ fe: 'the front-end', node1: 'node 1', node2: 'node 2' }[role]}`,
+    envSelfhost: 'Paste into the SSH session on each of the three servers',
     copy: 'Copy',
     copied: 'Copied',
     milestones: 'Your values for the milestones',
@@ -174,14 +176,11 @@ function table(label, head, rows) {
 /**
  * On smartlearn the address of a server lives in 00-eth0.yaml, a second netplan file for the same
  * interface breaks its network. sed swaps only the address, grep shows the result, and netplan apply
- * moves the server, which cuts the SSH session that runs on the old address
+ * moves the server, which cuts the SSH session that runs on the old address. One line under one sudo,
+ * because a password prompt would swallow the lines pasted after it
  */
 function moveText(from, to) {
-  return [
-    `sudo sed -i 's#${from.replaceAll('.', '\\.')}/#${to}/#' ${SMARTLEARN_NETPLAN}`,
-    `sudo grep -n 192.168.210 ${SMARTLEARN_NETPLAN}`,
-    'sudo netplan apply',
-  ].join('\n');
+  return `sudo sh -c "sed -i 's#${from.replaceAll('.', '\\.')}/#${to}/#' ${SMARTLEARN_NETPLAN} && grep -n 192.168.210 ${SMARTLEARN_NETPLAN} && netplan apply"`;
 }
 
 /** The two commands that give a server its first address before SSH works, on an own hypervisor */
@@ -246,10 +245,13 @@ class CcParams extends HTMLElement {
       const ms = milestonesFromDigest(await digestOf(normalized, 'cc2027-ms'));
       const hosts = { fe: params.feHost, node1: params.node1Host, node2: params.node2Host };
 
+      const env = envText(envLines(params, ips, lang));
+      // Each server gets its file right after its new login, so the blocks read from top to bottom
       const smartlearn = ROLES.flatMap((role) => [
         block(t.login(role), `ssh cc@${DEFAULTS[role]}`, t),
         block(t.move(role), moveText(DEFAULTS[role], ips[role]), t),
         block(t.relogin(role), `ssh cc@${ips[role]}`, t),
+        block(t.env(role), env, t),
       ]);
       const selfhost = ifaceOk
         ? [
@@ -260,13 +262,13 @@ class CcParams extends HTMLElement {
               block(t.console(role), consoleText(ips[role], iface), t),
               block(t.ssh(role), sshText(ips[role], iface), t),
             ]),
+            block(t.envSelfhost, env, t),
           ]
         : [];
 
       result.replaceChildren(
         ...table(t.addresses, [t.vm, t.host, t.address], ROLES.map((role) => [t.names[role], hosts[role], `${ips[role]}/24`])),
         ...smartlearn,
-        block(t.env, envText(envLines(params, ips, lang)), t),
         ...selfhost,
         ...table(t.milestones, t.msHead, t.msRows(ms)),
       );
