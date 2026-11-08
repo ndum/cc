@@ -102,4 +102,4 @@ else
 fi
 
 say "Done"
-echo "$HOST is prepared. Once all three VMs are prepared, chapter 0.5 continues on the front-end."
+echo "$HOST is prepared. Once all three VMs are prepared, chapter 0.4 continues on the front-end."
