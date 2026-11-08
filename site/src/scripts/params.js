@@ -1,10 +1,11 @@
 /**
  * <cc-params>: the parameter generator of chapter 0.3.
  *
- * Students type their personal code and the name of the network interface of their servers. The
- * element shows the addresses of the three servers and, in the order of chapter 0.3, the two
- * commands for a first address at the console of each server, the commands for its SSH session that
- * write and apply its netplan file and the command that writes /etc/cc-lab.env. Everything is
+ * Students type their personal code and, only on an own hypervisor, the name of the network
+ * interface of their servers. The element shows the addresses of the three servers and, in the order
+ * of chapter 0.3, per server the login at its default address on smartlearn, the commands that change
+ * its address in 00-eth0.yaml and the login at the new address, then the command that writes
+ * /etc/cc-lab.env. With an interface name it adds the console and netplan blocks of an own hypervisor. Everything is
  * computed in the browser, nothing leaves the page. The last input is kept in localStorage, so the
  * values are still there on the next visit.
  */
@@ -23,17 +24,20 @@ const TEXT = {
     code: 'Persönlicher Code',
     codeHint: 'Kleinbuchstaben und Ziffern, beginnt mit einem Buchstaben, 2 bis 16 Zeichen',
     iface: 'Netzwerkschnittstelle',
-    ifacePlaceholder: 'Name aus ip -br link',
-    ifaceHint: 'Der Name, den ip -br link auf deinen Servern zeigt, nicht einfach ein Beispiel aus dem Kurs',
+    ifacePlaceholder: 'nur eigener Hypervisor',
+    ifaceHint: 'Nur mit einem eigenen Hypervisor: der Name, den ip -br link auf deinen Servern zeigt. Auf smartlearn bleibt das Feld leer.',
     invalidCode: 'Der Code beginnt mit einem Buchstaben und hat 2 bis 16 Kleinbuchstaben oder Ziffern.',
     invalidIface: 'Der Name der Schnittstelle besteht aus Kleinbuchstaben und Ziffern.',
-    missingIface: 'Sobald du den Namen der Netzwerkschnittstelle eingibst, erscheinen hier die Blöcke für die Konsole und die SSH-Sitzung jedes Servers.',
-    ifaceUsed: (iface) => ['Die Befehle für die Konsole und für netplan verwenden die Schnittstelle ', { code: iface }, '. Zeigt ', { code: 'ip -br link' }, ' auf deinen Servern einen anderen Namen, korrigiere ihn oben.'],
+    selfhost: 'Eigener Hypervisor',
+    ifaceUsed: (iface) => ['Diese Blöcke brauchst du nur auf einem eigenen Hypervisor. Sie verwenden die Schnittstelle ', { code: iface }, '. Zeigt ', { code: 'ip -br link' }, ' auf deinen Servern einen anderen Namen, korrigiere ihn oben.'],
     addresses: 'Adressen deiner drei Server',
     vm: 'Server',
     host: 'Hostname',
     address: 'Adresse',
     names: { fe: 'Front-end', node1: 'Knoten 1', node2: 'Knoten 2' },
+    login: (role) => `Am Client an der Standardadresse ${{ fe: 'des Front-ends', node1: 'von Knoten 1', node2: 'von Knoten 2' }[role]} anmelden`,
+    move: (role) => `In der SSH-Sitzung auf ${{ fe: 'dem Front-end', node1: 'Knoten 1', node2: 'Knoten 2' }[role]} einfügen, danach bleibt sie hängen`,
+    relogin: (role) => `Am Client an der neuen Adresse ${{ fe: 'des Front-ends', node1: 'von Knoten 1', node2: 'von Knoten 2' }[role]} anmelden`,
     console: (role) => `An der Konsole ${{ fe: 'des Front-ends', node1: 'von Knoten 1', node2: 'von Knoten 2' }[role]} tippen`,
     ssh: (role) => `In der SSH-Sitzung auf ${{ fe: 'dem Front-end', node1: 'Knoten 1', node2: 'Knoten 2' }[role]} einfügen`,
     env: 'In der SSH-Sitzung auf jedem der drei Server einfügen',
@@ -54,17 +58,20 @@ const TEXT = {
     code: 'Personal code',
     codeHint: 'Lower case letters and digits, starts with a letter, 2 to 16 characters',
     iface: 'Network interface',
-    ifacePlaceholder: 'name from ip -br link',
-    ifaceHint: 'The name ip -br link shows on your servers, not just an example from the course',
+    ifacePlaceholder: 'own hypervisor only',
+    ifaceHint: 'Only with a hypervisor of your own: the name ip -br link shows on your servers. On smartlearn leave the field empty.',
     invalidCode: 'The code starts with a letter and has 2 to 16 lower case letters or digits.',
     invalidIface: 'The interface name consists of lower case letters and digits.',
-    missingIface: 'Once you enter the name of the network interface, the blocks for the console and the SSH session of every server appear here.',
-    ifaceUsed: (iface) => ['The commands for the console and for netplan use the interface ', { code: iface }, '. If ', { code: 'ip -br link' }, ' shows another name on your servers, correct it above.'],
+    selfhost: 'Own hypervisor',
+    ifaceUsed: (iface) => ['You need these blocks only on a hypervisor of your own. They use the interface ', { code: iface }, '. If ', { code: 'ip -br link' }, ' shows another name on your servers, correct it above.'],
     addresses: 'Addresses of your three servers',
     vm: 'Server',
     host: 'Host name',
     address: 'Address',
     names: { fe: 'Front-end', node1: 'Node 1', node2: 'Node 2' },
+    login: (role) => `On the client, log in to ${{ fe: 'the front-end', node1: 'node 1', node2: 'node 2' }[role]} at its default address`,
+    move: (role) => `Paste into the SSH session on ${{ fe: 'the front-end', node1: 'node 1', node2: 'node 2' }[role]}, it hangs afterwards`,
+    relogin: (role) => `On the client, log in to ${{ fe: 'the front-end', node1: 'node 1', node2: 'node 2' }[role]} at its new address`,
     console: (role) => `Type at the console of ${{ fe: 'the front-end', node1: 'node 1', node2: 'node 2' }[role]}`,
     ssh: (role) => `Paste into the SSH session on ${{ fe: 'the front-end', node1: 'node 1', node2: 'node 2' }[role]}`,
     env: 'Paste into the SSH session on each of the three servers',
@@ -86,6 +93,9 @@ const TEXT = {
 const STORAGE_KEY = 'cc-params';
 const IFACE = /^[a-z][a-z0-9]{1,14}$/;
 const ROLES = ['fe', 'node1', 'node2'];
+/** The template of the smartlearn environments starts the servers with these addresses */
+const DEFAULTS = { fe: '192.168.210.137', node1: '192.168.210.138', node2: '192.168.210.139' };
+const SMARTLEARN_NETPLAN = '/etc/netplan/00-eth0.yaml';
 
 /** German decimals use a comma */
 function decimal(value) {
@@ -161,7 +171,20 @@ function table(label, head, rows) {
   return [title, element];
 }
 
-/** The two commands that give a server its first address before SSH works */
+/**
+ * On smartlearn the address of a server lives in 00-eth0.yaml, a second netplan file for the same
+ * interface breaks its network. sed swaps only the address, grep shows the result, and netplan apply
+ * moves the server, which cuts the SSH session that runs on the old address
+ */
+function moveText(from, to) {
+  return [
+    `sudo sed -i 's#${from.replaceAll('.', '\\.')}/#${to}/#' ${SMARTLEARN_NETPLAN}`,
+    `sudo grep -n 192.168.210 ${SMARTLEARN_NETPLAN}`,
+    'sudo netplan apply',
+  ].join('\n');
+}
+
+/** The two commands that give a server its first address before SSH works, on an own hypervisor */
 function consoleText(ip, iface) {
   return [`sudo ip link set ${iface} up`, `sudo ip addr add ${ip}/24 dev ${iface}`].join('\n');
 }
@@ -223,21 +246,28 @@ class CcParams extends HTMLElement {
       const ms = milestonesFromDigest(await digestOf(normalized, 'cc2027-ms'));
       const hosts = { fe: params.feHost, node1: params.node1Host, node2: params.node2Host };
 
-      const perServer = ifaceOk
+      const smartlearn = ROLES.flatMap((role) => [
+        block(t.login(role), `ssh cc@${DEFAULTS[role]}`, t),
+        block(t.move(role), moveText(DEFAULTS[role], ips[role]), t),
+        block(t.relogin(role), `ssh cc@${ips[role]}`, t),
+      ]);
+      const selfhost = ifaceOk
         ? [
-            // The name of the interface is the most common mistake, so the result repeats it
+            Object.assign(document.createElement('p'), { className: 'cc-params-label', textContent: t.selfhost }),
+            // The name of the interface is the most common mistake there, so the result repeats it
             paragraph('cc-params-note', t.ifaceUsed(iface)),
             ...ROLES.flatMap((role) => [
               block(t.console(role), consoleText(ips[role], iface), t),
               block(t.ssh(role), sshText(ips[role], iface), t),
             ]),
           ]
-        : [Object.assign(document.createElement('p'), { className: 'cc-params-hint', textContent: t.missingIface })];
+        : [];
 
       result.replaceChildren(
         ...table(t.addresses, [t.vm, t.host, t.address], ROLES.map((role) => [t.names[role], hosts[role], `${ips[role]}/24`])),
-        ...perServer,
+        ...smartlearn,
         block(t.env, envText(envLines(params, ips, lang)), t),
+        ...selfhost,
         ...table(t.milestones, t.msHead, t.msRows(ms)),
       );
       result.hidden = false;

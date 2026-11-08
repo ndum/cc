@@ -28,61 +28,59 @@ Den Code nennt dir deine Dozentin oder dein Dozent, meist ist es dein Kürzel. E
 
 ## Der Ablauf
 
-Bis deine drei Server erreichbar sind und ihre Parameter kennen, gehst du in fünf Schritten vor. Die ersten beiden machst du einmal, die übrigen drei für jeden Server.
+Bis deine drei Server ihre eigenen Adressen haben und ihre Parameter kennen, gehst du in fünf Schritten vor. Den ersten machst du einmal, die übrigen vier für jeden Server. Auf smartlearn brauchst du dafür keine Konsole, denn die Vorlage gibt jedem Server schon eine Standardadresse, unter der du ihn vom Client aus per SSH erreichst.
 
-1. Den Namen der Netzwerkschnittstelle an der Konsole eines Servers ablesen
-2. Code und Schnittstelle in den Generator eintragen
-3. An der Konsole des Servers die zwei Befehle für eine vorläufige Adresse abtippen
-4. Dich vom Client aus per SSH anmelden und die Adresse mit netplan festlegen
-5. In derselben SSH-Sitzung die Datei `/etc/cc-lab.env` anlegen
+1. Deinen Code in den Generator eintragen
+2. Dich vom Client aus an der Standardadresse des Servers anmelden und die Netzwerkschnittstelle prüfen
+3. Die Adresse in `/etc/netplan/00-eth0.yaml` auf die Adresse aus dem Generator ändern
+4. Dich an der neuen Adresse wieder anmelden
+5. Die Datei `/etc/cc-lab.env` anlegen
 
-Die Ausgabe des Generators folgt dieser Reihenfolge. Was jeder Wert bedeutet, erklärt am Ende der Abschnitt [Die Werte](#die-werte).
+Die Ausgabe des Generators folgt dieser Reihenfolge. Mit einem eigenen Hypervisor weichen die Schritte 2 bis 4 ab, der Kasten «Eigener Hypervisor» am Ende von [Die Adressen eintragen](#die-adressen-eintragen) beschreibt sie. Was jeder Wert bedeutet, erklärt am Ende der Abschnitt [Die Werte](#die-werte).
 
 ## Die Netzwerkschnittstelle
 
-Die Befehle aus dem Generator enthalten den Namen der Netzwerkschnittstelle, über die ein Server im Labnetz hängt. Diesen Namen vergibt Ubuntu nach der virtuellen Netzwerkkarte, die der Hypervisor der VM gibt. Du liest ihn deshalb auf deinen eigenen Servern ab. In Kapitel 0.2 hast du ihn schon notiert.
-
-Fehlt dir der Name, meldest du dich an der Konsole von smartlearn an einem der Server an und gibst diesen Befehl ein.
+Jeder Server hängt über eine Netzwerkschnittstelle im Labnetz. Ihren Namen vergibt Ubuntu nach der virtuellen Netzwerkkarte, die der Hypervisor der VM gibt. Prüfe ihn deshalb auf allen drei Servern, sobald du angemeldet bist.
 
 ```bash
 ip -br link
 ```
 
-Die Ausgabe hat eine Zeile pro Schnittstelle. `lo` ist die Schnittstelle, über die der Server mit sich selbst spricht. Die zweite Zeile nennt die gesuchte Schnittstelle, ihr Name steht ganz vorne. Auf den drei Servern einer Umgebung heisst sie gleich.
+Die Ausgabe hat eine Zeile pro Schnittstelle. `lo` ist die Schnittstelle, über die der Server mit sich selbst spricht. Die zweite Zeile nennt die gesuchte Schnittstelle, ihr Name steht ganz vorne. Auf smartlearn heisst sie auf allen drei Servern `eth0`. Ihre Adresse steht deshalb in der Datei `/etc/netplan/00-eth0.yaml`.
 
 ## Der Generator
 
-Öffne diese Seite im Browser des Clients. Dann kannst du die Ausgaben des Generators kopieren und im Terminal des Clients einfügen. Gib deinen Code und den Namen der Netzwerkschnittstelle ein. Die Rechnung läuft nur im Browser, nichts verlässt diese Seite. Beim nächsten Besuch stehen deine Eingaben wieder da.
-
-:::caution[Name der Netzwerkschnittstelle]
-Trag genau den Namen ein, den `ip -br link` auf deinen Servern zeigt. Der Generator übernimmt ihn unverändert in die Befehle für die Konsole und für netplan. Namen aus Beispielen wie `ens160` oder `eth0` passen nur, wenn deine Server die Schnittstelle zufällig auch so nennen. Mit einem falschen Namen bekommt der Server keine Adresse und du erreichst ihn nicht per SSH.
-:::
+Öffne diese Seite im Browser des Clients. Dann kannst du die Ausgaben des Generators kopieren und im Terminal des Clients einfügen. Gib deinen Code ein. Den Namen der Netzwerkschnittstelle brauchst du nur mit einem eigenen Hypervisor, auf smartlearn lässt du das Feld leer. Die Rechnung läuft nur im Browser, nichts verlässt diese Seite. Beim nächsten Besuch stehen deine Eingaben wieder da.
 
 <cc-params></cc-params>
 
 ## Die Adressen eintragen
 
-Nimm dir die Server einzeln vor, zuerst an der Konsole und danach vom Client aus per SSH.
+Nimm dir die Server einzeln vor, zuerst das Front-end und danach die beiden Knoten. Die Vorlage von smartlearn startet sie mit diesen Standardadressen.
 
-:::selfhost
-Hast du die Adressen schon bei der Installation von Ubuntu eingetragen, überspringst du die Konsole und den Block für netplan. Prüfe in der SSH-Sitzung nur mit den drei Befehlen am Ende dieses Abschnitts, ob Adresse, Route und Internet stimmen.
+| Server | Standardadresse |
+|---|---|
+| Front-end | 192.168.210.137 |
+| Knoten 1 | 192.168.210.138 |
+| Knoten 2 | 192.168.210.139 |
+
+:::caution[Keine zweite Datei für netplan]
+Auf smartlearn änderst du nur die Adresse in `/etc/netplan/00-eth0.yaml`. Leg dort keine weitere Datei in `/etc/netplan/` an, etwa `60-cc-lab.yaml`. Eine zweite Datei für dieselbe Schnittstelle bringt das Netz des Servers durcheinander.
 :::
 
-### An der Konsole
+### Per SSH an der Standardadresse
 
-Ohne Adresse erreichst du einen Server nicht per SSH. An seiner Konsole auf smartlearn kannst du aber nichts einfügen. Deshalb tippst du dort die zwei Befehle ab, die der Generator für diesen Server zeigt. Der erste schaltet die Schnittstelle ein, der zweite gibt ihr die Adresse. Diese Adresse ist vorläufig und gilt nur bis zum nächsten Neustart.
+Öffne am Client ein Terminal und melde dich mit dem ersten Befehl, den der Generator für den Server zeigt, an seiner Standardadresse an. Beim ersten Mal fragt SSH, ob du dem Schlüssel des Servers vertraust. Nach `yes` will der Server das Passwort deines Benutzers. Prüfe danach mit `ip -br link` die Netzwerkschnittstelle.
 
-### Per SSH mit netplan
+### Die Adresse ändern
 
-Ab jetzt arbeitest du am Client. Öffne dort ein Terminal und melde dich mit deinem Benutzer und der Adresse des Servers an. Beim ersten Mal fragt SSH, ob du dem Schlüssel des Servers vertraust. Nach `yes` will der Server das Passwort deines Benutzers.
+Ubuntu verwaltet das Netz mit netplan, das seine Einstellungen aus YAML-Dateien in `/etc/netplan/` liest. Wie eine solche Datei eine feste Adresse mit Route und DNS festlegt, zeigt die [Anleitung zu festen Adressen](https://netplan.readthedocs.io/en/1.2/using-static-ip-addresses/) von netplan 1.2, der Version in Ubuntu 26.04. Das minimale Ubuntu hat noch keinen Editor. Der zweite Block des Generators ersetzt deshalb mit `sed` die Standardadresse in `00-eth0.yaml` durch deine, zeigt mit `grep` die geänderte Zeile und übernimmt die Einstellungen mit `netplan apply`.
 
-```bash
-ssh cc@<adresse>
-```
+Kopiere den Block des Servers, an dem du angemeldet bist, füge ihn in die SSH-Sitzung ein und starte ihn mit Enter. Beim ersten `sudo` einer Sitzung fragt der Server nach deinem Passwort. Nach `netplan apply` antwortet der Server nur noch unter der neuen Adresse, die SSH-Sitzung bleibt deshalb hängen. Beende sie mit Enter und danach den Zeichen `~` und `.`.
 
-Damit die Adresse auch einen Neustart übersteht, legst du sie in den Einstellungen des Netzes fest. Ubuntu verwaltet das Netz mit netplan, das seine Einstellungen aus YAML-Dateien in `/etc/netplan/` liest. Wie eine solche Datei eine feste Adresse mit Route und DNS festlegt, zeigt die [Anleitung zu festen Adressen](https://netplan.readthedocs.io/en/1.2/using-static-ip-addresses/) von netplan 1.2, der Version in Ubuntu 26.04. Das minimale Ubuntu hat noch keinen Editor. Der Block des Generators für die SSH-Sitzung schreibt die Datei deshalb mit `tee`, schützt sie mit `chmod 600` und übernimmt die Einstellungen mit `netplan try`.
+### An der neuen Adresse
 
-Kopiere den Block des Servers, an dem du gerade angemeldet bist. Füge ihn in die SSH-Sitzung ein und starte ihn mit Enter. Beim ersten `sudo` einer Sitzung fragt der Server nach deinem Passwort. `netplan try` wartet danach auf deine Bestätigung mit Enter. Bleibt sie aus, etwa weil die SSH-Verbindung abbricht, stellt netplan nach zwei Minuten die alten Einstellungen wieder her. Prüfe anschliessend die Adresse, die Route über das Gateway und die Verbindung ins Internet. Das minimale Ubuntu enthält kein `ping`, `curl` ist dabei.
+Melde dich mit dem dritten Befehl des Generators an der neuen Adresse an. Auch hier fragt SSH beim ersten Mal nach dem Schlüssel. Prüfe danach die Adresse, die Route über das Gateway und die Verbindung ins Internet. Das minimale Ubuntu enthält kein `ping`, `curl` ist dabei.
 
 ```bash
 ip -br addr
@@ -90,16 +88,20 @@ ip route
 curl -sI https://ubuntu.com | head -1
 ```
 
-Die Datei heisst `60-cc-lab.yaml`, damit netplan sie nach einer allfälligen Datei `50-cloud-init.yaml` liest. Für dieselbe Schnittstelle gelten dann ihre Einstellungen.
-
 | Symptom | Ursache | Was hilft |
 |---|---|---|
-| `ssh` wartet und meldet «Connection timed out» | Der Server hat keine Adresse oder die Schnittstelle stimmt nicht | An der Konsole `ip -br addr` prüfen, die beiden Befehle mit dem Namen aus `ip -br link` wiederholen |
-| `netplan try` meldet einen Fehler in der Datei | Einrückung mit Tabulator oder falsch eingerückte Zeile | Datei mit `cat -A` ansehen, Tabulatoren erscheinen als `^I` |
-| `ip -br addr` zeigt zwei Adressen | DHCP aus `50-cloud-init.yaml` für eine andere Schnittstelle | Name der Schnittstelle im Generator prüfen |
-| `ip route` zeigt keine Zeile `default via 192.168.210.1` | Die Route fehlt in der Datei oder die Schnittstelle ist falsch | Datei und `ip -br addr` mit dem Generator vergleichen |
+| `ssh` an die Standardadresse meldet «Connection timed out» | Der Server läuft nicht oder hat eine andere Adresse | Auf smartlearn prüfen, ob die VM läuft, an ihrer Konsole `ip -br addr` ansehen |
+| Die Zeile von `grep` zeigt noch die Standardadresse | Block eines anderen Servers eingefügt oder die Adresse steht anders in der Datei. Gibt dir der Generator genau die Standardadresse, ist das richtig | Mit `cat /etc/netplan/00-eth0.yaml` die Datei ansehen und den Block des richtigen Servers einfügen |
+| Die neue Adresse antwortet nicht | Die Datei hat einen Fehler oder die Adresse stimmt nicht | An der Konsole von smartlearn anmelden, `ip -br addr` und `/etc/netplan/00-eth0.yaml` prüfen |
+| `ip route` zeigt keine Zeile `default via 192.168.210.1` | Die Route fehlt in der Datei | Datei mit `cat` ansehen, deine Dozentin oder deinen Dozenten fragen |
 | `curl` meldet «Could not resolve host» | Der DNS fehlt | `resolvectl status` zeigt den DNS, auf smartlearn muss er 192.168.210.1 sein |
 | `curl` wartet und bricht ab | Kein Weg ins Internet | Adresse und Gateway prüfen, sonst deine Dozentin oder deinen Dozenten fragen |
+
+:::selfhost
+Auf einem eigenen Hypervisor hat ein Server keine Standardadresse und seine Datei für netplan heisst je nach Installation anders. Passe die Schritte deshalb an deine Installation an. Hast du die Adressen schon bei der Installation von Ubuntu eingetragen, prüfst du nur mit den drei Befehlen oben Adresse, Route und Internet.
+
+Sonst liest du an der Konsole jedes Servers mit `ip -br link` den Namen der Schnittstelle ab und trägst ihn im Generator ein. Er zeigt dann unter «Eigener Hypervisor» für jeden Server zwei Befehle für die Konsole, die eine vorläufige Adresse bis zum nächsten Neustart setzen. Danach meldest du dich vom PC aus per SSH an dieser Adresse an und fügst den Block für netplan ein. Er schreibt die Datei `60-cc-lab.yaml`, die netplan nach einer allfälligen `50-cloud-init.yaml` liest, schützt sie mit `chmod 600` und übernimmt sie mit `netplan try`. `netplan try` wartet auf Enter und stellt ohne Bestätigung nach zwei Minuten die alten Einstellungen wieder her. Mit einem falschen Namen der Schnittstelle bekommt der Server keine Adresse.
+:::
 
 ## Die Datei auf den Servern
 
@@ -137,6 +139,6 @@ Eine Kopie von `/etc/cc-lab.env` liegt in deinem Abgabe-Repo, ein Screencast der
 Erzeuge deine Parameter und gib allen drei Servern ihre Adresse. Lege `/etc/cc-lab.env` an und erkläre einer Kollegin oder einem Kollegen drei der Werte in eigenen Worten.
 
 :::solution
-Die Datei hat 16 Zeilen und ist auf allen drei Servern gleich. Die Hostnamen beginnen mit deinem Code, das interne Netz liegt in 172.16.0.0/12 und endet auf `.0/24`. Die VXLAN-Kennung liegt zwischen 1000 und 9999. `ssh cc@<adresse>` klappt vom Client aus auf jedem Server, auch nach einem Neustart.
+Die Datei hat 16 Zeilen und ist auf allen drei Servern gleich. Die Hostnamen beginnen mit deinem Code, das interne Netz liegt in 172.16.0.0/12 und endet auf `.0/24`. Die VXLAN-Kennung liegt zwischen 1000 und 9999. `ssh cc@<adresse>` klappt vom Client aus an der neuen Adresse jedes Servers, auch nach einem Neustart, die Standardadressen antworten nicht mehr.
 :::
 ::::

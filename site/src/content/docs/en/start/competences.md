@@ -14,10 +14,10 @@ Use this grid to judge whether you are ready for the next parts. Read each row a
 | name the members of Wolkenwerk Bern and their needs | For each member, name the need that sets it apart from the others. | [Course overview](../overview/#the-case) |
 | use AI tools according to the course rules | Name the two rules for AI assistants in the milestones and say what the exam does not allow. | [Course overview](../overview/#ai-tools) |
 | describe the VMs of the lab and their two networks | Draw the lab with front-end, nodes, client, lab network and internal network from memory. | [The lab](../lab/#two-networks) |
-| explain why I need the client on smartlearn | Explain why you only need a server's console until the first SSH connection works. | [The lab](../lab/#the-client) |
+| explain why I need the client on smartlearn | Explain why you work over SSH from the client on smartlearn and only need a server's console when it no longer answers. | [The lab](../lab/#the-client) |
 | check whether a VM supports nested virtualization | Show on a node that the CPU offers `vmx` or `svm`. | [The lab](../lab/#nested-virtualization) |
-| find the name of a server's network interface | Show the interface of a server with `ip -br link` and explain where the generator uses its name. | [Personal parameters](../parameters/#the-network-interface) |
-| give the servers their addresses | Explain why the address from `ip addr add` does not survive a reboot and how netplan keeps it. | [Personal parameters](../parameters/#setting-the-addresses) |
+| find the name of a server's network interface | Show the interface of a server with `ip -br link` and explain why its netplan file on smartlearn is called `00-eth0.yaml`. | [Personal parameters](../parameters/#the-network-interface) |
+| give the servers their addresses | Explain where netplan keeps the address of a server and why the SSH session hangs after `netplan apply`. | [Personal parameters](../parameters/#setting-the-addresses) |
 | generate and explain my personal parameters | Show `/etc/cc-lab.env` on all three servers and explain where `CC_GUEST_NET` and `CC_VNI` appear in the course. | [Personal parameters](../parameters/#the-values) |
 | prepare a server for its role | Run `prepare.sh` on a node again and explain what it checks. | [Preparing the VMs](../prepare/#the-preparation-script) |
 | check the gateway of the internal network | Explain the output of `sudo cc-gateway status`. | [Preparing the VMs](../prepare/#the-gateway) |
