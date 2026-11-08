@@ -97,6 +97,19 @@ cat ~/cc-lab/argocd-admin.pass
 
 Weitere Ordner auf dem Front-end sind `~/cc` mit dem Kursrepo, `~/cc-lab` mit den Dateien, die die Skripte des Kurses für dein Lab anlegen, `~/platform` mit deinem Plattform-Repo, `~/cc-reports` mit den Berichten der Checks und `~/cc-mmuster` mit deinem Abgabe-Repo.
 
+## Nach einer Pause
+
+Wird deine Umgebung auf smartlearn ausgeschaltet oder startest du die Server neu, kommen die drei Server mit ihren Diensten von selbst wieder. Die VMs in OpenNebula laufen danach aber nicht mehr. OpenNebula findet sie auf ihren Knoten nicht mehr und setzt sie auf `poff`. Auf dem Front-end holst du sie so zurück.
+
+```bash
+onehost list
+onevm list
+onevm resume k3s-server
+onevm resume k3s-agent
+```
+
+`onehost list` zeigt beide Knoten nach ein bis zwei Minuten wieder als `on`, erst dann startet `onevm resume` eine VM. Ab Teil 4 sind das vor allem `k3s-server` und `k3s-agent`. k3s startet in den VMs von selbst, `kubectl get nodes` zeigt beide Nodes nach ein bis zwei Minuten als `Ready`, danach gleicht Argo CD wieder ab. Weitere VMs, etwa `praxis-1`, startest du ebenso mit `onevm resume`, aber nur die, die vor der Pause liefen. Hält smartlearn die Umgebung nur an, statt sie auszuschalten, laufen alle VMs danach weiter und du musst nichts tun.
+
 ## Befehle
 
 ### OpenNebula

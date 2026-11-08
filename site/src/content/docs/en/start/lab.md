@@ -34,7 +34,7 @@ Your lab consists of three servers and a client. The front-end will manage the c
 
 ## smartlearn
 
-Your instructor provides an environment of your own on smartlearn with the three servers, the client and nested virtualization. Ubuntu is already installed on the servers, with the user `vmadmin`. Your instructor gives you its password. The environment has a lab network of its own, 192.168.210.0/24, with gateway and DNS on 192.168.210.1 and access to the internet. No other lab shares this network. You set the addresses of the servers yourself in [chapter 0.3](../parameters/#setting-the-addresses).
+Your instructor provides an environment of your own on smartlearn with the three servers, the client and nested virtualization. Ubuntu is already installed on the servers, with the user `vmadmin`. Your instructor gives you its password. The environment has a lab network of its own, 192.168.210.0/24, with gateway and DNS on 192.168.210.1 and access to the internet. No other lab shares this network. You set the addresses of the servers yourself in [chapter 0.3](../parameters/#setting-the-addresses). If your environment is powered off or the servers restart, the servers run again afterwards, but the VMs in OpenNebula do not. The lab reference explains under [After a pause](../../lab-reference/#after-a-pause) how to bring them back.
 
 All instructions of the course assume smartlearn. If you prefer to run the VMs on a hypervisor of your own, the supplement [A hypervisor of your own](../../extras/own-hypervisor/) has the hints you need. Sections that only apply there sit in a closed box labeled "Own hypervisor". On smartlearn you leave it closed and read on.
 
