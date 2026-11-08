@@ -87,9 +87,9 @@ Then take a snapshot of every VM. It brings you back to a fresh installation at 
 :::
 
 ::::exercise[Lab]
-Open this course in the browser of the client. Then log in to the three servers over SSH in the terminal of the client, at the default addresses 192.168.210.137 to 192.168.210.139 from [chapter 0.3](../parameters/#addresses-with-netplan). Check nested virtualization on both nodes and the name of the network interface with `ip -br link` on all three servers.
+Open this course in the browser of the client. Then log in to the two nodes over SSH in the terminal of the client, at their default addresses 192.168.210.138 and 192.168.210.139 from [chapter 0.3](../parameters/#the-addresses-in-the-lab), and check nested virtualization there.
 
 :::solution
-`grep -cE 'vmx|svm' /proc/cpuinfo` prints a number greater than zero on both nodes, usually 4 or 8 with four vCPUs. Besides `lo`, `ip -br link` shows one more interface. Its name depends on the hypervisor, on smartlearn it is `eth0` on all three servers.
+`grep -cE 'vmx|svm' /proc/cpuinfo` prints a number greater than zero on both nodes, usually 4 or 8 with four vCPUs.
 :::
 ::::

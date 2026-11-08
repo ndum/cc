@@ -34,7 +34,7 @@ All three VMs have the same file `/etc/cc-lab.env`. Scripts and checks read it w
 | Member VMs | from `CC_GUEST_FIRST` | leases from `cc-net`, shown by `onevnet show cc-net` |
 | Client | 192.168.210.10 on smartlearn | Kali Linux with a browser and a terminal, where you work, with your own hypervisor your PC takes this role |
 
-From the client you log in to the front-end with `ssh mmuster-fe`, as set up in [chapter 0.5](../start/tools/). On smartlearn the client is the Kali VM, with your own hypervisor it is your PC. You reach the VMs in `cc-net` only from the front-end, for example with `ssh root@$CC_K3S_SERVER_IP`. The fixed addresses of the three servers are in `/etc/netplan/60-cc-lab.yaml`, which you created with the generator's block in chapter 0.3.
+From the client you log in to the front-end with `ssh mmuster-fe`, as set up in [chapter 0.5](../start/tools/). On smartlearn the client is the Kali VM, with your own hypervisor it is your PC. You reach the VMs in `cc-net` only from the front-end, for example with `ssh root@$CC_K3S_SERVER_IP`. On smartlearn the fixed addresses of the three servers are in `/etc/netplan/00-eth0.yaml`, where the second block from chapter 0.3 put them.
 
 ## Services and ports
 

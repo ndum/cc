@@ -87,9 +87,9 @@ Lege danach von jeder VM einen Snapshot an. Mit ihm kommst du jederzeit zu einer
 :::
 
 ::::exercise[Lab]
-Öffne am Client diesen Kurs im Browser. Melde dich danach im Terminal des Clients per SSH an den drei Servern an, an den Standardadressen 192.168.210.137 bis 192.168.210.139 aus [Kapitel 0.3](../parameters/#adressen-mit-netplan). Prüfe auf beiden Knoten die verschachtelte Virtualisierung und auf allen drei Servern mit `ip -br link` den Namen der Netzwerkschnittstelle.
+Öffne am Client diesen Kurs im Browser. Melde dich danach im Terminal des Clients per SSH an den beiden Knoten an, an ihren Standardadressen 192.168.210.138 und 192.168.210.139 aus [Kapitel 0.3](../parameters/#die-adressen-im-lab). Prüfe dort die verschachtelte Virtualisierung.
 
 :::solution
-`grep -cE 'vmx|svm' /proc/cpuinfo` gibt auf beiden Knoten eine Zahl grösser als null aus, bei vier vCPUs meist 4 oder 8. `ip -br link` zeigt neben `lo` eine weitere Schnittstelle. Ihr Name hängt vom Hypervisor ab, auf smartlearn heisst sie auf allen drei Servern `eth0`.
+`grep -cE 'vmx|svm' /proc/cpuinfo` gibt auf beiden Knoten eine Zahl grösser als null aus, bei vier vCPUs meist 4 oder 8.
 :::
 ::::

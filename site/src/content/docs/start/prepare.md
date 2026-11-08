@@ -72,6 +72,6 @@ Auf smartlearn kannst du von jeder VM einen Snapshot anlegen. Ein Snapshot der d
 Erlaube sudo ohne Passwort, hole das Kursrepo auf alle drei Server und führe `prepare.sh` mit der richtigen Rolle aus, zuerst auf den Knoten, dann auf dem Front-end. Notiere dir die Netzwerkschnittstelle, die das Skript auf den Knoten nennt.
 
 :::solution
-Auf jedem Server endet das Skript mit dem Abschnitt «Done». Auf den Knoten nennt es dieselbe Schnittstelle, die du in Kapitel 0.3 in den Generator eingetragen hast. `sudo cc-gateway status` zeigt auf dem Front-end das Gateway, die VXLAN-Kennung und die NAT-Regel mit den Werten aus `/etc/cc-lab.env`. Den vollständigen Check startest du am Ende von [Kapitel 0.5](../tools/), weil er auch die SSH-Verbindung vom Front-end zu den Knoten prüft.
+Auf jedem Server endet das Skript mit dem Abschnitt «Done». Auf den Knoten nennt es die Netzwerkschnittstelle, über die OpenNebula später die VMs anbindet, auf smartlearn `eth0`. `sudo cc-gateway status` zeigt auf dem Front-end das Gateway, die VXLAN-Kennung und die NAT-Regel mit den Werten aus `/etc/cc-lab.env`. Den vollständigen Check startest du am Ende von [Kapitel 0.5](../tools/), weil er auch die SSH-Verbindung vom Front-end zu den Knoten prüft.
 :::
 ::::
