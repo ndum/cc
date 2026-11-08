@@ -17,7 +17,7 @@ Use this grid to judge whether you are ready for the next parts. Read each row a
 | explain why I need the client on smartlearn | Explain why you work over SSH from the client on smartlearn and only need a server's console when it no longer answers. | [The lab](../lab/#the-client) |
 | check whether a VM supports nested virtualization | Show on a node that the CPU offers `vmx` or `svm`. | [The lab](../lab/#nested-virtualization) |
 | find the name of a server's network interface | Show the interface of a server with `ip -br link` and explain why its netplan file on smartlearn is called `00-eth0.yaml`. | [Personal parameters](../parameters/#the-network-interface) |
-| give the servers their addresses | Explain where netplan keeps the address of a server and why the SSH session hangs after `netplan apply`. | [Personal parameters](../parameters/#setting-the-addresses) |
+| give the servers their addresses | Explain where netplan keeps the address of a server and why the SSH session hangs after `netplan apply`. | [Personal parameters](../parameters/#addresses-with-netplan) |
 | generate and explain my personal parameters | Show `/etc/cc-lab.env` on all three servers and explain where `CC_GUEST_NET` and `CC_VNI` appear in the course. | [Personal parameters](../parameters/#the-values) |
 | prepare a server for its role | Run `prepare.sh` on a node again and explain what it checks. | [Preparing the VMs](../prepare/#the-preparation-script) |
 | check the gateway of the internal network | Explain the output of `sudo cc-gateway status`. | [Preparing the VMs](../prepare/#the-gateway) |

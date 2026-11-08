@@ -17,7 +17,7 @@ Mit diesem Raster schätzt du ein, ob du für die nächsten Teile bereit bist. L
 | erklären, wozu ich auf smartlearn den Client brauche | Erkläre, warum du auf smartlearn vom Client aus per SSH arbeitest und die Konsole eines Servers nur brauchst, wenn er nicht mehr antwortet. | [Das Lab](../lab/#der-client) |
 | prüfen, ob eine VM verschachtelte Virtualisierung unterstützt | Zeige auf einem Knoten, dass die CPU `vmx` oder `svm` anbietet. | [Das Lab](../lab/#verschachtelte-virtualisierung) |
 | den Namen der Netzwerkschnittstelle eines Servers herausfinden | Zeige die Schnittstelle eines Servers mit `ip -br link` und erkläre, warum seine Datei für netplan auf smartlearn `00-eth0.yaml` heisst. | [Persönliche Parameter](../parameters/#die-netzwerkschnittstelle) |
-| den Servern ihre Adressen geben | Erkläre, wo netplan die Adresse eines Servers festhält und warum die SSH-Sitzung nach `netplan apply` hängen bleibt. | [Persönliche Parameter](../parameters/#die-adressen-eintragen) |
+| den Servern ihre Adressen geben | Erkläre, wo netplan die Adresse eines Servers festhält und warum die SSH-Sitzung nach `netplan apply` hängen bleibt. | [Persönliche Parameter](../parameters/#adressen-mit-netplan) |
 | meine persönlichen Parameter erzeugen und erklären | Zeige `/etc/cc-lab.env` auf allen drei Servern und erkläre, wo `CC_GUEST_NET` und `CC_VNI` im Kurs vorkommen. | [Persönliche Parameter](../parameters/#die-werte) |
 | einen Server für seine Rolle vorbereiten | Führe `prepare.sh` auf einem Knoten noch einmal aus und erkläre, was es prüft. | [VMs vorbereiten](../prepare/#das-vorbereitungsskript) |
 | das Gateway des internen Netzes prüfen | Erkläre die Ausgabe von `sudo cc-gateway status`. | [VMs vorbereiten](../prepare/#das-gateway) |
