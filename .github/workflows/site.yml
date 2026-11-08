@@ -43,6 +43,8 @@ jobs:
         env:
           ASTRO_TELEMETRY_DISABLED: "1"
           SITE_BASE: /pr-preview/pr-${{ github.event.pull_request.number }}/
+          # The checkout is the merge commit of GitHub, the footer names the head of the branch instead
+          CC_COMMIT: ${{ github.event.pull_request.head.sha }}
         run: pnpm --filter ./site run build
       - uses: rossjrw/pr-preview-action@873417d2df72380da1f3978378fb58560bcde976 # v1.8.2
         with:
