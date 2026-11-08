@@ -276,6 +276,10 @@ def check_tenants(env, report):
     report.check(any(r.get("GNAME") in MEMBERS and float(r.get("TOTAL_COST") or 0) > 0 for r in records),
                  tr("Showback weist einem Mitglied Kosten zu", "Showback assigns costs to a member"),
                  tr("VM eines Mitglieds starten, später oneshowback calculate, Kapitel 3.3", "Start a VM of a member, later oneshowback calculate, chapter 3.3"))
+    # Chapter 3.4, the group admin of the practice creates a user of the practice
+    mpa = (one_json("oneuser", "show", "praxis-mpa") or {}).get("USER", {})
+    report.check(mpa.get("GNAME") == "praxis", tr("Der Benutzer praxis-mpa gehört zur Gruppe praxis", "The user praxis-mpa belongs to the group praxis"),
+                 tr("oneuser create als praxis-admin, Kapitel 3.4", "oneuser create as praxis-admin, chapter 3.4"))
     # The check m1 shows these traces under the heading of the advanced tasks instead
     if report.milestone != "m1":
         with report.extra():
@@ -304,8 +308,8 @@ def check_oneflow(report):
     report.check(any(elastic(s) for s in services),
                  tr("Ein Dienst der Treuhand hat Regeln für die Elastizität", "A service of the fiduciary office has elasticity rules"),
                  tr("Zusatzauftrag A in Kapitel 3.5", "advanced task A in chapter 3.5"))
-    # State 2 of a service is RUNNING
-    report.check(any(str(s.get("TEMPLATE", {}).get("BODY", {}).get("state")) == "2" for s in services),
+    # A running service is in state 2 (RUNNING), under load also in 8 (SCALING) or 10 (COOLDOWN)
+    report.check(any(str(s.get("TEMPLATE", {}).get("BODY", {}).get("state")) in ("2", "8", "10") for s in services),
                  tr("Ein Dienst der Treuhand läuft", "A service of the fiduciary office runs"),
                  tr("Zusatzauftrag A in Kapitel 3.5", "advanced task A in chapter 3.5"))
 
@@ -509,7 +513,9 @@ def check_operations(env, report):
                  tr("--cluster-init im Startskript, Kapitel 6.2", "--cluster-init in the start script, chapter 6.2"))
     backup = home / "backup" / "k3s"
     copies = list((backup / "snapshots").glob("*")) if (backup / "snapshots").is_dir() else []
-    report.check(bool(copies) and (backup / "token").exists() and (backup / "sealed-secrets-key.yaml").exists(),
+    # A copy taken while the server was down holds no Secret, only an empty list
+    key = backup / "sealed-secrets-key.yaml"
+    report.check(bool(copies) and (backup / "token").exists() and key.exists() and "kind: Secret" in key.read_text(errors="replace"),
                  tr("Snapshots, Token und Schlüssel liegen auf dem Front-end", "Snapshots, token and key are stored on the front-end"),
                  tr("backup-k3s.sh aus Kapitel 6.2", "backup-k3s.sh from chapter 6.2"))
     report.check(run("systemctl", "is-active", "cc-backup-k3s.timer")[1] == "active",
@@ -574,8 +580,8 @@ QUESTIONS = {
          "Show with oneacl list the rule that lets a group create VMs, and explain its parts."),
         ("Zeige im Showback die Kosten einer VM und rechne sie aus den Preisen der Vorlage nach.",
          "Show the cost of a VM in the showback and recompute it from the prices in the template."),
-        ("Zeige die Regeln der Elastizität des Dienstes der Treuhand und erkläre, was bei einem Ausfall eines Knotens mit dem Dienst geschieht.",
-         "Show the elasticity rules of the fiduciary office's service and explain what happens to the service when a node fails."),
+        ("Zeige als praxis-admin mit oneuser list die Benutzer der Praxis und erkläre, warum praxis-mpa die Vorlage ubuntu nutzen, aber nicht ändern darf.",
+         "Show the users of the practice with oneuser list as praxis-admin and explain why praxis-mpa may use the template ubuntu but not change it."),
     ],
     "m2": [
         ("Lösche einen Pod des Webshops und erkläre mit kubectl get rs, wer ihn ersetzt.",
@@ -598,22 +604,22 @@ QUESTIONS = {
          "Show the current utilization with kubectl get hpa and work out how many pods the HPA would want at twice the load."),
         ("Suche mit LogQL die Fehler des Webshops der letzten Stunde und erkläre, warum die Adresse der Kundschaft kein Label ist.",
          "Find the web shop errors of the last hour with LogQL and explain why the customer address is not a label."),
-        ("Zeige im Protokoll deines Triage-Dienstes einen Vorschlag und begründe, warum du ihn freigegeben oder abgelehnt hast.",
-         "Show a proposal in the log of your triage service and justify why you approved or rejected it."),
+        ("Zeige in Grafana das Panel, das du für Meilenstein 3 ergänzt hast, und erkläre seine Abfrage.",
+         "Show in Grafana the panel you added for milestone 3 and explain its query."),
         ("Zeige, welche Ziele Prometheus ausserhalb des Clusters abholt, und erkläre, wie es sie findet.",
          "Show which targets Prometheus scrapes outside the cluster and explain how it finds them."),
-        ("Zeige Requests und Limits deines Dienstes für das Sprachmodell und erkläre, was bei zu wenig Speicher auf dem Node geschieht.",
-         "Show the requests and limits of your language model service and explain what happens when the node runs short of memory."),
+        ("Zeige Requests und Limits des Webshops und erkläre, womit der HPA rechnet und was bei zu wenig Speicher auf dem Node geschieht.",
+         "Show the requests and limits of the web shop and explain what the HPA computes with and what happens when the node runs short of memory."),
     ],
     "m4": [
-        ("Zeige mit kubectl auth can-i, was dein Triage-Dienst im Namespace deines Mitglieds darf, und begründe deine Wahl.",
-         "Show with kubectl auth can-i what your triage service may do in your member's namespace, and justify your choice."),
+        ("Zeige mit kubectl auth can-i, was Prometheus im Namespace velo darf, und erkläre, warum es nicht mehr braucht.",
+         "Show with kubectl auth can-i what Prometheus may do in the namespace velo, and explain why it needs no more."),
         ("Zeige die Regeln der Firewall und erkläre, warum Gitea von aussen nicht erreichbar ist.",
          "Show the firewall rules and explain why Gitea cannot be reached from outside."),
         ("Zeige den letzten Snapshot von etcd auf dem Front-end und erkläre, was bei einer Wiederherstellung verloren geht.",
          "Show the latest etcd snapshot on the front-end and explain what a restore loses."),
-        ("Zeige das Backup der VM deines Mitglieds und berechne aus dem Zeitplan des Jobs das schlechteste RPO.",
-         "Show the backup of your member's VM and work out the worst RPO from the job's schedule."),
+        ("Zeige das Backup der VM, die du in Kapitel 6.2 gesichert hast, und berechne aus dem Zeitplan deines Backup-Jobs das schlechteste RPO.",
+         "Show the backup of the VM you backed up in chapter 6.2 and work out the worst RPO from the schedule of your backup job."),
         ("Zeige ein SealedSecret in Git und erkläre, warum es dort liegen darf.",
          "Show a SealedSecret in Git and explain why it may live there."),
         ("Zeige den Showback eines Mitglieds für einen Monat und erkläre, welcher Posten der Vollkosten aus Kapitel 6.4 am meisten ausmacht.",
@@ -710,7 +716,9 @@ def check_milestone(milestone, part):
             want = (values["gemeindeVms"], values["gemeindeCpu"], values["gemeindeMemory"])
             have = (int(quota.get("VMS", -1)), float(quota.get("CPU", -1)), int(quota.get("MEMORY", -1)))
             report.check(have == want, tr(f"Die Gemeinde hat die Quota {want[0]} VMs, {want[1]} CPU, {want[2]} MB",
-                                          f"The municipality has the quota {want[0]} VMs, {want[1]} CPU, {want[2]} MB"), f"VMS={have[0]} CPU={have[1]} MEMORY={have[2]}")
+                                          f"The municipality has the quota {want[0]} VMs, {want[1]} CPU, {want[2]} MB"),
+                         tr(f"Gefunden VMS={have[0]} CPU={have[1]} MEMORY={have[2]}, set-quotas.sh mit deinen Werten, Kapitel 3.2",
+                            f"Found VMS={have[0]} CPU={have[1]} MEMORY={have[2]}, set-quotas.sh with your values, chapter 3.2"))
         elif milestone == "m2":
             items = (kube_json("get", "resourcequota", "-n", "gemeinde") or {}).get("items", [])
             hard = items[0].get("spec", {}).get("hard", {}) if items else {}
@@ -729,11 +737,11 @@ def check_milestone(milestone, part):
                 groups = []
             queries = [r.get("query", "") for g in groups for r in g.get("rules", []) if r.get("name") == "WebshopErrorBudgetBurn"]
             report.check(any(abs(value - 14.4 * float(budget)) < 1e-9 for q in queries for value in thresholds(q)), tr(f"Der Alert des SLO rechnet mit dem Ziel {values['sloTarget']} %", f"The SLO alert uses the target {values['sloTarget']} %"),
-                         tr("webshop-slo.yaml, Kapitel 5.3", "webshop-slo.yaml, chapter 5.3"))
+                         tr("deine Werte in webshop-slo.yaml, Kapitel 5.2", "your values in webshop-slo.yaml, chapter 5.2"))
             hpa = kube_json("get", "hpa", "webshop", "-n", "velo") or {}
             report.check(hpa.get("spec", {}).get("maxReplicas") == values["hpaMax"],
                          tr(f"Der HPA des Webshops erlaubt höchstens {values['hpaMax']} Pods", f"The web shop HPA allows at most {values['hpaMax']} pods"),
-                         tr("hpa.yaml, Kapitel 5.4", "hpa.yaml, chapter 5.4"))
+                         tr("deine Werte in hpa.yaml, Kapitel 5.2", "your values in hpa.yaml, chapter 5.2"))
         elif milestone == "m4":
             jobs = as_list(((one_json("onebackupjob", "list") or {}).get("BACKUPJOB_POOL") or {}).get("BACKUPJOB"))
             ok = False
@@ -773,6 +781,9 @@ def main():
     global LANG
     LANG = "en" if env.get("CC_LANG", os.environ.get("CC_LANG", "")) == "en" else "de"
     report = Report()
+    # The checks work as oneadmin through ~/.one/one_auth. A group admin left in ONE_AUTH from part 3 would
+    # hide the other members and make lines fail for no visible reason
+    os.environ.pop("ONE_AUTH", None)
     CHECKS[name](env, report)
     now = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     code, addresses = run("hostname", "-I")

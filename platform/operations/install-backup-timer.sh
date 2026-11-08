@@ -21,7 +21,8 @@ cat > /etc/systemd/system/cc-backup-k3s.timer <<UNIT
 Description=Copy the k3s snapshots every six hours
 
 [Timer]
-OnCalendar=00/6:30
+# The k3s VMs run on UTC and take their snapshots at 0, 6, 12 and 18 o'clock UTC, so the copy uses UTC too
+OnCalendar=*-*-* 00/6:30:00 UTC
 Persistent=true
 
 [Install]

@@ -27,7 +27,8 @@ const TEXT = {
     milestones: 'Deine Werte für die Meilensteine',
     msHead: ['Meilenstein', 'Einstellung', 'Wert'],
     msRows: (ms) => [
-      ['1', 'Quota der Gruppe gemeinde', `${ms.m1.gemeindeVms} VMs, ${decimal(ms.m1.gemeindeCpu)} CPU, ${ms.m1.gemeindeMemory} MB`],
+      // The CPU keeps its point, it goes as it is into set-quotas.sh of chapter 3.2
+      ['1', 'Quota der Gruppe gemeinde', `${ms.m1.gemeindeVms} VMs, ${ms.m1.gemeindeCpu} CPU, ${ms.m1.gemeindeMemory} MB`],
       ['2', 'ResourceQuota im Namespace gemeinde', `limits.cpu ${ms.m2.gemeindeLimitsCpu}, limits.memory ${ms.m2.gemeindeLimitsMemory}`],
       ['3', 'Ziel des SLO für den Webshop', `${decimal(ms.m3.sloTarget)} %`],
       ['3', 'Höchstzahl Pods im HPA', `${ms.m3.hpaMax}`],

@@ -13,8 +13,10 @@ HERE=$(dirname "$(readlink -f "$0")")
 
 helm repo add argo https://argoproj.github.io/argo-helm >/dev/null
 helm repo update argo >/dev/null
+echo "Installing Argo CD, this takes about a minute ..."
+# The notes of the chart suggest a port-forward and print the admin password, chapter 4.4 uses a tunnel instead
 helm upgrade --install argocd argo/argo-cd --version "$CHART_VERSION" \
-  --namespace argocd --create-namespace -f "$HERE/argocd/values.yaml" --wait --timeout 10m
+  --namespace argocd --create-namespace -f "$HERE/argocd/values.yaml" --wait --timeout 10m >/dev/null
 
 # Read access to the repo, the token comes without a line break, otherwise Gitea refuses it
 kubectl -n argocd create secret generic repo-platform \
@@ -29,4 +31,6 @@ kubectl -n argocd create secret generic repo-platform \
 kubectl apply -f ~/platform/root.yaml
 # The password goes to a file instead of the terminal, so it does not end up in a screenshot
 (umask 077; kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath='{.data.password}' | base64 -d > ~/cc-lab/argocd-admin.pass)
-echo "Argo CD runs, UI on http://$CC_K3S_SERVER_IP:30080/, user admin, password in ~/cc-lab/argocd-admin.pass"
+echo "Argo CD runs. In a second tab of the terminal of the client open the tunnel"
+echo "  ssh -N -L 8080:$CC_K3S_SERVER_IP:30080 $CC_FE_HOST"
+echo "and then http://localhost:8080/ in its browser, user admin, password in ~/cc-lab/argocd-admin.pass"
