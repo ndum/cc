@@ -161,7 +161,7 @@ Velero sichert Namespaces samt ihren Volumes in einen Objektspeicher und stellt 
 
 ## Der Check von Teil 6
 
-Der Check dieses Teils prüft aus Kapitel 6.1 das gehärtete Front-end, also SSH nur mit Schlüssel, die Firewall und die automatischen Updates. Für die erste Prüfung versucht er selbst, sich ohne Schlüssel am Front-end anzumelden. Dazu kommen die Applications `sealed-secrets` und `secrets`, das Passwort von Grafana aus dem SealedSecret und das Profil `restricted` in allen Namespaces der Mitglieder. Aus diesem Kapitel prüft er die Snapshots von etcd, ihre Kopie mit Token und Schlüssel auf dem Front-end, den Timer, den Backup-Datastore, einen Backup-Job mit Zeitplan und ein Backup einer VM. Starte ihn auf dem Front-end, sobald der Backup-Job steht.
+Der Check dieses Teils prüft aus Kapitel 6.1 das gehärtete Front-end, also SSH nur mit Schlüssel, die Firewall und die automatischen Updates. Für die erste Prüfung versucht er selbst, sich ohne Schlüssel am Front-end anzumelden. Danach prüft er, ob beide Nodes des Clusters `Ready` sind. Dazu kommen die Applications `sealed-secrets` und `secrets`, das Passwort von Grafana aus dem SealedSecret und das Profil `restricted` in allen Namespaces der Mitglieder. Aus diesem Kapitel prüft er die Snapshots von etcd, ihre Kopie mit Token und Schlüssel auf dem Front-end, den Timer, den Backup-Datastore, einen Backup-Job mit Zeitplan und ein Backup einer VM. Starte ihn auf dem Front-end, sobald der Backup-Job steht.
 
 ```bash
 python3 ~/cc/checks/check.py operations

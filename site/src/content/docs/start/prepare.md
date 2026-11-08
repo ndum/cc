@@ -29,7 +29,7 @@ Erzeuge den Schlüssel im Terminal des Clients. Den Speicherort bestätigst du m
 ssh-keygen -t ed25519 -C "cc-lab"
 ```
 
-Der folgende Block trägt deine drei Server mit Hostname, neuer Adresse und dem Benutzer `vmadmin` in die Datei `~/.ssh/config` ein. Danach kopiert er deinen öffentlichen Schlüssel mit `ssh-copy-id` auf jeden Server. Den Code kennt der Generator noch aus Kapitel 0.3. Füge den Block im Terminal des Clients ein. `ssh-copy-id` fragt für jeden Server ein letztes Mal nach dem Passwort von `vmadmin`, bei den Knoten vorher, ob du ihrem Schlüssel vertraust.
+Der folgende Block trägt deine drei Server mit Hostname, neuer Adresse und dem Benutzer `vmadmin` in die Datei `~/.ssh/config` ein. Danach kopiert er deinen öffentlichen Schlüssel mit `ssh-copy-id` auf jeden Server. Den Code kennt der Generator noch aus Kapitel 0.3. Füge den Block im Terminal des Clients ein. `ssh-copy-id` fragt für jeden Server nach dem Passwort von `vmadmin`. Kennt der Client die neue Adresse eines Servers noch nicht, fragt es vorher, ob du seinem Schlüssel vertraust. Bricht es bei einem Server ab, startest du nur für diesen `ssh-copy-id` noch einmal, etwa `ssh-copy-id mmuster-fe`.
 
 <cc-params part="ssh"></cc-params>
 
@@ -106,7 +106,7 @@ python3 ~/cc/checks/check.py start
 
 Jede Zeile des Berichts beginnt mit `[ok]` oder `[!!]`. Unter einer Zeile mit `[!!]` steht ein Hinweis, wo du suchen kannst. Das Skript speichert den Bericht in `~/cc-reports/`. Am Ende steht ein Hash über den ganzen Bericht. Wer den Bericht nachträglich von Hand ändert, macht diesen Hash ungültig. Weil das Skript öffentlich ist, beweist der Hash aber nicht, dass der Check wirklich gelaufen ist. Dafür braucht es deine Screenshots und die Vorführung der Zusatzaufträge.
 
-::code{file="checks/check.py" lines="793-798"}
+::code{file="checks/check.py" lines="792-797"}
 
 In Kapitel 0.5 lädst du den Bericht in dein Abgabe-Repo. Auf smartlearn kannst du von jeder VM einen Snapshot anlegen. Ein Snapshot der drei Server nach dem grünen Check bringt dich zum vorbereiteten Lab zurück, falls später etwas schiefgeht.
 

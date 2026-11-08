@@ -137,38 +137,40 @@ const MEMORY = {
   de: {
     title: 'Der Speicher eines Knotens',
     desc:
-      'Ein Balken zeigt die 8 GB eines Knotens. 0,8 GB bleiben dem Host, die übrigen 7,2 GB meldet OpenNebula ' +
-      'für VMs. Davon reserviert die k3s-VM 6 GB, auf einem Knoten der Server, auf dem anderen der Agent. Frei ' +
-      'bleiben 1,2 GB. Achte darauf, dass daneben nur noch eine VM mit 1 GB Platz hat, weil OpenNebula den ' +
-      'ganzen Speicher jeder VM reserviert.',
+      'Ein Balken zeigt die 8 GB eines Knotens. 0,8 GB behalten Kernel und Firmware, die übrigen 7,2 GB meldet ' +
+      'OpenNebula für VMs, ohne abzuziehen, was der Knoten selbst braucht. Davon reserviert die k3s-VM 6 GB, auf ' +
+      'einem Knoten der Server, auf dem anderen der Agent. Laut OpenNebula bleiben 1,2 GB frei, davon braucht das ' +
+      'System des Knotens rund 0,6 GB. Achte darauf, dass eine weitere VM mit 1 GB nur dank dem Swap des Knotens ' +
+      'Platz hat.',
     node: 'Knoten 1 oder Knoten 2',
     total: '8 GB Arbeitsspeicher',
-    host: ['Host', '0,8 GB'],
+    host: ['Kernel', '0,8 GB'],
     vm: ['k3s-VM', '6 GB, k3s-server oder k3s-agent'],
     free: ['frei', '1,2 GB'],
-    forVms: [['7,2 GB für VMs, ', false], ['ALLOCATED_MEM', true], [' in ', false], ['onehost list', true]],
+    forVms: [['7,2 GB für VMs, ', false], ['ALLOCATED_MEM', true], [' in ', false], ['onehost list', true], [', ohne den Bedarf des Knotens', false]],
   },
   en: {
     title: 'The memory of a node',
     desc:
-      'A bar shows the 8 GB of one node. The host keeps 0.8 GB, and OpenNebula reports the remaining 7.2 GB for ' +
-      'VMs. The k3s VM reserves 6 GB of that, the server on one node and the agent on the other. That leaves 1.2 ' +
-      'GB free. Notice that only one more VM with 1 GB fits next to it, because OpenNebula reserves the full ' +
-      'memory of every VM.',
+      'A bar shows the 8 GB of one node. The kernel and the firmware keep 0.8 GB, and OpenNebula reports the ' +
+      'remaining 7.2 GB for VMs without deducting what the node itself needs. The k3s VM reserves 6 GB of that, ' +
+      'the server on one node and the agent on the other. According to OpenNebula 1.2 GB stay free, and the ' +
+      'system of the node needs about 0.6 GB of it. Notice that one more VM with 1 GB fits only thanks to the ' +
+      'swap of the node.',
     node: 'Node 1 or node 2',
     total: '8 GB of memory',
-    host: ['Host', '0.8 GB'],
+    host: ['Kernel', '0.8 GB'],
     vm: ['k3s VM', '6 GB, k3s-server or k3s-agent'],
     free: ['free', '1.2 GB'],
-    forVms: [['7.2 GB for VMs, ', false], ['ALLOCATED_MEM', true], [' in ', false], ['onehost list', true]],
+    forVms: [['7.2 GB for VMs, ', false], ['ALLOCATED_MEM', true], [' in ', false], ['onehost list', true], [', nothing deducted for the node', false]],
   },
 };
 
 function memory(lang) {
   const t = MEMORY[lang];
   const id = `p4c2-memory-${lang}`;
-  // 84 px per GB, a gap of 6 px between the parts of the bar
-  const scale = 84;
+  // 90 px per GB, so the label of the smallest part fits, a gap of 6 px between the parts of the bar
+  const scale = 90;
   const x0 = 44;
   const xVm = x0 + 0.8 * scale;
   const xFree = xVm + 6 * scale;
@@ -176,12 +178,12 @@ function memory(lang) {
   const freeW = end - xFree;
   return figure({
     id,
-    width: 760,
+    width: 800,
     height: 172,
     title: t.title,
     desc: t.desc,
     body: [
-      band(16, 16, 728, 140, 2),
+      band(16, 16, 768, 140, 2),
       label(32, 40, t.node, 'start', { tone: 'blue' }),
       meta(end, 40, t.total, 'end'),
       tile(x0, 56, xVm - x0 - 6, 50, ...t.host),

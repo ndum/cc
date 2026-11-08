@@ -43,7 +43,7 @@ Under "Infrastructure › Hosts", Sunstone shows the states with their full name
 onehost show <node> | sed -n '/HOST SHARES/,/LOCAL SYSTEM/p'
 ```
 
-The scheduler plans with the reserved capacity. Once a node is fully reserved, no further VM starts there, even if its real usage would leave room. With the values `RESERVED_CPU` and `RESERVED_MEM` on the host, the platform team can adjust the capacity. A positive value keeps a reserve free. A negative value allows **overcommitment**, which means that more is reserved on the node than it has. Overcommitment lowers the cost because VMs rarely all work at full load at the same time. If they do all work at once, all of them slow down. Overcommitting memory is riskier than overcommitting CPU, because VMs crash when memory runs out. Missing CPU time only slows them down. The [guide to overcommitment](https://docs.opennebula.io/7.4/product/cloud_system_administration/capacity_planning/overcommitment/) of OpenNebula 7.4 shows how to write `RESERVED_CPU` and `RESERVED_MEM`, as absolute values or in percent.
+The scheduler plans with the reserved capacity. Once a node is fully reserved, no further VM starts there, even if its real usage would leave room. With the values `RESERVED_CPU` and `RESERVED_MEM` on the host, the platform team can adjust the capacity. A positive value keeps a reserve free. Without such a value, OpenNebula offers the whole memory of the node to VMs, including the about 0.6 GB its own system needs. A fully reserved node is therefore already slightly overcommitted. In the lab, the swap from chapter 0.4 absorbs this. A negative value allows **overcommitment**, which means that more is reserved on the node than it has. Overcommitment lowers the cost because VMs rarely all work at full load at the same time. If they do all work at once, all of them slow down. Overcommitting memory is riskier than overcommitting CPU, because VMs crash when memory runs out. Missing CPU time only slows them down. The [guide to overcommitment](https://docs.opennebula.io/7.4/product/cloud_system_administration/capacity_planning/overcommitment/) of OpenNebula 7.4 shows how to write `RESERVED_CPU` and `RESERVED_MEM`, as absolute values or in percent.
 
 ## Placement by the scheduler
 
@@ -131,7 +131,7 @@ Start two VMs from the template `ubuntu`, empty a node one of them runs on, take
 Gemeinde Hinterbüel wants to know whether two nodes are enough when one is down for maintenance. Use `onehost show` to work out how many VMs from the template `ubuntu` fit on a single node, and explain whether overcommitting memory would be a good idea.
 
 :::solution
-A node with about 7.2 GB and 400 hundredths of CPU carries seven VMs with 1 GB and 50 hundredths each, so memory sets the limit. Spread over both nodes there must therefore be no more than seven if one node alone has to carry all of them. Overcommitting memory would be risky, because VMs crash when memory runs out, and during maintenance all of them run on one node.
+A node with about 7.2 GB and 400 hundredths of CPU carries seven VMs with 1 GB and 50 hundredths each, so memory sets the limit. With seven VMs the node is fully reserved and, together with its own system, already slightly overcommitted. That works as long as the VMs use little memory, otherwise only the swap helps. Spread over both nodes there must therefore be no more than seven if one node alone has to carry all of them. Overcommitting memory would be risky, because VMs crash when memory runs out, and during maintenance all of them run on one node.
 :::
 ::::
 
