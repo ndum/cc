@@ -16,7 +16,7 @@ After this chapter you can:
 - Describe the path of a packet from a pod to the internet
 :::
 
-Your lab stacks several networks on top of each other. This supplement shows how Linux implements them and how you check that on each machine. Like the [lab reference](../../lab-reference/), the examples use the code `mmuster` and the interface `eth0`. Your interface may have another name, such as `ens160`, which you looked up in [chapter 0.3](../../start/parameters/). Every command on this page only reads.
+Your lab stacks several networks on top of each other. This supplement shows how Linux implements them and how you check that on each machine. Like the [lab reference](../../lab-reference/), the examples use the code `mmuster` and the interface `eth0`. On a hypervisor of your own it may have another name, such as `ens160`, which `ip -br link` shows. Every command on this page only reads.
 
 ## The networks in the lab
 

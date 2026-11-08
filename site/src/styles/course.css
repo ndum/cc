@@ -625,6 +625,10 @@ cc-params {
 .cc-params-label {
   font-weight: 600;
 }
+/* A long command scrolls inside its box instead of running over the edge */
+.cc-params-result pre {
+  overflow-x: auto;
+}
 .cc-params-result button {
   font: inherit;
   font-size: var(--sl-text-sm);

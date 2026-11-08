@@ -16,7 +16,7 @@ Nach diesem Kapitel kannst du:
 - Den Weg eines Pakets aus einem Pod bis ins Internet beschreiben
 :::
 
-In deinem Lab liegen mehrere Netze übereinander. Diese Ergänzung zeigt, wie Linux sie umsetzt und wie du das auf jedem Rechner nachprüfst. Die Beispiele verwenden den Code `mmuster` wie die [Lab-Referenz](../../lab-reference/) und die Schnittstelle `eth0`. Deine Schnittstelle heisst vielleicht anders, etwa `ens160`, den Namen hast du in [Kapitel 0.3](../../start/parameters/) abgelesen. Alle Befehle auf dieser Seite lesen nur.
+In deinem Lab liegen mehrere Netze übereinander. Diese Ergänzung zeigt, wie Linux sie umsetzt und wie du das auf jedem Rechner nachprüfst. Die Beispiele verwenden den Code `mmuster` wie die [Lab-Referenz](../../lab-reference/) und die Schnittstelle `eth0`. Mit eigenem Hypervisor heisst sie vielleicht anders, etwa `ens160`, den Namen zeigt `ip -br link`. Alle Befehle auf dieser Seite lesen nur.
 
 ## Die Netze im Lab
 

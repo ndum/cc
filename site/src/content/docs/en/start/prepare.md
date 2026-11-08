@@ -72,6 +72,6 @@ On smartlearn you can take a snapshot of every VM. A snapshot of the three serve
 Allow sudo without a password, get the course repo onto all three servers and run `prepare.sh` with the right role, first on the nodes, then on the front-end. Write down the network interface the script names on the nodes.
 
 :::solution
-On every server the script ends with the section "Done". On the nodes it names the same interface you entered in the generator in chapter 0.3. `sudo cc-gateway status` on the front-end shows the gateway, the VXLAN identifier and the NAT rule with the values from `/etc/cc-lab.env`. You run the full check at the end of [chapter 0.5](../tools/), because it also tests the SSH connection from the front-end to the nodes.
+On every server the script ends with the section "Done". On the nodes it names the network interface through which OpenNebula later connects the VMs, `eth0` on smartlearn. `sudo cc-gateway status` on the front-end shows the gateway, the VXLAN identifier and the NAT rule with the values from `/etc/cc-lab.env`. You run the full check at the end of [chapter 0.5](../tools/), because it also tests the SSH connection from the front-end to the nodes.
 :::
 ::::
