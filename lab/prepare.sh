@@ -99,6 +99,20 @@ else
     fail "This VM sees no vmx or svm flag. Turn on nested virtualisation for it, see chapter 0.2 and the supplement on own hypervisors."
   fi
   echo "Network interface for OpenNebula: $(ip route show default | awk '{ for (i = 1; i < NF; i++) if ($i == "dev") { print $(i + 1); exit } }')"
+
+  say "Swap"
+  # OpenNebula hands out the whole memory of a node to VMs, the node itself needs part of it too.
+  # Without swap the kernel kills the largest VM, k3s in chapter 6.2, the template of smartlearn has none
+  if [ -n "$(swapon --show --noheadings)" ]; then
+    echo "Swap is on: $(free -h | awk '/^Swap:/ { print $2 }')"
+  else
+    fallocate -l 2G /swapfile
+    chmod 600 /swapfile
+    mkswap /swapfile >/dev/null
+    swapon /swapfile
+    grep -q '^/swapfile ' /etc/fstab || echo '/swapfile none swap sw 0 0' >>/etc/fstab
+    echo "/swapfile with 2 GB is on and in /etc/fstab"
+  fi
 fi
 
 say "Done"

@@ -15,7 +15,8 @@ sudo apt-get install -y opennebula-prometheus-kvm
 sudo systemctl enable --now opennebula-exporter opennebula-node-exporter
 
 for node in "$CC_NODE1_HOST" "$CC_NODE2_HOST"; do
-  ssh "$node" "sudo apt-get install -y opennebula-prometheus-kvm && sudo systemctl enable --now opennebula-node-exporter opennebula-libvirt-exporter"
+  # ssh runs the command without a terminal, debconf would warn about the missing dialog for every package
+  ssh "$node" "sudo DEBIAN_FRONTEND=noninteractive apt-get install -y opennebula-prometheus-kvm && sudo systemctl enable --now opennebula-node-exporter opennebula-libvirt-exporter"
 done
 
 sleep 5
