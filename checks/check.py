@@ -366,11 +366,10 @@ def check_platform(env, report):
         ips = [n.get("IP") for n in as_list(vm.get("TEMPLATE", {}).get("NIC"))]
         # LCM state 3 is RUNNING
         report.check(vm.get("LCM_STATE") == "3" and env.get(key) in ips,
-                     tr(f"Die VM {name} läuft mit {env.get(key)}", f"The VM {name} runs with {env.get(key)}"))
-    nodes = (kube_json("get", "nodes") or {}).get("items", [])
-    ready = [n for n in nodes if any(c.get("type") == "Ready" and c.get("status") == "True" for c in n.get("status", {}).get("conditions", []))]
-    if not report.check(len(ready) == 2, tr("kubectl erreicht den Cluster, zwei Nodes sind Ready", "kubectl reaches the cluster, two nodes are Ready"),
-                        tr("get-kubeconfig.sh aus Kapitel 4.3", "get-kubeconfig.sh from chapter 4.3")):
+                     tr(f"Die VM {name} läuft mit {env.get(key)}", f"The VM {name} runs with {env.get(key)}"),
+                     tr("onevm list zeigt ihren Zustand, eine VM in poff startet onevm resume, Kapitel 4.2.",
+                        "onevm list shows its state, onevm resume starts a VM in poff, chapter 4.2."))
+    if not check_nodes(report):
         return
     pods = (kube_json("get", "pods", "-n", "kube-system") or {}).get("items", [])
     report.check(any(p.get("status", {}).get("podIP", "").startswith("10.52.") for p in pods),

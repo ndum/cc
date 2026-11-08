@@ -8,11 +8,12 @@ set -euo pipefail
 
 # shellcheck source=/dev/null
 source /etc/cc-lab.env
-user=${SUDO_USER:-cc}
+user=${SUDO_USER:?run it with sudo as your user}
+home=$(getent passwd "$user" | cut -d: -f6)
 
 # Without a key the next login would fail, so stop here
-if [ ! -s "/home/$user/.ssh/authorized_keys" ]; then
-  echo "No key in /home/$user/.ssh/authorized_keys, add one first" >&2
+if [ ! -s "$home/.ssh/authorized_keys" ]; then
+  echo "No key in $home/.ssh/authorized_keys, add one first" >&2
   exit 1
 fi
 

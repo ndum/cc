@@ -161,7 +161,7 @@ Velero backs up namespaces together with their volumes into object storage and r
 
 ## The check of part 6
 
-From chapter 6.1, the check of this part tests the hardened front-end, meaning SSH with keys only, the firewall and the automatic updates. For the first test it tries to log in to the front-end without a key itself. It adds the applications `sealed-secrets` and `secrets`, the Grafana password from the SealedSecret and the `restricted` profile in every member namespace. From this chapter it tests the etcd snapshots, their copy with the token and the key on the front-end, the timer, the backup datastore, a backup job with a schedule and a backup of a VM. Run it on the front-end once the backup job is in place.
+From chapter 6.1, the check of this part tests the hardened front-end, meaning SSH with keys only, the firewall and the automatic updates. For the first test it tries to log in to the front-end without a key itself. Then it tests whether both nodes of the cluster are `Ready`. It adds the applications `sealed-secrets` and `secrets`, the Grafana password from the SealedSecret and the `restricted` profile in every member namespace. From this chapter it tests the etcd snapshots, their copy with the token and the key on the front-end, the timer, the backup datastore, a backup job with a schedule and a backup of a VM. Run it on the front-end once the backup job is in place.
 
 ```bash
 python3 ~/cc/checks/check.py operations

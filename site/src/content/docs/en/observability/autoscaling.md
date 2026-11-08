@@ -99,7 +99,7 @@ Containers start faster than VMs, so the HPA reacts sooner than OneFlow. In both
 
 ## The check of part 5
 
-The check of this part tests the OpenNebula and libvirt exporters and the applications `monitoring`, `monitoring-config`, `loki` and `alloy` in Argo CD. It also tests the jobs `opennebula`, `opennebula-libvirt` and `webshop` in Prometheus, the SLO rules, Alertmanager with its configuration, the bike shop's logs in Loki and the web shop's HPA. For the query to Loki it reads the Grafana password from `~/cc-lab/grafana.pass`. Run it on the front-end once Prometheus shows all targets as `up`.
+The check of this part tests the OpenNebula and libvirt exporters, whether both nodes of the cluster are `Ready`, and the applications `monitoring`, `monitoring-config`, `loki` and `alloy` in Argo CD. It also tests the jobs `opennebula`, `opennebula-libvirt` and `webshop` in Prometheus, the SLO rules, Alertmanager with its configuration, the bike shop's logs in Loki and the web shop's HPA. For the query to Loki it reads the Grafana password from `~/cc-lab/grafana.pass`. Run it on the front-end once Prometheus shows all targets as `up`.
 
 ```bash
 python3 ~/cc/checks/check.py observability

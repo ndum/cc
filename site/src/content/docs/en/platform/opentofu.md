@@ -21,11 +21,11 @@ After this chapter you can:
 
 ## Room on the nodes
 
-The Kubernetes cluster of part 4 runs on two VMs with 6 GB of memory each, one per node. It needs that much by part 5 at the latest, when Prometheus and Loki are added, and a local language model from the advanced tasks needs room on top. Each node has 8 GB, and OpenNebula reports 7.2 GB of it for VMs. `onehost list` shows this in the column `ALLOCATED_MEM`.
+The Kubernetes cluster of part 4 runs on two VMs with 6 GB of memory each, one per node. It needs that much by part 5 at the latest, when Prometheus and Loki are added, and a local language model from the advanced tasks needs room on top. Each node has 8 GB, and OpenNebula reports 7.2 GB of it for VMs. `onehost list` shows this in the column `ALLOCATED_MEM`. OpenNebula deducts nothing for the node itself, although Ubuntu, libvirt and the services of OpenNebula need about 0.6 GB.
 
-OpenNebula reserves the full memory of a VM's template on its node, even when the VM does not use it at the moment. With the cluster in place, each node has 1.2 GB left, enough for a single VM with 1 GB. The three web servers of part 2 plus the practice's VMs and the fiduciary office's service of part 3 take 6 GB together. With them running, the cluster does not start, because OpenNebula finds no node with 6 GB free.
+OpenNebula reserves the full memory of a VM's template on its node, even when the VM does not use it at the moment. With the cluster in place, OpenNebula reports 1.2 GB free on each node. A VM with 1 GB fits there only thanks to the swap from chapter 0.4, as chapter 6.2 shows. The three web servers of part 2 plus the practice's VMs and the fiduciary office's service of part 3 take 6 GB together. With them running, the cluster does not start, because OpenNebula finds no node with 6 GB free.
 
-![The memory of a node. A bar shows the 8 GB of one node. The host keeps 0.8 GB, and OpenNebula reports the remaining 7.2 GB for VMs. The k3s VM reserves 6 GB of that, the server on one node and the agent on the other. That leaves 1.2 GB free. Notice that only one more VM with 1 GB fits next to it, because OpenNebula reserves the full memory of every VM.](../../../../assets/figures/en/p4c2-memory.svg)
+![The memory of a node. A bar shows the 8 GB of one node. The kernel and the firmware keep 0.8 GB, and OpenNebula reports the remaining 7.2 GB for VMs without deducting what the node itself needs. The k3s VM reserves 6 GB of that, the server on one node and the agent on the other. According to OpenNebula 1.2 GB stay free, and the system of the node needs about 0.6 GB of it. Notice that one more VM with 1 GB fits only thanks to the swap of the node.](../../../../assets/figures/en/p4c2-memory.svg)
 
 You therefore start by cleaning up. The groups, quotas, prices and templates of part 3 stay, you only remove the running VMs.
 
@@ -192,6 +192,6 @@ A new name, as above, shows up as `~ name` in the plan, and `tofu apply` reverts
 The fiduciary office asks whether the cluster could do with less memory so that one of its VMs fits next to it again. Where do you change that, and what follows from it?
 
 :::solution
-`variables.tf` has the variable `memory` set to 6144. In `terraform.tfvars` you set, for example, `memory = 5120`, and the plan shows a change on both VMs. Each node would then have 2.2 GB free, enough for two small VMs. In part 5, however, Prometheus, Loki and the local model need the memory. In the test, the server sat at 3.4 GB with everything running, and the model used 2.7 GB on the agent. A later measurement over an hour with requests reached up to 3.3 GiB for the model, as chapter 6.4 describes.
+`variables.tf` has the variable `memory` set to 6144. In `terraform.tfvars` you set, for example, `memory = 5120`, and the plan shows a change on both VMs. According to OpenNebula, each node would then have 2.2 GB free. Since the node itself needs about 0.6 GB, one VM with 1 GB fits next to the cluster without swap. In part 5, however, Prometheus, Loki and the local model need the memory. In the test, the server sat at 3.4 GB with everything running, and the model used 2.7 GB on the agent. A later measurement over an hour with requests reached up to 3.3 GiB for the model, as chapter 6.4 describes.
 :::
 ::::

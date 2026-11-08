@@ -29,7 +29,7 @@ Create the key in the terminal of the client. Confirm the location with Enter. Y
 ssh-keygen -t ed25519 -C "cc-lab"
 ```
 
-The following block adds your three servers with their host name, new address and the user `vmadmin` to the file `~/.ssh/config`. Then it copies your public key to every server with `ssh-copy-id`. The generator still knows your code from chapter 0.3. Paste the block into the terminal of the client. `ssh-copy-id` asks for the password of `vmadmin` one last time for every server, and for the nodes first whether you trust their key.
+The following block adds your three servers with their host name, new address and the user `vmadmin` to the file `~/.ssh/config`. Then it copies your public key to every server with `ssh-copy-id`. The generator still knows your code from chapter 0.3. Paste the block into the terminal of the client. `ssh-copy-id` asks for the password of `vmadmin` for every server. If the client does not know the new address of a server yet, it first asks whether you trust its key. If it fails for one server, run `ssh-copy-id` again for that server only, for example `ssh-copy-id mmuster-fe`.
 
 <cc-params part="ssh"></cc-params>
 
@@ -106,7 +106,7 @@ python3 ~/cc/checks/check.py start
 
 Each line of the report starts with `[ok]` or `[!!]`. Below a line with `[!!]` there is a hint on where to look. The script saves the report in `~/cc-reports/` and ends it with a hash over the whole report. Editing the report by hand afterwards breaks the hash. Since the script is public, though, the hash does not prove that the check really ran. Your screenshots and the showing of the advanced tasks do.
 
-::code{file="checks/check.py" lines="793-798"}
+::code{file="checks/check.py" lines="792-797"}
 
 In chapter 0.5 you upload the report to your hand-in repo. On smartlearn you can take a snapshot of every VM. A snapshot of the three servers after the green check brings you back to the prepared lab if something goes wrong later.
 

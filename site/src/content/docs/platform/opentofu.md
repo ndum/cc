@@ -21,11 +21,11 @@ Nach diesem Kapitel kannst du:
 
 ## Platz auf den Knoten
 
-Der Kubernetes-Cluster von Teil 4 läuft auf zwei VMs mit je 6 GB Arbeitsspeicher, auf jedem Knoten eine. So viel braucht er spätestens in Teil 5 mit Prometheus und Loki. Ein lokales Sprachmodell aus den Zusatzaufträgen braucht zusätzlich Platz. Jeder Knoten hat 8 GB, davon meldet OpenNebula 7,2 GB für VMs. `onehost list` zeigt das in der Spalte `ALLOCATED_MEM`.
+Der Kubernetes-Cluster von Teil 4 läuft auf zwei VMs mit je 6 GB Arbeitsspeicher, auf jedem Knoten eine. So viel braucht er spätestens in Teil 5 mit Prometheus und Loki. Ein lokales Sprachmodell aus den Zusatzaufträgen braucht zusätzlich Platz. Jeder Knoten hat 8 GB, davon meldet OpenNebula 7,2 GB für VMs. `onehost list` zeigt das in der Spalte `ALLOCATED_MEM`. Für den Knoten selbst zieht OpenNebula davon nichts ab, obwohl Ubuntu, libvirt und die Dienste von OpenNebula rund 0,6 GB brauchen.
 
-OpenNebula reserviert für jede VM den ganzen Speicher aus ihrer Vorlage auf ihrem Knoten, auch wenn die VM ihn gerade nicht braucht. Neben dem Cluster bleiben auf jedem Knoten 1,2 GB frei, genug für eine einzige VM mit 1 GB. Die drei Webserver aus Teil 2, die VMs der Praxis und der Dienst der Treuhand aus Teil 3 belegen zusammen 6 GB. Mit ihnen startet der Cluster nicht, OpenNebula fände keinen Knoten mit 6 GB frei.
+OpenNebula reserviert für jede VM den ganzen Speicher aus ihrer Vorlage auf ihrem Knoten, auch wenn die VM ihn gerade nicht braucht. Neben dem Cluster meldet OpenNebula auf jedem Knoten noch 1,2 GB frei. Eine VM mit 1 GB passt dort nur dank dem Swap aus Kapitel 0.4, wie Kapitel 6.2 zeigt. Die drei Webserver aus Teil 2, die VMs der Praxis und der Dienst der Treuhand aus Teil 3 belegen zusammen 6 GB. Mit ihnen startet der Cluster nicht, OpenNebula fände keinen Knoten mit 6 GB frei.
 
-![Der Speicher eines Knotens. Ein Balken zeigt die 8 GB eines Knotens. 0,8 GB bleiben dem Host, die übrigen 7,2 GB meldet OpenNebula für VMs. Davon reserviert die k3s-VM 6 GB, auf einem Knoten der Server, auf dem anderen der Agent. Frei bleiben 1,2 GB. Achte darauf, dass daneben nur noch eine VM mit 1 GB Platz hat, weil OpenNebula den ganzen Speicher jeder VM reserviert.](../../../assets/figures/de/p4c2-memory.svg)
+![Der Speicher eines Knotens. Ein Balken zeigt die 8 GB eines Knotens. 0,8 GB behalten Kernel und Firmware, die übrigen 7,2 GB meldet OpenNebula für VMs, ohne abzuziehen, was der Knoten selbst braucht. Davon reserviert die k3s-VM 6 GB, auf einem Knoten der Server, auf dem anderen der Agent. Laut OpenNebula bleiben 1,2 GB frei, davon braucht das System des Knotens rund 0,6 GB. Achte darauf, dass eine weitere VM mit 1 GB nur dank dem Swap des Knotens Platz hat.](../../../assets/figures/de/p4c2-memory.svg)
 
 Darum räumst du als Erstes auf. Die Gruppen, Quotas, Preise und Vorlagen aus Teil 3 bleiben bestehen, du entfernst nur die laufenden VMs.
 
@@ -192,6 +192,6 @@ Ein neuer Name, wie oben, erscheint als `~ name` im Plan, `tofu apply` macht ihn
 Die Treuhand fragt, ob der Cluster mit weniger Speicher auskäme, damit daneben wieder eine VM für sie Platz hat. Wo änderst du das und welche Folgen hat es?
 
 :::solution
-In `variables.tf` steht die Variable `memory` mit dem Wert 6144. In `terraform.tfvars` setzt du etwa `memory = 5120`, dann zeigt der Plan eine Änderung an beiden VMs. Jeder Knoten hätte danach 2,2 GB frei, genug für zwei kleine VMs. In Teil 5 brauchen Prometheus, Loki und das lokale Modell aber diesen Speicher. Im Test lag der Server mit allem bei 3,4 GB, das Modell brauchte auf dem Agent 2,7 GB. Eine spätere Messung über eine Stunde mit Anfragen ergab für das Modell bis 3,3 GiB, wie Kapitel 6.4 zeigt.
+In `variables.tf` steht die Variable `memory` mit dem Wert 6144. In `terraform.tfvars` setzt du etwa `memory = 5120`, dann zeigt der Plan eine Änderung an beiden VMs. Jeder Knoten hätte danach laut OpenNebula 2,2 GB frei. Weil der Knoten selbst rund 0,6 GB braucht, passt ohne Swap eine VM mit 1 GB dazu. In Teil 5 brauchen Prometheus, Loki und das lokale Modell aber diesen Speicher. Im Test lag der Server mit allem bei 3,4 GB, das Modell brauchte auf dem Agent 2,7 GB. Eine spätere Messung über eine Stunde mit Anfragen ergab für das Modell bis 3,3 GiB, wie Kapitel 6.4 zeigt.
 :::
 ::::
