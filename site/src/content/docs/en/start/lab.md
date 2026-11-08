@@ -56,7 +56,7 @@ The VMs of your cloud get a second, internal network that only your three server
 
 ## smartlearn
 
-Your instructor provides an environment of your own on smartlearn with the three servers, the client and nested virtualization. Ubuntu is already installed on the servers, with the user `cc`. Your instructor gives you its password. The environment has a lab network of its own, 192.168.210.0/24, with gateway and DNS on 192.168.210.1 and access to the internet. No other lab shares this network. You set the addresses of the servers yourself in [chapter 0.3](../parameters/#setting-the-addresses).
+Your instructor provides an environment of your own on smartlearn with the three servers, the client and nested virtualization. Ubuntu is already installed on the servers, with the user `vmadmin`. Your instructor gives you its password. The environment has a lab network of its own, 192.168.210.0/24, with gateway and DNS on 192.168.210.1 and access to the internet. No other lab shares this network. You set the addresses of the servers yourself in [chapter 0.3](../parameters/#setting-the-addresses).
 
 All instructions of the course assume smartlearn. If you prefer to run the VMs on a hypervisor of your own, the supplement [A hypervisor of your own](../../extras/own-hypervisor/) has the hints you need. Sections that only apply there sit in a closed box labeled "Own hypervisor". On smartlearn you leave it closed and read on.
 
@@ -77,7 +77,7 @@ If you install Ubuntu yourself, choose these settings during the installation:
 
 1. The variant "Ubuntu Server (minimized)"
 2. The fixed IPv4 address from your personal parameters in chapter 0.3, with the gateway 192.168.210.1 and a DNS server your hypervisor offers
-3. The same user name on all three VMs, for example `cc`
+3. The same user name on all three VMs, ideally `vmadmin` as on smartlearn, so that the SSH block of chapter 0.4 fits without changes
 4. The box "Install OpenSSH server" checked
 5. No additional snaps
 

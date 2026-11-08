@@ -90,7 +90,7 @@ Im Lab siehst du das bei der API von Kubernetes auf Port 6443. Bei der Installat
 server=$(kubectl config view -o jsonpath='{.clusters[0].cluster.server}')
 echo | openssl s_client -connect "${server#https://}" \
   -CAfile <(kubectl config view --raw -o jsonpath='{.clusters[0].cluster.certificate-authority-data}' | base64 -d) \
-  2>/dev/null | grep -E 'subject=|issuer=|Protocol|Verify return'
+  2>/dev/null | grep -E '^(subject=|issuer=|Protocol|Verify return)' | awk '!seen[$0]++'
 ```
 
 ```text
@@ -100,7 +100,7 @@ Protocol: TLSv1.3
 Verify return code: 0 (ok)
 ```
 
-Die Zahl hinter `k3s-server-ca@` ist der Zeitpunkt, an dem k3s die CA angelegt hat. Bei dir steht dort eine andere Zahl. Lässt du `-CAfile` weg, meldet openssl `Verify return code: 19 (self-signed certificate in certificate chain)`. Die Verbindung ist dann zwar verschlüsselt, aber openssl kennt die CA von k3s nicht und kann den Server nicht als echt erkennen.
+`awk '!seen[$0]++'` gibt jede Zeile nur einmal aus, sonst stehen `Protocol` und `Verify return code` unter Ubuntu 26.04 manchmal doppelt da. Die Zahl hinter `k3s-server-ca@` ist der Zeitpunkt, an dem k3s die CA angelegt hat. Bei dir steht dort eine andere Zahl. Lässt du `-CAfile` weg, meldet openssl `Verify return code: 19 (self-signed certificate in certificate chain)`. Die Verbindung ist dann zwar verschlüsselt, aber openssl kennt die CA von k3s nicht und kann den Server nicht als echt erkennen.
 
 Für die Weboberflächen genügt im Lab HTTP, weil kaum eine davon offen im Netz liegt. Nach der Härtung erreichst du vom Client und von anderen Rechnern aus nur noch SSH und Sunstone. Gitea, Argo CD, Grafana und den Webshop öffnest du über SSH-Tunnel vom Client aus. SSH verschlüsselt die Verbindung selbst und weist den Server mit seinem Host-Schlüssel aus. Hinter dem Tunnel bleibt der Verkehr auf dem Front-end oder in cc-net, das nur die Knoten und die VMs des Labs erreichen. Sunstone bleibt die Ausnahme. Seine Anmeldung geht im Klartext durch das Labnetz. Für eine Übungsumgebung mit Testdaten ist das vertretbar, für die Patientendaten der Praxis nicht.
 

@@ -107,7 +107,7 @@ Die [NetworkPolicy](https://v1-36.docs.kubernetes.io/docs/concepts/services-netw
 
 ::code{file="platform/observability/repo/templates/member/networkpolicy.yaml"}
 
-Sobald du alles gepusht hast, rollt Argo CD den Stack aus. Im Lab war er 140 bis 160 Sekunden nach dem Push synchron und gesund.
+Sobald du alles gepusht hast, rollt Argo CD den Stack aus. Im Lab war er nach zwei bis fünf Minuten synchron und gesund. Argo CD sieht die neuen Applications in `apps` erst bei seiner nächsten Abfrage des Repos, danach lädt jede ihre Charts und Images.
 
 ```bash
 git add .

@@ -90,7 +90,7 @@ You can see this in the lab with the Kubernetes API on port 6443. When k3s is in
 server=$(kubectl config view -o jsonpath='{.clusters[0].cluster.server}')
 echo | openssl s_client -connect "${server#https://}" \
   -CAfile <(kubectl config view --raw -o jsonpath='{.clusters[0].cluster.certificate-authority-data}' | base64 -d) \
-  2>/dev/null | grep -E 'subject=|issuer=|Protocol|Verify return'
+  2>/dev/null | grep -E '^(subject=|issuer=|Protocol|Verify return)' | awk '!seen[$0]++'
 ```
 
 ```text
@@ -100,7 +100,7 @@ Protocol: TLSv1.3
 Verify return code: 0 (ok)
 ```
 
-The number after `k3s-server-ca@` is the time k3s created the CA, so yours will differ. Without `-CAfile`, openssl reports `Verify return code: 19 (self-signed certificate in certificate chain)`. The connection is still encrypted, but openssl does not know the k3s CA and cannot confirm that the server is genuine.
+`awk '!seen[$0]++'` prints each line only once, otherwise `Protocol` and `Verify return code` sometimes appear twice on Ubuntu 26.04. The number after `k3s-server-ca@` is the time k3s created the CA, so yours will differ. Without `-CAfile`, openssl reports `Verify return code: 19 (self-signed certificate in certificate chain)`. The connection is still encrypted, but openssl does not know the k3s CA and cannot confirm that the server is genuine.
 
 Plain HTTP is acceptable for the web interfaces in the lab because hardly any of them is exposed. After hardening, the client and every other host can only reach SSH and Sunstone. You open Gitea, Argo CD, Grafana and the web shop through SSH tunnels from the client. SSH encrypts the connection itself and authenticates the server with its host key. Behind the tunnel, the traffic stays on the front-end or in cc-net, which only the lab's nodes and VMs can reach. Sunstone is the exception. Its login crosses the lab network in plain text. That is acceptable for a training environment with test data, but not for the patient data of the medical practice.
 

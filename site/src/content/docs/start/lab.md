@@ -56,7 +56,7 @@ Die VMs deiner Cloud bekommen ein zweites, internes Netz, das nur deine drei Ser
 
 ## smartlearn
 
-Deine Dozentin oder dein Dozent stellt dir auf smartlearn eine eigene Umgebung bereit, mit den drei Servern, dem Client und verschachtelter Virtualisierung. Auf den Servern ist Ubuntu schon installiert, mit dem Benutzer `cc`. Sein Passwort nennt dir deine Dozentin oder dein Dozent. Die Umgebung hat ein eigenes Labnetz 192.168.210.0/24 mit Gateway und DNS auf 192.168.210.1 und Zugang zum Internet. Kein anderes Lab liegt in diesem Netz. Die Adressen der Server trägst du in [Kapitel 0.3](../parameters/#die-adressen-eintragen) selbst ein.
+Deine Dozentin oder dein Dozent stellt dir auf smartlearn eine eigene Umgebung bereit, mit den drei Servern, dem Client und verschachtelter Virtualisierung. Auf den Servern ist Ubuntu schon installiert, mit dem Benutzer `vmadmin`. Sein Passwort nennt dir deine Dozentin oder dein Dozent. Die Umgebung hat ein eigenes Labnetz 192.168.210.0/24 mit Gateway und DNS auf 192.168.210.1 und Zugang zum Internet. Kein anderes Lab liegt in diesem Netz. Die Adressen der Server trägst du in [Kapitel 0.3](../parameters/#die-adressen-eintragen) selbst ein.
 
 Alle Anleitungen des Kurses gehen von smartlearn aus. Wer die VMs lieber auf einem eigenen Hypervisor betreibt, findet die Hinweise dazu in der Ergänzung [Eigener Hypervisor](../../extras/own-hypervisor/). Abschnitte, die nur dafür gelten, stehen in einem geschlossenen Kasten «Eigener Hypervisor». Auf smartlearn lässt du ihn zu und liest danach weiter.
 
@@ -77,7 +77,7 @@ Installierst du Ubuntu selbst, wählst du bei der Installation diese Einstellung
 
 1. Die Variante «Ubuntu Server (minimized)»
 2. Die feste IPv4-Adresse aus deinen persönlichen Parametern in Kapitel 0.3, mit Gateway 192.168.210.1 und einem DNS, den dein Hypervisor anbietet
-3. Derselbe Benutzername auf allen drei VMs, zum Beispiel `cc`
+3. Derselbe Benutzername auf allen drei VMs, am besten `vmadmin` wie auf smartlearn, damit der SSH-Block von Kapitel 0.4 ohne Änderung passt
 4. Das Häkchen bei «Install OpenSSH server»
 5. Keine zusätzlichen Snaps
 

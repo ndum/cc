@@ -198,7 +198,7 @@ Install Gitea, create the repo, roll out Argo CD and open the web shop and Argo 
 The new version with three pods was a mistake. How do you restore the old state without using `kubectl`?
 
 :::solution
-`git revert HEAD` creates a commit that undoes the last change, and `git push` sends it to Gitea. Argo CD reconciles at its next poll and removes the third pod. The mistake and its correction both stay visible in the Git history.
+`git revert --no-edit HEAD` creates a commit that undoes the last change. Without `--no-edit`, Git first opens an editor for the message. `git push` sends the commit to Gitea. Argo CD reconciles at its next poll and removes the third pod. The mistake and its correction both stay visible in the Git history.
 :::
 ::::
 

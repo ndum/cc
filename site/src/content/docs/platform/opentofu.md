@@ -78,6 +78,7 @@ In `tofu/` liegt die Konfiguration, aufgeteilt in Dateien. OpenTofu liest alle D
 | `main.tf` | Provider, Data Sources und Ressourcen |
 | `outputs.tf` | Werte, die OpenTofu nach dem Apply ausgibt |
 | `k3s.sh.tftpl` | das Startskript der VMs, Thema von Kapitel 4.3 |
+| `make-tfvars.sh` | schreibt `terraform.tfvars` aus `/etc/cc-lab.env` |
 | `.terraform.lock.hcl` | die genauen Versionen und Prüfsummen der Provider |
 
 ## Provider
@@ -175,7 +176,7 @@ Ob der Code alles beschreibt, zeigt erst ein ganzer Neubau. `tofu destroy` lösc
 Räume die Knoten auf, installiere die Werkzeuge und lege die beiden VMs mit OpenTofu an. Zeige mit `tofu plan`, dass danach keine Änderungen offen sind.
 
 :::solution
-Nach dem Aufräumen zeigt `onehost list` auf beiden Knoten `0K / 7.2G`. `tofu apply` legt `k3s-server` und `k3s-agent` mit den Adressen aus deinen Parametern an, `onevm list` zeigt beide mit 6G auf verschiedenen Knoten. Ein zweiter `tofu plan` meldet «No changes. Your infrastructure matches the configuration.»
+Nach dem Aufräumen zeigt `onehost list` auf beiden Knoten `0K / 7.2G`, auf smartlearn `0K / 7.3G`. `tofu apply` legt `k3s-server` und `k3s-agent` mit den Adressen aus deinen Parametern an, `onevm list` zeigt beide mit 6G auf verschiedenen Knoten. Ein zweiter `tofu plan` meldet «No changes. Your infrastructure matches the configuration.»
 :::
 ::::
 

@@ -129,7 +129,7 @@ Der Check endet mit «11 von 11 Prüfungen der Basis erfüllt». In der VM zeigt
 Die Treuhand Aaregg braucht am Monatsende eine grössere VM mit zwei CPUs und 2 GB Arbeitsspeicher. Lege eine Kopie der Vorlage unter dem Namen `ubuntu-medium` an und starte daraus eine VM. Wie viele solcher VMs passen nach `onehost list` auf einen Knoten?
 
 :::solution
-`onetemplate clone ubuntu ubuntu-medium` und danach `onetemplate update ubuntu-medium` mit `CPU = "1"` und `VCPU = "2"`, dazu `MEMORY = "2048"`. Ein Knoten mit 7,2 GB Arbeitsspeicher und vier Kernen trägt drei solcher VMs. Die Grenze setzt der Arbeitsspeicher, die CPU reichte für vier.
+`onetemplate clone ubuntu ubuntu-medium` und danach `onetemplate update ubuntu-medium` mit `CPU = "1"` und `VCPU = "2"`, dazu `MEMORY = "2048"`. Ein Knoten mit rund 7,2 GB Arbeitsspeicher und vier Kernen trägt drei solcher VMs. Die Grenze setzt der Arbeitsspeicher, die CPU reichte für vier.
 :::
 ::::
 

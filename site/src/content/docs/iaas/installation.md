@@ -99,7 +99,7 @@ Das Beispiel des Kurses hinterlegt auf jedem Knoten einen Gruss mit dem Namen de
 
 ::code{file="examples/ansible/motd.yml"}
 
-Starte es zweimal. Im ersten Lauf melden beide Tasks `changed`, worauf der Handler läuft. Den Gruss selbst siehst du bei der nächsten Anmeldung an einem Knoten oder mit `cat /etc/motd`. Der zweite Lauf meldet überall `ok` und `changed=0`. Der Handler läuft diesmal nicht, weil sich nichts geändert hat. Die Zeile `gather_facts: true` ist nötig, weil OneDeploy in seiner Konfiguration das automatische Sammeln von Facts abschaltet. Aufbau, Ablauf und Idempotenz eines Playbooks erklärt die [Einführung in Playbooks](https://docs.ansible.com/projects/ansible-core/2.20/playbook_guide/playbooks_intro.html) von ansible-core 2.20.
+Starte es zweimal. Im ersten Lauf meldet mindestens der Task mit dem Gruss `changed`, worauf der Handler läuft. Ist htop schon installiert wie auf smartlearn, meldet der Task für das Paket `ok`. Den Gruss selbst siehst du bei der nächsten Anmeldung an einem Knoten oder mit `cat /etc/motd`. Der zweite Lauf meldet überall `ok` und `changed=0`. Der Handler läuft diesmal nicht, weil sich nichts geändert hat. Die Zeile `gather_facts: true` ist nötig, weil OneDeploy in seiner Konfiguration das automatische Sammeln von Facts abschaltet. Aufbau, Ablauf und Idempotenz eines Playbooks erklärt die [Einführung in Playbooks](https://docs.ansible.com/projects/ansible-core/2.20/playbook_guide/playbooks_intro.html) von ansible-core 2.20.
 
 ```bash
 cd ~/cc-lab/one-deploy
@@ -198,7 +198,7 @@ systemctl list-units 'opennebula*' mariadb.service
 sudo ss -ltnp
 ```
 
-Die Weboberfläche öffnest du im Browser des Clients, auf smartlearn die Kali-VM, mit eigenem Hypervisor dein PC. Sie ist auf Port 2616 des Front-ends erreichbar, zum Beispiel unter `http://192.168.210.137:2616/`. Du meldest dich als `oneadmin` mit dem Passwort aus `~/cc-lab/oneadmin.pass` an.
+Die Weboberfläche öffnest du im Browser des Clients, auf smartlearn die Kali-VM, mit eigenem Hypervisor dein PC. Sie ist auf Port 2616 deines Front-ends unter seiner neuen Adresse aus [Kapitel 0.3](../../start/parameters/) erreichbar, für den Code `mmuster` also unter `http://192.168.210.137:2616/`. Du meldest dich als `oneadmin` mit dem Passwort aus `~/cc-lab/oneadmin.pass` an.
 
 Nach der Anmeldung zeigt Sunstone das Dashboard.
 
@@ -214,7 +214,7 @@ python3 ~/cc/checks/check.py install
 Richte OneDeploy ein, erzeuge das Inventar und starte das Playbook `motd.yml` zweimal. Vergleiche die beiden `PLAY RECAP` und erkläre, warum der Handler beim zweiten Lauf nicht läuft.
 
 :::solution
-Der erste Lauf meldet bei beiden Knoten `changed=2`, weil htop neu installiert und `/etc/motd` neu geschrieben wurde. Der zweite Lauf meldet `changed=0`. Weil der Task «Write the greeting» nichts geändert hat, benachrichtigt er den Handler nicht, der deshalb auch nicht läuft.
+Der erste Lauf meldet bei beiden Knoten `changed=2`, weil htop neu installiert und `/etc/motd` neu geschrieben wurde. Ist htop schon da wie auf smartlearn, steht dort `changed=1`. Der zweite Lauf meldet `changed=0`. Weil der Task «Write the greeting» nichts geändert hat, benachrichtigt er den Handler nicht, der deshalb auch nicht läuft.
 :::
 ::::
 

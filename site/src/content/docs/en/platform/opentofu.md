@@ -78,6 +78,7 @@ The folder `tofu/` holds the configuration, split into files. OpenTofu reads eve
 | `main.tf` | provider, data sources and resources |
 | `outputs.tf` | values OpenTofu prints after an apply |
 | `k3s.sh.tftpl` | the start script of the VMs, the topic of chapter 4.3 |
+| `make-tfvars.sh` | writes `terraform.tfvars` from `/etc/cc-lab.env` |
 | `.terraform.lock.hcl` | the exact versions and checksums of the providers |
 
 ## Providers
@@ -175,7 +176,7 @@ Only a full rebuild shows whether the code describes everything. `tofu destroy` 
 Clean up the nodes, install the tools and create the two VMs with OpenTofu. Show with `tofu plan` that no changes are left.
 
 :::solution
-After the cleanup, `onehost list` shows `0K / 7.2G` on both nodes. `tofu apply` creates `k3s-server` and `k3s-agent` with the addresses of your parameters, and `onevm list` shows both with 6G on different nodes. A second `tofu plan` reports "No changes. Your infrastructure matches the configuration."
+After the cleanup, `onehost list` shows `0K / 7.2G` on both nodes, or `0K / 7.3G` on smartlearn. `tofu apply` creates `k3s-server` and `k3s-agent` with the addresses of your parameters, and `onevm list` shows both with 6G on different nodes. A second `tofu plan` reports "No changes. Your infrastructure matches the configuration."
 :::
 ::::
 

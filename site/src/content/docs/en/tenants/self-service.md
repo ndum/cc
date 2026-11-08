@@ -76,11 +76,19 @@ To stop a member from doing something, you therefore change the ACLs or the perm
 
 A member's group admin creates the member's users. New users land in the admin's group, and their VMs count against the group's quota. The [users documentation](https://docs.opennebula.io/7.4/product/cloud_system_administration/multitenancy/manage_users/#adding-users) describes `oneuser create`.
 
+`read` takes the password of the MPA without showing it, so it appears neither on the screen nor in the shell history. Type it after this command and confirm with Enter.
+
+```bash
+read -rsp "Password for praxis-mpa: " pw; echo
+```
+
+The following block creates the MPA as `praxis-admin` with this password and then removes the variable.
+
 ```bash
 export ONE_AUTH=~/cc-lab/tenants/praxis.auth
-oneuser create praxis-mpa "<password>"
+oneuser create praxis-mpa "$pw"
 oneuser list
-unset ONE_AUTH
+unset ONE_AUTH pw
 ```
 
 The medical assistant then logs in to Sunstone, gets the view `cloud` and starts VMs from the template `ubuntu`. The group admin sees and manages these VMs as well.
@@ -99,14 +107,18 @@ The template `ubuntu` belongs to `oneadmin`, and `chmod 604` lets the members on
 [one.template.update] User [2] : Not authorized to perform MANAGE TEMPLATE [1].
 ```
 
-The members may create templates of their own, though, because their group has allowed it since chapter 3.1. If the practice needs a larger VM, it copies the template and changes the copy. The [VM template documentation](https://docs.opennebula.io/7.4/product/virtual_machines_operation/virtual_machines/vm_templates/#cloning-templates) describes both steps.
+The members may create templates of their own, though, because their group has allowed it since chapter 3.1. If the practice needs a larger VM, it copies the template and changes the copy. The [VM template documentation](https://docs.opennebula.io/7.4/product/virtual_machines_operation/virtual_machines/vm_templates/#cloning-templates) describes both steps. The following block does both as `praxis-admin` and gives the copy 2 GB of memory. With `--append`, `onetemplate update` changes only the values from the file and opens no editor. The rest of the template stays as it is. `onetemplate show` then shows owner, group and memory.
 
 ```bash
+export ONE_AUTH=~/cc-lab/tenants/praxis.auth
 onetemplate clone ubuntu praxis-gross
-onetemplate update praxis-gross
+echo 'MEMORY = "2048"' > /tmp/praxis-gross.tpl
+onetemplate update praxis-gross --append /tmp/praxis-gross.tpl
+onetemplate show praxis-gross | grep -E '^(USER|GROUP) |MEMORY='
+unset ONE_AUTH
 ```
 
-The copy takes over everything, including the prices from chapter 3.3, and belongs to the practice. Whatever the practice puts in it is still limited by its quota. The platform team only has to maintain a few shared templates, networks and images, and the members set up everything else themselves within their quota.
+Apart from the memory, the copy takes over everything, including the prices from chapter 3.3, and belongs to the practice. Whatever the practice puts in it is still limited by its quota. The platform team only has to maintain a few shared templates, networks and images, and the members set up everything else themselves within their quota.
 
 Under "Templates › VM Templates", `oneadmin` sees the templates of the platform team and the copies of the members side by side.
 
@@ -126,7 +138,7 @@ The two lines about OneFlow marked `[+!!]` belong to advanced task A in chapter 
 With two VMs the practice's quota from chapter 3.2 is full. So first delete the VM `praxis-2` as `praxis-admin` with `onevm terminate`. Sunstone sets the CPU of a new VM to 1, which just fits next to `praxis-1` into the practice's 1.5 CPU. Then create the user `praxis-mpa`, log in to Sunstone as this user in the browser of the client and start a VM. As `praxis-admin`, check that you can see it. Take a screenshot for milestone 1, then delete the VM. Finally run the check `tenants` and add its report to your hand-in repo.
 
 :::solution
-`oneuser create praxis-mpa <password>` creates the user in the group `praxis`. In Sunstone the view `cloud` shows the template `ubuntu`, and the VM only starts as long as the practice's quota has room. As `praxis-admin`, `onevm list` shows the VM with the owner `praxis-mpa`, and `onevm terminate` deletes it. The check ends with "19 of 19 base checks passed" and "0 of 2 checks of the advanced tasks passed".
+`oneuser create` creates the user `praxis-mpa` in the group `praxis`. In Sunstone the view `cloud` shows the template `ubuntu`, and the VM only starts as long as the practice's quota has room. As `praxis-admin`, `onevm list` shows the VM with the owner `praxis-mpa`, and `onevm terminate` deletes it. The check ends with "19 of 19 base checks passed" and "0 of 2 checks of the advanced tasks passed".
 :::
 ::::
 

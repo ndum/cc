@@ -99,7 +99,7 @@ The course's example puts a greeting with the name of the cooperative on every n
 
 ::code{file="examples/ansible/motd.yml"}
 
-Run it twice. The first run reports `changed` for both tasks, and the handler runs. You see the greeting itself at your next login on a node or with `cat /etc/motd`. The second run reports `ok` everywhere and `changed=0`. This time the handler does not run, because nothing changed. The line `gather_facts: true` is needed because OneDeploy turns off the automatic gathering of facts in its configuration. The [introduction to playbooks](https://docs.ansible.com/projects/ansible-core/2.20/playbook_guide/playbooks_intro.html) of ansible-core 2.20 covers their structure, how they run and idempotence.
+Run it twice. In the first run at least the task with the greeting reports `changed`, and the handler runs. If htop is already installed, as on smartlearn, the task for the package reports `ok`. You see the greeting itself at your next login on a node or with `cat /etc/motd`. The second run reports `ok` everywhere and `changed=0`. This time the handler does not run, because nothing changed. The line `gather_facts: true` is needed because OneDeploy turns off the automatic gathering of facts in its configuration. The [introduction to playbooks](https://docs.ansible.com/projects/ansible-core/2.20/playbook_guide/playbooks_intro.html) of ansible-core 2.20 covers their structure, how they run and idempotence.
 
 ```bash
 cd ~/cc-lab/one-deploy
@@ -198,7 +198,7 @@ systemctl list-units 'opennebula*' mariadb.service
 sudo ss -ltnp
 ```
 
-Open the web interface in the browser of the client, which is the Kali VM on smartlearn or your PC if you run your own hypervisor. It listens on port 2616 of the front-end, for example at `http://192.168.210.137:2616/`. Log in as `oneadmin` with the password from `~/cc-lab/oneadmin.pass`.
+Open the web interface in the browser of the client, which is the Kali VM on smartlearn or your PC if you run your own hypervisor. It listens on port 2616 of your front-end at its new address from [chapter 0.3](../../start/parameters/), so for the code `mmuster` at `http://192.168.210.137:2616/`. Log in as `oneadmin` with the password from `~/cc-lab/oneadmin.pass`.
 
 After you log in, Sunstone shows its dashboard.
 
@@ -214,7 +214,7 @@ python3 ~/cc/checks/check.py install
 Set up OneDeploy, create the inventory and run the playbook `motd.yml` twice. Compare the two `PLAY RECAP` sections and explain why the handler does not run the second time.
 
 :::solution
-The first run reports `changed=2` on both nodes because htop was installed and `/etc/motd` was written. The second run reports `changed=0`. Since the task "Write the greeting" changed nothing, it does not notify the handler, and the handler does not run.
+The first run reports `changed=2` on both nodes because htop was installed and `/etc/motd` was written. If htop is already there, as on smartlearn, it shows `changed=1`. The second run reports `changed=0`. Since the task "Write the greeting" changed nothing, it does not notify the handler, and the handler does not run.
 :::
 ::::
 
