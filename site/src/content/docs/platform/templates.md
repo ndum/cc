@@ -149,8 +149,6 @@ Was die Quota bewirkt, zeigt ein Deployment, das zu viel anfordert.
 kubectl -n gemeinde create deployment fill --image=busybox:1.37 --replicas=12 -- sleep 3600
 kubectl -n gemeinde get deployment fill
 kubectl -n gemeinde get events --field-selector reason=FailedCreate
-kubectl -n gemeinde delete deployment fill
-kubectl -n gemeinde wait --for=delete pod -l app=fill --timeout=60s
 ```
 
 Im Lab liefen mit den Werten der Vorlage 8 von 12 Pods. Jeder Pod bekam von der LimitRange ein Limit von `250m` CPU, nach acht Pods war die Quota von zwei CPU erreicht.
@@ -159,21 +157,48 @@ Im Lab liefen mit den Werten der Vorlage 8 von 12 Pods. Jeder Pod bekam von der 
 Error creating: pods "fill-56886798df-vjq4b" is forbidden: exceeded quota: member, requested: limits.cpu=250m, used: limits.cpu=2, limited: limits.cpu=2
 ```
 
-Wie bei der Quota in OpenNebula bleiben die anderen Mitglieder unberührt. Der Webshop des Veloateliers läuft weiter, egal was die Gemeinde startet.
-
-## Der Check von Teil 4
-
-Der Check dieses Teils prüft die drei Werkzeuge und die zwei VMs im State von OpenTofu. Dazu kommen der Cluster mit den Adressen der Pods, Gitea mit dem Repo, die Applications in Argo CD, der Webshop hinter Traefik und die Namespaces der Mitglieder mit Quota, LimitRange und NetworkPolicy. Starte ihn auf dem Front-end, sobald der Namespace der Gemeinde steht.
+Wie bei der Quota in OpenNebula bleiben die anderen Mitglieder unberührt. Der Webshop des Veloateliers läuft weiter, egal was die Gemeinde startet. Die Ausgabe gehört zu Anforderung 7 von [Meilenstein 2](../../assessment/milestone-2/). Mach davon wie in Kapitel 4.3 den Screenshot `7-quota.png`, bevor du das Deployment wieder löschst.
 
 ```bash
-python3 ~/cc/checks/check.py platform
+kubectl -n gemeinde delete deployment fill
+kubectl -n gemeinde wait --for=delete pod -l app=fill --timeout=60s
+```
+
+Zu Anforderung 7 gehört auch die Trennung durch die NetworkPolicy. Jetzt, da beide Mitglieder ihren Namespace haben, zeigst du sie zwischen der Gemeinde und dem Veloatelier. Ein Pod der Gemeinde bekommt vom Webshop «Connection refused», wie der Pod in `default` weiter oben. Seine Requests und Limits setzt die LimitRange. Er passt darum erst in die Quota, wenn die Pods von `fill` weg sind.
+
+```bash
+kubectl -n gemeinde run np-test --rm -i --restart=Never --image=busybox:1.37 -- sh -c "sleep 5; wget -qO- -T 5 http://webshop.velo/healthz"
+```
+
+Halte das Ergebnis im Screenshot `7-trennung.png` fest.
+
+## Der Check von Meilenstein 2
+
+Teil 4 schliesst Meilenstein 2 ab. Dessen Check `m2` führt den Check `platform` dieses Teils aus. Er prüft die drei Werkzeuge und die zwei VMs im State von OpenTofu. Dazu kommen der Cluster mit den Adressen der Pods, Gitea mit dem Repo, die Applications in Argo CD, der Webshop hinter Traefik und die Namespaces der Mitglieder mit Quota, LimitRange und NetworkPolicy. Darüber hinaus prüft `m2` die ResourceQuota der Gemeinde mit deinen persönlichen Werten, sucht Spuren der Zusatzaufträge und zieht zwei Fragen, die du in der Vorführung der Zusatzaufträge beantwortest. Starte ihn auf dem Front-end, sobald `kubectl -n gemeinde describe resourcequota member` die Grenzen aus deinen persönlichen Werten zeigt.
+
+```bash
+python3 ~/cc/checks/check.py m2
+```
+
+Die drei Zeilen mit `[+!!]` oder `[+ok]` gehören zu den Zusatzaufträgen B und C in Kapitel 4.6 und zählen nicht zur Basis. Meldet die Zeile der Gemeinde `[!!]`, prüfe den Patch in `members/gemeinde/kustomization.yaml` und ob Argo CD ihn schon angewendet hat. Ohne deine persönlichen Werte und die Fragen prüft `python3 ~/cc/checks/check.py platform` nur diesen Teil mit seinen 19 Prüfungen der Basis.
+
+Den Bericht speichert der Check in `~/cc-reports/`. Der folgende Block holt wie in [Kapitel 0.5](../../start/tools/#bericht-und-screenshots-hochladen) zuerst mit `git pull`, was im Repo neu ist. Dann legt er den Bericht in den Ordner `reports/` deines Abgabe-Repos und lädt ihn mit den Screenshots aus `m2/` hoch. Zu jeder der sieben Anforderungen von Meilenstein 2 gehört mindestens ein Screenshot, dessen Dateiname mit ihrer Nummer beginnt.
+
+```bash
+source /etc/cc-lab.env
+cd ~/cc-$CC_CODE
+git pull
+cp ~/cc-reports/m2-*.txt reports/
+git add reports m2
+git commit -m "Meilenstein 2"
+git push
 ```
 
 ::::exercise[Lab]
-Rolle die Vorlage für das Veloatelier aus, beantrage den Namespace der Gemeinde als Pull Request und nimm ihn an. Zeige die Quota an ihrer Grenze und die Trennung durch die NetworkPolicy. Lass zum Schluss den Check `platform` laufen und lade seinen Bericht in dein Abgabe-Repo.
+Rolle die Vorlage für das Veloatelier aus, beantrage den Namespace der Gemeinde als Pull Request und nimm ihn an. Gib der Gemeinde in einem zweiten Pull Request die Grenzen aus deinen persönlichen Werten. Zeige die Quota an ihrer Grenze und die Trennung durch die NetworkPolicy in den Screenshots `7-quota.png` und `7-trennung.png`. Lass zum Schluss den Check `m2` laufen und lade seinen Bericht mit den Screenshots von Teil 4 in dein Abgabe-Repo.
 
 :::solution
-`kubectl -n argocd get applications` zeigt `member-velo` und `member-gemeinde` als `Synced` und `Healthy`. `kubectl -n velo describe resourcequota member` zeigt `requests.cpu` mit der Grenze 2, die Gemeinde hat die Grenze 1 der Vorlage. Mit den Werten der Vorlage bleibt das Deployment `fill` bei 8 Pods stehen, mit den Limits aus deinen persönlichen Werten bei 4 oder 6 Pods. Ein Test-Pod in `gemeinde` bekommt vom Webshop in `velo` «Connection refused». Der Check endet mit «19 von 19 Prüfungen der Basis erfüllt».
+`kubectl -n argocd get applications` zeigt `member-velo` und `member-gemeinde` als `Synced` und `Healthy`. `kubectl -n velo describe resourcequota member` zeigt `requests.cpu` mit der Grenze 2, die Gemeinde hat die Grenze 1 der Vorlage. Mit den Werten der Vorlage bleibt das Deployment `fill` bei 8 Pods stehen, mit den Limits aus deinen persönlichen Werten bei 4 oder 6 Pods. Ein Test-Pod in `gemeinde` bekommt vom Webshop in `velo` «Connection refused». Ohne Zusatzaufträge endet der Bericht von `m2` mit «20 von 20 Prüfungen der Basis erfüllt» und «0 von 3 Prüfungen der Zusatzaufträge erfüllt, sie zählen nicht zur Basis». Heisst die Application eines eigenen Mitglieds aus Zusatzauftrag B ebenfalls `member-<name>`, prüft der Check auch seinen Namespace und zählt eine Prüfung der Basis mehr. Im Abgabe-Repo liegen danach der Bericht in `reports/` und in `m2/` die Screenshots, darunter `2-cluster.png`, `3-token.png`, `7-quota.png` und `7-trennung.png`.
 :::
 ::::
 

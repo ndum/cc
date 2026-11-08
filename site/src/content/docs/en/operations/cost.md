@@ -25,7 +25,7 @@ Chapter 3.3 put hourly prices for CPU, memory and disk into the template. With t
 
 | Item | Assumption | per year |
 |---|---|---|
-| Hardware | two nodes for 7,000 and a front-end for 2,000 francs, five years | 1,800 francs |
+| Hardware | two nodes for 7,000 together and a front-end for 2,000 francs, five years | 1,800 francs |
 | Power | 300 watts on average, 2,628 kWh at 31.5 centimes | 828 francs |
 | Labor | 10% of a full-time position at 130,000 francs including social charges | 13,000 francs |
 | Other | internet, rack space, offsite copy of the backups | 1,500 francs |
@@ -93,7 +93,7 @@ kubectl top pods -A --sort-by=cpu | tail
 ```
 
 :::caution[Before you delete]
-Deleted VMs, images and backups cannot be brought back. Keep the VM in your backup job and its backups until the check `m4` is green and the screenshots of milestone 4 are in your hand-in repo. You need the objects of your own member from chapter 6.5 until the showing.
+Deleted VMs, images and backups cannot be brought back. Keep the VM in your backup job and its backups until the check `m4` is green and the screenshots of milestone 4 are in your hand-in repo. If you show advanced tasks, you need both until the showing, because one question of the check `m4` can ask about the backup of `praxis-1`. You also need the objects of your own member from chapter 6.5 until then.
 :::
 
 In the lab, a VM with 1 GB of memory used 253 MB when idle. The node still had to hold the whole GB and swapped around 200 MB to disk for it. A VM that is only needed during the day can be taken off the node at night with `onevm undeploy` from chapter 4.2. It then only occupies its disk.

@@ -71,14 +71,26 @@ onevm list
 unset ONE_AUTH
 ```
 
-The practice sees the template `ubuntu` and the network `cc-net`, but no VMs of `oneadmin`. For SSH access to its VMs, `praxis-admin` needs a public key as well, because the context takes the key from the user who starts the VM. As `oneadmin` you add it the same way as in chapter 2.4.
+The practice sees the template `ubuntu` and the network `cc-net`, but no VMs of `oneadmin`.
+
+`export` sets `ONE_AUTH` for every following command of the shell until `unset ONE_AUTH` removes the variable again. A block without `ONE_AUTH` therefore runs as `oneadmin`, because without the variable the CLI reads the file `~/.one/one_auth` from [chapter 2.2](../../iaas/installation/#the-cli-as-your-user). For a single command as a member, put the variable right in front of the command, and it applies to that command only. If a block meant for `oneadmin` reports "Not authorized", `oneuser show` without an argument tells you who the CLI is working as. If it names the admin of a member, `unset ONE_AUTH` removes the variable.
+
+For SSH access to the practice's VMs, `praxis-admin` needs a public key as well, because the context takes the key from the user who starts the VM. As `oneadmin` you add it the same way as in chapter 2.4.
 
 ```bash
 printf 'SSH_PUBLIC_KEY="%s"\n' "$(cat ~/.ssh/id_ed25519.pub)" > /tmp/key.tpl
 oneuser update praxis-admin --append /tmp/key.tpl
 ```
 
-If the practice now starts a VM, the bike shop does not see it. In the lab, `onevm list` as `velo-admin` showed no VM at all while two of the practice's VMs were running.
+If the practice now starts a VM, the bike shop does not see it. The following block starts `praxis-1` as `praxis-admin` and then lists the VMs of the practice and those of the bike shop.
+
+```bash
+ONE_AUTH=~/cc-lab/tenants/praxis.auth onetemplate instantiate ubuntu --name praxis-1
+ONE_AUTH=~/cc-lab/tenants/praxis.auth onevm list
+ONE_AUTH=~/cc-lab/tenants/velo.auth onevm list
+```
+
+The bike shop's list stays empty. In the lab, `onevm list` as `velo-admin` showed no VM at all even while two of the practice's VMs were running.
 
 As `oneadmin`, by contrast, Sunstone shows you the VMs of all members.
 
@@ -95,10 +107,14 @@ Groups and VDCs are built on **ACLs** (access control lists). Each rule says who
 `@100` is the group with the number 100, `VM+IMAGE+TEMPLATE+DOCUMENT` are the resources, `/*` means all objects of that kind, and `CREATE` is the right. `onegroup create` made this rule from the `--resources` option. In `oneacl list` the same rule reads `V--I-T---O---------` with the operation `---c`. If you forgot a resource, you add it with a rule of your own and do not have to create the group again.
 
 ::::exercise[Lab]
-Create the four members, log in as `praxis-admin` and start the VM `praxis-1` from the template `ubuntu`. Show as `velo-admin` that the bike shop does not see this VM.
+Create the four members, start the VM `praxis-1` from the template `ubuntu` as `praxis-admin` and show as `velo-admin` that the bike shop does not see this VM. Capture the lists of the practice and of the bike shop in one screenshot for requirement 5 of milestone 1. Take it with the screenshot tool of Kali and save it on the client in your home folder as `5-trennung.png`. As on every screenshot from the terminal, the prompt with the name of the front-end has to be visible. Then copy the picture from a second tab of the client's terminal into the folder `m1/` of your hand-in repo on the front-end, for the code `mmuster` with this command. You upload it at the end of chapter 3.4 together with the other screenshots of part 3.
+
+```bash
+scp ~/5-trennung.png mmuster-fe:cc-mmuster/m1/
+```
 
 :::solution
-After `make-tenants.sh`, `onegroup list` shows the groups `praxis`, `treuhand`, `velo` and `gemeinde`. As `praxis-admin`, `onetemplate instantiate ubuntu --name praxis-1` starts the VM, and `onevm list` shows it with the owner `praxis-admin` and the group `praxis`. With the auth file of `velo-admin`, `onevm list` stays empty.
+After `make-tenants.sh`, `onegroup list` shows the groups `praxis`, `treuhand`, `velo` and `gemeinde`. As `praxis-admin`, `onevm list` shows the VM `praxis-1` with the owner `praxis-admin` and the group `praxis`. With the auth file of `velo-admin`, the list stays empty.
 :::
 ::::
 

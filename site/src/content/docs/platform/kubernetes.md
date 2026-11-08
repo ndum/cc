@@ -32,6 +32,8 @@ Kubernetes verteilt Container auf mehrere Rechner und hält sie am Laufen. Wie O
 | Ingress | eine Regel, nach der HTTP-Anfragen von aussen an Services gehen |
 | Namespace | ein Bereich im Cluster für Objekte, die zusammengehören |
 
+Willst du diese Objekte auffrischen, lies die Ergänzung [Kubernetes-Grundlagen](../../extras/kubernetes/). Sie erklärt sie am Beispiel des Webshops, dazu Labels, Proben, Manifeste und die wichtigsten Befehle von kubectl.
+
 ## Control Plane und Nodes
 
 Ein Cluster besteht aus der **Control Plane** und den Nodes. Die Control Plane entscheidet, auf den Nodes laufen die Container. Ein Node ist ein Rechner, hier eine VM. Die [Übersicht der Komponenten](https://kubernetes.io/docs/concepts/overview/components/) beschreibt die einzelnen Teile.
@@ -128,11 +130,13 @@ Für die Anmeldung braucht kubectl die Adresse der API und ein Zertifikat. Beide
 
 ::code{file="platform/get-kubeconfig.sh"}
 
+Direkt nach `tofu apply` installiert der Server k3s noch und die Datei fehlt. Das Skript fragt darum alle zehn Sekunden nach und meldet jedes Mal «Waiting for k3s on» mit der Adresse des Servers. Nach fünf Minuten gibt es auf. Die Kopie schreibt es zuerst in eine temporäre Datei. Scheitert sie, bleibt deine bisherige kubeconfig erhalten. Zum Schluss zeigt das Skript mit `kubectl get nodes` die Nodes. Fehlt der Agent dort noch, tritt er wenig später bei.
+
 ```bash
 ~/cc/platform/get-kubeconfig.sh
 ```
 
-Die Datei gibt volle Rechte auf den Cluster. Wie `one_auth` gehört sie nur dir. Nach einem Neubau des Clusters hat der Server neue Zertifikate und einen neuen Schlüssel für SSH. Dann löschst du den alten Schlüssel mit `ssh-keygen -R <adresse-des-servers>` und holst die kubeconfig neu.
+Die Datei gibt volle Rechte auf den Cluster. Wie `one_auth` gehört sie nur dir. Nach einem Neubau des Clusters hat der Server neue Zertifikate und einen neuen Schlüssel für SSH. Dann setzt du auf dem Front-end mit `source /etc/cc-lab.env` die Variablen, löschst den alten Schlüssel mit `ssh-keygen -R "$CC_K3S_SERVER_IP"` und holst die kubeconfig neu. Ohne diesen Schritt meldet SSH «REMOTE HOST IDENTIFICATION HAS CHANGED» und das Skript wartet vergeblich.
 
 ## Erste Schritte mit kubectl
 
@@ -153,11 +157,34 @@ kubectl run test --rm -it --restart=Never --image=busybox:1.37 \
   sh -c 'nslookup kubernetes.default.svc.cluster.local; wget -qO- https://example.com | head -c 100'
 ```
 
+Die Routen aus dem Abschnitt [Routing mit host-gw](#routing-mit-host-gw) siehst du auf dem Server selbst. Der Block zeigt dazu noch einmal die Nodes, damit beides auf einen Screenshot passt.
+
+```bash
+source /etc/cc-lab.env
+kubectl get nodes -o wide
+ssh root@$CC_K3S_SERVER_IP 'ip route | grep 10.52'
+```
+
+Für `mmuster` sehen die zwei Routen so aus.
+
+```text
+10.52.0.0/24 dev cni0 proto kernel scope link src 10.52.0.1
+10.52.1.0/24 via 172.31.160.111 dev eth0
+```
+
+Die erste Route führt über die Bridge `cni0` zu den Pods auf dem Server selbst. Die zweite schickt alles für das Pod-Netz des Agents direkt an dessen Adresse in `cc-net`. Mit den zwei Nodes darüber belegt diese Ausgabe Anforderung 2 von [Meilenstein 2](../../assessment/milestone-2/). Mach davon mit dem Screenshot-Werkzeug von Kali einen Screenshot und speichere ihn im Home-Ordner als `2-cluster.png`, wie es [Kapitel 0.5](../../start/tools/#bericht-und-screenshots-hochladen) beschreibt. Wie auf jedem Screenshot aus dem Terminal ist darauf die Eingabeaufforderung mit dem Namen des Front-ends zu sehen. Den Ordner `m2` für die Screenshots dieses Meilensteins legst du einmal auf dem Front-end mit `mkdir -p ~/cc-$CC_CODE/m2` an. Danach kopierst du das Bild aus dem zweiten Tab des Terminals des Clients dorthin.
+
+```bash
+scp ~/2-cluster.png mmuster-fe:cc-mmuster/m2/
+```
+
+Hochladen kannst du es am Ende von Kapitel 4.5 mit dem Bericht des Checks `m2`.
+
 ::::exercise[Lab]
-Hole die kubeconfig und zeige, dass beide Nodes `Ready` sind und Pods auf dem Agent Namen auflösen. Notiere, wie lange es von `tofu apply` bis `Ready` dauert.
+Hole die kubeconfig und zeige, dass beide Nodes `Ready` sind, Pods auf dem Agent Namen auflösen und der Server das Pod-Netz des Agents über eine Route von host-gw erreicht. Lege den Screenshot `2-cluster.png` in den Ordner `m2` deines Abgabe-Repos. Notiere, wie lange es von `tofu apply` bis `Ready` dauert.
 
 :::solution
-`kubectl get nodes` zeigt `k3s-server` mit der Rolle `control-plane` und `k3s-agent` ohne Rolle, beide `Ready` mit der Version `v1.36.5+k3s1`. Der Test-Pod löst `kubernetes.default.svc.cluster.local` zu `10.53.0.1` auf und lädt die Seite. Im Lab dauerte es eine halbe bis zwei Minuten, auf langsameren Knoten länger.
+`kubectl get nodes` zeigt `k3s-server` mit der Rolle `control-plane` und `k3s-agent` ohne Rolle, beide `Ready` mit der Version `v1.36.5+k3s1`. Der Test-Pod löst `kubernetes.default.svc.cluster.local` zu `10.53.0.1` auf und lädt die Seite. Auf dem Server führt eine Route für das Pod-Netz des Agents über dessen Adresse in `cc-net`, für `mmuster` `10.52.1.0/24 via 172.31.160.111 dev eth0`. Bis `Ready` dauerte es im Lab eine halbe bis zwei Minuten, auf smartlearn rund 90 Sekunden.
 :::
 ::::
 
@@ -175,6 +202,21 @@ Sag voraus, was mit der Zahl der Pods, ihren Namen und Adressen, dem ReplicaSet 
 
 :::solution
 Das ReplicaSet zählt nur noch einen passenden Pod und legt sofort einen neuen an. `kubectl delete pod` kehrt trotzdem erst nach etwa 30 Sekunden zurück. `sleep` läuft als erster Prozess im Container und reagiert nicht auf das Signal zum Beenden, darum wartet Kubernetes die Frist von 30 Sekunden ab. Den ersten Prozess behandelt der Kernel besonders und stellt ihm ausser SIGKILL nur Signale zu, für die er selbst einen Handler setzt. Der Webshop aus Kapitel 4.4 startet deshalb hinter dem kleinen Init-Programm `tini`, das Signale weitergibt. Der Name des neuen Pods beginnt wieder mit `uebung-` und dem Hash des ReplicaSets, endet aber anders. Auch seine Adresse ist neu. Je nach Entscheid des Schedulers läuft er auf dem anderen Node. Das ReplicaSet bleibt dasselbe, weil sich die Vorlage nicht geändert hat. Der Service behält Adresse und Namen, in seiner EndpointSlice ersetzt die Adresse des neuen Pods die alte. Fällt `k3s-agent` aus, zeigt `kubectl get nodes` ihn nach weniger als einer Minute als `NotReady`. Nach fünf Minuten räumt Kubernetes seine Pods. Sie bleiben als `Terminating` sichtbar, bis der Node zurück ist, aber das ReplicaSet startet Ersatz auf `k3s-server`, wenn dessen Kapazität für die Requests reicht. Fällt dagegen `k3s-server` aus, laufen die Pods auf dem Agent weiter, doch ohne API-Server ersetzt niemand einen Pod.
+:::
+::::
+
+::::exercise[Agent ersetzen]
+Ist das Startskript eines Nodes schiefgegangen, ersetzt du seine VM mit `-replace`, wie es [Kapitel 4.2](../opentofu/#ändern-ersetzen-und-neu-bauen) beschreibt. Ersetze so den Agent und bestätige mit `yes`. Verfolge danach mit `kubectl get nodes`, ob die neue VM dem Cluster beitritt. Was hält sie auf und wie bringst du sie in den Cluster?
+
+```bash
+cd ~/platform/tofu
+export OPENNEBULA_USERNAME=oneadmin
+export OPENNEBULA_PASSWORD=$(cut -d: -f2- ~/.one/one_auth)
+tofu apply -replace='opennebula_virtual_machine.k3s["k3s-agent"]'
+```
+
+:::solution
+Der Plan zeigt `-/+` für den Agent. Im Lab dauerte das Ersetzen knapp zwei Minuten, weil OpenNebula die alte VM zuerst herunterfährt. Die neue VM bekommt dieselbe Adresse und installiert k3s mit dem Startskript. Trotzdem bleibt `k3s-agent` in `kubectl get nodes` auf `NotReady`. k3s merkt sich für jeden Namen eines Nodes ein Passwort, das die neue VM nicht kennt. Darum lehnt der Server sie ab. Auf dem Agent zeigt `journalctl -u k3s-agent` die Meldung «Node password rejected, duplicate hostname». Vom Front-end kommst du nach `source /etc/cc-lab.env` mit `ssh root@$CC_K3S_AGENT_IP` dorthin. Die neue VM hat einen neuen Schlüssel für SSH, einen alten löschst du vorher mit `ssh-keygen -R "$CC_K3S_AGENT_IP"`. `kubectl delete node k3s-agent` entfernt den alten Node und sein Passwort. Im Lab trat der neue Agent danach innert Sekunden bei und war kurz darauf `Ready`. Er kann dabei ein anderes `/24` für seine Pods bekommen als der alte. Für die Pods, die auf dem alten Agent liefen, legen ihre Controller neue an.
 :::
 ::::
 

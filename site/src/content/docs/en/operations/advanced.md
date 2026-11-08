@@ -245,14 +245,14 @@ You restore the cluster from an etcd snapshot and measure the time until the pla
 ### Approach
 
 1. Choose a failure case and decide when your measurement starts and when it ends.
-2. Save the audit log from task A beforehand and take a snapshot of the three servers in smartlearn or in your hypervisor.
+2. Save the audit log from task A beforehand, stop the timer from chapter 6.2 and take a snapshot of the three servers in smartlearn or in your hypervisor.
 3. Cause the failure and restore the cluster with a snapshot from the copy on the front-end.
 4. Check that Argo CD picks up new commits again and that your member's application runs.
 5. Write the SLA for your member and justify availability, RPO and RTO.
 6. Record the times, the snapshot you used and your decision with its alternative for the documentation.
 
 :::caution[Before the restore]
-An etcd snapshot brings back no data from volumes. Copy the audit log of your triage service from task A into your hand-in repo first. Also take a snapshot of the three servers in smartlearn or in your hypervisor, so that you can go back if the restore fails.
+An etcd snapshot brings back no data from volumes. Copy the audit log of your triage service from task A into your hand-in repo first. Also take a snapshot of the three servers in smartlearn or in your hypervisor, so that you can go back if the restore fails. In addition, stop the timer from chapter 6.2 with `sudo systemctl stop cc-backup-k3s.timer`. If the copy runs against a new server, it overwrites the old server's token in `~/backup/k3s`, which the restore needs. After the restore, start the timer again with `sudo systemctl start cc-backup-k3s.timer`.
 :::
 
 ### Requirements

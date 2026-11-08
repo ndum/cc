@@ -10,6 +10,7 @@ The glossary explains the terms of the course briefly and points to the chapter 
 | Term | Meaning | Chapter |
 |---|---|---|
 | 3-2-1 rule | Keep three copies of important data on two different media, one of them offsite. | [6.2](../operations/backup/) |
+| ACL | Access control list. A rule in OpenNebula that says who may work on which resources with which rights. Groups and VDCs are built on ACLs, and `oneacl list` shows them. | [3.1](../tenants/groups/#acls) |
 | Alertmanager | Receives firing alerts from Prometheus, groups similar ones, suppresses repeats and forwards them to receivers such as a webhook. | [5.3](../observability/slo/) |
 | Alloy | The agent that reads the logs of the pods on each node and sends them to Loki. | [5.2](../observability/logs/) |
 | Ansible | A tool that brings servers into a described target state over SSH. A second run changes only what is not yet right. | [2.2](../iaas/installation/) |
@@ -23,6 +24,7 @@ The glossary explains the terms of the course briefly and points to the chapter 
 | Container | A process with its own view of the file system, network and processes. It shares the kernel with the host and brings only its application. | [1.3](../basics/virtualization/) |
 | Contextualization | OpenNebula hands a VM its address, name, keys and scripts at boot, and the `one-context` package sets the VM up with them. | [2.4](../iaas/images/) |
 | Control plane | The part of Kubernetes that runs the cluster, with the API server, scheduler, controllers and database. In k3s it runs on the server. | [4.3](../platform/kubernetes/) |
+| DaemonSet | Keeps one pod running on every node of the cluster. In the course Alloy runs this way and reads the logs of the pods on each node. | [5.2](../observability/logs/#loki-and-alloy) |
 | Datastore | A storage location in OpenNebula. `default` holds the images, `system` the disks of running VMs, `files` smaller files, and from chapter 6.2 on `backups` the VM backups. | [2.4](../iaas/images/) |
 | Deploy key | An SSH key that works for a single repo only, not for the whole account. With it the front-end pushes your hand-ins to your hand-in repo. | [0.5](../start/tools/) |
 | Deployment | Keeps a number of identical pods running and replaces them during an update. | [4.3](../platform/kubernetes/) |
@@ -36,14 +38,17 @@ The glossary explains the terms of the course briefly and points to the chapter 
 | Gateway | The machine through which the VMs of a network reach other networks. In the course the front-end forwards the traffic of the internal network to the internet with NAT. | [0.2](../start/lab/) |
 | Gitea | A lightweight Git server with a web interface and pull requests. In the course it runs on the front-end and holds the `platform` repo. | [4.4](../platform/gitops/) |
 | GitOps | The desired state is versioned in Git, and an agent in the cluster pulls it and keeps reconciling. Changes therefore go through Git. | [4.4](../platform/gitops/) |
+| Golden path | A tested path that a platform team offers and other teams follow on their own. In the course a template defines what every member gets in the cluster. | [4.5](../platform/templates/#templates) |
 | Grafana | Shows queries against Prometheus and Loki as dashboards. | [5.1](../observability/metrics/) |
 | Group | Brings together the users of a tenant in OpenNebula. A group admin manages the people of their member. | [3.1](../tenants/groups/) |
+| Group admin | A user who may create users in their group and manage all VMs of the group. In the course every member has one, such as `praxis-admin`. | [3.1](../tenants/groups/#multi-tenancy) |
 | Hardening | Switching off or shielding everything that is not needed. In the course that means SSH with keys only, a firewall and automatic updates. | [6.1](../operations/security/) |
 | Hash | A short checksum that changes as soon as the content changes. The check report ends with the hash of its content. | [0.4](../start/prepare/) |
 | Helm | Installs packages called charts in Kubernetes, with values you adjust. | [4.2](../platform/opentofu/) |
 | HorizontalPodAutoscaler | Adjusts the number of pods of a deployment to a metric, usually CPU as a percentage of the request. HPA for short. | [5.4](../observability/autoscaling/) |
 | Hypervisor | Splits a physical machine into several virtual machines, each with its own CPUs, memory and disks. | [1.3](../basics/virtualization/) |
 | IaaS | Infrastructure as a service. The provider supplies VMs, networks and storage, and the users run the operating system and the application. | [1.2](../basics/models/) |
+| Idempotence | An operation is idempotent if a second run changes nothing. That is why you can repeat an Ansible run or `tofu apply` with the same code as often as you like. | [2.2](../iaas/installation/#ansible), [4.1](../platform/iac/#drift-and-idempotence) |
 | Image | A disk that VMs boot from, such as a prepared Ubuntu. It lives in a datastore. | [2.4](../iaas/images/) |
 | Infrastructure as code | Infrastructure is described in files, versioned and created by a tool instead of by hand. | [4.1](../platform/iac/) |
 | Inventory | The file in which Ansible finds the servers and their groups, along with values for all of them or for single ones. | [2.2](../iaas/installation/) |
@@ -51,10 +56,12 @@ The glossary explains the terms of the course briefly and points to the chapter 
 | Kustomize | Builds the objects for each member from a template and small adjustments without copying the template. | [4.5](../platform/templates/) |
 | KVM | The hypervisor in the Linux kernel. It uses the virtualization features of the CPU and runs the VMs on the nodes. | [0.2](../start/lab/) |
 | Language model | A model that generates text token by token. It writes likely text and does not check whether it is true. | [5.5](../observability/advanced/) |
+| Lease | An address from the range of a network that OpenNebula assigns to a VM at boot and records. When you delete the VM, the address becomes free again. `onevnet show` lists the leases. | [2.3](../iaas/networks/#addresses-and-leases) |
 | Least privilege | Every identity gets only the smallest set of rights it needs for its job, such as read-only rights for Prometheus in the course. | [6.1](../operations/security/) |
 | LimitRange | Sets defaults and upper limits for the requests and limits of each container in a namespace. | [4.5](../platform/templates/) |
 | LogQL | The query language of Loki. A query first selects streams by labels and then filters the text. | [5.2](../observability/logs/) |
 | Loki | Collects logs centrally and keeps them after a pod is gone. It indexes only a few labels, not the text. | [5.2](../observability/logs/) |
+| MTTR | Mean time to restore. The time from the start of an incident until the service runs again, averaged over many incidents. | [6.3](../operations/sla/#the-operations-concept) |
 | Namespace | A separate area in the Kubernetes cluster. In the course every member gets its own, with a quota and rules. | [4.3](../platform/kubernetes/) |
 | NAT | Network address translation replaces the source address of packets so that machines on an internal network reach the internet through a single address. | [0.2](../start/lab/) |
 | Nested virtualization | A VM passes the virtualization features of the CPU on to its own operating system, so VMs can run inside it. | [0.2](../start/lab/) |
@@ -65,8 +72,10 @@ The glossary explains the terms of the course briefly and points to the chapter 
 | Ollama | Loads open language models and serves them through an HTTP interface. In the advanced tasks of part 5 it can provide the local language model of the platform. | [5.5](../observability/advanced/) |
 | OneDeploy | The collection of Ansible playbooks the OpenNebula project uses to install a cloud from a front-end and nodes. | [2.2](../iaas/installation/) |
 | OneFlow | Manages services made of several VMs in roles and adjusts the number of VMs by rules. | [3.5](../tenants/advanced/) |
+| OOM kill | Out of memory. When memory runs out, the kernel kills a process. In Kubernetes this hits a container above its memory limit, and `kubectl describe pod` then shows `OOMKilled`. On a node without swap the kernel kills the largest VM. | [4.3](../platform/kubernetes/#requests-limits-and-scheduling), [6.2](../operations/backup/#vms-in-opennebula) |
 | OpenNebula | A free platform for private clouds. It manages nodes, networks, storage and virtual machines and assigns them to tenants. | [2.2](../iaas/installation/) |
 | OpenTofu | An infrastructure-as-code tool and a free fork of Terraform. In the course it creates the k3s VMs in OpenNebula. | [4.2](../platform/opentofu/) |
+| Overcommitment | More is reserved on a node than it has. With CPU the VMs only slow down, with memory a VM can crash. The quotas together may also be larger than the cloud. | [2.5](../iaas/hosts/#capacity-and-overcommitment), [3.2](../tenants/quotas/#quotas-and-overcommitment) |
 | PaaS | Platform as a service. The provider also runs the operating system and runtime, and the users bring only their application. | [1.2](../basics/models/) |
 | Personal parameters | The values of your lab that come from your personal code, such as host names, the internal network and the VXLAN identifier. They live in `/etc/cc-lab.env`. | [0.3](../start/parameters/) |
 | Playbook | A file that describes which steps Ansible runs on which servers. | [2.2](../iaas/installation/) |
@@ -82,15 +91,18 @@ The glossary explains the terms of the course briefly and points to the chapter 
 | Quota | An upper limit on the resources a group or user may take. | [3.2](../tenants/quotas/) |
 | RBAC | Role-based access control. Kubernetes allows a request only what a Role or ClusterRole grants the sender through a binding. | [6.1](../operations/security/) |
 | Recording rule | A rule that Prometheus evaluates regularly and stores as a new time series, so alerts and dashboards can read it quickly. | [5.3](../observability/slo/) |
+| Request and limit | Two values for the CPU and memory of a container. The scheduler plans with the request, and the limit is the ceiling the kernel enforces at runtime. | [4.3](../platform/kubernetes/#requests-limits-and-scheduling) |
 | ResourceQuota | Limits the CPU, memory and objects that all pods of a namespace may request together. | [4.5](../platform/templates/) |
 | Right-sizing | Adjusting reserved resources to the measured use. | [6.4](../operations/cost/) |
 | RPO | Recovery point objective. The point in time to which data must be recovered after an outage. It says how much data loss is acceptable. | [6.2](../operations/backup/) |
 | RTO | Recovery time objective. The longest time a service may be down before the damage becomes unacceptable. | [6.2](../operations/backup/) |
 | Runbook | Instructions for a recurring incident with its symptoms, first checks and measures. | [6.3](../operations/sla/) |
 | SaaS | Software as a service. Users get a finished application and manage only their data and access rights. | [1.2](../basics/models/) |
+| Scheduler | Picks the node for a new VM or a new pod. In OpenNebula it is a driver of `oned` and looks for a node with enough free capacity. In Kubernetes it counts only the requests of the pods. | [2.1](../iaas/architecture/#the-building-blocks), [4.3](../platform/kubernetes/#requests-limits-and-scheduling) |
 | Sealed Secrets | Encrypts a Secret with the public key of a controller into a SealedSecret that may go into Git. Only the controller can decrypt it. | [6.1](../operations/security/) |
 | Self-heal | Argo CD reverts whatever someone changes in the cluster by hand, so the cluster matches Git again. | [4.4](../platform/gitops/) |
 | Self-service | A member takes resources whenever it needs them, within the limits the platform team sets. | [3.4](../tenants/self-service/) |
+| Service catalog | The list of services a provider offers ready-made, each with a defined scope, price and owner. In OpenNebula the shared templates form it. | [3.4](../tenants/self-service/#the-service-catalog) |
 | Showback | Shows each unit what it used, without any money changing hands. OpenNebula calculates it from prices in the template. | [3.3](../tenants/showback/) |
 | SLA | Service level agreement. An agreement with the member on the quality of a service, with consequences if it is missed. | [6.3](../operations/sla/) |
 | SLI | Service level indicator. A measurement of how well a service works from the customer's view, usually as the share of good events. | [5.3](../observability/slo/) |

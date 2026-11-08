@@ -292,7 +292,8 @@ Parts 5 and 6 send changes straight to `main` with `git push`, and with the prot
 - The change in the cluster after the merge
 
 :::details[Notes from the lab]
-- You create another account under "Site Administration" in the web interface or with `gitea admin user create`
+- You create another account under "Site Administration" in the web interface or on the front-end with `sudo -u git gitea --config /etc/gitea/app.ini admin user create`. Without `sudo -u git` the command fails, because only `root` and the group `git` may read `/etc/gitea/app.ini`.
+- For the second account, open a private window in Firefox with Ctrl+Shift+P. The browser keeps only one session for Gitea, and the private window has one of its own.
 :::
 
 :::details[Sources]

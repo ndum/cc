@@ -9,6 +9,7 @@ Das Glossar erklärt die Fachbegriffe des Kurses kurz und verweist auf das Kapit
 
 | Begriff | Bedeutung | Kapitel |
 |---|---|---|
+| ACL | Access Control List. Eine Regel in OpenNebula, die festlegt, wer welche Ressourcen mit welchen Rechten bearbeiten darf. Gruppen und VDCs beruhen auf ACLs, `oneacl list` zeigt sie. | [3.1](../tenants/groups/#acls) |
 | Alertmanager | Nimmt die auslösenden Alerts von Prometheus entgegen, fasst ähnliche zusammen, unterdrückt Wiederholungen und leitet sie an Empfänger wie einen Webhook weiter. | [5.3](../observability/slo/) |
 | Alloy | Der Agent, der auf jedem Node die Logs der Pods liest und an Loki schickt. | [5.2](../observability/logs/) |
 | Ansible | Ein Werkzeug, das Server über SSH in einen beschriebenen Zielzustand bringt. Ein zweiter Lauf ändert nur, was noch nicht stimmt. | [2.2](../iaas/installation/) |
@@ -21,6 +22,7 @@ Das Glossar erklärt die Fachbegriffe des Kurses kurz und verweist auf das Kapit
 | Client | Die VM, von der aus du auf smartlearn arbeitest, ein Kali-Linux-Desktop mit einem Browser für die Weboberflächen und einem Terminal für SSH zu den Servern. Mit eigenem Hypervisor übernimmt dein PC diese Rolle. | [0.2](../start/lab/) |
 | Container | Ein Prozess mit eigener Sicht auf Dateisystem, Netz und Prozesse. Er teilt den Kernel mit dem Rechner und bringt nur seine Anwendung mit. | [1.3](../basics/virtualization/) |
 | Control Plane | Der Teil von Kubernetes, der den Cluster steuert, mit API-Server, Scheduler, Controllern und Datenbank. In k3s läuft sie auf dem Server. | [4.3](../platform/kubernetes/) |
+| DaemonSet | Hält auf jedem Node des Clusters einen Pod am Laufen. Im Kurs läuft Alloy so und liest auf jedem Node die Logs der Pods. | [5.2](../observability/logs/#loki-und-alloy) |
 | Datastore | Ein Speicherort von OpenNebula. `default` hält die Images, `system` die Disks laufender VMs, `files` kleinere Dateien und ab Kapitel 6.2 `backups` die Backups der VMs. | [2.4](../iaas/images/) |
 | Deploy Key | Ein SSH-Schlüssel, der nur für ein einziges Repo gilt und nicht für das ganze Konto. Mit ihm lädt das Front-end deine Abgaben in dein Abgabe-Repo hoch. | [0.5](../start/tools/) |
 | Deployment | Hält eine Zahl gleicher Pods am Laufen und tauscht sie bei einem Update aus. | [4.3](../platform/kubernetes/) |
@@ -33,14 +35,17 @@ Das Glossar erklärt die Fachbegriffe des Kurses kurz und verweist auf das Kapit
 | Gateway | Der Rechner, über den die VMs eines Netzes andere Netze erreichen. Im Kurs leitet das Front-end den Verkehr des internen Netzes mit NAT ins Internet. | [0.2](../start/lab/) |
 | Gitea | Ein schlanker Git-Server mit Weboberfläche und Pull Requests. Im Kurs läuft er auf dem Front-end und hält das Repo `platform`. | [4.4](../platform/gitops/) |
 | GitOps | Der Soll-Zustand liegt versioniert in Git, ein Agent im Cluster holt ihn sich und gleicht laufend ab. Änderungen machst du deshalb in Git. | [4.4](../platform/gitops/) |
+| Golden Path | Ein geprüfter Weg, den ein Plattform-Team anbietet und den andere Teams selbst gehen. Im Kurs legt eine Vorlage fest, was jedes Mitglied im Cluster bekommt. | [4.5](../platform/templates/#vorlagen) |
 | Grafana | Zeigt Abfragen an Prometheus und Loki als Dashboards. | [5.1](../observability/metrics/) |
 | Gruppe | Fasst in OpenNebula die Benutzer eines Mandanten zusammen. Ein Gruppenadmin verwaltet die Leute seines Mitglieds selbst. | [3.1](../tenants/groups/) |
+| Gruppenadmin | Ein Benutzer, der in seiner Gruppe Benutzer anlegen und alle VMs der Gruppe verwalten darf. Im Kurs hat jedes Mitglied einen, etwa `praxis-admin`. | [3.1](../tenants/groups/#mandantenfähigkeit) |
 | Härten | Alles abschalten oder abschotten, was nicht gebraucht wird, im Kurs mit SSH nur über Schlüssel, einer Firewall und automatischen Updates. | [6.1](../operations/security/) |
 | Hash | Eine kurze Prüfsumme, die sich ändert, sobald sich der Inhalt ändert. Der Check-Bericht endet mit dem Hash seines Inhalts. | [0.4](../start/prepare/) |
 | Helm | Installiert Pakete in Kubernetes, sogenannte Charts, mit Werten, die du anpasst. | [4.2](../platform/opentofu/) |
 | HorizontalPodAutoscaler | Passt die Zahl der Pods eines Deployments an eine Metrik an, meist an die CPU in Prozent des Requests. Kurz HPA. | [5.4](../observability/autoscaling/) |
 | Hypervisor | Teilt einen physischen Rechner in mehrere virtuelle Maschinen mit eigenen CPUs, eigenem Speicher und eigenen Disks auf. | [1.3](../basics/virtualization/) |
 | IaaS | Infrastructure as a Service. Der Anbieter liefert VMs, Netze und Speicher, Betriebssystem und Anwendung betreiben die Nutzenden selbst. | [1.2](../basics/models/) |
+| Idempotenz | Eine Operation ist idempotent, wenn ein zweiter Lauf nichts mehr ändert. Einen Lauf von Ansible oder `tofu apply` mit demselben Code kannst du deshalb beliebig oft wiederholen. | [2.2](../iaas/installation/#ansible), [4.1](../platform/iac/#drift-und-idempotenz) |
 | Image | Eine Disk, aus der VMs starten, etwa ein vorbereitetes Ubuntu. Es liegt in einem Datastore. | [2.4](../iaas/images/) |
 | Infrastructure as Code | Infrastruktur wird in Dateien beschrieben, versioniert und von einem Werkzeug angelegt, statt von Hand. | [4.1](../platform/iac/) |
 | Inventar | Die Datei, in der Ansible die Server und ihre Gruppen findet, dazu Werte, die für alle oder für einzelne gelten. | [2.2](../iaas/installation/) |
@@ -49,11 +54,13 @@ Das Glossar erklärt die Fachbegriffe des Kurses kurz und verweist auf das Kapit
 | Kontextualisierung | OpenNebula gibt einer VM beim Start Adresse, Namen, Schlüssel und Skripte mit, das Paket `one-context` richtet sie damit ein. | [2.4](../iaas/images/) |
 | Kustomize | Setzt aus einer Vorlage und kleinen Anpassungen die Objekte für jedes Mitglied zusammen, ohne die Vorlage zu kopieren. | [4.5](../platform/templates/) |
 | KVM | Der Hypervisor im Linux-Kernel. Er nutzt die Virtualisierungsfunktionen der CPU und führt die VMs auf den Knoten aus. | [0.2](../start/lab/) |
+| Lease | Eine Adresse aus dem Adressbereich eines Netzes, die OpenNebula einer VM beim Start zuteilt und vermerkt. Löschst du die VM, wird die Adresse wieder frei. `onevnet show` zeigt die Leases. | [2.3](../iaas/networks/#adressen-und-leases) |
 | Least Privilege | Jede Identität bekommt nur die kleinsten Rechte, mit denen sie ihre Aufgabe erfüllt, im Kurs etwa Prometheus mit lesenden Rechten. | [6.1](../operations/security/) |
 | LimitRange | Setzt Standardwerte und Obergrenzen für Requests und Limits jedes Containers in einem Namespace. | [4.5](../platform/templates/) |
 | LogQL | Die Abfragesprache von Loki. Eine Abfrage wählt zuerst Streams nach Labels und filtert dann den Text. | [5.2](../observability/logs/) |
 | Loki | Sammelt Logs zentral und behält sie über das Ende eines Pods hinaus. Es indexiert nur wenige Labels, nicht den Text. | [5.2](../observability/logs/) |
 | Mandant | Eine Organisation, die eine Cloud mit anderen teilt und nur ihre eigenen Ressourcen sieht. Englisch Tenant. | [3.1](../tenants/groups/) |
+| MTTR | Mean Time to Restore. Die Zeit vom Beginn einer Störung, bis der Dienst wieder läuft, im Mittel über viele Störungen. | [6.3](../operations/sla/#das-betriebskonzept) |
 | NAT | Network Address Translation ersetzt die Absenderadresse von Paketen, damit Rechner eines internen Netzes über eine einzige Adresse ins Internet kommen. | [0.2](../start/lab/) |
 | Namespace | Ein abgegrenzter Bereich im Kubernetes-Cluster. Im Kurs bekommt jedes Mitglied einen eigenen mit Quota und Regeln. | [4.3](../platform/kubernetes/) |
 | Nested Virtualization | Verschachtelte Virtualisierung. Eine VM reicht die Virtualisierungsfunktionen der CPU an ihr eigenes Betriebssystem weiter, sodass darin wieder VMs laufen. | [0.2](../start/lab/) |
@@ -63,6 +70,7 @@ Das Glossar erklärt die Fachbegriffe des Kurses kurz und verweist auf das Kapit
 | Ollama | Lädt offene Sprachmodelle und bietet sie über eine HTTP-Schnittstelle an. In den Zusatzaufträgen von Teil 5 kann es das lokale Sprachmodell der Plattform bereitstellen. | [5.5](../observability/advanced/) |
 | OneDeploy | Die Sammlung von Ansible-Playbooks, mit der das OpenNebula-Projekt eine Cloud aus Front-end und Knoten installiert. | [2.2](../iaas/installation/) |
 | OneFlow | Verwaltet in OpenNebula Dienste aus mehreren VMs in Rollen und passt die Zahl der VMs nach Regeln an. | [3.5](../tenants/advanced/) |
+| OOM-Kill | Out of Memory. Fehlt Arbeitsspeicher, beendet der Kernel einen Prozess. In Kubernetes trifft es einen Container über seinem Speicherlimit, `kubectl describe pod` zeigt dann `OOMKilled`. Auf einem Knoten ohne Swap beendet der Kernel die grösste VM. | [4.3](../platform/kubernetes/#requests-limits-und-scheduling), [6.2](../operations/backup/#vms-in-opennebula) |
 | OpenNebula | Eine freie Plattform für Private Clouds. Sie verwaltet Knoten, Netze, Speicher und virtuelle Maschinen und teilt sie an Mandanten zu. | [2.2](../iaas/installation/) |
 | OpenTofu | Ein Werkzeug für Infrastructure as Code, ein freier Fork von Terraform. Im Kurs legt es die VMs von k3s in OpenNebula an. | [4.2](../platform/opentofu/) |
 | PaaS | Platform as a Service. Der Anbieter betreibt auch Betriebssystem und Laufzeitumgebung, die Nutzenden bringen nur ihre Anwendung. | [1.2](../basics/models/) |
@@ -80,16 +88,19 @@ Das Glossar erklärt die Fachbegriffe des Kurses kurz und verweist auf das Kapit
 | RBAC | Role-Based Access Control. Kubernetes erlaubt einer Anfrage nur, was eine Role oder ClusterRole dem Absender über ein Binding gibt. | [6.1](../operations/security/) |
 | Recording Rule | Eine Regel, die Prometheus regelmässig ausrechnet und als neue Zeitreihe speichert, damit Alerts und Dashboards schnell darauf zugreifen. | [5.3](../observability/slo/) |
 | Regel 3-2-1 | Drei Kopien wichtiger Daten auf zwei verschiedenen Medien, eine davon ausser Haus. | [6.2](../operations/backup/) |
+| Request und Limit | Zwei Werte für CPU und Speicher eines Containers. Mit dem Request plant der Scheduler, das Limit ist die Obergrenze, die der Kernel zur Laufzeit durchsetzt. | [4.3](../platform/kubernetes/#requests-limits-und-scheduling) |
 | ResourceQuota | Begrenzt, was alle Pods eines Namespaces zusammen an CPU, Speicher und Objekten anfordern dürfen. | [4.5](../platform/templates/) |
 | Right-Sizing | Die reservierten Ressourcen an den gemessenen Verbrauch anpassen. | [6.4](../operations/cost/) |
 | RPO | Recovery Point Objective. Der Zeitpunkt, bis zu dem Daten nach einem Ausfall wiederhergestellt sein müssen, also wie viel Datenverlust tragbar ist. | [6.2](../operations/backup/) |
 | RTO | Recovery Time Objective. Die längste Zeit, die ein Dienst ausfallen darf, bevor der Schaden nicht mehr tragbar ist. | [6.2](../operations/backup/) |
 | Runbook | Eine Anleitung für eine wiederkehrende Störung mit Symptomen, ersten Prüfungen und Massnahmen. | [6.3](../operations/sla/) |
 | SaaS | Software as a Service. Die Nutzenden beziehen eine fertige Anwendung und verwalten nur ihre Daten und Zugriffsrechte. | [1.2](../basics/models/) |
+| Scheduler | Wählt den Knoten für eine neue VM oder den Node für einen neuen Pod. In OpenNebula ist er ein Treiber von `oned` und sucht einen Knoten mit genug freier Kapazität. In Kubernetes rechnet er dabei nur mit den Requests der Pods. | [2.1](../iaas/architecture/#die-bausteine), [4.3](../platform/kubernetes/#requests-limits-und-scheduling) |
 | Schutzbedarf | Wie stark Daten und Dienste bei Vertraulichkeit, Integrität und Verfügbarkeit zu schützen sind, gemessen am Schaden eines Verlusts. | [1.4](../basics/sovereignty/) |
 | Sealed Secrets | Verschlüsselt ein Secret mit dem öffentlichen Schlüssel eines Controllers zu einem SealedSecret, das in Git darf. Nur der Controller kann es entschlüsseln. | [6.1](../operations/security/) |
 | Self-Heal | Argo CD setzt zurück, was jemand im Cluster von Hand ändert, damit der Cluster wieder Git entspricht. | [4.4](../platform/gitops/) |
 | Self-Service | Ein Mitglied holt sich Ressourcen selbst, wenn es sie braucht, innerhalb des Rahmens, den das Plattform-Team vorgibt. | [3.4](../tenants/self-service/) |
+| Servicekatalog | Die Liste der Dienste, die ein Anbieter fertig anbietet, mit festgelegtem Inhalt, Preis und Zuständigkeit. In OpenNebula bilden ihn die gemeinsamen Vorlagen. | [3.4](../tenants/self-service/#der-servicekatalog) |
 | Showback | Zeigt jedem Bereich, was er verbraucht hat, ohne dass Geld fliesst. OpenNebula rechnet dafür mit Preisen aus der Vorlage. | [3.3](../tenants/showback/) |
 | SLA | Service Level Agreement. Eine Vereinbarung mit dem Mitglied über die Qualität eines Dienstes, mit Folgen, wenn sie verfehlt wird. | [6.3](../operations/sla/) |
 | SLI | Service Level Indicator. Eine Messung, wie gut ein Dienst aus Sicht der Kundschaft arbeitet, meist als Anteil guter Ereignisse. | [5.3](../observability/slo/) |
@@ -101,6 +112,7 @@ Das Glossar erklärt die Fachbegriffe des Kurses kurz und verweist auf das Kapit
 | Sunstone | Die Weboberfläche von OpenNebula auf Port 2616 des Front-ends, für das Plattform-Team und die Mitglieder. | [2.1](../iaas/architecture/) |
 | TLS | Transport Layer Security. Verschlüsselt eine Verbindung, macht Veränderungen unterwegs erkennbar und weist den Server mit einem Zertifikat aus. | [6.1](../operations/security/) |
 | Triage | Die erste Einschätzung eines Alerts. In den Zusatzaufträgen baust du einen Dienst, der mit dem lokalen Modell eine Ursache und eine Aktion aus einer festen Liste vorschlägt. Ein Mensch gibt sie frei. | [5.5](../observability/advanced/) |
+| Überbuchung | Auf einem Knoten ist mehr reserviert, als er hat. Bei der CPU werden die VMs nur langsamer, beim Arbeitsspeicher kann eine VM abstürzen. Auch die Quotas zusammen dürfen grösser sein als die Cloud. | [2.5](../iaas/hosts/#kapazität-und-überbuchung), [3.2](../tenants/quotas/#quota-und-überbuchung) |
 | VDC | Virtual Data Center. Ein Ausschnitt der Infrastruktur, den OpenNebula einer oder mehreren Gruppen zuteilt. | [3.1](../tenants/groups/) |
 | Vollkosten | Alle Kosten eines Dienstes, neben Hardware und Strom auch Arbeit und weitere Posten. Bei einer kleinen Plattform macht die Arbeit den grössten Teil aus. | [6.4](../operations/cost/) |
 | Vorlage | Beschreibt in OpenNebula eine VM, aus der du beliebig viele VMs startest, im Kurs etwa `ubuntu`. | [2.4](../iaas/images/) |

@@ -245,14 +245,14 @@ Du stellst den Cluster aus einem Snapshot von etcd wieder her und misst die Zeit
 ### Vorgehen
 
 1. Wähle einen Fehlerfall und lege fest, wann deine Messung beginnt und wann sie endet.
-2. Sichere vorher das Audit-Log aus Auftrag A und lege in smartlearn oder in deinem Hypervisor einen Snapshot der drei Server an.
+2. Sichere vorher das Audit-Log aus Auftrag A, halte den Timer aus Kapitel 6.2 an und lege in smartlearn oder in deinem Hypervisor einen Snapshot der drei Server an.
 3. Löse den Fehlerfall aus und stelle den Cluster mit einem Snapshot aus der Kopie auf dem Front-end wieder her.
 4. Prüfe, dass Argo CD wieder neue Commits übernimmt und die Anwendung deines Mitglieds läuft.
 5. Schreibe das SLA für dein Mitglied und begründe Verfügbarkeit, RPO und RTO.
 6. Halte die Zeiten, den verwendeten Snapshot und deinen Entscheid mit seiner Alternative für die Dokumentation fest.
 
 :::caution[Vor der Wiederherstellung]
-Ein Snapshot von etcd bringt keine Daten aus Volumes zurück. Kopiere deshalb vorher das Audit-Log deines Triage-Dienstes aus Auftrag A in dein Abgabe-Repo. Lege zudem in smartlearn oder in deinem Hypervisor einen Snapshot der drei Server an, damit du bei einem Fehlschlag zurückkannst.
+Ein Snapshot von etcd bringt keine Daten aus Volumes zurück. Kopiere deshalb vorher das Audit-Log deines Triage-Dienstes aus Auftrag A in dein Abgabe-Repo. Lege zudem in smartlearn oder in deinem Hypervisor einen Snapshot der drei Server an, damit du bei einem Fehlschlag zurückkannst. Halte ausserdem den Timer aus Kapitel 6.2 mit `sudo systemctl stop cc-backup-k3s.timer` an. Läuft die Kopie gegen einen neuen Server, überschreibt sie in `~/backup/k3s` das Token des alten Servers, das die Wiederherstellung braucht. Nach der Wiederherstellung startest du den Timer mit `sudo systemctl start cc-backup-k3s.timer` wieder.
 :::
 
 ### Anforderungen

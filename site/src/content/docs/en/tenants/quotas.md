@@ -59,7 +59,7 @@ The members pay and need different amounts. The fiduciary office gets more room 
 | Veloatelier Matte | `velo` | 2 | 1 | 2048 MB |
 | Gemeinde Hinterbüel | `gemeinde` | 2 | 1 | 2048 MB |
 
-The script `lab/tenants/set-quotas.sh` sets these values. For every group it writes a small file with the quota and passes it to `onegroup quota`. The [guide to setting quotas](https://docs.opennebula.io/7.4/product/cloud_system_administration/capacity_planning/quotas/#setting-usergroup-quotas) shows how to set quotas for groups and users.
+The script `lab/tenants/set-quotas.sh` sets these values. For every group it writes a small file with the quota and passes it to `onegroup quota`. You run it as `oneadmin`, without `ONE_AUTH`, because only `oneadmin` sets group quotas. The [guide to setting quotas](https://docs.opennebula.io/7.4/product/cloud_system_administration/capacity_planning/quotas/#setting-usergroup-quotas) shows how to set quotas for groups and users.
 
 ::code{file="lab/tenants/set-quotas.sh"}
 
@@ -74,7 +74,7 @@ In Sunstone the list under "System › Groups" shows how much of the VM quota is
 
 The CPU of the quota counts like `CPU` in the template. A VM from the template `ubuntu` needs 0.5 of it. The practice gets 1.5 CPU so that a VM from Sunstone fits next to `praxis-1` in chapter 3.4. Sunstone sets the CPU of a new VM to its number of virtual CPUs, which is 1.
 
-For milestone 1 the municipality gets the quota from your [personal values](../../start/parameters/#your-values-for-the-milestones). Copy the script, change the line of the municipality and run the copy. The other members keep the values of the table.
+For milestone 1 the municipality gets the quota from your [personal values](../../start/parameters/#your-values-for-the-milestones). Copy the script, change the line of the municipality in the copy and run the copy. The line takes the three numbers from the generator in the format of the other lines, which means without units. The CPU keeps its point, just as the generator shows it. If the generator shows "3 VMs, 1.5 CPU, 2560 MB", as it does for `mmuster`, the line reads `gemeinde  3    1.5  2560`. The other members keep the values of the table.
 
 ```bash
 cp ~/cc/lab/tenants/set-quotas.sh ~/cc-lab/set-quotas.sh
@@ -82,9 +82,19 @@ nano ~/cc-lab/set-quotas.sh
 ~/cc-lab/set-quotas.sh
 ```
 
+At the end the copy reports the values it set for every member, so for the municipality it reports yours. The check `m1` at the end of [chapter 3.4](../self-service/#the-check-of-milestone-1) compares this quota with your personal values.
+
 ## At the limit
 
-OpenNebula checks the quota before it creates a VM. If the quota is used up, OpenNebula rejects the request right away and creates no VM. In the lab, starting the practice's third VM gave this message:
+OpenNebula checks the quota before it creates a VM. If the quota is used up, OpenNebula rejects the request right away and creates no VM. The following block starts the VMs `praxis-2` and `praxis-3` as `praxis-admin` next to `praxis-1` from chapter 3.1. Then it shows the group's usage as `oneadmin`.
+
+```bash
+ONE_AUTH=~/cc-lab/tenants/praxis.auth onetemplate instantiate ubuntu --name praxis-2
+ONE_AUTH=~/cc-lab/tenants/praxis.auth onetemplate instantiate ubuntu --name praxis-3
+onegroup show praxis | sed -n '/VMS USAGE/,/DATASTORE/p'
+```
+
+In the lab, starting the practice's third VM gave this message:
 
 ```text
 [one.template.instantiate] User [2] : group [100] limit of 2 reached for VMS quota in VM.
@@ -107,10 +117,10 @@ A quota also only limits how much is reserved. It does not control how hard a VM
 You will meet the same idea again in part 4. A [ResourceQuota](https://kubernetes.io/docs/concepts/policy/resource-quotas/) limits how much CPU and memory all pods of a namespace may request together, much as a group quota limits all VMs of a group. There the namespace plays the role of the group. Kubernetes also distinguishes two values. Requests are reserved, and limits set how much a container may use at most. [Chapter 4.5](../../platform/templates/) shows the quota every member gets in the cluster.
 
 ::::exercise[Lab]
-Set the quotas of the four members. As `praxis-admin`, start the VM `praxis-2` next to `praxis-1` from chapter 3.1, then a third VM `praxis-3`. Write down the message and show the usage with `onegroup show praxis`.
+Set the quotas of the four members, with your personal values for the municipality. As `praxis-admin`, start the VM `praxis-2` next to `praxis-1` from chapter 3.1, then a third VM `praxis-3`. Capture the message at the limit and the usage from `onegroup show praxis` in `6-quota.png` for requirement 6 of milestone 1, and copy the picture into the folder `m1/` of your hand-in repo as in [chapter 3.1](../groups/).
 
 :::solution
-`set-quotas.sh` reports the values of all four members. `praxis-2` starts, the third VM fails with "limit of 2 reached for VMS quota in VM". `onegroup show praxis` shows `2 / 2` for the VMs, `2G / 2G` for the memory and `1.0 / 1.50` for the CPU.
+`set-quotas.sh` reports the values of all four members, and your copy then reports your own values for the municipality. `praxis-2` starts, the third VM fails with "limit of 2 reached for VMS quota in VM". `onegroup show praxis` shows `2 / 2` for the VMs, `2G / 2G` for the memory and `1.0 / 1.50` for the CPU.
 :::
 ::::
 
@@ -126,6 +136,6 @@ No, the bike shop's quota only allows 1 CPU. For this VM and a small one next to
 At the end of the month the fiduciary office runs its VMs at full load. The practice reports that its VM responds sluggishly, even though it does not use up its quota and the fiduciary office stays within its own. Explain how this can happen despite quotas, and propose two measures.
 
 :::solution
-The quotas only limit how much CPU the members reserve. The VMs from `ubuntu` reserve 0.5 CPU but each have a full virtual CPU. A node with four cores therefore takes up to eight such VMs, so its CPU is overcommitted. When the fiduciary office's VMs work at full load, they share the cores with the practice's VM, and everything slows down. The platform team can reduce overcommitment, for example with `CPU = 1` in the fiduciary office's templates or without a negative `RESERVED_CPU`. It can also move the fiduciary office's VMs to another node. A smaller quota for the fiduciary office does not solve the problem reliably, because even a few VMs under full load slow the node down.
+The quotas only limit how much CPU the members reserve. The VMs from `ubuntu` reserve 0.5 CPU but each have a full virtual CPU. In the lab a node with four cores takes seven such VMs, with memory setting the limit as in chapter 2.5. Seven virtual CPUs then share four cores, so the CPU is overcommitted. When the fiduciary office's VMs work at full load, they share the cores with the practice's VM, and everything slows down. The platform team can reduce overcommitment, for example with `CPU = 1` in the fiduciary office's templates or without a negative `RESERVED_CPU`. It can also move the fiduciary office's VMs to another node. A smaller quota for the fiduciary office does not solve the problem reliably, because even a few VMs under full load slow the node down.
 :::
 ::::

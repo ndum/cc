@@ -57,7 +57,7 @@ Die Knoten und die VMs in cc-net sprechen mit dem Front-end über weitere Ports,
 
 ::code{file="platform/operations/harden-frontend.sh"}
 
-Danach nimmt SSH nur noch Schlüssel an. Direkt als `root` kann sich niemand mehr anmelden. Die Optionen dazu beschreibt die [Handbuchseite von sshd_config](https://manpages.ubuntu.com/manpages/resolute/man5/sshd_config.5.html). Ein Passwort lässt sich erraten oder abfangen, ein privater Schlüssel verlässt den Client nie. Die Firewall ist eine eigene Tabelle von nftables. Sie lässt die Knoten und cc-net alles erreichen, alle anderen Rechner nur SSH und die Weboberfläche. Wie eine solche Tabelle aufgebaut ist, zeigt der [einfache Regelsatz für einen Server](https://wiki.nftables.org/wiki-nftables/index.php/Simple_ruleset_for_a_server) im Wiki von nftables. Die Tabelle `cc_gateway` mit der NAT für cc-net aus Kapitel 0.4 bleibt unberührt. Sicherheitsupdates installiert Ubuntu mit `unattended-upgrades` jeden Tag selbst. Das Skript sorgt dafür, dass dieser Dienst läuft. Seine Einstellungen erklärt die [Anleitung zu automatischen Updates](https://ubuntu.com/server/docs/how-to/software/automatic-updates/) von Ubuntu Server.
+Danach nimmt SSH nur noch Schlüssel an. Direkt als `root` kann sich niemand mehr anmelden. Die Optionen dazu beschreibt die [Handbuchseite von sshd_config](https://manpages.ubuntu.com/manpages/resolute/man5/sshd_config.5.html). Ein Passwort lässt sich erraten oder abfangen, ein privater Schlüssel verlässt den Client nie. Die Firewall ist eine eigene Tabelle von nftables. Sie lässt die Knoten und cc-net alles erreichen, alle anderen Rechner nur SSH und die Weboberfläche. Wie eine solche Tabelle aufgebaut ist, zeigt der [einfache Regelsatz für einen Server](https://wiki.nftables.org/wiki-nftables/index.php/Simple_ruleset_for_a_server) im Wiki von nftables. Die Tabelle `cc_gateway` mit der NAT für cc-net aus Kapitel 0.4 bleibt unberührt. Sicherheitsupdates installiert Ubuntu jeden Tag selbst mit dem Paket `unattended-upgrades`. Das Skript schaltet das mit der Datei `/etc/apt/apt.conf.d/20auto-upgrades` ein. Gemäss dieser Datei holt `apt-daily.timer` die Paketlisten und `apt-daily-upgrade.timer` installiert die Updates. Der Dienst `unattended-upgrades`, den das Skript ebenfalls einschaltet, installiert selbst nichts. Er sorgt nur dafür, dass ein laufendes Update beim Herunterfahren sauber endet. Die Einstellungen erklärt die [Anleitung zu automatischen Updates](https://ubuntu.com/server/docs/how-to/software/automatic-updates/) von Ubuntu Server.
 
 ![Die Schutzschichten von Front-end und Cluster. In der Mitte das Front-end. Seine Firewall, die Tabelle cc_firewall von nftables, weist alles ab, was sie nicht ausdrücklich erlaubt. Der Client und andere Rechner erreichen nur SSH auf Port 22 und die Weboberfläche auf Port 2616. SSH nimmt nur Schlüssel an und lässt root nicht direkt herein. Die Knoten und cc-net erreichen alles, auch Gitea auf Port 3000, die API auf Port 2633 und die Exporter auf den Ports 9100 und 9925. Jeden Tag installiert unattended-upgrades die Sicherheitsupdates. Rechts der Cluster. Pod Security Admission verlangt in den Namespaces der Mitglieder das Profil restricted. NetworkPolicies trennen die Mitglieder, Prometheus darf in allen Namespaces nur lesen. Ein SealedSecret kommt verschlüsselt aus Gitea, nur der Controller von Sealed Secrets in kube-system kann es mit seinem Schlüssel entschlüsseln.](../../../assets/figures/de/p6c1-security.svg)
 
@@ -65,16 +65,68 @@ Danach nimmt SSH nur noch Schlüssel an. Direkt als `root` kann sich niemand meh
 Nach der Härtung nimmt SSH kein Passwort mehr an und vom Client aus erreichst du nur noch SSH und Sunstone. Prüfe deshalb vorher, dass du dich vom Client aus mit deinem Schlüssel anmelden kannst. Lass die bestehende Verbindung offen, bis eine neue Anmeldung mit dem Schlüssel klappt. Sonst erreichst du das Front-end nur noch über seine Konsole.
 :::
 
-Das Skript startest du auf dem Front-end, den Versuch ohne Schlüssel vom Client aus.
+Prüfe zuerst im Terminal des Clients, ob die Anmeldung mit dem Schlüssel klappt. Der Befehl gibt den Hostnamen des Front-ends aus, ohne nach einem Passwort zu fragen.
+
+```bash
+ssh mmuster-fe hostname
+```
+
+Fragt SSH nach dem Passwort von `vmadmin`, liegt dein Schlüssel noch nicht auf dem Front-end. Kopiere ihn dann zuerst wie in [Kapitel 0.4](../../start/prepare/#ssh-vom-client) mit `ssh-copy-id mmuster-fe` hinüber. Starte danach das Skript auf dem Front-end. Am Ende zeigt es `permitrootlogin no`, `passwordauthentication no` und die Regeln der Tabelle `cc_firewall`.
 
 ```bash
 sudo ~/cc/platform/operations/harden-frontend.sh
-ssh -o PubkeyAuthentication=no mmuster-fe
 ```
 
-Der Versuch ohne Schlüssel scheitert mit `Permission denied (publickey)`. Im Lab antwortete die Weboberfläche danach wie vorher und alle Ziele in Prometheus blieben `up`. Gitea war vom Client aus nicht mehr erreichbar.
+Lass diese Verbindung zum Front-end offen. Öffne im Terminal des Clients einen zweiten Tab und prüfe dort die Anmeldung ohne und mit Schlüssel sowie die Firewall.
 
-Gitea öffnest du von nun an über einen Tunnel vom Client aus. Den lokalen Port 3000 belegt dort schon der Tunnel zu Grafana. Nimm darum einen anderen Port, etwa mit `ssh -L 3001:localhost:3000 mmuster-fe`. Im Browser des Clients öffnest du dann `http://localhost:3001/`.
+```bash
+ssh -o PubkeyAuthentication=no mmuster-fe
+ssh mmuster-fe hostname
+ssh mmuster-fe systemctl is-active cc-firewall
+```
+
+Der Versuch ohne Schlüssel scheitert mit `Permission denied (publickey)`. Mit dem Schlüssel gibt SSH wieder `mmuster-fe` aus, die Firewall meldet `active`. Im Lab antwortete die Weboberfläche danach wie vorher und alle Ziele in Prometheus blieben `up`. Gitea war vom Client aus nicht mehr erreichbar.
+
+Diese drei Ausgaben belegen Anforderung 1 von Meilenstein 4. Mach davon einen Screenshot mit dem Screenshot-Werkzeug von Kali. Speichere ihn in deinem Home-Ordner unter einem Namen, der mit der Nummer der Anforderung beginnt, etwa `1-haertung.png`. Im zweiten Tab legst du auf dem Front-end den Ordner `m4` in deinem Abgabe-Repo an und kopierst den Screenshot hinein. Die Screenshots der übrigen Anforderungen entstehen in diesem Kapitel und in Kapitel 6.2. Hochladen kannst du alle am Ende von Kapitel 6.2 zusammen mit dem Bericht des Checks `m4`.
+
+```bash
+ssh mmuster-fe mkdir -p cc-mmuster/m4
+scp ~/1-haertung.png mmuster-fe:cc-mmuster/m4/
+```
+
+Gitea öffnest du von nun an über einen Tunnel. Den lokalen Port 3000 belegt auf dem Client schon der Tunnel zu Grafana aus Kapitel 5.1, nimm darum einen anderen. Den Tunnel startest du in einem weiteren Tab des Terminals auf dem Client.
+
+```bash
+ssh -N -L 3001:localhost:3000 mmuster-fe
+```
+
+`-N` öffnet nur den Tunnel und keine Shell. `localhost:3000` meint dabei das Front-end selbst, auf dem Gitea läuft. Solange der Tunnel offen ist, zeigt der Browser des Clients Gitea unter `http://localhost:3001/`. Du meldest dich wie in Kapitel 4.4 als `platform` an, das Passwort zeigt `cat ~/cc-lab/gitea/platform.pass` auf dem Front-end. Manche Links bildet Gitea mit der Adresse aus seiner Konfiguration, also mit Port 3000 des Front-ends. Ein solcher Link, etwa die Adresse zum Klonen, führt vom Client aus ins Leere. Bleib im Browser darum bei `localhost:3001`. Ctrl+C im Tab des Tunnels schliesst ihn wieder.
+
+Die Knoten härtet der Kurs nicht. Auf ihnen nimmt SSH weiterhin Passwörter an, node_exporter auf Port 9100 und der Libvirt-Exporter auf Port 9926 antworten jedem. Zudem bietet jeder Knoten die Konsolen seiner VMs über VNC an allen Adressen und ohne Passwort an, ab Port 5900. Sunstone holt sie über das Front-end von dort ab. Wer die Knoten erreicht, kann also die Messwerte lesen und die Konsolen der VMs bedienen. Das sind dein Client, deine drei Server und über die NAT des Front-ends auch die VMs in cc-net, darunter die VMs der Mitglieder. Für ein Lab mit Testdaten ist das vertretbar. Ein produktiver Betrieb härtet die Knoten wie das Front-end und schützt die Konsolen mit einem Passwort, das OpenNebula mit `RANDOM_PASSWD` in der Vorlage für jede VM erzeugt ([Referenz der Vorlagen](https://docs.opennebula.io/7.4/product/operation_references/configuration_references/template/)).
+
+Die Passwörter und Tokens des Labs liegen in deinem Home-Verzeichnis auf dem Front-end und nur du darfst sie lesen. Die [Lab-Referenz](../../lab-reference/#zugangsdateien) zählt sie unter «Zugangsdateien» auf.
+
+## Die Ergänzungen von Teil 6
+
+Die Ergänzungen für Teil 6 liegen im Kursrepo unter `platform/operations/repo`. Sie bringen die Application für den Controller von Sealed Secrets, die Application `secrets`, das Profil `restricted` in der Vorlage der Mitglieder, den angepassten Webshop und die Vorlage für k3s aus Kapitel 6.2. Wie in Kapitel 5.1 kopierst du sie über dein Plattform-Repo und ersetzt den Platzhalter durch die Adresse deines Front-ends. Was sie bewirken, erklären die Abschnitte zu Pod Security Admission und zu Secrets in Git weiter unten.
+
+```bash
+source /etc/cc-lab.env
+cd ~/platform
+cp -r ~/cc/platform/operations/repo/. .
+sed -i "s#http://FRONTEND:3000#http://$CC_FE_IP:3000#" apps/*.yaml
+git status
+```
+
+`git status` zeigt die zwei neuen Applications und drei geänderte Dateien, die Vorlage des Namespace, den Webshop und die Vorlage für k3s. Die Werte von kube-prometheus-stack aus Teil 5 lässt die Kopie unberührt. Eine Route zum Triage-Dienst aus Zusatzauftrag B von Meilenstein 3 bleibt also erhalten. Hast du eine der drei Dateien selbst angepasst, zeigt `git diff`, was die Kopie überschrieben hat.
+
+Hat ein Mitglied in deinem Repo ein eigenes Label am Namespace, etwa für den Zugriff auf das Modell aus Kapitel 5.5, muss es als Merge-Patch formuliert sein. Ein Patch mit `op: add` auf `/metadata/labels` ersetzt alle Labels. Der Namespace verliert dabei das Profil, im Lab passierte das mit `velo`. Pushe die Ergänzungen danach.
+
+```bash
+git add -A && git commit -m "Sealed Secrets, Profil restricted für Mitglieder" && git push
+```
+
+Argo CD übernimmt die Änderungen bei der nächsten Abfrage des Repos. Es rollt den Webshop mit den neuen Angaben aus, setzt die Labels an die Namespaces der Mitglieder und legt den Controller von Sealed Secrets an. Bis der Ordner `secrets` im Repo liegt, zeigt die Application `secrets` den Zustand `Unknown` mit «app path does not exist». Das ist an dieser Stelle normal.
 
 ## Transportverschlüsselung
 
@@ -170,7 +222,7 @@ Ein Mitglied bringt eigene Container mit. Läuft ein Container als `root` oder m
 | baseline | verhindert bekannte Wege zu mehr Rechten |
 | restricted | streng, nach den aktuellen Empfehlungen für Pods |
 
-Die Vorlage der Mitglieder setzt `restricted` in drei Modi. `enforce` weist Pods ab, `warn` zeigt beim Anwenden eine Warnung. `audit` schreibt Verstösse ins Audit-Log von Kubernetes. Die Labels und ihre Modi beschreibt die [Dokumentation von Pod Security Admission](https://v1-36.docs.kubernetes.io/docs/concepts/security/pod-security-admission/) für Kubernetes 1.36.
+Die Vorlage der Mitglieder setzt `restricted` in drei Modi. `enforce` weist Pods ab, `warn` zeigt beim Anwenden eine Warnung. `audit` vermerkt Verstösse im Audit-Log des API-Servers. Dieses Log schreibt der API-Server aber nur mit einer Audit-Policy, wie die Seite [Auditing](https://v1-36.docs.kubernetes.io/docs/tasks/debug/debug-cluster/audit/) beschreibt. Im Lab startet k3s ihn ohne eine solche Policy, `audit` hinterlässt dort also keine Spur. Die Labels und ihre Modi beschreibt die [Dokumentation von Pod Security Admission](https://v1-36.docs.kubernetes.io/docs/concepts/security/pod-security-admission/) für Kubernetes 1.36.
 
 ::code{file="platform/operations/repo/templates/member/namespace.yaml"}
 
@@ -178,12 +230,21 @@ Ein Pod erfüllt `restricted` nur, wenn er nicht als `root` läuft, keine zusät
 
 ::code{file="platform/operations/repo/webshop/deployment.yaml" lines="16-29"}
 
-Im Lab wies Kubernetes einen einfachen Test-Pod im Namespace `velo` danach ab und nannte jede fehlende Angabe.
+Die Labels kamen mit den Ergänzungen von Teil 6 in die Vorlage. Prüfe sie am Namespace `velo` und starte dort danach einen einfachen Test-Pod ohne Sicherheitsangaben.
+
+```bash
+kubectl get ns velo --show-labels
+kubectl -n velo run psa-test --restart=Never --image=busybox:1.37 -- sleep 5
+```
+
+In der Spalte `LABELS` steht unter anderem `pod-security.kubernetes.io/enforce=restricted`. Fehlt das Label noch, hat Argo CD die Ergänzungen noch nicht übernommen. Warte dann eine Minute und versuche es erneut. Den Test-Pod weist Kubernetes ab und nennt jede fehlende Angabe.
 
 ```text
 Error from server (Forbidden): pods "psa-test" is forbidden: violates PodSecurity "restricted:latest":
 allowPrivilegeEscalation != false (container "psa-test" must set securityContext.allowPrivilegeEscalation=false), ...
 ```
+
+Die beiden Ausgaben belegen Anforderung 3 von Meilenstein 4. Mach davon einen Screenshot wie für Anforderung 1, etwa `3-restricted.png`.
 
 Bei einem Deployment fällt der Fehler weniger auf. Argo CD meldet das Deployment als synchron, aber das ReplicaSet kann keine Pods anlegen. `kubectl -n <namespace> get events` zeigt dann `FailedCreate`.
 
@@ -193,40 +254,27 @@ In Teil 5 hast du das Passwort für Grafana von Hand als Secret angelegt, weil e
 
 Ein SealedSecret ist an Namen und Namespace gebunden. Kopiert es jemand in einen anderen Namespace, um es dort auszulesen, entschlüsselt der Controller es nicht. Diese Bindung heisst `strict` und ist der Standard.
 
-Kopiere zuerst die Ergänzungen von Teil 6 in dein Plattform-Repo. Sie bringen die Application für den Controller, die Application `secrets`, das Profil `restricted` in der Vorlage, den angepassten Webshop und die Vorlage für k3s aus Kapitel 6.2.
-
-```bash
-source /etc/cc-lab.env
-cd ~/platform
-cp -r ~/cc/platform/operations/repo/. .
-sed -i "s#http://FRONTEND:3000#http://$CC_FE_IP:3000#" apps/*.yaml
-git status
-```
-
-`git status` zeigt die zwei neuen Applications und drei geänderte Dateien, die Vorlage des Namespace, den Webshop und die Vorlage für k3s. Die Werte von kube-prometheus-stack aus Teil 5 lässt die Kopie unberührt. Eine Route zum Triage-Dienst aus Zusatzauftrag B von Meilenstein 3 bleibt also erhalten. Hast du eine der drei Dateien selbst angepasst, zeigt `git diff`, was die Kopie überschrieben hat.
-
-Hat ein Mitglied in deinem Repo ein eigenes Label am Namespace, etwa für den Zugriff auf das Modell aus Kapitel 5.5, muss es als Merge-Patch formuliert sein. Ein Patch mit `op: add` auf `/metadata/labels` ersetzt alle Labels. Der Namespace verliert dabei das Profil, im Lab passierte das mit `velo`. Pushe die Änderungen und warte, bis der Controller läuft. Argo CD legt ihn erst bei der nächsten Abfrage des Repos an, im Lab nach zwei bis drei Minuten. Die Schleife mit `until` wartet darauf. Bis der Ordner `secrets` im Repo liegt, zeigt die Application `secrets` den Zustand `Unknown` mit «app path does not exist». Das ist an dieser Stelle normal. Installiere dann `kubeseal` und versiegle das Passwort. Den Controller und `kubeseal` beschreibt die [Anleitung zur Installation von Sealed Secrets 0.41.2](https://github.com/bitnami/sealed-secrets/blob/v0.41.2/README.md#installation).
+Den Controller legt Argo CD mit den Ergänzungen von Teil 6 an, im Lab zwei bis drei Minuten nach dem Push. Fehlt er noch, wartet die Schleife mit `until` auf ihn. `rollout status` wartet danach, bis er läuft. Installiere dann `kubeseal` und versiegle das Passwort. Den Controller und `kubeseal` beschreibt die [Anleitung zur Installation von Sealed Secrets 0.41.2](https://github.com/bitnami/sealed-secrets/blob/v0.41.2/README.md#installation).
 
 ::code{file="platform/operations/seal-secrets.sh"}
 
 ```bash
-git add -A && git commit -m "Sealed Secrets, Profil restricted für Mitglieder" && git push
 until kubectl -n kube-system get deploy sealed-secrets-controller >/dev/null 2>&1; do sleep 10; done
 kubectl -n kube-system rollout status deploy sealed-secrets-controller
 sudo ~/cc/platform/operations/install-kubeseal.sh
 ~/cc/platform/operations/seal-secrets.sh
 ```
 
-Das Secret aus Teil 5 existiert schon. Der Controller überschreibt kein Secret, das er nicht selbst angelegt hat, im Lab meldete er «already exists and is not managed by SealedSecret». Eine Annotation übergibt ihm das Secret, nach einem Neustart versucht er es erneut. Die Annotation beschreibt der Abschnitt [Managing existing secrets](https://github.com/bitnami/sealed-secrets/blob/v0.41.2/README.md#managing-existing-secrets) der Dokumentation.
+Das Secret aus Teil 5 existiert schon. Der Controller überschreibt kein Secret, das er nicht selbst angelegt hat, im Lab meldete er «already exists and is not managed by SealedSecret». Eine Annotation übergibt ihm das Secret. Setze sie deshalb, bevor du das SealedSecret pushst. Die Annotation beschreibt der Abschnitt [Managing existing secrets](https://github.com/bitnami/sealed-secrets/blob/v0.41.2/README.md#managing-existing-secrets) der Dokumentation.
 
 ```bash
-git add secrets && git commit -m "Grafana-Passwort verschlüsselt in Git" && git push
+cd ~/platform
 kubectl -n monitoring annotate secret grafana-admin sealedsecrets.bitnami.com/managed=true
-kubectl -n kube-system rollout restart deploy sealed-secrets-controller
-kubectl -n monitoring get secret grafana-admin -o jsonpath='{.metadata.ownerReferences[0].kind}'
+git add secrets && git commit -m "Grafana-Passwort verschlüsselt in Git" && git push
+until kubectl -n monitoring get secret grafana-admin -o jsonpath='{.metadata.ownerReferences[0].kind}' | grep SealedSecret; do sleep 10; done
 ```
 
-Die letzte Zeile gibt `SealedSecret` aus, sobald Argo CD das SealedSecret übernommen hat, im Lab nach 40 Sekunden bis gut eineinhalb Minuten. Bis dahin bleibt sie leer. Der Neustart des Controllers ist nur nötig, wenn das SealedSecret vor der Annotation ankam. Ohne den privaten Schlüssel des Controllers ist das SealedSecret in Git wertlos, auch für dich. Kapitel 6.2 sichert ihn darum mit.
+Die Schleife endet mit der Ausgabe `SealedSecret`, sobald Argo CD das SealedSecret ausgerollt und der Controller das Secret übernommen hat. Im Lab dauerte das 40 Sekunden bis gut eineinhalb Minuten. Diese Ausgabe belegt Anforderung 2 von Meilenstein 4, mach davon einen Screenshot, etwa `2-sealedsecret.png`. Endet die Schleife nach einigen Minuten nicht, brichst du sie mit Ctrl+C ab. Den Grund zeigt dann `kubectl -n kube-system logs deploy/sealed-secrets-controller`. Kam das SealedSecret vor der Annotation an, startest du den Controller nach der Annotation mit `kubectl -n kube-system rollout restart deploy sealed-secrets-controller` neu. Danach versucht er es erneut. Ohne den privaten Schlüssel des Controllers ist das SealedSecret in Git wertlos, auch für dich. Kapitel 6.2 sichert ihn darum mit.
 
 ## Updates
 
@@ -236,15 +284,15 @@ Das Front-end und die VMs von k3s bekommen Sicherheitsupdates von Ubuntu automat
 Nimm deine Einstufung der vier Mitglieder aus Kapitel 1.4 und prüfe, welche Massnahmen dieses Kapitels zu welchem Schutzziel beitragen. Machst du Zusatzauftrag A aus Kapitel 6.5, stufst du danach auch dein eigenes Mitglied nach Vertraulichkeit, Integrität und Verfügbarkeit ein und begründest jede Stufe in einem Satz.
 
 :::solution
-Die Einstufung aus Kapitel 1.4 gilt weiter, etwa die Praxis mit Vertraulichkeit sehr hoch, Integrität hoch und Verfügbarkeit hoch. Die Firewall, der Zugang nur mit Schlüssel und das Profil `restricted` schützen Vertraulichkeit und Integrität aller Mitglieder. Dank Sealed Secrets liegen keine Passwörter im Klartext in Git. Für die sehr hohe Vertraulichkeit der Praxis reicht das allein nicht, weil die Weboberflächen im Lab ohne TLS laufen. Ein eigenes Mitglied wie eine Kindertagesstätte mit Daten von Kindern hätte eine sehr hohe Vertraulichkeit, eine hohe Integrität und eine normale Verfügbarkeit, weil sich Anmeldungen um einen Tag verschieben lassen. Andere Stufen sind ebenso richtig, wenn du sie schlüssig begründest.
+Die Einstufung aus Kapitel 1.4 gilt weiter, etwa die Praxis mit Vertraulichkeit sehr hoch, Integrität hoch und Verfügbarkeit hoch. Die Firewall und der Zugang nur mit Schlüssel schützen das Front-end, das Profil `restricted` erschwert den Ausbruch aus einem Container auf den Node. Beides dient vor allem der Vertraulichkeit und der Integrität aller Mitglieder. Dank Sealed Secrets liegen keine Passwörter im Klartext in Git. Für die sehr hohe Vertraulichkeit der Praxis reicht das allein nicht. Die Weboberflächen laufen im Lab ohne TLS. Zudem sind die Knoten nicht gehärtet. Über VNC erreicht sogar die VM eines anderen Mitglieds die Konsolen der Praxis ohne Passwort. Ein eigenes Mitglied wie eine Kindertagesstätte mit Daten von Kindern hätte eine sehr hohe Vertraulichkeit, eine hohe Integrität und eine normale Verfügbarkeit, weil sich Anmeldungen um einen Tag verschieben lassen. Andere Stufen sind ebenso richtig, wenn du sie schlüssig begründest.
 :::
 ::::
 
 ::::exercise[Lab]
-Härte dein Front-end, verschiebe das Passwort von Grafana in ein SealedSecret und setze das Profil `restricted` für alle Mitglieder. Zeige, dass ein Pod ohne Sicherheitsangaben abgewiesen wird.
+Härte dein Front-end, verschiebe das Passwort von Grafana in ein SealedSecret und setze das Profil `restricted` für alle Mitglieder. Zeige, dass ein Pod ohne Sicherheitsangaben abgewiesen wird. Lege dabei die Screenshots für die Anforderungen 1 bis 3 von Meilenstein 4 an.
 
 :::solution
-Vom Client aus scheitert `ssh -o PubkeyAuthentication=no`. Auf dem Front-end zeigt `systemctl is-active cc-firewall` den Zustand `active`, `kubectl get ns velo --show-labels` zeigt das Label `pod-security.kubernetes.io/enforce=restricted`. `kubectl -n velo run test --image=busybox -- sleep 5` endet mit `forbidden: violates PodSecurity`. Die ersten Prüfungen des Checks `operations` sind grün.
+Vom Client aus scheitert `ssh -o PubkeyAuthentication=no`, `ssh mmuster-fe hostname` gibt `mmuster-fe` aus. Auf dem Front-end zeigt `systemctl is-active cc-firewall` den Zustand `active`, `kubectl get ns velo --show-labels` zeigt das Label `pod-security.kubernetes.io/enforce=restricted`. `kubectl -n velo run psa-test --restart=Never --image=busybox:1.37 -- sleep 5` endet mit `forbidden: violates PodSecurity`. `kubectl -n monitoring get secret grafana-admin -o jsonpath='{.metadata.ownerReferences[0].kind}'` gibt `SealedSecret` aus. In `~/cc-mmuster/m4` liegen die Screenshots der Anforderungen 1 bis 3. Die ersten Prüfungen des Checks `operations` sind grün.
 :::
 ::::
 

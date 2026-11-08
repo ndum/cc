@@ -32,6 +32,8 @@ Kubernetes spreads containers across several machines and keeps them running. Li
 | Ingress | a rule that sends HTTP requests from outside to services |
 | Namespace | an area of the cluster for objects that belong together |
 
+To refresh these objects, read the supplement [Kubernetes basics](../../extras/kubernetes/). It explains them with the web shop as the example, along with labels, probes, manifests and the kubectl commands you need most.
+
 ## Control plane and nodes
 
 A cluster consists of the **control plane**, which makes the decisions, and the nodes, which run the containers. A node is a machine, in the course a VM. The [overview of the components](https://kubernetes.io/docs/concepts/overview/components/) describes each part.
@@ -128,11 +130,13 @@ To log in, kubectl needs the address of the API and a certificate. Both are on t
 
 ::code{file="platform/get-kubeconfig.sh"}
 
+Right after `tofu apply` the server is still installing k3s, and the file does not exist yet. The script therefore checks every ten seconds and prints "Waiting for k3s on" with the server address each time. After five minutes it gives up. It first writes the copy to a temporary file, so if the copy fails, your current kubeconfig stays in place. At the end the script lists the nodes with `kubectl get nodes`. If the agent is still missing there, it joins a little later.
+
 ```bash
 ~/cc/platform/get-kubeconfig.sh
 ```
 
-The file grants full rights on the cluster, so like `one_auth` it belongs to you alone. After a rebuild of the cluster, the server has new certificates and a new SSH host key. Then you remove the old key with `ssh-keygen -R <server-address>` and fetch the kubeconfig again.
+The file grants full rights on the cluster, so like `one_auth` it belongs to you alone. After a rebuild of the cluster, the server has new certificates and a new SSH host key. Then you set the variables on the front-end with `source /etc/cc-lab.env`, remove the old key with `ssh-keygen -R "$CC_K3S_SERVER_IP"` and fetch the kubeconfig again. Without this step SSH reports "REMOTE HOST IDENTIFICATION HAS CHANGED", and the script waits in vain.
 
 ## First steps with kubectl
 
@@ -153,11 +157,34 @@ kubectl run test --rm -it --restart=Never --image=busybox:1.37 \
   sh -c 'nslookup kubernetes.default.svc.cluster.local; wget -qO- https://example.com | head -c 100'
 ```
 
+You see the routes from the section [Routing with host-gw](#routing-with-host-gw) on the server itself. The block lists the nodes once more, so that both fit on one screenshot.
+
+```bash
+source /etc/cc-lab.env
+kubectl get nodes -o wide
+ssh root@$CC_K3S_SERVER_IP 'ip route | grep 10.52'
+```
+
+For `mmuster` the two routes look like this.
+
+```text
+10.52.0.0/24 dev cni0 proto kernel scope link src 10.52.0.1
+10.52.1.0/24 via 172.31.160.111 dev eth0
+```
+
+The first route leads through the bridge `cni0` to the pods on the server itself. The second sends everything for the agent's pod network straight to the agent's address in `cc-net`. Together with the two nodes above, this output proves requirement 2 of [milestone 2](../../assessment/milestone-2/). Take a screenshot of it with the screenshot tool of Kali and save it in the home folder as `2-cluster.png`, as [chapter 0.5](../../start/tools/#uploading-the-report-and-screenshots) describes. As on every screenshot of the terminal, the prompt with the name of the front-end has to be visible. Create the folder `m2` for the screenshots of this milestone once, on the front-end with `mkdir -p ~/cc-$CC_CODE/m2`. Then copy the picture there from the second tab of the terminal of the client.
+
+```bash
+scp ~/2-cluster.png mmuster-fe:cc-mmuster/m2/
+```
+
+You upload it at the end of chapter 4.5 together with the report of the check `m2`.
+
 ::::exercise[Lab]
-Fetch the kubeconfig and show that both nodes are `Ready` and that pods on the agent resolve names. Note how long it takes from `tofu apply` to `Ready`.
+Fetch the kubeconfig and show that both nodes are `Ready`, that pods on the agent resolve names and that the server reaches the agent's pod network through a host-gw route. Put the screenshot `2-cluster.png` into the folder `m2` of your hand-in repo. Note how long it takes from `tofu apply` to `Ready`.
 
 :::solution
-`kubectl get nodes` shows `k3s-server` with the role `control-plane` and `k3s-agent` without a role, both `Ready` with version `v1.36.5+k3s1`. The test pod resolves `kubernetes.default.svc.cluster.local` to `10.53.0.1` and loads the page. In the lab it took half a minute to two minutes, longer on slower nodes.
+`kubectl get nodes` shows `k3s-server` with the role `control-plane` and `k3s-agent` without a role, both `Ready` with version `v1.36.5+k3s1`. The test pod resolves `kubernetes.default.svc.cluster.local` to `10.53.0.1` and loads the page. On the server, a route for the agent's pod network leads through the agent's address in `cc-net`, for `mmuster` `10.52.1.0/24 via 172.31.160.111 dev eth0`. Reaching `Ready` took half a minute to two minutes in the lab and about 90 seconds on smartlearn.
 :::
 ::::
 
@@ -175,6 +202,21 @@ Predict what happens to the number of pods, their names and addresses, the Repli
 
 :::solution
 The ReplicaSet now counts only one matching pod and creates a new one right away. Still, `kubectl delete pod` only returns after about 30 seconds. `sleep` runs as the first process in the container and ignores the signal to stop, so Kubernetes waits for the grace period of 30 seconds. The kernel treats the first process specially and, apart from SIGKILL, only delivers the signals it sets a handler for itself. That is why the web shop of chapter 4.4 starts behind the small init program `tini`, which passes signals on. The new pod's name starts the same way, `uebung-` plus the ReplicaSet hash, but ends differently, and it has a new address, on the other node if the scheduler decides so. The ReplicaSet stays the same because the template has not changed. The service keeps its address and name, and in its EndpointSlice the new pod's address replaces the old one. If `k3s-agent` fails, `kubectl get nodes` shows it as `NotReady` in under a minute. After five minutes Kubernetes evicts its pods. They stay visible as `Terminating` until the node comes back, but the ReplicaSet starts replacements on `k3s-server` if its capacity covers the requests. If `k3s-server` fails instead, the pods on the agent keep running, but without the API server nothing replaces a pod.
+:::
+::::
+
+::::exercise[Replace the agent]
+If the start script of a node went wrong, you replace its VM with `-replace`, as [chapter 4.2](../opentofu/#changing-replacing-and-rebuilding) describes. Replace the agent this way and confirm with `yes`. Then follow with `kubectl get nodes` whether the new VM joins the cluster. What holds it back, and how do you get it into the cluster?
+
+```bash
+cd ~/platform/tofu
+export OPENNEBULA_USERNAME=oneadmin
+export OPENNEBULA_PASSWORD=$(cut -d: -f2- ~/.one/one_auth)
+tofu apply -replace='opennebula_virtual_machine.k3s["k3s-agent"]'
+```
+
+:::solution
+The plan shows `-/+` for the agent. In the lab the replacement took a little under two minutes, because OpenNebula shuts the old VM down first. The new VM gets the same address and installs k3s with the start script. Still, `kubectl get nodes` keeps showing `k3s-agent` as `NotReady`. k3s keeps a password for every node name, and the new VM does not know it, so the server turns it away. On the agent, `journalctl -u k3s-agent` shows the message "Node password rejected, duplicate hostname". From the front-end you get there with `ssh root@$CC_K3S_AGENT_IP` after `source /etc/cc-lab.env`. The new VM has a new SSH host key, so remove an old one first with `ssh-keygen -R "$CC_K3S_AGENT_IP"`. `kubectl delete node k3s-agent` removes the old node together with its password. In the lab the new agent joined within seconds after that and was `Ready` shortly afterwards. It may get a different `/24` for its pods than the old one. For the pods that ran on the old agent, their controllers create new ones.
 :::
 ::::
 

@@ -27,7 +27,7 @@ Wolkenwerk Bern starts with showback. The members see their costs every month, a
 
 ## Prices in the template
 
-OpenNebula works with three hourly prices stored in the template. `CPU_COST` applies per CPU of the template, `MEMORY_COST` per MB of memory and `DISK_COST` per MB of disk. The prices in the lab are made up for the case and are meant in Swiss francs. The [showback documentation](https://docs.opennebula.io/7.4/product/cloud_system_administration/multitenancy/showback/#set-the-vm-cost) describes how to set the prices of a template.
+OpenNebula works with three hourly prices stored in the template. `CPU_COST` applies per CPU of the template, `MEMORY_COST` per MB of memory and `DISK_COST` per MB of disk. The prices in the lab are made up for the case and are meant in Swiss francs. The [showback documentation](https://docs.opennebula.io/7.4/product/cloud_system_administration/multitenancy/showback/#set-the-vm-cost) describes how to set the prices of a template. The template `ubuntu` belongs to `oneadmin`, so you add the prices as `oneadmin`, without `ONE_AUTH`.
 
 ::code{file="lab/tenants/costs.tpl"}
 
@@ -36,11 +36,23 @@ onetemplate update ubuntu --append ~/cc/lab/tenants/costs.tpl
 onetemplate show ubuntu | grep COST
 ```
 
-A VM takes the prices from the template when it starts. VMs that were started earlier therefore cost nothing, and a reboot with `onevm reboot` does not change that. In the lab you terminate the members' VMs with `onevm terminate` after adding the prices and start them again from the template.
+A VM takes the prices from the template when it starts. VMs that were started earlier therefore cost nothing, and a reboot with `onevm reboot` does not change that. In the lab you therefore terminate `praxis-1` as `praxis-admin` and start it again from the template under the same name. The old VM counts against the practice's quota until it is completely gone, which takes a few seconds. So check with `onevm list` that `praxis-1` has disappeared from the list before you start it again.
+
+```bash
+ONE_AUTH=~/cc-lab/tenants/praxis.auth onevm terminate praxis-1
+ONE_AUTH=~/cc-lab/tenants/praxis.auth onevm list
+```
+
+Once `praxis-1` is missing from the list, start it again. In addition, the fiduciary office starts its first VM `treuhand-1`, so that a second member has costs as well.
+
+```bash
+ONE_AUTH=~/cc-lab/tenants/praxis.auth onetemplate instantiate ubuntu --name praxis-1
+ONE_AUTH=~/cc-lab/tenants/treuhand.auth onetemplate instantiate ubuntu --name treuhand-1
+```
 
 ## Calculating costs
 
-`oneshowback calculate` calculates the costs of all VMs from their running time and stores them per month. OpenNebula ships the timer `opennebula-showback.timer`, which runs this calculation every day. For the exercises you start it yourself so that you do not have to wait until midnight. `oneshowback list` then shows owner, group, month, hours, running time and cost per VM. With `-g` you only see one member. The [guide to the monthly reports](https://docs.opennebula.io/7.4/product/cloud_system_administration/multitenancy/showback/#calculate-monthly-reports) shows how to calculate and retrieve single months.
+`oneshowback calculate` calculates the costs of all VMs from their running time and stores them per month. OpenNebula ships the timer `opennebula-showback.timer`, which runs this calculation every day. For the exercises you start it yourself so that you do not have to wait until midnight. `oneshowback list` then shows owner, group, month, hours, running time and cost per VM. With `-g` you only see one member. The [guide to the monthly reports](https://docs.opennebula.io/7.4/product/cloud_system_administration/multitenancy/showback/#calculate-monthly-reports) shows how to calculate and retrieve single months. According to the guide the calculation runs as `oneadmin`, so you run this block without `ONE_AUTH` as well.
 
 ```bash
 oneshowback calculate
@@ -48,6 +60,8 @@ oneshowback list
 oneshowback list -g treuhand
 oneshowback list --csv > ~/cc-lab/showback.csv
 ```
+
+You can repeat the calculation at any time, and OpenNebula then calculates the current month up to today. A few minutes of running time are enough for the check and the screenshot of milestone 1. In the lab, `oneshowback list` showed `0.01` each for `praxis-1` and `treuhand-1` after a little more than ten minutes. The amounts in the picture below and in the solution of the exercise come from a calculation after about an hour. To see them yourself, calculate the showback again later, for example while you work on chapter 3.4.
 
 With `oneshowback list` a group admin only sees the VMs of their own group. Each member can therefore check its own costs without seeing those of the others.
 
@@ -70,10 +84,10 @@ Over 30 days, or 720 hours, that comes to about 35 francs. The cost follows the 
 In the end the prices have to cover the cooperative's costs. These include the hardware over its lifetime, power, licenses, backup and the work of the platform team, as well as the reserve for maintenance from chapter 2.5. A simple approach divides the yearly costs by the capacity that can be sold in a year. Chapter 6.4 works with all the costs, and advanced task C of milestone 4 does the same for a member of your own. In [advanced task B](../advanced/#showback-as-a-report-task-b) you work out from a monthly report how far the prices cover the cooperative's costs.
 
 ::::exercise[Lab]
-Add the prices to the template. As `praxis-admin`, terminate the VM `praxis-1` with `onevm terminate` and start it again from the template under the same name. Also start the VM `treuhand-1` as `treuhand-admin`. Calculate the showback after one hour, and carry on with chapter 3.4 in the meantime. Export the list as CSV to `~/cc-lab/showback.csv` and capture it in a screenshot for milestone 1.
+Add the prices to the template. As `praxis-admin`, terminate the VM `praxis-1` and start it again from the template under the same name. Also start the VM `treuhand-1` as `treuhand-admin`. Calculate the showback after a few minutes and export the list as CSV to `~/cc-lab/showback.csv`. Capture the output of `oneshowback list` and `cat ~/cc-lab/showback.csv` in `7-showback.png` for requirement 7 of milestone 1, and copy the picture into the folder `m1/` of your hand-in repo as in [chapter 3.1](../groups/). After about an hour you can calculate the showback again and compare the amounts with the solution. Carry on with chapter 3.4 in the meantime.
 
 :::solution
-`onetemplate show ubuntu` shows `CPU_COST`, `MEMORY_COST` and `DISK_COST`. After `oneshowback calculate`, `oneshowback list` lists the new VMs with about one hour and costs around 0.05. The old VMs without prices appear with cost 0.
+`onetemplate show ubuntu` shows `CPU_COST`, `MEMORY_COST` and `DISK_COST`. After a few minutes, `oneshowback list` shows small amounts for the new VMs, `0.01` each after a little more than ten minutes in the lab. After about an hour it lists the new VMs with about one hour and costs around `0.05`. The old VMs without prices appear with cost 0.
 :::
 ::::
 

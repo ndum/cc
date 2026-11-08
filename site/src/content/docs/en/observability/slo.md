@@ -43,7 +43,9 @@ The first two rules are [recording rules](https://prometheus.io/docs/prometheus/
 
 An alert on "more than 0.5% errors" would fire at every short spike. The **burn rate** measures how fast the budget is being used up. A burn rate of 1 uses up the budget in exactly the 7 days, while at 14.4 it would be gone after 168 / 14.4 ≈ 12 hours. The alert `WebshopErrorBudgetBurn` fires when the error ratios over five minutes and over one hour have both been above 14.4 × 0.5% = 7.2% for two minutes. The field `for` of the [alerting rule](https://prometheus.io/docs/prometheus/3.15/configuration/alerting_rules/) sets this wait.
 
-In milestone 3 the target from your [personal values](../../start/parameters/#your-values-for-the-milestones) applies. The error budget is then 1 minus your target, so 1% at 99.0%. You replace `0.005` in both lines of the alert with your budget, and the threshold becomes 14.4 × 1% = 14.4%.
+The factor 14.4 and the two windows of one hour and five minutes come from the chapter [Alerting on SLOs](https://sre.google/workbook/alerting-on-slos/) of Google's SRE Workbook, which recommends them for an alert that wakes someone up. There the budget covers 30 days, and one hour at this burn rate uses up 2% of it. With the web shop's 7-day budget it is 14.4 / 168, about 8.6% per hour.
+
+For milestone 3, your alert has used the budget from your [personal values](../../start/parameters/#your-values-for-the-milestones) since [chapter 5.2](../logs/#your-values-for-milestone-3). The error budget is 1 minus your target. At 99.0% it is 1%, and the threshold is 14.4 × 1% = 14.4%. At 99.9% the numbers are 0.1% and 1.44%.
 
 | Window | Job |
 |---|---|
@@ -75,32 +77,42 @@ receivers:
   - name: "null"
 ```
 
-In the base every alert goes to the receiver `null`, which sends nothing. The alerts only appear in the Alertmanager interface on port 30093 of the server. Like Prometheus, you reach the interface through a tunnel. Add `-L 9093:<server-address>:30093` to the command of chapter 5.1 and open `http://localhost:9093/` in the browser of the client. You set up a receiver of your own with a route in advanced task B of [chapter 5.5](../advanced/#triage-with-approval-task-b). `group_wait` waits 30 seconds for more alerts of the same group, and `repeat_interval` repeats an open alert only after four hours.
+In the base every alert goes to the receiver `null`, which sends nothing. The alerts only appear in the Alertmanager interface on port 30093 of `k3s-server`. The tunnel of [chapter 5.1](../metrics/#access-from-the-client) already forwards this port, so you open `http://localhost:9093/` in the browser of the client. You set up a receiver of your own with a route in advanced task B of [chapter 5.5](../advanced/#triage-with-approval-task-b). `group_wait` waits 30 seconds for more alerts of the same group, and `repeat_interval` repeats an open alert only after four hours.
 
 ## Firing an alert
 
-You break the SLO on purpose through Git. The web shop has the variable `FAIL_PERCENT` for that, the percentage of requests it answers with an error.
+You break the SLO on purpose through Git. The web shop has the variable `FAIL_PERCENT` for that, the percentage of requests it answers with an error. So that the windows of the alert see traffic, the pod `load` at the end of the block sends requests to the shop for half an hour. Like the loop of chapter 5.2, it calls the shop through Traefik at the address of `k3s-server`. Chapter 5.4 explains the load generator.
 
 ```bash
+source /etc/cc-lab.env
 cd ~/platform
 sed -i '/FAIL_PERCENT/{n;s/value: "0"/value: "60"/}' webshop/deployment.yaml
 git commit -am "New payment module in the web shop"
 git push
 kubectl run load --restart=Never --image=ghcr.io/ndum/cc/webshop:1.0.0 -- \
-  python3 /app/load.py http://<server-address>/ --workers 1 --seconds 1800
+  python3 /app/load.py http://$CC_K3S_SERVER_IP/ --workers 1 --seconds 1800
 ```
 
-In Prometheus under "Alerts", `WebshopErrorBudgetBurn` first turns `pending` and after two minutes `firing`. If the exercise "Finding the error" of chapter 5.2 is less than an hour old, its errors are still in the windows of the alert, so it can fire a minute after the push. The load also makes the HPA of chapter 5.4 grow the web shop. Afterwards you restore the old state with `git revert --no-edit HEAD` and `git push`. Only delete the pod `load` once the alert is inactive. Without traffic the ratio in the five-minute window would stay where it is and only drop once the window is empty. In the lab the alert was inactive again six to seven minutes after the revert. Up to two minutes of that passed before Argo CD rolled out the revert.
+In Prometheus under "Alerts", `WebshopErrorBudgetBurn` first turns `pending` and after two minutes `firing`. In the lab it fired four to six minutes after the push. In that time Argo CD fetches the commit and replaces the pods, then the error ratio rises above the threshold and the alert waits two minutes in `pending`. If the exercise "Finding the error" of chapter 5.2 is less than an hour old, its errors are still in the windows of the alert, so it can fire a minute after the push. The load also makes the HPA of chapter 5.4 grow the web shop.
 
 ![The rule WebshopErrorBudgetBurn in Prometheus in the state FIRING. The expression compares both windows with 14.4 times the budget, here the 1 % of the personal values. Below are the wait of two minutes, the labels and the description, and the active alert, where a little more than half of the requests failed.](../../../../assets/screenshots/prometheus-alert-firing.png)
 
 ![The alerts in Alertmanager. Next to the Watchdog, which always fires and so shows that the chain up to Alertmanager works, is WebshopErrorBudgetBurn for the namespace velo, with the time it has fired since and its labels.](../../../../assets/screenshots/alertmanager-firing.png)
 
+While the alert fires, take the screenshot for requirement 5 of [milestone 3](../../assessment/milestone-3/), for example the rule in Prometheus as in the first picture, with your budget in the expression. Save it with the screenshot tool of Kali in your home folder as `5-alert.png`, as [chapter 0.5](../../start/tools/#uploading-the-report-and-screenshots) describes. The first line below creates the folder `m3` in your hand-in repo once, and the second copies the picture there. Run both in another tab of the terminal of the client, because the tunnel of chapter 5.1 runs in the second one.
+
+```bash
+ssh mmuster-fe mkdir -p cc-mmuster/m3
+scp ~/5-alert.png mmuster-fe:cc-mmuster/m3/
+```
+
+You upload it at the end of chapter 5.4 with the report of the check `m3`. Afterwards you restore the old state with `git revert --no-edit HEAD` and `git push`. Without traffic the ratio in the five-minute window would stay where it is and only drop once the window is empty. That is why you delete the pod `load` with `kubectl delete pod load` only once the alert is inactive. In the lab the alert was inactive again six to seven minutes after the revert. Up to two minutes of that passed before Argo CD rolled out the revert. The HPA shrinks the web shop only five minutes after the load ends.
+
 ::::exercise[Lab]
-Fire the alert as shown above, watch it in Prometheus and Alertmanager and restore the old state. Note the times.
+Fire the alert as shown above, watch it in Prometheus and Alertmanager and take the screenshot for milestone 3. Then restore the old state and delete the pod `load` once the alert is inactive. Note the times.
 
 :::solution
-After the push, `webshop:error_ratio:rate5m` rises above 7.2% within a few minutes. How long `webshop:error_ratio:rate1h` takes depends on the traffic of the last hour. Without a load test before, it is faster. Alertmanager shows the alert in its interface. After the revert, the five-minute ratio drops and the alert ends, although the one-hour ratio is still high.
+After the push, `webshop:error_ratio:rate5m` rises above your threshold within a few minutes, above 14.4% for a target of 99.0% and above 1.44% for 99.9%. How long `webshop:error_ratio:rate1h` takes depends on the traffic of the last hour. Without a load test before, it is faster. Alertmanager shows the alert in its interface. After the revert, the five-minute ratio drops and the alert ends, although the one-hour ratio is still high.
 :::
 ::::
 
