@@ -3,7 +3,7 @@
 
 Run it on the front-end as the user who works with the lab:
 
-    python3 checks/check.py start      end of chapter 0.5, the three VMs are prepared and connected
+    python3 checks/check.py start      end of chapter 0.4, the three VMs are prepared and connected
     python3 checks/check.py install    chapter 2.2, OpenNebula runs with both nodes
     python3 checks/check.py iaas       chapters 2.3 and 2.4, network, template and a VM in the cloud
     python3 checks/check.py tenants    chapters 3.1 to 3.4, members, quotas, showback and self-service, traces of the advanced tasks of 3.5
@@ -113,6 +113,9 @@ def check_start(env, report):
                  tr("netplan aus Kapitel 0.3", "netplan from chapter 0.3"))
     report.check(socket.gethostname() == fe, tr(f"Dieser Rechner heisst {fe}", f"This machine is called {fe}"),
                  tr("Das Skript läuft auf dem Front-end, prepare.sh setzt den Namen.", "Run the check on the front-end, prepare.sh sets the name."))
+    # Ansible of chapter 2.2 runs sudo on all three servers without asking for a password
+    report.check(run("sudo", "-n", "true")[0] == 0, tr(f"sudo ohne Passwort auf {fe}", f"sudo without password on {fe}"),
+                 tr("Kapitel 0.4 zeigt die Zeile für sudo.", "Chapter 0.4 shows the line for sudo."))
     for host, ip in [(fe, env["CC_FE_IP"]), (nodes[0], env["CC_NODE1_IP"]), (nodes[1], env["CC_NODE2_IP"])]:
         try:
             resolved = socket.gethostbyname(host)
@@ -134,16 +137,19 @@ def check_start(env, report):
     code, out = run("sudo", "-n", "nft", "list", "table", "ip", "cc_gateway")
     report.check("masquerade" in out, tr("NAT für das Gastnetz ist aktiv", "NAT for the guest network is active"))
     for node in nodes:
-        code, out = ssh(node, "hostname; . /etc/os-release; echo $VERSION_ID; grep -cwE 'vmx|svm' /proc/cpuinfo; systemctl is-active rsyslog")
+        code, out = ssh(node, "hostname; . /etc/os-release; echo $VERSION_ID; grep -cwE 'vmx|svm' /proc/cpuinfo; systemctl is-active rsyslog; "
+                              "sudo -n true 2>/dev/null && echo sudo-ok || echo sudo-no")
         if not report.check(code == 0, tr(f"SSH ohne Passwort auf {node}", f"SSH without password to {node}"),
-                            tr("Kapitel 0.5 zeigt, wie der Schlüssel auf die Knoten kommt.", "Chapter 0.5 shows how the key gets to the nodes.")):
+                            tr("Kapitel 0.4 zeigt, wie der Schlüssel auf die Knoten kommt.", "Chapter 0.4 shows how the key gets to the nodes.")):
             continue
-        name, version, flags, rsyslog = (out.splitlines() + ["", "", "0", ""])[:4]
+        name, version, flags, rsyslog, sudo = (out.splitlines() + ["", "", "0", "", ""])[:5]
         report.check(name == node, tr(f"{node} trägt seinen Namen", f"{node} has its name"))
         report.check(version == "26.04", tr(f"{node} läuft mit Ubuntu 26.04", f"{node} runs Ubuntu 26.04"), f"VERSION_ID={version}")
         report.check(flags.isdigit() and int(flags) > 0, tr(f"{node} sieht die Virtualisierung der CPU", f"{node} sees the virtualisation of the CPU"),
                      tr("Nested Virtualization ist für diese VM aus.", "Nested virtualisation is off for this VM."))
         report.check(rsyslog == "active", tr(f"rsyslog läuft auf {node}", f"rsyslog runs on {node}"))
+        report.check(sudo == "sudo-ok", tr(f"sudo ohne Passwort auf {node}", f"sudo without password on {node}"),
+                     tr("Kapitel 0.4 zeigt die Zeile für sudo.", "Chapter 0.4 shows the line for sudo."))
 
 
 def check_install(env, report):
