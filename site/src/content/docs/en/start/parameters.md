@@ -38,15 +38,15 @@ Open this page in the browser of the client, so you can copy the blocks and past
 
 ## Setting the addresses
 
-The two blocks of the generator are the same for all three servers. Work through the servers in turn, first the front-end and then the two nodes.
+The two blocks of the generator are the same for all three servers. Work through the servers in turn, the two nodes first and the front-end last, in the same order as in chapter 0.4 afterwards.
 
-1. In the terminal of the client, log in at the server's default address, for the front-end with `ssh vmadmin@192.168.210.137`. The first time, you confirm the server's key with `yes`, then it asks for the password of the user `vmadmin`, which your instructor gives you.
+1. In the terminal of the client, log in at the server's default address, for node 1 with `ssh vmadmin@192.168.210.138`. The first time, you confirm the server's key with `yes`, then it asks for the password of the user `vmadmin`, which your instructor gives you.
 2. Paste the first block and start it with Enter. It creates the file `/etc/cc-lab.env`, from which the scripts of the course read your values. If `sudo` asks for your password, enter the same password.
 3. Paste the second block and start it with Enter. It writes the new address into `00-eth0.yaml` and logs you out. Two seconds later the server takes on its new address.
 
 `netplan apply` takes away the old address your session runs on. Run directly in the session, the command would leave the session frozen. That is why `systemd-run` starts it as a service of its own that waits two seconds first. In that time `exit` logs you out. The [systemd-run manual page](https://manpages.ubuntu.com/manpages/resolute/man1/systemd-run.1.html) describes such services.
 
-Once all three servers have moved, log in at the new address of the front-end from the table as a test.
+Once the front-end has moved as well, log in at its new address from the table as a test, with `ssh vmadmin@<address>`.
 
 If the generator gives you exactly the default addresses, the second block leaves the address as it is and you log in again at the same address. If a value turns out to be wrong later, create the file again with the first block on all three servers and run the preparation script from [chapter 0.4](../prepare/) once more.
 
@@ -82,7 +82,7 @@ On the internal network the address range for the VMs runs from `.10` to `.209`,
 
 ## Your values for the milestones
 
-The table at the end of the generator lists your personal values for the four milestones, such as the quota of the municipality in milestone 1 or the time of the backup job in milestone 4. In the chapters you work with the values they give, only the milestone asks for your own. The generator shows them again whenever you enter your code.
+The table at the end of the generator lists your personal values for the four milestones, such as the quota of the municipality in milestone 1 or the time of the backup job in milestone 4. In the chapters you work with the values they give, only the milestone asks for your own. Only in part 5 you set your values already in chapter 5.2, so that the alert and the load test run only once. The generator shows them again whenever you enter your code.
 
 :::note
 A copy of `/etc/cc-lab.env` lies in your hand-in repo, and a screencast of the advanced tasks starts with the command `cat /etc/cc-lab.env`. It shows your instructor that the screenshots and the showing come from your lab.

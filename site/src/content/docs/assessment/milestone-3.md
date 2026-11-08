@@ -23,6 +23,10 @@ Alles läuft in deinem eigenen Lab mit deinen persönlichen Parametern aus Kapit
 
 Die Basis belegst du mit dem Bericht des Checks `m3` und mit einem Screenshot zu jeder Anforderung, dessen Dateiname mit ihrer Nummer beginnt. Den Bericht erzeugt `python3 ~/cc/checks/check.py m3` auf dem Front-end. Der Alert nach Burn Rate feuerte im Lab vier bis sechs Minuten nach dem Push. Nach einem Lasttest in der Stunde davor kann es zehn Minuten und länger dauern. Der HPA schrumpft erst nach fünf Minuten. Plane diese Wartezeiten für die Screenshots ein.
 
+:::caution[Screenshots vor Kapitel 6.2]
+In Kapitel 6.2 baust du den Cluster neu, dabei gehen die Metriken, die Logs und das Audit-Log eines Triage-Dienstes verloren. Erzeuge deshalb vorher den Bericht von `m3`, mach die Screenshots der Basis und kopiere das Audit-Log in dein Abgabe-Repo. Zeigst du die Zusatzaufträge im Screencast, nimmst du ihn ebenfalls vor Kapitel 6.2 auf.
+:::
+
 ## Zusatzaufträge
 
 Die drei Zusatzaufträge drehen sich um das lokale Sprachmodell und bauen aufeinander auf. Rechne mit vier bis sechs Stunden. [Kapitel 5.5](../../observability/advanced/) erklärt die Konzepte und nennt zu jedem Auftrag die Anforderungen. Jeder Auftrag gibt 0 bis 3 Punkte nach den [Stufen der Zusatzaufträge](../#stufen-der-zusatzaufträge). Zu jedem Auftrag, den du machst, gehört eine [Dokumentation in fünf Teilen](../#dokumentation-der-zusatzaufträge).
@@ -45,9 +49,9 @@ Die Zusatzaufträge zeigst du live im Unterricht oder in einem Screencast von h�
 
 ## Abgabe
 
-Im Ordner `m3/` deines Abgabe-Repos liegen die Screenshots der Basis. Für die Zusatzaufträge kommen ihre Dokumentation und `platform/` dazu, eine Kopie deines Repos `platform` aus Gitea ohne den Ordner `.git`, ohne State, Tokens und Passwörter. Für Auftrag B kommt das Audit-Log deines Triage-Dienstes dazu, für die Vorführung der Screencast oder ein Link darauf. Liegt der Code deines Triage-Dienstes nicht im Plattform-Repo, legst du ihn in den Ordner `m3/triage/`.
+Im Ordner `m3/` deines Abgabe-Repos liegen die Screenshots der Basis. Für die Zusatzaufträge kommen ihre Dokumentation und `platform/` dazu, eine Kopie deines Repos `platform` aus Gitea ohne den Ordner `.git`, ohne State, Tokens und Passwörter. Für Auftrag B kommt das Audit-Log deines Triage-Dienstes dazu, für eine Vorführung im Screencast sein Link. Liegt der Code deines Triage-Dienstes nicht im Plattform-Repo, legst du ihn in den Ordner `m3/triage/`.
 
-Die Berichte der Checks legst du in `reports/`. Wie das Repo aufgebaut ist und wie du einen Tag setzt, steht in der [Übersicht](../).
+Die Berichte der Checks legst du in `reports/`. Wie das Repo aufgebaut ist und wie du einen Tag setzt, steht unter [Abgeben](../#abgeben).
 
 ## Bewertungsraster
 

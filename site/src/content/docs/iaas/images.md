@@ -29,7 +29,7 @@ Sunstone zeigt die drei Datastores unter «Storage › Datastores».
 
 ![Die drei Datastores in Sunstone. Die Datastores files und default liegen auf dem Front-end und zeigen beide die Belegung seiner Disk. Der Datastore system steht auf 0 KB, weil OpenNebula seinen Platz auf jedem Knoten einzeln misst.](../../../assets/screenshots/sunstone-datastores.png)
 
-Fertige Images liefert der Marketplace von OpenNebula. Mit `onemarketapp export` holst du ein Image in deinen Datastore. OpenNebula legt dazu eine einfache Vorlage an.
+Fertige Images liefert der Marketplace von OpenNebula. Mit `onemarketapp export` holst du ein Image in deinen Datastore. OpenNebula legt dazu eine einfache Vorlage an, die wie das Image `ubuntu-26.04` heisst. Der Kurs nutzt sie nicht, sondern legt im Abschnitt «Vorlagen» eine eigene Vorlage `ubuntu` an.
 
 ```bash
 onemarketapp list | grep -i ubuntu
@@ -37,7 +37,7 @@ onemarketapp export "Ubuntu Minimal 26.04" ubuntu-26.04 --datastore default
 oneimage list
 ```
 
-Das Image ist bereit, sobald `oneimage list` in der Spalte `STAT` den Wert `rdy` zeigt. Die übrigen Befehle von `onemarketapp` beschreibt die [Anleitung zum Marketplace](https://docs.opennebula.io/7.4/product/apps-marketplace/managing_marketplaces/marketapps/) von OpenNebula 7.4.
+Das Image ist bereit, sobald `oneimage list` in der Spalte `STAT` den Wert `rdy` zeigt. Auf smartlearn dauerte das rund 30 Sekunden. Die übrigen Befehle von `onemarketapp` beschreibt die [Anleitung zum Marketplace](https://docs.opennebula.io/7.4/product/apps-marketplace/managing_marketplaces/marketapps/) von OpenNebula 7.4.
 
 ## Formate von Images
 
@@ -81,12 +81,7 @@ Ein Image ist für alle VMs gleich, jede VM braucht aber ihre eigene Adresse, ih
 | `SET_HOSTNAME` | der Hostname, hier der Name der VM |
 | `START_SCRIPT` | ein Skript, das beim Start läuft, in Teil 4 für k3s |
 
-`$USER[SSH_PUBLIC_KEY]` übernimmt den Schlüssel vom Benutzer, der die VM startet. Damit du dich vom Front-end aus anmelden kannst, legst du den Schlüssel des Front-ends bei `oneadmin` ab.
-
-```bash
-printf 'SSH_PUBLIC_KEY="%s"\n' "$(cat ~/.ssh/id_ed25519.pub)" > /tmp/key.tpl
-oneuser update oneadmin --append /tmp/key.tpl
-```
+`$USER[SSH_PUBLIC_KEY]` übernimmt den Schlüssel vom Benutzer, der die VM startet. Wie du ihn bei `oneadmin` hinterlegst, zeigt der Abschnitt «Deine erste VM».
 
 ## Kontextualisierung und cloud-init
 
@@ -96,7 +91,16 @@ In öffentlichen Clouds übernimmt meist [cloud-init](https://docs.cloud-init.io
 
 ## Deine erste VM
 
-Die erste VM startest du aus der Vorlage `ubuntu` und meldest dich vom Front-end aus per SSH an. Sie läuft meist nach wenigen Sekunden, SSH ist nach 10 bis 30 Sekunden bereit.
+Damit du dich vom Front-end aus an der VM anmelden kannst, legst du zuerst den Schlüssel des Front-ends bei `oneadmin` ab.
+
+```bash
+printf 'SSH_PUBLIC_KEY="%s"\n' "$(cat ~/.ssh/id_ed25519.pub)" > /tmp/key.tpl
+oneuser update oneadmin --append /tmp/key.tpl
+```
+
+Den Schlüssel übernimmt eine VM, wenn sie entsteht. Hast du `web-1` schon vorher gestartet, fragt SSH nach einem Passwort. Beende die VM dann mit `onevm terminate web-1` und lege sie mit dem Block unten neu an.
+
+Danach startest du die erste VM aus der Vorlage `ubuntu` und meldest dich vom Front-end aus per SSH an. Im Lab des Kurses lief sie meist nach wenigen Sekunden und SSH war nach 10 bis 30 Sekunden bereit. Auf smartlearn lief `web-1` nach rund 40 Sekunden.
 
 ```bash
 onetemplate instantiate ubuntu --name web-1
@@ -105,7 +109,9 @@ onevm show web-1 | grep -E 'IP=|HOST'
 ssh root@<adresse-der-vm>
 ```
 
-Was die Kontextualisierung eingerichtet hat, siehst du in der VM. `hostname` zeigt den Namen, `ip -br addr` die Adresse und `ip link show eth0` die MTU. Mit `curl -I https://ubuntu.com` prüfst du, ob die VM über das Gateway ins Internet kommt. Sunstone zeigt den Bildschirm der VM im Browser des Clients. Dazu klickst du unter «Instances › VMs» auf die VM, öffnest oben rechts das Menü mit den drei Punkten und wählst «Console» und dann «VNC». Weitere Befehle für laufende VMs und die Wege zu ihrer Konsole findest du in der [Anleitung zu VM-Instanzen](https://docs.opennebula.io/7.4/product/virtual_machines_operation/virtual_machines/vm_instances/).
+Was die Kontextualisierung eingerichtet hat, siehst du in der VM. `hostname` zeigt den Namen, `ip -br addr` die Adresse und `ip link show eth0` die MTU. Mit `curl -I https://ubuntu.com` prüfst du, ob die VM über das Gateway ins Internet kommt. Diese Anmeldung belegt Anforderung 3 von [Meilenstein 1](../../assessment/milestone-1/). Halte sie mit der Ausgabe von `hostname`, `ip -br addr` und `curl -I https://ubuntu.com` in einem Screenshot fest. Speichere ihn als `3-iaas.png` und kopiere ihn wie in Kapitel 2.2 in den Ordner `m1/` deines Abgabe-Repos.
+
+Sunstone zeigt den Bildschirm der VM im Browser des Clients. Dazu klickst du unter «Instances › VMs» auf die VM, öffnest oben rechts das Menü mit den drei Punkten und wählst «Console» und dann «VNC». Weitere Befehle für laufende VMs und die Wege zu ihrer Konsole findest du in der [Anleitung zu VM-Instanzen](https://docs.opennebula.io/7.4/product/virtual_machines_operation/virtual_machines/vm_instances/).
 
 ![Die VM web-1 in Sunstone mit dem geöffneten Menü. Unter Console steht VNC bereit, SSH und RDP sind ausgegraut, weil die Vorlage sie für keine Netzkarte freigibt. Darunter zeigt der Reiter Info den Zustand, den Knoten und die Adresse der VM.](../../../assets/screenshots/sunstone-vm-menu.png)
 
@@ -118,10 +124,10 @@ python3 ~/cc/checks/check.py iaas
 ```
 
 ::::exercise[Lab]
-Hole das Image, lege die Vorlage an, starte die VM `web-1` und lade den Bericht des Checks `iaas` in dein Abgabe-Repo.
+Hole das Image, lege die Vorlage an und hinterlege den Schlüssel des Front-ends bei `oneadmin`. Starte danach die VM `web-1` und halte die Anmeldung im Screenshot `3-iaas.png` fest. Lade den Bericht des Checks `iaas` und den Screenshot in dein Abgabe-Repo.
 
 :::solution
-Der Check endet mit «11 von 11 Prüfungen der Basis erfüllt». In der VM zeigt `hostname` den Namen `web-1`, `ip -br addr` eine Adresse aus deinem internen Netz und `ip link show eth0` die MTU 1450.
+Der Check endet mit «11 von 11 Prüfungen der Basis erfüllt». In der VM zeigt `hostname` den Namen `web-1`, `ip -br addr` eine Adresse aus deinem internen Netz und `ip link show eth0` die MTU 1450. Im Abgabe-Repo liegen danach `reports/iaas-<zeit>.txt` und `m1/3-iaas.png`.
 :::
 ::::
 
@@ -129,7 +135,16 @@ Der Check endet mit «11 von 11 Prüfungen der Basis erfüllt». In der VM zeigt
 Die Treuhand Aaregg braucht am Monatsende eine grössere VM mit zwei CPUs und 2 GB Arbeitsspeicher. Lege eine Kopie der Vorlage unter dem Namen `ubuntu-medium` an und starte daraus eine VM. Wie viele solcher VMs passen nach `onehost list` auf einen Knoten?
 
 :::solution
-`onetemplate clone ubuntu ubuntu-medium` und danach `onetemplate update ubuntu-medium` mit `CPU = "1"` und `VCPU = "2"`, dazu `MEMORY = "2048"`. Ein Knoten mit rund 7,2 GB Arbeitsspeicher und vier Kernen trägt drei solcher VMs. Die Grenze setzt der Arbeitsspeicher, die CPU reichte für vier.
+`onetemplate clone` kopiert die Vorlage. Die neuen Werte schreibst du in eine Datei, die `onetemplate update` mit `--append` übernimmt. So ersetzt OpenNebula nur die Werte aus der Datei, alles andere bleibt. Ein Editor geht dabei nicht auf.
+
+```bash
+onetemplate clone ubuntu ubuntu-medium
+printf 'CPU = "1"\nVCPU = "2"\nMEMORY = "2048"\n' > /tmp/medium.tpl
+onetemplate update ubuntu-medium --append /tmp/medium.tpl
+onetemplate instantiate ubuntu-medium --name medium-1
+```
+
+Ein Knoten mit rund 7,2 GB Arbeitsspeicher und vier Kernen trägt drei solcher VMs. Die Grenze setzt der Arbeitsspeicher, die CPU reichte für vier. Brauchst du `medium-1` nicht mehr, beendest du sie mit `onevm terminate medium-1`.
 :::
 ::::
 

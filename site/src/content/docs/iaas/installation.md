@@ -80,7 +80,7 @@ Das Inventar beschreibt dein Lab für OneDeploy. Das Skript `make-inventory.sh` 
 chmod 600 ~/cc-lab/inventory.yml
 ```
 
-::code{file="lab/one-deploy/make-inventory.sh" lines="18-42"}
+::code{file="lab/one-deploy/make-inventory.sh" lines="18-41"}
 
 Die Gruppe `frontend` enthält das Front-end, die Gruppe `node` die beiden Knoten. Weil Ansible auf dem Front-end läuft, verbindet es sich dort lokal statt über SSH. Diese Verbindungsart wählt `ansible_connection: local`. Unter `vars` stehen Werte, die für alle Rechner gelten. `one_version` legt die Version von OpenNebula fest, `ds` mit `mode: ssh` bedeutet, dass die Knoten Images über SSH erhalten und kein gemeinsamer Speicher nötig ist. Netze für die VMs deiner Mitglieder legst du in Kapitel 2.3 selbst an, das Inventar enthält deshalb noch keine. Wie Ansible Gruppen, Variablen und Verbindungsarten in einem Inventar liest, beschreibt die [Anleitung zum Inventar](https://docs.ansible.com/projects/ansible-core/2.20/inventory_guide/intro_inventory.html) von ansible-core 2.20.
 
@@ -95,11 +95,11 @@ Jede VM antwortet mit `SUCCESS` und `ping: pong`. Davor warnt Ansible für jede 
 
 ## Ein erstes Playbook
 
-Das Beispiel des Kurses hinterlegt auf jedem Knoten einen Gruss mit dem Namen der Genossenschaft. Es installiert ein Paket, schreibt eine Datei mit Facts der Knoten und zeigt die Datei über einen Handler an.
+Das Beispiel des Kurses hinterlegt auf jedem Knoten einen Gruss mit dem Namen der Genossenschaft. Es installiert ein Paket, schreibt eine Datei mit Facts der Knoten und lässt danach einen Handler die Datei mit `cat` lesen.
 
 ::code{file="examples/ansible/motd.yml"}
 
-Starte es zweimal. Im ersten Lauf meldet mindestens der Task mit dem Gruss `changed`, worauf der Handler läuft. Ist htop schon installiert wie auf smartlearn, meldet der Task für das Paket `ok`. Den Gruss selbst siehst du bei der nächsten Anmeldung an einem Knoten oder mit `cat /etc/motd`. Der zweite Lauf meldet überall `ok` und `changed=0`. Der Handler läuft diesmal nicht, weil sich nichts geändert hat. Die Zeile `gather_facts: true` ist nötig, weil OneDeploy in seiner Konfiguration das automatische Sammeln von Facts abschaltet. Aufbau, Ablauf und Idempotenz eines Playbooks erklärt die [Einführung in Playbooks](https://docs.ansible.com/projects/ansible-core/2.20/playbook_guide/playbooks_intro.html) von ansible-core 2.20.
+Starte es zweimal. Im ersten Lauf meldet mindestens der Task mit dem Gruss `changed`, worauf der Handler läuft. Ist htop schon installiert wie auf smartlearn, meldet der Task für das Paket `ok`. Den Gruss selbst siehst du bei der nächsten Anmeldung an einem Knoten oder mit `cat /etc/motd`. Was `cat` im Handler ausgibt, zeigt Ansible nur, wenn du `ansible-playbook` mit der Option `-v` startest. Der zweite Lauf meldet überall `ok` und `changed=0`. Der Handler läuft diesmal nicht, weil sich nichts geändert hat. Die Zeile `gather_facts: true` ist nötig, weil OneDeploy in seiner Konfiguration das automatische Sammeln von Facts abschaltet. Aufbau, Ablauf und Idempotenz eines Playbooks erklärt die [Einführung in Playbooks](https://docs.ansible.com/projects/ansible-core/2.20/playbook_guide/playbooks_intro.html) von ansible-core 2.20.
 
 ```bash
 cd ~/cc-lab/one-deploy
@@ -108,14 +108,14 @@ ansible-playbook -i ../inventory.yml ~/cc/examples/ansible/motd.yml
 
 ## OpenNebula installieren
 
-Der Lauf von OneDeploy dauert einige Minuten, im Lab des Kurses zwischen eineinhalb und drei, bei einem langsamen Netz deutlich länger. Ansible zeigt dabei jede Rolle und jeden Task mit dem Ergebnis pro Rechner. Den Ablauf mit Steuerrechner, Inventar und Playbooks beschreibt auch die [Anleitung zu OneDeploy](https://docs.opennebula.io/7.4/getting_started/install_opennebula/one_deploy/one_deploy_overview/) von OpenNebula 7.4.
+Der Lauf von OneDeploy dauert einige Minuten, im Lab des Kurses zwischen eineinhalb und drei, auf smartlearn rund vier. Bei einem langsamen Netz dauert er deutlich länger. Ansible zeigt dabei jede Rolle und jeden Task mit dem Ergebnis pro Rechner. Den Ablauf mit Steuerrechner, Inventar und Playbooks beschreibt auch die [Anleitung zu OneDeploy](https://docs.opennebula.io/7.4/getting_started/install_opennebula/one_deploy/one_deploy_overview/) von OpenNebula 7.4.
 
 ```bash
 cd ~/cc-lab/one-deploy
 ansible-playbook -i ../inventory.yml opennebula.deploy.main | tee ../deploy.log
 ```
 
-Am Ende steht der Abschnitt `PLAY RECAP` mit einer Zeile pro VM. Bei einer erfolgreichen Installation zeigt jede Zeile `failed=0`. Die Zahl bei `ok` gibt an, wie viele Tasks schon stimmten. `changed` zählt die Tasks, die etwas geändert haben, `skipped` die Tasks, die dein Lab nicht brauchte.
+Am Ende steht der Abschnitt `PLAY RECAP` mit einer Zeile pro VM. Bei einer erfolgreichen Installation zeigt jede Zeile `failed=0` und `unreachable=0`. `ok` zählt alle Tasks, die ohne Fehler liefen, auch die, die etwas geändert haben. `changed` zählt davon nur die Tasks mit einer Änderung, `skipped` die Tasks, die dein Lab nicht brauchte. Auf smartlearn zeigte ein Lauf `ok=119 changed=34 failed=0` für das Front-end und `ok=78 changed=16 failed=0` für jeden Knoten. Steht bei `failed` oder `unreachable` eine Zahl über 0, zeigt der Abschnitt [Einen abgebrochenen Lauf lesen](#einen-abgebrochenen-lauf-lesen), wie du die Ursache findest.
 
 ## Die installierten Dienste
 
@@ -191,6 +191,14 @@ Ob OpenNebula läuft und beide Knoten bereit sind, zeigt `onehost list`. In der 
 onehost list
 ```
 
+Diese Ausgabe belegt Anforderung 2 von [Meilenstein 1](../../assessment/milestone-1/). Mach auf dem Client mit dem Screenshot-Werkzeug von Kali ein Bild des Terminals, auf dem die Eingabeaufforderung deines Front-ends und `onehost list` mit beiden Knoten auf `on` zu sehen sind. Speichere es in deinem Home-Ordner als `2-install.png`, der Name beginnt mit der Nummer der Anforderung. Öffne dann einen zweiten Tab im Terminal des Clients und kopiere das Bild in den Ordner `m1/` deines Abgabe-Repos auf dem Front-end, für den Code `mmuster` so:
+
+```bash
+scp ~/2-install.png mmuster-fe:cc-mmuster/m1/
+```
+
+Auf dem Front-end lädst du es später mit dem Bericht des Checks `install` hoch, wie in Kapitel 0.5 mit `git add`, `git commit` und `git push`.
+
 Welche Dienste auf dem Front-end laufen und auf welchen Ports sie warten, zeigen `systemctl` und `ss`.
 
 ```bash
@@ -219,10 +227,10 @@ Der erste Lauf meldet bei beiden Knoten `changed=2`, weil htop neu installiert u
 ::::
 
 ::::exercise[Lab]
-Installiere OpenNebula 7.4 mit OneDeploy, richte die CLI für deinen Benutzer ein, prüfe die Hosts mit `onehost list`, melde dich an der Weboberfläche an und lade den Bericht des Checks `install` in dein Abgabe-Repo.
+Installiere OpenNebula 7.4 mit OneDeploy, richte die CLI für deinen Benutzer ein und prüfe die Hosts mit `onehost list`. Halte die Ausgabe im Screenshot `2-install.png` fest und melde dich an der Weboberfläche an. Lade zum Schluss den Bericht des Checks `install` und den Screenshot in dein Abgabe-Repo.
 
 :::solution
-Der Check endet mit «8 von 8 Prüfungen der Basis erfüllt». `onehost list` zeigt beide Knoten mit `on` in der Spalte `STAT`. Steht dort `err`, nennt `onehost show` mit dem Namen des Hosts den Grund im Abschnitt `MONITORING INFORMATION`, oft eine fehlende SSH-Verbindung vom Front-end zum Knoten.
+Der Check endet mit «8 von 8 Prüfungen der Basis erfüllt». `onehost list` zeigt beide Knoten mit `on` in der Spalte `STAT`. Steht dort `err`, nennt `onehost show` mit dem Namen des Hosts den Grund im Abschnitt `MONITORING INFORMATION`, oft eine fehlende SSH-Verbindung vom Front-end zum Knoten. Im Abgabe-Repo liegen danach `reports/install-<zeit>.txt` und `m1/2-install.png`.
 :::
 ::::
 

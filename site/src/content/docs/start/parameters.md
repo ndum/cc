@@ -38,15 +38,15 @@ Ubuntu verwaltet das Netz mit netplan, das seine Einstellungen aus YAML-Dateien 
 
 ## Die Adressen eintragen
 
-Die beiden Blöcke des Generators sind für alle drei Server gleich. Nimm dir die Server der Reihe nach vor, zuerst das Front-end und danach die beiden Knoten.
+Die beiden Blöcke des Generators sind für alle drei Server gleich. Nimm dir die Server der Reihe nach vor, zuerst die beiden Knoten und zuletzt das Front-end, in derselben Reihenfolge wie danach in Kapitel 0.4.
 
-1. Melde dich im Terminal des Clients an der Standardadresse des Servers an, für das Front-end mit `ssh vmadmin@192.168.210.137`. Beim ersten Mal bestätigst du den Schlüssel des Servers mit `yes`, danach will er das Passwort des Benutzers `vmadmin`, das dir deine Dozentin oder dein Dozent nennt.
+1. Melde dich im Terminal des Clients an der Standardadresse des Servers an, für Knoten 1 mit `ssh vmadmin@192.168.210.138`. Beim ersten Mal bestätigst du den Schlüssel des Servers mit `yes`, danach will er das Passwort des Benutzers `vmadmin`, das dir deine Dozentin oder dein Dozent nennt.
 2. Füge den ersten Block ein und starte ihn mit Enter. Er legt die Datei `/etc/cc-lab.env` an, aus der die Skripte des Kurses deine Werte lesen. Falls `sudo` dabei nach deinem Passwort fragt, gibst du dasselbe Passwort ein.
 3. Füge den zweiten Block ein und starte ihn mit Enter. Er trägt die neue Adresse in `00-eth0.yaml` ein und meldet dich ab. Zwei Sekunden später übernimmt der Server die neue Adresse.
 
 `netplan apply` nimmt dem Server die alte Adresse, über die deine Sitzung läuft. Liefe der Befehl direkt in der Sitzung, bliebe sie hängen. Darum startet ihn `systemd-run` als eigenen Dienst, der zuerst zwei Sekunden wartet. In dieser Zeit meldet dich `exit` ab. Solche Dienste beschreibt die [Handbuchseite zu systemd-run](https://manpages.ubuntu.com/manpages/resolute/man1/systemd-run.1.html).
 
-Sind alle drei Server umgestellt, meldest du dich zur Probe an der neuen Adresse des Front-ends aus der Tabelle an.
+Ist auch das Front-end umgestellt, meldest du dich zur Probe an seiner neuen Adresse aus der Tabelle an, mit `ssh vmadmin@<adresse>`.
 
 Gibt dir der Generator genau die Standardadressen, ändert der zweite Block die Adresse nicht. Du meldest dich an derselben Adresse wieder an. Stimmt später ein Wert nicht, legst du die Datei mit dem ersten Block auf allen drei Servern neu an und startest das Vorbereitungsskript aus [Kapitel 0.4](../prepare/) noch einmal.
 
@@ -82,7 +82,7 @@ Im internen Netz reicht der Adressbereich für die VMs von `.10` bis `.209`. Er 
 
 ## Deine Werte für die Meilensteine
 
-Die Tabelle am Ende des Generators nennt deine persönlichen Werte für die vier Meilensteine, etwa die Quota der Gemeinde in Meilenstein 1 oder die Uhrzeit des Backup-Jobs in Meilenstein 4. In den Kapiteln arbeitest du mit den Werten, die dort stehen. Erst der Meilenstein verlangt deine eigenen. Der Generator zeigt sie jedes Mal wieder an, wenn du deinen Code eingibst.
+Die Tabelle am Ende des Generators nennt deine persönlichen Werte für die vier Meilensteine, etwa die Quota der Gemeinde in Meilenstein 1 oder die Uhrzeit des Backup-Jobs in Meilenstein 4. In den Kapiteln arbeitest du mit den Werten, die dort stehen. Erst der Meilenstein verlangt deine eigenen. Nur in Teil 5 setzt du deine Werte schon in Kapitel 5.2, damit Alert und Lasttest nur einmal laufen. Der Generator zeigt sie jedes Mal wieder an, wenn du deinen Code eingibst.
 
 :::note
 Eine Kopie von `/etc/cc-lab.env` liegt in deinem Abgabe-Repo, ein Screencast der Zusatzaufträge beginnt mit dem Befehl `cat /etc/cc-lab.env`. Deine Dozentin oder dein Dozent sieht daran, dass Screenshots und Vorführung aus deinem Lab stammen.

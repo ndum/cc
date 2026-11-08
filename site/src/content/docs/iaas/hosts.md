@@ -37,7 +37,9 @@ Unter «Infrastructure › Hosts» zeigt Sunstone die Zustände mit ihrem ausges
 
 ## Kapazität und Überbuchung
 
-`onehost show` zeigt für Arbeitsspeicher und CPU zwei Werte. `USED (ALLOCATED)` ist, was die Vorlagen der laufenden VMs reservieren. `USED (REAL)` ist, was der Knoten tatsächlich belegt, seine VMs und sein eigenes System zusammen. Drei VMs aus der Vorlage `ubuntu` reservieren 3 GB, im Leerlauf belegen sie aber nur knapp 2 GB. Das System eines Knotens braucht im Lab rund 0,6 GB dazu. Die CPU zählt OpenNebula in Hundertsteln eines Kerns, ein Knoten mit vier Kernen hat 400. Eine VM mit `CPU = "0.5"` reserviert 50 davon.
+`onehost show` zeigt für Arbeitsspeicher und CPU zwei Werte. `USED (ALLOCATED)` ist, was die Vorlagen der laufenden VMs reservieren. `USED (REAL)` ist, was der Knoten tatsächlich belegt, seine VMs und sein eigenes System zusammen. Drei VMs aus der Vorlage `ubuntu` reservieren 3 GB, im Leerlauf belegen sie aber nur knapp 2 GB. Das System eines Knotens braucht im Lab rund 0,6 GB dazu. Die CPU zählt OpenNebula in Hundertsteln eines Kerns, ein Knoten mit vier Kernen hat 400. Eine VM mit `CPU = "0.5"` reserviert 50 davon. Auf smartlearn zeigte `onehost show` für einen Knoten mit zwei VMs aus `ubuntu` beim Arbeitsspeicher 2 GB reserviert und 1 GB real, bei der CPU 100 reserviert und 20 real.
+
+Für `<knoten>` setzt du in diesem Kapitel den Namen ein, den `onehost list` in der Spalte `NAME` zeigt. OneDeploy hat die Knoten unter ihren IP-Adressen eingetragen, für den Code `mmuster` also `192.168.210.138` und `192.168.210.139`. Die Nummer aus der Spalte `ID` geht ebenso. Einen Hostnamen wie `mmuster-node1` kennt OpenNebula dagegen nicht.
 
 ```bash
 onehost show <knoten> | sed -n '/HOST SHARES/,/LOCAL SYSTEM/p'
@@ -58,7 +60,15 @@ Eine neue VM wartet, bis der Scheduler ihr einen Knoten zuweist. OpenNebula 7.4 
 
 Im Lab steht in `/etc/one/schedulers/rank.conf` der Eintrag `DEFAULT_SCHED` mit `POLICY = 1`, also Striping, so wie das Paket von OpenNebula die Datei ausliefert. Deshalb verteilen sich deine VMs auf beide Knoten. Packing braucht weniger Knoten, die übrigen lassen sich ausschalten. Striping hält auf jedem Knoten Reserve frei. Fällt ein Knoten aus, trifft es weniger VMs. Neben dem Rank Scheduler bringt OpenNebula 7.4 den [Distributed Resource Scheduler](https://docs.opennebula.io/7.4/product/cloud_system_administration/scheduler/drs/) mit. Er berücksichtigt die tatsächliche Auslastung der Knoten und schlägt Migrationen vor, die das Plattform-Team prüft oder automatisch ausführen lässt.
 
-Wo jede VM gelandet ist, zeigt in Sunstone die Spalte «Host» der Liste unter «Instances › VMs».
+Starte zwei weitere VMs aus der Vorlage `ubuntu` und sieh nach, wo der Scheduler sie platziert. Die Option `--size host=15` verbreitert die Spalte `HOST`, sonst kürzt `onevm list` die Adresse des Knotens.
+
+```bash
+onetemplate instantiate ubuntu --name web-2
+onetemplate instantiate ubuntu --name web-3
+onevm list --size host=15
+```
+
+Die drei VMs `web-1` bis `web-3` verteilen sich auf beide Knoten. In Sunstone zeigt die Spalte «Host» der Liste unter «Instances › VMs» dasselbe.
 
 ![Die VMs web-1 bis web-3 in der Tabellenansicht von Sunstone. In der Spalte Host steht der Knoten jeder VM, der Scheduler hat sie auf beide Knoten verteilt.](../../../assets/screenshots/sunstone-vms-web.png)
 
@@ -78,26 +88,30 @@ Wo jede VM gelandet ist, zeigt in Sunstone die Spalte «Host» der Liste unter �
 | `unkn` | die Überwachung erreicht die VM nicht mehr | Ausfall des Knotens |
 | `done` | beendet, `onevm list` zeigt die VM nicht mehr | `onevm terminate` |
 
-Der Unterschied zwischen `poff` und `unde` zählt für die Kapazität. Eine ausgeschaltete VM behält ihren Platz auf dem Knoten, eine VM in `unde` gibt ihn frei und läuft beim nächsten Start wieder durch Scheduler und `prol`. Aus beiden Zuständen startet `onevm resume` die VM wieder. Steht eine VM auf `fail`, findest du die Ursache in ihrem Log unter `/var/log/one/<id>.log` und holst sie danach mit `onevm recover` zurück.
+Der Unterschied zwischen `poff` und `unde` zählt für die Kapazität. Eine ausgeschaltete VM behält ihren Platz auf dem Knoten, eine VM in `unde` gibt ihn frei und läuft beim nächsten Start wieder durch Scheduler und `prol`. Aus beiden Zuständen startet `onevm resume` die VM wieder. Steht eine VM auf `fail`, nennt ihr Log auf dem Front-end die Ursache. `sudo tail -n 30 /var/log/one/<id>.log` zeigt seine letzten Zeilen, für `<id>` setzt du die Nummer der VM aus `onevm list` ein. Hast du die Ursache behoben, wiederholt `onevm recover --retry <id>` den gescheiterten Schritt. `onevm recover --recreate <id>` löscht die VM dagegen und stellt sie zurück auf `pend`, sie startet also von vorne. Die übrigen Optionen von `onevm recover` nennt die [Anleitung zu VM-Instanzen](https://docs.opennebula.io/7.4/product/virtual_machines_operation/virtual_machines/vm_instances/).
 
-![Die Zustände einer VM mit der Kurzform, die onevm list in der Spalte STAT zeigt. onetemplate instantiate legt eine VM in pend an, wo sie auf den Scheduler wartet. Hat er einen Knoten gewählt, kopiert OpenNebula in prol die Disks dorthin. In boot legt der Hypervisor die VM an, danach läuft sie in runn. onevm migrate verschiebt eine laufende VM auf einen anderen Knoten. onevm poweroff schaltet sie nach poff aus, ihre Disks bleiben auf dem Knoten. onevm undeploy bringt sie nach unde, die Disks liegen dann wieder auf dem Front-end. onevm resume startet die VM aus beiden Zuständen wieder, aus poff direkt über boot, aus unde über pend. onevm terminate beendet sie mit done. Ein Fehler beim Kopieren, beim Start oder bei einer Migration führt nach fail. Nach einem Blick ins Log holt onevm recover die VM zurück. Fällt ihr Knoten aus, steht sie auf unkn. Achte auf den Unterschied zwischen poff und unde. Nur in unde gibt eine VM ihren Platz auf dem Knoten frei.](../../../assets/figures/de/p2c5-states.svg)
+![Die Zustände einer VM mit der Kurzform, die onevm list in der Spalte STAT zeigt. onetemplate instantiate legt eine VM in pend an, wo sie auf den Scheduler wartet. Hat er einen Knoten gewählt, kopiert OpenNebula in prol die Disks dorthin. In boot legt der Hypervisor die VM an, danach läuft sie in runn. onevm migrate verschiebt eine laufende VM auf einen anderen Knoten. onevm poweroff schaltet sie nach poff aus, ihre Disks bleiben auf dem Knoten. onevm undeploy bringt sie nach unde, die Disks liegen dann wieder auf dem Front-end. onevm resume startet die VM aus beiden Zuständen wieder, aus poff direkt über boot, aus unde über pend. onevm terminate beendet sie mit done. Ein Fehler beim Kopieren, beim Start oder bei einer Migration führt nach fail. Nach einem Blick ins Log holt onevm recover mit einer Option wie --retry die VM zurück. Fällt ihr Knoten aus, steht sie auf unkn. Achte auf den Unterschied zwischen poff und unde. Nur in unde gibt eine VM ihren Platz auf dem Knoten frei.](../../../assets/figures/de/p2c5-states.svg)
 
 ## Migration
 
-Mit `onevm migrate` verschiebst du eine VM auf einen anderen Knoten. Ohne weitere Option hält OpenNebula die VM kurz an, kopiert ihren Arbeitsspeicher und ihre Disk und lässt sie auf dem Ziel weiterlaufen. Mit `--live` läuft die VM während der Migration weiter. Nur der letzte Teil des Arbeitsspeichers folgt am Schluss in einem sehr kurzen Moment. Im Lab dauerte die Migration einer kleinen VM ohne Option 7 Sekunden und mit `--live` 10 Sekunden. Beide Arten der Migration erklärt die [Anleitung zu VM-Instanzen](https://docs.opennebula.io/7.4/product/virtual_machines_operation/virtual_machines/vm_instances/).
+Mit `onevm migrate` verschiebst du eine VM auf einen anderen Knoten. Ohne weitere Option hält OpenNebula die VM kurz an, kopiert ihren Arbeitsspeicher und ihre Disk und lässt sie auf dem Ziel weiterlaufen. Mit `--live` läuft die VM während der Migration weiter. Nur der letzte Teil des Arbeitsspeichers folgt am Schluss in einem sehr kurzen Moment. Im Lab des Kurses dauerte die Migration einer kleinen VM ohne Option 7 Sekunden und mit `--live` 10 Sekunden. Beide Arten der Migration erklärt die [Anleitung zu VM-Instanzen](https://docs.opennebula.io/7.4/product/virtual_machines_operation/virtual_machines/vm_instances/).
+
+Die Vorlage `ubuntu` zeigt der VM mit `host-passthrough` die echte CPU des Knotens. Laut der [Dokumentation von libvirt](https://libvirt.org/formatdomain.html#cpu-model-and-topology) ist es riskant, eine solche VM zwischen Knoten zu verschieben, die sich in Hardware, Microcode, Version von QEMU oder Konfiguration unterscheiden. Im Lab des Kurses und auf smartlearn klappte die Migration. Wer Knoten mit verschiedenen CPUs betreibt, gibt den VMs besser ein allgemeines CPU-Modell, wie Kapitel 1.3 erklärt.
+
+Für `<anderer-knoten>` setzt du den Knoten ein, auf dem `web-1` gerade nicht läuft.
 
 ```bash
 onevm migrate --live web-1 <anderer-knoten>
-onevm list
+onevm list --size host=15
 ```
 
 ## Wartung eines Knotens
 
-Für die Wartung leerst du einen Knoten und nimmst ihn danach wieder in Betrieb. `onehost flush` sperrt den Knoten und markiert seine VMs für eine neue Planung, worauf der Scheduler sie auf die anderen Knoten verschiebt. In `onevm list` tragen diese VMs kurz einen Stern vor dem Namen. Im Lab waren drei VMs nach etwa 10 Sekunden verschoben.
+Für die Wartung leerst du einen Knoten und nimmst ihn danach wieder in Betrieb. `onehost flush` sperrt den Knoten und markiert seine VMs für eine neue Planung, worauf der Scheduler sie auf die anderen Knoten verschiebt. In `onevm list` tragen diese VMs kurz einen Stern vor dem Namen. Im Lab des Kurses waren drei VMs nach etwa 10 Sekunden verschoben, auf smartlearn war der Knoten nach rund 25 Sekunden leer.
 
 ```bash
 onehost flush <knoten>
-onevm list
+onevm list --size host=15
 onehost offline <knoten>
 ```
 
@@ -106,7 +120,7 @@ Nach der Wartung startest du den Knoten wieder und gibst ihn mit `onehost enable
 Die Wartung klappt nur, wenn die übrigen Knoten genug Kapazität für alle VMs haben. Bei zwei Knoten heisst das, dass jeder allein alle VMs tragen muss. Wer eine solche Reserve plant, hält sie für Wartung und Ausfälle frei und rechnet sie in die Kosten ein.
 
 :::caution[Screenshot der Wartung]
-Die Wartung mit der Migration prüft kein Check. Für Anforderung 4 von [Meilenstein 1](../../assessment/milestone-1/) ist dein Screenshot der einzige Beleg. Mach ihn gleich bei der Aufgabe «Wartung» und nenne die Datei etwa `4-migration.png`, denn ab Kapitel 4.2 belegt der Kubernetes-Cluster die Knoten und keiner lässt sich mehr ohne Weiteres leeren.
+Die Wartung mit der Migration prüft kein Check. Für Anforderung 4 von [Meilenstein 1](../../assessment/milestone-1/) ist dein Screenshot `4-migration.png` der einzige Beleg. Mach ihn gleich bei der Aufgabe «Wartung» am Ende dieses Kapitels, denn ab Kapitel 4.2 belegt der Kubernetes-Cluster die Knoten und keiner lässt sich mehr ohne Weiteres leeren.
 :::
 
 ## Ausfall eines Knotens
@@ -116,14 +130,16 @@ Fällt ein Knoten aus, laufen seine VMs nicht mehr. Nach einiger Zeit zeigt `one
 Eine Cloud, die Ausfälle verkraftet, braucht deshalb gemeinsamen Speicher, den alle Knoten erreichen, etwa Ceph oder einen NFS-Server. Dazu kommt eine Regel, die VMs eines ausgefallenen Knotens automatisch auf einem anderen neu startet. OpenNebula bietet dafür Hooks. Im Lab fehlt beides bewusst, damit es mit dem Front-end und zwei Knoten auskommt. In Teil 6 beurteilst du die Verfügbarkeit, diese Lücke gehört dazu.
 
 ::::exercise[Wartung]
-Starte zwei VMs aus der Vorlage `ubuntu`, leere einen Knoten, auf dem eine davon läuft, nimm ihn offline und danach wieder in Betrieb. Verschiebe zum Schluss eine VM live zurück. Notiere die Befehle in der richtigen Reihenfolge.
+Leere mit den Befehlen aus dem Abschnitt «Wartung eines Knotens» einen Knoten, auf dem eine der VMs `web-1` bis `web-3` läuft. Nimm ihn offline und danach wieder in Betrieb. Den Knoten selbst schaltest du dabei nicht aus. Verschiebe zum Schluss eine der VMs, etwa `web-2`, live auf diesen Knoten. Notiere die Befehle in der richtigen Reihenfolge.
+
+Für Anforderung 4 von Meilenstein 1 zeigt dein Screenshot `4-migration.png` die vier Befehle `onehost flush`, `onehost offline`, `onehost enable` und `onevm migrate --live`. Zwischen den Befehlen zeigen `onehost list` und `onevm list --size host=15`, was jeder bewirkt hat. Zuletzt ist die verschobene VM auf ihrem neuen Knoten zu sehen. Passt das nicht auf ein Bild, machst du zwei, `4-migration-1.png` und `4-migration-2.png`. Kopiere die Bilder wie in Kapitel 2.2 in den Ordner `m1/` deines Abgabe-Repos.
 
 :::solution
-1. `onetemplate instantiate ubuntu --name web-2` und `--name web-3`, dann `onevm list --size host=15` für die Knoten, denn ohne die Option kürzt die Spalte `HOST` die Adresse
-2. `onehost flush <knoten>` und warten, bis `onevm list` keinen Stern mehr zeigt
-3. `onehost offline <knoten>`
-4. `onehost enable <knoten>` nach der Wartung
-5. `onevm migrate --live web-2 <knoten>`
+1. `onevm list --size host=15` zeigt, auf welchen Knoten `web-1` bis `web-3` laufen
+2. `onehost flush <knoten>` und warten, bis `onevm list --size host=15` keinen Stern mehr zeigt und alle VMs auf dem anderen Knoten laufen
+3. `onehost offline <knoten>`, danach zeigt `onehost list` den Knoten mit `off`
+4. `onehost enable <knoten>` nach der Wartung, `onehost list` zeigt kurz `init` und dann wieder `on`
+5. `onevm migrate --live web-2 <knoten>`, danach zeigt `onevm list --size host=15` die VM `web-2` auf diesem Knoten
 :::
 ::::
 

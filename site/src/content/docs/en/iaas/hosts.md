@@ -37,7 +37,9 @@ Under "Infrastructure › Hosts", Sunstone shows the states with their full name
 
 ## Capacity and overcommitment
 
-`onehost show` lists two values for memory and CPU. `USED (ALLOCATED)` is what the templates of the running VMs reserve. `USED (REAL)` is what the node actually uses, its VMs and its own system together. Three VMs from the template `ubuntu` reserve 3 GB but use a little under 2 GB when idle. In the lab the system of a node adds about 0.6 GB. OpenNebula counts CPU in hundredths of a core, so a node with four cores has 400. A VM with `CPU = "0.5"` reserves 50 of them.
+`onehost show` lists two values for memory and CPU. `USED (ALLOCATED)` is what the templates of the running VMs reserve. `USED (REAL)` is what the node actually uses, its VMs and its own system together. Three VMs from the template `ubuntu` reserve 3 GB but use a little under 2 GB when idle. In the lab the system of a node adds about 0.6 GB. OpenNebula counts CPU in hundredths of a core, so a node with four cores has 400. A VM with `CPU = "0.5"` reserves 50 of them. On smartlearn, `onehost show` reported 2 GB of memory allocated and 1 GB real for a node with two VMs from `ubuntu`, and 100 allocated and 20 real for the CPU.
+
+In this chapter `<node>` stands for the name that `onehost list` shows in the column `NAME`. OneDeploy registered the nodes under their IP addresses, so for the code `mmuster` the names are `192.168.210.138` and `192.168.210.139`. The number from the column `ID` works as well. A host name such as `mmuster-node1`, on the other hand, is unknown to OpenNebula.
 
 ```bash
 onehost show <node> | sed -n '/HOST SHARES/,/LOCAL SYSTEM/p'
@@ -58,7 +60,15 @@ A new VM waits until the scheduler assigns it a node. By default OpenNebula 7.4 
 
 In the lab, `/etc/one/schedulers/rank.conf` contains the entry `DEFAULT_SCHED` with `POLICY = 1`, which is striping, unchanged from the file the OpenNebula package ships. That is why your VMs spread across both nodes. Packing needs fewer nodes, so the rest can be switched off. Striping keeps headroom on every node, and a failure hits fewer VMs. Besides the Rank Scheduler, OpenNebula 7.4 includes the [Distributed Resource Scheduler](https://docs.opennebula.io/7.4/product/cloud_system_administration/scheduler/drs/). It takes the actual load of the nodes into account and proposes migrations, which the platform team either reviews or lets run automatically.
 
-In Sunstone the "Host" column of the list under "Instances › VMs" shows where each VM ended up.
+Start two more VMs from the template `ubuntu` and see where the scheduler places them. The option `--size host=15` widens the column `HOST`, otherwise `onevm list` cuts the address of the node.
+
+```bash
+onetemplate instantiate ubuntu --name web-2
+onetemplate instantiate ubuntu --name web-3
+onevm list --size host=15
+```
+
+The three VMs `web-1` to `web-3` spread across both nodes. In Sunstone the "Host" column of the list under "Instances › VMs" shows the same.
 
 ![The VMs web-1 to web-3 in the table view of Sunstone. The Host column names the node of each VM, and the scheduler has spread them over both nodes.](../../../../assets/screenshots/sunstone-vms-web.png)
 
@@ -78,26 +88,30 @@ In Sunstone the "Host" column of the list under "Instances › VMs" shows where 
 | `unkn` | monitoring can no longer reach the VM | node failure |
 | `done` | terminated, `onevm list` no longer shows the VM | `onevm terminate` |
 
-The difference between `poff` and `unde` matters for capacity. A powered-off VM keeps its place on the node, while a VM in `unde` frees it and goes through the scheduler and `prol` again at its next start. `onevm resume` starts the VM again from both states. When a VM ends up in `fail`, its log in `/var/log/one/<id>.log` shows the cause, and `onevm recover` brings it back afterwards.
+The difference between `poff` and `unde` matters for capacity. A powered-off VM keeps its place on the node, while a VM in `unde` frees it and goes through the scheduler and `prol` again at its next start. `onevm resume` starts the VM again from both states. When a VM ends up in `fail`, its log on the front-end names the cause. `sudo tail -n 30 /var/log/one/<id>.log` shows its last lines, where `<id>` is the number of the VM from `onevm list`. Once you have fixed the cause, `onevm recover --retry <id>` repeats the step that failed. `onevm recover --recreate <id>`, by contrast, deletes the VM and puts it back to `pend`, so it starts from the beginning. The [guide to VM instances](https://docs.opennebula.io/7.4/product/virtual_machines_operation/virtual_machines/vm_instances/) lists the other options of `onevm recover`.
 
-![The states of a VM with the short form that onevm list shows in the column STAT. onetemplate instantiate creates a VM in pend, where it waits for the scheduler. Once the scheduler has picked a node, OpenNebula copies the disks there in prol. In boot the hypervisor creates the VM, which then runs in runn. onevm migrate moves a running VM to another node. onevm poweroff switches it off to poff, and its disks stay on the node. onevm undeploy takes it to unde, with the disks back on the front-end. onevm resume starts the VM again from both states, from poff directly through boot and from unde through pend. onevm terminate ends it in done. An error while copying, booting or migrating leads to fail, and after a look at the log onevm recover brings the VM back. If its node fails, the VM shows unkn. Notice the difference between poff and unde. Only in unde does a VM free its place on the node.](../../../../assets/figures/en/p2c5-states.svg)
+![The states of a VM with the short form that onevm list shows in the column STAT. onetemplate instantiate creates a VM in pend, where it waits for the scheduler. Once the scheduler has picked a node, OpenNebula copies the disks there in prol. In boot the hypervisor creates the VM, which then runs in runn. onevm migrate moves a running VM to another node. onevm poweroff switches it off to poff, and its disks stay on the node. onevm undeploy takes it to unde, with the disks back on the front-end. onevm resume starts the VM again from both states, from poff directly through boot and from unde through pend. onevm terminate ends it in done. An error while copying, booting or migrating leads to fail, and after a look at the log onevm recover with an option such as --retry brings the VM back. If its node fails, the VM shows unkn. Notice the difference between poff and unde. Only in unde does a VM free its place on the node.](../../../../assets/figures/en/p2c5-states.svg)
 
 ## Migration
 
-`onevm migrate` moves a VM to another node. Without further options OpenNebula pauses the VM briefly, copies its memory and disk and lets it continue on the target. With `--live` the VM keeps running during the migration. Only the last part of its memory follows at the end, in a very short moment. In the lab, migrating a small VM took 7 seconds without the option and 10 seconds with `--live`. The [guide to VM instances](https://docs.opennebula.io/7.4/product/virtual_machines_operation/virtual_machines/vm_instances/) explains both kinds of migration.
+`onevm migrate` moves a VM to another node. Without further options OpenNebula pauses the VM briefly, copies its memory and disk and lets it continue on the target. With `--live` the VM keeps running during the migration. Only the last part of its memory follows at the end, in a very short moment. In the course lab, migrating a small VM took 7 seconds without the option and 10 seconds with `--live`. The [guide to VM instances](https://docs.opennebula.io/7.4/product/virtual_machines_operation/virtual_machines/vm_instances/) explains both kinds of migration.
+
+With `host-passthrough`, the template `ubuntu` shows the VM the real CPU of the node. The [libvirt documentation](https://libvirt.org/formatdomain.html#cpu-model-and-topology) warns that moving such a VM is dangerous when source and target node differ in hardware, microcode, QEMU version or configuration. In the course lab and on smartlearn the migration worked. If you run nodes with different CPUs, give the VMs a generic CPU model instead, as chapter 1.3 explains.
+
+For `<other-node>` use the node that `web-1` is not running on right now.
 
 ```bash
 onevm migrate --live web-1 <other-node>
-onevm list
+onevm list --size host=15
 ```
 
 ## Maintenance of a node
 
-For maintenance you empty a node and then put it back into service. `onehost flush` disables the node and marks its VMs for rescheduling, after which the scheduler moves them to the other nodes. In `onevm list` these VMs briefly carry an asterisk in front of their names. In the lab three VMs had moved after about 10 seconds.
+For maintenance you empty a node and then put it back into service. `onehost flush` disables the node and marks its VMs for rescheduling, after which the scheduler moves them to the other nodes. In `onevm list` these VMs briefly carry an asterisk in front of their names. In the course lab three VMs had moved after about 10 seconds, and on smartlearn the node was empty after about 25 seconds.
 
 ```bash
 onehost flush <node>
-onevm list
+onevm list --size host=15
 onehost offline <node>
 ```
 
@@ -106,7 +120,7 @@ After the maintenance you start the node again and release it with `onehost enab
 Maintenance only works if the remaining nodes have enough capacity for all VMs. With two nodes, each one must be able to carry all VMs alone. Whoever plans such a reserve keeps it free for maintenance and failures and includes it in the cost.
 
 :::caution[Screenshot of the maintenance]
-No check covers the maintenance with the migration. For requirement 4 of [milestone 1](../../assessment/milestone-1/) your screenshot is the only proof. Take it right during the exercise "Maintenance" and name the file something like `4-migration.png`, because from chapter 4.2 on the Kubernetes cluster takes up the nodes and neither of them can easily be emptied any more.
+No check covers the maintenance with the migration. For requirement 4 of [milestone 1](../../assessment/milestone-1/) your screenshot `4-migration.png` is the only proof. Take it right during the exercise "Maintenance" at the end of this chapter, because from chapter 4.2 on the Kubernetes cluster takes up the nodes and neither of them can easily be emptied any more.
 :::
 
 ## Failure of a node
@@ -116,14 +130,16 @@ When a node fails, its VMs stop running. After a while `onehost list` shows the 
 A cloud that survives failures therefore needs shared storage that all nodes can reach, such as Ceph or an NFS server, and a rule that automatically restarts the VMs of a failed node on another one. OpenNebula offers hooks for that. The lab deliberately lacks both so that it gets by with the front-end and two nodes. In part 6 this gap is part of the availability assessment.
 
 ::::exercise[Maintenance]
-Start two VMs from the template `ubuntu`, empty a node one of them runs on, take it offline and put it back into service. Finally move one VM back live. Write down the commands in the right order.
+With the commands from the section "Maintenance of a node", empty a node that one of the VMs `web-1` to `web-3` runs on. Take it offline and put it back into service. You do not switch the node itself off. Finally move one of the VMs, such as `web-2`, live to this node. Write down the commands in the right order.
+
+For requirement 4 of milestone 1 your screenshot `4-migration.png` shows the four commands `onehost flush`, `onehost offline`, `onehost enable` and `onevm migrate --live`. Between them, `onehost list` and `onevm list --size host=15` show what each command did, and at the end the moved VM appears on its new node. If that does not fit on one picture, take two, `4-migration-1.png` and `4-migration-2.png`. Copy the pictures into the folder `m1/` of your hand-in repo as in chapter 2.2.
 
 :::solution
-1. `onetemplate instantiate ubuntu --name web-2` and `--name web-3`, then `onevm list --size host=15` for the nodes, because without the option the column `HOST` cuts the address
-2. `onehost flush <node>` and wait until `onevm list` shows no asterisk anymore
-3. `onehost offline <node>`
-4. `onehost enable <node>` after the maintenance
-5. `onevm migrate --live web-2 <node>`
+1. `onevm list --size host=15` shows which nodes `web-1` to `web-3` run on
+2. `onehost flush <node>` and wait until `onevm list --size host=15` shows no asterisk anymore and all VMs run on the other node
+3. `onehost offline <node>`, after which `onehost list` shows the node as `off`
+4. `onehost enable <node>` after the maintenance, `onehost list` briefly shows `init` and then `on` again
+5. `onevm migrate --live web-2 <node>`, after which `onevm list --size host=15` shows `web-2` on this node
 :::
 ::::
 

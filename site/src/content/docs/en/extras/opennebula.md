@@ -16,7 +16,7 @@ After this chapter you can:
 - Follow a VM from its template to a running process on a node
 :::
 
-[Chapter 2.1](../../iaas/architecture/) gives an overview of the building blocks of OpenNebula. This supplement goes one level deeper, to the processes, files and devices you find on your servers. The examples use the code `mmuster` with the front-end at 192.168.210.137, the nodes at .138 and .139, the VXLAN identifier 5862 and the interface `eth0`. Use your own values instead.
+[Chapter 2.1](../../iaas/architecture/) gives an overview of the building blocks of OpenNebula. This supplement goes one level deeper, to the processes, files and devices you find on your servers. The examples use the code `mmuster` with the front-end at 192.168.210.137, the nodes at .138 and .139, the VXLAN identifier 5862 and the interface `eth0`. Use your own values instead. In OpenNebula commands the nodes carry the names OneDeploy registered them with, their IP addresses. For `<node>` you therefore use the name from the column `NAME` of `onehost list`, such as `192.168.210.138`, or the number from the column `ID`. With `ssh`, on the other hand, you reach the nodes under their host names such as `mmuster-node1`.
 
 ## The oned daemon
 

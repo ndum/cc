@@ -19,7 +19,7 @@ Use this grid to judge whether you have mastered the basics. Read each row and s
 | explain nested virtualization and CPU models | Explain why the nodes need nested virtualization and why `host-passthrough` makes the language model faster. | [Virtualization](../virtualization/#cpu-models) |
 | assign the right jobs to VMs and containers | Name two differences and one example each from the case. | [Virtualization](../virtualization/#vms-and-containers) |
 | say which data protection law applies and what is sensitive | Assign the four members to the FADP or cantonal law and name their sensitive data. | [Sovereignty, law and cost](../sovereignty/#the-data-protection-act) |
-| explain processing on behalf and the rules for data abroad | Explain what Art. 9 and Art. 16 FADP mean for Wolkenwerk. | [Sovereignty, law and cost](../sovereignty/#data-abroad) |
+| explain processing on behalf and the rules for data abroad | Explain what Art. 9 and Art. 16 FADP mean for Wolkenwerk. | [Sovereignty, law and cost](../sovereignty/#data-security-and-processing-on-behalf) |
 | judge what professional secrecy means for the practice in the cloud | Name the two ways in which the practice can entrust data under professional secrecy to a cloud provider. | [Sovereignty, law and cost](../sovereignty/#professional-secrecy) |
 | rate protection needs | Rate the protection need of one member for the three security goals. | [Sovereignty, law and cost](../sovereignty/#protection-needs) |
 | break down the cost of a cloud | Assign five costs of Wolkenwerk to investments or operating costs and explain showback. | [Sovereignty, law and cost](../sovereignty/#cost) |

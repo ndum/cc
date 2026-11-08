@@ -23,6 +23,10 @@ Everything runs in your own lab with your personal parameters from chapter 0.3. 
 
 You prove the base with the report of the check `m3` and one screenshot per requirement, each with a file name that starts with the number of its requirement. `python3 ~/cc/checks/check.py m3` writes the report on the front-end. In the lab the burn rate alert fired four to six minutes after the push. After a load test in the hour before, it can take ten minutes and longer. The HPA only shrinks after five minutes. Leave time for these waits when you take the screenshots.
 
+:::caution[Screenshots before chapter 6.2]
+In chapter 6.2 you rebuild the cluster, and the metrics, the logs and the audit log of a triage service are lost. So run the check `m3` first, take the screenshots of the base and copy the audit log into your hand-in repo. If you show the advanced tasks in a screencast, record it before chapter 6.2 as well.
+:::
+
 ## Advanced tasks
 
 The three advanced tasks are about the local language model, and each builds on the one before. Plan four to six hours. [Chapter 5.5](../../observability/advanced/) explains the concepts and lists the requirements of each task. Each task is worth 0 to 3 points by the [levels of the advanced tasks](../#levels-of-the-advanced-tasks). Every task you do needs [documentation in five parts](../#documenting-the-advanced-tasks).
@@ -45,9 +49,9 @@ You show the advanced tasks live in class or in a screencast of at most ten minu
 
 ## Hand-in
 
-The folder `m3/` of your hand-in repo holds the screenshots of the base. The advanced tasks add their documentation and `platform/`, a copy of your repo `platform` from Gitea without the `.git` folder, state, tokens or passwords. Task B adds the audit log of your triage service, and the showing adds the screencast or a link to it. If the code of your triage service is not in the platform repo, put it into the folder `m3/triage/`.
+The folder `m3/` of your hand-in repo holds the screenshots of the base. The advanced tasks add their documentation and `platform/`, a copy of your repo `platform` from Gitea without the `.git` folder, state, tokens or passwords. Task B adds the audit log of your triage service, and a showing by screencast adds its link. If the code of your triage service is not in the platform repo, put it into the folder `m3/triage/`.
 
-You put the reports of the checks in `reports/`. The [overview](../) describes how the repo is structured and how you set a tag.
+You put the reports of the checks in `reports/`. [Handing in](../#handing-in) describes how the repo is structured and how you set a tag.
 
 ## Rubric
 

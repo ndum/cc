@@ -21,7 +21,7 @@ Everything runs in your own lab with your personal parameters from chapter 0.3. 
 6. The municipality's ResourceQuota uses your [personal values](../../start/parameters/#your-values-for-the-milestones) and arrives through a pull request.
 7. You show the quota at its limit and the separation of the namespaces by the NetworkPolicy, and the check `m2` is green.
 
-You prove the base with the report of the check `m2` and one screenshot per requirement, each with a file name that starts with the number of its requirement. `python3 ~/cc/checks/check.py m2` writes the report on the front-end. For a pull request, a screenshot from Gitea with the diff and the merge is enough.
+You prove the base with the report of the check `m2` and one screenshot per requirement, each with a file name that starts with the number of its requirement. `python3 ~/cc/checks/check.py m2` writes the report on the front-end. For a pull request, a screenshot from Gitea with the diff and the merge is enough. For the token, the screenshot shows the answer of the Gitea API with the `scopes` of the token `argocd`, as chapter 4.4 queries it.
 
 ## Advanced tasks
 
@@ -45,9 +45,9 @@ You show the advanced tasks live in class or in a screencast of at most ten minu
 
 ## Hand-in
 
-The folder `m2/` of your hand-in repo holds the screenshots of the base. The advanced tasks add their documentation and `platform/`, a copy of your repo `platform` from Gitea without the `.git` folder, state, tokens or passwords. The showing adds the screencast or a link to it.
+The folder `m2/` of your hand-in repo holds the screenshots of the base. The advanced tasks add their documentation and `platform/`, a copy of your repo `platform` from Gitea without the `.git` folder, state, tokens or passwords. A showing by screencast adds its link.
 
-You put the reports of the checks in `reports/`. The [overview](../) describes how the repo is structured and how you set a tag.
+You put the reports of the checks in `reports/`. [Handing in](../#handing-in) describes how the repo is structured and how you set a tag.
 
 ## Rubric
 
