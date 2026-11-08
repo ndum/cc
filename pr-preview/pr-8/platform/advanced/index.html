@@ -1,0 +1,599 @@
+<!DOCTYPE html><html lang="de-CH" dir="ltr" data-theme="dark" data-has-toc data-has-sidebar class="astro-rlm2zbci"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>Zusatzaufträge | HFI - Cloud Computing (CC)</title><link rel="canonical" href="https://cc.ndum.ch/pr-preview/pr-8/platform/advanced/"/><link rel="alternate" hreflang="de-CH" href="https://cc.ndum.ch/pr-preview/pr-8/platform/advanced/"/><link rel="alternate" hreflang="en" href="https://cc.ndum.ch/pr-preview/pr-8/en/platform/advanced/"/><link rel="alternate" hreflang="x-default" href="https://cc.ndum.ch/pr-preview/pr-8/platform/advanced/"/><link rel="sitemap" href="/pr-preview/pr-8/sitemap-index.xml"/><link rel="shortcut icon" href="/pr-preview/pr-8/favicon.svg" type="image/svg+xml"/><meta name="generator" content="Astro v7.4.0"/><meta name="generator" content="Starlight v0.42.6"/><meta property="og:title" content="Zusatzaufträge"/><meta property="og:type" content="article"/><meta property="og:url" content="https://cc.ndum.ch/pr-preview/pr-8/platform/advanced/"/><meta property="og:locale" content="de-CH"/><meta property="og:description" content="Die drei Zusatzaufträge von Meilenstein 2 mit dem Neubau der Plattform als Übung, einem eigenen Mitglied mit AppProject und dem Schutz des Branches main in Gitea."/><meta property="og:site_name" content="HFI - Cloud Computing (CC)"/><meta name="twitter:card" content="summary_large_image"/><meta name="description" content="Die drei Zusatzaufträge von Meilenstein 2 mit dem Neubau der Plattform als Übung, einem eigenen Mitglied mit AppProject und dem Schutz des Branches main in Gitea."/><script type="module" src="/pr-preview/pr-8/_astro/Head.astro_astro_type_script_index_0_lang.Bq_C5yXD.js"></script><script>
+	window.StarlightThemeProvider = (() => {
+		const storedTheme =
+			typeof localStorage !== 'undefined' && localStorage.getItem('starlight-theme');
+		const theme =
+			storedTheme ||
+			(window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+		document.documentElement.dataset.theme = theme === 'light' ? 'light' : 'dark';
+		return {
+			updatePickers(theme = storedTheme || 'auto') {
+				document.querySelectorAll('starlight-theme-select').forEach((picker) => {
+					const select = picker.querySelector('select');
+					if (select) select.value = theme;
+					/** @type {HTMLTemplateElement | null} */
+					const tmpl = document.querySelector(`#theme-icons`);
+					const newIcon = tmpl && tmpl.content.querySelector('.' + theme);
+					if (newIcon) {
+						const oldIcon = picker.querySelector('svg.label-icon');
+						if (oldIcon) {
+							oldIcon.replaceChildren(...newIcon.cloneNode(true).childNodes);
+						}
+					}
+				});
+			},
+		};
+	})();
+</script><template id="theme-icons"><svg aria-hidden="true" class="light astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M5 12a1 1 0 0 0-1-1H3a1 1 0 0 0 0 2h1a1 1 0 0 0 1-1Zm.64 5-.71.71a1 1 0 0 0 0 1.41 1 1 0 0 0 1.41 0l.71-.71A1 1 0 0 0 5.64 17ZM12 5a1 1 0 0 0 1-1V3a1 1 0 0 0-2 0v1a1 1 0 0 0 1 1Zm5.66 2.34a1 1 0 0 0 .7-.29l.71-.71a1 1 0 1 0-1.41-1.41l-.66.71a1 1 0 0 0 0 1.41 1 1 0 0 0 .66.29Zm-12-.29a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.71-.71a1.004 1.004 0 1 0-1.43 1.41l.73.71ZM21 11h-1a1 1 0 0 0 0 2h1a1 1 0 0 0 0-2Zm-2.64 6A1 1 0 0 0 17 18.36l.71.71a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.76-.66ZM12 6.5a5.5 5.5 0 1 0 5.5 5.5A5.51 5.51 0 0 0 12 6.5Zm0 9a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Zm0 3.5a1 1 0 0 0-1 1v1a1 1 0 0 0 2 0v-1a1 1 0 0 0-1-1Z"/></svg><svg aria-hidden="true" class="dark astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.64 13a1 1 0 0 0-1.05-.14 8.049 8.049 0 0 1-3.37.73 8.15 8.15 0 0 1-8.14-8.1 8.59 8.59 0 0 1 .25-2A1 1 0 0 0 8 2.36a10.14 10.14 0 1 0 14 11.69 1 1 0 0 0-.36-1.05Zm-9.5 6.69A8.14 8.14 0 0 1 7.08 5.22v.27a10.15 10.15 0 0 0 10.14 10.14 9.784 9.784 0 0 0 2.1-.22 8.11 8.11 0 0 1-7.18 4.32v-.04Z"/></svg><svg aria-hidden="true" class="auto astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg></template><link rel="stylesheet" href="/pr-preview/pr-8/_astro/print.ehPL0gv-.css" media="print"><link rel="stylesheet" href="/pr-preview/pr-8/_astro/middleware.CCY9447z.css"><script type="module" src="/pr-preview/pr-8/_astro/page.cNngjUgL.js"></script></head><body class="astro-rlm2zbci"><a class="sl-skip-link astro-bmgq2fky" href="#_top">Zum Inhalt springen</a><div class="page sl-flex astro-ogthqvzv"><header class="header astro-ogthqvzv"><div class="header astro-pknpegvt"><div class="title-wrapper sl-flex astro-pknpegvt"><a href="/pr-preview/pr-8/" class="site-title sl-flex astro-drgrrgkq"><span class="astro-drgrrgkq" translate="no">HFI - Cloud Computing (CC)</span></a></div><div class="sl-flex print:hidden astro-pknpegvt"><site-search class="astro-pknpegvt astro-nssz7xfl" data-translations="{&quot;placeholder&quot;:&quot;Suchen&quot;,&quot;clear_search&quot;:&quot;Löschen&quot;,&quot;load_more&quot;:&quot;Mehr Ergebnisse laden&quot;,&quot;search_label&quot;:&quot;Diese Seite durchsuchen&quot;,&quot;filters_label&quot;:&quot;Filter&quot;,&quot;zero_results&quot;:&quot;Keine Ergebnisse für [SEARCH_TERM]&quot;,&quot;many_results&quot;:&quot;[COUNT] Ergebnisse für [SEARCH_TERM]&quot;,&quot;one_result&quot;:&quot;[COUNT] Ergebnis für [SEARCH_TERM]&quot;,&quot;alt_search&quot;:&quot;Keine Ergebnisse für [SEARCH_TERM]. Stattdessen werden Ergebnisse für [DIFFERENT_TERM] angezeigt&quot;,&quot;search_suggestion&quot;:&quot;Keine Ergebnisse für [SEARCH_TERM]. Versuche eine der folgenden Suchen:&quot;,&quot;searching&quot;:&quot;Suche nach [SEARCH_TERM] …&quot;}"><button data-open-modal disabled aria-label="Suchen" aria-keyshortcuts="Control+K" class="astro-nssz7xfl"><svg aria-hidden="true" class="astro-nssz7xfl astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.71 20.29 18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 0-14 7 7 0 0 1 0 14Z"/></svg><span class="sl-hidden md:sl-block astro-nssz7xfl" aria-hidden="true">Suchen</span><kbd class="sl-hidden md:sl-flex astro-nssz7xfl" style="display: none;"><kbd class="astro-nssz7xfl">Strg</kbd><kbd class="astro-nssz7xfl">K</kbd></kbd></button><dialog style="padding:0" aria-label="Suchen" class="astro-nssz7xfl"><div class="dialog-frame sl-flex astro-nssz7xfl"><button data-close-modal class="sl-flex md:sl-hidden astro-nssz7xfl">Abbrechen</button><div class="search-container astro-nssz7xfl"><div id="starlight__search" class="astro-nssz7xfl"></div></div></div></dialog></site-search><script>
+	(() => {
+		const openBtn = document.querySelector('button[data-open-modal]');
+		const shortcut = openBtn?.querySelector('kbd');
+		if (!openBtn || !(shortcut instanceof HTMLElement)) return;
+		const platformKey = shortcut.querySelector('kbd');
+		if (platformKey && /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform)) {
+			platformKey.textContent = '⌘';
+			openBtn.setAttribute('aria-keyshortcuts', 'Meta+K');
+		}
+		shortcut.style.display = '';
+	})();
+</script><script type="module" src="/pr-preview/pr-8/_astro/Search.astro_astro_type_script_index_0_lang.CQC1TYOy.js"></script></div><div class="sl-hidden md:sl-flex print:hidden right-group astro-pknpegvt"><div class="sl-flex social-icons astro-pknpegvt"><a href="https://github.com/ndum/cc" rel="me" class="sl-flex astro-vvaccv3s"><span class="sr-only astro-vvaccv3s">GitHub</span><svg aria-hidden="true" class="astro-vvaccv3s astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.12.83-.26.83-.57L9 21.07c-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.09-.73.09-.73 1.2.09 1.83 1.24 1.83 1.24 1.08 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18a4.65 4.65 0 0 1 1.23 3.22c0 4.61-2.8 5.63-5.48 5.92.42.36.81 1.1.81 2.22l-.01 3.29c0 .31.2.69.82.57A12 12 0 0 0 12 .3Z"/></svg></a></div><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-scmnraha"><span class="sr-only astro-scmnraha">Farbschema wählen</span><svg aria-hidden="true" class="icon label-icon astro-scmnraha astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-scmnraha"><option value="dark" class="astro-scmnraha">Dunkel</option><option value="light" class="astro-scmnraha">Hell</option><option value="auto" selected class="astro-scmnraha">System</option></select><svg aria-hidden="true" class="icon caret astro-scmnraha astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script><script type="module">var e=`starlight-theme`,t=e=>e===`auto`||e===`dark`||e===`light`?e:`auto`,n=()=>t(typeof localStorage<`u`&&localStorage.getItem(e));function r(t){typeof localStorage<`u`&&localStorage.setItem(e,t===`light`||t===`dark`?t:``)}var i=()=>matchMedia(`(prefers-color-scheme: light)`).matches?`light`:`dark`;function a(e){StarlightThemeProvider.updatePickers(e),document.documentElement.dataset.theme=e===`auto`?i():e,r(e)}matchMedia(`(prefers-color-scheme: light)`).addEventListener(`change`,()=>{n()===`auto`&&a(`auto`)});var o=class extends HTMLElement{constructor(){super(),a(n()),this.querySelector(`select`)?.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&a(t(e.currentTarget.value))})}};customElements.define(`starlight-theme-select`,o);</script><starlight-lang-select><label style="--sl-select-width: 7em" class="astro-scmnraha"><span class="sr-only astro-scmnraha">Sprache wählen</span><svg aria-hidden="true" class="icon label-icon astro-scmnraha astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path fill-rule="evenodd" d="M8.516 3a.94.94 0 0 0-.941.94v1.15H2.94a.94.94 0 1 0 0 1.882h7.362a7.422 7.422 0 0 1-1.787 3.958 7.42 7.42 0 0 1-1.422-2.425.94.94 0 1 0-1.774.627 9.303 9.303 0 0 0 1.785 3.043 7.422 7.422 0 0 1-4.164 1.278.94.94 0 1 0 0 1.881 9.303 9.303 0 0 0 5.575-1.855 9.303 9.303 0 0 0 4.11 1.74l-.763 1.525a.968.968 0 0 0-.016.034l-1.385 2.77a.94.94 0 1 0 1.683.841l1.133-2.267h5.806l1.134 2.267a.94.94 0 0 0 1.683-.841l-1.385-2.769a.95.95 0 0 0-.018-.036l-3.476-6.951a.94.94 0 0 0-1.682 0l-1.82 3.639a7.423 7.423 0 0 1-3.593-1.256 9.303 9.303 0 0 0 2.27-5.203h1.894a.94.94 0 0 0 0-1.881H9.456V3.94A.94.94 0 0 0 8.516 3Zm6.426 11.794a1.068 1.068 0 0 1-.02.039l-.703 1.407h3.924l-1.962-3.924-1.24 2.478Z" clip-rule="evenodd"/></svg><select autocomplete="off" class="astro-scmnraha"><option value="/pr-preview/pr-8/platform/advanced/" class="astro-scmnraha">Deutsch</option><option value="/pr-preview/pr-8/en/platform/advanced/" class="astro-scmnraha">English</option></select><svg aria-hidden="true" class="icon caret astro-scmnraha astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-lang-select><script type="module">var e=class extends HTMLElement{constructor(){super();let e=this.querySelector(`select`);e&&(e.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&(window.location.pathname=e.currentTarget.value)}),window.addEventListener(`pageshow`,t=>{if(!t.persisted)return;let n=e.querySelector(`option[selected]`)?.index;n!==e.selectedIndex&&(e.selectedIndex=n??0)}))}};customElements.define(`starlight-lang-select`,e);</script></div></div></header><nav class="sidebar print:hidden astro-ogthqvzv" aria-label="Hauptnavigation"><button popovertarget="starlight__sidebar" class="sl-menu-button sl-flex md:sl-hidden print:hidden astro-lloqvvyf"><svg aria-hidden="true" class="open-menu astro-lloqvvyf astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M3 8h18a1 1 0 1 0 0-2H3a1 1 0 0 0 0 2Zm18 8H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Zm0-5H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Z"/></svg><svg aria-hidden="true" class="close-menu astro-lloqvvyf astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="m13.41 12 6.3-6.29a1.004 1.004 0 1 0-1.42-1.42L12 10.59l-6.29-6.3a1.004 1.004 0 0 0-1.42 1.42l6.3 6.29-6.3 6.29a1 1 0 0 0 0 1.42.998.998 0 0 0 1.42 0l6.29-6.3 6.29 6.3a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.42L13.41 12Z"/></svg><span class="sr-only astro-lloqvvyf">Menü</span></button><script type="module">var e=class extends HTMLElement{constructor(){super();let e=matchMedia(`(min-width: 50em)`),t=()=>{this.popover=e.matches?null:`auto`};t(),e.addEventListener(`change`,()=>t()),this.addEventListener(`toggle`,({newState:e})=>this.trapFocus(e===`open`))}trapFocus(e){document.querySelectorAll(`.main-frame, .sl-skip-link`).forEach(t=>{t.toggleAttribute(`inert`,e)})}};customElements.define(`sl-sidebar-pane`,e);</script><sl-sidebar-pane popover id="starlight__sidebar" class="sidebar-pane astro-ogthqvzv"><div class="sidebar-content sl-flex astro-ogthqvzv"><sl-sidebar-state-persist data-hash="0xueet5" class="astro-wkj266cr"><script aria-hidden="true">
+		(() => {
+			try {
+				if (!matchMedia('(min-width: 50em)').matches) return;
+				/** @type {HTMLElement | null} */
+				const target = document.querySelector('sl-sidebar-state-persist');
+				const state = JSON.parse(sessionStorage.getItem('sl-sidebar-state') || '0');
+				if (!target || !state || target.dataset.hash !== state.hash) return;
+				window._starlightScrollRestore = state.scroll;
+				customElements.define(
+					'sl-sidebar-restore',
+					class SidebarRestore extends HTMLElement {
+						connectedCallback() {
+							try {
+								const idx = parseInt(this.dataset.index || '');
+								const details = this.closest('details');
+								if (details && typeof state.open[idx] === 'boolean') details.open = state.open[idx];
+							} catch {}
+						}
+					}
+				);
+			} catch {}
+		})();
+	</script><ul class="top-level astro-ez73slyg"><li class="astro-ez73slyg"><details class="astro-ez73slyg"><summary class="astro-ez73slyg"><span class="group-label astro-ez73slyg"><span class="large astro-ez73slyg">0 Start</span></span><svg aria-hidden="true" class="caret astro-ez73slyg astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="0"></sl-sidebar-restore><ul class="astro-ez73slyg"><li class="astro-ez73slyg"><a href="/pr-preview/pr-8/start/overview/" class="astro-ez73slyg"><span class="astro-ez73slyg">0.1 Kursüberblick</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-8/start/lab/" class="astro-ez73slyg"><span class="astro-ez73slyg">0.2 Das Lab</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-8/start/parameters/" class="astro-ez73slyg"><span class="astro-ez73slyg">0.3 Persönliche Parameter</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-8/start/prepare/" class="astro-ez73slyg"><span class="astro-ez73slyg">0.4 VMs vorbereiten</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-8/start/tools/" class="astro-ez73slyg"><span class="astro-ez73slyg">0.5 Das Abgabe-Repo</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-8/start/competences/" class="astro-ez73slyg"><span class="astro-ez73slyg">0.6 Kompetenzraster</span></a></li></ul></details></li><li class="astro-ez73slyg"><details class="astro-ez73slyg"><summary class="astro-ez73slyg"><span class="group-label astro-ez73slyg"><span class="large astro-ez73slyg">1 Cloud-Grundlagen</span></span><svg aria-hidden="true" class="caret astro-ez73slyg astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="1"></sl-sidebar-restore><ul class="astro-ez73slyg"><li class="astro-ez73slyg"><a href="/pr-preview/pr-8/basics/characteristics/" class="astro-ez73slyg"><span class="astro-ez73slyg">1.1 Merkmale einer Cloud</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-8/basics/models/" class="astro-ez73slyg"><span class="astro-ez73slyg">1.2 Service- und Bereitstellungsmodelle</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-8/basics/virtualization/" class="astro-ez73slyg"><span class="astro-ez73slyg">1.3 Virtualisierung</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-8/basics/sovereignty/" class="astro-ez73slyg"><span class="astro-ez73slyg">1.4 Souveränität, Recht und Kosten</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-8/basics/competences/" class="astro-ez73slyg"><span class="astro-ez73slyg">1.5 Kompetenzraster</span></a></li></ul></details></li><li class="astro-ez73slyg"><details class="astro-ez73slyg"><summary class="astro-ez73slyg"><span class="group-label astro-ez73slyg"><span class="large astro-ez73slyg">2 IaaS aufbauen</span></span><svg aria-hidden="true" class="caret astro-ez73slyg astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="2"></sl-sidebar-restore><ul class="astro-ez73slyg"><li class="astro-ez73slyg"><a href="/pr-preview/pr-8/iaas/architecture/" class="astro-ez73slyg"><span class="astro-ez73slyg">2.1 Architektur von OpenNebula</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-8/iaas/installation/" class="astro-ez73slyg"><span class="astro-ez73slyg">2.2 Installation mit OneDeploy</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-8/iaas/networks/" class="astro-ez73slyg"><span class="astro-ez73slyg">2.3 Virtuelle Netze</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-8/iaas/images/" class="astro-ez73slyg"><span class="astro-ez73slyg">2.4 Images, Vorlagen und Kontext</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-8/iaas/hosts/" class="astro-ez73slyg"><span class="astro-ez73slyg">2.5 Hosts betreiben</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-8/iaas/competences/" class="astro-ez73slyg"><span class="astro-ez73slyg">2.6 Kompetenzraster</span></a></li></ul></details></li><li class="astro-ez73slyg"><details class="astro-ez73slyg"><summary class="astro-ez73slyg"><span class="group-label astro-ez73slyg"><span class="large astro-ez73slyg">3 Mandanten und Self-Service</span></span><svg aria-hidden="true" class="caret astro-ez73slyg astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="3"></sl-sidebar-restore><ul class="astro-ez73slyg"><li class="astro-ez73slyg"><a href="/pr-preview/pr-8/tenants/groups/" class="astro-ez73slyg"><span class="astro-ez73slyg">3.1 Benutzer, Gruppen und VDCs</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-8/tenants/quotas/" class="astro-ez73slyg"><span class="astro-ez73slyg">3.2 Quotas</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-8/tenants/showback/" class="astro-ez73slyg"><span class="astro-ez73slyg">3.3 Showback</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-8/tenants/self-service/" class="astro-ez73slyg"><span class="astro-ez73slyg">3.4 Self-Service</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-8/tenants/advanced/" class="astro-ez73slyg"><span class="astro-ez73slyg">3.5 Zusatzaufträge</span><span class="sl-badge note small  astro-ez73slyg astro-5qxlfd7c">Zusatz</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-8/tenants/competences/" class="astro-ez73slyg"><span class="astro-ez73slyg">3.6 Kompetenzraster</span></a></li></ul></details></li><li class="astro-ez73slyg"><details open class="astro-ez73slyg"><summary class="astro-ez73slyg"><span class="group-label astro-ez73slyg"><span class="large astro-ez73slyg">4 Plattform per Code</span></span><svg aria-hidden="true" class="caret astro-ez73slyg astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="4"></sl-sidebar-restore><ul class="astro-ez73slyg"><li class="astro-ez73slyg"><a href="/pr-preview/pr-8/platform/iac/" class="astro-ez73slyg"><span class="astro-ez73slyg">4.1 Infrastructure as Code</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-8/platform/opentofu/" class="astro-ez73slyg"><span class="astro-ez73slyg">4.2 OpenTofu mit OpenNebula</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-8/platform/kubernetes/" class="astro-ez73slyg"><span class="astro-ez73slyg">4.3 Kubernetes per Code</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-8/platform/gitops/" class="astro-ez73slyg"><span class="astro-ez73slyg">4.4 GitOps mit Argo CD</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-8/platform/templates/" class="astro-ez73slyg"><span class="astro-ez73slyg">4.5 Plattform-Vorlagen</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-8/platform/advanced/" aria-current="page" class="astro-ez73slyg"><span class="astro-ez73slyg">4.6 Zusatzaufträge</span><span class="sl-badge note small  astro-ez73slyg astro-5qxlfd7c">Zusatz</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-8/platform/competences/" class="astro-ez73slyg"><span class="astro-ez73slyg">4.7 Kompetenzraster</span></a></li></ul></details></li><li class="astro-ez73slyg"><details class="astro-ez73slyg"><summary class="astro-ez73slyg"><span class="group-label astro-ez73slyg"><span class="large astro-ez73slyg">5 Observability, Skalierung und KI</span></span><svg aria-hidden="true" class="caret astro-ez73slyg astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="5"></sl-sidebar-restore><ul class="astro-ez73slyg"><li class="astro-ez73slyg"><a href="/pr-preview/pr-8/observability/metrics/" class="astro-ez73slyg"><span class="astro-ez73slyg">5.1 Metriken mit Prometheus</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-8/observability/logs/" class="astro-ez73slyg"><span class="astro-ez73slyg">5.2 Logs mit Loki</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-8/observability/slo/" class="astro-ez73slyg"><span class="astro-ez73slyg">5.3 Alerts und SLOs</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-8/observability/autoscaling/" class="astro-ez73slyg"><span class="astro-ez73slyg">5.4 Autoscaling</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-8/observability/advanced/" class="astro-ez73slyg"><span class="astro-ez73slyg">5.5 Zusatzaufträge</span><span class="sl-badge note small  astro-ez73slyg astro-5qxlfd7c">Zusatz</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-8/observability/competences/" class="astro-ez73slyg"><span class="astro-ez73slyg">5.6 Kompetenzraster</span></a></li></ul></details></li><li class="astro-ez73slyg"><details class="astro-ez73slyg"><summary class="astro-ez73slyg"><span class="group-label astro-ez73slyg"><span class="large astro-ez73slyg">6 Betrieb</span></span><svg aria-hidden="true" class="caret astro-ez73slyg astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="6"></sl-sidebar-restore><ul class="astro-ez73slyg"><li class="astro-ez73slyg"><a href="/pr-preview/pr-8/operations/security/" class="astro-ez73slyg"><span class="astro-ez73slyg">6.1 Sicherheit</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-8/operations/backup/" class="astro-ez73slyg"><span class="astro-ez73slyg">6.2 Backup und Wiederherstellung</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-8/operations/sla/" class="astro-ez73slyg"><span class="astro-ez73slyg">6.3 SLA und Betriebskonzept</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-8/operations/cost/" class="astro-ez73slyg"><span class="astro-ez73slyg">6.4 Kosten und Ressourceneffizienz</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-8/operations/advanced/" class="astro-ez73slyg"><span class="astro-ez73slyg">6.5 Zusatzaufträge</span><span class="sl-badge note small  astro-ez73slyg astro-5qxlfd7c">Zusatz</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-8/operations/competences/" class="astro-ez73slyg"><span class="astro-ez73slyg">6.6 Kompetenzraster</span></a></li></ul></details></li><li class="astro-ez73slyg"><details class="astro-ez73slyg"><summary class="astro-ez73slyg"><span class="group-label astro-ez73slyg"><span class="large astro-ez73slyg">Ergänzungen</span></span><svg aria-hidden="true" class="caret astro-ez73slyg astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="7"></sl-sidebar-restore><ul class="astro-ez73slyg"><li class="astro-ez73slyg"><a href="/pr-preview/pr-8/extras/own-hypervisor/" class="astro-ez73slyg"><span class="astro-ez73slyg">Eigener Hypervisor</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-8/extras/opennebula/" class="astro-ez73slyg"><span class="astro-ez73slyg">OpenNebula im Detail</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-8/extras/network/" class="astro-ez73slyg"><span class="astro-ez73slyg">Linux-Netz im Lab</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-8/extras/kubernetes/" class="astro-ez73slyg"><span class="astro-ez73slyg">Kubernetes-Grundlagen</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-8/extras/platform-tools/" class="astro-ez73slyg"><span class="astro-ez73slyg">Werkzeuge der Plattform</span></a></li></ul></details></li><li class="astro-ez73slyg"><details class="astro-ez73slyg"><summary class="astro-ez73slyg"><span class="group-label astro-ez73slyg"><span class="large astro-ez73slyg">Leistungsbeurteilung</span></span><svg aria-hidden="true" class="caret astro-ez73slyg astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="8"></sl-sidebar-restore><ul class="astro-ez73slyg"><li class="astro-ez73slyg"><a href="/pr-preview/pr-8/assessment/" class="astro-ez73slyg"><span class="astro-ez73slyg">Übersicht</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-8/assessment/milestone-1/" class="astro-ez73slyg"><span class="astro-ez73slyg">IaaS für Wolkenwerk (Meilenstein 1)</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-8/assessment/milestone-2/" class="astro-ez73slyg"><span class="astro-ez73slyg">Plattform per Code (Meilenstein 2)</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-8/assessment/milestone-3/" class="astro-ez73slyg"><span class="astro-ez73slyg">Observability, Skalierung und KI (Meilenstein 3)</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-8/assessment/milestone-4/" class="astro-ez73slyg"><span class="astro-ez73slyg">Betrieb und ein eigenes Mitglied (Meilenstein 4)</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-8/assessment/exam/" class="astro-ez73slyg"><span class="astro-ez73slyg">Prüfung</span></a></li></ul></details></li><li class="astro-ez73slyg"><details class="astro-ez73slyg"><summary class="astro-ez73slyg"><span class="group-label astro-ez73slyg"><span class="large astro-ez73slyg">Nachschlagen</span></span><svg aria-hidden="true" class="caret astro-ez73slyg astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="9"></sl-sidebar-restore><ul class="astro-ez73slyg"><li class="astro-ez73slyg"><a href="/pr-preview/pr-8/glossary/" class="astro-ez73slyg"><span class="astro-ez73slyg">Glossar</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-8/lab-reference/" class="astro-ez73slyg"><span class="astro-ez73slyg">Lab-Referenz</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-8/troubleshooting/" class="astro-ez73slyg"><span class="astro-ez73slyg">Fehlerbehebung</span></a></li></ul></details></li></ul><script aria-hidden="true">
+		(() => {
+			const scroller = document.getElementById('starlight__sidebar');
+			if (!window._starlightScrollRestore || !scroller) return;
+			scroller.scrollTop = window._starlightScrollRestore;
+			delete window._starlightScrollRestore;
+		})();
+	</script></sl-sidebar-state-persist><div class="md:sl-hidden"><div class="mobile-preferences sl-flex astro-uz3f2oy4"><div class="social-icons astro-uz3f2oy4"><a href="https://github.com/ndum/cc" rel="me" class="sl-flex astro-vvaccv3s"><span class="sr-only astro-vvaccv3s">GitHub</span><svg aria-hidden="true" class="astro-vvaccv3s astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.12.83-.26.83-.57L9 21.07c-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.09-.73.09-.73 1.2.09 1.83 1.24 1.83 1.24 1.08 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18a4.65 4.65 0 0 1 1.23 3.22c0 4.61-2.8 5.63-5.48 5.92.42.36.81 1.1.81 2.22l-.01 3.29c0 .31.2.69.82.57A12 12 0 0 0 12 .3Z"/></svg></a></div><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-scmnraha"><span class="sr-only astro-scmnraha">Farbschema wählen</span><svg aria-hidden="true" class="icon label-icon astro-scmnraha astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-scmnraha"><option value="dark" class="astro-scmnraha">Dunkel</option><option value="light" class="astro-scmnraha">Hell</option><option value="auto" selected class="astro-scmnraha">System</option></select><svg aria-hidden="true" class="icon caret astro-scmnraha astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script><starlight-lang-select><label style="--sl-select-width: 7em" class="astro-scmnraha"><span class="sr-only astro-scmnraha">Sprache wählen</span><svg aria-hidden="true" class="icon label-icon astro-scmnraha astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path fill-rule="evenodd" d="M8.516 3a.94.94 0 0 0-.941.94v1.15H2.94a.94.94 0 1 0 0 1.882h7.362a7.422 7.422 0 0 1-1.787 3.958 7.42 7.42 0 0 1-1.422-2.425.94.94 0 1 0-1.774.627 9.303 9.303 0 0 0 1.785 3.043 7.422 7.422 0 0 1-4.164 1.278.94.94 0 1 0 0 1.881 9.303 9.303 0 0 0 5.575-1.855 9.303 9.303 0 0 0 4.11 1.74l-.763 1.525a.968.968 0 0 0-.016.034l-1.385 2.77a.94.94 0 1 0 1.683.841l1.133-2.267h5.806l1.134 2.267a.94.94 0 0 0 1.683-.841l-1.385-2.769a.95.95 0 0 0-.018-.036l-3.476-6.951a.94.94 0 0 0-1.682 0l-1.82 3.639a7.423 7.423 0 0 1-3.593-1.256 9.303 9.303 0 0 0 2.27-5.203h1.894a.94.94 0 0 0 0-1.881H9.456V3.94A.94.94 0 0 0 8.516 3Zm6.426 11.794a1.068 1.068 0 0 1-.02.039l-.703 1.407h3.924l-1.962-3.924-1.24 2.478Z" clip-rule="evenodd"/></svg><select autocomplete="off" class="astro-scmnraha"><option value="/pr-preview/pr-8/platform/advanced/" class="astro-scmnraha">Deutsch</option><option value="/pr-preview/pr-8/en/platform/advanced/" class="astro-scmnraha">English</option></select><svg aria-hidden="true" class="icon caret astro-scmnraha astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-lang-select></div></div></div></sl-sidebar-pane></nav><div class="main-frame astro-ogthqvzv"><script type="module">var e=document.getElementById(`starlight__sidebar`),t=e?.querySelector(`sl-sidebar-state-persist`),n=`sl-sidebar-state`,r=()=>{let r=[],i=t?.dataset.hash||``;try{let e=sessionStorage.getItem(n),t=JSON.parse(e||`{}`);Array.isArray(t.open)&&t.hash===i&&(r=t.open)}catch{}return{hash:i,open:r,scroll:e?.scrollTop||0}},i=e=>{try{sessionStorage.setItem(n,JSON.stringify(e))}catch{}},a=()=>i(r()),o=(e,t)=>{let n=r();n.open[t]=e,i(n)};t?.addEventListener(`click`,e=>{if(!(e.target instanceof Element))return;let t=e.target.closest(`summary`)?.closest(`details`);if(!t)return;let n=t.querySelector(`sl-sidebar-restore`),r=parseInt(n?.dataset.index||``);isNaN(r)||o(!t.open,r)}),addEventListener(`visibilitychange`,()=>{document.visibilityState===`hidden`&&a()});</script><div class="lg:sl-flex astro-kk5qjijy"><aside class="right-sidebar-container print:hidden astro-kk5qjijy"><div class="right-sidebar astro-kk5qjijy"><div class="lg:sl-hidden astro-5jw5e7fz"><mobile-starlight-toc data-min-h="2" data-max-h="2" class="astro-ec7qe6jg"><nav aria-labelledby="starlight__on-this-page--mobile" class="astro-ec7qe6jg"><details id="starlight__mobile-toc" class="astro-ec7qe6jg"><summary id="starlight__on-this-page--mobile" class="sl-flex astro-ec7qe6jg"><span class="toggle sl-flex astro-ec7qe6jg">Auf dieser Seite<svg aria-hidden="true" class="caret astro-ec7qe6jg astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></span><span class="display-current astro-ec7qe6jg"></span></summary><div class="dropdown astro-ec7qe6jg"><ul class="isMobile astro-qoa5ihji" style="--depth: 0;"><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#_top" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Überblick</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#rahmen-und-bewertung" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Rahmen und Bewertung</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#den-neubau-üben" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Den Neubau üben</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#code-state-und-handarbeit" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Code, State und Handarbeit</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#drift-vor-dem-neubau" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Drift vor dem Neubau</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#grenzen-für-ein-mitglied" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Grenzen für ein Mitglied</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#appprojects" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">AppProjects</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#projekt-und-applicationset" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Projekt und ApplicationSet</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#branch-schutz-in-gitea" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Branch-Schutz in Gitea</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#ausnahmen-von-der-regel" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Ausnahmen von der Regel</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#neubau-der-plattform-auftrag-a" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Neubau der Plattform (Auftrag A)</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#ein-eigenes-mitglied-auftrag-b" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Ein eigenes Mitglied (Auftrag B)</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#schutz-des-branches-auftrag-c" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Schutz des Branches (Auftrag C)</span></a></li></ul></div></details></nav></mobile-starlight-toc><script type="module" src="/pr-preview/pr-8/_astro/MobileTableOfContents.astro_astro_type_script_index_0_lang.C3fM4Kra.js"></script></div><div class="right-sidebar-panel sl-hidden lg:sl-block astro-5jw5e7fz"><div class="sl-container astro-5jw5e7fz"><starlight-toc data-min-h="2" data-max-h="2"><nav aria-labelledby="starlight__on-this-page"><h2 id="starlight__on-this-page">Auf dieser Seite</h2><ul class="astro-qoa5ihji" style="--depth: 0;"><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#_top" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Überblick</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#rahmen-und-bewertung" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Rahmen und Bewertung</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#den-neubau-üben" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Den Neubau üben</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#code-state-und-handarbeit" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Code, State und Handarbeit</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#drift-vor-dem-neubau" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Drift vor dem Neubau</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#grenzen-für-ein-mitglied" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Grenzen für ein Mitglied</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#appprojects" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">AppProjects</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#projekt-und-applicationset" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Projekt und ApplicationSet</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#branch-schutz-in-gitea" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Branch-Schutz in Gitea</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#ausnahmen-von-der-regel" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Ausnahmen von der Regel</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#neubau-der-plattform-auftrag-a" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Neubau der Plattform (Auftrag A)</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#ein-eigenes-mitglied-auftrag-b" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Ein eigenes Mitglied (Auftrag B)</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#schutz-des-branches-auftrag-c" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Schutz des Branches (Auftrag C)</span></a></li></ul></nav></starlight-toc><script type="module" src="/pr-preview/pr-8/_astro/TableOfContents.astro_astro_type_script_index_0_lang.BpJaGz7G.js"></script></div></div></div></aside><div class="main-pane astro-kk5qjijy"><main data-pagefind-body class="astro-rlm2zbci" lang="de-CH" dir="ltr"><div class="content-panel astro-vrdjozuv"><div class="sl-container astro-vrdjozuv"><h1 id="_top" class="astro-obpc4a67">Zusatzaufträge</h1></div></div><div class="content-panel astro-vrdjozuv"><div class="sl-container astro-vrdjozuv"><div class="sl-markdown-content"><div class="lt-box lt-assignment" role="group" aria-labelledby="lt-box-1"><p class="lt-box-title" id="lt-box-1"><span class="lt-box-kind">Auftrag</span></p><p>Beat Kläy, der Präsident des Vorstands, schreibt dir nach der letzten Sitzung. «Eine Plattform aus Code klingt gut. Habt ihr schon einmal ausprobiert, wie lange der Webshop des Veloateliers stillsteht, wenn alles weg ist? Bevor das nächste Mitglied dazukommt, will ich sehen, dass es nur in seinem eigenen Bereich arbeiten kann. Und an der Plattform soll niemand etwas ändern, das keine zweite Person angeschaut hat, auch ihr nicht.»</p></div>
+<div class="lt-box lt-goals" role="group" aria-labelledby="lt-box-2"><p class="lt-box-title" id="lt-box-2"><span class="lt-box-kind">Lernziele</span></p><p>Nach diesem Kapitel kannst du:</p><ul>
+<li>Einen Neubau der Plattform als Übung planen, die Zeit messen und das Ergebnis prüfen</li>
+<li>Erklären, was State und Drift für einen Neubau bedeuten und was er nicht zurückbringt</li>
+<li>Die Grenzen eines Mitglieds aus seinem Bedarf herleiten und gegen den Cluster rechnen</li>
+<li>Ein Mitglied mit einem AppProject in Argo CD auf seinen Namespace beschränken</li>
+<li>Den Branch <code dir="auto">main</code> in Gitea mit Regeln schützen und ihre Ausnahmen begründen</li>
+</ul></div>
+<div class="sl-heading-wrapper level-h2"><h2 id="rahmen-und-bewertung">Rahmen und Bewertung</h2><a class="sl-anchor-link" href="#rahmen-und-bewertung"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Abschnitt betitelt „Rahmen und Bewertung“</span></a></div>
+<p>Die drei Aufträge dieses Kapitels gehen über die Basis hinaus. Anders als in den Kapiteln 4.1 bis 4.5 gibt es hier keine Befehle zum Abtippen und keine fertigen Dateien. Du entwirfst eine eigene Lösung, baust sie in deinem Lab und begründest deine Entscheide. Die Konzepte unten nennen dafür oft mehr als einen Weg.</p>
+<p>Für die Aufträge gilt dieser Rahmen:</p>
+<ul>
+<li>Sie sind die Zusatzaufträge von <a href="../../assessment/milestone-2/">Meilenstein 2</a>, du kannst auch nur einzelne bearbeiten</li>
+<li>Für alle drei rechnest du mit vier bis sechs Stunden</li>
+<li>Du zeigst sie live im Unterricht oder in einem Screencast von höchstens zehn Minuten, wie es der Meilenstein unter <a href="../../assessment/milestone-2/#zusatzauftr%C3%A4ge-zeigen">Zusatzaufträge zeigen</a> beschreibt. Dabei beantwortest du die zwei Fragen aus dem Bericht des Checks <code dir="auto">m2</code>.</li>
+<li>Jeder Auftrag braucht eine Dokumentation in fünf Teilen nach der <a href="../../assessment/#dokumentation-der-zusatzauftr%C3%A4ge">Leistungsbeurteilung</a>, dazu kommt eine Kopie deines Repos <code dir="auto">platform</code> ohne <code dir="auto">.git</code>, State, Tokens und Passwörter</li>
+<li>Jeder Auftrag gibt 0 bis 3 Punkte nach den <a href="../../assessment/#stufen-der-zusatzauftr%C3%A4ge">Stufen der Zusatzaufträge</a>, ohne Dokumentation höchstens 1 Punkt</li>
+<li>KI-Assistenten setzt du nach den <a href="../../start/overview/#ki-werkzeuge">Regeln des Kurses</a> ein. In der Vorführung erklärst du jede Zeile selbst.</li>
+</ul>
+<div class="sl-heading-wrapper level-h2"><h2 id="den-neubau-üben">Den Neubau üben</h2><a class="sl-anchor-link" href="#den-neubau-üben"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Abschnitt betitelt „Den Neubau üben“</span></a></div>
+<p>In Kapitel 4.1 wünschte sich Simone Wyss eine Plattform, die sich jederzeit aus dem Code neu bauen lässt. Ob der Code das hergibt, zeigt erst ein Neubau. Sonst fällt ein vergessener Schritt von Hand erst auf, wenn die Plattform weg ist. Betriebe üben den Ernstfall deshalb nach festem Ablauf.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th></th><th>Runbook</th><th>Skript</th></tr></thead><tbody><tr><td>Ablauf</td><td>Schritte für Menschen, mit Prüfungen dazwischen</td><td>dieselben Schritte, jedes Mal gleich</td></tr><tr><td>Zeit</td><td>misst ein Mensch</td><td>misst das Skript nebenbei</td></tr></tbody></table>
+<details class="lt-box lt-details"><summary>Zeitmessung, RTO und Abbruch eines Skripts</summary><p>Betriebe messen die Zeit, notieren, was nicht klappte, verbessern den Ablauf und wiederholen die Übung.</p><p>Solange der Neubau der einzige Weg zurück ist, kann Wolkenwerk dem Veloatelier keine kürzere Ausfallzeit versprechen als die gemessene. <a href="../../operations/backup/#rpo-und-rto">Kapitel 6.2</a> nennt dieses Versprechen RTO. Erst die Zeit jedes Schritts zeigt, wo die Minuten liegen, im Abriss, beim Start der VMs, bei Kubernetes oder bei Argo CD.</p><p>Bricht ein Skript mitten im Neubau ab, muss jemand herausfinden, wo es stand.</p></details>
+<div class="sl-heading-wrapper level-h2"><h2 id="code-state-und-handarbeit">Code, State und Handarbeit</h2><a class="sl-anchor-link" href="#code-state-und-handarbeit"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Abschnitt betitelt „Code, State und Handarbeit“</span></a></div>
+<p>Ein Neubau bringt genau das zurück, was der Code beschreibt. <code dir="auto">tofu destroy</code> löscht genau die Objekte, die der State aufführt. Der State liegt neben dem Code auf dem Front-end, aber nicht in Git.</p>
+<details class="lt-box lt-details"><summary>Objekte, Schlüssel und Daten nach dem Neubau</summary>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Was</th><th>Nach dem Neubau</th></tr></thead><tbody><tr><td>VMs, Startskript, Applications, Vorlage und Mitglieder</td><td>entstehen aus dem Repo <code dir="auto">platform</code> wieder</td></tr><tr><td>Das Netz <code dir="auto">cc-net</code> und das Image, die der Code nur liest</td><td>bleiben stehen</td></tr><tr><td>Gitea mit dem Repo auf dem Front-end</td><td>läuft weiter</td></tr><tr><td>Nummern der VMs, Werte von OpenTofu wie das Token von k3s</td><td>sind neu</td></tr><tr><td>Der alte Hostschlüssel des Servers in <code dir="auto">known_hosts</code> und die kubeconfig auf dem Front-end</td><td>passen nicht mehr, wie Kapitel 4.3 zeigt</td></tr><tr><td>Objekte ausserhalb von Git aus Skripten wie dem Bootstrap aus Kapitel 4.4, etwa das Secret mit dem Token für Gitea</td><td>legt das Skript neu an</td></tr><tr><td>Daten auf der Disk eines Nodes sowie Objekte, die jemand mit <code dir="auto">kubectl</code> an Git vorbei angelegt hat</td><td>sind verloren</td></tr></tbody></table><p>Auf die verlorenen Daten kommt Kapitel 6.2 mit Backups zurück.</p></details>
+<div class="sl-heading-wrapper level-h2"><h2 id="drift-vor-dem-neubau">Drift vor dem Neubau</h2><a class="sl-anchor-link" href="#drift-vor-dem-neubau"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Abschnitt betitelt „Drift vor dem Neubau“</span></a></div>
+<p>Vor dem Abriss zeigt die Drift, was der Neubau verändern wird. Danach ist sie weg, auch eine Korrektur von Hand, die nie in Git ankam. Suche sie darum vorher.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th></th><th>VMs</th><th>Cluster</th></tr></thead><tbody><tr><td>Vergleich</td><td><code dir="auto">tofu plan</code>, nur für die Attribute, die der Provider kennt</td><td>Argo CD für jede Application, Self-Heal setzt Abweichungen zurück</td></tr><tr><td>Unbemerkt</td><td>Änderungen in einer VM selbst</td><td>Objekte, die jemand an Git vorbei angelegt hat</td></tr><tr><td>Nach <code dir="auto">tofu destroy</code></td><td>eine VM, die jemand neben dem Code angelegt hat, bleibt stehen und belegt weiter Speicher auf den knappen Knoten aus Kapitel 4.2</td><td>auch die Objekte an Git vorbei sind weg</td></tr></tbody></table>
+<div class="sl-heading-wrapper level-h2"><h2 id="grenzen-für-ein-mitglied">Grenzen für ein Mitglied</h2><a class="sl-anchor-link" href="#grenzen-für-ein-mitglied"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Abschnitt betitelt „Grenzen für ein Mitglied“</span></a></div>
+<p>Die Werte der Gemeinde kamen aus deinen persönlichen Parametern, für ein eigenes Mitglied leitest du Requests und Limits der Quota selbst her. Ausgangspunkt sind Zahl, CPU und Speicher seiner Pods und die Frage, ob es Dateien speichert. Danach rechnest du gegen den Cluster.</p>
+<details class="lt-box lt-details"><summary>LimitRange, Rechnung gegen den Cluster und Begründung</summary><p>Die LimitRange muss dem grössten Container erlauben, was er braucht, sonst lehnt Kubernetes ihn trotz freier Quota ab. Ihre Standardwerte gelten für Container ohne eigene Angaben.</p><p>Von den 8 vCPU und 12 GB der zwei VMs brauchen k3s und Argo CD einen Teil, Teil 5 bringt Prometheus, Loki und als Zusatz ein Sprachmodell. Die Summe der Limits darf wie in Kapitel 3.2 grösser sein als der Cluster, bei den Requests ist das riskanter. Der Scheduler startet keinen Pod mehr, wenn die reservierten Werte die Nodes füllen. Deine Begründung nennt Bedarf, Rechnung und die Folgen einer Spitze an der Grenze.</p></details>
+<div class="sl-heading-wrapper level-h2"><h2 id="appprojects">AppProjects</h2><a class="sl-anchor-link" href="#appprojects"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Abschnitt betitelt „AppProjects“</span></a></div>
+<p>Bisher gehören alle Applications zum Projekt <code dir="auto">default</code>, das alles erlaubt. Ein <strong>AppProject</strong> legt für die Applications, die es nennen, die erlaubten Repos, Cluster, Namespaces und Arten von Objekten fest.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Arten von Objekten</th><th>Beispiele</th><th>Regel im AppProject</th></tr></thead><tbody><tr><td>Im ganzen Cluster</td><td>das Objekt Namespace</td><td>nur die Arten auf einer Liste sind erlaubt</td></tr><tr><td>In einem Namespace</td><td>Deployment, ResourceQuota</td><td>einzelne Arten lassen sich verbieten</td></tr></tbody></table>
+<details class="lt-box lt-details"><summary>Ausschlüsse, AppProjects aus Git und der Entscheid zur Vorlage</summary><p>Eine Regel mit <code dir="auto">!</code> schliesst ein Ziel aus, etwa einen Namespace. AppProjects liegen im Namespace <code dir="auto">argocd</code> und können wie Applications aus Git kommen.</p><p>Weil die Vorlage aus Kapitel 4.5 den Namespace als eigenes Objekt anlegt, braucht ihre Application ein Projekt, das diese Art erlaubt. Erlaubt ein Projekt dagegen alles ausser ResourceQuota, LimitRange und NetworkPolicy, wie ein Beispiel in der Dokumentation von Argo CD, kann eine Application die Grenzen ihres Namespaces nicht ändern.</p><p>Daraus folgt ein Entscheid. Entweder gehört die Application der Vorlage zum Projekt des Mitglieds. Oder sie bleibt beim Plattform-Team und das Mitglied bekommt für seine Anwendungen eine zweite Application in seinem Projekt.</p></details>
+<div class="sl-heading-wrapper level-h2"><h2 id="projekt-und-applicationset">Projekt und ApplicationSet</h2><a class="sl-anchor-link" href="#projekt-und-applicationset"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Abschnitt betitelt „Projekt und ApplicationSet“</span></a></div>
+<p>Das ApplicationSet <code dir="auto">members</code> aus Kapitel 4.5 schreibt in jede Application <code dir="auto">project: default</code>. Ein AppProject wirkt erst, wenn die Application des Mitglieds es nennt.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Weg</th><th>Folge</th></tr></thead><tbody><tr><td>Das ApplicationSet bildet den Namen des Projekts aus dem Ordner</td><td>jedes Mitglied braucht ein eigenes Projekt</td></tr><tr><td>Der Git-Generator schliesst den Ordner aus</td><td>eine eigene Application beschreibt das Mitglied</td></tr><tr><td>Die Application der Vorlage bleibt, wie sie ist</td><td>nur die Anwendungen des Mitglieds bekommen ein Projekt</td></tr></tbody></table>
+<details class="lt-box lt-details"><summary>Sicherheit der Wege und Prüfung der Änderungen am Repo</summary><p>Welcher Weg sicher ist, hängt davon ab, wer das Repo ändern darf. Die Dokumentation von Argo CD warnt vor einem Projekt aus der Vorlage eines ApplicationSets, weil beim Git-Generator schon ein Pull Request mit einem neuen Ordner Applications in einem Projekt mit zu vielen Rechten erzeugen könnte. Die Dokumentation verlangt darum, dass Administratoren solche Pull Requests freigeben. Ein Projekt mit Zugriff auf den Namespace <code dir="auto">argocd</code> hat faktisch Administratorrechte. Ein AppProject schützt also nur so gut wie die Prüfung der Änderungen am Repo, das Thema von Auftrag C.</p></details>
+<div class="sl-heading-wrapper level-h2"><h2 id="branch-schutz-in-gitea">Branch-Schutz in Gitea</h2><a class="sl-anchor-link" href="#branch-schutz-in-gitea"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Abschnitt betitelt „Branch-Schutz in Gitea“</span></a></div>
+<p>Im Repo <code dir="auto">wolkenwerk/platform</code> ist <code dir="auto">main</code> der Soll-Zustand des Clusters. Gitea nimmt jeden Push mit Schreibrechten an, ob ihn jemand geprüft hat oder nicht.</p>
+<p>Ein <strong>geschützter Branch</strong> macht die Prüfung zu einer Regel, die Gitea selbst durchsetzt, auch im Editor der Weboberfläche und über die API. Dafür gibt es diese Einstellungen:</p>
+<ul>
+<li>Den direkten Push sperren oder nur einer Liste von Konten erlauben</li>
+<li>Vor dem Merge Freigaben verlangen, von allen Konten mit Schreibrechten oder nur von einer Liste</li>
+<li>Alte Freigaben nach neuen Commits verwerfen</li>
+<li>Den Merge nach einer Ablehnung sperren</li>
+<li>Einzelne Dateien besonders schützen, etwa in <code dir="auto">templates/member</code>, weil eine Änderung dort alle Mitglieder trifft</li>
+</ul>
+<details class="lt-box lt-details"><summary>Argo CD, direkte Pushes und Status Checks</summary><p>Argo CD fragt jede Minute ab und rollt jeden neuen Commit aus. Die Anträge der Mitglieder prüft das Plattform-Team als Pull Request, eigene Änderungen schickt es bisher mit <code dir="auto">git push</code> direkt auf <code dir="auto">main</code>.</p><p>Status Checks einer CI gibt es im Lab nicht.</p></details>
+<div class="sl-heading-wrapper level-h2"><h2 id="ausnahmen-von-der-regel">Ausnahmen von der Regel</h2><a class="sl-anchor-link" href="#ausnahmen-von-der-regel"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Abschnitt betitelt „Ausnahmen von der Regel“</span></a></div>
+<p>Wer einen Pull Request geöffnet hat, kann ihn in Gitea nicht selbst freigeben. Administratoren eines Repos können einen Pull Request ohne Freigaben zusammenführen, solange «Administrators must follow branch protection rules» nicht gesetzt ist. Ob das Plattform-Team solche Hintertüren behält, ist eine Abwägung.</p>
+<details class="lt-box lt-details"><summary>Zweites Konto, Liste für Ausnahmen und Notfallweg</summary><p>Im Lab öffnest du Pull Requests und gibst sie auch frei, dafür brauchst du ein zweites Konto mit Schreibrechten. Weil sich niemand selbst registrieren kann, legt es ein Administrator an.</p><p>Das Konto <code dir="auto">platform</code> ist der Administrator deines Gitea und besitzt die Organisation <code dir="auto">wolkenwerk</code>. Die Konten auf der Liste «Allow selected users or teams to bypass branch protection» von Gitea 28 umgehen die Regel auch dann, wenn «Administrators must follow branch protection rules» gesetzt ist.</p><p>Auch eine Korrektur im Notfall wartet auf ein Review, der Ausfall dauert dann länger. Teams halten darum oft einen dokumentierten Notfallweg bereit, den sie selten nutzen und danach prüfen. Argo CD liest das Repo nur und merkt vom Schutz nichts.</p></details>
+<div class="sl-heading-wrapper level-h2"><h2 id="neubau-der-plattform-auftrag-a">Neubau der Plattform (Auftrag A)</h2><a class="sl-anchor-link" href="#neubau-der-plattform-auftrag-a"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Abschnitt betitelt „Neubau der Plattform (Auftrag A)“</span></a></div>
+<p>Beat Kläy will wissen, wie lange der Webshop des Veloateliers stillsteht, wenn alles weg ist. Du reisst die Plattform ab, baust sie allein aus dem Code wieder auf und misst die Ausfallzeit.</p>
+<figure class="lt-figure fig"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 430" role="img" aria-labelledby="p4c6-rebuild-de-title p4c6-rebuild-de-desc">
+<title id="p4c6-rebuild-de-title">Der Neubau der Plattform</title>
+<desc id="p4c6-rebuild-de-desc">Der Zielzustand von Auftrag A. Nach einem Abriss entsteht die Plattform neu aus dem Code. Oben links das Front-end, das stehen bleibt. Darauf liegen OpenTofu mit Code und State sowie Gitea mit dem Repo wolkenwerk/platform. Oben rechts der neue k3s-Cluster in cc-net. OpenTofu legt die zwei VMs k3s-server und k3s-agent neu an. Argo CD kommt mit dem Bootstrap dazu, holt den Soll-Zustand aus Gitea und wendet die Applications für den Webshop und die Mitglieder an. Unten misst dein Runbook oder Skript jeden Schritt, den Abriss, den Start der VMs, Kubernetes und Argo CD. Achte darauf, dass die Ausfallzeit vom Start des Abrisses bis zur ersten Antwort des Webshops reicht.</desc>
+<defs><marker id="p4c6-rebuild-de-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"></path></marker><marker id="p4c6-rebuild-de-head-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head d-head-accent" d="M 0 1 L 9 5 L 0 9 z"></path></marker></defs>
+<rect class="d-ground" x="0" y="0" width="780" height="430" rx="14"></rect>
+<rect class="d-band d-band-2" x="16" y="16" width="232" height="184" rx="12"></rect>
+<text class="d-label d-label-blue" x="32" y="40" text-anchor="start">FRONT-END</text>
+<rect class="d-tag" x="149" y="27" width="83" height="18" rx="9"></rect>
+<text class="d-tag-text" x="190.5" y="39.5" text-anchor="middle">bleibt stehen</text>
+<rect class="d-band d-band-3" x="296" y="16" width="468" height="184" rx="12"></rect>
+<text class="d-label d-label-violet" x="312" y="40" text-anchor="start">K3S-CLUSTER IN CC-NET</text>
+<rect class="d-tag d-tag-violet" x="675" y="27" width="73" height="18" rx="9"></rect>
+<text class="d-tag-text d-tag-text-violet" x="711.5" y="39.5" text-anchor="middle">neu gebaut</text>
+<path class="d-arrow d-arrow-accent" d="M 232 81 L 310 81" marker-end="url(#p4c6-rebuild-de-head-accent)"></path>
+<text class="d-sub" x="272" y="74" text-anchor="middle">legt an</text>
+<path class="d-arrow d-arrow-accent" d="M 312 159 L 234 159" marker-end="url(#p4c6-rebuild-de-head-accent)"></path>
+<text class="d-sub" x="272" y="152" text-anchor="middle">holt</text>
+<path class="d-arrow d-arrow-accent" d="M 480 159 L 570 159" marker-end="url(#p4c6-rebuild-de-head-accent)"></path>
+<text class="d-sub" x="526" y="152" text-anchor="middle">wendet an</text>
+<rect class="d-shadow" x="32" y="57.5" width="200" height="50" rx="10"></rect>
+<rect class="d-tile" x="32" y="56" width="200" height="50" rx="10"></rect>
+<g class="d-icon" transform="translate(44 72) scale(0.75)"><circle cx="12" cy="12" r="3"></circle><path d="M12 2.5v3M12 18.5v3M4.2 6l2.3 1.8M17.5 16.2l2.3 1.8M4.2 18l2.3-1.8M17.5 7.8 19.8 6M2.5 12h3M18.5 12h3"></path></g>
+<text class="d-title" x="72" y="78" text-anchor="start">OpenTofu</text>
+<text class="d-sub" x="72" y="94" text-anchor="start">Code und State</text>
+<rect class="d-shadow" x="32" y="135.5" width="200" height="50" rx="10"></rect>
+<rect class="d-tile" x="32" y="134" width="200" height="50" rx="10"></rect>
+<g class="d-icon" transform="translate(44 150) scale(0.75)"><circle cx="6" cy="6" r="2.5"></circle><circle cx="6" cy="18" r="2.5"></circle><circle cx="18" cy="9" r="2.5"></circle><path d="M6 8.5v7M18 11.5c0 3-6 2-10.5 5"></path></g>
+<text class="d-title" x="72" y="156" text-anchor="start">Gitea</text>
+<text class="d-code" x="72" y="172" text-anchor="start">wolkenwerk/platform</text>
+<rect class="d-shadow" x="312" y="57.5" width="436" height="50" rx="10"></rect>
+<rect class="d-tile d-tile-violet" x="312" y="56" width="436" height="50" rx="10"></rect>
+<g class="d-icon d-icon-violet" transform="translate(324 72) scale(0.75)"><rect x="4" y="4" width="16" height="16" rx="2"></rect><rect x="8.5" y="8.5" width="7" height="7" rx="1"></rect></g>
+<text class="d-title d-title-violet" x="352" y="78" text-anchor="start">k3s-server und k3s-agent</text>
+<text class="d-sub" x="352" y="94" text-anchor="start">zwei neue VMs</text>
+<rect class="d-shadow" x="312" y="135.5" width="168" height="50" rx="10"></rect>
+<rect class="d-tile d-tile-accent" x="312" y="134" width="168" height="50" rx="10"></rect>
+<g class="d-icon d-icon-accent" transform="translate(324 150) scale(0.75)"><path d="M20 12a8 8 0 0 1-14.3 4.9M4 12A8 8 0 0 1 18.3 7.1"></path><path d="M18.5 3v4.3h-4.3M5.5 21v-4.3h4.3"></path></g>
+<text class="d-title" x="352" y="156" text-anchor="start">Argo CD</text>
+<text class="d-sub" x="352" y="172" text-anchor="start">aus dem Bootstrap</text>
+<rect class="d-shadow" x="572" y="135.5" width="176" height="50" rx="10"></rect>
+<rect class="d-tile" x="572" y="134" width="176" height="50" rx="10"></rect>
+<g class="d-icon" transform="translate(584 150) scale(0.75)"><path d="M12 3 20 7.5v9L12 21l-8-4.5v-9z"></path><path d="M4 7.5 12 12l8-4.5M12 12v9"></path></g>
+<text class="d-title" x="612" y="156" text-anchor="start">Applications</text>
+<text class="d-sub" x="612" y="172" text-anchor="start">Webshop und Mitglieder</text>
+<rect class="d-band d-band-1" x="16" y="224" width="748" height="190" rx="12"></rect>
+<text class="d-label" x="32" y="248" text-anchor="start">RUNBOOK ODER SKRIPT</text>
+<rect class="d-tag" x="633" y="235" width="115" height="18" rx="9"></rect>
+<text class="d-tag-text" x="690.5" y="247.5" text-anchor="middle">misst jeden Schritt</text>
+<path class="d-grid" d="M 32 264 V 344"></path>
+<path class="d-grid" d="M 211 264 V 344"></path>
+<path class="d-grid" d="M 390 264 V 344"></path>
+<path class="d-grid" d="M 569 264 V 344"></path>
+<path class="d-grid" d="M 748 264 V 344"></path>
+<rect class="d-shadow" x="38" y="269.5" width="167" height="52" rx="10"></rect>
+<rect class="d-tile" x="38" y="268" width="167" height="52" rx="10"></rect>
+<text class="d-title" x="121.5" y="291" text-anchor="middle">Abriss</text>
+<text class="d-sub" x="121.5" y="307" text-anchor="middle">bis die VMs weg sind</text>
+<rect class="d-shadow" x="217" y="269.5" width="167" height="52" rx="10"></rect>
+<rect class="d-tile" x="217" y="268" width="167" height="52" rx="10"></rect>
+<text class="d-title" x="300.5" y="291" text-anchor="middle">Start der VMs</text>
+<text class="d-sub" x="300.5" y="307" text-anchor="middle">bis beide laufen</text>
+<rect class="d-shadow" x="396" y="269.5" width="167" height="52" rx="10"></rect>
+<rect class="d-tile" x="396" y="268" width="167" height="52" rx="10"></rect>
+<text class="d-title" x="479.5" y="291" text-anchor="middle">Kubernetes</text>
+<text class="d-sub" x="479.5" y="307" text-anchor="middle">bis die Nodes Ready sind</text>
+<rect class="d-shadow" x="575" y="269.5" width="167" height="52" rx="10"></rect>
+<rect class="d-tile" x="575" y="268" width="167" height="52" rx="10"></rect>
+<text class="d-title" x="658.5" y="291" text-anchor="middle">Argo CD</text>
+<text class="d-sub" x="658.5" y="307" text-anchor="middle">bis der Webshop antwortet</text>
+<path class="d-line d-line-accent" d="M 32 344 L 748 344"></path>
+<circle class="d-fill-blue" cx="32" cy="344" r="4.5"></circle>
+<circle class="d-fill-blue" cx="211" cy="344" r="4.5"></circle>
+<circle class="d-fill-blue" cx="390" cy="344" r="4.5"></circle>
+<circle class="d-fill-blue" cx="569" cy="344" r="4.5"></circle>
+<circle class="d-fill-blue" cx="748" cy="344" r="4.5"></circle>
+<text class="d-sub" x="32" y="364" text-anchor="start">Start des Abrisses</text>
+<text class="d-sub" x="748" y="364" text-anchor="end">erste Antwort des Webshops</text>
+<path class="d-line" d="M 32 376 L 32 382 L 748 382 L 748 376"></path>
+<text class="d-sub" x="390" y="400" text-anchor="middle">gemessene Ausfallzeit</text>
+</svg></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Ausgangslage</th><th>Ergebnis</th></tr></thead><tbody><tr><td>Aus der Basis hast du die VMs <code dir="auto">k3s-server</code> und <code dir="auto">k3s-agent</code> aus OpenTofu mit ihrem State in <code dir="auto">~/platform/tofu</code> auf dem Front-end (Kapitel 4.2) und k3s aus dem Startskript (Kapitel 4.3). Gitea auf dem Front-end hält das Repo <code dir="auto">wolkenwerk/platform</code>. Daraus rollt Argo CD seit dem Bootstrap in Kapitel 4.4 die Applications <code dir="auto">root</code>, <code dir="auto">webshop</code>, <code dir="auto">member-velo</code> und <code dir="auto">member-gemeinde</code> aus, mit dem Webshop im Namespace <code dir="auto">velo</code> und den Grenzen der Namespaces <code dir="auto">velo</code> und <code dir="auto">gemeinde</code> aus Kapitel 4.5.</td><td>Du hast die Plattform mit <code dir="auto">tofu destroy</code> abgerissen und allein aus deinem Code und dem Repo in Gitea wieder aufgebaut. Der Webshop antwortet wieder, alle Applications sind <code dir="auto">Synced</code> und <code dir="auto">Healthy</code> und <code dir="auto">tofu plan</code> zeigt keine Änderungen. Dein Runbook oder Skript hält die Zeit jedes Schritts fest.</td></tr></tbody></table>
+<div class="sl-heading-wrapper level-h3"><h3 id="vorgehen">Vorgehen</h3><a class="sl-anchor-link" href="#vorgehen"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Abschnitt betitelt „Vorgehen“</span></a></div>
+<ol>
+<li>Halte den Stand vor dem Abriss fest und suche Drift in den VMs und im Cluster.</li>
+<li>Schreibe den Ablauf von Abriss und Neubau als Runbook oder Skript, das jeden Schritt misst.</li>
+<li>Reisse die Plattform ab und baue sie mit deinem Ablauf allein aus dem Code und dem Repo in Gitea wieder auf.</li>
+<li>Prüfe die neue Plattform mit dem Plan, den Applications, dem Webshop und den Grenzen der Mitglieder.</li>
+<li>Vergleiche den Stand danach mit dem Stand davor und kläre, was der Neubau nicht zurückgebracht hat.</li>
+<li>Halte die Zeiten pro Schritt, die Probleme und deinen Entscheid zwischen Runbook und Skript für die Dokumentation fest.</li>
+</ol>
+<aside aria-label="Neubau nach Teil 4" class="starlight-aside starlight-aside--caution"><p class="starlight-aside__title" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" class="starlight-aside__icon"><path d="M12 16a1 1 0 1 0 0 2 1 1 0 0 0 0-2Zm10.67 1.47-8.05-14a3 3 0 0 0-5.24 0l-8 14A3 3 0 0 0 3.94 22h16.12a3 3 0 0 0 2.61-4.53Zm-1.73 2a1 1 0 0 1-.88.51H3.94a1 1 0 0 1-.88-.51 1 1 0 0 1 0-1l8-14a1 1 0 0 1 1.78 0l8.05 14a1 1 0 0 1 .05 1.02v-.02ZM12 8a1 1 0 0 0-1 1v4a1 1 0 0 0 2 0V9a1 1 0 0 0-1-1Z"></path></svg>Neubau nach Teil 4</p><div class="starlight-aside__content"><p>Die Hinweise aus dem Lab zu diesem Auftrag gelten für den Stand von Teil 4. Ein späterer Neubau dauert länger und verliert die Metriken und Logs aus Teil 5. Bis Kapitel 6.1 führst du vor dem Bootstrap <code dir="auto">make-secrets.sh</code> aus, ab Kapitel 6.1 sicherst du vor dem Abriss den Schlüssel von Sealed Secrets wie in Kapitel 6.2. Sonst startet Grafana nicht.</p></div></aside>
+<div class="sl-heading-wrapper level-h3"><h3 id="anforderungen">Anforderungen</h3><a class="sl-anchor-link" href="#anforderungen"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Abschnitt betitelt „Anforderungen“</span></a></div>
+<ol>
+<li>Nach dem Abriss mit <code dir="auto">tofu destroy</code> entsteht die Plattform allein aus deinem Code und dem Repo in Gitea. Ausser dem Bootstrap von Argo CD legst du im Cluster nichts von Hand an.</li>
+<li>Du misst die Zeit vom Start des Abrisses bis zur ersten Antwort des Webshops und hältst die Zeit jedes Schritts fest.</li>
+<li>Nach dem Neubau zeigt <code dir="auto">tofu plan</code> keine Änderungen. Alle Applications sind <code dir="auto">Synced</code> und <code dir="auto">Healthy</code> und die Namespaces der Mitglieder haben wieder ihre Grenzen.</li>
+<li>Der Ablauf steht in einem kurzen Runbook oder in einem Skript, mit dem eine andere Person den Neubau wiederholen könnte.</li>
+<li>Du erklärst an deinem Lab, welche Rolle der State beim Abriss spielt, was mit einer Änderung von Hand geschieht und was der Neubau nicht zurückbringt.</li>
+</ol>
+<div class="sl-heading-wrapper level-h3"><h3 id="vorführung">Vorführung</h3><a class="sl-anchor-link" href="#vorführung"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Abschnitt betitelt „Vorführung“</span></a></div>
+<ul>
+<li>Den Stand vor dem Abriss mit <code dir="auto">tofu plan</code> und den Applications in Argo CD</li>
+<li>Abriss und Neubau mit deinem Runbook oder Skript und der laufenden Zeitmessung</li>
+<li>Die Plattform nach dem Neubau mit Webshop, Applications, Grenzen und <code dir="auto">tofu plan</code></li>
+<li>Deine Zeiten pro Schritt und was du daraus schliesst</li>
+</ul>
+<details class="lt-box lt-details"><summary>Hinweise aus dem Lab</summary><ul>
+<li>Mit dem Stand von Teil 4 dauerte der Neubau knapp drei Minuten, bis der Webshop wieder lief. Starte ihn deshalb früh in der Vorführung und erkläre deinen Code, während er läuft.</li>
+<li>Gitea auf dem Front-end bleibt während des Neubaus erreichbar</li>
+</ul></details>
+<details class="lt-box lt-details"><summary>Quellen</summary><ul>
+<li><a href="../iac/#state">Kapitel 4.1</a> zu State, Plan und Drift</li>
+<li><a href="../opentofu/#%C3%A4ndern-ersetzen-und-neu-bauen">Kapitel 4.2</a> zu <code dir="auto">tofu plan</code> und <code dir="auto">tofu apply</code> für die VMs des Clusters</li>
+<li><a href="../kubernetes/#die-kubeconfig">Kapitel 4.3</a> zum Front-end nach einem neuen Cluster</li>
+<li><a href="../gitops/#argo-cd">Kapitel 4.4</a> zum Bootstrap von Argo CD</li>
+<li>Die Dokumentation von OpenTofu 1.13 zu <a href="https://opentofu.org/docs/v1.13/cli/commands/destroy/"><code dir="auto">tofu destroy</code></a>, zum <a href="https://opentofu.org/docs/v1.13/language/state/">State</a> und zu den <a href="https://opentofu.org/docs/v1.13/cli/commands/plan/">Modi von <code dir="auto">tofu plan</code></a>, darunter <code dir="auto">-refresh-only</code>, der den State an Änderungen ausserhalb von OpenTofu anpasst</li>
+<li><a href="https://argo-cd.readthedocs.io/en/release-3.5/operator-manual/cluster-bootstrapping/">Cluster Bootstrapping</a> in der Dokumentation von Argo CD 3.5 zum Muster App of Apps, auf dem der Bootstrap beruht</li>
+</ul></details>
+<div class="sl-heading-wrapper level-h2"><h2 id="ein-eigenes-mitglied-auftrag-b">Ein eigenes Mitglied (Auftrag B)</h2><a class="sl-anchor-link" href="#ein-eigenes-mitglied-auftrag-b"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Abschnitt betitelt „Ein eigenes Mitglied (Auftrag B)“</span></a></div>
+<p>Bevor das nächste Mitglied dazukommt, will Beat Kläy sehen, dass es nur in seinem eigenen Bereich arbeiten kann. Ein Mitglied nach deiner Wahl bekommt wie die Gemeinde per Pull Request einen Namespace aus der Vorlage, ein AppProject in Argo CD beschränkt seine Applications auf diesen Namespace.</p>
+<figure class="lt-figure fig"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 432" role="img" aria-labelledby="p4c6-member-de-title p4c6-member-de-desc">
+<title id="p4c6-member-de-title">Ein eigenes Mitglied mit AppProject</title>
+<desc id="p4c6-member-de-desc">Der Zielzustand von Auftrag B. Oben in Gitea beantragt ein Pull Request den Namespace aus der Vorlage, nach dem Review liegen der Ordner des Mitglieds und das AppProject auf main. In der Mitte holt Argo CD beide aus Git. Die Application des Mitglieds und eine Application zum Test nennen das AppProject, das als Ziel nur den Namespace des Mitglieds erlaubt. Unten im Cluster wendet Argo CD die Application des Mitglieds in seinem Namespace mit eigener Quota und LimitRange an. Achte auf die Application zum Test. Sie will in den Namespace velo eines anderen Mitglieds schreiben und Argo CD lehnt sie ab.</desc>
+<defs><marker id="p4c6-member-de-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"></path></marker><marker id="p4c6-member-de-head-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head d-head-accent" d="M 0 1 L 9 5 L 0 9 z"></path></marker></defs>
+<rect class="d-ground" x="0" y="0" width="760" height="432" rx="14"></rect>
+<rect class="d-band d-band-2" x="16" y="16" width="728" height="108" rx="12"></rect>
+<text class="d-label d-label-blue" x="32" y="40" text-anchor="start">GITEA</text>
+<text class="d-code" x="79.6132" y="40" text-anchor="start">wolkenwerk/platform</text>
+<rect class="d-band d-band-3" x="16" y="164" width="728" height="106" rx="12"></rect>
+<text class="d-label d-label-violet" x="32" y="188" text-anchor="start">ARGO CD</text>
+<rect class="d-band d-band-3" x="16" y="310" width="728" height="106" rx="12"></rect>
+<text class="d-label d-label-violet" x="32" y="334" text-anchor="start">IM CLUSTER</text>
+<path class="d-arrow d-arrow-accent" d="M 248 81 L 366 81" marker-end="url(#p4c6-member-de-head-accent)"></path>
+<text class="d-sub" x="308" y="74" text-anchor="middle">Merge nach Review</text>
+<path class="d-arrow d-arrow-accent" d="M 380 204 L 380 108" marker-end="url(#p4c6-member-de-head-accent)"></path>
+<text class="d-sub" x="390" y="150" text-anchor="start">holt</text>
+<path class="d-arrow" d="M 248 229 L 294 229" marker-end="url(#p4c6-member-de-head)"></path>
+<text class="d-sub" x="272" y="222" text-anchor="middle">nennt</text>
+<path class="d-arrow" d="M 512 229 L 466 229" marker-end="url(#p4c6-member-de-head)"></path>
+<text class="d-sub" x="488" y="222" text-anchor="middle">nennt</text>
+<path class="d-arrow d-arrow-accent" d="M 140 254 L 140 348" marker-end="url(#p4c6-member-de-head-accent)"></path>
+<text class="d-sub" x="150" y="294" text-anchor="start">wendet an</text>
+<path class="d-arrow d-dashed" d="M 620 254 L 620 348" marker-end="url(#p4c6-member-de-head)"></path>
+<text class="d-sub" x="630" y="294" text-anchor="start">abgelehnt</text>
+<rect class="d-shadow" x="32" y="57.5" width="216" height="50" rx="10"></rect>
+<rect class="d-tile" x="32" y="56" width="216" height="50" rx="10"></rect>
+<g class="d-icon" transform="translate(44 72) scale(0.75)"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"></path><path d="M14 3v5h5M9 13h6M9 17h4"></path></g>
+<text class="d-title" x="72" y="78" text-anchor="start">Pull Request</text>
+<text class="d-sub" x="72" y="94" text-anchor="start">Namespace aus der Vorlage</text>
+<rect class="d-shadow" x="368" y="57.5" width="360" height="50" rx="10"></rect>
+<rect class="d-tile" x="368" y="56" width="360" height="50" rx="10"></rect>
+<g class="d-icon" transform="translate(380 72) scale(0.75)"><circle cx="6" cy="6" r="2.5"></circle><circle cx="6" cy="18" r="2.5"></circle><circle cx="18" cy="9" r="2.5"></circle><path d="M6 8.5v7M18 11.5c0 3-6 2-10.5 5"></path></g>
+<text class="d-title" x="408" y="78" text-anchor="start">main</text>
+<text class="d-sub" x="408" y="94" text-anchor="start">Ordner des Mitglieds und AppProject</text>
+<rect class="d-shadow" x="32" y="205.5" width="216" height="50" rx="10"></rect>
+<rect class="d-tile" x="32" y="204" width="216" height="50" rx="10"></rect>
+<g class="d-icon" transform="translate(44 220) scale(0.75)"><path d="M20 12a8 8 0 0 1-14.3 4.9M4 12A8 8 0 0 1 18.3 7.1"></path><path d="M18.5 3v4.3h-4.3M5.5 21v-4.3h4.3"></path></g>
+<text class="d-title" x="72" y="226" text-anchor="start">Application</text>
+<text class="d-sub" x="72" y="242" text-anchor="start">des Mitglieds</text>
+<rect class="d-shadow" x="296" y="205.5" width="168" height="50" rx="10"></rect>
+<rect class="d-tile d-tile-accent" x="296" y="204" width="168" height="50" rx="10"></rect>
+<g class="d-icon d-icon-accent" transform="translate(308 220) scale(0.75)"><path d="M12 3 19 6v5.5c0 4.4-3 8-7 9.5-4-1.5-7-5.1-7-9.5V6z"></path></g>
+<text class="d-title" x="336" y="226" text-anchor="start">AppProject</text>
+<text class="d-sub" x="336" y="242" text-anchor="start">nur sein Namespace</text>
+<rect class="d-shadow" x="512" y="205.5" width="216" height="50" rx="10"></rect>
+<rect class="d-tile" x="512" y="204" width="216" height="50" rx="10"></rect>
+<g class="d-icon" transform="translate(524 220) scale(0.75)"><path d="M20 12a8 8 0 0 1-14.3 4.9M4 12A8 8 0 0 1 18.3 7.1"></path><path d="M18.5 3v4.3h-4.3M5.5 21v-4.3h4.3"></path></g>
+<text class="d-title" x="552" y="226" text-anchor="start">Application zum Test</text>
+<text class="d-sub" x="552" y="242" text-anchor="start">will nach velo schreiben</text>
+<rect class="d-shadow" x="32" y="351.5" width="216" height="50" rx="10"></rect>
+<rect class="d-tile" x="32" y="350" width="216" height="50" rx="10"></rect>
+<text class="d-title" x="140" y="372" text-anchor="middle">Namespace des Mitglieds</text>
+<text class="d-sub" x="140" y="388" text-anchor="middle">eigene Quota und LimitRange</text>
+<rect class="d-shadow" x="512" y="351.5" width="216" height="50" rx="10"></rect>
+<rect class="d-tile" x="512" y="350" width="216" height="50" rx="10"></rect>
+<text class="d-title" x="620" y="372" text-anchor="middle">Namespace velo</text>
+<text class="d-sub" x="620" y="388" text-anchor="middle">anderes Mitglied</text>
+</svg></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Ausgangslage</th><th>Ergebnis</th></tr></thead><tbody><tr><td>Aus der Basis hast du im Repo <code dir="auto">wolkenwerk/platform</code> die Vorlage <code dir="auto">templates/member</code> und das ApplicationSet <code dir="auto">members</code>, das für jeden Ordner unter <code dir="auto">members</code> eine Application im Projekt <code dir="auto">default</code> erzeugt (Kapitel 4.5). Die Namespaces <code dir="auto">velo</code> und <code dir="auto">gemeinde</code> haben ihre Grenzen, den Antrag der Gemeinde hast du als Pull Request geprüft und zusammengeführt. Die Praxis und die Treuhand haben noch keinen Namespace.</td><td>Ein Mitglied deiner Wahl hat einen eigenen Namespace aus der Vorlage mit Grenzen, die du aus seinem Bedarf hergeleitet hast. Ein AppProject aus Git erlaubt seinen Applications nur diesen Namespace als Ziel. Argo CD lehnt eine Application des Projekts ab, die anderswohin schreiben will.</td></tr></tbody></table>
+<div class="sl-heading-wrapper level-h3"><h3 id="vorgehen-1">Vorgehen</h3><a class="sl-anchor-link" href="#vorgehen-1"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Abschnitt betitelt „Vorgehen“</span></a></div>
+<ol>
+<li>Wähle ein Mitglied ohne Namespace und schätze Zahl, CPU und Speicher seiner Pods.</li>
+<li>Leite daraus Quota und LimitRange her und rechne alle Quotas gegen den Cluster.</li>
+<li>Beantrage den Namespace wie die Gemeinde mit einem Pull Request, prüfe ihn und führe ihn zusammen.</li>
+<li>Entscheide, welche Applications zum Projekt des Mitglieds gehören. Lege das AppProject danach in Git an.</li>
+<li>Prüfe mit einer Application zum Test, dass Argo CD ein Ziel ausserhalb des Namespaces ablehnt.</li>
+<li>Halte Bedarf, Rechnung, die Ablehnung und deinen Entscheid zum Projekt für die Dokumentation fest.</li>
+</ol>
+<div class="sl-heading-wrapper level-h3"><h3 id="anforderungen-1">Anforderungen</h3><a class="sl-anchor-link" href="#anforderungen-1"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Abschnitt betitelt „Anforderungen“</span></a></div>
+<ol>
+<li>Das Mitglied hat in Teil 4 noch keinen Namespace. Es kommt über einen Pull Request in Gitea, den du prüfst und zusammenführst.</li>
+<li>Quota und LimitRange haben eigene Werte. Du leitest sie aus dem Bedarf des Mitglieds her und prüfst, ob alle Quotas zusammen zum Cluster passen.</li>
+<li>Ein AppProject erlaubt als Ziel nur den Namespace dieses Mitglieds. Mindestens eine Application des Mitglieds gehört zu diesem Projekt.</li>
+<li>Das AppProject liegt in Git und kommt über Argo CD in den Cluster.</li>
+<li>Argo CD lehnt eine Application des Projekts ab, die in einen anderen Namespace schreiben will.</li>
+</ol>
+<div class="sl-heading-wrapper level-h3"><h3 id="vorführung-1">Vorführung</h3><a class="sl-anchor-link" href="#vorführung-1"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Abschnitt betitelt „Vorführung“</span></a></div>
+<ul>
+<li>Den Pull Request des Mitglieds mit dem Diff und deiner Begründung der Werte</li>
+<li>Die Grenzen des Mitglieds im Cluster und deine Rechnung für alle Mitglieder</li>
+<li>Das AppProject in Git und die Applications, die dazu gehören</li>
+<li>Eine Application, die Argo CD wegen des Projekts ablehnt, mit dem Grund</li>
+</ul>
+<details class="lt-box lt-details"><summary>Hinweise aus dem Lab</summary><ul>
+<li>Bevor du den Pull Request öffnest, zeigt dir <code dir="auto">kubectl kustomize</code>, was die Vorlage für dein Mitglied erzeugt</li>
+<li>Den Grund einer Ablehnung zeigt Argo CD in seiner Oberfläche bei der Application</li>
+</ul></details>
+<details class="lt-box lt-details"><summary>Quellen</summary><ul>
+<li><a href="../templates/#kustomize">Kapitel 4.5</a> mit der Vorlage, dem Patch des Veloateliers und dem Antrag der Gemeinde</li>
+<li><a href="../kubernetes/#requests-limits-und-scheduling">Kapitel 4.3</a> zu Requests und Limits</li>
+<li><a href="../../tenants/quotas/#quota-und-%C3%BCberbuchung">Kapitel 3.2</a> zu Quotas und Überbuchung</li>
+<li>Die Dokumentation von Kubernetes 1.36 zu <a href="https://v1-36.docs.kubernetes.io/docs/concepts/policy/resource-quotas/">ResourceQuota</a> und <a href="https://v1-36.docs.kubernetes.io/docs/concepts/policy/limit-range/">LimitRange</a></li>
+<li>Die Dokumentation von Argo CD 3.5 mit den Feldern eines AppProject unter <a href="https://argo-cd.readthedocs.io/en/release-3.5/user-guide/projects/">Projects</a> und einem vollständigen AppProject als Datei unter <a href="https://argo-cd.readthedocs.io/en/release-3.5/operator-manual/declarative-setup/">Declarative Setup</a></li>
+<li><a href="https://argo-cd.readthedocs.io/en/release-3.5/operator-manual/applicationset/Generators-Git/">Git-Generator</a> mit der Auswahl und dem Ausschluss von Ordnern in einem ApplicationSet</li>
+<li><a href="https://argo-cd.readthedocs.io/en/release-3.5/operator-manual/applicationset/Security/">ApplicationSet Security</a> zum Risiko eines Projekts aus der Vorlage</li>
+</ul></details>
+<div class="sl-heading-wrapper level-h2"><h2 id="schutz-des-branches-auftrag-c">Schutz des Branches (Auftrag C)</h2><a class="sl-anchor-link" href="#schutz-des-branches-auftrag-c"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Abschnitt betitelt „Schutz des Branches (Auftrag C)“</span></a></div>
+<p>An der Plattform soll niemand etwas ändern, das keine zweite Person angeschaut hat. Auf <code dir="auto">main</code> des Repos <code dir="auto">wolkenwerk/platform</code> kommen Änderungen darum nur noch über einen Pull Request mit Review, Gitea setzt diese Regel selbst durch.</p>
+<figure class="lt-figure fig"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 278" role="img" aria-labelledby="p4c6-branch-de-title p4c6-branch-de-desc">
+<title id="p4c6-branch-de-title">Der geschützte Branch main</title>
+<desc id="p4c6-branch-de-desc">Der Zielzustand von Auftrag C. Links das Plattform-Team mit deinem Konto platform, das zugleich Administrator von Gitea ist. Daneben steht ein zweites Konto mit Schreibrechten. In der Mitte liegt in Gitea das Repo wolkenwerk/platform mit dem geschützten Branch main. Einen direkten Push von platform auf main weist Gitea ab. Ein Pull Request von platform braucht eine Freigabe. Das zweite Konto gibt ihn frei, erst danach führt Gitea ihn in main zusammen. Rechts holt Argo CD im k3s-Cluster main nur lesend und wendet die Änderung an wie bisher. Achte darauf, dass du selbst entscheidest, wer die Regel umgehen darf.</desc>
+<defs><marker id="p4c6-branch-de-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"></path></marker><marker id="p4c6-branch-de-head-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head d-head-accent" d="M 0 1 L 9 5 L 0 9 z"></path></marker></defs>
+<rect class="d-ground" x="0" y="0" width="760" height="278" rx="14"></rect>
+<rect class="d-band d-band-1" x="16" y="16" width="186" height="246" rx="12"></rect>
+<text class="d-label" x="32" y="40" text-anchor="start">PLATTFORM-TEAM</text>
+<rect class="d-band d-band-2" x="280" y="16" width="272" height="246" rx="12"></rect>
+<text class="d-label d-label-blue" x="296" y="40" text-anchor="start">GITEA</text>
+<text class="d-code" x="343.6132" y="40" text-anchor="start">wolkenwerk/platform</text>
+<rect class="d-band d-band-3" x="600" y="16" width="144" height="246" rx="12"></rect>
+<text class="d-label d-label-violet" x="616" y="40" text-anchor="start">K3S-CLUSTER</text>
+<path class="d-arrow d-dashed" d="M 186 81 L 294 81" marker-end="url(#p4c6-branch-de-head)"></path>
+<text class="d-sub" x="241" y="74" text-anchor="middle">direkter Push</text>
+<text class="d-sub" x="241" y="97" text-anchor="middle">abgewiesen</text>
+<path class="d-arrow d-arrow-accent" d="M 186 191 L 294 191" marker-end="url(#p4c6-branch-de-head-accent)"></path>
+<text class="d-sub" x="241" y="184" text-anchor="middle">gibt frei</text>
+<path class="d-arrow d-arrow-accent" d="M 416 166 L 416 108" marker-end="url(#p4c6-branch-de-head-accent)"></path>
+<text class="d-sub" x="426" y="133" text-anchor="start">Merge nach</text>
+<text class="d-sub" x="426" y="147" text-anchor="start">der Freigabe</text>
+<text class="d-meta" x="296" y="246" text-anchor="start">Wer die Regel umgehen darf, entscheidest du.</text>
+<path class="d-arrow d-arrow-accent" d="M 616 81 L 538 81" marker-end="url(#p4c6-branch-de-head-accent)"></path>
+<text class="d-sub" x="576" y="74" text-anchor="middle">holt</text>
+<path class="d-arrow d-arrow-accent" d="M 672 106 L 672 164" marker-end="url(#p4c6-branch-de-head-accent)"></path>
+<text class="d-sub" x="662" y="140" text-anchor="end">wendet an</text>
+<rect class="d-shadow" x="32" y="57.5" width="154" height="50" rx="10"></rect>
+<rect class="d-tile" x="32" y="56" width="154" height="50" rx="10"></rect>
+<g class="d-icon" transform="translate(44 72) scale(0.75)"><circle cx="12" cy="8" r="4"></circle><path d="M4 21a8 8 0 0 1 16 0"></path></g>
+<text class="d-title" x="72" y="78" text-anchor="start">platform</text>
+<text class="d-sub" x="72" y="94" text-anchor="start">Administrator</text>
+<rect class="d-shadow" x="32" y="167.5" width="154" height="50" rx="10"></rect>
+<rect class="d-tile" x="32" y="166" width="154" height="50" rx="10"></rect>
+<g class="d-icon" transform="translate(44 182) scale(0.75)"><circle cx="12" cy="8" r="4"></circle><path d="M4 21a8 8 0 0 1 16 0"></path></g>
+<text class="d-title" x="72" y="188" text-anchor="start">Zweites Konto</text>
+<text class="d-sub" x="72" y="204" text-anchor="start">Schreibrechte</text>
+<rect class="d-shadow" x="296" y="57.5" width="240" height="50" rx="10"></rect>
+<rect class="d-tile d-tile-accent" x="296" y="56" width="240" height="50" rx="10"></rect>
+<g class="d-icon d-icon-accent" transform="translate(308 72) scale(0.75)"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></g>
+<text class="d-title" x="336" y="78" text-anchor="start">main</text>
+<text class="d-sub" x="336" y="94" text-anchor="start">geschützter Branch</text>
+<rect class="d-shadow" x="296" y="167.5" width="240" height="50" rx="10"></rect>
+<rect class="d-tile" x="296" y="166" width="240" height="50" rx="10"></rect>
+<g class="d-icon" transform="translate(308 182) scale(0.75)"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"></path><path d="M14 3v5h5M9 13h6M9 17h4"></path></g>
+<text class="d-title" x="336" y="188" text-anchor="start">Pull Request</text>
+<text class="d-sub" x="336" y="204" text-anchor="start">von platform, braucht eine Freigabe</text>
+<rect class="d-shadow" x="616" y="57.5" width="112" height="50" rx="10"></rect>
+<rect class="d-tile" x="616" y="56" width="112" height="50" rx="10"></rect>
+<g class="d-icon" transform="translate(628 72) scale(0.75)"><path d="M20 12a8 8 0 0 1-14.3 4.9M4 12A8 8 0 0 1 18.3 7.1"></path><path d="M18.5 3v4.3h-4.3M5.5 21v-4.3h4.3"></path></g>
+<text class="d-title" x="656" y="78" text-anchor="start">Argo CD</text>
+<text class="d-sub" x="656" y="94" text-anchor="start">liest nur</text>
+<rect class="d-shadow" x="616" y="167.5" width="112" height="50" rx="10"></rect>
+<rect class="d-tile" x="616" y="166" width="112" height="50" rx="10"></rect>
+<g class="d-icon" transform="translate(628 182) scale(0.75)"><path d="M12 3 20 7.5v9L12 21l-8-4.5v-9z"></path><path d="M4 7.5 12 12l8-4.5M12 12v9"></path></g>
+<text class="d-title" x="656" y="188" text-anchor="start">Änderung</text>
+<text class="d-sub" x="656" y="204" text-anchor="start">ausgerollt</text>
+</svg></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Ausgangslage</th><th>Ergebnis</th></tr></thead><tbody><tr><td>Aus der Basis hast du Gitea auf dem Front-end mit dem Administrator <code dir="auto">platform</code>, der Organisation <code dir="auto">wolkenwerk</code> und dem Repo <code dir="auto">platform</code> (Kapitel 4.4). Deine eigenen Änderungen schickst du mit <code dir="auto">platform.token</code> direkt auf <code dir="auto">main</code>, Argo CD liest das Repo mit <code dir="auto">argocd.token</code> und rollt jeden neuen Commit aus. Ausser <code dir="auto">platform</code> gibt es kein Konto, weil sich niemand selbst registrieren kann.</td><td>Gitea weist jeden direkten Push auf <code dir="auto">main</code> ab und lässt einen Pull Request erst zusammenführen, wenn ein zweites Konto mit Schreibrechten ihn freigegeben hat. Argo CD rollt die Änderung danach aus wie bisher. Wer die Regel umgehen kann, hast du geprüft und entschieden, ob das so bleibt.</td></tr></tbody></table>
+<div class="sl-heading-wrapper level-h3"><h3 id="vorgehen-2">Vorgehen</h3><a class="sl-anchor-link" href="#vorgehen-2"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Abschnitt betitelt „Vorgehen“</span></a></div>
+<ol>
+<li>Lege fest, wer auf <code dir="auto">main</code> schreiben, freigeben und die Regel umgehen darf, auch für die Pushes der Teile 5 und 6.</li>
+<li>Lege das zweite Konto an und gib ihm Schreibrechte auf das Repo.</li>
+<li>Richte die Regel für <code dir="auto">main</code> in den Einstellungen des Repos ein.</li>
+<li>Prüfe die Regel mit einem direkten Push und mit einem Pull Request, den das zweite Konto freigibt.</li>
+<li>Prüfe nach dem Merge, dass Argo CD die Änderung ausrollt.</li>
+<li>Halte die Einstellungen, die Meldungen und deinen Entscheid zur Ausnahme für die Dokumentation fest.</li>
+</ol>
+<aside aria-label="Push in den Teilen 5 und 6" class="starlight-aside starlight-aside--caution"><p class="starlight-aside__title" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" class="starlight-aside__icon"><path d="M12 16a1 1 0 1 0 0 2 1 1 0 0 0 0-2Zm10.67 1.47-8.05-14a3 3 0 0 0-5.24 0l-8 14A3 3 0 0 0 3.94 22h16.12a3 3 0 0 0 2.61-4.53Zm-1.73 2a1 1 0 0 1-.88.51H3.94a1 1 0 0 1-.88-.51 1 1 0 0 1 0-1l8-14a1 1 0 0 1 1.78 0l8.05 14a1 1 0 0 1 .05 1.02v-.02ZM12 8a1 1 0 0 0-1 1v4a1 1 0 0 0 2 0V9a1 1 0 0 0-1-1Z"></path></svg>Push in den Teilen 5 und 6</p><div class="starlight-aside__content"><p>Die Teile 5 und 6 schicken Änderungen mit <code dir="auto">git push</code> direkt auf <code dir="auto">main</code>, mit dem Schutz aus diesem Auftrag weist Gitea sie ab. Entscheide darum vor dem Schutz, ob du dort über Pull Requests arbeitest oder über eine Ausnahme, die du selbst festlegst.</p></div></aside>
+<div class="sl-heading-wrapper level-h3"><h3 id="anforderungen-2">Anforderungen</h3><a class="sl-anchor-link" href="#anforderungen-2"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Abschnitt betitelt „Anforderungen“</span></a></div>
+<ol>
+<li>Gitea weist einen direkten Push auf <code dir="auto">main</code> des Repos <code dir="auto">wolkenwerk/platform</code> ab.</li>
+<li>Einen Pull Request auf <code dir="auto">main</code> kannst du erst zusammenführen, wenn ein anderes Konto mit Schreibrechten ihn freigegeben hat.</li>
+<li>Nach dem Merge rollt Argo CD die Änderung wie bisher aus.</li>
+<li>Du zeigst, wer in deinem Gitea die Regel umgehen könnte. Ob diese Ausnahme bleibt, entscheidest und begründest du.</li>
+</ol>
+<div class="sl-heading-wrapper level-h3"><h3 id="vorführung-2">Vorführung</h3><a class="sl-anchor-link" href="#vorführung-2"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Abschnitt betitelt „Vorführung“</span></a></div>
+<ul>
+<li>Die Regel für <code dir="auto">main</code> in den Einstellungen des Repos</li>
+<li>Einen direkten Push, den Gitea abweist, mit der Meldung im Terminal</li>
+<li>Einen Pull Request, den Gitea erst nach der Freigabe zusammenführen lässt</li>
+<li>Die Änderung im Cluster nach dem Merge</li>
+</ul>
+<details class="lt-box lt-details"><summary>Hinweise aus dem Lab</summary><ul>
+<li>Ein weiteres Konto legst du in der Weboberfläche unter «Site Administration» an oder auf dem Front-end mit <code dir="auto">sudo -u git gitea --config /etc/gitea/app.ini admin user create</code>. Ohne <code dir="auto">sudo -u git</code> scheitert der Befehl, weil <code dir="auto">/etc/gitea/app.ini</code> nur für <code dir="auto">root</code> und die Gruppe <code dir="auto">git</code> lesbar ist.</li>
+<li>Für das zweite Konto öffnest du in Firefox mit Ctrl+Shift+P ein privates Fenster. Der Browser hält für Gitea nur eine Anmeldung, das private Fenster hat eine eigene.</li>
+</ul></details>
+<details class="lt-box lt-details"><summary>Quellen</summary><ul>
+<li><a href="../gitops/#gitea-auf-dem-front-end">Kapitel 4.4</a> zu Gitea ohne Registrierung, in dem nur ein Administrator Konten anlegt</li>
+<li><a href="../gitops/#das-repo-platform">Das Repo platform</a> in Kapitel 4.4 mit den Rechten der zwei Tokens</li>
+<li><a href="../templates/#der-antrag-der-gemeinde">Kapitel 4.5</a> mit dem Weg eines Antrags</li>
+<li>Die Dokumentation von Gitea 28 mit allen Einstellungen unter <a href="https://docs.gitea.com/usage/access-control/protected-branches/">Protected branches</a> und den Befehlen für Konten in der <a href="https://docs.gitea.com/administration/command-line">Befehlszeile von Gitea</a></li>
+</ul></details></div><footer class="sl-flex astro-7u27nsfc"><div class="meta sl-flex astro-7u27nsfc"></div><div data-pagefind-ignore style="display: contents"><div class="pagination-links print:hidden astro-d2wubx5p" dir="ltr"><a href="/pr-preview/pr-8/platform/templates/" rel="prev" class="astro-d2wubx5p"><svg aria-hidden="true" class="astro-d2wubx5p astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.5rem;"><path d="M17 11H9.41l3.3-3.29a1.004 1.004 0 1 0-1.42-1.42l-5 5a1 1 0 0 0-.21.33 1 1 0 0 0 0 .76 1 1 0 0 0 .21.33l5 5a1.002 1.002 0 0 0 1.639-.325 1 1 0 0 0-.219-1.095L9.41 13H17a1 1 0 0 0 0-2Z"/></svg><span class="astro-d2wubx5p">Vorherige Seite<br class="astro-d2wubx5p"><span class="link-title astro-d2wubx5p">4.5 Plattform-Vorlagen</span></span></a><a href="/pr-preview/pr-8/platform/competences/" rel="next" class="astro-d2wubx5p"><svg aria-hidden="true" class="astro-d2wubx5p astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.5rem;"><path d="M17.92 11.62a1.001 1.001 0 0 0-.21-.33l-5-5a1.003 1.003 0 1 0-1.42 1.42l3.3 3.29H7a1 1 0 0 0 0 2h7.59l-3.3 3.29a1.002 1.002 0 0 0 .325 1.639 1 1 0 0 0 1.095-.219l5-5a1 1 0 0 0 .21-.33 1 1 0 0 0 0-.76Z"/></svg><span class="astro-d2wubx5p">Nächste Seite<br class="astro-d2wubx5p"><span class="link-title astro-d2wubx5p">4.7 Kompetenzraster</span></span></a></div></div></footer><p class="lt-licence astro-jo6i4kqk">Texte und Abbildungen stehen unter <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.de" class="astro-jo6i4kqk">CC BY-SA 4.0</a> und der Code unter der <a href="https://github.com/ndum/cc/blob/main/LICENSES/MIT.txt" class="astro-jo6i4kqk">MIT-Lizenz</a>. Die Quellen liegen auf <a href="https://github.com/ndum/cc" class="astro-jo6i4kqk">GitHub</a>.</p><p class="lt-licence lt-version astro-jo6i4kqk">Stand <a href="https://github.com/ndum/cc/commit/c29fcdec445eebfe221290ad753449fc6ccc5dd6" class="astro-jo6i4kqk">c29fcde</a></p></div></div></main></div></div></div></div></body></html>
