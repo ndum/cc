@@ -107,7 +107,7 @@ So far, the member [NetworkPolicy](https://v1-36.docs.kubernetes.io/docs/concept
 
 ::code{file="platform/observability/repo/templates/member/networkpolicy.yaml"}
 
-Once you have pushed everything, Argo CD rolls out the stack. In the lab it was synced and healthy 140 to 160 seconds after the push.
+Once you have pushed everything, Argo CD rolls out the stack. In the lab it was synced and healthy after two to five minutes. Argo CD sees the new applications in `apps` only at its next poll of the repo, then each of them loads its charts and images.
 
 ```bash
 git add .

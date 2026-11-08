@@ -144,7 +144,7 @@ Run these in `~/platform/tofu` after setting `OPENNEBULA_USERNAME` and `OPENNEBU
 | `kubectl -n argocd describe application <name>` | messages of an Application, such as a sync error |
 | `git status`, `git log --oneline` | state of the platform repo in `~/platform` |
 | `git add`, `git commit`, `git push` | send a change to Gitea, Argo CD picks it up within a minute |
-| `git revert <commit>` | undo a commit with a new commit |
+| `git revert --no-edit <commit>` | undo a commit with a new commit, without an editor for the message |
 
 ### System services and firewall
 

@@ -40,8 +40,8 @@ Open this page in the browser of the client, so you can copy the blocks and past
 
 The two blocks of the generator are the same for all three servers. Work through the servers in turn, first the front-end and then the two nodes.
 
-1. In the terminal of the client, log in at the server's default address, for the front-end with `ssh cc@192.168.210.137`. The first time, you confirm the server's key with `yes`, then it asks for the password of the user `cc`, which your instructor gives you.
-2. Paste the first block and start it with Enter. It creates the file `/etc/cc-lab.env`, from which the scripts of the course read your values. `sudo` asks for your password.
+1. In the terminal of the client, log in at the server's default address, for the front-end with `ssh vmadmin@192.168.210.137`. The first time, you confirm the server's key with `yes`, then it asks for the password of the user `vmadmin`, which your instructor gives you.
+2. Paste the first block and start it with Enter. It creates the file `/etc/cc-lab.env`, from which the scripts of the course read your values. If `sudo` asks for your password, enter the same password.
 3. Paste the second block and start it with Enter. It writes the new address into `00-eth0.yaml` and logs you out. Two seconds later the server takes on its new address.
 
 `netplan apply` takes away the old address your session runs on. Run directly in the session, the command would leave the session frozen. That is why `systemd-run` starts it as a service of its own that waits two seconds first. In that time `exit` logs you out. The [systemd-run manual page](https://manpages.ubuntu.com/manpages/resolute/man1/systemd-run.1.html) describes such services.
@@ -92,6 +92,6 @@ A copy of `/etc/cc-lab.env` lies in your hand-in repo, and a screencast of the a
 Generate your parameters, create `/etc/cc-lab.env` on all three servers and give them their new addresses. Then explain three of the values to a classmate in your own words.
 
 :::solution
-The file has 16 lines and is the same on all three servers. The host names start with your code, the internal network lies within 172.16.0.0/12 and ends in `.0/24`, and the VXLAN identifier lies between 1000 and 9999. `ssh cc@<address>` works from the client at the new address of every server, also after a reboot.
+The file has 16 lines and is the same on all three servers. The host names start with your code, the internal network lies within 172.16.0.0/12 and ends in `.0/24`, and the VXLAN identifier lies between 1000 and 9999. `ssh vmadmin@<address>` works from the client at the new address of every server, also after a reboot.
 :::
 ::::

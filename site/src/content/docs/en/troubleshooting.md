@@ -75,6 +75,7 @@ The addresses, ports and commands for these steps are in the [lab reference](../
 | Nodes do not become `Ready` | The start script is still running or failed | `ssh root@<server> journalctl -u one-context`, `systemctl status k3s`, if needed `tofu apply -replace` | [4.3](../platform/kubernetes/) |
 | SSH or kubectl refuse after a rebuild | An old key in `known_hosts`, an old kubeconfig | `ssh-keygen -R <address>`, fetch the kubeconfig again with `get-kubeconfig.sh` | [4.3](../platform/kubernetes/) |
 | A node is `NotReady` | k3s is not running on that VM, or the VM is off | `onevm list`, `ssh root@<address> systemctl status k3s` or `k3s-agent` | [4.3](../platform/kubernetes/) |
+| A k3s VM is in `poff` after another VM started | The node ran out of memory and the kernel killed the VM | `free -h` on the node shows the swap, without swap run `prepare.sh` again with the role of the node. Power off the other VM and start the k3s VM with `onevm resume` | [6.2](../operations/backup/#vms-in-opennebula) |
 | The agent's disk is full, `KubePersistentVolumeFillingUp` | The VM's disk is too small for the Ollama image | Set `disk_size` to 30 GB, `tofu apply` | [5.5](../observability/advanced/) |
 
 ## GitOps
@@ -84,7 +85,7 @@ The addresses, ports and commands for these steps are in the [lab reference](../
 | Argo CD shows `authentication required` | Wrong token, or a line break in the secret | Rewrite the secret with `bootstrap-argocd.sh` | [4.4](../platform/gitops/) |
 | Applications stay `Unknown` | The `FRONTEND` placeholder was not replaced, or Gitea is not running | `grep -r FRONTEND ~/platform`, `systemctl status gitea` | [4.4](../platform/gitops/) |
 | `git push` is rejected | Wrong token or `~/.git-credentials` | Rewrite the file as in 4.4 | [4.4](../platform/gitops/) |
-| An Application reports a sync error | A commit contains an invalid manifest | `kubectl -n argocd describe application <name>`, `git log`, undo the commit with `git revert` | [4.4](../platform/gitops/) |
+| An Application reports a sync error | A commit contains an invalid manifest | `kubectl -n argocd describe application <name>`, `git log`, undo the commit with `git revert --no-edit <commit>` | [4.4](../platform/gitops/) |
 | Pods hang in `ImagePullBackOff` or `ErrImagePull` | Wrong image tag, or the image cannot be reached | `kubectl describe pod`, check the tag in Git | [4.4](../platform/gitops/) |
 | A manual change disappears after a few seconds | Self-heal restores the state from Git | That is intended, make the change in Git | [4.4](../platform/gitops/) |
 | A new folder under `members` does not show up | The push is missing, or the ApplicationSet has not polled yet | `git log origin/main`, wait a minute | [4.5](../platform/templates/) |

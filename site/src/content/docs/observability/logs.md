@@ -99,7 +99,7 @@ git push
 Rufe den Shop einige Male auf, sobald Argo CD die Änderung übernommen hat. Finde in den Logs heraus, was die Kundschaft erlebt. Suche danach im Git-Verlauf, wer es war. Stelle zum Schluss den alten Stand her.
 
 :::solution
-`{namespace="velo", app="webshop"} |= "error"` zeigt Zeilen wie `error: simulated failure on /`, daneben Zeilen mit dem Status `500`. `git log -p webshop/deployment.yaml` zeigt den Commit mit Autor und Änderung, seine Zeit passt zur ersten Fehlerzeile. `git revert` und `git push` stellen den alten Stand her, Argo CD rollt ihn aus.
+`{namespace="velo", app="webshop"} |= "error"` zeigt Zeilen wie `error: simulated failure on /`, daneben Zeilen mit dem Status `500`. `git log -p webshop/deployment.yaml` zeigt den Commit mit Autor und Änderung, seine Zeit passt zur ersten Fehlerzeile. `git revert --no-edit HEAD` und `git push` stellen den alten Stand her, Argo CD rollt ihn aus.
 :::
 ::::
 

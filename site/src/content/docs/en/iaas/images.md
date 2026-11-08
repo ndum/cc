@@ -129,7 +129,7 @@ The check ends with "11 of 11 base checks passed". Inside the VM, `hostname` sho
 Treuhand Aaregg needs a larger VM with two CPUs and 2 GB of memory at the end of the month. Create a copy of the template named `ubuntu-medium` and start a VM from it. According to `onehost list`, how many such VMs fit on one node?
 
 :::solution
-`onetemplate clone ubuntu ubuntu-medium`, then `onetemplate update ubuntu-medium` with `CPU = "1"`, `VCPU = "2"` and `MEMORY = "2048"`. A node with 7.2 GB of memory and four cores carries three such VMs. Memory sets the limit, since the CPU would allow four.
+`onetemplate clone ubuntu ubuntu-medium`, then `onetemplate update ubuntu-medium` with `CPU = "1"`, `VCPU = "2"` and `MEMORY = "2048"`. A node with about 7.2 GB of memory and four cores carries three such VMs. Memory sets the limit, since the CPU would allow four.
 :::
 ::::
 

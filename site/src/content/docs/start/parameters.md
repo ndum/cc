@@ -40,8 +40,8 @@ Ubuntu verwaltet das Netz mit netplan, das seine Einstellungen aus YAML-Dateien 
 
 Die beiden Blöcke des Generators sind für alle drei Server gleich. Nimm dir die Server der Reihe nach vor, zuerst das Front-end und danach die beiden Knoten.
 
-1. Melde dich im Terminal des Clients an der Standardadresse des Servers an, für das Front-end mit `ssh cc@192.168.210.137`. Beim ersten Mal bestätigst du den Schlüssel des Servers mit `yes`, danach will er das Passwort des Benutzers `cc`, das dir deine Dozentin oder dein Dozent nennt.
-2. Füge den ersten Block ein und starte ihn mit Enter. Er legt die Datei `/etc/cc-lab.env` an, aus der die Skripte des Kurses deine Werte lesen. `sudo` fragt dabei nach deinem Passwort.
+1. Melde dich im Terminal des Clients an der Standardadresse des Servers an, für das Front-end mit `ssh vmadmin@192.168.210.137`. Beim ersten Mal bestätigst du den Schlüssel des Servers mit `yes`, danach will er das Passwort des Benutzers `vmadmin`, das dir deine Dozentin oder dein Dozent nennt.
+2. Füge den ersten Block ein und starte ihn mit Enter. Er legt die Datei `/etc/cc-lab.env` an, aus der die Skripte des Kurses deine Werte lesen. Falls `sudo` dabei nach deinem Passwort fragt, gibst du dasselbe Passwort ein.
 3. Füge den zweiten Block ein und starte ihn mit Enter. Er trägt die neue Adresse in `00-eth0.yaml` ein und meldet dich ab. Zwei Sekunden später übernimmt der Server die neue Adresse.
 
 `netplan apply` nimmt dem Server die alte Adresse, über die deine Sitzung läuft. Liefe der Befehl direkt in der Sitzung, bliebe sie hängen. Darum startet ihn `systemd-run` als eigenen Dienst, der zuerst zwei Sekunden wartet. In dieser Zeit meldet dich `exit` ab. Solche Dienste beschreibt die [Handbuchseite zu systemd-run](https://manpages.ubuntu.com/manpages/resolute/man1/systemd-run.1.html).
@@ -92,6 +92,6 @@ Eine Kopie von `/etc/cc-lab.env` liegt in deinem Abgabe-Repo, ein Screencast der
 Erzeuge deine Parameter, lege auf allen drei Servern `/etc/cc-lab.env` an und gib ihnen ihre neuen Adressen. Erkläre danach einer Kollegin oder einem Kollegen drei der Werte in eigenen Worten.
 
 :::solution
-Die Datei hat 16 Zeilen und ist auf allen drei Servern gleich. Die Hostnamen beginnen mit deinem Code, das interne Netz liegt in 172.16.0.0/12 und endet auf `.0/24`. Die VXLAN-Kennung liegt zwischen 1000 und 9999. `ssh cc@<adresse>` klappt vom Client aus an der neuen Adresse jedes Servers, auch nach einem Neustart.
+Die Datei hat 16 Zeilen und ist auf allen drei Servern gleich. Die Hostnamen beginnen mit deinem Code, das interne Netz liegt in 172.16.0.0/12 und endet auf `.0/24`. Die VXLAN-Kennung liegt zwischen 1000 und 9999. `ssh vmadmin@<adresse>` klappt vom Client aus an der neuen Adresse jedes Servers, auch nach einem Neustart.
 :::
 ::::

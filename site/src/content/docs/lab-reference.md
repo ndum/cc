@@ -144,7 +144,7 @@ Diese Befehle führst du im Ordner `~/platform/tofu` aus, nachdem du `OPENNEBULA
 | `kubectl -n argocd describe application <name>` | Meldungen einer Application, etwa ein Fehler beim Sync |
 | `git status`, `git log --oneline` | Stand des Plattform-Repos in `~/platform` |
 | `git add`, `git commit`, `git push` | Änderung nach Gitea bringen, Argo CD holt sie innert einer Minute |
-| `git revert <commit>` | einen Commit mit einem neuen Commit rückgängig machen |
+| `git revert --no-edit <commit>` | einen Commit mit einem neuen Commit rückgängig machen, ohne Editor für die Nachricht |
 
 ### Systemdienste und Firewall
 

@@ -76,11 +76,19 @@ Wer einem Mitglied etwas verbieten will, ändert deshalb die ACLs oder die Recht
 
 Ein Gruppenadmin legt die Benutzer seines Mitglieds selbst an. Neue Benutzer landen in seiner Gruppe, ihre VMs zählen gegen die Quota der Gruppe. Die [Dokumentation zu den Benutzern](https://docs.opennebula.io/7.4/product/cloud_system_administration/multitenancy/manage_users/#adding-users) beschreibt `oneuser create`.
 
+Das Passwort der MPA liest `read` verdeckt ein. So steht es weder auf dem Bildschirm noch in der History der Shell. Gib es nach diesem Befehl ein und bestätige mit Enter.
+
+```bash
+read -rsp "Passwort für praxis-mpa: " pw; echo
+```
+
+Der folgende Block legt die MPA als `praxis-admin` mit diesem Passwort an und löscht danach die Variable.
+
 ```bash
 export ONE_AUTH=~/cc-lab/tenants/praxis.auth
-oneuser create praxis-mpa "<passwort>"
+oneuser create praxis-mpa "$pw"
 oneuser list
-unset ONE_AUTH
+unset ONE_AUTH pw
 ```
 
 Die MPA meldet sich danach in Sunstone an, bekommt die Ansicht `cloud` und startet ihre VMs aus der Vorlage `ubuntu`. Der Gruppenadmin sieht und verwaltet auch ihre VMs.
@@ -99,14 +107,18 @@ Die Vorlage `ubuntu` gehört `oneadmin`. Mit `chmod 604` dürfen die Mitglieder 
 [one.template.update] User [2] : Not authorized to perform MANAGE TEMPLATE [1].
 ```
 
-Eigene Vorlagen anlegen dürfen die Mitglieder aber, das erlaubt ihre Gruppe seit Kapitel 3.1. Braucht die Praxis eine grössere VM, kopiert sie die Vorlage und ändert die Kopie. Beides beschreibt die [Dokumentation zu den VM-Vorlagen](https://docs.opennebula.io/7.4/product/virtual_machines_operation/virtual_machines/vm_templates/#cloning-templates).
+Eigene Vorlagen anlegen dürfen die Mitglieder aber, das erlaubt ihre Gruppe seit Kapitel 3.1. Braucht die Praxis eine grössere VM, kopiert sie die Vorlage und ändert die Kopie. Beides beschreibt die [Dokumentation zu den VM-Vorlagen](https://docs.opennebula.io/7.4/product/virtual_machines_operation/virtual_machines/vm_templates/#cloning-templates). Der folgende Block macht beides als `praxis-admin` und gibt der Kopie 2 GB Arbeitsspeicher. Mit `--append` ändert `onetemplate update` nur die Werte aus der Datei, ohne einen Editor zu öffnen. Der Rest der Vorlage bleibt, wie er ist. `onetemplate show` zeigt danach Besitzer, Gruppe und Speicher.
 
 ```bash
+export ONE_AUTH=~/cc-lab/tenants/praxis.auth
 onetemplate clone ubuntu praxis-gross
-onetemplate update praxis-gross
+echo 'MEMORY = "2048"' > /tmp/praxis-gross.tpl
+onetemplate update praxis-gross --append /tmp/praxis-gross.tpl
+onetemplate show praxis-gross | grep -E '^(USER|GROUP) |MEMORY='
+unset ONE_AUTH
 ```
 
-Die Kopie gehört der Praxis und übernimmt alles, auch die Preise aus Kapitel 3.3. Was die Praxis darin einträgt, begrenzt weiterhin ihre Quota. Das Plattform-Team muss so nur wenige gemeinsame Vorlagen, Netze und Images pflegen. Alles Weitere richten die Mitglieder innerhalb ihrer Quota selbst ein.
+Die Kopie gehört der Praxis und übernimmt sonst alles, auch die Preise aus Kapitel 3.3. Was die Praxis darin einträgt, begrenzt weiterhin ihre Quota. Das Plattform-Team muss so nur wenige gemeinsame Vorlagen, Netze und Images pflegen. Alles Weitere richten die Mitglieder innerhalb ihrer Quota selbst ein.
 
 Unter «Templates › VM Templates» siehst du als `oneadmin` die Vorlagen des Plattform-Teams und die Kopien der Mitglieder nebeneinander.
 
@@ -126,7 +138,7 @@ Die zwei Zeilen zu OneFlow mit `[+!!]` gehören zum Zusatzauftrag A in Kapitel 3
 Mit zwei VMs ist die Quota der Praxis aus Kapitel 3.2 voll. Lösche deshalb zuerst als `praxis-admin` die VM `praxis-2` mit `onevm terminate`. Sunstone setzt die CPU einer neuen VM auf 1, neben `praxis-1` passt sie gerade in die 1,5 CPU der Praxis. Lege dann den Benutzer `praxis-mpa` an, melde dich mit ihm im Browser des Clients bei Sunstone an und starte eine VM. Prüfe als `praxis-admin`, ob du sie siehst. Mach einen Screenshot für Meilenstein 1 und lösche die VM danach. Lass zum Schluss den Check `tenants` laufen und lade seinen Bericht in dein Abgabe-Repo.
 
 :::solution
-`oneuser create praxis-mpa <passwort>` legt den Benutzer in der Gruppe `praxis` an. In Sunstone zeigt die Ansicht `cloud` die Vorlage `ubuntu`. Die VM startet nur, solange die Quota der Praxis Platz hat. Als `praxis-admin` zeigt `onevm list` die VM mit dem Besitzer `praxis-mpa`, `onevm terminate` löscht sie. Der Check endet mit «19 von 19 Prüfungen der Basis erfüllt» und «0 von 2 Prüfungen der Zusatzaufträge erfüllt».
+`oneuser create` legt den Benutzer `praxis-mpa` in der Gruppe `praxis` an. In Sunstone zeigt die Ansicht `cloud` die Vorlage `ubuntu`. Die VM startet nur, solange die Quota der Praxis Platz hat. Als `praxis-admin` zeigt `onevm list` die VM mit dem Besitzer `praxis-mpa`, `onevm terminate` löscht sie. Der Check endet mit «19 von 19 Prüfungen der Basis erfüllt» und «0 von 2 Prüfungen der Zusatzaufträge erfüllt».
 :::
 ::::
 

@@ -131,7 +131,7 @@ Start two VMs from the template `ubuntu`, empty a node one of them runs on, take
 Gemeinde Hinterbüel wants to know whether two nodes are enough when one is down for maintenance. Use `onehost show` to work out how many VMs from the template `ubuntu` fit on a single node, and explain whether overcommitting memory would be a good idea.
 
 :::solution
-A node with 7.2 GB and 400 hundredths of CPU carries seven VMs with 1 GB and 50 hundredths each, so memory sets the limit. Spread over both nodes there must therefore be no more than seven if one node alone has to carry all of them. Overcommitting memory would be risky, because VMs crash when memory runs out, and during maintenance all of them run on one node.
+A node with about 7.2 GB and 400 hundredths of CPU carries seven VMs with 1 GB and 50 hundredths each, so memory sets the limit. Spread over both nodes there must therefore be no more than seven if one node alone has to carry all of them. Overcommitting memory would be risky, because VMs crash when memory runs out, and during maintenance all of them run on one node.
 :::
 ::::
 
