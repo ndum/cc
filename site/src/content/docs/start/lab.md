@@ -36,7 +36,7 @@ Dein Lab besteht aus drei Servern und einem Client. Das Front-end verwaltet spä
 
 Auf smartlearn arbeitest du immer am Client. Er ist eine VM mit Kali Linux und Desktop und liegt im selben Labnetz wie die drei Server, mit der festen Adresse 192.168.210.10. Im Browser des Clients öffnest du diesen Kurs, den Generator und später alle Weboberflächen. In seinem Terminal meldest du dich per SSH an den Servern an.
 
-Am Client kannst du Befehle aus dem Kurs kopieren und im Terminal einfügen. An den Konsolen der Server auf smartlearn geht das nicht. Die Konsole eines Servers brauchst du deshalb nur am Anfang, bis er eine Adresse hat und SSH funktioniert.
+Am Client kannst du Befehle aus dem Kurs kopieren und im Terminal einfügen. An den Konsolen der Server auf smartlearn geht das nicht. Die Vorlage von smartlearn gibt jedem Server aber schon eine Standardadresse, unter der du ihn vom Client aus per SSH erreichst. Die Konsole eines Servers brauchst du deshalb nur, wenn er per SSH nicht mehr antwortet.
 
 Den Client richtet deine Dozentin oder dein Dozent in der Vorlage ein. Zeigt `ip -br addr` im Terminal des Clients keine Adresse in 192.168.210.0/24, setzt du sie mit `nmcli` selbst. Den Namen der Verbindung zeigt der erste Befehl, bei Kali heisst sie meist «Wired connection 1». Die Befehle von `nmcli` erklärt das [Referenzhandbuch von NetworkManager](https://networkmanager.dev/docs/api/latest/nmcli.html).
 
@@ -87,9 +87,9 @@ Lege danach von jeder VM einen Snapshot an. Mit ihm kommst du jederzeit zu einer
 :::
 
 ::::exercise[Lab]
-Öffne am Client diesen Kurs im Browser. Melde dich danach an der Konsole von smartlearn an den drei Servern an und prüfe auf beiden Knoten die verschachtelte Virtualisierung. Notiere dir den Namen der Netzwerkschnittstelle, den `ip -br link` zeigt, du brauchst ihn im nächsten Kapitel.
+Öffne am Client diesen Kurs im Browser. Melde dich danach im Terminal des Clients per SSH an den drei Servern an, an den Standardadressen 192.168.210.137 bis 192.168.210.139 aus [Kapitel 0.3](../parameters/#die-adressen-eintragen). Prüfe auf beiden Knoten die verschachtelte Virtualisierung und auf allen drei Servern mit `ip -br link` den Namen der Netzwerkschnittstelle.
 
 :::solution
-`grep -cE 'vmx|svm' /proc/cpuinfo` gibt auf beiden Knoten eine Zahl grösser als null aus, bei vier vCPUs meist 4 oder 8. `ip -br link` zeigt neben `lo` eine weitere Schnittstelle. Ihr Name hängt vom Hypervisor ab, auf den drei Servern einer Umgebung ist er gleich.
+`grep -cE 'vmx|svm' /proc/cpuinfo` gibt auf beiden Knoten eine Zahl grösser als null aus, bei vier vCPUs meist 4 oder 8. `ip -br link` zeigt neben `lo` eine weitere Schnittstelle. Ihr Name hängt vom Hypervisor ab, auf smartlearn heisst sie auf allen drei Servern `eth0`.
 :::
 ::::

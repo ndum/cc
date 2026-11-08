@@ -36,7 +36,7 @@ Your lab consists of three servers and a client. The front-end will manage the c
 
 On smartlearn you always work on the client. It is a VM with the Kali Linux desktop on the same lab network as the three servers, with the fixed address 192.168.210.10. In its browser you open this course, the generator and later every web interface. In its terminal you log in to the servers over SSH.
 
-On the client you can copy commands from the course and paste them into the terminal. The consoles of the servers on smartlearn do not allow pasting, so you only need a server's console at the very beginning, until it has an address and SSH works.
+On the client you can copy commands from the course and paste them into the terminal. The consoles of the servers on smartlearn do not allow pasting. The smartlearn template, however, already gives every server a default address at which you reach it from the client over SSH, so you only need a server's console when it no longer answers over SSH.
 
 Your instructor sets up the client in the template. If `ip -br addr` in the client's terminal shows no address in 192.168.210.0/24, set it yourself with `nmcli`. The first command lists the connections, on Kali the wired one is usually called "Wired connection 1". The [NetworkManager reference manual](https://networkmanager.dev/docs/api/latest/nmcli.html) covers every `nmcli` command.
 
@@ -87,9 +87,9 @@ Then take a snapshot of every VM. It brings you back to a fresh installation at 
 :::
 
 ::::exercise[Lab]
-Open this course in the browser of the client. Then log in to the three servers on the smartlearn console and check nested virtualization on both nodes. Write down the name of the network interface that `ip -br link` shows, you need it in the next chapter.
+Open this course in the browser of the client. Then log in to the three servers over SSH in the terminal of the client, at the default addresses 192.168.210.137 to 192.168.210.139 from [chapter 0.3](../parameters/#setting-the-addresses). Check nested virtualization on both nodes and the name of the network interface with `ip -br link` on all three servers.
 
 :::solution
-`grep -cE 'vmx|svm' /proc/cpuinfo` prints a number greater than zero on both nodes, usually 4 or 8 with four vCPUs. Besides `lo`, `ip -br link` shows one more interface. Its name depends on the hypervisor and is the same on the three servers of one environment.
+`grep -cE 'vmx|svm' /proc/cpuinfo` prints a number greater than zero on both nodes, usually 4 or 8 with four vCPUs. Besides `lo`, `ip -br link` shows one more interface. Its name depends on the hypervisor, on smartlearn it is `eth0` on all three servers.
 :::
 ::::

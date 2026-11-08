@@ -28,61 +28,59 @@ Your instructor gives you the code, usually your short name. It starts with a le
 
 ## The steps
 
-It takes five steps until your three servers are reachable and know their parameters. You do the first two once and the other three for every server.
+It takes five steps until your three servers have addresses of their own and know their parameters. You do the first one once and the other four for every server. On smartlearn you need no console for this, because the template already gives every server a default address at which you reach it from the client over SSH.
 
-1. Read the name of the network interface on the console of one server
-2. Enter your code and the interface in the generator
-3. Type the two commands for a temporary address on the console of the server
-4. Log in from the client over SSH and make the address permanent with netplan
-5. Create the file `/etc/cc-lab.env` in the same SSH session
+1. Enter your code in the generator
+2. Log in from the client at the default address of the server and check the network interface
+3. Change the address in `/etc/netplan/00-eth0.yaml` to the address from the generator
+4. Log in again at the new address
+5. Create the file `/etc/cc-lab.env`
 
-The output of the generator follows this order. The section [The values](#the-values) at the end explains what each value means.
+The output of the generator follows this order. With a hypervisor of your own, steps 2 to 4 differ, the box "Own hypervisor" at the end of [Setting the addresses](#setting-the-addresses) describes them. The section [The values](#the-values) at the end explains what each value means.
 
 ## The network interface
 
-The commands from the generator contain the name of the network interface that connects a server to the lab network. Ubuntu names it after the virtual network card the hypervisor gives the VM, so you read it off your own servers. You already noted it in chapter 0.2.
-
-If you no longer have it, log in to one of the servers on the smartlearn console and enter this command.
+Every server connects to the lab network through a network interface. Ubuntu names it after the virtual network card the hypervisor gives the VM, so check it on all three servers as soon as you are logged in.
 
 ```bash
 ip -br link
 ```
 
-The output has one line per interface. `lo` is the interface the server uses to talk to itself. The second line is the one you need, its name comes first. The three servers of one environment use the same name.
+The output has one line per interface. `lo` is the interface the server uses to talk to itself. The second line is the one you need, its name comes first. On smartlearn it is `eth0` on all three servers, which is why its address lives in the file `/etc/netplan/00-eth0.yaml`.
 
 ## The generator
 
-Open this page in the browser of the client, so you can copy the output of the generator and paste it into the terminal of the client. Enter your code and the name of the network interface. The calculation runs only in the browser, nothing leaves this page. Your input is still there the next time you visit.
-
-:::caution[Name of the network interface]
-Enter exactly the name that `ip -br link` shows on your servers. The generator puts it unchanged into the commands for the console and for netplan. Names from examples such as `ens160` or `eth0` only fit if your servers happen to use them too. With a wrong name the server gets no address, and you cannot reach it over SSH.
-:::
+Open this page in the browser of the client, so you can copy the output of the generator and paste it into the terminal of the client. Enter your code. You only need the name of the network interface with a hypervisor of your own, on smartlearn you leave the field empty. The calculation runs only in the browser, nothing leaves this page. Your input is still there the next time you visit.
 
 <cc-params></cc-params>
 
 ## Setting the addresses
 
-Work through the servers one at a time, first on the console and then from the client over SSH.
+Work through the servers one at a time, first the front-end and then the two nodes. The smartlearn template starts them with these default addresses.
 
-:::selfhost
-If you entered the addresses while installing Ubuntu, skip the console and the netplan block. In the SSH session, just run the three commands at the end of this section to check address, route and internet.
+| Server | Default address |
+|---|---|
+| Front-end | 192.168.210.137 |
+| Node 1 | 192.168.210.138 |
+| Node 2 | 192.168.210.139 |
+
+:::caution[No second netplan file]
+On smartlearn you only change the address in `/etc/netplan/00-eth0.yaml`. Do not add another file to `/etc/netplan/` there, such as `60-cc-lab.yaml`. A second file for the same interface confuses the network of the server.
 :::
 
-### On the console
+### Over SSH at the default address
 
-Without an address you cannot reach a server over SSH, and its smartlearn console does not let you paste. So you type the two commands the generator shows for this server. The first one brings the interface up, the second one gives it the address. This address is temporary and only lasts until the next reboot.
+Open a terminal on the client and log in at the default address of the server with the first command the generator shows for it. The first time, SSH asks whether you trust the server's key. After `yes` the server asks for your user's password. Then check the network interface with `ip -br link`.
 
-### Over SSH with netplan
+### Changing the address
 
-From now on you work on the client. Open a terminal there and log in with your user and the address of the server. The first time, SSH asks whether you trust the server's key. After `yes` the server asks for your user's password.
+Ubuntu manages the network with netplan, which reads its settings from YAML files in `/etc/netplan/`. The [guide to static IP addresses](https://netplan.readthedocs.io/en/1.2/using-static-ip-addresses/) for netplan 1.2, the version in Ubuntu 26.04, shows how such a file sets a fixed address with a route and DNS. Minimal Ubuntu has no editor yet, so the generator's second block uses `sed` to replace the default address in `00-eth0.yaml` with yours, shows the changed line with `grep` and applies the settings with `netplan apply`.
 
-```bash
-ssh cc@<address>
-```
+Copy the block of the server you are logged in to, paste it into the SSH session and start it with Enter. The first `sudo` of a session asks for your password. After `netplan apply` the server only answers at its new address, so the SSH session hangs. End it with Enter followed by the characters `~` and `.`.
 
-To make the address survive a reboot, you put it into the network settings. Ubuntu manages the network with netplan, which reads its settings from YAML files in `/etc/netplan/`. The [guide to static IP addresses](https://netplan.readthedocs.io/en/1.2/using-static-ip-addresses/) for netplan 1.2, the version in Ubuntu 26.04, shows how such a file sets a fixed address with a route and DNS. Minimal Ubuntu has no editor yet, so the generator's block for the SSH session writes the file with `tee`, protects it with `chmod 600` and applies the settings with `netplan try`.
+### At the new address
 
-Copy the block of the server you are logged in to, paste it into the SSH session and start it with Enter. The first `sudo` of a session asks for your password. `netplan try` then waits for you to confirm with Enter. Without a confirmation, for example because the SSH connection drops, netplan restores the old settings after two minutes. Then check the address, the route through the gateway and the connection to the internet. Minimal Ubuntu has no `ping`, but it has `curl`.
+Log in at the new address with the generator's third command. Here too SSH asks about the key the first time. Then check the address, the route through the gateway and the connection to the internet. Minimal Ubuntu has no `ping`, but it has `curl`.
 
 ```bash
 ip -br addr
@@ -90,16 +88,20 @@ ip route
 curl -sI https://ubuntu.com | head -1
 ```
 
-The file name starts with `60` so that netplan reads it after a file `50-cloud-init.yaml`, if there is one, and its settings win for the same interface.
-
 | Symptom | Cause | What helps |
 |---|---|---|
-| `ssh` waits and reports "Connection timed out" | The server has no address or the interface is wrong | Check `ip -br addr` on the console and repeat the two commands with the name from `ip -br link` |
-| `netplan try` reports an error in the file | Indentation with a tab or a line indented wrongly | Look at the file with `cat -A`, tabs show up as `^I` |
-| `ip -br addr` shows two addresses | DHCP from `50-cloud-init.yaml` for another interface | Check the interface name in the generator |
-| `ip route` shows no line `default via 192.168.210.1` | The route is missing in the file or the interface is wrong | Compare the file and `ip -br addr` with the generator |
+| `ssh` to the default address reports "Connection timed out" | The server is not running or has another address | Check on smartlearn that the VM runs, look at `ip -br addr` on its console |
+| The line from `grep` still shows the default address | You pasted the block of another server, or the address is written differently in the file. If the generator gives you exactly the default address, this is correct | Look at the file with `cat /etc/netplan/00-eth0.yaml` and paste the block of the right server |
+| The new address does not answer | The file has an error or the address is wrong | Log in on the smartlearn console, check `ip -br addr` and `/etc/netplan/00-eth0.yaml` |
+| `ip route` shows no line `default via 192.168.210.1` | The route is missing in the file | Look at the file with `cat`, ask your instructor |
 | `curl` reports "Could not resolve host" | The DNS is missing | `resolvectl status` shows the DNS, on smartlearn it must be 192.168.210.1 |
 | `curl` waits and gives up | No way to the internet | Check address and gateway, otherwise ask your instructor |
+
+:::selfhost
+On a hypervisor of your own a server has no default address, and its netplan file has a different name depending on the installation, so adapt the steps to your installation. If you entered the addresses while installing Ubuntu, just run the three commands above to check address, route and internet.
+
+Otherwise read the interface name with `ip -br link` on the console of each server and enter it in the generator. Under "Own hypervisor" it then shows two console commands per server that set a temporary address until the next reboot. Then log in from your PC over SSH at that address and paste the netplan block. It writes the file `60-cc-lab.yaml`, which netplan reads after a file `50-cloud-init.yaml` if there is one, protects it with `chmod 600` and applies it with `netplan try`. `netplan try` waits for Enter and restores the old settings after two minutes without a confirmation. With a wrong interface name the server gets no address.
+:::
 
 ## The file on the servers
 
@@ -137,6 +139,6 @@ A copy of `/etc/cc-lab.env` lies in your hand-in repo, and a screencast of the a
 Generate your parameters and give each of the three servers its address. Create `/etc/cc-lab.env` and explain three of the values to a classmate in your own words.
 
 :::solution
-The file has 16 lines and is the same on all three servers. The host names start with your code, the internal network lies within 172.16.0.0/12 and ends in `.0/24`, and the VXLAN identifier lies between 1000 and 9999. `ssh cc@<address>` works from the client on every server, also after a reboot.
+The file has 16 lines and is the same on all three servers. The host names start with your code, the internal network lies within 172.16.0.0/12 and ends in `.0/24`, and the VXLAN identifier lies between 1000 and 9999. `ssh cc@<address>` works from the client at the new address of every server, also after a reboot, and the default addresses no longer answer.
 :::
 ::::
