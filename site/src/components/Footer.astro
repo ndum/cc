@@ -1,11 +1,19 @@
 ---
-// The footer of Starlight with a line on the licences of the course below it
+// The footer of Starlight with the licences of the course and the commit the site is built from
 import Default from '@astrojs/starlight/components/Footer.astro';
+
+import { commit } from '../version.mjs';
 
 const english = Astro.locals.starlightRoute.lang === 'en';
 const repo = 'https://github.com/ndum/cc';
 const ccBySa = english ? 'https://creativecommons.org/licenses/by-sa/4.0/' : 'https://creativecommons.org/licenses/by-sa/4.0/deed.de';
 const mit = `${repo}/blob/main/LICENSES/MIT.txt`;
+// The date of the commit in the form of the language, 8. November 2026 or November 8, 2026
+const day = commit.date
+  ? new Intl.DateTimeFormat(english ? 'en-US' : 'de-CH', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).format(
+      new Date(`${commit.date}T00:00:00Z`),
+    )
+  : '';
 ---
 
 <Default><slot /></Default>
@@ -20,6 +28,15 @@ const mit = `${repo}/blob/main/LICENSES/MIT.txt`;
     </p>
   )
 }
+{
+  commit.sha && (
+    <p class="lt-licence lt-version">
+      {english ? 'Version ' : 'Stand '}
+      <a href={`${repo}/commit/${commit.sha}`}>{commit.short}</a>
+      {day && (english ? ` of ${day}` : ` vom ${day}`)}
+    </p>
+  )
+}
 
 <style>
   .lt-licence {
@@ -30,5 +47,8 @@ const mit = `${repo}/blob/main/LICENSES/MIT.txt`;
   }
   .lt-licence a {
     color: inherit;
+  }
+  .lt-version {
+    margin-top: 0.25rem;
   }
 </style>
