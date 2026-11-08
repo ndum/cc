@@ -24,6 +24,7 @@ In the tables, `<CC_K3S_SERVER_IP>` stands for the address of `k3s-server` and `
 
 | Symptom | Cause | Fix | Chapter |
 |---|---|---|---|
+| After a pause `onevm list` shows the VMs as `poff` | The environment was powered off, OpenNebula no longer found the VMs on their nodes | Wait until `onehost list` shows both nodes as `on`, then `onevm resume` for every VM that ran before | [Lab reference](../lab-reference/#after-a-pause) |
 | VMware reports "Virtualized Intel VT-x/EPT is not supported on this platform" | The Windows hypervisor is running, for example because of memory integrity, WSL 2 or Docker Desktop | Use Hyper-V instead of VMware or work on smartlearn | [Own hypervisor](../extras/own-hypervisor/) |
 | A node does not start on your PC for lack of memory | Your PC has less than the 48 GB the three VMs need together with Windows, or the nodes have more than 8 GB | Set the nodes to 8 GB, otherwise use a PC with more RAM | [Own hypervisor](../extras/own-hypervisor/) |
 | `ssh` stops with "No route to host" or "Connection timed out" | The server is not running, the address in `00-eth0.yaml` is wrong or it still has its default address | Check on smartlearn that the VM runs, look at `ip -br addr` and `/etc/netplan/00-eth0.yaml` on its console | [0.3](../start/parameters/) |

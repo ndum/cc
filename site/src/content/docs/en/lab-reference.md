@@ -97,6 +97,19 @@ cat ~/cc-lab/argocd-admin.pass
 
 The front-end also has `~/cc` with the course repo, `~/cc-lab` with the files that the course scripts create for your lab, `~/platform` with your platform repo, `~/cc-reports` with the reports of the checks and `~/cc-mmuster` with your hand-in repo.
 
+## After a pause
+
+If your environment on smartlearn is powered off or you restart the servers, the three servers and their services come back by themselves. The VMs in OpenNebula do not run afterwards, though. OpenNebula no longer finds them on their nodes and sets them to `poff`. On the front-end you bring them back like this.
+
+```bash
+onehost list
+onevm list
+onevm resume k3s-server
+onevm resume k3s-agent
+```
+
+After one or two minutes `onehost list` shows both nodes as `on` again, only then does `onevm resume` start a VM. From part 4 on these are mainly `k3s-server` and `k3s-agent`. k3s starts inside the VMs by itself, `kubectl get nodes` shows both nodes as `Ready` after one or two minutes, and then Argo CD reconciles again. Other VMs, such as `praxis-1`, you start the same way with `onevm resume`, but only those that ran before the pause. If smartlearn only suspends the environment instead of powering it off, all VMs keep running afterwards and there is nothing to do.
+
 ## Commands
 
 ### OpenNebula

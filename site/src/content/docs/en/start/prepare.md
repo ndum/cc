@@ -55,7 +55,7 @@ git clone https://github.com/ndum/cc.git
 
 The first line allows your user sudo without a password, because in chapter 2.2 Ansible runs commands as administrator without asking for one. On smartlearn `vmadmin` may do that already. The line makes it independent of the template, also on a hypervisor of your own. The [sudoers manual page](https://manpages.ubuntu.com/manpages/resolute/man5/sudoers-rs.5.html) of Ubuntu 26.04 explains what such a line allows. The minimal installation of Ubuntu has no Git, so the second line installs it. `git clone` puts the course repo into a new folder `cc` in your home directory, as the [Git documentation](https://git-scm.com/docs/git-clone) describes.
 
-Your instructor announces a newer state of the course repo. You then fetch it on every server with `git -C ~/cc pull`, where the option `-C` makes Git work in the folder `~/cc`. Do not run the block above again for this, because `git clone` stops when the folder `cc` already exists.
+Your instructor announces a newer state of the course repo. You then fetch it on every server with `git -C ~/cc pull`, where the option `-C` makes Git work in the folder `~/cc`. Do not run the block above again for this, because `git clone` stops when the folder `cc` already exists. The footer of every page shows the version of the course pages, for example "Version 65e9b7b". `git -C ~/cc log -1 --format=%h` shows the version of your course repo.
 
 After the block, run the preparation script with the role of the server, `node1`, `node2` or `fe`. Log out and in again afterwards, only then does the prompt show the new host name.
 
