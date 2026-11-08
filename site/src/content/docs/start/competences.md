@@ -16,7 +16,7 @@ Mit diesem Raster schätzt du ein, ob du für die nächsten Teile bereit bist. L
 | die VMs des Labs und ihre beiden Netze beschreiben | Zeichne das Lab mit Front-end, Knoten, Client, Labnetz und internem Netz aus dem Gedächtnis. | [Das Lab](../lab/#zwei-netze) |
 | erklären, wozu ich auf smartlearn den Client brauche | Erkläre, warum du auf smartlearn vom Client aus per SSH arbeitest und die Konsole eines Servers nur brauchst, wenn er nicht mehr antwortet. | [Das Lab](../lab/#der-client) |
 | prüfen, ob eine VM verschachtelte Virtualisierung unterstützt | Zeige auf einem Knoten, dass die CPU `vmx` oder `svm` anbietet. | [Das Lab](../lab/#verschachtelte-virtualisierung) |
-| den Servern ihre Adressen geben | Erkläre, wo netplan die Adresse eines Servers festhält und warum die SSH-Sitzung nach `netplan apply` hängen bleibt. | [Persönliche Parameter](../parameters/#die-adressen-im-lab) |
+| den Servern ihre Adressen geben | Erkläre, wo netplan die Adresse eines Servers festhält und warum der zweite Block `netplan apply` erst nach deiner Abmeldung startet. | [Persönliche Parameter](../parameters/#die-adressen-im-lab) |
 | meine persönlichen Parameter erzeugen und erklären | Zeige `/etc/cc-lab.env` auf allen drei Servern und erkläre, wo `CC_GUEST_NET` und `CC_VNI` im Kurs vorkommen. | [Persönliche Parameter](../parameters/#die-werte) |
 | vom Client aus ohne Passwort per SSH auf alle Server zugreifen | Melde dich am Client mit `ssh` und dem Namen aus deiner SSH-Konfiguration am Front-end an und von dort an einem Knoten. | [VMs vorbereiten](../prepare/#ssh-vom-client) |
 | einen Server für seine Rolle vorbereiten | Führe `prepare.sh` auf einem Knoten noch einmal aus und erkläre, was es prüft. | [VMs vorbereiten](../prepare/#das-vorbereitungsskript) |

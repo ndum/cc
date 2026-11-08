@@ -16,7 +16,7 @@ Use this grid to judge whether you are ready for the next parts. Read each row a
 | describe the VMs of the lab and their two networks | Draw the lab with front-end, nodes, client, lab network and internal network from memory. | [The lab](../lab/#two-networks) |
 | explain why I need the client on smartlearn | Explain why you work over SSH from the client on smartlearn and only need a server's console when it no longer answers. | [The lab](../lab/#the-client) |
 | check whether a VM supports nested virtualization | Show on a node that the CPU offers `vmx` or `svm`. | [The lab](../lab/#nested-virtualization) |
-| give the servers their addresses | Explain where netplan keeps the address of a server and why the SSH session hangs after `netplan apply`. | [Personal parameters](../parameters/#the-addresses-in-the-lab) |
+| give the servers their addresses | Explain where netplan keeps the address of a server and why the second block starts `netplan apply` only after you have logged out. | [Personal parameters](../parameters/#the-addresses-in-the-lab) |
 | generate and explain my personal parameters | Show `/etc/cc-lab.env` on all three servers and explain where `CC_GUEST_NET` and `CC_VNI` appear in the course. | [Personal parameters](../parameters/#the-values) |
 | reach all servers from the client over SSH without a password | Log in to the front-end from the client with `ssh` and the name from your SSH configuration, then from there to a node. | [Preparing the VMs](../prepare/#ssh-from-the-client) |
 | prepare a server for its role | Run `prepare.sh` on a node again and explain what it checks. | [Preparing the VMs](../prepare/#the-preparation-script) |

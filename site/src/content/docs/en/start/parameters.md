@@ -42,11 +42,13 @@ The two blocks of the generator are the same for all three servers. Work through
 
 1. In the terminal of the client, log in at the server's default address, for the front-end with `ssh cc@192.168.210.137`. The first time, you confirm the server's key with `yes`, then it asks for the password of the user `cc`, which your instructor gives you.
 2. Paste the first block and start it with Enter. It creates the file `/etc/cc-lab.env`, from which the scripts of the course read your values. `sudo` asks for your password.
-3. Paste the second block and start it with Enter. It gives the server its new address, then the session freezes. Close the terminal.
+3. Paste the second block and start it with Enter. It writes the new address into `00-eth0.yaml` and logs you out. Two seconds later the server takes on its new address.
+
+`netplan apply` takes away the old address your session runs on. Run directly in the session, the command would leave the session frozen. That is why `systemd-run` starts it as a service of its own that waits two seconds first. In that time `exit` logs you out. The [systemd-run manual page](https://manpages.ubuntu.com/manpages/resolute/man1/systemd-run.1.html) describes such services.
 
 Once all three servers have moved, log in at the new address of the front-end from the table as a test.
 
-If the generator gives you exactly the default addresses, the second block changes nothing and the session keeps running. If a value turns out to be wrong later, create the file again with the first block on all three servers and run the preparation script from [chapter 0.4](../prepare/) once more.
+If the generator gives you exactly the default addresses, the second block leaves the address as it is and you log in again at the same address. If a value turns out to be wrong later, create the file again with the first block on all three servers and run the preparation script from [chapter 0.4](../prepare/) once more.
 
 | Symptom | Cause | What helps |
 |---|---|---|
