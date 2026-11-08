@@ -138,14 +138,17 @@ function envText(lines) {
  * The commands that move a server on smartlearn to its new address. One sed with a line per server
  * fits all three, because each server finds only its own default address in its 00-eth0.yaml. A new
  * front-end address is 20 + 3k and never equals the default address of a node, so no line changes
- * a result of an earlier one. netplan apply cuts the SSH session that runs on the old address
+ * a result of an earlier one. netplan apply would freeze the SSH session that runs on the old
+ * address, so systemd-run starts it as a service of its own after two seconds, when exit has already
+ * ended the session. A timer with --on-active would wait up to a minute because of its default accuracy
  */
 function moveText(ips) {
   return [
     'sudo sed -i \\',
     ...ROLES.map((role) => `  -e 's#${DEFAULTS[role]}/#${ips[role]}/#' \\`),
     '  /etc/netplan/00-eth0.yaml',
-    'sudo netplan apply',
+    "sudo systemd-run sh -c 'sleep 2; netplan apply'",
+    'exit',
   ].join('\n');
 }
 

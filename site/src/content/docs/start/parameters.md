@@ -42,11 +42,13 @@ Die beiden Blöcke des Generators sind für alle drei Server gleich. Nimm dir di
 
 1. Melde dich im Terminal des Clients an der Standardadresse des Servers an, für das Front-end mit `ssh cc@192.168.210.137`. Beim ersten Mal bestätigst du den Schlüssel des Servers mit `yes`, danach will er das Passwort des Benutzers `cc`, das dir deine Dozentin oder dein Dozent nennt.
 2. Füge den ersten Block ein und starte ihn mit Enter. Er legt die Datei `/etc/cc-lab.env` an, aus der die Skripte des Kurses deine Werte lesen. `sudo` fragt dabei nach deinem Passwort.
-3. Füge den zweiten Block ein und starte ihn mit Enter. Er gibt dem Server seine neue Adresse, danach bleibt die Sitzung hängen. Schliesse das Terminal.
+3. Füge den zweiten Block ein und starte ihn mit Enter. Er trägt die neue Adresse in `00-eth0.yaml` ein und meldet dich ab. Zwei Sekunden später übernimmt der Server die neue Adresse.
+
+`netplan apply` nimmt dem Server die alte Adresse, über die deine Sitzung läuft. Liefe der Befehl direkt in der Sitzung, bliebe sie hängen. Darum startet ihn `systemd-run` als eigenen Dienst, der zuerst zwei Sekunden wartet. In dieser Zeit meldet dich `exit` ab. Solche Dienste beschreibt die [Handbuchseite zu systemd-run](https://manpages.ubuntu.com/manpages/resolute/man1/systemd-run.1.html).
 
 Sind alle drei Server umgestellt, meldest du dich zur Probe an der neuen Adresse des Front-ends aus der Tabelle an.
 
-Gibt dir der Generator genau die Standardadressen, ändert der zweite Block nichts und die Sitzung läuft weiter. Stimmt später ein Wert nicht, legst du die Datei mit dem ersten Block auf allen drei Servern neu an und startest das Vorbereitungsskript aus [Kapitel 0.4](../prepare/) noch einmal.
+Gibt dir der Generator genau die Standardadressen, ändert der zweite Block die Adresse nicht. Du meldest dich an derselben Adresse wieder an. Stimmt später ein Wert nicht, legst du die Datei mit dem ersten Block auf allen drei Servern neu an und startest das Vorbereitungsskript aus [Kapitel 0.4](../prepare/) noch einmal.
 
 | Symptom | Ursache | Was hilft |
 |---|---|---|
