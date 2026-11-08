@@ -1,0 +1,605 @@
+<!DOCTYPE html><html lang="en" dir="ltr" data-theme="dark" data-has-toc data-has-sidebar class="astro-rlm2zbci"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>Advanced tasks | HFI - Cloud Computing (CC)</title><link rel="canonical" href="https://cc.ndum.ch/pr-preview/pr-5/en/tenants/advanced/"/><link rel="alternate" hreflang="de-CH" href="https://cc.ndum.ch/pr-preview/pr-5/tenants/advanced/"/><link rel="alternate" hreflang="en" href="https://cc.ndum.ch/pr-preview/pr-5/en/tenants/advanced/"/><link rel="alternate" hreflang="x-default" href="https://cc.ndum.ch/pr-preview/pr-5/tenants/advanced/"/><link rel="sitemap" href="/pr-preview/pr-5/sitemap-index.xml"/><link rel="shortcut icon" href="/pr-preview/pr-5/favicon.svg" type="image/svg+xml"/><meta name="generator" content="Astro v7.4.0"/><meta name="generator" content="Starlight v0.42.6"/><meta property="og:title" content="Advanced tasks"/><meta property="og:type" content="article"/><meta property="og:url" content="https://cc.ndum.ch/pr-preview/pr-5/en/tenants/advanced/"/><meta property="og:locale" content="en"/><meta property="og:description" content="A OneFlow service for the fiduciary office that grows by load and by schedule, a monthly showback report with the cost coverage, and the effects of a failed node with a proposal for placing the VMs."/><meta property="og:site_name" content="HFI - Cloud Computing (CC)"/><meta name="twitter:card" content="summary_large_image"/><meta name="description" content="A OneFlow service for the fiduciary office that grows by load and by schedule, a monthly showback report with the cost coverage, and the effects of a failed node with a proposal for placing the VMs."/><script type="module" src="/pr-preview/pr-5/_astro/Head.astro_astro_type_script_index_0_lang.B0QYN23W.js"></script><script>
+	window.StarlightThemeProvider = (() => {
+		const storedTheme =
+			typeof localStorage !== 'undefined' && localStorage.getItem('starlight-theme');
+		const theme =
+			storedTheme ||
+			(window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+		document.documentElement.dataset.theme = theme === 'light' ? 'light' : 'dark';
+		return {
+			updatePickers(theme = storedTheme || 'auto') {
+				document.querySelectorAll('starlight-theme-select').forEach((picker) => {
+					const select = picker.querySelector('select');
+					if (select) select.value = theme;
+					/** @type {HTMLTemplateElement | null} */
+					const tmpl = document.querySelector(`#theme-icons`);
+					const newIcon = tmpl && tmpl.content.querySelector('.' + theme);
+					if (newIcon) {
+						const oldIcon = picker.querySelector('svg.label-icon');
+						if (oldIcon) {
+							oldIcon.replaceChildren(...newIcon.cloneNode(true).childNodes);
+						}
+					}
+				});
+			},
+		};
+	})();
+</script><template id="theme-icons"><svg aria-hidden="true" class="light astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M5 12a1 1 0 0 0-1-1H3a1 1 0 0 0 0 2h1a1 1 0 0 0 1-1Zm.64 5-.71.71a1 1 0 0 0 0 1.41 1 1 0 0 0 1.41 0l.71-.71A1 1 0 0 0 5.64 17ZM12 5a1 1 0 0 0 1-1V3a1 1 0 0 0-2 0v1a1 1 0 0 0 1 1Zm5.66 2.34a1 1 0 0 0 .7-.29l.71-.71a1 1 0 1 0-1.41-1.41l-.66.71a1 1 0 0 0 0 1.41 1 1 0 0 0 .66.29Zm-12-.29a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.71-.71a1.004 1.004 0 1 0-1.43 1.41l.73.71ZM21 11h-1a1 1 0 0 0 0 2h1a1 1 0 0 0 0-2Zm-2.64 6A1 1 0 0 0 17 18.36l.71.71a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.76-.66ZM12 6.5a5.5 5.5 0 1 0 5.5 5.5A5.51 5.51 0 0 0 12 6.5Zm0 9a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Zm0 3.5a1 1 0 0 0-1 1v1a1 1 0 0 0 2 0v-1a1 1 0 0 0-1-1Z"/></svg><svg aria-hidden="true" class="dark astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.64 13a1 1 0 0 0-1.05-.14 8.049 8.049 0 0 1-3.37.73 8.15 8.15 0 0 1-8.14-8.1 8.59 8.59 0 0 1 .25-2A1 1 0 0 0 8 2.36a10.14 10.14 0 1 0 14 11.69 1 1 0 0 0-.36-1.05Zm-9.5 6.69A8.14 8.14 0 0 1 7.08 5.22v.27a10.15 10.15 0 0 0 10.14 10.14 9.784 9.784 0 0 0 2.1-.22 8.11 8.11 0 0 1-7.18 4.32v-.04Z"/></svg><svg aria-hidden="true" class="auto astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg></template><link rel="stylesheet" href="/pr-preview/pr-5/_astro/print.ehPL0gv-.css" media="print"><link rel="stylesheet" href="/pr-preview/pr-5/_astro/middleware.CfHQkxrn.css"><script type="module" src="/pr-preview/pr-5/_astro/page.cNngjUgL.js"></script></head><body class="astro-rlm2zbci"><a class="sl-skip-link astro-bmgq2fky" href="#_top">Skip to content</a><div class="page sl-flex astro-ogthqvzv"><header class="header astro-ogthqvzv"><div class="header astro-pknpegvt"><div class="title-wrapper sl-flex astro-pknpegvt"><a href="/pr-preview/pr-5/en/" class="site-title sl-flex astro-drgrrgkq"><span class="astro-drgrrgkq" translate="no">HFI - Cloud Computing (CC)</span></a></div><div class="sl-flex print:hidden astro-pknpegvt"><site-search class="astro-pknpegvt astro-nssz7xfl" data-translations="{&quot;placeholder&quot;:&quot;Search&quot;}"><button data-open-modal disabled aria-label="Search" aria-keyshortcuts="Control+K" class="astro-nssz7xfl"><svg aria-hidden="true" class="astro-nssz7xfl astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.71 20.29 18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 0-14 7 7 0 0 1 0 14Z"/></svg><span class="sl-hidden md:sl-block astro-nssz7xfl" aria-hidden="true">Search</span><kbd class="sl-hidden md:sl-flex astro-nssz7xfl" style="display: none;"><kbd class="astro-nssz7xfl">Ctrl</kbd><kbd class="astro-nssz7xfl">K</kbd></kbd></button><dialog style="padding:0" aria-label="Search" class="astro-nssz7xfl"><div class="dialog-frame sl-flex astro-nssz7xfl"><button data-close-modal class="sl-flex md:sl-hidden astro-nssz7xfl">Cancel</button><div class="search-container astro-nssz7xfl"><div id="starlight__search" class="astro-nssz7xfl"></div></div></div></dialog></site-search><script>
+	(() => {
+		const openBtn = document.querySelector('button[data-open-modal]');
+		const shortcut = openBtn?.querySelector('kbd');
+		if (!openBtn || !(shortcut instanceof HTMLElement)) return;
+		const platformKey = shortcut.querySelector('kbd');
+		if (platformKey && /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform)) {
+			platformKey.textContent = '⌘';
+			openBtn.setAttribute('aria-keyshortcuts', 'Meta+K');
+		}
+		shortcut.style.display = '';
+	})();
+</script><script type="module" src="/pr-preview/pr-5/_astro/Search.astro_astro_type_script_index_0_lang.DacslGHe.js"></script></div><div class="sl-hidden md:sl-flex print:hidden right-group astro-pknpegvt"><div class="sl-flex social-icons astro-pknpegvt"><a href="https://github.com/ndum/cc" rel="me" class="sl-flex astro-vvaccv3s"><span class="sr-only astro-vvaccv3s">GitHub</span><svg aria-hidden="true" class="astro-vvaccv3s astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.12.83-.26.83-.57L9 21.07c-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.09-.73.09-.73 1.2.09 1.83 1.24 1.83 1.24 1.08 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18a4.65 4.65 0 0 1 1.23 3.22c0 4.61-2.8 5.63-5.48 5.92.42.36.81 1.1.81 2.22l-.01 3.29c0 .31.2.69.82.57A12 12 0 0 0 12 .3Z"/></svg></a></div><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-scmnraha"><span class="sr-only astro-scmnraha">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-scmnraha astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-scmnraha"><option value="dark" class="astro-scmnraha">Dark</option><option value="light" class="astro-scmnraha">Light</option><option value="auto" selected class="astro-scmnraha">Auto</option></select><svg aria-hidden="true" class="icon caret astro-scmnraha astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script><script type="module">var e=`starlight-theme`,t=e=>e===`auto`||e===`dark`||e===`light`?e:`auto`,n=()=>t(typeof localStorage<`u`&&localStorage.getItem(e));function r(t){typeof localStorage<`u`&&localStorage.setItem(e,t===`light`||t===`dark`?t:``)}var i=()=>matchMedia(`(prefers-color-scheme: light)`).matches?`light`:`dark`;function a(e){StarlightThemeProvider.updatePickers(e),document.documentElement.dataset.theme=e===`auto`?i():e,r(e)}matchMedia(`(prefers-color-scheme: light)`).addEventListener(`change`,()=>{n()===`auto`&&a(`auto`)});var o=class extends HTMLElement{constructor(){super(),a(n()),this.querySelector(`select`)?.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&a(t(e.currentTarget.value))})}};customElements.define(`starlight-theme-select`,o);</script><starlight-lang-select><label style="--sl-select-width: 7em" class="astro-scmnraha"><span class="sr-only astro-scmnraha">Select language</span><svg aria-hidden="true" class="icon label-icon astro-scmnraha astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path fill-rule="evenodd" d="M8.516 3a.94.94 0 0 0-.941.94v1.15H2.94a.94.94 0 1 0 0 1.882h7.362a7.422 7.422 0 0 1-1.787 3.958 7.42 7.42 0 0 1-1.422-2.425.94.94 0 1 0-1.774.627 9.303 9.303 0 0 0 1.785 3.043 7.422 7.422 0 0 1-4.164 1.278.94.94 0 1 0 0 1.881 9.303 9.303 0 0 0 5.575-1.855 9.303 9.303 0 0 0 4.11 1.74l-.763 1.525a.968.968 0 0 0-.016.034l-1.385 2.77a.94.94 0 1 0 1.683.841l1.133-2.267h5.806l1.134 2.267a.94.94 0 0 0 1.683-.841l-1.385-2.769a.95.95 0 0 0-.018-.036l-3.476-6.951a.94.94 0 0 0-1.682 0l-1.82 3.639a7.423 7.423 0 0 1-3.593-1.256 9.303 9.303 0 0 0 2.27-5.203h1.894a.94.94 0 0 0 0-1.881H9.456V3.94A.94.94 0 0 0 8.516 3Zm6.426 11.794a1.068 1.068 0 0 1-.02.039l-.703 1.407h3.924l-1.962-3.924-1.24 2.478Z" clip-rule="evenodd"/></svg><select autocomplete="off" class="astro-scmnraha"><option value="/pr-preview/pr-5/tenants/advanced/" class="astro-scmnraha">Deutsch</option><option value="/pr-preview/pr-5/en/tenants/advanced/" selected class="astro-scmnraha">English</option></select><svg aria-hidden="true" class="icon caret astro-scmnraha astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-lang-select><script type="module">var e=class extends HTMLElement{constructor(){super();let e=this.querySelector(`select`);e&&(e.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&(window.location.pathname=e.currentTarget.value)}),window.addEventListener(`pageshow`,t=>{if(!t.persisted)return;let n=e.querySelector(`option[selected]`)?.index;n!==e.selectedIndex&&(e.selectedIndex=n??0)}))}};customElements.define(`starlight-lang-select`,e);</script></div></div></header><nav class="sidebar print:hidden astro-ogthqvzv" aria-label="Main"><button popovertarget="starlight__sidebar" class="sl-menu-button sl-flex md:sl-hidden print:hidden astro-lloqvvyf"><svg aria-hidden="true" class="open-menu astro-lloqvvyf astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M3 8h18a1 1 0 1 0 0-2H3a1 1 0 0 0 0 2Zm18 8H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Zm0-5H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Z"/></svg><svg aria-hidden="true" class="close-menu astro-lloqvvyf astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="m13.41 12 6.3-6.29a1.004 1.004 0 1 0-1.42-1.42L12 10.59l-6.29-6.3a1.004 1.004 0 0 0-1.42 1.42l6.3 6.29-6.3 6.29a1 1 0 0 0 0 1.42.998.998 0 0 0 1.42 0l6.29-6.3 6.29 6.3a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.42L13.41 12Z"/></svg><span class="sr-only astro-lloqvvyf">Menu</span></button><script type="module">var e=class extends HTMLElement{constructor(){super();let e=matchMedia(`(min-width: 50em)`),t=()=>{this.popover=e.matches?null:`auto`};t(),e.addEventListener(`change`,()=>t()),this.addEventListener(`toggle`,({newState:e})=>this.trapFocus(e===`open`))}trapFocus(e){document.querySelectorAll(`.main-frame, .sl-skip-link`).forEach(t=>{t.toggleAttribute(`inert`,e)})}};customElements.define(`sl-sidebar-pane`,e);</script><sl-sidebar-pane popover id="starlight__sidebar" class="sidebar-pane astro-ogthqvzv"><div class="sidebar-content sl-flex astro-ogthqvzv"><sl-sidebar-state-persist data-hash="1syl91n" class="astro-wkj266cr"><script aria-hidden="true">
+		(() => {
+			try {
+				if (!matchMedia('(min-width: 50em)').matches) return;
+				/** @type {HTMLElement | null} */
+				const target = document.querySelector('sl-sidebar-state-persist');
+				const state = JSON.parse(sessionStorage.getItem('sl-sidebar-state') || '0');
+				if (!target || !state || target.dataset.hash !== state.hash) return;
+				window._starlightScrollRestore = state.scroll;
+				customElements.define(
+					'sl-sidebar-restore',
+					class SidebarRestore extends HTMLElement {
+						connectedCallback() {
+							try {
+								const idx = parseInt(this.dataset.index || '');
+								const details = this.closest('details');
+								if (details && typeof state.open[idx] === 'boolean') details.open = state.open[idx];
+							} catch {}
+						}
+					}
+				);
+			} catch {}
+		})();
+	</script><ul class="top-level astro-ez73slyg"><li class="astro-ez73slyg"><details class="astro-ez73slyg"><summary class="astro-ez73slyg"><span class="group-label astro-ez73slyg"><span class="large astro-ez73slyg">0 Getting started</span></span><svg aria-hidden="true" class="caret astro-ez73slyg astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="0"></sl-sidebar-restore><ul class="astro-ez73slyg"><li class="astro-ez73slyg"><a href="/pr-preview/pr-5/en/start/overview/" class="astro-ez73slyg"><span class="astro-ez73slyg">0.1 Course overview</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-5/en/start/lab/" class="astro-ez73slyg"><span class="astro-ez73slyg">0.2 The lab</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-5/en/start/parameters/" class="astro-ez73slyg"><span class="astro-ez73slyg">0.3 Personal parameters</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-5/en/start/prepare/" class="astro-ez73slyg"><span class="astro-ez73slyg">0.4 Preparing the VMs</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-5/en/start/tools/" class="astro-ez73slyg"><span class="astro-ez73slyg">0.5 The hand-in repo</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-5/en/start/competences/" class="astro-ez73slyg"><span class="astro-ez73slyg">0.6 Competence grid</span></a></li></ul></details></li><li class="astro-ez73slyg"><details class="astro-ez73slyg"><summary class="astro-ez73slyg"><span class="group-label astro-ez73slyg"><span class="large astro-ez73slyg">1 Cloud basics</span></span><svg aria-hidden="true" class="caret astro-ez73slyg astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="1"></sl-sidebar-restore><ul class="astro-ez73slyg"><li class="astro-ez73slyg"><a href="/pr-preview/pr-5/en/basics/characteristics/" class="astro-ez73slyg"><span class="astro-ez73slyg">1.1 Characteristics of a cloud</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-5/en/basics/models/" class="astro-ez73slyg"><span class="astro-ez73slyg">1.2 Service and deployment models</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-5/en/basics/virtualization/" class="astro-ez73slyg"><span class="astro-ez73slyg">1.3 Virtualization</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-5/en/basics/sovereignty/" class="astro-ez73slyg"><span class="astro-ez73slyg">1.4 Sovereignty, law and cost</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-5/en/basics/competences/" class="astro-ez73slyg"><span class="astro-ez73slyg">1.5 Competence grid</span></a></li></ul></details></li><li class="astro-ez73slyg"><details class="astro-ez73slyg"><summary class="astro-ez73slyg"><span class="group-label astro-ez73slyg"><span class="large astro-ez73slyg">2 Building IaaS</span></span><svg aria-hidden="true" class="caret astro-ez73slyg astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="2"></sl-sidebar-restore><ul class="astro-ez73slyg"><li class="astro-ez73slyg"><a href="/pr-preview/pr-5/en/iaas/architecture/" class="astro-ez73slyg"><span class="astro-ez73slyg">2.1 Architecture of OpenNebula</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-5/en/iaas/installation/" class="astro-ez73slyg"><span class="astro-ez73slyg">2.2 Installation with OneDeploy</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-5/en/iaas/networks/" class="astro-ez73slyg"><span class="astro-ez73slyg">2.3 Virtual networks</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-5/en/iaas/images/" class="astro-ez73slyg"><span class="astro-ez73slyg">2.4 Images, templates and context</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-5/en/iaas/hosts/" class="astro-ez73slyg"><span class="astro-ez73slyg">2.5 Operating hosts</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-5/en/iaas/competences/" class="astro-ez73slyg"><span class="astro-ez73slyg">2.6 Competence grid</span></a></li></ul></details></li><li class="astro-ez73slyg"><details open class="astro-ez73slyg"><summary class="astro-ez73slyg"><span class="group-label astro-ez73slyg"><span class="large astro-ez73slyg">3 Tenants and self-service</span></span><svg aria-hidden="true" class="caret astro-ez73slyg astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="3"></sl-sidebar-restore><ul class="astro-ez73slyg"><li class="astro-ez73slyg"><a href="/pr-preview/pr-5/en/tenants/groups/" class="astro-ez73slyg"><span class="astro-ez73slyg">3.1 Users, groups and VDCs</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-5/en/tenants/quotas/" class="astro-ez73slyg"><span class="astro-ez73slyg">3.2 Quotas</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-5/en/tenants/showback/" class="astro-ez73slyg"><span class="astro-ez73slyg">3.3 Showback</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-5/en/tenants/self-service/" class="astro-ez73slyg"><span class="astro-ez73slyg">3.4 Self-service</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-5/en/tenants/advanced/" aria-current="page" class="astro-ez73slyg"><span class="astro-ez73slyg">3.5 Advanced tasks</span><span class="sl-badge note small  astro-ez73slyg astro-5qxlfd7c">Advanced</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-5/en/tenants/competences/" class="astro-ez73slyg"><span class="astro-ez73slyg">3.6 Competence grid</span></a></li></ul></details></li><li class="astro-ez73slyg"><details class="astro-ez73slyg"><summary class="astro-ez73slyg"><span class="group-label astro-ez73slyg"><span class="large astro-ez73slyg">4 Platform as code</span></span><svg aria-hidden="true" class="caret astro-ez73slyg astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="4"></sl-sidebar-restore><ul class="astro-ez73slyg"><li class="astro-ez73slyg"><a href="/pr-preview/pr-5/en/platform/iac/" class="astro-ez73slyg"><span class="astro-ez73slyg">4.1 Infrastructure as code</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-5/en/platform/opentofu/" class="astro-ez73slyg"><span class="astro-ez73slyg">4.2 OpenTofu with OpenNebula</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-5/en/platform/kubernetes/" class="astro-ez73slyg"><span class="astro-ez73slyg">4.3 Kubernetes as code</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-5/en/platform/gitops/" class="astro-ez73slyg"><span class="astro-ez73slyg">4.4 GitOps with Argo CD</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-5/en/platform/templates/" class="astro-ez73slyg"><span class="astro-ez73slyg">4.5 Platform templates</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-5/en/platform/advanced/" class="astro-ez73slyg"><span class="astro-ez73slyg">4.6 Advanced tasks</span><span class="sl-badge note small  astro-ez73slyg astro-5qxlfd7c">Advanced</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-5/en/platform/competences/" class="astro-ez73slyg"><span class="astro-ez73slyg">4.7 Competence grid</span></a></li></ul></details></li><li class="astro-ez73slyg"><details class="astro-ez73slyg"><summary class="astro-ez73slyg"><span class="group-label astro-ez73slyg"><span class="large astro-ez73slyg">5 Observability, scaling and AI</span></span><svg aria-hidden="true" class="caret astro-ez73slyg astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="5"></sl-sidebar-restore><ul class="astro-ez73slyg"><li class="astro-ez73slyg"><a href="/pr-preview/pr-5/en/observability/metrics/" class="astro-ez73slyg"><span class="astro-ez73slyg">5.1 Metrics with Prometheus</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-5/en/observability/logs/" class="astro-ez73slyg"><span class="astro-ez73slyg">5.2 Logs with Loki</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-5/en/observability/slo/" class="astro-ez73slyg"><span class="astro-ez73slyg">5.3 Alerts and SLOs</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-5/en/observability/autoscaling/" class="astro-ez73slyg"><span class="astro-ez73slyg">5.4 Autoscaling</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-5/en/observability/advanced/" class="astro-ez73slyg"><span class="astro-ez73slyg">5.5 Advanced tasks</span><span class="sl-badge note small  astro-ez73slyg astro-5qxlfd7c">Advanced</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-5/en/observability/competences/" class="astro-ez73slyg"><span class="astro-ez73slyg">5.6 Competence grid</span></a></li></ul></details></li><li class="astro-ez73slyg"><details class="astro-ez73slyg"><summary class="astro-ez73slyg"><span class="group-label astro-ez73slyg"><span class="large astro-ez73slyg">6 Operations</span></span><svg aria-hidden="true" class="caret astro-ez73slyg astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="6"></sl-sidebar-restore><ul class="astro-ez73slyg"><li class="astro-ez73slyg"><a href="/pr-preview/pr-5/en/operations/security/" class="astro-ez73slyg"><span class="astro-ez73slyg">6.1 Security</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-5/en/operations/backup/" class="astro-ez73slyg"><span class="astro-ez73slyg">6.2 Backup and restore</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-5/en/operations/sla/" class="astro-ez73slyg"><span class="astro-ez73slyg">6.3 SLA and operations concept</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-5/en/operations/cost/" class="astro-ez73slyg"><span class="astro-ez73slyg">6.4 Cost and resource efficiency</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-5/en/operations/advanced/" class="astro-ez73slyg"><span class="astro-ez73slyg">6.5 Advanced tasks</span><span class="sl-badge note small  astro-ez73slyg astro-5qxlfd7c">Advanced</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-5/en/operations/competences/" class="astro-ez73slyg"><span class="astro-ez73slyg">6.6 Competence grid</span></a></li></ul></details></li><li class="astro-ez73slyg"><details class="astro-ez73slyg"><summary class="astro-ez73slyg"><span class="group-label astro-ez73slyg"><span class="large astro-ez73slyg">Supplements</span></span><svg aria-hidden="true" class="caret astro-ez73slyg astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="7"></sl-sidebar-restore><ul class="astro-ez73slyg"><li class="astro-ez73slyg"><a href="/pr-preview/pr-5/en/extras/own-hypervisor/" class="astro-ez73slyg"><span class="astro-ez73slyg">A hypervisor of your own</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-5/en/extras/opennebula/" class="astro-ez73slyg"><span class="astro-ez73slyg">OpenNebula in depth</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-5/en/extras/network/" class="astro-ez73slyg"><span class="astro-ez73slyg">Linux networking in the lab</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-5/en/extras/kubernetes/" class="astro-ez73slyg"><span class="astro-ez73slyg">Kubernetes basics</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-5/en/extras/platform-tools/" class="astro-ez73slyg"><span class="astro-ez73slyg">Tools of the platform</span></a></li></ul></details></li><li class="astro-ez73slyg"><details class="astro-ez73slyg"><summary class="astro-ez73slyg"><span class="group-label astro-ez73slyg"><span class="large astro-ez73slyg">Assessment</span></span><svg aria-hidden="true" class="caret astro-ez73slyg astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="8"></sl-sidebar-restore><ul class="astro-ez73slyg"><li class="astro-ez73slyg"><a href="/pr-preview/pr-5/en/assessment/" class="astro-ez73slyg"><span class="astro-ez73slyg">Overview</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-5/en/assessment/milestone-1/" class="astro-ez73slyg"><span class="astro-ez73slyg">IaaS for Wolkenwerk (Milestone 1)</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-5/en/assessment/milestone-2/" class="astro-ez73slyg"><span class="astro-ez73slyg">Platform as code (Milestone 2)</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-5/en/assessment/milestone-3/" class="astro-ez73slyg"><span class="astro-ez73slyg">Observability, scaling and AI (Milestone 3)</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-5/en/assessment/milestone-4/" class="astro-ez73slyg"><span class="astro-ez73slyg">Operations and a member of your own (Milestone 4)</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-5/en/assessment/exam/" class="astro-ez73slyg"><span class="astro-ez73slyg">Exam</span></a></li></ul></details></li><li class="astro-ez73slyg"><details class="astro-ez73slyg"><summary class="astro-ez73slyg"><span class="group-label astro-ez73slyg"><span class="large astro-ez73slyg">Reference</span></span><svg aria-hidden="true" class="caret astro-ez73slyg astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="9"></sl-sidebar-restore><ul class="astro-ez73slyg"><li class="astro-ez73slyg"><a href="/pr-preview/pr-5/en/glossary/" class="astro-ez73slyg"><span class="astro-ez73slyg">Glossary</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-5/en/lab-reference/" class="astro-ez73slyg"><span class="astro-ez73slyg">Lab reference</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-5/en/troubleshooting/" class="astro-ez73slyg"><span class="astro-ez73slyg">Troubleshooting</span></a></li></ul></details></li></ul><script aria-hidden="true">
+		(() => {
+			const scroller = document.getElementById('starlight__sidebar');
+			if (!window._starlightScrollRestore || !scroller) return;
+			scroller.scrollTop = window._starlightScrollRestore;
+			delete window._starlightScrollRestore;
+		})();
+	</script></sl-sidebar-state-persist><div class="md:sl-hidden"><div class="mobile-preferences sl-flex astro-uz3f2oy4"><div class="social-icons astro-uz3f2oy4"><a href="https://github.com/ndum/cc" rel="me" class="sl-flex astro-vvaccv3s"><span class="sr-only astro-vvaccv3s">GitHub</span><svg aria-hidden="true" class="astro-vvaccv3s astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.12.83-.26.83-.57L9 21.07c-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.09-.73.09-.73 1.2.09 1.83 1.24 1.83 1.24 1.08 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18a4.65 4.65 0 0 1 1.23 3.22c0 4.61-2.8 5.63-5.48 5.92.42.36.81 1.1.81 2.22l-.01 3.29c0 .31.2.69.82.57A12 12 0 0 0 12 .3Z"/></svg></a></div><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-scmnraha"><span class="sr-only astro-scmnraha">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-scmnraha astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-scmnraha"><option value="dark" class="astro-scmnraha">Dark</option><option value="light" class="astro-scmnraha">Light</option><option value="auto" selected class="astro-scmnraha">Auto</option></select><svg aria-hidden="true" class="icon caret astro-scmnraha astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script><starlight-lang-select><label style="--sl-select-width: 7em" class="astro-scmnraha"><span class="sr-only astro-scmnraha">Select language</span><svg aria-hidden="true" class="icon label-icon astro-scmnraha astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path fill-rule="evenodd" d="M8.516 3a.94.94 0 0 0-.941.94v1.15H2.94a.94.94 0 1 0 0 1.882h7.362a7.422 7.422 0 0 1-1.787 3.958 7.42 7.42 0 0 1-1.422-2.425.94.94 0 1 0-1.774.627 9.303 9.303 0 0 0 1.785 3.043 7.422 7.422 0 0 1-4.164 1.278.94.94 0 1 0 0 1.881 9.303 9.303 0 0 0 5.575-1.855 9.303 9.303 0 0 0 4.11 1.74l-.763 1.525a.968.968 0 0 0-.016.034l-1.385 2.77a.94.94 0 1 0 1.683.841l1.133-2.267h5.806l1.134 2.267a.94.94 0 0 0 1.683-.841l-1.385-2.769a.95.95 0 0 0-.018-.036l-3.476-6.951a.94.94 0 0 0-1.682 0l-1.82 3.639a7.423 7.423 0 0 1-3.593-1.256 9.303 9.303 0 0 0 2.27-5.203h1.894a.94.94 0 0 0 0-1.881H9.456V3.94A.94.94 0 0 0 8.516 3Zm6.426 11.794a1.068 1.068 0 0 1-.02.039l-.703 1.407h3.924l-1.962-3.924-1.24 2.478Z" clip-rule="evenodd"/></svg><select autocomplete="off" class="astro-scmnraha"><option value="/pr-preview/pr-5/tenants/advanced/" class="astro-scmnraha">Deutsch</option><option value="/pr-preview/pr-5/en/tenants/advanced/" selected class="astro-scmnraha">English</option></select><svg aria-hidden="true" class="icon caret astro-scmnraha astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-lang-select></div></div></div></sl-sidebar-pane></nav><div class="main-frame astro-ogthqvzv"><script type="module">var e=document.getElementById(`starlight__sidebar`),t=e?.querySelector(`sl-sidebar-state-persist`),n=`sl-sidebar-state`,r=()=>{let r=[],i=t?.dataset.hash||``;try{let e=sessionStorage.getItem(n),t=JSON.parse(e||`{}`);Array.isArray(t.open)&&t.hash===i&&(r=t.open)}catch{}return{hash:i,open:r,scroll:e?.scrollTop||0}},i=e=>{try{sessionStorage.setItem(n,JSON.stringify(e))}catch{}},a=()=>i(r()),o=(e,t)=>{let n=r();n.open[t]=e,i(n)};t?.addEventListener(`click`,e=>{if(!(e.target instanceof Element))return;let t=e.target.closest(`summary`)?.closest(`details`);if(!t)return;let n=t.querySelector(`sl-sidebar-restore`),r=parseInt(n?.dataset.index||``);isNaN(r)||o(!t.open,r)}),addEventListener(`visibilitychange`,()=>{document.visibilityState===`hidden`&&a()});</script><div class="lg:sl-flex astro-kk5qjijy"><aside class="right-sidebar-container print:hidden astro-kk5qjijy"><div class="right-sidebar astro-kk5qjijy"><div class="lg:sl-hidden astro-5jw5e7fz"><mobile-starlight-toc data-min-h="2" data-max-h="2" class="astro-ec7qe6jg"><nav aria-labelledby="starlight__on-this-page--mobile" class="astro-ec7qe6jg"><details id="starlight__mobile-toc" class="astro-ec7qe6jg"><summary id="starlight__on-this-page--mobile" class="sl-flex astro-ec7qe6jg"><span class="toggle sl-flex astro-ec7qe6jg">On this page<svg aria-hidden="true" class="caret astro-ec7qe6jg astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></span><span class="display-current astro-ec7qe6jg"></span></summary><div class="dropdown astro-ec7qe6jg"><ul class="isMobile astro-qoa5ihji" style="--depth: 0;"><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#_top" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Overview</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#scope-and-grading" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Scope and grading</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#elasticity" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Elasticity</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#services-and-roles" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Services and roles</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#rules-by-load" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Rules by load</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#rules-by-schedule" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Rules by schedule</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#quota-and-capacity" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Quota and capacity</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#timers-in-systemd" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Timers in systemd</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#the-monthly-report" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">The monthly report</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#cost-coverage" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Cost coverage</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#consequences-of-a-failure" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Consequences of a failure</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#placement-and-failures" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Placement and failures</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#elasticity-with-oneflow-task-a" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Elasticity with OneFlow (Task A)</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#showback-as-a-report-task-b" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Showback as a report (Task B)</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#failure-of-a-node-task-c" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Failure of a node (Task C)</span></a></li></ul></div></details></nav></mobile-starlight-toc><script type="module" src="/pr-preview/pr-5/_astro/MobileTableOfContents.astro_astro_type_script_index_0_lang.C3fM4Kra.js"></script></div><div class="right-sidebar-panel sl-hidden lg:sl-block astro-5jw5e7fz"><div class="sl-container astro-5jw5e7fz"><starlight-toc data-min-h="2" data-max-h="2"><nav aria-labelledby="starlight__on-this-page"><h2 id="starlight__on-this-page">On this page</h2><ul class="astro-qoa5ihji" style="--depth: 0;"><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#_top" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Overview</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#scope-and-grading" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Scope and grading</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#elasticity" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Elasticity</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#services-and-roles" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Services and roles</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#rules-by-load" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Rules by load</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#rules-by-schedule" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Rules by schedule</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#quota-and-capacity" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Quota and capacity</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#timers-in-systemd" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Timers in systemd</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#the-monthly-report" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">The monthly report</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#cost-coverage" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Cost coverage</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#consequences-of-a-failure" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Consequences of a failure</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#placement-and-failures" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Placement and failures</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#elasticity-with-oneflow-task-a" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Elasticity with OneFlow (Task A)</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#showback-as-a-report-task-b" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Showback as a report (Task B)</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#failure-of-a-node-task-c" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Failure of a node (Task C)</span></a></li></ul></nav></starlight-toc><script type="module" src="/pr-preview/pr-5/_astro/TableOfContents.astro_astro_type_script_index_0_lang.BpJaGz7G.js"></script></div></div></div></aside><div class="main-pane astro-kk5qjijy"><main data-pagefind-body class="astro-rlm2zbci" lang="en" dir="ltr"><div class="content-panel astro-vrdjozuv"><div class="sl-container astro-vrdjozuv"><h1 id="_top" class="astro-obpc4a67">Advanced tasks</h1></div></div><div class="content-panel astro-vrdjozuv"><div class="sl-container astro-vrdjozuv"><div class="sl-markdown-content"><div class="lt-box lt-assignment" role="group" aria-labelledby="lt-box-1"><p class="lt-box-title" id="lt-box-1"><span class="lt-box-kind">Assignment</span></p><p>"Before all four members move to the cloud, the board has three more concerns," Beat Kläy writes. "The fiduciary office needs more power at the end of the month and does not want to call us every time. Every month a report should show what the members cost and whether that covers our own costs. And I would like to know what the members notice when a node fails. How should we spread the VMs so that a failure hits as little as possible?"</p></div>
+<div class="lt-box lt-goals" role="group" aria-labelledby="lt-box-2"><p class="lt-box-title" id="lt-box-2"><span class="lt-box-kind">Learning goals</span></p><p>After this chapter you can:</p><ul>
+<li>Tell elasticity and self-service apart</li>
+<li>Design a OneFlow service with roles and elasticity rules</li>
+<li>Match rules by load and by schedule to each other and to the quota</li>
+<li>Schedule a recurring job with a systemd timer</li>
+<li>Calculate the cooperative's cost coverage from the showback</li>
+<li>Assess what a failed node means for the members</li>
+<li>Propose a placement strategy for the VMs and weigh it against an alternative</li>
+</ul></div>
+<div class="sl-heading-wrapper level-h2"><h2 id="scope-and-grading">Scope and grading</h2><a class="sl-anchor-link" href="#scope-and-grading"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Scope and grading”</span></a></div>
+<p>This chapter gives you no recipe to follow. You design a solution of your own, build it in your lab and justify your decisions. The concept sections explain what you need to know for that. They also point out trade-offs that make good material for a decision of your own.</p>
+<ul>
+<li>The three tasks are the advanced tasks of <a href="../../assessment/milestone-1/">milestone 1</a>. Neither the base nor part 4 depends on them.</li>
+<li>Plan four to six hours for all three together. You may also pick only some of them.</li>
+<li>You show them live in class or in a screencast of at most ten minutes, as the milestone page describes under <a href="../../assessment/milestone-1/#showing-the-advanced-tasks">showing the advanced tasks</a>. In the same showing you answer the two questions from the check <code dir="auto">m1</code>.</li>
+<li>Every task needs <a href="../../assessment/#documenting-the-advanced-tasks">documentation in five parts</a></li>
+<li>Each task is worth 0 to 3 points by the <a href="../../assessment/#levels-of-the-advanced-tasks">levels of the advanced tasks</a>, and at most 1 point without documentation</li>
+<li>You may use AI assistants under the <a href="../../start/overview/#ai-tools">rules of the course</a>. In the showing you explain every line of your solution yourself.</li>
+</ul>
+<div class="sl-heading-wrapper level-h2"><h2 id="elasticity">Elasticity</h2><a class="sl-anchor-link" href="#elasticity"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Elasticity”</span></a></div>
+<p><strong>Elasticity</strong> is one of the <a href="../../basics/characteristics/#the-five-characteristics-according-to-nist">five characteristics of a cloud</a>, which NIST calls rapid elasticity. Resources grow with the load and shrink again without anyone stepping in. With the self-service of chapter 3.4 a member starts a VM itself, while with elasticity the system changes the number of VMs by fixed rules. For the fiduciary office these rules have to grow the service in time and shrink it again, because every VM that runs longer than needed shows up in the office's showback.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="services-and-roles">Services and roles</h2><a class="sl-anchor-link" href="#services-and-roles"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Services and roles”</span></a></div>
+<p>OneFlow manages services made of several VMs, organized in roles such as a database or several application servers. Each role starts its VMs from a VM template, and the number of these VMs is the role's <strong>cardinality</strong>. A <strong>service template</strong> describes the structure, and instantiating it creates the service. You create service templates with <code dir="auto">oneflow-template</code> or in Sunstone and describe each role in them mainly with these settings.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Setting</th><th>Meaning</th></tr></thead><tbody><tr><td><code dir="auto">template_id</code></td><td>number of the VM template the role starts its VMs from</td></tr><tr><td><code dir="auto">cardinality</code></td><td>number of VMs at the start</td></tr><tr><td><code dir="auto">min_vms</code>, <code dir="auto">max_vms</code></td><td>limits within which the rules change the cardinality</td></tr><tr><td><code dir="auto">elasticity_policies</code></td><td>rules by load</td></tr><tr><td><code dir="auto">scheduled_policies</code></td><td>rules by schedule</td></tr><tr><td><code dir="auto">cooldown</code></td><td>seconds after a change during which no further rule applies</td></tr></tbody></table>
+<details class="lt-box lt-details"><summary>Permissions, quota and the owner of the service template</summary><p>OpenNebula stores service templates and services as documents. The members have had the right to create documents since <a href="../groups/#groups-and-group-admins">chapter 3.1</a>. Like VM templates, service templates carry permissions for owner, group and others. The VMs of a service belong to its owner, count against the quota of the owner's group and take the owner's SSH key, just as in chapter 2.4. A service that <code dir="auto">treuhand-admin</code> instantiates therefore uses up the fiduciary office's quota. Who creates the service template is still open.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Service template by</th><th>Consequence</th></tr></thead><tbody><tr><td>The platform team</td><td>part of the <a href="../self-service/#the-service-catalog">catalog</a> from chapter 3.4, maintained by the platform team and open to other members as well</td></tr><tr><td>The fiduciary office</td><td>belongs to the office, which adjusts its rules itself and is responsible for them</td></tr></tbody></table></details>
+<div class="sl-heading-wrapper level-h2"><h2 id="rules-by-load">Rules by load</h2><a class="sl-anchor-link" href="#rules-by-load"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Rules by load”</span></a></div>
+<p>A rule by load checks an expression such as <code dir="auto">CPU > 75</code> over the VMs of a role. If the expression holds for a while, the rule changes the cardinality. OneFlow takes the average over all running VMs of the role and checks the rules only every 90 seconds.</p>
+<details class="lt-box lt-details"><summary>Expression, periods, cooldown and measurements from the lab</summary><p><code dir="auto">CPU</code> is the load of one CPU in percent, taken from the monitoring. Values that an application reports itself through OneGate, such as the length of a queue, are possible too. For that the VM needs a token in its context and a network path to OneGate, which in the lab listens only locally on the front-end, as the <a href="../../iaas/installation/#the-installed-services">list of services</a> in chapter 2.2 shows. CPU is enough for the task. If the expression holds for <code dir="auto">period_number</code> consecutive periods of <code dir="auto">period</code> seconds, <code dir="auto">type</code> and <code dir="auto">adjust</code> change the cardinality, for example by one VM with <code dir="auto">CHANGE</code> and <code dir="auto">1</code> or by a share with <code dir="auto">PERCENTAGE_CHANGE</code>.</p><p>Because OneFlow takes the average, one VM at full load and one idle VM average 50%. With a higher threshold the role therefore stops growing as long as only one of them is busy. Whether that suits the fiduciary office depends on how its load spreads. After every change the service stands in the state <code dir="auto">COOLDOWN</code>, and no rule applies, not even one of another role. <code dir="auto">cooldown</code> sets the duration, otherwise the default from <code dir="auto">/etc/one/oneflow-server.conf</code> applies.</p><p>In the same file, <code dir="auto">:autoscaler_interval:</code> sets the 90 seconds. A shorter period therefore acts like one of 90 seconds, and the monitoring adds a delay of its own. In the lab the second VM ran about two and a half minutes after the load began, with a rule over two periods of 30 seconds. Without load the service shrank back after almost six minutes because the rule for shrinking was deliberately slower. That keeps the service from flipping back and forth when the load wavers briefly, but the fiduciary office pays for the extra VM a little longer.</p></details>
+<div class="sl-heading-wrapper level-h2"><h2 id="rules-by-schedule">Rules by schedule</h2><a class="sl-anchor-link" href="#rules-by-schedule"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Rules by schedule”</span></a></div>
+<p>A rule by schedule changes the cardinality at a set time without waiting for the load, recurring with <code dir="auto">recurrence</code> as an expression in cron format or once with <code dir="auto">start_time</code>. In one role, the schedule covers the known peak at the end of the month and the rule by load catches unexpected peaks.</p>
+<details class="lt-box lt-details"><summary>Kind of change, measurement from the lab and interplay with the load</summary><p><code dir="auto">type</code> and <code dir="auto">adjust</code> define the change, and <code dir="auto">CARDINALITY</code> sets a fixed number of VMs. In the lab a rule that fired every two minutes triggered at the first check after the even minute and took the role from one VM to two. A rule by schedule therefore acts up to 90 seconds after its time.</p><p>Since both rules change the same cardinality, check whether your rule for shrinking takes away what the schedule has just added while the load has not arrived yet. Also decide which days count as the end of the month for the fiduciary office and when the service should be small again.</p></details>
+<div class="sl-heading-wrapper level-h2"><h2 id="quota-and-capacity">Quota and capacity</h2><a class="sl-anchor-link" href="#quota-and-capacity"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Quota and capacity”</span></a></div>
+<p>Every VM of the service counts against the <a href="../quotas/#the-quotas-of-the-members">fiduciary office's quota</a> of four VMs, 2 CPU and 4096 MB, next to the office's other VMs such as <code dir="auto">treuhand-1</code> from chapter 3.3. <code dir="auto">max_vms</code>, the size of the VMs and the quota therefore have to fit together.</p>
+<details class="lt-box lt-details"><summary>A service beyond the quota and room on the nodes</summary><p>OpenNebula rejects VMs beyond the quota as in chapter 3.2, and the service then stands in <code dir="auto">FAILED_SCALING</code>. None of its rules applies any more until the quota has room again and someone runs <code dir="auto">oneflow recover</code>. The quota does not tell you whether the nodes actually have the room, as chapter 3.2 shows under <a href="../quotas/#quotas-and-overcommitment">quotas and overcommitment</a>. From chapter 4.2 on, the Kubernetes cluster takes up the nodes as well.</p></details>
+<div class="sl-heading-wrapper level-h2"><h2 id="timers-in-systemd">Timers in systemd</h2><a class="sl-anchor-link" href="#timers-in-systemd"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Timers in systemd”</span></a></div>
+<p>Ubuntu 26.04 on the lab servers comes without cron. Recurring jobs are scheduled with systemd timers, units whose names end in <code dir="auto">.timer</code> and that start the service of the same name ending in <code dir="auto">.service</code> by default when they elapse. That service runs your script.</p>
+<details class="lt-box lt-details"><summary>Time, kind of unit and the sign-in of the CLI</summary><p><code dir="auto">OnCalendar=</code> sets the time with a calendar expression, and <code dir="auto">monthly</code>, for example, means the first of every month at midnight. <code dir="auto">systemd-analyze calendar</code> shows when an expression applies next. With <code dir="auto">Persistent=</code> systemd catches up after the next boot on a run that the switched-off server missed. Without this option the run is skipped.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Kind</th><th>Runs</th><th>User of the service</th></tr></thead><tbody><tr><td>System unit</td><td>even when nobody is logged in</td><td>set with <code dir="auto">User=</code></td></tr><tr><td>User unit</td><td>only while that user is logged in, unless <code dir="auto">loginctl enable-linger</code> is set</td><td>that user</td></tr></tbody></table><p>In the service, the OpenNebula CLI authenticates with <code dir="auto">~/.one/one_auth</code> of the user the service runs as, as <a href="../../iaas/installation/#the-cli-as-your-user">chapter 2.2</a> shows. <code dir="auto">systemctl list-timers</code> lists the timers with their last and next run, and <code dir="auto">journalctl</code> with the name of the service shows the output of your script.</p></details>
+<aside aria-label="No passwords in Git" class="starlight-aside starlight-aside--caution"><p class="starlight-aside__title" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" class="starlight-aside__icon"><path d="M12 16a1 1 0 1 0 0 2 1 1 0 0 0 0-2Zm10.67 1.47-8.05-14a3 3 0 0 0-5.24 0l-8 14A3 3 0 0 0 3.94 22h16.12a3 3 0 0 0 2.61-4.53Zm-1.73 2a1 1 0 0 1-.88.51H3.94a1 1 0 0 1-.88-.51 1 1 0 0 1 0-1l8-14a1 1 0 0 1 1.78 0l8.05 14a1 1 0 0 1 .05 1.02v-.02ZM12 8a1 1 0 0 0-1 1v4a1 1 0 0 0 2 0V9a1 1 0 0 0-1-1Z"></path></svg>No passwords in Git</p><div class="starlight-aside__content"><p><code dir="auto">~/.one/one_auth</code> holds the password of <code dir="auto">oneadmin</code>. Your script and units go into the hand-in repo as files of the task. So never write the password into any of these files, and never copy <code dir="auto">one_auth</code> into the repo.</p></div></aside>
+<div class="sl-heading-wrapper level-h2"><h2 id="the-monthly-report">The monthly report</h2><a class="sl-anchor-link" href="#the-monthly-report"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “The monthly report”</span></a></div>
+<p>OpenNebula ships the timer <code dir="auto">opennebula-showback.timer</code>, which calculates the showback every day. <code dir="auto">systemctl list-timers</code> shows when it runs.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Path for your report</th><th>Drawback</th></tr></thead><tbody><tr><td>Build on OpenNebula's calculation</td><td>if your timer runs at the same time as OpenNebula's, it is open which one finishes first</td></tr><tr><td>Calculate it yourself</td><td>your script repeats work that OpenNebula already does</td></tr></tbody></table>
+<details class="lt-box lt-details"><summary>Commands, options and a second run</summary><p>According to the <a href="https://docs.opennebula.io/7.4/product/cloud_system_administration/multitenancy/showback/">showback documentation</a> you run <code dir="auto">oneshowback calculate</code> as <code dir="auto">oneadmin</code>, and with many VMs only for the missing months, because the calculation is expensive. <code dir="auto">oneshowback list</code> selects the months with <code dir="auto">-s</code> and <code dir="auto">-e</code>, prints CSV with <code dir="auto">--csv</code> and limits itself to one group with <code dir="auto">-g</code>. If the range includes the current month, OpenNebula calculates up to today. If your script runs twice for the same month, for example after a reboot, it should produce the same file without duplicate lines. Year and month in the file name show which month it covers.</p></details>
+<div class="sl-heading-wrapper level-h2"><h2 id="cost-coverage">Cost coverage</h2><a class="sl-anchor-link" href="#cost-coverage"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Cost coverage”</span></a></div>
+<p>The prices in the template <code dir="auto">ubuntu</code> are made up for the case. Whether they cover the cooperative's costs shows in the <strong>cost coverage</strong>, the ratio of the showback total of a month to all costs of that month. Below 100%, the prices do not cover the costs, even if the cooperative actually charged them.</p>
+<details class="lt-box lt-details"><summary>Costs, assumptions and options when the coverage falls short</summary><p>According to <a href="../showback/#the-cost-of-a-vm">chapter 3.3</a>, the costs include the hardware over its lifetime, power, licenses, backup, the work of the platform team and the reserve for maintenance from chapter 2.5.</p><p>A month in the lab, with few VMs that have often run for only a few days, says little about production. State your assumptions openly, for example how many VMs run on average or what the cooperative spends in a year. The exercise "Cost model" in chapter 3.3 gives values for that. You can also work out how many VMs would have to run on average for the prices to cover the costs. If the coverage falls short, the cooperative can raise the prices, aim for more utilization or ask each member for a fixed fee for the work of the platform team. Each option affects the members differently, for example the municipality with its fixed budget.</p></details>
+<div class="sl-heading-wrapper level-h2"><h2 id="consequences-of-a-failure">Consequences of a failure</h2><a class="sl-anchor-link" href="#consequences-of-a-failure"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Consequences of a failure”</span></a></div>
+<p>When a node fails, <code dir="auto">onehost list</code> shows it as <code dir="auto">err</code> after a while, and <code dir="auto">onevm list</code> shows its VMs as <code dir="auto">unkn</code>, as <a href="../../iaas/hosts/#failure-of-a-node">chapter 2.5</a> describes. Nobody can reach their disks in the node's <code dir="auto">system</code> datastore while the node is down. Whoever starts the VMs of a failed node elsewhere first has to make sure that the node is really off. Without this <strong>fencing</strong>, a short network error can leave the same VM running on two hosts. The lab deliberately has neither shared storage nor a hook for failed hosts, so that three servers are enough. A failure therefore hits the members until the node runs again.</p>
+<details class="lt-box lt-details"><summary>The hook for failed hosts and the behavior of OneFlow</summary><p>OpenNebula ships a script that can run as a hook when a host enters the state <code dir="auto">ERROR</code>. Its options decide what happens to the VMs.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Option</th><th>Effect</th></tr></thead><tbody><tr><td><code dir="auto">-m</code></td><td>moves the VMs to another host, but only with shared storage such as NFS or Ceph, while VMs on local datastores only start again with their host</td></tr><tr><td><code dir="auto">-r</code></td><td>deletes the VMs and creates them again, so their state is lost, which can be acceptable for VMs without data of their own</td></tr><tr><td><code dir="auto">-p</code></td><td>waits a few monitoring cycles, and a host that comes back within them keeps its VMs</td></tr></tbody></table><p>How fast a host counts as failed depends on the monitoring intervals in <code dir="auto">/etc/one/monitord.conf</code>.</p><p>OneFlow does not know the state of the nodes. Until OpenNebula detects the failure after a few minutes, it still reports the node's VMs as running, so the rules of a service work with wrong values. If the load seems to drop, OneFlow shrinks the role by terminating its oldest VMs, even a healthy VM on the other node. Once a VM shows <code dir="auto">unkn</code>, the service changes to the state <code dir="auto">WARNING</code>, in which OneFlow neither evaluates rules nor replaces VMs. In the lab the service of the fiduciary office was left without a single working VM for several minutes. If you bring a VM back on the other node with <code dir="auto">onevm recover --recreate</code>, its old folder stays in the system datastore of the failed node. Clean it up yourself once the node is back, because OpenNebula no longer knows about it.</p></details>
+<div class="sl-heading-wrapper level-h2"><h2 id="placement-and-failures">Placement and failures</h2><a class="sl-anchor-link" href="#placement-and-failures"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Placement and failures”</span></a></div>
+<p>The scheduler decides where a new VM runs, following the rules from <a href="../../iaas/hosts/#placement-by-the-scheduler">chapter 2.5</a>. The policy in <code dir="auto">/etc/one/schedulers/rank.conf</code> applies to every VM without a rule of its own, and <code dir="auto">SCHED_RANK</code> and <code dir="auto">SCHED_REQUIREMENTS</code> in a template give single members or services their own rules.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Rule</th><th>Effect</th><th>During a failure</th></tr></thead><tbody><tr><td>Striping, set in the lab</td><td>spreads the VMs over the nodes by their number of running VMs, so whether two VMs of one service end up apart also depends on the other VMs</td><td>hits fewer VMs</td></tr><tr><td>Packing</td><td>fills one node first so that empty nodes can be switched off</td><td>hits more VMs at once</td></tr><tr><td>VM group with <code dir="auto">ANTI_AFFINED</code></td><td>keeps the VMs of a VM group role strictly on different hosts, so with two nodes at most two of them run</td><td>only one VM of the role keeps running</td></tr></tbody></table>
+<details class="lt-box lt-details"><summary>VM groups and the reserve of the nodes</summary><p>A VM group puts VMs into roles of its own, which have nothing to do with the roles of OneFlow. For each role it defines whether its VMs belong on the same host (<code dir="auto">AFFINED</code>) or on different hosts (<code dir="auto">ANTI_AFFINED</code>). The scheduler enforces this strictly. Without a host that fits, the VM stays <code dir="auto">pend</code>.</p><p>Then there is the reserve. With two nodes, each one has to carry all VMs on its own, during <a href="../../iaas/hosts/#maintenance-of-a-node">maintenance</a> with warning and during a failure without. The quotas of the four members add up to more than one node can carry. If all members use their full quota, not every VM finds room after a failure. A placement proposal therefore also says which members get priority. How much they depend on availability shows in their <a href="../../basics/sovereignty/#protection-needs">protection needs</a> from chapter 1.4.</p></details>
+<div class="sl-heading-wrapper level-h2"><h2 id="elasticity-with-oneflow-task-a">Elasticity with OneFlow (Task A)</h2><a class="sl-anchor-link" href="#elasticity-with-oneflow-task-a"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Elasticity with OneFlow (Task A)”</span></a></div>
+<p>The fiduciary office needs more power at the end of the month without anyone stepping in. Its OneFlow service grows by schedule ahead of the known peak and by load during unexpected peaks, then shrinks again.</p>
+<figure class="lt-figure fig"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 524" role="img" aria-labelledby="p3c5-oneflow-en-title p3c5-oneflow-en-desc">
+<title id="p3c5-oneflow-en-title">The OneFlow service of the fiduciary office</title>
+<desc id="p3c5-oneflow-en-desc">In the target state of task A, OneFlow on the front-end at the top reads the roles and rules of your service template. Rules by schedule follow the system clock, and rules by load follow the CPU that monitoring measures for every VM. Based on these values OneFlow changes the cardinality of a role. At the bottom the service runs in the group treuhand. Some of its VMs always run, and more VMs join by load or by schedule and leave again afterwards. Next to them runs treuhand-1, another VM of the group. Notice the lines below the VMs. The role stays between min_vms and max_vms, and all VMs of the service fit into the quota of the fiduciary office together with treuhand-1.</desc>
+<defs><marker id="p3c5-oneflow-en-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"></path></marker><marker id="p3c5-oneflow-en-head-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head d-head-accent" d="M 0 1 L 9 5 L 0 9 z"></path></marker></defs>
+<rect class="d-ground" x="0" y="0" width="760" height="524" rx="14"></rect>
+<rect class="d-band d-band-2" x="16" y="16" width="728" height="196" rx="12"></rect>
+<text class="d-label d-label-blue" x="32" y="40" text-anchor="start">FRONT-END</text>
+<rect class="d-band d-band-1" x="16" y="252" width="728" height="256" rx="12"></rect>
+<text class="d-label" x="32" y="276" text-anchor="start">GROUP</text>
+<text class="d-code" x="84.04400000000001" y="276" text-anchor="start">treuhand</text>
+<rect class="d-band d-band-3" x="232" y="292" width="496" height="104" rx="12"></rect>
+<text class="d-label d-label-violet" x="248" y="316" text-anchor="start">SERVICE</text>
+<path class="d-arrow" d="M 248 84 L 310 84" marker-end="url(#p3c5-oneflow-en-head)"></path>
+<text class="d-sub" x="280" y="76" text-anchor="middle">rules</text>
+<path class="d-arrow" d="M 248 164 L 310 164" marker-end="url(#p3c5-oneflow-en-head)"></path>
+<text class="d-sub" x="280" y="156" text-anchor="middle">schedule</text>
+<path class="d-arrow" d="M 560 124 L 498 124" marker-end="url(#p3c5-oneflow-en-head)"></path>
+<text class="d-sub" x="528" y="116" text-anchor="middle">load</text>
+<rect class="d-shadow" x="32" y="57.5" width="216" height="56" rx="10"></rect>
+<rect class="d-tile d-tile-accent" x="32" y="56" width="216" height="56" rx="10"></rect>
+<g class="d-icon d-icon-accent" transform="translate(44 75) scale(0.75)"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"></path><path d="M14 3v5h5M9 13h6M9 17h4"></path></g>
+<text class="d-title" x="72" y="81" text-anchor="start">Service template</text>
+<text class="d-sub" x="72" y="97" text-anchor="start">your roles and rules</text>
+<rect class="d-shadow" x="32" y="137.5" width="216" height="56" rx="10"></rect>
+<rect class="d-tile" x="32" y="136" width="216" height="56" rx="10"></rect>
+<g class="d-icon" transform="translate(44 155) scale(0.75)"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></g>
+<text class="d-title" x="72" y="161" text-anchor="start">System clock</text>
+<text class="d-sub" x="72" y="177" text-anchor="start">date and time</text>
+<rect class="d-shadow" x="312" y="57.5" width="184" height="136" rx="10"></rect>
+<rect class="d-tile" x="312" y="56" width="184" height="136" rx="10"></rect>
+<g class="d-icon" transform="translate(324 115) scale(0.75)"><path d="M20 12a8 8 0 0 1-14.3 4.9M4 12A8 8 0 0 1 18.3 7.1"></path><path d="M18.5 3v4.3h-4.3M5.5 21v-4.3h4.3"></path></g>
+<text class="d-title" x="352" y="114" text-anchor="start">OneFlow</text>
+<text class="d-sub" x="352" y="129" text-anchor="start">checks the rules</text>
+<text class="d-code" x="352" y="144" text-anchor="start">opennebula-flow</text>
+<rect class="d-shadow" x="560" y="97.5" width="168" height="56" rx="10"></rect>
+<rect class="d-tile" x="560" y="96" width="168" height="56" rx="10"></rect>
+<g class="d-icon" transform="translate(572 115) scale(0.75)"><path d="M4 20h16"></path><path d="M7 16v-4M12 16V8M17 16v-7"></path></g>
+<text class="d-title" x="600" y="121" text-anchor="start">Monitoring</text>
+<text class="d-sub" x="600" y="137" text-anchor="start">CPU of every VM</text>
+<path class="d-arrow d-arrow-accent" d="M 404 192 L 404 290" marker-end="url(#p3c5-oneflow-en-head-accent)"></path>
+<text class="d-sub" x="412" y="236" text-anchor="start">changes the cardinality</text>
+<path class="d-arrow" d="M 644 292 L 644 154" marker-end="url(#p3c5-oneflow-en-head)"></path>
+<text class="d-code" x="652" y="236" text-anchor="start">CPU</text>
+<rect class="d-shadow" x="32" y="329.5" width="184" height="52" rx="10"></rect>
+<rect class="d-tile d-tile-violet" x="32" y="328" width="184" height="52" rx="10"></rect>
+<g class="d-icon d-icon-violet" transform="translate(44 345) scale(0.75)"><rect x="4" y="4" width="16" height="16" rx="2"></rect><rect x="8.5" y="8.5" width="7" height="7" rx="1"></rect></g>
+<text class="d-title d-title-violet" x="72" y="351" text-anchor="start">treuhand-1</text>
+<text class="d-sub" x="72" y="367" text-anchor="start">another VM of the group</text>
+<rect class="d-shadow" x="248" y="329.5" width="168" height="52" rx="10"></rect>
+<rect class="d-tile d-tile-violet" x="248" y="328" width="168" height="52" rx="10"></rect>
+<g class="d-icon d-icon-violet" transform="translate(260 345) scale(0.75)"><rect x="4" y="4" width="16" height="16" rx="2"></rect><rect x="8.5" y="8.5" width="7" height="7" rx="1"></rect></g>
+<text class="d-title d-title-violet" x="288" y="351" text-anchor="start">VMs of the role</text>
+<text class="d-sub" x="288" y="367" text-anchor="start">always running</text>
+<rect class="d-strip" x="432" y="328" width="280" height="52" rx="8"></rect>
+<text class="d-sub" x="572" y="358" text-anchor="middle">more VMs by load or by schedule</text>
+<path class="d-line" d="M 248 412 L 416 412"></path>
+<path class="d-line" d="M 248 407 L 248 417"></path>
+<path class="d-line" d="M 416 407 L 416 417"></path>
+<text class="d-code" x="332" y="428" text-anchor="middle">min_vms</text>
+<path class="d-line" d="M 248 444 L 712 444"></path>
+<path class="d-line" d="M 248 439 L 248 449"></path>
+<path class="d-line" d="M 712 439 L 712 449"></path>
+<text class="d-code" x="480" y="460" text-anchor="middle">max_vms</text>
+<path class="d-line d-line-accent" d="M 32 476 L 728 476"></path>
+<path class="d-line d-line-accent" d="M 32 471 L 32 481"></path>
+<path class="d-line d-line-accent" d="M 728 471 L 728 481"></path>
+<text class="d-sub" x="380" y="492" text-anchor="middle">quota of the fiduciary office</text>
+</svg></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Starting point</th><th>Result</th></tr></thead><tbody><tr><td>From the base you have the group <code dir="auto">treuhand</code> with its admin <code dir="auto">treuhand-admin</code>, its quota and the VM <code dir="auto">treuhand-1</code> from chapter 3.3, along with the template <code dir="auto">ubuntu</code> and the network <code dir="auto">cc-net</code>. OneFlow has been running on the front-end since chapter 2.2, but you have not created a service yet. Unlike <code dir="auto">praxis-admin</code> in chapter 3.1, <code dir="auto">treuhand-admin</code> has no SSH key yet.</td><td>A service with at least one role runs in the group <code dir="auto">treuhand</code>. Its number of VMs rises under load and before the end of the month and falls again afterwards, without going beyond the fiduciary office's quota.</td></tr></tbody></table>
+<div class="sl-heading-wrapper level-h3"><h3 id="approach">Approach</h3><a class="sl-anchor-link" href="#approach"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Approach”</span></a></div>
+<ol>
+<li>Plan the roles of the service and their limits so that they fit the fiduciary office's quota.</li>
+<li>Write a service template with rules by load and by schedule.</li>
+<li>Start the service as the office's admin and check that it runs.</li>
+<li>Create load in a VM of the service and watch the role grow and shrink again.</li>
+<li>Prove that the rule by schedule fires without waiting for the end of the month.</li>
+<li>Record values, times and your decision for the documentation.</li>
+</ol>
+<div class="sl-heading-wrapper level-h3"><h3 id="requirements">Requirements</h3><a class="sl-anchor-link" href="#requirements"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Requirements”</span></a></div>
+<ol>
+<li>A OneFlow service runs in the group <code dir="auto">treuhand</code>, and its VMs count against the fiduciary office's quota.</li>
+<li>A role grows under load and shrinks again without load, within fixed limits.</li>
+<li>A rule by schedule enlarges the service before the end of the month and reduces it afterwards, in the same role or in one of its own.</li>
+<li>The limits of the role fit the fiduciary office's quota, also next to its other VMs.</li>
+</ol>
+<div class="sl-heading-wrapper level-h3"><h3 id="showing">Showing</h3><a class="sl-anchor-link" href="#showing"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Showing”</span></a></div>
+<ul>
+<li>The service with its roles and rules</li>
+<li>The growth under load and the shrinking afterwards, with the times from your lab</li>
+<li>How you prove that the rule by schedule fires</li>
+<li>Why you chose these thresholds, periods and limits</li>
+</ul>
+<details class="lt-box lt-details"><summary>Notes from the lab</summary><ul>
+<li><code dir="auto">oneflow show</code> lists the roles, their VMs and every change of the cardinality in the service log</li>
+<li>Create load in a VM of the service with a process that keeps the CPU fully busy, such as <code dir="auto">yes</code>. Start it before the showing, since growing takes a few minutes.</li>
+<li>If OneFlow does not answer, check the service <code dir="auto">opennebula-flow</code> from <a href="../../iaas/installation/#the-installed-services">chapter 2.2</a></li>
+</ul></details>
+<details class="lt-box lt-details"><summary>Sources</summary><ul>
+<li><a href="https://docs.opennebula.io/7.4/product/virtual_machines_operation/multi-vm_workflows/appflow_use_cli/">OneFlow Services Management</a> with the structure of a service template and the commands <code dir="auto">oneflow-template</code> and <code dir="auto">oneflow</code></li>
+<li><a href="https://docs.opennebula.io/7.4/product/virtual_machines_operation/multi-vm_workflows/appflow_elasticity/">OneFlow Services Auto-scaling</a> with the rules by load and by schedule, their expressions and the states of a service</li>
+<li><a href="https://docs.opennebula.io/7.4/product/cloud_system_administration/resource_monitoring/metrics/">Resource Metrics</a> with the monitoring values of a VM</li>
+<li><a href="https://docs.opennebula.io/7.4/product/operation_references/opennebula_services_configuration/oneflow/">OneFlow Configuration</a> with the server's defaults and its log files</li>
+<li><a href="../groups/#working-as-a-member">Chapter 3.1</a> for working as a member with <code dir="auto">ONE_AUTH</code>, and in Sunstone the view <code dir="auto">groupadmin</code> from chapter 3.4</li>
+</ul></details>
+<div class="sl-heading-wrapper level-h2"><h2 id="showback-as-a-report-task-b">Showback as a report (Task B)</h2><a class="sl-anchor-link" href="#showback-as-a-report-task-b"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Showback as a report (Task B)”</span></a></div>
+<p>The board wants to see every month what the members have cost, without anyone having to remember it. A script and a timer of your own store the report, and from it you calculate the cooperative's cost coverage.</p>
+<figure class="lt-figure fig"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 388" role="img" aria-labelledby="p3c5-report-en-title p3c5-report-en-desc">
+<title id="p3c5-report-en-title">The monthly showback report</title>
+<desc id="p3c5-report-en-desc">In the target state of task B, your timer on the front-end at the top starts your service, a systemd unit, once a month. The service runs your script, which queries the showback of OpenNebula and stores the report of the past month as a CSV file with the month in its name. Next to it, the timer opennebula-showback.timer that OpenNebula ships calculates the showback every day. At the bottom you calculate the cost coverage from the report and the costs of a month, the showback total divided by all costs. The costs rest on your assumptions. From this you make a proposal to the board. Notice that two timers work on the showback, yours and the one of OpenNebula.</desc>
+<defs><marker id="p3c5-report-en-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"></path></marker><marker id="p3c5-report-en-head-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head d-head-accent" d="M 0 1 L 9 5 L 0 9 z"></path></marker></defs>
+<rect class="d-ground" x="0" y="0" width="760" height="388" rx="14"></rect>
+<rect class="d-band d-band-2" x="16" y="16" width="728" height="212" rx="12"></rect>
+<text class="d-label d-label-blue" x="32" y="40" text-anchor="start">FRONT-END</text>
+<path class="d-arrow" d="M 232 84 L 286 84" marker-end="url(#p3c5-report-en-head)"></path>
+<text class="d-sub" x="260" y="76" text-anchor="middle">starts</text>
+<path class="d-arrow" d="M 464 84 L 518 84" marker-end="url(#p3c5-report-en-head)"></path>
+<text class="d-sub" x="492" y="76" text-anchor="middle">runs</text>
+<path class="d-arrow" d="M 264 180 L 310 180" marker-end="url(#p3c5-report-en-head)"></path>
+<text class="d-sub" x="288" y="172" text-anchor="middle">daily</text>
+<path class="d-arrow" d="M 552 112 L 552 134 L 400 134 L 400 150" marker-end="url(#p3c5-report-en-head)"></path>
+<text class="d-sub" x="476" y="127" text-anchor="middle">queries</text>
+<path class="d-arrow" d="M 680 112 L 680 150" marker-end="url(#p3c5-report-en-head)"></path>
+<text class="d-sub" x="688" y="136" text-anchor="start">stores</text>
+<rect class="d-shadow" x="32" y="57.5" width="200" height="56" rx="10"></rect>
+<rect class="d-tile d-tile-accent" x="32" y="56" width="200" height="56" rx="10"></rect>
+<g class="d-icon d-icon-accent" transform="translate(44 75) scale(0.75)"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></g>
+<text class="d-title" x="72" y="81" text-anchor="start">Your timer</text>
+<text class="d-sub" x="72" y="97" text-anchor="start">once a month</text>
+<rect class="d-shadow" x="288" y="57.5" width="176" height="56" rx="10"></rect>
+<rect class="d-tile" x="288" y="56" width="176" height="56" rx="10"></rect>
+<g class="d-icon" transform="translate(300 75) scale(0.75)"><circle cx="12" cy="12" r="3"></circle><path d="M12 2.5v3M12 18.5v3M4.2 6l2.3 1.8M17.5 16.2l2.3 1.8M4.2 18l2.3-1.8M17.5 7.8 19.8 6M2.5 12h3M18.5 12h3"></path></g>
+<text class="d-title" x="328" y="81" text-anchor="start">Your service</text>
+<text class="d-sub" x="328" y="97" text-anchor="start">a systemd unit</text>
+<rect class="d-shadow" x="520" y="57.5" width="208" height="56" rx="10"></rect>
+<rect class="d-tile d-tile-accent" x="520" y="56" width="208" height="56" rx="10"></rect>
+<g class="d-icon d-icon-accent" transform="translate(532 75) scale(0.75)"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"></path><path d="M14 3v5h5M9 13h6M9 17h4"></path></g>
+<text class="d-title" x="560" y="81" text-anchor="start">Your script</text>
+<text class="d-sub" x="560" y="97" text-anchor="start">showback of last month</text>
+<rect class="d-shadow" x="32" y="153.5" width="232" height="56" rx="10"></rect>
+<rect class="d-tile" x="32" y="152" width="232" height="56" rx="10"></rect>
+<g class="d-icon" transform="translate(44 171) scale(0.75)"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></g>
+<text class="d-title" x="72" y="177" text-anchor="start">OpenNebula timer</text>
+<text class="d-code" x="72" y="193" text-anchor="start">opennebula-showback.timer</text>
+<rect class="d-shadow" x="312" y="153.5" width="176" height="56" rx="10"></rect>
+<rect class="d-tile" x="312" y="152" width="176" height="56" rx="10"></rect>
+<g class="d-icon" transform="translate(324 171) scale(0.75)"><ellipse cx="12" cy="5.5" rx="7.5" ry="2.5"></ellipse><path d="M4.5 5.5v13c0 1.4 3.4 2.5 7.5 2.5s7.5-1.1 7.5-2.5v-13"></path><path d="M4.5 12c0 1.4 3.4 2.5 7.5 2.5s7.5-1.1 7.5-2.5"></path></g>
+<text class="d-title" x="352" y="177" text-anchor="start">Showback</text>
+<text class="d-sub" x="352" y="193" text-anchor="start">cost per VM</text>
+<rect class="d-shadow" x="520" y="153.5" width="208" height="56" rx="10"></rect>
+<rect class="d-tile" x="520" y="152" width="208" height="56" rx="10"></rect>
+<g class="d-icon" transform="translate(532 171) scale(0.75)"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"></path><path d="M14 3v5h5M9 13h6M9 17h4"></path></g>
+<text class="d-title" x="560" y="177" text-anchor="start">Report</text>
+<text class="d-sub" x="560" y="193" text-anchor="start">CSV, month in the name</text>
+<rect class="d-band d-band-1" x="16" y="252" width="728" height="120" rx="12"></rect>
+<text class="d-label" x="32" y="276" text-anchor="start">EVALUATION</text>
+<path class="d-arrow d-arrow-accent" d="M 624 208 L 624 240 L 388 240 L 388 290" marker-end="url(#p3c5-report-en-head-accent)"></path>
+<path class="d-arrow" d="M 536 320 L 490 320" marker-end="url(#p3c5-report-en-head)"></path>
+<path class="d-arrow d-arrow-accent" d="M 288 320 L 234 320" marker-end="url(#p3c5-report-en-head-accent)"></path>
+<rect class="d-shadow" x="32" y="293.5" width="200" height="56" rx="10"></rect>
+<rect class="d-tile" x="32" y="292" width="200" height="56" rx="10"></rect>
+<g class="d-icon" transform="translate(44 311) scale(0.75)"><circle cx="9" cy="8" r="3.5"></circle><path d="M2.5 20a6.5 6.5 0 0 1 13 0"></path><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M18 14.2a6.5 6.5 0 0 1 3.5 5.8"></path></g>
+<text class="d-title" x="72" y="317" text-anchor="start">Board</text>
+<text class="d-sub" x="72" y="333" text-anchor="start">gets your proposal</text>
+<rect class="d-shadow" x="288" y="293.5" width="200" height="56" rx="10"></rect>
+<rect class="d-tile d-tile-accent" x="288" y="292" width="200" height="56" rx="10"></rect>
+<g class="d-icon d-icon-accent" transform="translate(300 311) scale(0.75)"><path d="M4 20h16"></path><path d="M7 16v-4M12 16V8M17 16v-7"></path></g>
+<text class="d-title" x="328" y="317" text-anchor="start">Cost coverage</text>
+<text class="d-sub" x="328" y="333" text-anchor="start">showback by costs</text>
+<rect class="d-shadow" x="536" y="293.5" width="192" height="56" rx="10"></rect>
+<rect class="d-tile" x="536" y="292" width="192" height="56" rx="10"></rect>
+<g class="d-icon" transform="translate(548 311) scale(0.75)"><circle cx="12" cy="12" r="9"></circle><path d="M14.5 9c-.5-1-1.5-1.5-2.5-1.5-1.7 0-2.8 1-2.8 2.2 0 2.9 5.6 1.6 5.6 4.5 0 1.2-1.2 2.3-2.8 2.3-1.1 0-2.2-.6-2.7-1.6M12 6v1.5M12 16.5V18"></path></g>
+<text class="d-title" x="576" y="317" text-anchor="start">Costs of a month</text>
+<text class="d-sub" x="576" y="333" text-anchor="start">your assumptions</text>
+</svg></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Starting point</th><th>Result</th></tr></thead><tbody><tr><td>Since chapter 3.3 the template <code dir="auto">ubuntu</code> has carried prices. There you calculated the showback by hand and exported it as CSV. OpenNebula calculates it every day with its own timer <code dir="auto">opennebula-showback.timer</code>, but you have neither a timer of your own nor a monthly report yet.</td><td>A systemd timer of your own starts your script once a month, and the script stores the showback of the past month as a CSV file. From a report with data you calculate the cost per member and the cooperative's cost coverage.</td></tr></tbody></table>
+<div class="sl-heading-wrapper level-h3"><h3 id="approach-1">Approach</h3><a class="sl-anchor-link" href="#approach-1"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Approach”</span></a></div>
+<ol>
+<li>Try out by hand how to calculate the showback of a single month and print it as CSV.</li>
+<li>Write the script for the report of the past month so that a second run produces the same file.</li>
+<li>Create the systemd service and timer and decide which user they run as and when.</li>
+<li>Start a run by hand and check the file and the next run of the timer.</li>
+<li>Calculate the cost per member and the cost coverage from a report with data.</li>
+<li>Record values, assumptions and your decision for the documentation.</li>
+</ol>
+<div class="sl-heading-wrapper level-h3"><h3 id="requirements-1">Requirements</h3><a class="sl-anchor-link" href="#requirements-1"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Requirements”</span></a></div>
+<ol>
+<li>A script of your own stores the showback of the past month as a CSV file whose name gives the month.</li>
+<li>A systemd timer of your own starts the script once a month. Its name contains <code dir="auto">showback</code> and does not start with <code dir="auto">opennebula-</code>.</li>
+<li>If the script runs a second time for the same month, it produces the same file without duplicate lines.</li>
+<li>From the report you calculate the cost per member and the cooperative's cost coverage, with your assumptions stated.</li>
+</ol>
+<div class="sl-heading-wrapper level-h3"><h3 id="showing-1">Showing</h3><a class="sl-anchor-link" href="#showing-1"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Showing”</span></a></div>
+<ul>
+<li>The timer with its last and next run</li>
+<li>A run you start by hand and the file it stores</li>
+<li>The cost coverage with your assumptions and a proposal to the board</li>
+</ul>
+<details class="lt-box lt-details"><summary>Notes from the lab</summary><ul>
+<li>You can write the script in Bash or Python, for example, since both are available on the front-end</li>
+<li>If your lab did not run yet in the past month, the report for that month is empty. Plan how to show a report with data in the showing, for example one for the current month.</li>
+<li>If the file is missing after a run, <code dir="auto">journalctl</code> shows what your service printed</li>
+</ul></details>
+<details class="lt-box lt-details"><summary>Sources</summary><ul>
+<li>The OpenNebula 7.4 <a href="https://docs.opennebula.io/7.4/product/cloud_system_administration/multitenancy/showback/">showback documentation</a> on <code dir="auto">oneshowback calculate</code> and <code dir="auto">oneshowback list</code> with their options</li>
+<li>The Ubuntu 26.04 manual pages on <a href="https://manpages.ubuntu.com/manpages/resolute/man5/systemd.timer.5.html">systemd.timer</a>, <a href="https://manpages.ubuntu.com/manpages/resolute/man5/systemd.service.5.html">systemd.service</a> and the calendar expressions in <a href="https://manpages.ubuntu.com/manpages/resolute/man7/systemd.time.7.html">systemd.time</a></li>
+<li><a href="../showback/">Chapter 3.3</a> on prices, showback and the CSV export, with its exercise "Cost model" as a simple calculation of the coverage</li>
+</ul></details>
+<div class="sl-heading-wrapper level-h2"><h2 id="failure-of-a-node-task-c">Failure of a node (Task C)</h2><a class="sl-anchor-link" href="#failure-of-a-node-task-c"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Failure of a node (Task C)”</span></a></div>
+<p>Beat Kläy wants to know what the members notice when a node fails. You switch off a node without warning, observe what happens and derive a proposal for how Wolkenwerk should place its VMs.</p>
+<figure class="lt-figure fig"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 388" role="img" aria-labelledby="p3c5-failure-en-title p3c5-failure-en-desc">
+<title id="p3c5-failure-en-title">The failure of a node</title>
+<desc id="p3c5-failure-en-desc">In the target state of task C, node 1 and node 2 at the bottom run VMs of several members, and the disks of these VMs live in the system datastore of their node. In the example node 2 has been switched off hard. Its VMs and disks can no longer be reached, while node 1 keeps running. At the top, monitoring on the front-end checks the nodes regularly and gets no answer from node 2 anymore. On the right you record the states with times in your log. Your proposal with a rule, an alternative and the trade-off builds on this log and decides how the scheduler places new VMs on the nodes. Notice that the disks stay on the failed node. As long as it is off, nobody can reach them.</desc>
+<defs><marker id="p3c5-failure-en-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"></path></marker><marker id="p3c5-failure-en-head-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head d-head-accent" d="M 0 1 L 9 5 L 0 9 z"></path></marker></defs>
+<rect class="d-ground" x="0" y="0" width="760" height="388" rx="14"></rect>
+<rect class="d-band d-band-2" x="16" y="16" width="384" height="196" rx="12"></rect>
+<text class="d-label d-label-blue" x="32" y="40" text-anchor="start">FRONT-END</text>
+<rect class="d-band d-band-1" x="424" y="16" width="320" height="196" rx="12"></rect>
+<text class="d-label" x="440" y="40" text-anchor="start">YOUR ANALYSIS</text>
+<path class="d-arrow" d="M 384 164 L 438 164" marker-end="url(#p3c5-failure-en-head)"></path>
+<path class="d-arrow" d="M 584 136 L 584 114" marker-end="url(#p3c5-failure-en-head)"></path>
+<path class="d-arrow d-dashed" d="M 440 84 L 386 84" marker-end="url(#p3c5-failure-en-head)"></path>
+<rect class="d-shadow" x="32" y="57.5" width="352" height="56" rx="10"></rect>
+<rect class="d-tile" x="32" y="56" width="352" height="56" rx="10"></rect>
+<g class="d-icon" transform="translate(44 75) scale(0.75)"><circle cx="12" cy="12" r="3"></circle><path d="M12 2.5v3M12 18.5v3M4.2 6l2.3 1.8M17.5 16.2l2.3 1.8M4.2 18l2.3-1.8M17.5 7.8 19.8 6M2.5 12h3M18.5 12h3"></path></g>
+<text class="d-title" x="72" y="81" text-anchor="start">Scheduler</text>
+<text class="d-sub" x="72" y="97" text-anchor="start">places new VMs on the nodes</text>
+<rect class="d-shadow" x="32" y="137.5" width="352" height="56" rx="10"></rect>
+<rect class="d-tile" x="32" y="136" width="352" height="56" rx="10"></rect>
+<g class="d-icon" transform="translate(44 155) scale(0.75)"><path d="M4 20h16"></path><path d="M7 16v-4M12 16V8M17 16v-7"></path></g>
+<text class="d-title" x="72" y="161" text-anchor="start">Monitoring</text>
+<text class="d-sub" x="72" y="177" text-anchor="start">checks the nodes regularly</text>
+<rect class="d-shadow" x="440" y="57.5" width="288" height="56" rx="10"></rect>
+<rect class="d-tile d-tile-accent" x="440" y="56" width="288" height="56" rx="10"></rect>
+<g class="d-icon d-icon-accent" transform="translate(452 75) scale(0.75)"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"></path><path d="M14 3v5h5M9 13h6M9 17h4"></path></g>
+<text class="d-title" x="480" y="81" text-anchor="start">Your proposal</text>
+<text class="d-sub" x="480" y="97" text-anchor="start">rule, alternative, trade-off</text>
+<rect class="d-shadow" x="440" y="137.5" width="288" height="56" rx="10"></rect>
+<rect class="d-tile" x="440" y="136" width="288" height="56" rx="10"></rect>
+<g class="d-icon" transform="translate(452 155) scale(0.75)"><rect x="4" y="3" width="16" height="18" rx="2"></rect><path d="M8 8h8M8 12h8M8 16h5"></path></g>
+<text class="d-title" x="480" y="161" text-anchor="start">Your log</text>
+<text class="d-sub" x="480" y="177" text-anchor="start">states with times</text>
+<path class="d-arrow d-arrow-accent" d="M 208 192 L 208 250" marker-end="url(#p3c5-failure-en-head-accent)"></path>
+<path class="d-line d-dashed" d="M 208 232 L 568 232"></path>
+<path class="d-arrow d-dashed" d="M 568 232 L 568 250" marker-end="url(#p3c5-failure-en-head)"></path>
+<text class="d-sub" x="576" y="246" text-anchor="start">no answer</text>
+<rect class="d-band d-band-2" x="16" y="252" width="352" height="120" rx="12"></rect>
+<text class="d-label d-label-blue" x="32" y="276" text-anchor="start">NODE 1</text>
+<rect class="d-band d-band-2" x="392" y="252" width="352" height="120" rx="12"></rect>
+<text class="d-label d-label-blue" x="408" y="276" text-anchor="start">NODE 2</text>
+<text class="d-meta" x="352" y="276" text-anchor="end">keeps running</text>
+<rect class="d-tag" x="463.25600000000003" y="263" width="107" height="18" rx="9"></rect>
+<text class="d-tag-text" x="516.7560000000001" y="275.5" text-anchor="middle">switched off hard</text>
+<rect class="d-shadow" x="32" y="293.5" width="136" height="56" rx="10"></rect>
+<rect class="d-tile d-tile-violet" x="32" y="292" width="136" height="56" rx="10"></rect>
+<g class="d-icon d-icon-violet" transform="translate(44 311) scale(0.75)"><rect x="4" y="4" width="16" height="16" rx="2"></rect><rect x="8.5" y="8.5" width="7" height="7" rx="1"></rect></g>
+<text class="d-title d-title-violet" x="72" y="317" text-anchor="start">VMs</text>
+<text class="d-sub" x="72" y="333" text-anchor="start">of the members</text>
+<rect class="d-shadow" x="184" y="293.5" width="168" height="56" rx="10"></rect>
+<rect class="d-tile" x="184" y="292" width="168" height="56" rx="10"></rect>
+<g class="d-icon" transform="translate(196 311) scale(0.75)"><rect x="3" y="6" width="18" height="12" rx="2"></rect><path d="M7 14h.01M11 14h6"></path></g>
+<text class="d-title" x="224" y="317" text-anchor="start">System datastore</text>
+<text class="d-sub" x="224" y="333" text-anchor="start">disks of the VMs</text>
+<rect class="d-strip" x="408" y="292" width="136" height="56" rx="8"></rect>
+<text class="d-sub" x="476" y="324" text-anchor="middle">VMs out of reach</text>
+<rect class="d-strip" x="560" y="292" width="168" height="56" rx="8"></rect>
+<text class="d-sub" x="644" y="324" text-anchor="middle">disks out of reach</text>
+</svg></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Starting point</th><th>Result</th></tr></thead><tbody><tr><td>From the base the VMs <code dir="auto">web-1</code> to <code dir="auto">web-3</code> from part 2 and <code dir="auto">praxis-1</code> and <code dir="auto">treuhand-1</code> from part 3 are running, and the scheduler spreads them over both nodes by striping. Their disks live in the <code dir="auto">system</code> datastore of their node, and the lab has neither shared storage nor a hook for failed hosts. So far you know a failure only from the description in chapter 2.5.</td><td>All VMs run again after a hard failure. Your log records with times what OpenNebula showed for nodes, VMs and services in between and what you had to do. Your placement proposal builds on it, with an alternative and the trade-off for the four members.</td></tr></tbody></table>
+<div class="sl-heading-wrapper level-h3"><h3 id="approach-2">Approach</h3><a class="sl-anchor-link" href="#approach-2"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Approach”</span></a></div>
+<ol>
+<li>Spread VMs of several members over both nodes and record which VM runs where.</li>
+<li>Take a snapshot of all three servers and prepare how you will record states with times.</li>
+<li>Switch one node off hard and watch nodes, VMs and services until OpenNebula reports the failure.</li>
+<li>Switch the node back on and get all VMs running again.</li>
+<li>Derive a placement proposal from your observations and weigh it against an alternative.</li>
+<li>Record times, steps and your decision for the documentation.</li>
+</ol>
+<aside aria-label="Snapshot before the failure" class="starlight-aside starlight-aside--caution"><p class="starlight-aside__title" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" class="starlight-aside__icon"><path d="M12 16a1 1 0 1 0 0 2 1 1 0 0 0 0-2Zm10.67 1.47-8.05-14a3 3 0 0 0-5.24 0l-8 14A3 3 0 0 0 3.94 22h16.12a3 3 0 0 0 2.61-4.53Zm-1.73 2a1 1 0 0 1-.88.51H3.94a1 1 0 0 1-.88-.51 1 1 0 0 1 0-1l8-14a1 1 0 0 1 1.78 0l8.05 14a1 1 0 0 1 .05 1.02v-.02ZM12 8a1 1 0 0 0-1 1v4a1 1 0 0 0 2 0V9a1 1 0 0 0-1-1Z"></path></svg>Snapshot before the failure</p><div class="starlight-aside__content"><p>Take a snapshot of all three servers before you switch the node off hard, as <a href="../../start/prepare/">chapter 0.4</a> recommends. It gets you back if a VM no longer starts afterwards.</p></div></aside>
+<div class="sl-heading-wrapper level-h3"><h3 id="requirements-2">Requirements</h3><a class="sl-anchor-link" href="#requirements-2"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Requirements”</span></a></div>
+<ol>
+<li>Before the failure, VMs of several members run on both nodes, and you record which VM runs where.</li>
+<li>You switch a node off hard and record with times what OpenNebula then shows for nodes, VMs and services.</li>
+<li>After you switch the node back on, all VMs run again, and you record what you had to do for that.</li>
+<li>Your placement proposal builds on your observations. It names a strategy or rule, an alternative and the trade-off for the four members.</li>
+</ol>
+<div class="sl-heading-wrapper level-h3"><h3 id="showing-2">Showing</h3><a class="sl-anchor-link" href="#showing-2"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Showing”</span></a></div>
+<ul>
+<li>How the VMs were spread before the failure</li>
+<li>The state of nodes and VMs during the failure with the times you measured</li>
+<li>What you had to do after switching the node back on</li>
+<li>Your proposal with its alternative and trade-off</li>
+</ul>
+<details class="lt-box lt-details"><summary>Notes from the lab</summary><ul>
+<li>A real failure comes without warning. Switch off the node's VM without shutting down Ubuntu inside it.</li>
+<li>Watch <code dir="auto">onehost list</code> and <code dir="auto">onevm list</code> at short intervals and write down the times. If the service from task A is running, watch it as well.</li>
+<li>If you show the task after chapter 4.2, mind the note on the Kubernetes cluster under <a href="../../assessment/milestone-1/#showing-the-advanced-tasks">showing the advanced tasks</a> on the milestone page</li>
+<li>If you put part of your proposal into practice, for example for the VMs of one member, you can show its effect in the showing</li>
+</ul></details>
+<details class="lt-box lt-details"><summary>Sources</summary><ul>
+<li><a href="../../iaas/hosts/">Chapter 2.5</a> with the states of hosts and VMs, the scheduler, maintenance and the failure of a node</li>
+<li>The section <a href="../../iaas/hosts/#life-cycle-of-a-vm">life cycle of a VM</a> in chapter 2.5 with the commands that change the state of a VM</li>
+<li><a href="../quotas/#quotas-and-overcommitment">Chapter 3.2</a> on quotas and overcommitment</li>
+<li><a href="https://docs.opennebula.io/7.4/product/cloud_system_administration/scheduler/rank_scheduler/">Rank Scheduler</a> with the scheduling policies</li>
+<li><a href="https://docs.opennebula.io/7.4/product/cloud_system_administration/capacity_planning/affinity/">VM Groups (Affinity)</a> with the rules for VM groups</li>
+<li><a href="https://docs.opennebula.io/7.4/product/control_plane_configuration/high_availability/vm_ha/">VM HA</a> with the hook for failed hosts</li>
+</ul></details></div><footer class="sl-flex astro-7u27nsfc"><div class="meta sl-flex astro-7u27nsfc"></div><div data-pagefind-ignore style="display: contents"><div class="pagination-links print:hidden astro-d2wubx5p" dir="ltr"><a href="/pr-preview/pr-5/en/tenants/self-service/" rel="prev" class="astro-d2wubx5p"><svg aria-hidden="true" class="astro-d2wubx5p astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.5rem;"><path d="M17 11H9.41l3.3-3.29a1.004 1.004 0 1 0-1.42-1.42l-5 5a1 1 0 0 0-.21.33 1 1 0 0 0 0 .76 1 1 0 0 0 .21.33l5 5a1.002 1.002 0 0 0 1.639-.325 1 1 0 0 0-.219-1.095L9.41 13H17a1 1 0 0 0 0-2Z"/></svg><span class="astro-d2wubx5p">Previous<br class="astro-d2wubx5p"><span class="link-title astro-d2wubx5p">3.4 Self-service</span></span></a><a href="/pr-preview/pr-5/en/tenants/competences/" rel="next" class="astro-d2wubx5p"><svg aria-hidden="true" class="astro-d2wubx5p astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.5rem;"><path d="M17.92 11.62a1.001 1.001 0 0 0-.21-.33l-5-5a1.003 1.003 0 1 0-1.42 1.42l3.3 3.29H7a1 1 0 0 0 0 2h7.59l-3.3 3.29a1.002 1.002 0 0 0 .325 1.639 1 1 0 0 0 1.095-.219l5-5a1 1 0 0 0 .21-.33 1 1 0 0 0 0-.76Z"/></svg><span class="astro-d2wubx5p">Next<br class="astro-d2wubx5p"><span class="link-title astro-d2wubx5p">3.6 Competence grid</span></span></a></div></div></footer><p class="lt-licence astro-jo6i4kqk">Text and figures are licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/" class="astro-jo6i4kqk">CC BY-SA 4.0</a> and the code under the <a href="https://github.com/ndum/cc/blob/main/LICENSES/MIT.txt" class="astro-jo6i4kqk">MIT License</a>. The sources are on <a href="https://github.com/ndum/cc" class="astro-jo6i4kqk">GitHub</a>.</p></div></div></main></div></div></div></div></body></html>
