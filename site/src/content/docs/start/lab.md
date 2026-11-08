@@ -56,7 +56,7 @@ Die VMs deiner Cloud bekommen ein zweites, internes Netz, das nur deine drei Ser
 
 ## smartlearn
 
-Deine Dozentin oder dein Dozent stellt dir auf smartlearn eine eigene Umgebung bereit, mit den drei Servern, dem Client und verschachtelter Virtualisierung. Auf den Servern ist Ubuntu schon installiert. Die Umgebung hat ein eigenes Labnetz 192.168.210.0/24 mit Gateway und DNS auf 192.168.210.1 und Zugang zum Internet. Kein anderes Lab liegt in diesem Netz. Die Adressen der Server trägst du in [Kapitel 0.3](../parameters/#die-adressen-eintragen) selbst ein.
+Deine Dozentin oder dein Dozent stellt dir auf smartlearn eine eigene Umgebung bereit, mit den drei Servern, dem Client und verschachtelter Virtualisierung. Auf den Servern ist Ubuntu schon installiert, mit dem Benutzer `cc`. Sein Passwort nennt dir deine Dozentin oder dein Dozent. Die Umgebung hat ein eigenes Labnetz 192.168.210.0/24 mit Gateway und DNS auf 192.168.210.1 und Zugang zum Internet. Kein anderes Lab liegt in diesem Netz. Die Adressen der Server trägst du in [Kapitel 0.3](../parameters/#die-adressen-eintragen) selbst ein.
 
 Alle Anleitungen des Kurses gehen von smartlearn aus. Wer die VMs lieber auf einem eigenen Hypervisor betreibt, findet die Hinweise dazu in der Ergänzung [Eigener Hypervisor](../../extras/own-hypervisor/). Abschnitte, die nur dafür gelten, stehen in einem geschlossenen Kasten «Eigener Hypervisor». Auf smartlearn lässt du ihn zu und liest danach weiter.
 
