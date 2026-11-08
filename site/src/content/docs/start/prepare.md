@@ -55,7 +55,9 @@ git clone https://github.com/ndum/cc.git
 
 Die erste Zeile erlaubt deinem Benutzer sudo ohne Passwort, denn Ansible führt in Kapitel 2.2 Befehle als Administrator aus, ohne nach einem Passwort zu fragen. Auf smartlearn darf `vmadmin` das schon. Mit der Zeile gilt es unabhängig von der Vorlage, auch auf einem eigenen Hypervisor. Was eine solche Zeile erlaubt, beschreibt die [Handbuchseite zu sudoers](https://manpages.ubuntu.com/manpages/resolute/man5/sudoers-rs.5.html) von Ubuntu 26.04. Die minimale Installation von Ubuntu enthält kein Git, die zweite Zeile installiert es. `git clone` legt das Kursrepo im neuen Ordner `cc` in deinem Home-Verzeichnis ab, wie die [Dokumentation von Git](https://git-scm.com/docs/git-clone) beschreibt.
 
-Starte danach das Vorbereitungsskript mit der Rolle des Servers, `node1`, `node2` oder `fe`. Melde dich anschliessend ab und wieder an, erst dann zeigt die Eingabeaufforderung den neuen Hostnamen.
+Einen neueren Stand des Kursrepos kündigt dir deine Dozentin oder dein Dozent an. Du holst ihn dann auf jedem Server mit `git -C ~/cc pull`, die Option `-C` lässt Git im Ordner `~/cc` arbeiten. Den Block oben startest du dafür nicht noch einmal, denn `git clone` bricht ab, wenn der Ordner `cc` schon besteht.
+
+Nach dem Block startest du das Vorbereitungsskript mit der Rolle des Servers, `node1`, `node2` oder `fe`. Melde dich anschliessend ab und wieder an, erst dann zeigt die Eingabeaufforderung den neuen Hostnamen.
 
 ```bash
 sudo ~/cc/lab/prepare.sh node1
@@ -79,7 +81,18 @@ Der Dienst `cc-gateway` verbindet das Front-end mit dem internen Netz deiner Clo
 sudo cc-gateway status
 ```
 
-Die Ausgabe nennt das Gateway auf `cc-br`, das VXLAN mit Kennung und Multicast-Gruppe, die Weiterleitung und die NAT-Regel mit deinem internen Netz. Diese Regel steht in der Tabelle `cc_gateway` von nftables. Regeln dieser Art erklärt die [Anleitung zu NAT](https://wiki.nftables.org/wiki-nftables/index.php/Performing_Network_Address_Translation_%28NAT%29) im Wiki von nftables.
+Für den Code `mmuster` auf smartlearn gibt er diese vier Zeilen aus. Hinter der Adresse des Gateways kann noch eine IPv6-Adresse stehen, die mit `fe80::` beginnt.
+
+```text
+cc-br            UP             172.31.160.1/24
+vxlan id 5862 group 239.0.22.230
+ip_forward=1
+		ip saddr 172.31.160.0/24 oifname "eth0" masquerade
+```
+
+Die erste Zeile zeigt die Brücke `cc-br` mit dem Zustand `UP` und der Adresse des Gateways im internen Netz. Die zweite nennt das VXLAN mit deiner Kennung und deiner Multicast-Gruppe. `ip_forward=1` heisst, dass das Front-end Pakete zwischen seinen Netzen weiterleitet. Die letzte Zeile ist die NAT-Regel. Bei jedem Paket aus deinem internen Netz, das über `eth0` ins Labnetz geht, ersetzt sie die Absenderadresse durch die Adresse des Front-ends. Diese Regel steht in der Tabelle `cc_gateway` von nftables. Regeln dieser Art erklärt die [Anleitung zu NAT](https://wiki.nftables.org/wiki-nftables/index.php/Performing_Network_Address_Translation_%28NAT%29) im Wiki von nftables.
+
+Steht statt einer Zeile eine Meldung wie `cc-br is missing` oder `NAT rule is missing` oder zeigt die dritte Zeile `ip_forward=0`, startest du den Dienst mit `sudo systemctl restart cc-gateway` neu und prüfst noch einmal.
 
 ## SSH vom Front-end auf die Knoten
 
@@ -89,7 +102,7 @@ Melde dich mit `ssh mmuster-fe` auf dem Front-end an und füge diesen Block ein.
 
 ```bash
 ssh-keygen -t ed25519 -N "" -f ~/.ssh/id_ed25519
-. /etc/cc-lab.env
+source /etc/cc-lab.env
 ssh-copy-id $CC_NODE1_HOST
 ssh-copy-id $CC_NODE2_HOST
 ```
@@ -106,12 +119,14 @@ python3 ~/cc/checks/check.py start
 
 Jede Zeile des Berichts beginnt mit `[ok]` oder `[!!]`. Unter einer Zeile mit `[!!]` steht ein Hinweis, wo du suchen kannst. Das Skript speichert den Bericht in `~/cc-reports/`. Am Ende steht ein Hash über den ganzen Bericht. Wer den Bericht nachträglich von Hand ändert, macht diesen Hash ungültig. Weil das Skript öffentlich ist, beweist der Hash aber nicht, dass der Check wirklich gelaufen ist. Dafür braucht es deine Screenshots und die Vorführung der Zusatzaufträge.
 
-::code{file="checks/check.py" lines="792-797"}
+::code{file="checks/check.py" lines="803-808"}
 
-In Kapitel 0.5 lädst du den Bericht in dein Abgabe-Repo. Auf smartlearn kannst du von jeder VM einen Snapshot anlegen. Ein Snapshot der drei Server nach dem grünen Check bringt dich zum vorbereiteten Lab zurück, falls später etwas schiefgeht.
+Der Check `start` ist Anforderung 1 von Meilenstein 1. Mach deshalb gleich nach dem Lauf einen Screenshot mit dem Screenshot-Werkzeug von Kali, denn jeder neue Lauf schreibt einen neuen Bericht mit einem anderen Hash. Auf dem Bild sind die Zeile mit dem Ergebnis, der Hash und die Eingabeaufforderung mit dem Namen des Front-ends zu sehen. Speichere es in deinem Home-Ordner auf dem Client als `1-start.png`. In Kapitel 0.5 kommt es zusammen mit dem Bericht in dein Abgabe-Repo.
+
+Snapshots der drei Server legst du in der Weboberfläche von smartlearn an. Ein Snapshot nach dem grünen Check bringt dich zum vorbereiteten Lab zurück, falls später etwas schiefgeht.
 
 ::::exercise[Lab]
-Richte SSH auf dem Client ein und bereite die drei Server vor, zuerst die Knoten und dann das Front-end. Verbinde danach das Front-end mit den Knoten und starte den Check `start`.
+Richte SSH auf dem Client ein und bereite die drei Server vor, zuerst die Knoten und dann das Front-end. Verbinde danach das Front-end mit den Knoten, starte den Check `start` und mach den Screenshot `1-start.png`.
 
 :::solution
 Auf jedem Server endet das Skript mit dem Abschnitt «Done», auf dem Front-end zeigt es davor das Gateway mit VXLAN-Kennung und NAT-Regel. Der Check endet mit einer Zeile wie «27 von 27 Prüfungen der Basis erfüllt» und einem Hash. Eine fehlende SSH-Verbindung zeigt der Bericht mit `[!!] SSH ohne Passwort auf` und dem Namen des Knotens. Dann fehlt der Schlüssel des Front-ends auf diesem Knoten.

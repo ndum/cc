@@ -51,9 +51,9 @@ Nach Kapitel 4.2 belegt der Kubernetes-Cluster die Knoten. Führst du Auftrag A 
 
 ## Abgabe
 
-Im Ordner `m1/` deines Abgabe-Repos liegen die Screenshots der Basis. Für die Zusatzaufträge kommen ihre Dokumentation, für Auftrag B das Skript und die Units des Timers und für die Vorführung der Screencast oder ein Link darauf dazu.
+Im Ordner `m1/` deines Abgabe-Repos liegen die Screenshots der Basis. Für die Zusatzaufträge kommen ihre Dokumentation, für Auftrag B das Skript und die Units des Timers und für eine Vorführung im Screencast sein Link dazu.
 
-Die Berichte der Checks legst du in `reports/`. Wie das Repo aufgebaut ist und wie du einen Tag setzt, steht in der [Übersicht](../).
+Die Berichte der Checks legst du in `reports/`. Wie das Repo aufgebaut ist und wie du einen Tag setzt, steht unter [Abgeben](../#abgeben).
 
 ## Bewertungsraster
 

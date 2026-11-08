@@ -51,9 +51,9 @@ After chapter 4.2 the Kubernetes cluster takes up the nodes. If you demonstrate 
 
 ## Hand-in
 
-The folder `m1/` of your hand-in repo holds the screenshots of the base. The advanced tasks add their documentation, task B adds the script and the timer units, and the showing adds the screencast or a link to it.
+The folder `m1/` of your hand-in repo holds the screenshots of the base. The advanced tasks add their documentation, task B adds the script and the timer units, and a showing by screencast adds its link.
 
-You put the reports of the checks in `reports/`. The [overview](../) describes how the repo is structured and how you set a tag.
+You put the reports of the checks in `reports/`. [Handing in](../#handing-in) describes how the repo is structured and how you set a tag.
 
 ## Rubric
 

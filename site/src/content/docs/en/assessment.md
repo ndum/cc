@@ -58,7 +58,7 @@ The milestone check marks the base requirements with `[ok]` or `[!!]` and counts
 
 ## Proving the base
 
-You prove the base with the check report and screenshots alone. You need no text, no drawing and no screencast for it. For each of the seven requirements you put at least one screenshot into the folder of the milestone, with a file name that starts with the number of the requirement, such as `4-migration.png`. Every terminal screenshot shows the prompt with the name of your VM. The reports of the checks `m1` to `m4` go into `reports/`, for milestone 1 together with the reports of `start`, `install` and `iaas`.
+You prove the base with the check report and screenshots alone. You need no text, no drawing and no screencast for it. For each of the seven requirements you put at least one screenshot into the folder of the milestone, with a file name that starts with the number of the requirement, such as `4-migration.png`. Every terminal screenshot shows the prompt with the name of your VM. [Chapter 0.5](../start/tools/#uploading-the-report-and-screenshots) shows how you take screenshots on the client and copy them to the front-end. The reports of the checks `m1` to `m4` go into `reports/`, for milestone 1 together with the reports of `start`, `install` and `iaas`.
 
 ## Advanced tasks
 
@@ -92,7 +92,7 @@ Every advanced task is graded on the same levels.
 You show the advanced tasks of a milestone in one showing, either live in class or in a screencast of at most ten minutes. For a live showing it is up to you to approach your instructor and book a slot.
 
 :::caution[Deadline for the showing]
-The showing must take place by the hand-in the milestone belongs to, and a screencast or its link and the documentation must be in the hand-in repo by then. A showing after that date, or a screencast added after it, no longer counts. So book a live slot early.
+The showing must take place by the hand-in the milestone belongs to, and the link to a screencast and the documentation must be in the hand-in repo by then. A showing after that date, or a screencast whose link only reaches the repo after it, no longer counts. So book a live slot early.
 :::
 
 A screencast follows these rules:
@@ -105,11 +105,13 @@ A screencast follows these rules:
 
 You record the screencast on your PC, where smartlearn runs in the browser. On Windows the Snipping Tool or OBS Studio does that, on macOS the built-in screen recording.
 
+Only the link to the screencast goes into the hand-in repo, because the file is usually too large for it. GitHub accepts at most 25 MB per file in the browser and at most 100 MB with `git push`, as [GitHub's help](https://docs.github.com/en/repositories/working-with-files/managing-large-files/about-large-files-on-github) describes. So upload the screencast to a storage of the school such as OneDrive. Give your instructor access to it and put the link into the documentation of the advanced tasks.
+
 ## Personal values and questions
 
 Some values of the base come from your personal code, for example the municipality's quota or the SLO target. The [parameter generator](../start/parameters/) lists them in a table at the end. Each milestone has a check of its own, `m1` to `m4`. It runs the check of the part, verifies your personal values and uses your code to draw two questions. A solution taken from another lab therefore shows up in the check.
 
-You answer the two questions during the showing of the advanced tasks, live or in the screencast. They can be about the base or about an advanced task. Every question you leave unanswered or answer wrongly costs 1 point of the advanced tasks of that milestone.
+You answer the two questions during the showing of the advanced tasks, live or in the screencast. They are about the base of the milestone and do not depend on any particular advanced task. Every question you leave unanswered or answer wrongly costs 1 point of the advanced tasks of that milestone.
 
 ## Grade 2 from the exam
 
@@ -117,7 +119,15 @@ The exam is an individual exam of 60 minutes towards the end of the module. Ever
 
 ## Handing in
 
-You hand in through your private repo on the school's GitLab or on GitHub, set up as [chapter 0.5](../start/tools/) describes. A hand-in is a Git tag, `abgabe-1` for the first one and `abgabe-2` for the second. You set it on the front-end with `git tag abgabe-1` and push it with `git push origin abgabe-1`.
+You hand in through your private repo on the school's GitLab or on GitHub, set up as [chapter 0.5](../start/tools/) describes. A hand-in is a Git tag, `abgabe-1` for the first one and `abgabe-2` for the second. You set it on the front-end in your repo and push it. Before that, `git pull` fetches everything you uploaded or changed in the browser. Without this step it is missing from the tag, and an advanced task whose documentation is missing gets at most 1 point.
+
+```bash
+source /etc/cc-lab.env
+cd ~/cc-$CC_CODE
+git pull
+git tag abgabe-1
+git push origin abgabe-1
+```
 
 ```text
 cc-mmuster/
@@ -130,7 +140,7 @@ cc-mmuster/
   m4/
 ```
 
-Put a screencast into the folder of the milestone. If it is too large for the repo, store it somewhere like OneDrive and link to it from the documentation of the advanced tasks.
+The screencast itself stays out of the repo, only its link goes into the documentation of the advanced tasks, as [Showing the advanced tasks](#showing-the-advanced-tasks) describes.
 
 :::caution[No secrets in the repo]
 The OpenTofu state, tokens such as the k3s token, passwords and the Sealed Secrets key never belong in your hand-in repo. Once a file is in a commit, it stays in the Git history even if you delete it later. Before every commit, check with `git status` which files you are adding.

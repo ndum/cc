@@ -23,6 +23,6 @@ Use this grid to judge whether you are ready for the next parts. Read each row a
 | check the gateway of the internal network | Explain the output of `sudo cc-gateway status`. | [Preparing the VMs](../prepare/#the-gateway) |
 | run a check and read its report | Run the check `start` and explain what the hash at the end proves and what it does not. | [Preparing the VMs](../prepare/#the-check-start) |
 | create my hand-in repo and share it | Name the folders of your hand-in repo and say what proves the base of a milestone. | [The hand-in repo](../tools/#creating-the-repo) |
-| record a screencast of the advanced tasks that follows the rules of the milestones | List what is visible in the first 30 seconds of a screencast. | [Assessment](../../assessment/#showing-the-advanced-tasks) |
+| record a screencast of the advanced tasks that follows the rules of the milestones | List what a screencast starts with and say where you store it. | [Assessment](../../assessment/#showing-the-advanced-tasks) |
 
 For part 2 you need three prepared servers that the check `start` confirms without a single `[!!]`. That check is also the first requirement of [milestone 1](../../assessment/milestone-1/).

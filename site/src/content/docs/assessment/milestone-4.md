@@ -45,9 +45,9 @@ Die Zusatzaufträge zeigst du live im Unterricht oder in einem Screencast von h�
 
 ## Abgabe
 
-Im Ordner `m4/` deines Abgabe-Repos liegen die Screenshots der Basis. Für die Zusatzaufträge kommen ihre Dokumentation und `platform/` dazu, eine Kopie deines Repos `platform` aus Gitea ohne den Ordner `.git`, ohne State, Tokens und Passwörter. SealedSecrets dürfen drin sein. Für Auftrag A kommt das Audit-Log deines Triage-Dienstes dazu, für Auftrag C `postmortem-entwurf.md` vom Modell und `postmortem.md` mit deiner Korrektur, für die Vorführung der Screencast oder ein Link darauf. Eigene Skripte, etwa für die Zeitlinie, legst du dazu, falls sie nicht im Plattform-Repo stehen.
+Im Ordner `m4/` deines Abgabe-Repos liegen die Screenshots der Basis. Für die Zusatzaufträge kommen ihre Dokumentation und `platform/` dazu, eine Kopie deines Repos `platform` aus Gitea ohne den Ordner `.git`, ohne State, Tokens und Passwörter. SealedSecrets dürfen drin sein. Für Auftrag A kommt das Audit-Log deines Triage-Dienstes dazu, für Auftrag C `postmortem-entwurf.md` vom Modell und `postmortem.md` mit deiner Korrektur, für eine Vorführung im Screencast sein Link. Eigene Skripte, etwa für die Zeitlinie, legst du dazu, falls sie nicht im Plattform-Repo stehen.
 
-Das Token von k3s, den Schlüssel von Sealed Secrets und die Backups gibst du nicht ab. Die Berichte der Checks legst du in `reports/`. Wie das Repo aufgebaut ist und wie du einen Tag setzt, steht in der [Übersicht](../).
+Das Token von k3s, den Schlüssel von Sealed Secrets und die Backups gibst du nicht ab. Die Berichte der Checks legst du in `reports/`. Wie das Repo aufgebaut ist und wie du einen Tag setzt, steht unter [Abgeben](../#abgeben).
 
 ## Bewertungsraster
 

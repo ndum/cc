@@ -72,7 +72,9 @@ OpenNebula verteilt die Adressen selbst, ohne DHCP. Startet eine VM, nimmt OpenN
 onevnet show cc-net
 ```
 
-In Sunstone listet der Reiter «Leases» des Netzes dieselben Adressen.
+Gleich nach dem Anlegen läuft noch keine VM im Netz. `onevnet show` zeigt deshalb bei `USED LEASES` eine 0 und unter `LEASES` keine Zeile. Die erste Lease vergibt OpenNebula, wenn du in Kapitel 2.4 deine erste VM startest. Schau dann noch einmal nach.
+
+In Sunstone listet der Reiter «Leases» des Netzes dieselben Adressen. Das Bild stammt aus einem Lab, in dem schon VMs liefen.
 
 ![Der Reiter Leases des Netzes cc-net. Jede Zeile nennt die VM, ihre IP-Adresse und ihre MAC-Adresse. OpenNebula bildet die MAC-Adresse aus der IP-Adresse, hinter dem Präfix 02:00 stehen deren vier Byte in hexadezimaler Schreibweise. Aus 172.24.80.10 wird so 02:00:ac:18:50:0a.](../../../assets/screenshots/sunstone-vnet-leases.png)
 

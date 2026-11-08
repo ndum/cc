@@ -58,7 +58,7 @@ Der Check des Meilensteins zeigt die Anforderungen der Basis mit `[ok]` oder `[!
 
 ## Belege der Basis
 
-Die Basis belegst du nur mit dem Bericht des Checks und mit Screenshots. Einen Text, eine Zeichnung oder einen Screencast brauchst du dafür nicht. Zu jeder der sieben Anforderungen legst du mindestens einen Screenshot in den Ordner des Meilensteins. Sein Dateiname beginnt mit der Nummer der Anforderung, etwa `4-migration.png`. Auf jedem Screenshot aus dem Terminal ist die Eingabeaufforderung mit dem Namen deiner VM zu sehen. Die Berichte der Checks `m1` bis `m4` legst du in `reports/`, für Meilenstein 1 dazu die Berichte von `start`, `install` und `iaas`.
+Die Basis belegst du nur mit dem Bericht des Checks und mit Screenshots. Einen Text, eine Zeichnung oder einen Screencast brauchst du dafür nicht. Zu jeder der sieben Anforderungen legst du mindestens einen Screenshot in den Ordner des Meilensteins. Sein Dateiname beginnt mit der Nummer der Anforderung, etwa `4-migration.png`. Auf jedem Screenshot aus dem Terminal ist die Eingabeaufforderung mit dem Namen deiner VM zu sehen. Wie du Screenshots am Client machst und auf das Front-end kopierst, zeigt [Kapitel 0.5](../start/tools/#bericht-und-screenshots-hochladen). Die Berichte der Checks `m1` bis `m4` legst du in `reports/`, für Meilenstein 1 dazu die Berichte von `start`, `install` und `iaas`.
 
 ## Zusatzaufträge
 
@@ -92,7 +92,7 @@ Jeder Zusatzauftrag wird nach denselben Stufen bewertet.
 Die Zusatzaufträge eines Meilensteins zeigst du in einer Vorführung, entweder live im Unterricht oder in einem Screencast von höchstens zehn Minuten. Für eine Vorführung im Unterricht gehst du selbst auf deine Dozentin oder deinen Dozenten zu und vereinbarst einen Termin.
 
 :::caution[Frist der Vorführung]
-Die Vorführung muss bis zur Abgabe stattgefunden haben, zu der der Meilenstein gehört. Ein Screencast oder sein Link und die Dokumentation liegen bis dahin im Abgabe-Repo. Eine spätere Vorführung oder ein Screencast, der erst danach im Repo liegt, zählt nicht mehr. Vereinbare einen Termin im Unterricht deshalb früh.
+Die Vorführung muss bis zur Abgabe stattgefunden haben, zu der der Meilenstein gehört. Der Link auf einen Screencast und die Dokumentation liegen bis dahin im Abgabe-Repo. Eine spätere Vorführung oder ein Screencast, dessen Link erst danach im Repo liegt, zählt nicht mehr. Vereinbare einen Termin im Unterricht deshalb früh.
 :::
 
 Für einen Screencast gelten diese Regeln:
@@ -105,11 +105,13 @@ Für einen Screencast gelten diese Regeln:
 
 Den Screencast nimmst du auf deinem PC auf, auf dem auch smartlearn im Browser läuft. Unter Windows geht das mit dem Snipping Tool oder mit OBS Studio, unter macOS mit der Bildschirmaufnahme.
 
+Ins Abgabe-Repo kommt nur der Link auf den Screencast, denn für das Repo ist die Datei meist zu gross. GitHub nimmt im Browser höchstens 25 MB pro Datei an, mit `git push` höchstens 100 MB, wie die [Hilfe von GitHub](https://docs.github.com/en/repositories/working-with-files/managing-large-files/about-large-files-on-github) beschreibt. Lade den Screencast deshalb auf einen Speicher der Schule wie OneDrive. Gib deiner Dozentin oder deinem Dozenten Zugriff darauf und setz den Link in die Dokumentation der Zusatzaufträge.
+
 ## Persönliche Werte und Fragen
 
 Einige Werte der Basis kommen aus deinem persönlichen Code, etwa die Quota der Gemeinde oder das Ziel des SLO. Der [Parameter-Generator](../start/parameters/) zeigt sie dir am Ende in einer Tabelle. Zu jedem Meilenstein gibt es einen eigenen Check, `m1` bis `m4`. Er führt den Check des Teils aus, prüft deine persönlichen Werte und zieht aus deinem Code zwei Fragen. Eine Lösung aus einem anderen Lab fällt deshalb im Check auf.
 
-Die zwei Fragen beantwortest du in der Vorführung der Zusatzaufträge, live oder im Screencast. Sie können die Basis oder einen Zusatzauftrag betreffen. Jede Frage, die du nicht oder falsch beantwortest, kostet 1 Punkt der Zusatzaufträge dieses Meilensteins.
+Die zwei Fragen beantwortest du in der Vorführung der Zusatzaufträge, live oder im Screencast. Sie betreffen die Basis des Meilensteins und setzen keinen bestimmten Zusatzauftrag voraus. Jede Frage, die du nicht oder falsch beantwortest, kostet 1 Punkt der Zusatzaufträge dieses Meilensteins.
 
 ## Note 2 aus der Prüfung
 
@@ -117,7 +119,15 @@ Die Prüfung ist eine Einzelprüfung von 60 Minuten gegen Ende des Moduls. Alle 
 
 ## Abgeben
 
-Du gibst über dein privates Abgabe-Repo ab, auf dem GitLab der Schule oder auf GitHub, wie es [Kapitel 0.5](../start/tools/) einrichtet. Eine Abgabe ist ein Git-Tag, `abgabe-1` für die erste und `abgabe-2` für die zweite. Du setzt ihn auf dem Front-end mit `git tag abgabe-1` und lädst ihn mit `git push origin abgabe-1` hoch.
+Du gibst über dein privates Abgabe-Repo ab, auf dem GitLab der Schule oder auf GitHub, wie es [Kapitel 0.5](../start/tools/) einrichtet. Eine Abgabe ist ein Git-Tag, `abgabe-1` für die erste und `abgabe-2` für die zweite. Du setzt ihn auf dem Front-end in deinem Repo und lädst ihn hoch. Vorher holt `git pull` alles, was du im Browser hochgeladen oder geändert hast. Ohne diesen Schritt fehlt es im Tag. Fehlt so eine Dokumentation, gibt ihr Zusatzauftrag höchstens 1 Punkt.
+
+```bash
+source /etc/cc-lab.env
+cd ~/cc-$CC_CODE
+git pull
+git tag abgabe-1
+git push origin abgabe-1
+```
 
 ```text
 cc-mmuster/
@@ -130,7 +140,7 @@ cc-mmuster/
   m4/
 ```
 
-Einen Screencast legst du in den Ordner des Meilensteins. Ist er für das Repo zu gross, liegt er etwa auf OneDrive und die Dokumentation der Zusatzaufträge verlinkt ihn.
+Den Screencast selbst legst du nicht ins Repo, nur seinen Link in der Dokumentation der Zusatzaufträge, wie es [Zusatzaufträge zeigen](#zusatzaufträge-zeigen) beschreibt.
 
 :::caution[Keine Geheimnisse im Repo]
 Der State von OpenTofu, Tokens wie das von k3s, Passwörter und der Schlüssel von Sealed Secrets gehören nie in dein Abgabe-Repo. Was einmal in einem Commit steht, bleibt in der Versionsgeschichte von Git, auch wenn du die Datei später löschst. Prüfe deshalb vor jedem Commit mit `git status`, welche Dateien dazukommen.

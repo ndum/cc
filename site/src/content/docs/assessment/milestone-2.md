@@ -21,7 +21,7 @@ Alles läuft in deinem eigenen Lab mit deinen persönlichen Parametern aus Kapit
 6. Die ResourceQuota der Gemeinde hat die Grenzen aus deinen [persönlichen Werten](../../start/parameters/#deine-werte-für-die-meilensteine) und kommt über einen Pull Request.
 7. Du zeigst die Quota an ihrer Grenze und die Trennung der Namespaces durch die NetworkPolicy, der Check `m2` ist grün.
 
-Die Basis belegst du mit dem Bericht des Checks `m2` und mit einem Screenshot zu jeder Anforderung, dessen Dateiname mit ihrer Nummer beginnt. Den Bericht erzeugt `python3 ~/cc/checks/check.py m2` auf dem Front-end. Für den Pull Request genügt ein Screenshot aus Gitea mit dem Diff und dem Merge.
+Die Basis belegst du mit dem Bericht des Checks `m2` und mit einem Screenshot zu jeder Anforderung, dessen Dateiname mit ihrer Nummer beginnt. Den Bericht erzeugt `python3 ~/cc/checks/check.py m2` auf dem Front-end. Für den Pull Request genügt ein Screenshot aus Gitea mit dem Diff und dem Merge. Für das Token zeigt der Screenshot die Antwort der API von Gitea mit den `scopes` des Tokens `argocd`, wie Kapitel 4.4 sie abfragt.
 
 ## Zusatzaufträge
 
@@ -45,9 +45,9 @@ Die Zusatzaufträge zeigst du live im Unterricht oder in einem Screencast von h�
 
 ## Abgabe
 
-Im Ordner `m2/` deines Abgabe-Repos liegen die Screenshots der Basis. Für die Zusatzaufträge kommen ihre Dokumentation und `platform/` dazu, eine Kopie deines Repos `platform` aus Gitea ohne den Ordner `.git`, ohne State, Tokens und Passwörter. Für die Vorführung kommt der Screencast oder ein Link darauf dazu.
+Im Ordner `m2/` deines Abgabe-Repos liegen die Screenshots der Basis. Für die Zusatzaufträge kommen ihre Dokumentation und `platform/` dazu, eine Kopie deines Repos `platform` aus Gitea ohne den Ordner `.git`, ohne State, Tokens und Passwörter. Für eine Vorführung im Screencast kommt sein Link dazu.
 
-Die Berichte der Checks legst du in `reports/`. Wie das Repo aufgebaut ist und wie du einen Tag setzt, steht in der [Übersicht](../).
+Die Berichte der Checks legst du in `reports/`. Wie das Repo aufgebaut ist und wie du einen Tag setzt, steht unter [Abgeben](../#abgeben).
 
 ## Bewertungsraster
 

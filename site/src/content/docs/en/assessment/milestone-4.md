@@ -45,9 +45,9 @@ You show the advanced tasks live in class or in a screencast of at most ten minu
 
 ## Hand-in
 
-The folder `m4/` of your hand-in repo holds the screenshots of the base. The advanced tasks add their documentation and `platform/`, a copy of your repo `platform` from Gitea without the `.git` folder, state, tokens or passwords. SealedSecrets may stay in it. Task A adds the audit log of your triage service, task C adds `postmortem-entwurf.md` from the model and `postmortem.md` with your correction, and the showing adds the screencast or a link to it. Add scripts of your own, for example for the timeline, if they are not in the platform repo.
+The folder `m4/` of your hand-in repo holds the screenshots of the base. The advanced tasks add their documentation and `platform/`, a copy of your repo `platform` from Gitea without the `.git` folder, state, tokens or passwords. SealedSecrets may stay in it. Task A adds the audit log of your triage service, task C adds `postmortem-entwurf.md` from the model and `postmortem.md` with your correction, and a showing by screencast adds its link. Add scripts of your own, for example for the timeline, if they are not in the platform repo.
 
-You do not hand in the k3s token, the Sealed Secrets key or the backups. You put the reports of the checks in `reports/`. The [overview](../) describes how the repo is structured and how you set a tag.
+You do not hand in the k3s token, the Sealed Secrets key or the backups. You put the reports of the checks in `reports/`. [Handing in](../#handing-in) describes how the repo is structured and how you set a tag.
 
 ## Rubric
 

@@ -16,7 +16,7 @@ Nach diesem Kapitel kannst du:
 - Den Weg einer VM von der Vorlage bis zum Prozess auf dem Knoten verfolgen
 :::
 
-[Kapitel 2.1](../../iaas/architecture/) zeigt die Bausteine von OpenNebula im Überblick. Diese Ergänzung geht eine Ebene tiefer, zu den Prozessen, Dateien und Geräten auf deinen Servern. Die Beispiele verwenden den Code `mmuster` mit dem Front-end 192.168.210.137, den Knoten .138 und .139, der VXLAN-Kennung 5862 und der Schnittstelle `eth0`. Setze deine eigenen Werte ein.
+[Kapitel 2.1](../../iaas/architecture/) zeigt die Bausteine von OpenNebula im Überblick. Diese Ergänzung geht eine Ebene tiefer, zu den Prozessen, Dateien und Geräten auf deinen Servern. Die Beispiele verwenden den Code `mmuster` mit dem Front-end 192.168.210.137, den Knoten .138 und .139, der VXLAN-Kennung 5862 und der Schnittstelle `eth0`. Setze deine eigenen Werte ein. In den Befehlen von OpenNebula heissen die Knoten so, wie OneDeploy sie eingetragen hat, nach ihrer IP-Adresse. Für `<knoten>` setzt du deshalb den Namen aus der Spalte `NAME` von `onehost list` ein, etwa `192.168.210.138`, oder die Nummer aus der Spalte `ID`. Mit `ssh` erreichst du die Knoten dagegen unter ihren Hostnamen wie `mmuster-node1`.
 
 ## Der Dienst oned
 
