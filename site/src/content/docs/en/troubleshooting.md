@@ -30,7 +30,7 @@ The addresses, ports and commands for these steps are in the [lab reference](../
 | `prepare.sh` reports "This VM has no address" | Wrong role, or the addresses in `/etc/cc-lab.env` do not match the VM | Check the role, compare `ip -br a` with `/etc/cc-lab.env` | [0.4](../start/prepare/) |
 | `prepare.sh` reports "sees no vmx or svm flag" | Nested virtualization is off for the node | On smartlearn tell your instructor, on Hyper-V run `Set-VMProcessor -ExposeVirtualizationExtensions $true` with the VM switched off | [0.2](../start/lab/), [Own hypervisor](../extras/own-hypervisor/) |
 | Values from `/etc/cc-lab.env` end in an invisible character | The file came through a Windows editor with CR LF line endings | Run `prepare.sh` again, it removes the characters | [0.3](../start/parameters/) |
-| The `start` check shows `[!!]` for SSH without a password | The front-end's key is missing on a node | `ssh-copy-id` from the front-end to the node | [0.5](../start/tools/) |
+| The `start` check shows `[!!]` for SSH without a password | The front-end's key is missing on a node | `ssh-copy-id` from the front-end to the node | [0.4](../start/prepare/) |
 
 ## OpenNebula
 

@@ -1,64 +1,79 @@
 ---
 title: VMs vorbereiten
-description: Sudo ohne Passwort, Git und das Kursrepo auf den drei Servern, das Vorbereitungsskript für Front-end und Knoten, was es einrichtet und wie du das Gateway prüfst.
+description: SSH mit Schlüssel und Konfiguration auf dem Client, sudo ohne Passwort, das Kursrepo und das Vorbereitungsskript auf jedem Server, der Schlüssel vom Front-end zu den Knoten und der Check start.
 sidebar:
   order: 4
 ---
 
 :::assignment
-«Die Server haben jetzt Namen und Adressen», schreibt Simone Wyss. «Was fehlt noch, bevor die Cloud darauf kommt?»
+«Die Server haben jetzt ihre Adressen», schreibt Simone Wyss. «Was fehlt noch, bevor die Cloud darauf kommt? Und bitte nicht jedes Mal ein Passwort eintippen, das hält niemand lange durch.»
 :::
 
 :::goals
 Nach diesem Kapitel kannst du:
 
-- Deinem Benutzer auf den Servern sudo ohne Passwort erlauben
-- Das Kursrepo auf die Server holen
+- Mit einem SSH-Schlüssel und einer SSH-Konfiguration vom Client aus ohne Passwort auf die Server zugreifen
 - Jeden Server mit dem Vorbereitungsskript für seine Rolle vorbereiten
 - Erklären, was das Skript auf Front-end und Knoten einrichtet
-- Das Gateway des internen Netzes prüfen
+- Vom Front-end ohne Passwort auf die Knoten zugreifen
+- Den Check `start` ausführen und seinen Bericht lesen
 :::
 
-## Sudo ohne Passwort
+## SSH vom Client
 
-Für alle Schritte dieses Kapitels meldest du dich vom Client aus per SSH an den Servern an. Ansible führt in Kapitel 2.2 Befehle als Administrator aus, ohne nach einem Passwort zu fragen. Erlaube deshalb deinem Benutzer auf jedem der drei Server sudo ohne Passwort. Der Befehl fragt ein letztes Mal nach dem Passwort.
+Ein SSH-Schlüssel besteht aus zwei Dateien. Den privaten Schlüssel behältst du auf dem Client, den öffentlichen legst du auf jeden Server. Beim Anmelden beweist der Client mit dem privaten Schlüssel, dass er zum öffentlichen passt. Ein Passwort geht dabei nicht über das Netz.
+
+Erzeuge den Schlüssel im Terminal des Clients. Den Speicherort bestätigst du mit Enter. Die Passphrase darfst du im Lab leer lassen, sonst fragt SSH bei jeder Anmeldung danach.
+
+```bash
+ssh-keygen -t ed25519 -C "cc-lab"
+```
+
+Der folgende Block trägt deine drei Server mit Hostname, neuer Adresse und dem Benutzer `cc` in die Datei `~/.ssh/config` ein. Danach kopiert er deinen öffentlichen Schlüssel mit `ssh-copy-id` auf jeden Server. Den Code kennt der Generator noch aus Kapitel 0.3. Füge den Block im Terminal des Clients ein. `ssh-copy-id` fragt für jeden Server ein letztes Mal nach dem Passwort von `cc`, bei den Knoten vorher, ob du ihrem Schlüssel vertraust.
+
+<cc-params part="ssh"></cc-params>
+
+Danach genügt `ssh` mit dem Namen des Servers, etwa `ssh mmuster-fe`, ohne Adresse und ohne Passwort. Alle Einträge der Datei beschreibt die [Handbuchseite zu ssh_config](https://manpages.ubuntu.com/manpages/resolute/man5/ssh_config.5.html), Schlüssel und `ssh-copy-id` zeigt die [Anleitung zu OpenSSH](https://ubuntu.com/server/docs/how-to/security/openssh-server/) in der Dokumentation von Ubuntu Server.
+
+:::selfhost
+Ohne Client arbeitest du auf deinem PC. Windows 11, macOS und Linux bringen OpenSSH mit, unter Windows erzeugst du den Schlüssel in der PowerShell mit demselben Befehl. Wie OpenSSH unter Windows mit Schlüsseln arbeitet, beschreibt die [Anleitung von Microsoft](https://learn.microsoft.com/en-us/windows-server/administration/openssh/openssh_keymanagement). Der Block des Generators läuft in der Shell von Linux und macOS. Unter Windows trägst du die drei Hosts mit einem Editor in `%USERPROFILE%\.ssh\config` ein. Windows kennt kein `ssh-copy-id`, dort hängst du den öffentlichen Schlüssel mit diesem Befehl in der PowerShell an `~/.ssh/authorized_keys` jedes Servers an.
+
+```powershell
+type $env:USERPROFILE\.ssh\id_ed25519.pub | ssh cc@<adresse> "umask 077; mkdir -p ~/.ssh; cat >> ~/.ssh/authorized_keys"
+```
+:::
+
+## Jeden Server vorbereiten
+
+Nimm dir die Server der Reihe nach vor, zuerst die beiden Knoten und zuletzt das Front-end, auf dem es danach weitergeht. Melde dich an, etwa mit `ssh mmuster-node1`. Füge danach diesen Block ein. Er ist auf allen drei Servern gleich. `sudo` fragt dabei ein letztes Mal nach dem Passwort.
 
 ```bash
 echo "$USER ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/$USER
-```
-
-Danach läuft `sudo -n true` ohne Rückfrage durch. Was eine solche Zeile erlaubt, beschreibt die [Handbuchseite zu sudoers](https://manpages.ubuntu.com/manpages/resolute/man5/sudoers-rs.5.html) von Ubuntu 26.04.
-
-## Das Kursrepo
-
-Die Skripte des Kurses liegen im Kursrepo. Die minimale Installation von Ubuntu enthält kein Git, deshalb installierst du es zuerst. Danach holst du das Kursrepo auf jedem der drei Server in dein Home-Verzeichnis.
-
-```bash
-sudo apt install -y git
+sudo apt update && sudo apt install -y git
 git clone https://github.com/ndum/cc.git
 ```
 
-`git clone` legt das Repo in einem neuen Ordner `cc` ab, wie die [Dokumentation von Git](https://git-scm.com/docs/git-clone) beschreibt.
+Die erste Zeile erlaubt deinem Benutzer sudo ohne Passwort, denn Ansible führt in Kapitel 2.2 Befehle als Administrator aus, ohne nach einem Passwort zu fragen. Was eine solche Zeile erlaubt, beschreibt die [Handbuchseite zu sudoers](https://manpages.ubuntu.com/manpages/resolute/man5/sudoers-rs.5.html) von Ubuntu 26.04. Die minimale Installation von Ubuntu enthält kein Git, die zweite Zeile installiert es. `git clone` legt das Kursrepo im neuen Ordner `cc` in deinem Home-Verzeichnis ab, wie die [Dokumentation von Git](https://git-scm.com/docs/git-clone) beschreibt.
+
+Starte danach das Vorbereitungsskript mit der Rolle des Servers, `node1`, `node2` oder `fe`. Melde dich anschliessend ab und wieder an, erst dann zeigt die Eingabeaufforderung den neuen Hostnamen.
+
+```bash
+sudo ~/cc/lab/prepare.sh node1
+```
 
 ## Das Vorbereitungsskript
 
-Das Skript `lab/prepare.sh` bereitet einen Server für seine Rolle vor und liest dafür deine Parameter aus `/etc/cc-lab.env`. Du startest es auf jedem Server mit der passenden Rolle, `fe` auf dem Front-end, `node1` und `node2` auf den Knoten.
-
-```bash
-sudo ./cc/lab/prepare.sh node1
-```
-
-Auf jedem Server setzt das Skript den Hostnamen, trägt die Namen aller drei Server in `/etc/hosts` ein und installiert rsyslog.
+Das Skript `lab/prepare.sh` liest deine Parameter aus `/etc/cc-lab.env`. Auf jedem Server setzt es den Hostnamen, trägt die Namen aller drei Server in `/etc/hosts` ein und installiert rsyslog.
 
 ::code{file="lab/prepare.sh" lines="47-59"}
 
-Auf den Knoten prüft es, ob die CPU-Virtualisierung ankommt. Es nennt dort auch die Netzwerkschnittstelle, die OpenNebula später braucht. Auf dem Front-end installiert es acl und nftables und holt Node.js aus der Paketquelle von OpenNebula. Ausserdem richtet es das Gateway für das interne Netz als Dienst `cc-gateway` ein, der bei jedem Start läuft.
+Auf den Knoten prüft es, ob die CPU-Virtualisierung ankommt. Es nennt dort auch die Netzwerkschnittstelle, die OpenNebula später braucht. Auf dem Front-end installiert es acl und nftables und legt fest, dass Node.js später aus der Paketquelle von OpenNebula kommt. Ausserdem richtet es das Gateway für das interne Netz als Dienst `cc-gateway` ein, der bei jedem Start läuft.
 
 Das Skript darf mehrmals laufen, es ändert nur, was noch nicht stimmt. Bricht es mit einer Fehlermeldung ab, nennt die Meldung, was fehlt, etwa eine falsche Adresse in `/etc/cc-lab.env` oder einen Knoten ohne verschachtelte Virtualisierung.
 
 ## Das Gateway
 
-Der Dienst `cc-gateway` verbindet das Front-end mit dem internen Netz deiner Cloud. Er legt das VXLAN mit deiner Kennung an und gibt dem Front-end darin die Adresse des Gateways. Den Verkehr der Cloud leitet er mit NAT ins Internet. Den Zustand zeigt `cc-gateway status`.
+Der Dienst `cc-gateway` verbindet das Front-end mit dem internen Netz deiner Cloud. Er legt das VXLAN mit deiner Kennung an und gibt dem Front-end darin die Adresse des Gateways. Den Verkehr der Cloud leitet er mit NAT ins Internet. Seinen Zustand zeigt das Skript auf dem Front-end am Ende, später zeigt ihn dieser Befehl.
 
 ```bash
 sudo cc-gateway status
@@ -66,12 +81,39 @@ sudo cc-gateway status
 
 Die Ausgabe nennt das Gateway auf `cc-br`, das VXLAN mit Kennung und Multicast-Gruppe, die Weiterleitung und die NAT-Regel mit deinem internen Netz. Diese Regel steht in der Tabelle `cc_gateway` von nftables. Regeln dieser Art erklärt die [Anleitung zu NAT](https://wiki.nftables.org/wiki-nftables/index.php/Performing_Network_Address_Translation_%28NAT%29) im Wiki von nftables.
 
-Auf smartlearn kannst du von jeder VM einen Snapshot anlegen. Ein Snapshot der drei Server am Ende dieses Kapitels bringt dich zum vorbereiteten Lab zurück, falls später etwas schiefgeht.
+## SSH vom Front-end auf die Knoten
+
+Ab Teil 2 arbeitest du vor allem auf dem Front-end. Von dort aus richtet Ansible die Knoten ein und die Check-Skripte prüfen sie. Dafür braucht das Front-end einen eigenen Schlüssel, der auf den Knoten eingetragen ist. Das Front-end selbst richtet Ansible lokal ein, ohne SSH.
+
+Melde dich mit `ssh mmuster-fe` auf dem Front-end an und füge diesen Block ein. Er erzeugt dort einen Schlüssel ohne Passphrase und kopiert ihn auf beide Knoten, deren Namen er aus `/etc/cc-lab.env` liest. `ssh-copy-id` fragt für jeden Knoten, ob du ihm vertraust. Danach will es das Passwort von `cc`.
+
+```bash
+ssh-keygen -t ed25519 -N "" -f ~/.ssh/id_ed25519
+. /etc/cc-lab.env
+ssh-copy-id $CC_NODE1_HOST
+ssh-copy-id $CC_NODE2_HOST
+```
+
+Danach gibt `ssh $CC_NODE1_HOST hostname` den Namen des Knotens aus, ohne nach einem Passwort zu fragen.
+
+## Der Check `start`
+
+Das Check-Skript prüft auf dem Front-end, ob dein Lab bereit ist. Es kontrolliert die Namen und Adressen, sudo ohne Passwort, das Gateway und die SSH-Verbindung zu den Knoten. Auf jedem Knoten prüft es Ubuntu, die CPU-Virtualisierung, rsyslog und sudo.
+
+```bash
+python3 ~/cc/checks/check.py start
+```
+
+Jede Zeile des Berichts beginnt mit `[ok]` oder `[!!]`. Unter einer Zeile mit `[!!]` steht ein Hinweis, wo du suchen kannst. Das Skript speichert den Bericht in `~/cc-reports/`. Am Ende steht ein Hash über den ganzen Bericht. Wer den Bericht nachträglich von Hand ändert, macht diesen Hash ungültig. Weil das Skript öffentlich ist, beweist der Hash aber nicht, dass der Check wirklich gelaufen ist. Dafür braucht es deine Screenshots und die Vorführung der Zusatzaufträge.
+
+::code{file="checks/check.py" lines="778-783"}
+
+In Kapitel 0.5 lädst du den Bericht in dein Abgabe-Repo. Auf smartlearn kannst du von jeder VM einen Snapshot anlegen. Ein Snapshot der drei Server nach dem grünen Check bringt dich zum vorbereiteten Lab zurück, falls später etwas schiefgeht.
 
 ::::exercise[Lab]
-Erlaube sudo ohne Passwort, hole das Kursrepo auf alle drei Server und führe `prepare.sh` mit der richtigen Rolle aus, zuerst auf den Knoten, dann auf dem Front-end. Notiere dir die Netzwerkschnittstelle, die das Skript auf den Knoten nennt.
+Richte SSH auf dem Client ein und bereite die drei Server vor, zuerst die Knoten und dann das Front-end. Verbinde danach das Front-end mit den Knoten und starte den Check `start`.
 
 :::solution
-Auf jedem Server endet das Skript mit dem Abschnitt «Done». Auf den Knoten nennt es die Netzwerkschnittstelle, über die OpenNebula später die VMs anbindet, auf smartlearn `eth0`. `sudo cc-gateway status` zeigt auf dem Front-end das Gateway, die VXLAN-Kennung und die NAT-Regel mit den Werten aus `/etc/cc-lab.env`. Den vollständigen Check startest du am Ende von [Kapitel 0.5](../tools/), weil er auch die SSH-Verbindung vom Front-end zu den Knoten prüft.
+Auf jedem Server endet das Skript mit dem Abschnitt «Done», auf dem Front-end zeigt es davor das Gateway mit VXLAN-Kennung und NAT-Regel. Der Check endet mit einer Zeile wie «25 von 25 Prüfungen der Basis erfüllt» und einem Hash. Eine fehlende SSH-Verbindung zeigt der Bericht mit `[!!] SSH ohne Passwort auf` und dem Namen des Knotens. Dann fehlt der Schlüssel des Front-ends auf diesem Knoten.
 :::
 ::::

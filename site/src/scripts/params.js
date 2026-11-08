@@ -4,9 +4,10 @@
  * Students type their personal code. The element shows the default and the new address of each of
  * the three servers and two blocks that are the same on every server, the first writes
  * /etc/cc-lab.env, the second moves the server on smartlearn from its default address to its new one
- * in 00-eth0.yaml. Last come the personal values for the milestones. Everything is computed in the
- * browser, nothing leaves the page. The code is kept in localStorage, so it is still there on the
- * next visit.
+ * in 00-eth0.yaml. Last come the personal values for the milestones. With part="ssh", as in chapter
+ * 0.4, it shows only the block for the client that writes the SSH configuration and copies the key.
+ * Everything is computed in the browser, nothing leaves the page. The code is kept in localStorage,
+ * so chapter 0.4 already knows it from chapter 0.3.
  */
 import { CODE_PATTERN, envLines, labFromDigest, milestonesFromDigest, normalizeCode, paramsFromDigest } from './params-core.js';
 
@@ -20,6 +21,7 @@ const TEXT = {
     names: { fe: 'Front-end', node1: 'Knoten 1', node2: 'Knoten 2' },
     env: '1. Die Datei /etc/cc-lab.env, auf jedem Server einfügen',
     move: '2. Die neue Adresse, auf jedem Server einfügen',
+    ssh: 'Im Terminal des Clients einfügen',
     copy: 'Kopieren',
     copied: 'Kopiert',
     milestones: 'Deine Werte für die Meilensteine',
@@ -42,6 +44,7 @@ const TEXT = {
     names: { fe: 'Front-end', node1: 'Node 1', node2: 'Node 2' },
     env: '1. The file /etc/cc-lab.env, paste on every server',
     move: '2. The new address, paste on every server',
+    ssh: 'Paste into the terminal of the client',
     copy: 'Copy',
     copied: 'Copied',
     milestones: 'Your values for the milestones',
@@ -146,6 +149,19 @@ function moveText(ips) {
   ].join('\n');
 }
 
+/**
+ * The block for the client of chapter 0.4. It appends a host entry per server to ~/.ssh/config, so a
+ * name like mmuster-fe stands for the new address and the user cc, and copies the key to each server
+ */
+function sshText(hosts, ips) {
+  return [
+    "cat >> ~/.ssh/config <<'EOF'",
+    ...ROLES.flatMap((role, i) => [...(i ? [''] : []), `Host ${hosts[role]}`, `  HostName ${ips[role]}`, '  User cc']),
+    'EOF',
+    ...ROLES.map((role) => `ssh-copy-id ${hosts[role]}`),
+  ].join('\n');
+}
+
 class CcParams extends HTMLElement {
   connectedCallback() {
     const lang = document.documentElement.lang.startsWith('en') ? 'en' : 'de';
@@ -179,6 +195,11 @@ class CcParams extends HTMLElement {
       const ms = milestonesFromDigest(await digestOf(normalized, 'cc2027-ms'));
       const hosts = { fe: params.feHost, node1: params.node1Host, node2: params.node2Host };
 
+      if (this.getAttribute('part') === 'ssh') {
+        result.replaceChildren(block(t.ssh, sshText(hosts, ips), t));
+        result.hidden = false;
+        return;
+      }
       result.replaceChildren(
         ...table(t.addresses, t.head, ROLES.map((role) => [t.names[role], hosts[role], DEFAULTS[role], ips[role]])),
         block(t.env, envText(envLines(params, ips, lang)), t),

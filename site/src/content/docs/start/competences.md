@@ -18,11 +18,11 @@ Mit diesem Raster schätzt du ein, ob du für die nächsten Teile bereit bist. L
 | prüfen, ob eine VM verschachtelte Virtualisierung unterstützt | Zeige auf einem Knoten, dass die CPU `vmx` oder `svm` anbietet. | [Das Lab](../lab/#verschachtelte-virtualisierung) |
 | den Servern ihre Adressen geben | Erkläre, wo netplan die Adresse eines Servers festhält und warum die SSH-Sitzung nach `netplan apply` hängen bleibt. | [Persönliche Parameter](../parameters/#die-adressen-im-lab) |
 | meine persönlichen Parameter erzeugen und erklären | Zeige `/etc/cc-lab.env` auf allen drei Servern und erkläre, wo `CC_GUEST_NET` und `CC_VNI` im Kurs vorkommen. | [Persönliche Parameter](../parameters/#die-werte) |
+| vom Client aus ohne Passwort per SSH auf alle Server zugreifen | Melde dich am Client mit `ssh` und dem Namen aus deiner SSH-Konfiguration am Front-end an und von dort an einem Knoten. | [VMs vorbereiten](../prepare/#ssh-vom-client) |
 | einen Server für seine Rolle vorbereiten | Führe `prepare.sh` auf einem Knoten noch einmal aus und erkläre, was es prüft. | [VMs vorbereiten](../prepare/#das-vorbereitungsskript) |
 | das Gateway des internen Netzes prüfen | Erkläre die Ausgabe von `sudo cc-gateway status`. | [VMs vorbereiten](../prepare/#das-gateway) |
-| vom Client aus ohne Passwort per SSH auf alle Server zugreifen | Melde dich am Client mit `ssh` und dem Namen aus deiner SSH-Konfiguration am Front-end an und von dort an einem Knoten. | [Werkzeuge](../tools/#ssh-vom-front-end-auf-die-knoten) |
-| mein Abgabe-Repo anlegen und teilen | Nenne die Ordner deines Abgabe-Repos und sag, womit du die Basis eines Meilensteins belegst. | [Werkzeuge](../tools/#das-abgabe-repo) |
-| einen Check starten und seinen Bericht lesen | Starte den Check `start` und erkläre, was der Hash am Ende belegt und was nicht. | [Werkzeuge](../tools/#der-erste-check) |
-| einen Screencast der Zusatzaufträge nach den Regeln der Meilensteine aufnehmen | Zähle auf, was in den ersten 30 Sekunden eines Screencasts zu sehen ist. | [Werkzeuge](../tools/#screencasts) |
+| einen Check starten und seinen Bericht lesen | Starte den Check `start` und erkläre, was der Hash am Ende belegt und was nicht. | [VMs vorbereiten](../prepare/#der-check-start) |
+| mein Abgabe-Repo anlegen und teilen | Nenne die Ordner deines Abgabe-Repos und sag, womit du die Basis eines Meilensteins belegst. | [Das Abgabe-Repo](../tools/#das-repo-anlegen) |
+| einen Screencast der Zusatzaufträge nach den Regeln der Meilensteine aufnehmen | Zähle auf, was in den ersten 30 Sekunden eines Screencasts zu sehen ist. | [Leistungsbeurteilung](../../assessment/#zusatzaufträge-zeigen) |
 
 Für Teil 2 brauchst du drei vorbereitete Server, die der Check `start` ohne `[!!]` bestätigt. Dieser Check ist zugleich die erste Anforderung von [Meilenstein 1](../../assessment/milestone-1/).

@@ -30,7 +30,7 @@ Die Adressen, Ports und Befehle für diese Schritte stehen in der [Lab-Referenz]
 | `prepare.sh` meldet «This VM has no address» | Falsche Rolle, oder die Adressen in `/etc/cc-lab.env` passen nicht zur VM | Rolle prüfen, `ip -br a` mit `/etc/cc-lab.env` vergleichen | [0.4](../start/prepare/) |
 | `prepare.sh` meldet «sees no vmx or svm flag» | Verschachtelte Virtualisierung ist für den Knoten ausgeschaltet | Auf smartlearn der Dozentin oder dem Dozenten melden, bei Hyper-V `Set-VMProcessor -ExposeVirtualizationExtensions $true` bei ausgeschalteter VM | [0.2](../start/lab/), [Eigener Hypervisor](../extras/own-hypervisor/) |
 | Werte aus `/etc/cc-lab.env` enden mit einem unsichtbaren Zeichen | Die Datei kam über einen Windows-Editor mit Zeilenenden CR LF | `prepare.sh` noch einmal ausführen, es entfernt die Zeichen | [0.3](../start/parameters/) |
-| Check `start` meldet `[!!]` bei SSH ohne Passwort | Der Schlüssel des Front-ends fehlt auf einem Knoten | `ssh-copy-id` vom Front-end auf den Knoten | [0.5](../start/tools/) |
+| Check `start` meldet `[!!]` bei SSH ohne Passwort | Der Schlüssel des Front-ends fehlt auf einem Knoten | `ssh-copy-id` vom Front-end auf den Knoten | [0.4](../start/prepare/) |
 
 ## OpenNebula
 
