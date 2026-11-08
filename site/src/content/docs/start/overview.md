@@ -25,7 +25,7 @@ In diesem Modul baust du in deinem eigenen Lab eine kleine Cloud auf und betreib
 
 | Teil | Das machst du | Ergebnis |
 |---|---|---|
-| 0 Start | Du lernst den Fall kennen, erzeugst deine persönlichen Parameter und bereitest vom Client aus die drei Server und deine Werkzeuge vor. | vorbereitete Server und ein Abgabe-Repo |
+| 0 Start | Du lernst den Fall kennen, erzeugst deine persönlichen Parameter und bereitest vom Client aus die drei Server vor. Danach legst du dein Abgabe-Repo an. | vorbereitete Server und ein Abgabe-Repo |
 | 1 Cloud-Grundlagen | Du lernst die Merkmale einer Cloud, die Service- und Bereitstellungsmodelle, die Regeln zu Datenschutz und Souveränität und die Virtualisierung mit KVM kennen. | Schutzbedarf der Mitglieder und geprüfte Virtualisierung auf den Knoten |
 | 2 IaaS aufbauen | Du installierst OpenNebula mit Ansible, nimmst die Knoten als Hosts in Betrieb, legst Netze, Images und Vorlagen an und startest erste VMs. | eine laufende IaaS-Cloud |
 | 3 Mandanten und Self-Service | Du teilst die Cloud in Gruppen mit Quotas auf, machst den Verbrauch mit Showback sichtbar und gibst den Mitgliedern Self-Service. In den Zusatzaufträgen lässt du einen Dienst mit OneFlow wachsen. | vier Mitglieder mit eigenen Ressourcen, Meilenstein 1 |

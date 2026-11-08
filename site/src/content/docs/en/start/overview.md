@@ -25,7 +25,7 @@ In this module you build a small cloud in your own lab and run it the way a plat
 
 | Part | What you do | Result |
 |---|---|---|
-| 0 Getting started | You meet the case, generate your personal parameters and prepare the three servers and your tools from the client. | prepared servers and a hand-in repo |
+| 0 Getting started | You meet the case, generate your personal parameters and prepare the three servers from the client. Then you create your hand-in repo. | prepared servers and a hand-in repo |
 | 1 Cloud basics | You learn the characteristics of a cloud, the service and deployment models, the rules on data protection and sovereignty, and virtualization with KVM. | protection needs of the members and verified virtualization on the nodes |
 | 2 Building IaaS | You install OpenNebula with Ansible, bring the nodes into service as hosts, set up networks, images and templates, and start your first VMs. | a running IaaS cloud |
 | 3 Tenants and self-service | You split the cloud into groups with quotas, make usage visible with showback and give the members self-service. In the advanced tasks you let a service grow with OneFlow. | four members with their own resources, milestone 1 |

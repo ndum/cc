@@ -95,7 +95,15 @@ You show the advanced tasks of a milestone in one showing, either live in class 
 The showing must take place by the hand-in the milestone belongs to, and a screencast or its link and the documentation must be in the hand-in repo by then. A showing after that date, or a screencast added after it, no longer counts. So book a live slot early.
 :::
 
-The screencast is a single recording without cuts. It starts with `cat /etc/cc-lab.env` and the report of the milestone check with its hash and your two questions. Then you demonstrate the advanced tasks in your lab. [Chapter 0.5](../start/tools/#screencasts) lists the rules as well.
+A screencast follows these rules:
+
+1. At most ten minutes, one recording without cuts
+2. First `cat /etc/cc-lab.env` and the report of the milestone check with its hash and your two questions
+3. Then the advanced tasks, live in your lab
+4. Your answers to the two questions and your own decisions with the reasons behind them
+5. Audio with your voice, so your instructor hears how you explain
+
+You record the screencast on your PC, where smartlearn runs in the browser. On Windows the Snipping Tool or OBS Studio does that, on macOS the built-in screen recording.
 
 ## Personal values and questions
 
@@ -109,7 +117,7 @@ The exam is an individual exam of 60 minutes towards the end of the module. Ever
 
 ## Handing in
 
-You hand in through your private repo on the school's GitLab or on GitHub, set up as [chapter 0.5](../start/tools/#the-hand-in-repo) describes. A hand-in is a Git tag, `abgabe-1` for the first one and `abgabe-2` for the second. You set it on the front-end with `git tag abgabe-1` and push it with `git push origin abgabe-1`.
+You hand in through your private repo on the school's GitLab or on GitHub, set up as [chapter 0.5](../start/tools/) describes. A hand-in is a Git tag, `abgabe-1` for the first one and `abgabe-2` for the second. You set it on the front-end with `git tag abgabe-1` and push it with `git push origin abgabe-1`.
 
 ```text
 cc-mmuster/

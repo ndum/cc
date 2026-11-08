@@ -95,7 +95,15 @@ Die Zusatzaufträge eines Meilensteins zeigst du in einer Vorführung, entweder 
 Die Vorführung muss bis zur Abgabe stattgefunden haben, zu der der Meilenstein gehört. Ein Screencast oder sein Link und die Dokumentation liegen bis dahin im Abgabe-Repo. Eine spätere Vorführung oder ein Screencast, der erst danach im Repo liegt, zählt nicht mehr. Vereinbare einen Termin im Unterricht deshalb früh.
 :::
 
-Der Screencast ist eine einzige Aufnahme ohne Schnitt. Er beginnt mit `cat /etc/cc-lab.env` und dem Bericht des Checks des Meilensteins mit seinem Hash und deinen zwei Fragen. Danach führst du die Zusatzaufträge in deinem Lab vor. Die Regeln stehen auch in [Kapitel 0.5](../start/tools/#screencasts).
+Für einen Screencast gelten diese Regeln:
+
+1. Höchstens zehn Minuten, in einer Aufnahme ohne Schnitt
+2. Zuerst `cat /etc/cc-lab.env` und der Bericht des Checks des Meilensteins mit seinem Hash und deinen zwei Fragen
+3. Danach die Zusatzaufträge, live in deinem Lab
+4. Die Antworten auf die zwei Fragen und deine eigenen Entscheide mit ihrer Begründung
+5. Ton mit deiner Stimme, damit deine Dozentin oder dein Dozent hört, wie du erklärst
+
+Den Screencast nimmst du auf deinem PC auf, auf dem auch smartlearn im Browser läuft. Unter Windows geht das mit dem Snipping Tool oder mit OBS Studio, unter macOS mit der Bildschirmaufnahme.
 
 ## Persönliche Werte und Fragen
 
@@ -109,7 +117,7 @@ Die Prüfung ist eine Einzelprüfung von 60 Minuten gegen Ende des Moduls. Alle 
 
 ## Abgeben
 
-Du gibst über dein privates Abgabe-Repo ab, auf dem GitLab der Schule oder auf GitHub, wie es [Kapitel 0.5](../start/tools/#das-abgabe-repo) einrichtet. Eine Abgabe ist ein Git-Tag, `abgabe-1` für die erste und `abgabe-2` für die zweite. Du setzt ihn auf dem Front-end mit `git tag abgabe-1` und lädst ihn mit `git push origin abgabe-1` hoch.
+Du gibst über dein privates Abgabe-Repo ab, auf dem GitLab der Schule oder auf GitHub, wie es [Kapitel 0.5](../start/tools/) einrichtet. Eine Abgabe ist ein Git-Tag, `abgabe-1` für die erste und `abgabe-2` für die zweite. Du setzt ihn auf dem Front-end mit `git tag abgabe-1` und lädst ihn mit `git push origin abgabe-1` hoch.
 
 ```text
 cc-mmuster/

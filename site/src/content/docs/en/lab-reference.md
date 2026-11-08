@@ -34,13 +34,13 @@ All three VMs have the same file `/etc/cc-lab.env`. Scripts and checks read it w
 | Member VMs | from `CC_GUEST_FIRST` | leases from `cc-net`, shown by `onevnet show cc-net` |
 | Client | 192.168.210.10 on smartlearn | Kali Linux with a browser and a terminal, where you work, with your own hypervisor your PC takes this role |
 
-From the client you log in to the front-end with `ssh mmuster-fe`, as set up in [chapter 0.5](../start/tools/). On smartlearn the client is the Kali VM, with your own hypervisor it is your PC. You reach the VMs in `cc-net` only from the front-end, for example with `ssh root@$CC_K3S_SERVER_IP`. On smartlearn the fixed addresses of the three servers are in `/etc/netplan/00-eth0.yaml`, where the second block from chapter 0.3 put them.
+From the client you log in to the front-end with `ssh mmuster-fe`, as set up in [chapter 0.4](../start/prepare/). On smartlearn the client is the Kali VM, with your own hypervisor it is your PC. You reach the VMs in `cc-net` only from the front-end, for example with `ssh root@$CC_K3S_SERVER_IP`. On smartlearn the fixed addresses of the three servers are in `/etc/netplan/00-eth0.yaml`, where the second block from chapter 0.3 put them.
 
 ## Services and ports
 
 | Service | Port | Runs on | How to reach it | Chapter |
 |---|---|---|---|---|
-| SSH | 22 | all VMs | `ssh mmuster-fe`, with keys only after hardening | [0.5](../start/tools/), [6.1](../operations/security/) |
+| SSH | 22 | all VMs | `ssh mmuster-fe`, with keys only after hardening | [0.4](../start/prepare/), [6.1](../operations/security/) |
 | Sunstone | 2616 | front-end | `http://<CC_FE_IP>:2616/` in the client's browser | [2.2](../iaas/installation/) |
 | OpenNebula API | 2633 | front-end | CLI and OpenTofu on the front-end | [4.2](../platform/opentofu/) |
 | Gitea | 3000 | front-end | `http://<CC_FE_IP>:3000/` before hardening, through a tunnel to the front-end afterwards | [4.4](../platform/gitops/) |

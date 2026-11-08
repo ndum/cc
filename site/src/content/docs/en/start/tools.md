@@ -1,122 +1,70 @@
 ---
-title: Tools and hand-in repo
-description: SSH keys and an SSH configuration on the client, the key from the front-end to the nodes, the hand-in repo on GitLab or GitHub, the first check with its report and the rules for screencasts.
+title: The hand-in repo
+description: The private hand-in repo on GitLab or GitHub, access from the front-end with a deploy key, the Git identity and uploading reports and screenshots.
 sidebar:
   order: 5
 ---
 
 :::assignment
-"Before we go on, the board wants to know how we keep track of what we build," Simone Wyss writes. "Could you set up a repo where every step can be followed? And please no typing a password every time, nobody keeps that up for long."
+"Before we go on, the board wants to know how we keep track of what we build," Simone Wyss writes. "Could you set up a repo where every step can be followed?"
 :::
 
 :::goals
 After this chapter you can:
 
-- Reach the servers from the client without a password using an SSH key and an SSH configuration
-- Reach the nodes from the front-end without a password
 - Create your hand-in repo and share it with your instructor
-- Run the check of a chapter and read its report
-- Record a screencast of the advanced tasks that meets the rules of the milestones
+- Give the front-end access to the repo with a deploy key
+- Upload reports, screenshots and the copy of `/etc/cc-lab.env`
 :::
 
-## SSH keys
+## Creating the repo
 
-An SSH key consists of two files. The private key stays on the client, the public key goes onto every server. When you log in, the client uses the private key to prove that it matches the public one, and no password crosses the network.
+For your milestones you create a private repo, either on your school's GitLab or on GitHub. Name it `cc-` followed by your code, for example `cc-mmuster`, and create it with a README. On GitHub this option is called "Add a README file", on GitLab "Initialize repository with a README". On GitLab you give your instructor the role Reporter, which can only read. On GitHub you invite your instructor as a collaborator, because a private repo of a personal account only knows write access there. Your instructor tells you the user name to use.
 
-Create the key in the terminal of the client. The passphrase protects the private key in case someone copies the file.
+The repo holds the reports of the checks, a copy of `/etc/cc-lab.env` and the screenshots of the base for every milestone. For the advanced tasks their documentation, your code and your screencast or a link to it go there too. [Assessment](../../assessment/) describes the exact layout, the rules for screencasts and how you record them.
 
-```bash
-ssh-keygen -t ed25519 -C "cc-lab"
-```
+## Access from the front-end
 
-`ssh-copy-id` copies the public key from `~/.ssh/id_ed25519.pub` to a server. It asks for the password one last time and adds the key to `~/.ssh/authorized_keys` on the server. The [OpenSSH guide](https://ubuntu.com/server/docs/how-to/security/openssh-server/) in the Ubuntu Server documentation shows both steps as well.
+Most of the files come from the front-end, so you clone the repo there. Log in with `ssh mmuster-fe`. Git writes your name and e-mail address into every commit. Set both once on the front-end, otherwise the first commit stops.
 
 ```bash
-ssh-copy-id cc@<address>
+git config --global user.name "Max Muster"
+git config --global user.email "max.muster@example.ch"
 ```
 
-:::selfhost
-Without a client you work on your PC. Windows 11, macOS and Linux ship with OpenSSH, and on Windows you create the key in PowerShell with the same command. Microsoft's [guide to key-based authentication](https://learn.microsoft.com/en-us/windows-server/administration/openssh/openssh_keymanagement) explains how OpenSSH handles keys on Windows. Windows has no `ssh-copy-id`. There this PowerShell command appends the public key to `~/.ssh/authorized_keys` on the server.
+The key you created on the front-end in chapter 0.4 goes into your repo as a deploy key with write access. It has no passphrase, so it opens only this repo, not your whole account. `cat ~/.ssh/id_ed25519.pub` shows it on the front-end. Copy it in the terminal of the client and paste it in the browser of the client, on GitHub under "Settings" › "Deploy keys" with "Allow write access", on GitLab under "Settings" › "Repository" › "Deploy keys" with "Grant write permissions to this key". The guides of [GitHub](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/managing-deploy-keys) and [GitLab](https://docs.gitlab.com/user/project/deploy_keys/) show the steps as well.
 
-```powershell
-type $env:USERPROFILE\.ssh\id_ed25519.pub | ssh cc@<address> "umask 077; mkdir -p ~/.ssh; cat >> ~/.ssh/authorized_keys"
-```
-
-On Windows the SSH configuration of the next section lives in `%USERPROFILE%\.ssh\config`.
-:::
-
-## An SSH configuration
-
-So that you do not have to remember addresses, create the file `~/.ssh/config` on the client, for example with `nano ~/.ssh/config`. After that, `ssh mmuster-fe` is all you type. Replace the names and addresses with your own from `/etc/cc-lab.env`. The [ssh_config manual page](https://manpages.ubuntu.com/manpages/resolute/man5/ssh_config.5.html) describes every entry this file can hold.
-
-```text
-Host mmuster-fe
-  HostName 192.168.210.137
-  User cc
-
-Host mmuster-node1
-  HostName 192.168.210.138
-  User cc
-
-Host mmuster-node2
-  HostName 192.168.210.139
-  User cc
-```
-
-## SSH from the front-end to the nodes
-
-From part 2 on you mostly work on the front-end. From there Ansible sets up the nodes and the check scripts test them, so the front-end needs a key of its own that is registered on the nodes. Ansible sets up the front-end itself locally, without SSH.
-
-Log in to the front-end, create a key without a passphrase there and copy it to both nodes. `ssh-copy-id` asks once for the node's password, after SSH has you confirm that you know the node.
-
-```bash
-ssh-keygen -t ed25519 -N "" -f ~/.ssh/id_ed25519
-ssh-copy-id mmuster-node1
-ssh-copy-id mmuster-node2
-```
-
-After that, `ssh mmuster-node1 hostname` prints the node's name without asking for a password.
-
-## The hand-in repo
-
-For your milestones you create a private repo, either on your school's GitLab or on GitHub. Name it `cc-` followed by your code, for example `cc-mmuster`, and give your instructor access. On GitLab the role Reporter can only read. On GitHub you invite your instructor as a collaborator, because a private repo of a personal account only knows write access there. The repo holds the reports of the checks, a copy of `/etc/cc-lab.env` and the screenshots of the base for every milestone. For the advanced tasks their documentation, your code and your screencast or a link to it go there too. [Assessment](../../assessment/) describes the exact layout.
-
-Clone the repo onto the front-end, where most of the files come from. To let the front-end reach GitLab or GitHub, add its public key to your account. `cat ~/.ssh/id_ed25519.pub` on the front-end shows it. Copy it in the terminal of the client and paste it into the settings of your account in the browser of the client. The guides of [GitLab](https://docs.gitlab.com/user/ssh/) and [GitHub](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account) show where that setting is.
+Your repo shows the address for cloning under "Code", on GitHub in the tab "SSH", on GitLab under "Clone with SSH". At the first connection you confirm the key of GitHub or GitLab with `yes`.
 
 ```bash
 git clone git@github.com:mmuster/cc-mmuster.git
 ```
 
-## The first check
+## Uploading the report and screenshots
 
-The check script tells you whether your lab is ready. It runs on the front-end and checks names and addresses, the gateway and the SSH connection to the nodes. On every node it checks Ubuntu, CPU virtualization and rsyslog.
+Put a copy of `/etc/cc-lab.env` and the report of the check `start` from chapter 0.4 into your repo and upload both. The block finds your repo through the code in `/etc/cc-lab.env`.
 
 ```bash
-python3 ~/cc/checks/check.py start
+. /etc/cc-lab.env
+cd ~/cc-$CC_CODE
+mkdir -p reports m1
+cp /etc/cc-lab.env .
+cp ~/cc-reports/start-*.txt reports/
+git add .
+git commit -m "Check start"
+git push
 ```
 
-Each line of the report starts with `[ok]` or `[!!]`. Below a line with `[!!]` there is a hint on where to look. The script saves the report in `~/cc-reports/` and ends it with a hash over the whole report. Editing the report by hand afterwards breaks the hash. Since the script is public, though, the hash does not prove that the check really ran. Your screenshots and the showing of the advanced tasks do.
+The check `start` is requirement 1 of milestone 1, so take a screenshot of it right away. Screenshots come from the client. With `scp` you copy them into the folder of the milestone on the front-end and upload them there with `git add`, `git commit` and `git push` as above.
 
-::code{file="checks/check.py" lines="772-777"}
-
-Copy the report into the folder `reports/` of your hand-in repo, commit it and push it.
-
-## Screencasts
-
-You prove the base of a milestone with the check report and screenshots, it needs no screencast. You show the advanced tasks either live in class or in a screencast. Screencasts follow these rules:
-
-1. At most ten minutes, one recording without cuts
-2. First `cat /etc/cc-lab.env` and the report of the milestone check with its hash and your two questions
-3. Then the advanced tasks, live in your lab
-4. Your answers to the two questions and your own decisions with the reasons behind them
-5. Audio with your voice, so your instructor hears how you explain
-
-You record the screencast on your PC, where smartlearn runs in the browser. On Windows the Snipping Tool or OBS Studio does that, on macOS the built-in screen recording. Put the screencast into your hand-in repo or onto storage such as OneDrive and add the link to the documentation of the advanced tasks.
+```bash
+scp 1-start.png mmuster-fe:cc-mmuster/m1/
+```
 
 ::::exercise[Lab]
-Set up SSH with a key and a configuration on the client and connect the front-end to the nodes. Create your hand-in repo and upload the report of the check `start`.
+Create your hand-in repo and give the front-end access with a deploy key. Upload the copy of `/etc/cc-lab.env`, the report of the check `start` and a screenshot `1-start.png`.
 
 :::solution
-The check ends with a line like "22 of 22 base checks passed" and a hash. If an SSH connection is missing, the report shows `[!!] SSH without password to` and the node's name. In that case the front-end's key is missing on that node.
+The repo holds `cc-lab.env`, `reports/start-<time>.txt` and `m1/1-start.png`. `git push` runs without a password because the deploy key matches the front-end's key. If the first commit stops with "Author identity unknown", the name and e-mail from `git config` are missing.
 :::
 ::::

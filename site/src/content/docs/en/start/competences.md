@@ -18,11 +18,11 @@ Use this grid to judge whether you are ready for the next parts. Read each row a
 | check whether a VM supports nested virtualization | Show on a node that the CPU offers `vmx` or `svm`. | [The lab](../lab/#nested-virtualization) |
 | give the servers their addresses | Explain where netplan keeps the address of a server and why the SSH session hangs after `netplan apply`. | [Personal parameters](../parameters/#the-addresses-in-the-lab) |
 | generate and explain my personal parameters | Show `/etc/cc-lab.env` on all three servers and explain where `CC_GUEST_NET` and `CC_VNI` appear in the course. | [Personal parameters](../parameters/#the-values) |
+| reach all servers from the client over SSH without a password | Log in to the front-end from the client with `ssh` and the name from your SSH configuration, then from there to a node. | [Preparing the VMs](../prepare/#ssh-from-the-client) |
 | prepare a server for its role | Run `prepare.sh` on a node again and explain what it checks. | [Preparing the VMs](../prepare/#the-preparation-script) |
 | check the gateway of the internal network | Explain the output of `sudo cc-gateway status`. | [Preparing the VMs](../prepare/#the-gateway) |
-| reach all servers from the client over SSH without a password | Log in to the front-end from the client with `ssh` and the name from your SSH configuration, then from there to a node. | [Tools](../tools/#ssh-from-the-front-end-to-the-nodes) |
-| create my hand-in repo and share it | Name the folders of your hand-in repo and say what proves the base of a milestone. | [Tools](../tools/#the-hand-in-repo) |
-| run a check and read its report | Run the check `start` and explain what the hash at the end proves and what it does not. | [Tools](../tools/#the-first-check) |
-| record a screencast of the advanced tasks that follows the rules of the milestones | List what is visible in the first 30 seconds of a screencast. | [Tools](../tools/#screencasts) |
+| run a check and read its report | Run the check `start` and explain what the hash at the end proves and what it does not. | [Preparing the VMs](../prepare/#the-check-start) |
+| create my hand-in repo and share it | Name the folders of your hand-in repo and say what proves the base of a milestone. | [The hand-in repo](../tools/#creating-the-repo) |
+| record a screencast of the advanced tasks that follows the rules of the milestones | List what is visible in the first 30 seconds of a screencast. | [Assessment](../../assessment/#showing-the-advanced-tasks) |
 
 For part 2 you need three prepared servers that the check `start` confirms without a single `[!!]`. That check is also the first requirement of [milestone 1](../../assessment/milestone-1/).

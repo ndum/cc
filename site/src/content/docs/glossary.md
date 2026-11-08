@@ -17,11 +17,12 @@ Das Glossar erklärt die Fachbegriffe des Kurses kurz und verweist auf das Kapit
 | Argo CD | Ein Satz von Controllern im Cluster, der Manifeste aus Git liest, mit dem Cluster vergleicht und ihn an Git angleicht. | [4.4](../platform/gitops/) |
 | Burn Rate | Wie schnell ein Dienst sein Fehlerbudget verbraucht. Bei einer Burn Rate von 1 ist das Budget genau am Ende des Zeitraums aufgebraucht. | [5.3](../observability/slo/) |
 | Chargeback | Der Verbrauch wird dem Budget des Bereichs belastet, der ihn verursacht hat. | [3.3](../tenants/showback/) |
-| Check | Ein Skript des Kurses, das den Zustand deines Labs prüft und einen Bericht mit Hash schreibt. Mit den Screenshots belegen die Berichte der Checks die Basis eines Meilensteins. | [0.5](../start/tools/) |
+| Check | Ein Skript des Kurses, das den Zustand deines Labs prüft und einen Bericht mit Hash schreibt. Mit den Screenshots belegen die Berichte der Checks die Basis eines Meilensteins. | [0.4](../start/prepare/) |
 | Client | Die VM, von der aus du auf smartlearn arbeitest, ein Kali-Linux-Desktop mit einem Browser für die Weboberflächen und einem Terminal für SSH zu den Servern. Mit eigenem Hypervisor übernimmt dein PC diese Rolle. | [0.2](../start/lab/) |
 | Container | Ein Prozess mit eigener Sicht auf Dateisystem, Netz und Prozesse. Er teilt den Kernel mit dem Rechner und bringt nur seine Anwendung mit. | [1.3](../basics/virtualization/) |
 | Control Plane | Der Teil von Kubernetes, der den Cluster steuert, mit API-Server, Scheduler, Controllern und Datenbank. In k3s läuft sie auf dem Server. | [4.3](../platform/kubernetes/) |
 | Datastore | Ein Speicherort von OpenNebula. `default` hält die Images, `system` die Disks laufender VMs, `files` kleinere Dateien und ab Kapitel 6.2 `backups` die Backups der VMs. | [2.4](../iaas/images/) |
+| Deploy Key | Ein SSH-Schlüssel, der nur für ein einziges Repo gilt und nicht für das ganze Konto. Mit ihm lädt das Front-end deine Abgaben in dein Abgabe-Repo hoch. | [0.5](../start/tools/) |
 | Deployment | Hält eine Zahl gleicher Pods am Laufen und tauscht sie bei einem Update aus. | [4.3](../platform/kubernetes/) |
 | Drift | Eine Abweichung des Ist-Zustands vom Code, etwa nach einer Änderung von Hand. `tofu plan` zeigt sie. | [4.1](../platform/iac/) |
 | Elastizität | Ressourcen wachsen mit der Last und schrumpfen wieder, nach Regeln und ohne Eingriff von Hand. | [3.5](../tenants/advanced/) |
@@ -35,7 +36,7 @@ Das Glossar erklärt die Fachbegriffe des Kurses kurz und verweist auf das Kapit
 | Grafana | Zeigt Abfragen an Prometheus und Loki als Dashboards. | [5.1](../observability/metrics/) |
 | Gruppe | Fasst in OpenNebula die Benutzer eines Mandanten zusammen. Ein Gruppenadmin verwaltet die Leute seines Mitglieds selbst. | [3.1](../tenants/groups/) |
 | Härten | Alles abschalten oder abschotten, was nicht gebraucht wird, im Kurs mit SSH nur über Schlüssel, einer Firewall und automatischen Updates. | [6.1](../operations/security/) |
-| Hash | Eine kurze Prüfsumme, die sich ändert, sobald sich der Inhalt ändert. Der Check-Bericht endet mit dem Hash seines Inhalts. | [0.5](../start/tools/) |
+| Hash | Eine kurze Prüfsumme, die sich ändert, sobald sich der Inhalt ändert. Der Check-Bericht endet mit dem Hash seines Inhalts. | [0.4](../start/prepare/) |
 | Helm | Installiert Pakete in Kubernetes, sogenannte Charts, mit Werten, die du anpasst. | [4.2](../platform/opentofu/) |
 | HorizontalPodAutoscaler | Passt die Zahl der Pods eines Deployments an eine Metrik an, meist an die CPU in Prozent des Requests. Kurz HPA. | [5.4](../observability/autoscaling/) |
 | Hypervisor | Teilt einen physischen Rechner in mehrere virtuelle Maschinen mit eigenen CPUs, eigenem Speicher und eigenen Disks auf. | [1.3](../basics/virtualization/) |
@@ -95,7 +96,7 @@ Das Glossar erklärt die Fachbegriffe des Kurses kurz und verweist auf das Kapit
 | SLO | Service Level Objective. Das interne Ziel für einen SLI über einen Zeitraum, beim Webshop 99,5 % der Anfragen ohne Serverfehler über sieben Tage. | [5.3](../observability/slo/) |
 | Snapshot | Ein gespeicherter Stand zu einem Zeitpunkt, in smartlearn von einer ganzen VM, in k3s von der Datenbank des Clusters. Mit einem Snapshot von etcd und dem Token des Servers lässt sich der Cluster auf diesen Stand zurücksetzen. | [0.4](../start/prepare/), [6.2](../operations/backup/) |
 | Sprachmodell | Ein Modell, das Text Token für Token erzeugt. Es schreibt wahrscheinliche Texte und prüft nicht, ob sie stimmen. | [5.5](../observability/advanced/) |
-| SSH-Schlüssel | Ein Paar aus privatem und öffentlichem Schlüssel, mit dem du dich ohne Passwort an einem Server anmeldest. Nach der Härtung in Kapitel 6.1 nimmt das Front-end nur noch Schlüssel an. | [0.5](../start/tools/) |
+| SSH-Schlüssel | Ein Paar aus privatem und öffentlichem Schlüssel, mit dem du dich ohne Passwort an einem Server anmeldest. Nach der Härtung in Kapitel 6.1 nimmt das Front-end nur noch Schlüssel an. | [0.4](../start/prepare/) |
 | State | Die Datei, in der OpenTofu festhält, welches Objekt in OpenNebula zu welchem Block im Code gehört. Sie enthält geheime Werte und gehört nicht in Git. | [4.1](../platform/iac/) |
 | Sunstone | Die Weboberfläche von OpenNebula auf Port 2616 des Front-ends, für das Plattform-Team und die Mitglieder. | [2.1](../iaas/architecture/) |
 | TLS | Transport Layer Security. Verschlüsselt eine Verbindung, macht Veränderungen unterwegs erkennbar und weist den Server mit einem Zertifikat aus. | [6.1](../operations/security/) |
