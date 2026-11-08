@@ -40,7 +40,7 @@ Open this page in the browser of the client, so you can copy the blocks and past
 
 The two blocks of the generator are the same for all three servers. Work through the servers in turn, first the front-end and then the two nodes.
 
-1. In the terminal of the client, log in at the server's default address, for the front-end with `ssh cc@192.168.210.137`. The first time, you confirm the server's key with `yes`, then it asks for your user's password.
+1. In the terminal of the client, log in at the server's default address, for the front-end with `ssh cc@192.168.210.137`. The first time, you confirm the server's key with `yes`, then it asks for the password of the user `cc`, which your instructor gives you.
 2. Paste the first block and start it with Enter. It creates the file `/etc/cc-lab.env`, from which the scripts of the course read your values. `sudo` asks for your password.
 3. Paste the second block and start it with Enter. It gives the server its new address, then the session freezes. Close the terminal.
 

@@ -40,7 +40,7 @@ Ubuntu verwaltet das Netz mit netplan, das seine Einstellungen aus YAML-Dateien 
 
 Die beiden Blöcke des Generators sind für alle drei Server gleich. Nimm dir die Server der Reihe nach vor, zuerst das Front-end und danach die beiden Knoten.
 
-1. Melde dich im Terminal des Clients an der Standardadresse des Servers an, für das Front-end mit `ssh cc@192.168.210.137`. Beim ersten Mal bestätigst du den Schlüssel des Servers mit `yes`, danach will er das Passwort deines Benutzers.
+1. Melde dich im Terminal des Clients an der Standardadresse des Servers an, für das Front-end mit `ssh cc@192.168.210.137`. Beim ersten Mal bestätigst du den Schlüssel des Servers mit `yes`, danach will er das Passwort des Benutzers `cc`, das dir deine Dozentin oder dein Dozent nennt.
 2. Füge den ersten Block ein und starte ihn mit Enter. Er legt die Datei `/etc/cc-lab.env` an, aus der die Skripte des Kurses deine Werte lesen. `sudo` fragt dabei nach deinem Passwort.
 3. Füge den zweiten Block ein und starte ihn mit Enter. Er gibt dem Server seine neue Adresse, danach bleibt die Sitzung hängen. Schliesse das Terminal.
 

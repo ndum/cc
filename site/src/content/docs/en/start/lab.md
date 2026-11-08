@@ -56,7 +56,7 @@ The VMs of your cloud get a second, internal network that only your three server
 
 ## smartlearn
 
-Your instructor provides an environment of your own on smartlearn with the three servers, the client and nested virtualization. Ubuntu is already installed on the servers. The environment has a lab network of its own, 192.168.210.0/24, with gateway and DNS on 192.168.210.1 and access to the internet. No other lab shares this network. You set the addresses of the servers yourself in [chapter 0.3](../parameters/#setting-the-addresses).
+Your instructor provides an environment of your own on smartlearn with the three servers, the client and nested virtualization. Ubuntu is already installed on the servers, with the user `cc`. Your instructor gives you its password. The environment has a lab network of its own, 192.168.210.0/24, with gateway and DNS on 192.168.210.1 and access to the internet. No other lab shares this network. You set the addresses of the servers yourself in [chapter 0.3](../parameters/#setting-the-addresses).
 
 All instructions of the course assume smartlearn. If you prefer to run the VMs on a hypervisor of your own, the supplement [A hypervisor of your own](../../extras/own-hypervisor/) has the hints you need. Sections that only apply there sit in a closed box labeled "Own hypervisor". On smartlearn you leave it closed and read on.
 
