@@ -58,7 +58,7 @@ OpenNebula 7.4 ships these four views, and the [views documentation](https://doc
 
 The views live on the front-end in `/etc/one/fireedge/sunstone/views/`. Every view is a folder with one file per tab. If you want to take a tab away from a view, you adapt these files. If a group has no values of its own, the assignment in `sunstone-views.yaml` in the same folder applies. There the group `oneadmin` gets all four views and everybody else gets `user` and `cloud`.
 
-Open Sunstone in the browser of the client (the Kali VM on smartlearn, or your PC if you run your own hypervisor) at `http://<front-end>:2616` and log in as `praxis-admin`. You see the view `groupadmin` with the practice's VMs and the template `ubuntu`. Hosts and datastores are missing because they remain the platform team's business.
+Open Sunstone in the browser of the client (the Kali VM on smartlearn, or your PC if you run your own hypervisor) at the address of your front-end as in [chapter 2.2](../../iaas/installation/#checking), so for the code `mmuster` at `http://192.168.210.137:2616/`. If you are still logged in as `oneadmin` from the earlier chapters, log out first or open a private Firefox window with Ctrl+Shift+P. The browser keeps only one Sunstone login per address, and a private window has a login of its own. Then log in as `praxis-admin`. Its password is in `~/cc-lab/tenants/praxis-admin.pass` on the front-end. `cat ~/cc-lab/tenants/praxis-admin.pass` prints it, and Ctrl+Shift+C copies it in the client's terminal. You see the view `groupadmin` with the practice's VMs and the template `ubuntu`. Hosts and datastores are missing because they remain the platform team's business.
 
 ![Sunstone as praxis-admin in the view groupadmin, which the menu calls Admin group. Under Instances › VMs only the practice's VM praxis-1 appears. The menu has no Infrastructure section with the hosts, and Storage lists Images, Files, Backups and Apps but no datastores. The card still names the node of the VM as its host. The user praxis-admin and the group praxis appear at the bottom left. The picture was taken in part 6, which is why only praxis-1 is running.](../../../../assets/screenshots/sunstone-groupadmin-vms.png)
 
@@ -76,6 +76,12 @@ To stop a member from doing something, you therefore change the ACLs or the perm
 
 A member's group admin creates the member's users. New users land in the admin's group, and their VMs count against the group's quota. The [users documentation](https://docs.opennebula.io/7.4/product/cloud_system_administration/multitenancy/manage_users/#adding-users) describes `oneuser create`.
 
+With `praxis-1` and `praxis-2` the practice's quota from chapter 3.2 is full. So that the medical assistant can start a VM in a moment, first delete `praxis-2` as `praxis-admin`. Sunstone sets the CPU of a new VM to 1, which then just fits next to `praxis-1` into the practice's 1.5 CPU.
+
+```bash
+ONE_AUTH=~/cc-lab/tenants/praxis.auth onevm terminate praxis-2
+```
+
 `read` takes the password of the MPA without showing it, so it appears neither on the screen nor in the shell history. Type it after this command and confirm with Enter.
 
 ```bash
@@ -91,7 +97,17 @@ oneuser list
 unset ONE_AUTH pw
 ```
 
-The medical assistant then logs in to Sunstone, gets the view `cloud` and starts VMs from the template `ubuntu`. The group admin sees and manages these VMs as well.
+Then log out of Sunstone as `praxis-admin` and log in as `praxis-mpa` with the password you have just typed. The medical assistant gets the view `cloud`. Start a VM from the template `ubuntu` there and name it `mpa-1`. As the group admin, `praxis-admin` sees and manages this VM as well.
+
+```bash
+ONE_AUTH=~/cc-lab/tenants/praxis.auth onevm list
+```
+
+The list shows `mpa-1` with the owner `praxis-mpa`. Capture it in `7-self-service.png` for requirement 7 of milestone 1 and copy the picture into the folder `m1/` of your hand-in repo as in [chapter 3.1](../groups/). Then delete the VM again.
+
+```bash
+ONE_AUTH=~/cc-lab/tenants/praxis.auth onevm terminate mpa-1
+```
 
 ## The service catalog
 
@@ -107,38 +123,51 @@ The template `ubuntu` belongs to `oneadmin`, and `chmod 604` lets the members on
 [one.template.update] User [2] : Not authorized to perform MANAGE TEMPLATE [1].
 ```
 
-The members may create templates of their own, though, because their group has allowed it since chapter 3.1. If the practice needs a larger VM, it copies the template and changes the copy. The [VM template documentation](https://docs.opennebula.io/7.4/product/virtual_machines_operation/virtual_machines/vm_templates/#cloning-templates) describes both steps. The following block does both as `praxis-admin` and gives the copy 2 GB of memory. With `--append`, `onetemplate update` changes only the values from the file and opens no editor. The rest of the template stays as it is. `onetemplate show` then shows owner, group and memory.
+The members may create templates of their own, though, because their group has allowed it since chapter 3.1. If the practice needs a larger VM, it copies the template and changes the copy. The [VM template documentation](https://docs.opennebula.io/7.4/product/virtual_machines_operation/virtual_machines/vm_templates/#cloning-templates) describes both steps. The following block does both as `praxis-admin` and gives the copy 2 GB of memory. With `--append`, `onetemplate update` changes only the values from the file and opens no editor. The rest of the template stays as it is. At first only its owner may use and manage a new template, because the mask `DEFAULT_UMASK` in the OpenNebula configuration leaves it the permissions `600` out of the box. The [permissions documentation](https://docs.opennebula.io/7.4/product/cloud_system_administration/multitenancy/chmod/) explains this mask. With `chmod 640` the other users of the practice, such as the medical assistant, may use the copy as well. Other members still may not use it. `onetemplate show` then shows owner, group and memory.
 
 ```bash
 export ONE_AUTH=~/cc-lab/tenants/praxis.auth
 onetemplate clone ubuntu praxis-gross
 echo 'MEMORY = "2048"' > /tmp/praxis-gross.tpl
 onetemplate update praxis-gross --append /tmp/praxis-gross.tpl
+onetemplate chmod praxis-gross 640
 onetemplate show praxis-gross | grep -E '^(USER|GROUP) |MEMORY='
 unset ONE_AUTH
 ```
 
-Apart from the memory, the copy takes over everything, including the prices from chapter 3.3, and belongs to the practice. Whatever the practice puts in it is still limited by its quota. The platform team only has to maintain a few shared templates, networks and images, and the members set up everything else themselves within their quota.
+The copy belongs to the practice. Apart from the memory and the permissions, it takes over everything from `ubuntu`, including the prices from chapter 3.3. Whatever the practice puts in it is still limited by its quota. The platform team only has to maintain a few shared templates, networks and images, and the members set up everything else themselves within their quota.
 
 Under "Templates › VM Templates", `oneadmin` sees the templates of the platform team and the copies of the members side by side.
 
-![The templates in Sunstone, logged in as oneadmin. The copy praxis-gross belongs to praxis-admin and the group praxis. The templates ubuntu and ubuntu-medium belong to oneadmin, and OpenNebula created ubuntu-26.04 when the image was exported from the marketplace.](../../../../assets/screenshots/sunstone-templates.png)
+![The templates in Sunstone, logged in as oneadmin. The copy praxis-gross belongs to praxis-admin and the group praxis. In the picture it still has the 1 GB of memory of ubuntu, without the change to 2 GB. The templates ubuntu and ubuntu-medium belong to oneadmin, and OpenNebula created ubuntu-26.04 when the image was exported from the marketplace.](../../../../assets/screenshots/sunstone-templates.png)
 
-## The check of part 3
+## The check of milestone 1
 
-The check of this part tests the groups with their admins and quotas, the VDC `wolkenwerk`, the sharing and the prices of the template `ubuntu`, and the showback. Run it only after you have calculated the showback of chapter 3.3. Until then the showback has no costs yet, and the check reports `[!!]` there.
+Part 3 completes milestone 1. Its check `m1` runs the check `tenants` of this part, which tests the groups with their admins and quotas and the VDC `wolkenwerk`. It also tests the sharing and the prices of the template `ubuntu`, the showback and the user `praxis-mpa`. On top of that, `m1` tests the municipality's quota from your personal values, looks for traces of the advanced tasks and draws two questions that you answer in the showing of the advanced tasks. Run it only after you have calculated the showback of chapter 3.3. Until then the showback has no costs yet, and the check reports `[!!]` there. The check always works as `oneadmin`, even if `ONE_AUTH` is still set in your shell.
 
 ```bash
-python3 ~/cc/checks/check.py tenants
+python3 ~/cc/checks/check.py m1
 ```
 
-The two lines about OneFlow marked `[+!!]` belong to advanced task A in chapter 3.5 and do not count for the base.
+The three lines marked `[+!!]` or `[+ok]` belong to advanced tasks A and B in chapter 3.5 and do not count for the base. If the line for the municipality reports `[!!]`, the hint below it names the values the check found. Then fix the line in your copy of `set-quotas.sh` from [chapter 3.2](../quotas/#the-quotas-of-the-members) and run the copy again. Without your personal values and the questions, `python3 ~/cc/checks/check.py tenants` checks only this part with its 20 base checks.
+
+Like every other report, the check saves this one in `~/cc-reports/`. As in [chapter 0.5](../../start/tools/#uploading-the-report-and-screenshots), the following block first fetches whatever is new in the repo with `git pull`. Then it puts the report into the folder `reports/` of your hand-in repo and uploads it together with the screenshots of part 3 in `m1/`.
+
+```bash
+source /etc/cc-lab.env
+cd ~/cc-$CC_CODE
+git pull
+cp ~/cc-reports/m1-*.txt reports/
+git add reports m1
+git commit -m "Milestone 1"
+git push
+```
 
 ::::exercise[Lab]
-With two VMs the practice's quota from chapter 3.2 is full. So first delete the VM `praxis-2` as `praxis-admin` with `onevm terminate`. Sunstone sets the CPU of a new VM to 1, which just fits next to `praxis-1` into the practice's 1.5 CPU. Then create the user `praxis-mpa`, log in to Sunstone as this user in the browser of the client and start a VM. As `praxis-admin`, check that you can see it. Take a screenshot for milestone 1, then delete the VM. Finally run the check `tenants` and add its report to your hand-in repo.
+Delete the VM `praxis-2` as `praxis-admin` so that the practice's quota has room. Create the user `praxis-mpa`, log in to Sunstone as this user in the browser of the client and start the VM `mpa-1`. As `praxis-admin`, check that you can see it. Capture that in `7-self-service.png` for requirement 7 of milestone 1, then delete the VM. Finally run the check `m1` and add its report to your hand-in repo along with the screenshots of part 3.
 
 :::solution
-`oneuser create` creates the user `praxis-mpa` in the group `praxis`. In Sunstone the view `cloud` shows the template `ubuntu`, and the VM only starts as long as the practice's quota has room. As `praxis-admin`, `onevm list` shows the VM with the owner `praxis-mpa`, and `onevm terminate` deletes it. The check ends with "19 of 19 base checks passed" and "0 of 2 checks of the advanced tasks passed".
+`onevm terminate praxis-2` gives one VM, 0.5 CPU and 1024 MB of its quota back to the practice. `oneuser create` creates the user `praxis-mpa` in the group `praxis`. In Sunstone the view `cloud` shows the template `ubuntu`, and the VM only starts as long as the practice's quota has room. As `praxis-admin`, `onevm list` shows the VM `mpa-1` with the owner `praxis-mpa`, and `onevm terminate mpa-1` deletes it. Without advanced tasks the report of `m1` ends with "21 of 21 base checks passed" and "0 of 3 checks of the advanced tasks passed, they do not count for the base". Your hand-in repo then holds the report in `reports/` and `5-trennung.png`, `6-quota.png`, `7-showback.png` and `7-self-service.png` in `m1/`.
 :::
 ::::
 

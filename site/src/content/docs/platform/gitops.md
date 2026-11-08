@@ -46,7 +46,7 @@ Gitea läuft auf dem Front-end, ausserhalb des Clusters. Den Cluster baust du sp
 sudo ~/cc/platform/gitea/install-gitea.sh
 ```
 
-Das Skript prüft die Prüfsumme des Programms, legt den Systembenutzer `git` an und schreibt die Konfiguration selbst, damit kein Installationsassistent im Browser nötig ist. Gitea speichert seine Daten in SQLite und läuft als Dienst von systemd. Die Dokumentation von Gitea 28 erklärt diese Schritte unter [Installation from binary](https://docs.gitea.com/28/installation/install-from-binary). Niemand kann sich selbst ein Konto anlegen. Ohne Anmeldung sieht man nichts. Im Browser des Clients (auf smartlearn die Kali-VM, mit eigenem Hypervisor dein PC) erreichst du Gitea unter Port 3000 des Front-ends. Du meldest dich als `platform` mit dem Passwort aus `~/cc-lab/gitea/platform.pass` an.
+Das Skript prüft die Prüfsumme des Programms, legt den Systembenutzer `git` an und schreibt die Konfiguration selbst, damit kein Installationsassistent im Browser nötig ist. Gitea speichert seine Daten in SQLite und läuft als Dienst von systemd. Die Dokumentation von Gitea 28 erklärt diese Schritte unter [Installation from binary](https://docs.gitea.com/28/installation/install-from-binary). Niemand kann sich selbst ein Konto anlegen. Ohne Anmeldung sieht man nichts. Im Browser des Clients (auf smartlearn die Kali-VM, mit eigenem Hypervisor dein PC) erreichst du Gitea unter Port 3000 des Front-ends, für `mmuster` unter `http://192.168.210.137:3000/`. Du meldest dich als `platform` an. Das Passwort zeigt dir `cat ~/cc-lab/gitea/platform.pass` auf dem Front-end. Markiere es im Terminal des Clients, kopiere es mit Ctrl+Shift+C und füge es im Browser mit Ctrl+V ein. Danach löscht `clear` die Ausgabe, damit das Passwort auf keinem Screenshot landet.
 
 ## Das Repo platform
 
@@ -63,7 +63,15 @@ Ein zweites Skript legt die Organisation `wolkenwerk`, das private Repo `platfor
 | `platform.token` | Repos und Organisation schreiben | du, beim Push |
 | `argocd.token` | Repos lesen | Argo CD |
 
-Argo CD bekommt nur Leserechte. Gelangt sein Token an die falsche Stelle, kann damit niemand den Soll-Zustand ändern. Wie Tokens mit ihren Rechten über die API entstehen, beschreibt die [Anleitung zur API](https://docs.gitea.com/28/development/api-usage) von Gitea 28.
+Argo CD bekommt nur Leserechte. Gelangt sein Token an die falsche Stelle, kann damit niemand den Soll-Zustand ändern. Wie Tokens mit ihren Rechten über die API entstehen, beschreibt die [Anleitung zur API](https://docs.gitea.com/28/development/api-usage) von Gitea 28. Dort steht auch, dass Gitea die Liste der Tokens nur mit Benutzer und Passwort herausgibt. Welche Rechte deine Tokens haben, zeigt dir die API so.
+
+```bash
+source /etc/cc-lab.env
+printf 'user = "platform:%s"\n' "$(cat ~/cc-lab/gitea/platform.pass)" |
+  curl -s -K - "http://$CC_FE_IP:3000/api/v1/users/platform/tokens" | python3 -m json.tool
+```
+
+Die Antwort nennt für jedes Token unter `scopes` seine Rechte, für `argocd` nur `read:repository`. Den Wert eines Tokens zeigt Gitea nur einmal beim Anlegen, darum schreibt `make-repo.sh` ihn gleich in eine Datei. Mit `-K -` liest curl Benutzer und Passwort aus seiner Eingabe statt aus der Befehlszeile, wie das [Handbuch von curl](https://curl.se/docs/manpage.html#-K) beschreibt. So erscheint das Passwort weder im Terminal noch in der Liste der Prozesse. Diese Antwort belegt Anforderung 3 von [Meilenstein 2](../../assessment/milestone-2/). Mach davon wie in Kapitel 4.3 einen Screenshot, speichere ihn als `3-token.png` und kopiere ihn aus dem zweiten Tab des Terminals mit `scp ~/3-token.png mmuster-fe:cc-mmuster/m2/` in den Ordner `m2` deines Abgabe-Repos.
 
 In `~/platform` liegt seit Kapitel 4.2 die Vorlage. Die Dateien für Argo CD enthalten den Platzhalter `FRONTEND`, den du durch die Adresse deines Front-ends ersetzt. Danach machst du daraus ein Git-Repo und schickst es an Gitea.
 
@@ -113,7 +121,7 @@ Das Deployment hält zwei Pods am Laufen und gibt ihnen Requests und Limits für
 
 ## Argo CD
 
-Argo CD ist ein Projekt der CNCF und läuft als Satz von Controllern im Cluster. Er liest Repos, rendert die Manifeste, auch mit Kustomize oder Helm, vergleicht sie mit dem Cluster und gleicht ab. Eine **Application** sagt ihm, welcher Ordner welches Repos in welchen Namespace gehört.
+Argo CD ist ein Projekt der CNCF und läuft als Satz von Controllern im Cluster. Er liest Repos, rendert die Manifeste, auch mit Kustomize oder Helm, vergleicht sie mit dem Cluster und gleicht ab. Eine **Application** sagt ihm, welcher Ordner welches Repos in welchen Namespace gehört. Die Teile von Argo CD und die Begriffe von Helm beschreibt die Ergänzung [Werkzeuge der Plattform](../../extras/platform-tools/) ausführlicher.
 
 Ein Skript installiert Argo CD mit Helm, hinterlegt das Token für Gitea und wendet die erste Application an. Das Chart `argo-cd` in der Version 10.11.6 bringt Argo CD 3.5 mit. Seine Werte erklärt das [README](https://github.com/argoproj/argo-helm/tree/argo-cd-10.11.6/charts/argo-cd) des Charts.
 
@@ -127,7 +135,21 @@ kubectl -n argocd get pods
 kubectl -n argocd get applications
 ```
 
+Das Skript meldet zuerst «Installing Argo CD, this takes about a minute ...». Danach bleibt das Terminal still, bis alle Pods von Argo CD laufen, auf smartlearn nach etwa einer Minute. Die Ausgabe von Helm blendet das Skript aus, auch die Hinweise des Charts zu einem Port-Forward und zum Passwort. Im Kurs öffnest du die Oberfläche stattdessen über einen Tunnel und das Passwort legt das Skript in eine Datei. Seine letzten Zeilen nennen den Tunnel zu Argo CD schon mit deinen Adressen. Der nächste Abschnitt ergänzt ihn um den Webshop.
+
 Das Token geht als Secret mit dem Label `argocd.argoproj.io/secret-type=repository` an Argo CD. Im Lab scheiterte ein erster Versuch mit `kubectl create secret --from-file`. Das Secret enthielt den Zeilenumbruch am Ende der Datei, worauf Gitea mit «authentication required» antwortete. Das Skript entfernt den Zeilenumbruch darum vorher.
+
+## Zugriff vom Client
+
+Der Cluster liegt im internen Netz `cc-net`, das nur vom Front-end aus erreichbar ist. Damit der Browser des Clients Argo CD und den Webshop öffnen kann, leitest du zwei Ports durch SSH weiter. Öffne dafür einen zweiten Tab im Terminal des Clients und starte dort den Tunnel. Das [Handbuch von ssh](https://man.openbsd.org/ssh#L) beschreibt die Option `-L`.
+
+```bash
+ssh -N -L 8080:<CC_K3S_SERVER_IP>:30080 -L 8081:<CC_K3S_SERVER_IP>:80 mmuster-fe
+```
+
+Für `<CC_K3S_SERVER_IP>` setzt du die Adresse von `k3s-server` aus dem ersten Block des Generators ein. Auf dem Front-end zeigt sie `grep K3S /etc/cc-lab.env`, für `mmuster` ist es 172.31.160.110. `-N` öffnet nur den Tunnel und keine Shell, im Tab erscheint darum keine Eingabeaufforderung. Ctrl+C schliesst den Tunnel wieder. Solange er offen ist, zeigt `http://localhost:8080/` im Browser des Clients die Oberfläche von Argo CD und `http://localhost:8081/` den Webshop.
+
+In Argo CD meldest du dich als `admin` an. Das Passwort hat das Skript in `~/cc-lab/argocd-admin.pass` abgelegt. Du zeigst und kopierst es im ersten Tab wie das Passwort von Gitea. Gitea erreichst du weiter direkt unter Port 3000 des Front-ends, bis die Firewall aus Kapitel 6.1 den Port von aussen sperrt.
 
 ## App of Apps
 
@@ -154,16 +176,6 @@ In der Weboberfläche zeigt Argo CD jede Application als Baum ihrer Objekte.
 
 ![Die Application webshop in Argo CD. Oben stehen Healthy und Synced mit dem Commit von main, darunter der Baum. Von der Application führen Linien zum Service, zum Deployment und zum Ingress, das Deployment führt über sein ReplicaSet zu den zwei Pods. Herz und Haken zeigen bei jedem Objekt Zustand und Abgleich.](../../../assets/screenshots/argocd-webshop-tree.png)
 
-## Zugriff vom Client
-
-Der Cluster liegt im internen Netz `cc-net`, das nur vom Front-end aus erreichbar ist. Damit der Browser des Clients Argo CD und den Webshop öffnen kann, leitest du im Terminal des Clients zwei Ports durch SSH weiter. Die Adressen stehen in deinen Parametern. Das [Handbuch von ssh](https://man.openbsd.org/ssh#L) beschreibt die Option `-L`.
-
-```bash
-ssh -L 8080:<adresse-des-servers>:30080 -L 8081:<adresse-des-servers>:80 mmuster-fe
-```
-
-Solange die Verbindung offen ist, zeigt `http://localhost:8080/` die Oberfläche von Argo CD und `http://localhost:8081/` den Webshop. In Argo CD meldest du dich als `admin` mit dem Passwort aus `~/cc-lab/argocd-admin.pass` an, das Skript hat es dort abgelegt. Gitea erreichst du direkt unter Port 3000 des Front-ends, bis die Firewall aus Kapitel 6.1 den Port von aussen sperrt.
-
 ## Abgleich zeigen
 
 Self-Heal siehst du am schnellsten, wenn du den Cluster an Git vorbei änderst.
@@ -187,10 +199,10 @@ git push
 Im Lab lief der dritte Pod 40 Sekunden bis gut zwei Minuten nach dem Push, denn Argo CD fragt jede Minute ab und verschiebt die Abfrage um einen zufälligen Anteil. Ein Webhook von Gitea an Argo CD würde den Abgleich sofort auslösen. Für das Lab genügt die Abfrage jede Minute.
 
 ::::exercise[Lab]
-Installiere Gitea, lege das Repo an, rolle Argo CD aus und öffne Webshop und Argo CD im Browser des Clients. Ändere die Zahl der Pods über Git.
+Installiere Gitea, lege das Repo an, rolle Argo CD aus und öffne Webshop und Argo CD im Browser des Clients. Lege den Screenshot `3-token.png` mit den Rechten der Tokens in den Ordner `m2` deines Abgabe-Repos. Ändere die Zahl der Pods über Git.
 
 :::solution
-`kubectl -n argocd get applications` zeigt `root` und `webshop` sowie `member-velo` als `Synced` und `Healthy`. `member-velo` kommt schon mit dem ersten Push, Kapitel 4.5 erklärt es. Der Webshop zeigt die Velos und unten den Namen des Pods, der geantwortet hat. Nach einem Push mit `replicas: 3` zeigt `kubectl -n velo get pods` nach spätestens gut zwei Minuten drei Pods. In Argo CD erscheint der neue Commit bei der Application.
+Die API von Gitea nennt für das Token `argocd` nur `read:repository`. `kubectl -n argocd get applications` zeigt `root` und `webshop` sowie `member-velo` als `Synced` und `Healthy`. `member-velo` kommt schon mit dem ersten Push, Kapitel 4.5 erklärt es. Der Webshop zeigt die Velos und unten den Namen des Pods, der geantwortet hat. Nach einem Push mit `replicas: 3` zeigt `kubectl -n velo get pods` nach spätestens gut zwei Minuten drei Pods. In Argo CD erscheint der neue Commit bei der Application.
 :::
 ::::
 

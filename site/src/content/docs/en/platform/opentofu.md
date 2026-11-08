@@ -33,18 +33,25 @@ You therefore start by cleaning up. The groups, quotas, prices and templates of 
 The loop below terminates every VM of parts 2 and 3 for good. Take the screenshots for milestone 1 first, because afterwards the VMs they show are gone. If you show the advanced tasks of milestone 1 in a screencast, record it beforehand as well. As a fallback, take a snapshot of the three servers as chapter 0.4 describes.
 :::
 
+If you started the fiduciary office's service in the advanced chapter 3.5, remove it first, otherwise OneFlow starts its VM again right away. `oneflow list` shows the number of the service in the column `ID`, and you put that number into the second command in place of `<service-id>`. Without a service from chapter 3.5, skip this block.
+
 ```bash
 oneflow list
 oneflow delete <service-id>
+```
+
+Then the loop terminates every VM that `onevm list` shows, whatever names you gave them in parts 2 and 3. `oneadmin` may terminate the VMs of every member.
+
+```bash
 onevm list
 for id in $(onevm list -l ID --no-header); do onevm terminate "$id"; done
 onehost list
 ```
 
-If you started the fiduciary office's service in the advanced chapter 3.5, remove it first, otherwise OneFlow starts its VM again right away. Then the loop terminates every VM that `onevm list` shows, whatever names you gave them in parts 2 and 3. `oneadmin` may terminate the VMs of every member. At the end, `onehost list` shows `0K / 7.2G` on both nodes.
+At the end, `onehost list` shows `0K / 7.2G` on both nodes.
 
 :::note[Showing the advanced tasks of milestone 1 live]
-You prove the base of milestone 1 with the report and the screenshots, so you no longer need the old VMs for it. If you show the advanced tasks of milestone 1 live in class instead of in a screencast, take the cluster off the nodes for the demo. `onevm undeploy k3s-server` and `onevm undeploy k3s-agent` stop the VMs and release their memory and CPU while keeping their disks. `onevm poweroff` is not enough, because a VM that is powered off keeps its place on the node. Then you start the VMs the advanced tasks need with the commands of part 3, show the tasks and terminate the VMs again. `onevm resume` brings the cluster back. In the lab, `undeploy` took a little under two minutes, and after `resume` the web shop of chapter 4.4 answered again after about 45 seconds. Argo CD then showed the application `root` as `Degraded` for a good three minutes, because the ApplicationSet `members` could not read the repo at startup. The repo server of Argo CD was not running yet, and the ApplicationSet recovered by itself afterwards.
+You prove the base of milestone 1 with the report and the screenshots, so you no longer need the old VMs for it. If you show the advanced tasks of milestone 1 live in class instead of in a screencast, take the cluster off the nodes for the demo. `onevm undeploy k3s-server` and `onevm undeploy k3s-agent` stop the VMs and release their memory and CPU while keeping their disks. `onevm poweroff` is not enough, because a VM that is powered off keeps its place on the node. Then you start the VMs the advanced tasks need with the commands of part 3 and show the tasks. After the showing you terminate only these VMs, one at a time with `onevm terminate <name>`, and you remove a service of chapter 3.5 with `oneflow delete <service-id>`. Do not use the loop from above for this, because it would terminate `k3s-server` and `k3s-agent` as well. `onevm resume k3s-server` and `onevm resume k3s-agent` bring the cluster back. In the lab, `undeploy` took a little under two minutes, and after `resume` the web shop of chapter 4.4 answered again after about 45 seconds. Argo CD then showed the application `root` as `Degraded` for a good three minutes, because the ApplicationSet `members` could not read the repo at startup. The repo server of Argo CD was not running yet, and the ApplicationSet recovered by itself afterwards.
 :::
 
 ## Tools
@@ -125,15 +132,15 @@ tofu plan
 tofu apply
 ```
 
-The plan shows three resources with `+`, the token and two VMs. For the token it shows `result = (sensitive value)`. OpenTofu hides secrets in its output but stores them in the state. After `yes`, OpenTofu creates the VMs, in the lab within ten seconds and one on each node. At the end it prints the outputs. The addresses below come from the course lab, yours show your own `cc-net` network with the endings `.110` and `.111`.
+The plan shows three resources with `+`, the token and two VMs. For the token it shows `result = (sensitive value)`. OpenTofu hides secrets in its output but stores them in the state. After `yes`, OpenTofu creates the VMs, in the lab within ten seconds and one on each node. At the end it prints the outputs. The addresses below are those of the code `mmuster`, yours show your own `cc-net` network with the endings `.110` and `.111`.
 
 ```text
 Outputs:
 
-api = "https://172.28.217.110:6443"
+api = "https://172.31.160.110:6443"
 ips = {
-  "k3s-agent" = "172.28.217.111"
-  "k3s-server" = "172.28.217.110"
+  "k3s-agent" = "172.31.160.111"
+  "k3s-server" = "172.31.160.110"
 }
 ```
 
@@ -162,13 +169,7 @@ tofu plan
 Plan: 0 to add, 1 to change, 0 to destroy.
 ```
 
-`tofu apply` renames it back. Some changes cannot be made to a running VM. Then OpenTofu replaces it and shows `-/+`. With `-replace` you force a single VM to be replaced, for example after its start script went wrong.
-
-```bash
-tofu apply -replace='opennebula_virtual_machine.k3s["k3s-agent"]'
-```
-
-In the lab this took a little under two minutes, because OpenNebula shuts the old VM down first. If the old agent had already joined the cluster, the server turns the new one away. k3s keeps a password for every node name, and the new VM does not know it. The new agent then logs "Node password rejected, duplicate hostname" and stays `NotReady`. In that case delete the old node with `kubectl delete node k3s-agent` once kubectl works after chapter 4.3. In the lab the new agent joined within seconds after that.
+`tofu apply` renames it back. Some changes cannot be made to a running VM. Then OpenTofu replaces it and shows `-/+`. The option `-replace` forces a single VM to be replaced, for example after its start script went wrong. For the agent the command is `tofu apply -replace='opennebula_virtual_machine.k3s["k3s-agent"]'`. Do not run it yet. The agent joins the cluster shortly after `tofu apply`, and a new agent with the same name only gets back into the cluster after a step with kubectl. That is why you try `-replace` in the exercise "Replace the agent" in [chapter 4.3](../kubernetes/), once kubectl works.
 
 Only a full rebuild shows whether the code describes everything. `tofu destroy` deletes everything in the state, and `tofu apply` builds it again. For the empty cluster of part 4 this took about two minutes in the lab. The base only asks for the VMs from OpenTofu and a plan without changes. Planning and timing a rebuild of the whole platform is advanced task A in [chapter 4.6](../advanced/#rebuilding-the-platform-task-a). Chapter 4.3 shows how the start script installs Kubernetes.
 

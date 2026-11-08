@@ -292,7 +292,8 @@ Die Teile 5 und 6 schicken Änderungen mit `git push` direkt auf `main`, mit dem
 - Die Änderung im Cluster nach dem Merge
 
 :::details[Hinweise aus dem Lab]
-- Ein weiteres Konto legst du in der Weboberfläche unter «Site Administration» an oder mit `gitea admin user create`
+- Ein weiteres Konto legst du in der Weboberfläche unter «Site Administration» an oder auf dem Front-end mit `sudo -u git gitea --config /etc/gitea/app.ini admin user create`. Ohne `sudo -u git` scheitert der Befehl, weil `/etc/gitea/app.ini` nur für `root` und die Gruppe `git` lesbar ist.
+- Für das zweite Konto öffnest du in Firefox mit Ctrl+Shift+P ein privates Fenster. Der Browser hält für Gitea nur eine Anmeldung, das private Fenster hat eine eigene.
 :::
 
 :::details[Quellen]

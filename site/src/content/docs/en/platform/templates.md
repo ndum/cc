@@ -149,8 +149,6 @@ A deployment that asks for too much shows what the quota does.
 kubectl -n gemeinde create deployment fill --image=busybox:1.37 --replicas=12 -- sleep 3600
 kubectl -n gemeinde get deployment fill
 kubectl -n gemeinde get events --field-selector reason=FailedCreate
-kubectl -n gemeinde delete deployment fill
-kubectl -n gemeinde wait --for=delete pod -l app=fill --timeout=60s
 ```
 
 In the lab, 8 of 12 pods ran with the values of the template. Each pod got a limit of `250m` CPU from the LimitRange, and after eight pods the quota of two CPUs was used up.
@@ -159,21 +157,48 @@ In the lab, 8 of 12 pods ran with the values of the template. Each pod got a lim
 Error creating: pods "fill-56886798df-vjq4b" is forbidden: exceeded quota: member, requested: limits.cpu=250m, used: limits.cpu=2, limited: limits.cpu=2
 ```
 
-As with the quota in OpenNebula, the other members are not affected. The bike shop's web shop keeps running, whatever the municipality starts.
-
-## The check of part 4
-
-The check of this part tests the three tools and the two VMs in the OpenTofu state, the cluster with the addresses of its pods, Gitea with the repo, the applications in Argo CD, the web shop behind Traefik and the member namespaces with their quota, LimitRange and NetworkPolicy. Run it on the front-end once the municipality's namespace is in place.
+As with the quota in OpenNebula, the other members are not affected. The bike shop's web shop keeps running, whatever the municipality starts. This output belongs to requirement 7 of [milestone 2](../../assessment/milestone-2/). Take the screenshot `7-quota.png` of it as in chapter 4.3 before you delete the deployment again.
 
 ```bash
-python3 ~/cc/checks/check.py platform
+kubectl -n gemeinde delete deployment fill
+kubectl -n gemeinde wait --for=delete pod -l app=fill --timeout=60s
+```
+
+Requirement 7 also asks for the separation by the NetworkPolicy. Now that both members have their namespace, you show it between the municipality and the bike shop. A pod of the municipality gets "Connection refused" from the web shop, like the pod in `default` further up. The LimitRange sets its requests and limits, so it only fits into the quota once the pods of `fill` are gone.
+
+```bash
+kubectl -n gemeinde run np-test --rm -i --restart=Never --image=busybox:1.37 -- sh -c "sleep 5; wget -qO- -T 5 http://webshop.velo/healthz"
+```
+
+Record the result in the screenshot `7-trennung.png`.
+
+## The check of milestone 2
+
+Part 4 completes milestone 2. Its check `m2` runs the check `platform` of this part, which tests the three tools and the two VMs in the OpenTofu state, the cluster with the addresses of its pods, Gitea with the repo, the applications in Argo CD, the web shop behind Traefik and the member namespaces with their quota, LimitRange and NetworkPolicy. On top of that, `m2` checks the municipality's ResourceQuota against your personal values, looks for traces of the advanced tasks and draws two questions that you answer in the showing of the advanced tasks. Run it on the front-end once `kubectl -n gemeinde describe resourcequota member` shows the limits from your personal values.
+
+```bash
+python3 ~/cc/checks/check.py m2
+```
+
+The three lines with `[+!!]` or `[+ok]` belong to the advanced tasks B and C in chapter 4.6 and do not count for the base. If the line of the municipality shows `[!!]`, check the patch in `members/gemeinde/kustomization.yaml` and whether Argo CD has applied it yet. Without your personal values and the questions, `python3 ~/cc/checks/check.py platform` checks only this part with its 19 base checks.
+
+The check saves its report in `~/cc-reports/`. As in [chapter 0.5](../../start/tools/#uploading-the-report-and-screenshots), the following block first fetches whatever is new in the repo with `git pull`. Then it puts the report into the folder `reports/` of your hand-in repo and uploads it together with the screenshots in `m2/`. Each of the seven requirements of milestone 2 needs at least one screenshot whose file name starts with its number.
+
+```bash
+source /etc/cc-lab.env
+cd ~/cc-$CC_CODE
+git pull
+cp ~/cc-reports/m2-*.txt reports/
+git add reports m2
+git commit -m "Milestone 2"
+git push
 ```
 
 ::::exercise[Lab]
-Roll out the template for the bike shop, request the municipality's namespace as a pull request and accept it. Show the quota at its limit and the separation by the NetworkPolicy. Finally run the check `platform` and add its report to your hand-in repo.
+Roll out the template for the bike shop, request the municipality's namespace as a pull request and accept it. Give the municipality the limits from your personal values in a second pull request. Show the quota at its limit and the separation by the NetworkPolicy in the screenshots `7-quota.png` and `7-trennung.png`. Finally run the check `m2` and upload its report with the screenshots of part 4 to your hand-in repo.
 
 :::solution
-`kubectl -n argocd get applications` shows `member-velo` and `member-gemeinde` as `Synced` and `Healthy`. `kubectl -n velo describe resourcequota member` shows `requests.cpu` with a limit of 2, while the municipality has the template's limit of 1. With the values of the template the deployment `fill` stops at 8 pods, with the limits from your personal values at 4 or 6 pods. A test pod in `gemeinde` gets "Connection refused" from the web shop in `velo`. The check ends with "19 of 19 base checks passed".
+`kubectl -n argocd get applications` shows `member-velo` and `member-gemeinde` as `Synced` and `Healthy`. `kubectl -n velo describe resourcequota member` shows `requests.cpu` with a limit of 2, while the municipality has the template's limit of 1. With the values of the template the deployment `fill` stops at 8 pods, with the limits from your personal values at 4 or 6 pods. A test pod in `gemeinde` gets "Connection refused" from the web shop in `velo`. Without advanced tasks the report of `m2` ends with "20 of 20 base checks passed" and "0 of 3 checks of the advanced tasks passed, they do not count for the base". If the application of a member of your own from advanced task B is also called `member-<name>`, the check tests its namespace as well and counts one base check more. Your hand-in repo then holds the report in `reports/` and the screenshots in `m2/`, among them `2-cluster.png`, `3-token.png`, `7-quota.png` and `7-trennung.png`.
 :::
 ::::
 

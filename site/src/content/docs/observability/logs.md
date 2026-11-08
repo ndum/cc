@@ -44,6 +44,8 @@ Im Lab waren Loki und Alloy gut zwei Minuten nach dem Push bereit. Argo CD hatte
 kubectl -n monitoring get pods -o wide | grep -E 'loki|alloy'
 ```
 
+Die Ausgabe zeigt einen Pod von Loki und je einen Pod von Alloy auf `k3s-server` und `k3s-agent`, alle im Zustand `Running`.
+
 ## LogQL
 
 Abfragen schreibst du in Grafana unter «Explore» mit der Datenquelle Loki. Eine Abfrage beginnt immer mit einer Auswahl von Streams in geschweiften Klammern.
@@ -58,10 +60,11 @@ Abfragen schreibst du in Grafana unter «Explore» mit der Datenquelle Loki. Ein
 
 `|=` filtert nach Text, `|~` nach einem regulären Ausdruck, `!=` schliesst Zeilen mit dem Text aus. `count_over_time` zählt die Zeilen in einem Zeitfenster und macht aus Logs eine Metrik, die du in Dashboards und Alerts verwenden kannst.
 
-Im Lab erzeugten 20 Aufrufe einer Seite, die es nicht gibt, Zeilen mit `404`.
+Im Lab erzeugten 20 Aufrufe einer Seite, die es nicht gibt, Zeilen mit `404`. Die Schleife läuft auf dem Front-end. Sie ruft den Webshop über Traefik an der Adresse von `k3s-server` auf, die nach `source /etc/cc-lab.env` in `$CC_K3S_SERVER_IP` steht.
 
 ```bash
-for i in $(seq 20); do curl -s -o /dev/null http://<adresse-des-servers>/warenkorb; done
+source /etc/cc-lab.env
+for i in $(seq 20); do curl -s -o /dev/null http://$CC_K3S_SERVER_IP/warenkorb; done
 ```
 
 ```text
@@ -78,11 +81,39 @@ In Grafana stellst du die Abfrage unter «Explore» mit der Datenquelle Loki.
 
 Jede Kombination von Labels ist in Loki ein eigener **Stream**. Labels wie Namespace, Pod oder App haben wenige Werte und eignen sich gut. Eine IP-Adresse, eine Bestellnummer oder ein Pfad als Label würden Tausende Streams erzeugen und Loki langsam machen. Was sich oft ändert, bleibt im Text und wird mit `|=` gesucht.
 
+## Deine Werte für Meilenstein 3
+
+In Kapitel 5.3 löst du einen Alert über Git aus, in Kapitel 5.4 lässt du den Webshop unter Last wachsen. Für Meilenstein 3 rechnet der Alert mit dem Ziel des SLO aus deinen [persönlichen Werten](../../start/parameters/#deine-werte-für-die-meilensteine) und der HPA wächst bis zu deiner persönlichen Obergrenze. Damit du Alert und Lasttest nur einmal durchführst, setzt du beide Werte jetzt in einem Commit. Der Generator nennt sie in der Tabelle «Deine Werte für die Meilensteine» als «Ziel des SLO für den Webshop» und «Höchstzahl Pods im HPA».
+
+Der Alert rechnet mit dem Fehlerbudget. Es ist 1 minus dein Ziel, bei 99,0 % also `0.01` und bei 99,9 % `0.001`. Tippe zuerst dein Budget und deine Obergrenze als zwei Variablen ein, hier die Werte von `mmuster` mit dem Ziel 99,0 % und höchstens fünf Pods.
+
+```bash
+budget=0.01
+max=5
+```
+
+Der nächste Block setzt dein Budget in `monitoring/config/webshop-slo.yaml` in beide Zeilen des Alerts, wo die Datei des Kurses `0.005` hat. In `webshop/hpa.yaml` ersetzt er `maxReplicas: 6` durch deine Obergrenze. Fehlt eine der Variablen, etwa in einer neuen Sitzung, meldet die Shell «parameter null or not set» und die Zeile ändert nichts.
+
+```bash
+cd ~/platform
+sed -i "s/(14.4 \* [0-9.]*)/(14.4 * ${budget:?})/" monitoring/config/webshop-slo.yaml
+sed -i "s/maxReplicas: [0-9]*/maxReplicas: ${max:?}/" webshop/hpa.yaml
+grep -n '14.4 \*' monitoring/config/webshop-slo.yaml
+grep -n maxReplicas webshop/hpa.yaml
+```
+
+`grep` zeigt die zwei Zeilen des Alerts mit deinem Budget und die Zeile mit deiner Obergrenze. Stimmen die Zahlen, lädst du die Änderung hoch. Ein zweiter Lauf mit anderen Werten ersetzt die Zahlen noch einmal. Was der Faktor 14,4 bedeutet, erklärt Kapitel 5.3, die Obergrenze Kapitel 5.4.
+
+```bash
+git commit -am "Persönliche Werte für Meilenstein 3"
+git push
+```
+
 ::::exercise[Lab]
-Rolle Loki und Alloy aus, erzeuge Aufrufe mit `404` und finde sie in Grafana. Zähle sie pro Pod.
+Prüfe, dass Loki und Alloy laufen, die mit den Ergänzungen aus Kapitel 5.1 kamen. Erzeuge Aufrufe mit `404` und finde sie in Grafana. Zähle sie pro Pod. Setze zum Schluss deine Werte für Meilenstein 3.
 
 :::solution
-`{namespace="velo", app="webshop"} |= "404"` zeigt die Zeilen mit `/warenkorb`, das Label `pod` sagt, welcher Pod geantwortet hat. `sum by (pod) (count_over_time({namespace="velo"} |= " 404 " [5m]))` zeigt eine Zahl pro Pod, zusammen etwa 20.
+`kubectl -n monitoring get pods -o wide | grep -E 'loki|alloy'` zeigt Loki und je einen Pod von Alloy auf beiden Nodes. `{namespace="velo", app="webshop"} |= "404"` zeigt die Zeilen mit `/warenkorb`, das Label `pod` sagt, welcher Pod geantwortet hat. `sum by (pod) (count_over_time({namespace="velo"} |= " 404 " [5m]))` zeigt eine Zahl pro Pod, zusammen etwa 20. Bei `mmuster` steht nach dem Commit in beiden Zeilen des Alerts `(14.4 * 0.01)` und im HPA `maxReplicas: 5`.
 :::
 ::::
 
@@ -96,10 +127,17 @@ git commit -am "Webshop anpassen"
 git push
 ```
 
-Rufe den Shop einige Male auf, sobald Argo CD die Änderung übernommen hat. Finde in den Logs heraus, was die Kundschaft erlebt. Suche danach im Git-Verlauf, wer es war. Stelle zum Schluss den alten Stand her.
+Argo CD übernimmt die Änderung bei seiner nächsten Abfrage von Gitea und ersetzt die Pods. Auf smartlearn liefen die neuen Pods etwa 90 Sekunden nach dem Push, `kubectl -n velo get pods` zeigt sie mit neuen Namen und einem Alter von wenigen Sekunden. Schick danach vom Front-end aus 20 Anfragen an den Shop. Die Schleife gibt den Status jeder Antwort aus.
+
+```bash
+source /etc/cc-lab.env
+for i in $(seq 20); do curl -s -o /dev/null -w "%{http_code}\n" http://$CC_K3S_SERVER_IP/; done
+```
+
+Finde in den Logs heraus, was die Kundschaft erlebt. Suche danach im Git-Verlauf, wer es war. Stelle zum Schluss den alten Stand her.
 
 :::solution
-`{namespace="velo", app="webshop"} |= "error"` zeigt Zeilen wie `error: simulated failure on /`, daneben Zeilen mit dem Status `500`. `git log -p webshop/deployment.yaml` zeigt den Commit mit Autor und Änderung, seine Zeit passt zur ersten Fehlerzeile. `git revert --no-edit HEAD` und `git push` stellen den alten Stand her, Argo CD rollt ihn aus.
+Die Schleife meldet rund drei von zehn Antworten mit `500`. `{namespace="velo", app="webshop"} |~ "error| 500 "` zeigt Zeilen wie `error: simulated failure on /` und daneben die Zeilen der Anfragen mit dem Status `500`. Mit `|= "error"` allein fehlten diese, denn sie enthalten das Wort nicht. `git log -p webshop/deployment.yaml` zeigt den Commit mit Autor und Änderung, seine Zeit passt zur ersten Fehlerzeile. `git revert --no-edit HEAD` und `git push` stellen den alten Stand her, Argo CD rollt ihn aus.
 :::
 ::::
 

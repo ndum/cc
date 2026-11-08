@@ -61,7 +61,7 @@ sed -i "s/FRONTEND_IP/$CC_FE_IP/; s/NODE1_IP/$CC_NODE1_IP/; s/NODE2_IP/$CC_NODE2
 git status
 ```
 
-`git status` shows new applications in `apps`, the folder `monitoring` and changed files in `webshop` and `templates/member`. Before you push, you store the Grafana password as a [secret](https://v1-36.docs.kubernetes.io/docs/concepts/configuration/secret/) so that it stays out of Git.
+`git status` shows new applications in `apps`, the folder `monitoring` and changed files in `webshop` and `templates/member`. The web shop gets a ServiceMonitor for Prometheus and a HorizontalPodAutoscaler. Its deployment loses the field `replicas`, its CPU limit drops from `500m` to `250m`, and it gets the variables `WORK_MS` and `FAIL_PERCENT`. This chapter explains the ServiceMonitor and the new NetworkPolicy of the template further down. You use `FAIL_PERCENT` to fire an alert in chapter 5.3, and chapter 5.4 explains the HPA and the other changes. Before you push, you store the Grafana password as a [secret](https://v1-36.docs.kubernetes.io/docs/concepts/configuration/secret/) so that it stays out of Git.
 
 ::code{file="platform/observability/make-secrets.sh"}
 
@@ -87,11 +87,7 @@ For the IaaS layer, OpenNebula ships exporters of its own in the package `openne
 ~/cc/platform/observability/install-exporters.sh
 ```
 
-In the lab all six targets reported `ok`. The OpenNebula exporter knew the hosts a few seconds to half a minute after starting. Prometheus reaches the exporters through three [ScrapeConfigs](https://github.com/prometheus-operator/prometheus-operator/blob/v0.94.2/Documentation/developer/scrapeconfig.md#use-scrapeconfig-to-scrape-an-external-target) with the addresses of your parameters. Prometheus only picks up new ScrapeConfigs and ServiceMonitors once the config reloader sees the changed configuration. In the lab the jobs of the targets outside the cluster appeared two to five minutes after the push, and the job `webshop` after almost four minutes.
-
-In Prometheus, "Status › Target health" shows every target with its state.
-
-![The targets in Prometheus under Target health. The three ScrapeConfigs opennebula, opennebula-hosts and opennebula-libvirt collect the values from the front-end and the nodes. Each of the six targets is UP, next to its labels and the time of its last scrape.](../../../../assets/screenshots/prometheus-targets.png)
+In the lab all six targets reported `ok`. The OpenNebula exporter knew the hosts a few seconds to half a minute after starting. Prometheus reaches the exporters through three [ScrapeConfigs](https://github.com/prometheus-operator/prometheus-operator/blob/v0.94.2/Documentation/developer/scrapeconfig.md#use-scrapeconfig-to-scrape-an-external-target) with the addresses of your parameters.
 
 ![What Prometheus scrapes. On the left the k3s cluster. Prometheus runs in the namespace monitoring and scrapes the metrics in the cluster from the web shop in the namespace velo, from kube-state-metrics and from node-exporter on k3s-server and k3s-agent. Outside the cluster it scrapes the OpenNebula exporter on port 9925 and node_exporter on port 9100 on the front-end, and node_exporter on port 9100 and the libvirt exporter on port 9926 on both nodes. Grafana queries Prometheus with PromQL. Inside the cluster Prometheus finds its targets through ServiceMonitors, outside through three ScrapeConfigs.](../../../../assets/figures/en/p5c1-scrape.svg)
 
@@ -116,15 +112,25 @@ git push
 kubectl -n monitoring get pods
 ```
 
-## PromQL
+Until the stack runs, Kubernetes does not know the type ServiceMonitor yet. On smartlearn the application `webshop` showed `OutOfSync` during that time. If `kubectl -n argocd get applications` still shows it that way once `monitoring` is `Healthy`, sync it by hand. In the Argo CD interface, which you reach through the tunnel of chapter 4.4, click "Sync" on `webshop` and then "Synchronize".
 
-Like Argo CD, you reach Prometheus and Grafana through a tunnel, Prometheus on port 30090 and Grafana on port 30300 of the server. You open the tunnel from the client, which is the Kali VM on smartlearn and your PC with an own hypervisor.
+## Access from the client
+
+Like Argo CD, you reach Prometheus, Alertmanager and Grafana through a tunnel, Prometheus on port 30090, Alertmanager on port 30093 and Grafana on port 30300 of `k3s-server`. Open the tunnel in a second tab of the terminal of the client, which is the Kali VM on smartlearn and your PC with an own hypervisor. The [ssh manual](https://man.openbsd.org/ssh) describes the options `-L` and `-N`.
 
 ```bash
-ssh -L 9090:<server-address>:30090 -L 3000:<server-address>:30300 mmuster-fe
+ssh -N -L 9090:<CC_K3S_SERVER_IP>:30090 -L 9093:<CC_K3S_SERVER_IP>:30093 -L 3000:<CC_K3S_SERVER_IP>:30300 mmuster-fe
 ```
 
-In the browser of the client, `http://localhost:9090/targets` lists every target with its state. All of them were `up` in the lab, including the OpenNebula jobs `opennebula`, `opennebula-hosts` and `opennebula-libvirt` and the job `webshop`. Under "Query" you try out queries.
+Replace `<CC_K3S_SERVER_IP>` with the address of `k3s-server` from the first block of the generator. On the front-end, `grep K3S /etc/cc-lab.env` shows it, and for `mmuster` it is 172.31.160.110. `-N` opens only the tunnel and no shell, so the tab shows no prompt. Ctrl+C closes the tunnel again. You only need Alertmanager in chapter 5.3, but the tunnel already forwards its port.
+
+In the browser of the client, `http://localhost:9090/targets` lists every target with its state, and the menu calls this page "Status › Target health". Prometheus only picks up new ScrapeConfigs and ServiceMonitors once the config reloader sees the changed configuration. In the lab the jobs of the targets outside the cluster appeared two to five minutes after the push, and the job `webshop` after almost four minutes. Then all of them were `up`, including the OpenNebula jobs `opennebula`, `opennebula-hosts` and `opennebula-libvirt` and the job `webshop`.
+
+![The targets in Prometheus under Target health. The three ScrapeConfigs opennebula, opennebula-hosts and opennebula-libvirt collect the values from the front-end and the nodes. Each of the six targets is UP, next to its labels and the time of its last scrape.](../../../../assets/screenshots/prometheus-targets.png)
+
+## PromQL
+
+Under "Query" you try out queries in Prometheus.
 
 | Query | Result |
 |---|---|
@@ -152,7 +158,7 @@ For a panel of your own, copy an existing panel in `monitoring/config/dashboard-
 Roll out the stack, install the exporters and show in Prometheus that all targets are `up`. Open the dashboard "Wolkenwerk platform" and create traffic on the web shop with `curl`.
 
 :::solution
-`kubectl -n argocd get applications` shows `monitoring` and `monitoring-config` as `Synced` and `Healthy`. Under Targets you find the job `opennebula` with one target, `opennebula-hosts` with three, `opennebula-libvirt` with two and `webshop` with one target per pod. After a few `curl http://<server-address>/`, the dashboard shows requests with code 200.
+`kubectl -n argocd get applications` shows `monitoring`, `monitoring-config`, `loki`, `alloy` and `webshop` as `Synced` and `Healthy`. Under Targets you find the job `opennebula` with one target, `opennebula-hosts` with three, `opennebula-libvirt` with two and `webshop` with one target per pod. After a few calls with `curl -s -o /dev/null http://$CC_K3S_SERVER_IP/` on the front-end, the dashboard shows requests with code 200. As in the other blocks, the variable comes from `source /etc/cc-lab.env`.
 :::
 ::::
 

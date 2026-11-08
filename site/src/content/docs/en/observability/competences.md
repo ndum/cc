@@ -14,6 +14,7 @@ Use this grid to judge whether you can observe your platform, scale it and suppo
 | roll out the monitoring stack from Git | Explain where the application `monitoring` takes its chart and values from and where the Grafana password lives. | [Metrics with Prometheus](../metrics/#the-stack) |
 | add targets to Prometheus | Show how the OpenNebula exporters and the web shop become targets. | [Metrics with Prometheus](../metrics/#opennebula-as-a-target) |
 | write PromQL queries | Write a query for requests per second by status code. | [Metrics with Prometheus](../metrics/#promql) |
+| add a panel of your own to the dashboard | Add a panel with a query of your own through Git and explain why a change made only in Grafana gets lost. | [Metrics with Prometheus](../metrics/#grafana) |
 | describe the path of the logs | Describe the path of a log line from the pod through Alloy to Loki and explain what Loki indexes. | [Logs with Loki](../logs/#loki-and-alloy) |
 | search logs with LogQL | Find the error lines of the web shop and count them per pod. | [Logs with Loki](../logs/#logql) |
 | explain SLI, SLO and error budget | Calculate a Saturday's error budget for the web shop SLO. | [Alerts and SLOs](../slo/#sli-slo-and-sla) |

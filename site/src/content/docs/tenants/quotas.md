@@ -59,7 +59,7 @@ Die Mitglieder zahlen und brauchen unterschiedlich viel. Die Treuhand bekommt me
 | Veloatelier Matte | `velo` | 2 | 1 | 2048 MB |
 | Gemeinde Hinterbüel | `gemeinde` | 2 | 1 | 2048 MB |
 
-Das Skript `lab/tenants/set-quotas.sh` setzt diese Werte. Für jede Gruppe schreibt es eine kleine Datei mit der Quota und übergibt sie an `onegroup quota`. Die [Anleitung zum Setzen von Quotas](https://docs.opennebula.io/7.4/product/cloud_system_administration/capacity_planning/quotas/#setting-usergroup-quotas) zeigt, wie du Quotas für Gruppen und Benutzer setzt.
+Das Skript `lab/tenants/set-quotas.sh` setzt diese Werte. Für jede Gruppe schreibt es eine kleine Datei mit der Quota und übergibt sie an `onegroup quota`. Du startest es als `oneadmin`, also ohne `ONE_AUTH`, denn eine Gruppenquota setzt nur `oneadmin`. Die [Anleitung zum Setzen von Quotas](https://docs.opennebula.io/7.4/product/cloud_system_administration/capacity_planning/quotas/#setting-usergroup-quotas) zeigt, wie du Quotas für Gruppen und Benutzer setzt.
 
 ::code{file="lab/tenants/set-quotas.sh"}
 
@@ -74,7 +74,7 @@ In Sunstone zeigt die Liste unter «System › Groups», wie viel der Quota für
 
 Die CPU der Quota zählt wie `CPU` in der Vorlage. Eine VM aus der Vorlage `ubuntu` braucht 0,5 davon. Die Praxis bekommt 1,5 CPU, damit in Kapitel 3.4 eine VM aus Sunstone neben `praxis-1` Platz hat. Sunstone setzt die CPU einer neuen VM nämlich auf die Zahl ihrer virtuellen CPUs, also auf 1.
 
-Für Meilenstein 1 bekommt die Gemeinde die Quota aus deinen [persönlichen Werten](../../start/parameters/#deine-werte-für-die-meilensteine). Kopiere dafür das Skript, ändere die Zeile der Gemeinde und führe die Kopie aus. Die anderen Mitglieder behalten die Werte der Tabelle.
+Für Meilenstein 1 bekommt die Gemeinde die Quota aus deinen [persönlichen Werten](../../start/parameters/#deine-werte-für-die-meilensteine). Kopiere dafür das Skript, ändere in der Kopie die Zeile der Gemeinde und führe die Kopie aus. Die Zeile bekommt die drei Zahlen aus dem Generator im Format der anderen Zeilen, also ohne Einheiten. Die CPU behält den Punkt, mit dem der Generator sie zeigt. Zeigt der Generator wie für `mmuster` «3 VMs, 1.5 CPU, 2560 MB», lautet die Zeile `gemeinde  3    1.5  2560`. Die anderen Mitglieder behalten die Werte der Tabelle.
 
 ```bash
 cp ~/cc/lab/tenants/set-quotas.sh ~/cc-lab/set-quotas.sh
@@ -82,9 +82,19 @@ nano ~/cc-lab/set-quotas.sh
 ~/cc-lab/set-quotas.sh
 ```
 
+Am Ende meldet die Kopie für jedes Mitglied die Werte, die sie gesetzt hat, für die Gemeinde also deine. Der Check `m1` am Ende von [Kapitel 3.4](../self-service/#der-check-von-meilenstein-1) vergleicht diese Quota mit deinen persönlichen Werten.
+
 ## An der Grenze
 
-OpenNebula prüft die Quota, bevor es eine VM anlegt. Ist sie erschöpft, lehnt es den Auftrag sofort ab und legt keine VM an. Im Lab kam beim Start der dritten VM der Praxis diese Meldung:
+OpenNebula prüft die Quota, bevor es eine VM anlegt. Ist sie erschöpft, lehnt es den Auftrag sofort ab und legt keine VM an. Der folgende Block startet als `praxis-admin` neben `praxis-1` aus Kapitel 3.1 die VMs `praxis-2` und `praxis-3`. Danach zeigt er als `oneadmin` die Nutzung der Gruppe.
+
+```bash
+ONE_AUTH=~/cc-lab/tenants/praxis.auth onetemplate instantiate ubuntu --name praxis-2
+ONE_AUTH=~/cc-lab/tenants/praxis.auth onetemplate instantiate ubuntu --name praxis-3
+onegroup show praxis | sed -n '/VMS USAGE/,/DATASTORE/p'
+```
+
+Im Lab kam beim Start der dritten VM der Praxis diese Meldung:
 
 ```text
 [one.template.instantiate] User [2] : group [100] limit of 2 reached for VMS quota in VM.
@@ -107,10 +117,10 @@ Eine Quota begrenzt ausserdem nur, wie viel reserviert ist. Wie stark eine VM ih
 In Teil 4 begegnest du derselben Idee wieder. Eine [ResourceQuota](https://kubernetes.io/docs/concepts/policy/resource-quotas/) begrenzt, was alle Pods eines Namespaces zusammen an CPU und Arbeitsspeicher anfordern dürfen, so wie eine Gruppenquota alle VMs einer Gruppe begrenzt. Der Namespace übernimmt dort die Rolle der Gruppe. Auch Kubernetes unterscheidet zwei Werte. Die Requests sind reserviert, die Limits legen fest, wie viel ein Container höchstens nutzen darf. Welche Quota jedes Mitglied im Cluster bekommt, zeigt [Kapitel 4.5](../../platform/templates/).
 
 ::::exercise[Lab]
-Setze die Quotas der vier Mitglieder. Starte als `praxis-admin` neben `praxis-1` aus Kapitel 3.1 die VM `praxis-2` und danach eine dritte VM `praxis-3`. Notiere die Meldung und zeige mit `onegroup show praxis` die Nutzung.
+Setze die Quotas der vier Mitglieder, für die Gemeinde mit deinen persönlichen Werten. Starte als `praxis-admin` neben `praxis-1` aus Kapitel 3.1 die VM `praxis-2` und danach eine dritte VM `praxis-3`. Halte die Meldung an der Grenze und die Nutzung aus `onegroup show praxis` für Anforderung 6 von Meilenstein 1 in `6-quota.png` fest und kopiere das Bild wie in [Kapitel 3.1](../groups/) in den Ordner `m1/` deines Abgabe-Repos.
 
 :::solution
-`set-quotas.sh` meldet die Werte aller vier Mitglieder. `praxis-2` startet, die dritte VM scheitert mit «limit of 2 reached for VMS quota in VM». `onegroup show praxis` zeigt bei den VMs `2 / 2`, beim Arbeitsspeicher `2G / 2G` und bei der CPU `1.0 / 1.50`.
+`set-quotas.sh` meldet die Werte aller vier Mitglieder, deine Kopie danach für die Gemeinde deine eigenen. `praxis-2` startet, die dritte VM scheitert mit «limit of 2 reached for VMS quota in VM». `onegroup show praxis` zeigt bei den VMs `2 / 2`, beim Arbeitsspeicher `2G / 2G` und bei der CPU `1.0 / 1.50`.
 :::
 ::::
 
@@ -126,6 +136,6 @@ Nein, die Quota des Veloateliers erlaubt nur 1 CPU. Für diese VM und eine klein
 Am Monatsende lastet die Treuhand ihre VMs voll aus. Die Praxis meldet, ihre VM reagiere träge, obwohl sie ihre Quota nicht ausschöpft und die Treuhand innerhalb ihrer Quota bleibt. Erkläre, wie das trotz Quotas geschehen kann. Schlage zwei Massnahmen vor.
 
 :::solution
-Die Quotas begrenzen nur, wie viel CPU die Mitglieder reservieren. Die VMs aus `ubuntu` reservieren 0,5 CPU, haben aber je eine ganze virtuelle CPU. Ein Knoten mit vier Kernen nimmt so bis zu acht solche VMs auf, seine CPU ist also überbucht. Arbeiten die VMs der Treuhand unter Volllast, teilen sie sich die Kerne mit der VM der Praxis. Dadurch werden alle langsamer. Das Plattform-Team kann die Überbuchung senken, etwa mit `CPU = 1` in den Vorlagen der Treuhand oder ohne negatives `RESERVED_CPU`. Es kann die VMs der Treuhand auch auf einen anderen Knoten verschieben. Eine kleinere Quota der Treuhand löst das Problem nicht zuverlässig, weil schon wenige VMs unter Volllast den Knoten bremsen.
+Die Quotas begrenzen nur, wie viel CPU die Mitglieder reservieren. Die VMs aus `ubuntu` reservieren 0,5 CPU, haben aber je eine ganze virtuelle CPU. Ein Knoten mit vier Kernen nimmt im Lab sieben solche VMs auf, die Grenze setzt dort wie in Kapitel 2.5 der Arbeitsspeicher. Sieben virtuelle CPUs teilen sich dann vier Kerne, die CPU ist also überbucht. Arbeiten die VMs der Treuhand unter Volllast, teilen sie sich die Kerne mit der VM der Praxis. Dadurch werden alle langsamer. Das Plattform-Team kann die Überbuchung senken, etwa mit `CPU = 1` in den Vorlagen der Treuhand oder ohne negatives `RESERVED_CPU`. Es kann die VMs der Treuhand auch auf einen anderen Knoten verschieben. Eine kleinere Quota der Treuhand löst das Problem nicht zuverlässig, weil schon wenige VMs unter Volllast den Knoten bremsen.
 :::
 ::::

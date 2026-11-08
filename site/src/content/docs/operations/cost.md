@@ -25,7 +25,7 @@ Kapitel 3.3 hat Preise pro Stunde für CPU, Arbeitsspeicher und Disk in die Vorl
 
 | Posten | Annahme | pro Jahr |
 |---|---|---|
-| Hardware | zwei Knoten für 7’000 und ein Front-end für 2’000 Franken, fünf Jahre | 1’800 Franken |
+| Hardware | zwei Knoten für zusammen 7’000 und ein Front-end für 2’000 Franken, fünf Jahre | 1’800 Franken |
 | Strom | durchschnittlich 300 Watt, 2’628 kWh zu 31,5 Rappen | 828 Franken |
 | Arbeit | 10 % einer Vollzeitstelle zu 130’000 Franken mit Sozialabgaben | 13’000 Franken |
 | Übriges | Internet, Platz im Rack, Kopie der Backups ausser Haus | 1’500 Franken |
@@ -93,7 +93,7 @@ kubectl top pods -A --sort-by=cpu | tail
 ```
 
 :::caution[Vor dem Löschen]
-Gelöschte VMs, Images und Backups lassen sich nicht zurückholen. Behalte die VM aus deinem Backup-Job und ihre Backups, bis der Check `m4` grün ist und die Screenshots von Meilenstein 4 im Abgabe-Repo liegen. Die Objekte deines eigenen Mitglieds aus Kapitel 6.5 brauchst du bis zur Vorführung.
+Gelöschte VMs, Images und Backups lassen sich nicht zurückholen. Behalte die VM aus deinem Backup-Job und ihre Backups, bis der Check `m4` grün ist und die Screenshots von Meilenstein 4 im Abgabe-Repo liegen. Zeigst du Zusatzaufträge, brauchst du beides bis zur Vorführung, denn eine Frage des Checks `m4` kann nach dem Backup von `praxis-1` fragen. Die Objekte deines eigenen Mitglieds aus Kapitel 6.5 brauchst du ebenfalls bis dahin.
 :::
 
 Im Lab nutzte eine VM mit 1 GB Arbeitsspeicher im Leerlauf 253 MB. Der Knoten musste trotzdem das ganze GB bereithalten und lagerte dafür rund 200 MB auf die Disk aus. Eine VM, die nur tagsüber gebraucht wird, lässt sich mit `onevm undeploy` aus Kapitel 4.2 nachts vom Knoten nehmen. Sie belegt dann nur noch ihre Disk.

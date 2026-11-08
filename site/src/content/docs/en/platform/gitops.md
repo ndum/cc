@@ -46,7 +46,7 @@ Gitea runs on the front-end, outside the cluster. You rebuild the cluster in cha
 sudo ~/cc/platform/gitea/install-gitea.sh
 ```
 
-The script verifies the checksum of the program, creates the system user `git` and writes the configuration itself, so no install wizard in the browser is needed. Gitea stores its data in SQLite and runs as a systemd service. The Gitea 28 documentation explains these steps under [Installation from binary](https://docs.gitea.com/28/installation/install-from-binary). Nobody can sign up on their own, and without signing in you see nothing. In the browser of the client (the Kali VM on smartlearn, your PC with your own hypervisor), Gitea is on port 3000 of the front-end. You sign in as `platform` with the password from `~/cc-lab/gitea/platform.pass`.
+The script verifies the checksum of the program, creates the system user `git` and writes the configuration itself, so no install wizard in the browser is needed. Gitea stores its data in SQLite and runs as a systemd service. The Gitea 28 documentation explains these steps under [Installation from binary](https://docs.gitea.com/28/installation/install-from-binary). Nobody can sign up on their own, and without signing in you see nothing. In the browser of the client (the Kali VM on smartlearn, your PC with your own hypervisor), Gitea is on port 3000 of the front-end, for `mmuster` at `http://192.168.210.137:3000/`. You sign in as `platform`. `cat ~/cc-lab/gitea/platform.pass` on the front-end shows you the password. Select it in the terminal of the client, copy it with Ctrl+Shift+C and paste it into the browser with Ctrl+V. Then `clear` wipes the output, so the password does not end up on a screenshot.
 
 ## The repo platform
 
@@ -63,7 +63,15 @@ A second script creates the organization `wolkenwerk`, the private repo `platfor
 | `platform.token` | write repos and the organization | you, when pushing |
 | `argocd.token` | read repos | Argo CD |
 
-Argo CD only gets read access. If its token ends up in the wrong place, nobody can use it to change the desired state. The [API usage guide](https://docs.gitea.com/28/development/api-usage) of Gitea 28 shows how tokens and their rights are created through the API.
+Argo CD only gets read access. If its token ends up in the wrong place, nobody can use it to change the desired state. The [API usage guide](https://docs.gitea.com/28/development/api-usage) of Gitea 28 shows how tokens and their rights are created through the API. It also says that Gitea hands out the list of tokens only for a user name and password. This is how the API shows you the rights of your tokens.
+
+```bash
+source /etc/cc-lab.env
+printf 'user = "platform:%s"\n' "$(cat ~/cc-lab/gitea/platform.pass)" |
+  curl -s -K - "http://$CC_FE_IP:3000/api/v1/users/platform/tokens" | python3 -m json.tool
+```
+
+For every token the answer lists its rights under `scopes`, for `argocd` only `read:repository`. Gitea shows the value of a token only once, when it is created, which is why `make-repo.sh` writes it to a file right away. With `-K -` curl reads the user and the password from its input instead of the command line, as the [curl manual](https://curl.se/docs/manpage.html#-K) describes. So the password appears neither in the terminal nor in the list of processes. This answer proves requirement 3 of [milestone 2](../../assessment/milestone-2/). Take a screenshot of it as in chapter 4.3, save it as `3-token.png` and copy it from the second tab of the terminal with `scp ~/3-token.png mmuster-fe:cc-mmuster/m2/` into the folder `m2` of your hand-in repo.
 
 Since chapter 4.2, `~/platform` holds the template. The files for Argo CD contain the placeholder `FRONTEND`, which you replace with the address of your front-end. Then you turn the folder into a Git repo and push it to Gitea.
 
@@ -113,7 +121,7 @@ The deployment keeps two pods running and gives them requests and limits for CPU
 
 ## Argo CD
 
-Argo CD is a CNCF project and runs as a set of controllers in the cluster. It reads repos, renders the manifests, with Kustomize or Helm as well, compares them with the cluster and reconciles. An **application** tells it which folder of which repo belongs in which namespace.
+Argo CD is a CNCF project and runs as a set of controllers in the cluster. It reads repos, renders the manifests, with Kustomize or Helm as well, compares them with the cluster and reconciles. An **application** tells it which folder of which repo belongs in which namespace. The supplement [Tools of the platform](../../extras/platform-tools/) describes the parts of Argo CD and the terms of Helm in more detail.
 
 A script installs Argo CD with Helm, stores the token for Gitea and applies the first application. The chart `argo-cd` in version 10.11.6 ships Argo CD 3.5. Its [README](https://github.com/argoproj/argo-helm/tree/argo-cd-10.11.6/charts/argo-cd) explains the values of the chart.
 
@@ -127,7 +135,21 @@ kubectl -n argocd get pods
 kubectl -n argocd get applications
 ```
 
+The script first prints "Installing Argo CD, this takes about a minute ...". After that the terminal stays quiet until all Argo CD pods run, after about a minute on smartlearn. The script hides the output of Helm, including the notes of the chart about a port-forward and the password. In the course you open the interface through a tunnel instead, and the script puts the password into a file. Its last lines already name the tunnel to Argo CD with your addresses, and the next section adds the web shop to it.
+
 The token reaches Argo CD as a secret with the label `argocd.argoproj.io/secret-type=repository`. In the lab, a first attempt with `kubectl create secret --from-file` failed. The secret contained the line break at the end of the file, and Gitea answered "authentication required". The script therefore strips the line break first.
+
+## Access from the client
+
+The cluster sits in the internal network `cc-net`, which only the front-end can reach. So that the browser of the client can open Argo CD and the web shop, you forward two ports through SSH. Open a second tab in the terminal of the client for this and start the tunnel there. The [ssh manual](https://man.openbsd.org/ssh#L) describes the option `-L`.
+
+```bash
+ssh -N -L 8080:<CC_K3S_SERVER_IP>:30080 -L 8081:<CC_K3S_SERVER_IP>:80 mmuster-fe
+```
+
+For `<CC_K3S_SERVER_IP>` you put in the address of `k3s-server` from the first block of the generator. On the front-end `grep K3S /etc/cc-lab.env` shows it, and for `mmuster` it is 172.31.160.110. `-N` opens only the tunnel and no shell, which is why the tab shows no prompt. Ctrl+C closes the tunnel again. While it is open, `http://localhost:8080/` in the browser of the client shows the Argo CD interface and `http://localhost:8081/` the web shop.
+
+In Argo CD you sign in as `admin`. The script stored the password in `~/cc-lab/argocd-admin.pass`. You show and copy it in the first tab, just like the Gitea password. Gitea stays reachable directly on port 3000 of the front-end until the firewall of chapter 6.1 closes the port from outside.
 
 ## App of apps
 
@@ -154,16 +176,6 @@ In its web interface, Argo CD shows each application as a tree of its objects.
 
 ![The application webshop in Argo CD. At the top it shows Healthy and Synced with the commit of main, below it the tree. Lines lead from the application to the service, the deployment and the ingress, and the deployment leads through its ReplicaSet to the two pods. A heart and a check mark show the health and the sync state of every object.](../../../../assets/screenshots/argocd-webshop-tree.png)
 
-## Access from the client
-
-The cluster sits in the internal network `cc-net`, which only the front-end can reach. So that the browser of the client can open Argo CD and the web shop, you forward two ports through SSH in the terminal of the client. The addresses come from your parameters. The [ssh manual](https://man.openbsd.org/ssh#L) describes the option `-L`.
-
-```bash
-ssh -L 8080:<server-address>:30080 -L 8081:<server-address>:80 mmuster-fe
-```
-
-While the connection is open, `http://localhost:8080/` shows the Argo CD interface and `http://localhost:8081/` the web shop. In Argo CD you sign in as `admin` with the password from `~/cc-lab/argocd-admin.pass`, where the script stored it. Gitea is reachable directly on port 3000 of the front-end until the firewall of chapter 6.1 closes the port from outside.
-
 ## Showing reconciliation
 
 You see self-heal fastest when you change the cluster without going through Git.
@@ -187,10 +199,10 @@ git push
 In the lab the third pod was running 40 seconds to a good two minutes after the push, because Argo CD polls every minute and shifts each poll by a random amount. A webhook from Gitea to Argo CD would trigger the sync at once. For the lab, polling every minute is enough.
 
 ::::exercise[Lab]
-Install Gitea, create the repo, roll out Argo CD and open the web shop and Argo CD in the browser of the client. Change the number of pods through Git.
+Install Gitea, create the repo, roll out Argo CD and open the web shop and Argo CD in the browser of the client. Put the screenshot `3-token.png` with the rights of the tokens into the folder `m2` of your hand-in repo. Change the number of pods through Git.
 
 :::solution
-`kubectl -n argocd get applications` shows `root`, `webshop` and `member-velo` as `Synced` and `Healthy`. `member-velo` already comes with the first push, chapter 4.5 explains it. The web shop shows the bikes and, at the bottom, the name of the pod that answered. After a push with `replicas: 3`, `kubectl -n velo get pods` shows three pods after a good two minutes at most, and Argo CD shows the new commit on the application.
+The Gitea API lists only `read:repository` for the token `argocd`. `kubectl -n argocd get applications` shows `root`, `webshop` and `member-velo` as `Synced` and `Healthy`. `member-velo` already comes with the first push, chapter 4.5 explains it. The web shop shows the bikes and, at the bottom, the name of the pod that answered. After a push with `replicas: 3`, `kubectl -n velo get pods` shows three pods after a good two minutes at most, and Argo CD shows the new commit on the application.
 :::
 ::::
 

@@ -14,6 +14,7 @@ Mit diesem Raster schätzt du ein, ob du deine Plattform beobachten, skalieren u
 | den Monitoring-Stack aus Git ausrollen | Erkläre, woher die Application `monitoring` Chart und Werte holt und wo das Passwort von Grafana liegt. | [Metriken mit Prometheus](../metrics/#der-stack) |
 | Ziele in Prometheus einbinden | Zeige, wie die Exporter von OpenNebula und der Webshop zu Zielen werden. | [Metriken mit Prometheus](../metrics/#opennebula-als-ziel) |
 | Abfragen mit PromQL schreiben | Schreibe eine Abfrage für die Anfragen pro Sekunde nach Statuscode. | [Metriken mit Prometheus](../metrics/#promql) |
+| ein eigenes Panel ins Dashboard bringen | Ergänze über Git ein Panel mit einer eigenen Abfrage und erkläre, warum eine Änderung nur in Grafana verloren geht. | [Metriken mit Prometheus](../metrics/#grafana) |
 | den Weg der Logs beschreiben | Beschreibe den Weg einer Logzeile vom Pod über Alloy bis Loki und erkläre, was Loki indexiert. | [Logs mit Loki](../logs/#loki-und-alloy) |
 | Logs mit LogQL durchsuchen | Finde die Fehlerzeilen des Webshops und zähle sie pro Pod. | [Logs mit Loki](../logs/#logql) |
 | SLI, SLO und Fehlerbudget erklären | Berechne das Fehlerbudget eines Samstags für das SLO des Webshops. | [Alerts und SLOs](../slo/#sli-slo-und-sla) |

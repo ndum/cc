@@ -12,12 +12,16 @@ Use this grid to judge whether you can run your platform securely, recoverably a
 |---|---|---|
 | assess a member's protection needs | Rate the fiduciary office for confidentiality, integrity and availability and justify each level. | [Security](../security/#protection-needs) |
 | harden a server | Name the three measures of the hardening script and what they protect against. | [Security](../security/#hardening-the-front-end) |
+| explain how TLS protects a connection | Explain what `Verify return code: 0 (ok)` from `openssl s_client` confirms and why code 19 appears without `-CAfile`. | [Security](../security/#transport-encryption) |
+| check the rights of a ServiceAccount | Show with `kubectl auth can-i` what Prometheus may do in the namespace `velo`. Then explain why it has a ClusterRole and not a Role. | [Security](../security/#rights-on-the-platform) |
 | require a security profile for pods | List what a pod has to specify for the profile `restricted`. | [Security](../security/#pod-security-admission) |
 | store secrets safely in Git | Explain who can decrypt a SealedSecret and what happens without its key. | [Security](../security/#secrets-in-git) |
 | set RPO and RTO | Set RPO and RTO for the web shop and say which backup meets them. | [Backup and restore](../backup/#rpo-and-rto) |
 | tell what Git covers | Name three things that Git does not bring back after a rebuild. | [Backup and restore](../backup/#the-limits-of-git) |
+| back up the cluster with snapshots | Name what a restore of the cluster needs besides the snapshot and where the copies are kept. | [Backup and restore](../backup/#saving-the-snapshots) |
 | back up and restore VMs | Back up a VM and restore it as a new VM. | [Backup and restore](../backup/#vms-in-opennebula) |
 | promise an honest availability | Use the lab architecture to explain why 99.9% is not realistic. | [SLA and operations concept](../sla/#availability-in-numbers) |
+| explain the purpose and structure of a postmortem | Name the parts of a postmortem and explain why it looks for no culprits. | [SLA and operations concept](../sla/#postmortems) |
 | calculate full cost and derive a price | Work out the share of the cost a member with 1 CPU and 2 GB carries. | [Cost and resource efficiency](../cost/#a-price-for-the-new-member) |
 | adjust resources based on measurements | Compare requests and use of a namespace and propose new values. | [Cost and resource efficiency](../cost/#right-sizing) |
 | onboard a new member with alert and triage (advanced) | List what a new member gets in OpenNebula and in the cluster. Then explain the path of its alert to the triage service. | [Advanced tasks](../advanced/#a-member-on-two-layers) |
