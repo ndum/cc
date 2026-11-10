@@ -1,0 +1,688 @@
+<!DOCTYPE html><html lang="de-CH" dir="ltr" data-theme="dark" data-has-toc data-has-sidebar class="astro-rlm2zbci"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>Zusatzaufträge | HFI - Cloud Computing (CC)</title><link rel="canonical" href="https://cc.ndum.ch/pr-preview/pr-9/operations/advanced/"/><link rel="alternate" hreflang="de-CH" href="https://cc.ndum.ch/pr-preview/pr-9/operations/advanced/"/><link rel="alternate" hreflang="en" href="https://cc.ndum.ch/pr-preview/pr-9/en/operations/advanced/"/><link rel="alternate" hreflang="x-default" href="https://cc.ndum.ch/pr-preview/pr-9/operations/advanced/"/><link rel="sitemap" href="/pr-preview/pr-9/sitemap-index.xml"/><link rel="shortcut icon" href="/pr-preview/pr-9/favicon.svg" type="image/svg+xml"/><meta name="generator" content="Astro v7.4.0"/><meta name="generator" content="Starlight v0.42.6"/><meta property="og:title" content="Zusatzaufträge"/><meta property="og:type" content="article"/><meta property="og:url" content="https://cc.ndum.ch/pr-preview/pr-9/operations/advanced/"/><meta property="og:locale" content="de-CH"/><meta property="og:description" content="Ein eigenes fünftes Mitglied mit Gruppe, VM, Namespace und Alert, der Cluster aus einem Snapshot mit einem SLA auf der gemessenen Zeit, ein Postmortem aus einem Entwurf des Modells und ein Kostenmodell für das Mitglied."/><meta property="og:site_name" content="HFI - Cloud Computing (CC)"/><meta name="twitter:card" content="summary_large_image"/><meta name="description" content="Ein eigenes fünftes Mitglied mit Gruppe, VM, Namespace und Alert, der Cluster aus einem Snapshot mit einem SLA auf der gemessenen Zeit, ein Postmortem aus einem Entwurf des Modells und ein Kostenmodell für das Mitglied."/><script type="module" src="/pr-preview/pr-9/_astro/Head.astro_astro_type_script_index_0_lang.Bq_C5yXD.js"></script><script>
+	window.StarlightThemeProvider = (() => {
+		const storedTheme =
+			typeof localStorage !== 'undefined' && localStorage.getItem('starlight-theme');
+		const theme =
+			storedTheme ||
+			(window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+		document.documentElement.dataset.theme = theme === 'light' ? 'light' : 'dark';
+		return {
+			updatePickers(theme = storedTheme || 'auto') {
+				document.querySelectorAll('starlight-theme-select').forEach((picker) => {
+					const select = picker.querySelector('select');
+					if (select) select.value = theme;
+					/** @type {HTMLTemplateElement | null} */
+					const tmpl = document.querySelector(`#theme-icons`);
+					const newIcon = tmpl && tmpl.content.querySelector('.' + theme);
+					if (newIcon) {
+						const oldIcon = picker.querySelector('svg.label-icon');
+						if (oldIcon) {
+							oldIcon.replaceChildren(...newIcon.cloneNode(true).childNodes);
+						}
+					}
+				});
+			},
+		};
+	})();
+</script><template id="theme-icons"><svg aria-hidden="true" class="light astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M5 12a1 1 0 0 0-1-1H3a1 1 0 0 0 0 2h1a1 1 0 0 0 1-1Zm.64 5-.71.71a1 1 0 0 0 0 1.41 1 1 0 0 0 1.41 0l.71-.71A1 1 0 0 0 5.64 17ZM12 5a1 1 0 0 0 1-1V3a1 1 0 0 0-2 0v1a1 1 0 0 0 1 1Zm5.66 2.34a1 1 0 0 0 .7-.29l.71-.71a1 1 0 1 0-1.41-1.41l-.66.71a1 1 0 0 0 0 1.41 1 1 0 0 0 .66.29Zm-12-.29a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.71-.71a1.004 1.004 0 1 0-1.43 1.41l.73.71ZM21 11h-1a1 1 0 0 0 0 2h1a1 1 0 0 0 0-2Zm-2.64 6A1 1 0 0 0 17 18.36l.71.71a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.76-.66ZM12 6.5a5.5 5.5 0 1 0 5.5 5.5A5.51 5.51 0 0 0 12 6.5Zm0 9a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Zm0 3.5a1 1 0 0 0-1 1v1a1 1 0 0 0 2 0v-1a1 1 0 0 0-1-1Z"/></svg><svg aria-hidden="true" class="dark astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.64 13a1 1 0 0 0-1.05-.14 8.049 8.049 0 0 1-3.37.73 8.15 8.15 0 0 1-8.14-8.1 8.59 8.59 0 0 1 .25-2A1 1 0 0 0 8 2.36a10.14 10.14 0 1 0 14 11.69 1 1 0 0 0-.36-1.05Zm-9.5 6.69A8.14 8.14 0 0 1 7.08 5.22v.27a10.15 10.15 0 0 0 10.14 10.14 9.784 9.784 0 0 0 2.1-.22 8.11 8.11 0 0 1-7.18 4.32v-.04Z"/></svg><svg aria-hidden="true" class="auto astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg></template><link rel="stylesheet" href="/pr-preview/pr-9/_astro/print.ehPL0gv-.css" media="print"><link rel="stylesheet" href="/pr-preview/pr-9/_astro/middleware.CCY9447z.css"><script type="module" src="/pr-preview/pr-9/_astro/page.cNngjUgL.js"></script></head><body class="astro-rlm2zbci"><a class="sl-skip-link astro-bmgq2fky" href="#_top">Zum Inhalt springen</a><div class="page sl-flex astro-ogthqvzv"><header class="header astro-ogthqvzv"><div class="header astro-pknpegvt"><div class="title-wrapper sl-flex astro-pknpegvt"><a href="/pr-preview/pr-9/" class="site-title sl-flex astro-drgrrgkq"><span class="astro-drgrrgkq" translate="no">HFI - Cloud Computing (CC)</span></a></div><div class="sl-flex print:hidden astro-pknpegvt"><site-search class="astro-pknpegvt astro-nssz7xfl" data-translations="{&quot;placeholder&quot;:&quot;Suchen&quot;,&quot;clear_search&quot;:&quot;Löschen&quot;,&quot;load_more&quot;:&quot;Mehr Ergebnisse laden&quot;,&quot;search_label&quot;:&quot;Diese Seite durchsuchen&quot;,&quot;filters_label&quot;:&quot;Filter&quot;,&quot;zero_results&quot;:&quot;Keine Ergebnisse für [SEARCH_TERM]&quot;,&quot;many_results&quot;:&quot;[COUNT] Ergebnisse für [SEARCH_TERM]&quot;,&quot;one_result&quot;:&quot;[COUNT] Ergebnis für [SEARCH_TERM]&quot;,&quot;alt_search&quot;:&quot;Keine Ergebnisse für [SEARCH_TERM]. Stattdessen werden Ergebnisse für [DIFFERENT_TERM] angezeigt&quot;,&quot;search_suggestion&quot;:&quot;Keine Ergebnisse für [SEARCH_TERM]. Versuche eine der folgenden Suchen:&quot;,&quot;searching&quot;:&quot;Suche nach [SEARCH_TERM] …&quot;}"><button data-open-modal disabled aria-label="Suchen" aria-keyshortcuts="Control+K" class="astro-nssz7xfl"><svg aria-hidden="true" class="astro-nssz7xfl astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.71 20.29 18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 0-14 7 7 0 0 1 0 14Z"/></svg><span class="sl-hidden md:sl-block astro-nssz7xfl" aria-hidden="true">Suchen</span><kbd class="sl-hidden md:sl-flex astro-nssz7xfl" style="display: none;"><kbd class="astro-nssz7xfl">Strg</kbd><kbd class="astro-nssz7xfl">K</kbd></kbd></button><dialog style="padding:0" aria-label="Suchen" class="astro-nssz7xfl"><div class="dialog-frame sl-flex astro-nssz7xfl"><button data-close-modal class="sl-flex md:sl-hidden astro-nssz7xfl">Abbrechen</button><div class="search-container astro-nssz7xfl"><div id="starlight__search" class="astro-nssz7xfl"></div></div></div></dialog></site-search><script>
+	(() => {
+		const openBtn = document.querySelector('button[data-open-modal]');
+		const shortcut = openBtn?.querySelector('kbd');
+		if (!openBtn || !(shortcut instanceof HTMLElement)) return;
+		const platformKey = shortcut.querySelector('kbd');
+		if (platformKey && /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform)) {
+			platformKey.textContent = '⌘';
+			openBtn.setAttribute('aria-keyshortcuts', 'Meta+K');
+		}
+		shortcut.style.display = '';
+	})();
+</script><script type="module" src="/pr-preview/pr-9/_astro/Search.astro_astro_type_script_index_0_lang.IkrRlnNf.js"></script></div><div class="sl-hidden md:sl-flex print:hidden right-group astro-pknpegvt"><div class="sl-flex social-icons astro-pknpegvt"><a href="https://github.com/ndum/cc" rel="me" class="sl-flex astro-vvaccv3s"><span class="sr-only astro-vvaccv3s">GitHub</span><svg aria-hidden="true" class="astro-vvaccv3s astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.12.83-.26.83-.57L9 21.07c-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.09-.73.09-.73 1.2.09 1.83 1.24 1.83 1.24 1.08 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18a4.65 4.65 0 0 1 1.23 3.22c0 4.61-2.8 5.63-5.48 5.92.42.36.81 1.1.81 2.22l-.01 3.29c0 .31.2.69.82.57A12 12 0 0 0 12 .3Z"/></svg></a></div><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-scmnraha"><span class="sr-only astro-scmnraha">Farbschema wählen</span><svg aria-hidden="true" class="icon label-icon astro-scmnraha astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-scmnraha"><option value="dark" class="astro-scmnraha">Dunkel</option><option value="light" class="astro-scmnraha">Hell</option><option value="auto" selected class="astro-scmnraha">System</option></select><svg aria-hidden="true" class="icon caret astro-scmnraha astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script><script type="module">var e=`starlight-theme`,t=e=>e===`auto`||e===`dark`||e===`light`?e:`auto`,n=()=>t(typeof localStorage<`u`&&localStorage.getItem(e));function r(t){typeof localStorage<`u`&&localStorage.setItem(e,t===`light`||t===`dark`?t:``)}var i=()=>matchMedia(`(prefers-color-scheme: light)`).matches?`light`:`dark`;function a(e){StarlightThemeProvider.updatePickers(e),document.documentElement.dataset.theme=e===`auto`?i():e,r(e)}matchMedia(`(prefers-color-scheme: light)`).addEventListener(`change`,()=>{n()===`auto`&&a(`auto`)});var o=class extends HTMLElement{constructor(){super(),a(n()),this.querySelector(`select`)?.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&a(t(e.currentTarget.value))})}};customElements.define(`starlight-theme-select`,o);</script><starlight-lang-select><label style="--sl-select-width: 7em" class="astro-scmnraha"><span class="sr-only astro-scmnraha">Sprache wählen</span><svg aria-hidden="true" class="icon label-icon astro-scmnraha astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path fill-rule="evenodd" d="M8.516 3a.94.94 0 0 0-.941.94v1.15H2.94a.94.94 0 1 0 0 1.882h7.362a7.422 7.422 0 0 1-1.787 3.958 7.42 7.42 0 0 1-1.422-2.425.94.94 0 1 0-1.774.627 9.303 9.303 0 0 0 1.785 3.043 7.422 7.422 0 0 1-4.164 1.278.94.94 0 1 0 0 1.881 9.303 9.303 0 0 0 5.575-1.855 9.303 9.303 0 0 0 4.11 1.74l-.763 1.525a.968.968 0 0 0-.016.034l-1.385 2.77a.94.94 0 1 0 1.683.841l1.133-2.267h5.806l1.134 2.267a.94.94 0 0 0 1.683-.841l-1.385-2.769a.95.95 0 0 0-.018-.036l-3.476-6.951a.94.94 0 0 0-1.682 0l-1.82 3.639a7.423 7.423 0 0 1-3.593-1.256 9.303 9.303 0 0 0 2.27-5.203h1.894a.94.94 0 0 0 0-1.881H9.456V3.94A.94.94 0 0 0 8.516 3Zm6.426 11.794a1.068 1.068 0 0 1-.02.039l-.703 1.407h3.924l-1.962-3.924-1.24 2.478Z" clip-rule="evenodd"/></svg><select autocomplete="off" class="astro-scmnraha"><option value="/pr-preview/pr-9/operations/advanced/" class="astro-scmnraha">Deutsch</option><option value="/pr-preview/pr-9/en/operations/advanced/" class="astro-scmnraha">English</option></select><svg aria-hidden="true" class="icon caret astro-scmnraha astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-lang-select><script type="module">var e=class extends HTMLElement{constructor(){super();let e=this.querySelector(`select`);e&&(e.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&(window.location.pathname=e.currentTarget.value)}),window.addEventListener(`pageshow`,t=>{if(!t.persisted)return;let n=e.querySelector(`option[selected]`)?.index;n!==e.selectedIndex&&(e.selectedIndex=n??0)}))}};customElements.define(`starlight-lang-select`,e);</script></div></div></header><nav class="sidebar print:hidden astro-ogthqvzv" aria-label="Hauptnavigation"><button popovertarget="starlight__sidebar" class="sl-menu-button sl-flex md:sl-hidden print:hidden astro-lloqvvyf"><svg aria-hidden="true" class="open-menu astro-lloqvvyf astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M3 8h18a1 1 0 1 0 0-2H3a1 1 0 0 0 0 2Zm18 8H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Zm0-5H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Z"/></svg><svg aria-hidden="true" class="close-menu astro-lloqvvyf astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="m13.41 12 6.3-6.29a1.004 1.004 0 1 0-1.42-1.42L12 10.59l-6.29-6.3a1.004 1.004 0 0 0-1.42 1.42l6.3 6.29-6.3 6.29a1 1 0 0 0 0 1.42.998.998 0 0 0 1.42 0l6.29-6.3 6.29 6.3a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.42L13.41 12Z"/></svg><span class="sr-only astro-lloqvvyf">Menü</span></button><script type="module">var e=class extends HTMLElement{constructor(){super();let e=matchMedia(`(min-width: 50em)`),t=()=>{this.popover=e.matches?null:`auto`};t(),e.addEventListener(`change`,()=>t()),this.addEventListener(`toggle`,({newState:e})=>this.trapFocus(e===`open`))}trapFocus(e){document.querySelectorAll(`.main-frame, .sl-skip-link`).forEach(t=>{t.toggleAttribute(`inert`,e)})}};customElements.define(`sl-sidebar-pane`,e);</script><sl-sidebar-pane popover id="starlight__sidebar" class="sidebar-pane astro-ogthqvzv"><div class="sidebar-content sl-flex astro-ogthqvzv"><sl-sidebar-state-persist data-hash="0pslg1p" class="astro-wkj266cr"><script aria-hidden="true">
+		(() => {
+			try {
+				if (!matchMedia('(min-width: 50em)').matches) return;
+				/** @type {HTMLElement | null} */
+				const target = document.querySelector('sl-sidebar-state-persist');
+				const state = JSON.parse(sessionStorage.getItem('sl-sidebar-state') || '0');
+				if (!target || !state || target.dataset.hash !== state.hash) return;
+				window._starlightScrollRestore = state.scroll;
+				customElements.define(
+					'sl-sidebar-restore',
+					class SidebarRestore extends HTMLElement {
+						connectedCallback() {
+							try {
+								const idx = parseInt(this.dataset.index || '');
+								const details = this.closest('details');
+								if (details && typeof state.open[idx] === 'boolean') details.open = state.open[idx];
+							} catch {}
+						}
+					}
+				);
+			} catch {}
+		})();
+	</script><ul class="top-level astro-ez73slyg"><li class="astro-ez73slyg"><details class="astro-ez73slyg"><summary class="astro-ez73slyg"><span class="group-label astro-ez73slyg"><span class="large astro-ez73slyg">0 Start</span></span><svg aria-hidden="true" class="caret astro-ez73slyg astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="0"></sl-sidebar-restore><ul class="astro-ez73slyg"><li class="astro-ez73slyg"><a href="/pr-preview/pr-9/start/overview/" class="astro-ez73slyg"><span class="astro-ez73slyg">0.1 Kursüberblick</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-9/start/lab/" class="astro-ez73slyg"><span class="astro-ez73slyg">0.2 Das Lab</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-9/start/parameters/" class="astro-ez73slyg"><span class="astro-ez73slyg">0.3 Persönliche Parameter</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-9/start/prepare/" class="astro-ez73slyg"><span class="astro-ez73slyg">0.4 VMs vorbereiten</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-9/start/tools/" class="astro-ez73slyg"><span class="astro-ez73slyg">0.5 Das Abgabe-Repo</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-9/start/competences/" class="astro-ez73slyg"><span class="astro-ez73slyg">0.6 Kompetenzraster</span></a></li></ul></details></li><li class="astro-ez73slyg"><details class="astro-ez73slyg"><summary class="astro-ez73slyg"><span class="group-label astro-ez73slyg"><span class="large astro-ez73slyg">1 Cloud-Grundlagen</span></span><svg aria-hidden="true" class="caret astro-ez73slyg astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="1"></sl-sidebar-restore><ul class="astro-ez73slyg"><li class="astro-ez73slyg"><a href="/pr-preview/pr-9/basics/characteristics/" class="astro-ez73slyg"><span class="astro-ez73slyg">1.1 Merkmale einer Cloud</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-9/basics/models/" class="astro-ez73slyg"><span class="astro-ez73slyg">1.2 Service- und Bereitstellungsmodelle</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-9/basics/virtualization/" class="astro-ez73slyg"><span class="astro-ez73slyg">1.3 Virtualisierung</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-9/basics/sovereignty/" class="astro-ez73slyg"><span class="astro-ez73slyg">1.4 Souveränität, Recht und Kosten</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-9/basics/competences/" class="astro-ez73slyg"><span class="astro-ez73slyg">1.5 Kompetenzraster</span></a></li></ul></details></li><li class="astro-ez73slyg"><details class="astro-ez73slyg"><summary class="astro-ez73slyg"><span class="group-label astro-ez73slyg"><span class="large astro-ez73slyg">2 IaaS aufbauen</span></span><svg aria-hidden="true" class="caret astro-ez73slyg astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="2"></sl-sidebar-restore><ul class="astro-ez73slyg"><li class="astro-ez73slyg"><a href="/pr-preview/pr-9/iaas/architecture/" class="astro-ez73slyg"><span class="astro-ez73slyg">2.1 Architektur von OpenNebula</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-9/iaas/installation/" class="astro-ez73slyg"><span class="astro-ez73slyg">2.2 Installation mit OneDeploy</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-9/iaas/networks/" class="astro-ez73slyg"><span class="astro-ez73slyg">2.3 Virtuelle Netze</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-9/iaas/images/" class="astro-ez73slyg"><span class="astro-ez73slyg">2.4 Images, Vorlagen und Kontext</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-9/iaas/hosts/" class="astro-ez73slyg"><span class="astro-ez73slyg">2.5 Hosts betreiben</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-9/iaas/competences/" class="astro-ez73slyg"><span class="astro-ez73slyg">2.6 Kompetenzraster</span></a></li></ul></details></li><li class="astro-ez73slyg"><details class="astro-ez73slyg"><summary class="astro-ez73slyg"><span class="group-label astro-ez73slyg"><span class="large astro-ez73slyg">3 Mandanten und Self-Service</span></span><svg aria-hidden="true" class="caret astro-ez73slyg astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="3"></sl-sidebar-restore><ul class="astro-ez73slyg"><li class="astro-ez73slyg"><a href="/pr-preview/pr-9/tenants/groups/" class="astro-ez73slyg"><span class="astro-ez73slyg">3.1 Benutzer, Gruppen und VDCs</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-9/tenants/quotas/" class="astro-ez73slyg"><span class="astro-ez73slyg">3.2 Quotas</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-9/tenants/showback/" class="astro-ez73slyg"><span class="astro-ez73slyg">3.3 Showback</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-9/tenants/self-service/" class="astro-ez73slyg"><span class="astro-ez73slyg">3.4 Self-Service</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-9/tenants/advanced/" class="astro-ez73slyg"><span class="astro-ez73slyg">3.5 Zusatzaufträge</span><span class="sl-badge note small  astro-ez73slyg astro-5qxlfd7c">Zusatz</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-9/tenants/competences/" class="astro-ez73slyg"><span class="astro-ez73slyg">3.6 Kompetenzraster</span></a></li></ul></details></li><li class="astro-ez73slyg"><details class="astro-ez73slyg"><summary class="astro-ez73slyg"><span class="group-label astro-ez73slyg"><span class="large astro-ez73slyg">4 Plattform per Code</span></span><svg aria-hidden="true" class="caret astro-ez73slyg astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="4"></sl-sidebar-restore><ul class="astro-ez73slyg"><li class="astro-ez73slyg"><a href="/pr-preview/pr-9/platform/iac/" class="astro-ez73slyg"><span class="astro-ez73slyg">4.1 Infrastructure as Code</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-9/platform/opentofu/" class="astro-ez73slyg"><span class="astro-ez73slyg">4.2 OpenTofu mit OpenNebula</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-9/platform/kubernetes/" class="astro-ez73slyg"><span class="astro-ez73slyg">4.3 Kubernetes per Code</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-9/platform/gitops/" class="astro-ez73slyg"><span class="astro-ez73slyg">4.4 GitOps mit Argo CD</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-9/platform/templates/" class="astro-ez73slyg"><span class="astro-ez73slyg">4.5 Plattform-Vorlagen</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-9/platform/advanced/" class="astro-ez73slyg"><span class="astro-ez73slyg">4.6 Zusatzaufträge</span><span class="sl-badge note small  astro-ez73slyg astro-5qxlfd7c">Zusatz</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-9/platform/competences/" class="astro-ez73slyg"><span class="astro-ez73slyg">4.7 Kompetenzraster</span></a></li></ul></details></li><li class="astro-ez73slyg"><details class="astro-ez73slyg"><summary class="astro-ez73slyg"><span class="group-label astro-ez73slyg"><span class="large astro-ez73slyg">5 Observability, Skalierung und KI</span></span><svg aria-hidden="true" class="caret astro-ez73slyg astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="5"></sl-sidebar-restore><ul class="astro-ez73slyg"><li class="astro-ez73slyg"><a href="/pr-preview/pr-9/observability/metrics/" class="astro-ez73slyg"><span class="astro-ez73slyg">5.1 Metriken mit Prometheus</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-9/observability/logs/" class="astro-ez73slyg"><span class="astro-ez73slyg">5.2 Logs mit Loki</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-9/observability/slo/" class="astro-ez73slyg"><span class="astro-ez73slyg">5.3 Alerts und SLOs</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-9/observability/autoscaling/" class="astro-ez73slyg"><span class="astro-ez73slyg">5.4 Autoscaling</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-9/observability/advanced/" class="astro-ez73slyg"><span class="astro-ez73slyg">5.5 Zusatzaufträge</span><span class="sl-badge note small  astro-ez73slyg astro-5qxlfd7c">Zusatz</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-9/observability/competences/" class="astro-ez73slyg"><span class="astro-ez73slyg">5.6 Kompetenzraster</span></a></li></ul></details></li><li class="astro-ez73slyg"><details open class="astro-ez73slyg"><summary class="astro-ez73slyg"><span class="group-label astro-ez73slyg"><span class="large astro-ez73slyg">6 Betrieb</span></span><svg aria-hidden="true" class="caret astro-ez73slyg astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="6"></sl-sidebar-restore><ul class="astro-ez73slyg"><li class="astro-ez73slyg"><a href="/pr-preview/pr-9/operations/security/" class="astro-ez73slyg"><span class="astro-ez73slyg">6.1 Sicherheit</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-9/operations/backup/" class="astro-ez73slyg"><span class="astro-ez73slyg">6.2 Backup und Wiederherstellung</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-9/operations/sla/" class="astro-ez73slyg"><span class="astro-ez73slyg">6.3 SLA und Betriebskonzept</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-9/operations/cost/" class="astro-ez73slyg"><span class="astro-ez73slyg">6.4 Kosten und Ressourceneffizienz</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-9/operations/advanced/" aria-current="page" class="astro-ez73slyg"><span class="astro-ez73slyg">6.5 Zusatzaufträge</span><span class="sl-badge note small  astro-ez73slyg astro-5qxlfd7c">Zusatz</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-9/operations/competences/" class="astro-ez73slyg"><span class="astro-ez73slyg">6.6 Kompetenzraster</span></a></li></ul></details></li><li class="astro-ez73slyg"><details class="astro-ez73slyg"><summary class="astro-ez73slyg"><span class="group-label astro-ez73slyg"><span class="large astro-ez73slyg">Ergänzungen</span></span><svg aria-hidden="true" class="caret astro-ez73slyg astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="7"></sl-sidebar-restore><ul class="astro-ez73slyg"><li class="astro-ez73slyg"><a href="/pr-preview/pr-9/extras/own-hypervisor/" class="astro-ez73slyg"><span class="astro-ez73slyg">Eigener Hypervisor</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-9/extras/opennebula/" class="astro-ez73slyg"><span class="astro-ez73slyg">OpenNebula im Detail</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-9/extras/network/" class="astro-ez73slyg"><span class="astro-ez73slyg">Linux-Netz im Lab</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-9/extras/kubernetes/" class="astro-ez73slyg"><span class="astro-ez73slyg">Kubernetes-Grundlagen</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-9/extras/platform-tools/" class="astro-ez73slyg"><span class="astro-ez73slyg">Werkzeuge der Plattform</span></a></li></ul></details></li><li class="astro-ez73slyg"><details class="astro-ez73slyg"><summary class="astro-ez73slyg"><span class="group-label astro-ez73slyg"><span class="large astro-ez73slyg">Leistungsbeurteilung</span></span><svg aria-hidden="true" class="caret astro-ez73slyg astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="8"></sl-sidebar-restore><ul class="astro-ez73slyg"><li class="astro-ez73slyg"><a href="/pr-preview/pr-9/assessment/" class="astro-ez73slyg"><span class="astro-ez73slyg">Übersicht</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-9/assessment/milestone-1/" class="astro-ez73slyg"><span class="astro-ez73slyg">IaaS für Wolkenwerk (Meilenstein 1)</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-9/assessment/milestone-2/" class="astro-ez73slyg"><span class="astro-ez73slyg">Plattform per Code (Meilenstein 2)</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-9/assessment/milestone-3/" class="astro-ez73slyg"><span class="astro-ez73slyg">Observability, Skalierung und KI (Meilenstein 3)</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-9/assessment/milestone-4/" class="astro-ez73slyg"><span class="astro-ez73slyg">Betrieb und ein eigenes Mitglied (Meilenstein 4)</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-9/assessment/exam/" class="astro-ez73slyg"><span class="astro-ez73slyg">Prüfung</span></a></li></ul></details></li><li class="astro-ez73slyg"><details class="astro-ez73slyg"><summary class="astro-ez73slyg"><span class="group-label astro-ez73slyg"><span class="large astro-ez73slyg">Nachschlagen</span></span><svg aria-hidden="true" class="caret astro-ez73slyg astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="9"></sl-sidebar-restore><ul class="astro-ez73slyg"><li class="astro-ez73slyg"><a href="/pr-preview/pr-9/glossary/" class="astro-ez73slyg"><span class="astro-ez73slyg">Glossar</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-9/lab-reference/" class="astro-ez73slyg"><span class="astro-ez73slyg">Lab-Referenz</span></a></li><li class="astro-ez73slyg"><a href="/pr-preview/pr-9/troubleshooting/" class="astro-ez73slyg"><span class="astro-ez73slyg">Fehlerbehebung</span></a></li></ul></details></li></ul><script aria-hidden="true">
+		(() => {
+			const scroller = document.getElementById('starlight__sidebar');
+			if (!window._starlightScrollRestore || !scroller) return;
+			scroller.scrollTop = window._starlightScrollRestore;
+			delete window._starlightScrollRestore;
+		})();
+	</script></sl-sidebar-state-persist><div class="md:sl-hidden"><div class="mobile-preferences sl-flex astro-uz3f2oy4"><div class="social-icons astro-uz3f2oy4"><a href="https://github.com/ndum/cc" rel="me" class="sl-flex astro-vvaccv3s"><span class="sr-only astro-vvaccv3s">GitHub</span><svg aria-hidden="true" class="astro-vvaccv3s astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.12.83-.26.83-.57L9 21.07c-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.09-.73.09-.73 1.2.09 1.83 1.24 1.83 1.24 1.08 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18a4.65 4.65 0 0 1 1.23 3.22c0 4.61-2.8 5.63-5.48 5.92.42.36.81 1.1.81 2.22l-.01 3.29c0 .31.2.69.82.57A12 12 0 0 0 12 .3Z"/></svg></a></div><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-scmnraha"><span class="sr-only astro-scmnraha">Farbschema wählen</span><svg aria-hidden="true" class="icon label-icon astro-scmnraha astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-scmnraha"><option value="dark" class="astro-scmnraha">Dunkel</option><option value="light" class="astro-scmnraha">Hell</option><option value="auto" selected class="astro-scmnraha">System</option></select><svg aria-hidden="true" class="icon caret astro-scmnraha astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script><starlight-lang-select><label style="--sl-select-width: 7em" class="astro-scmnraha"><span class="sr-only astro-scmnraha">Sprache wählen</span><svg aria-hidden="true" class="icon label-icon astro-scmnraha astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path fill-rule="evenodd" d="M8.516 3a.94.94 0 0 0-.941.94v1.15H2.94a.94.94 0 1 0 0 1.882h7.362a7.422 7.422 0 0 1-1.787 3.958 7.42 7.42 0 0 1-1.422-2.425.94.94 0 1 0-1.774.627 9.303 9.303 0 0 0 1.785 3.043 7.422 7.422 0 0 1-4.164 1.278.94.94 0 1 0 0 1.881 9.303 9.303 0 0 0 5.575-1.855 9.303 9.303 0 0 0 4.11 1.74l-.763 1.525a.968.968 0 0 0-.016.034l-1.385 2.77a.94.94 0 1 0 1.683.841l1.133-2.267h5.806l1.134 2.267a.94.94 0 0 0 1.683-.841l-1.385-2.769a.95.95 0 0 0-.018-.036l-3.476-6.951a.94.94 0 0 0-1.682 0l-1.82 3.639a7.423 7.423 0 0 1-3.593-1.256 9.303 9.303 0 0 0 2.27-5.203h1.894a.94.94 0 0 0 0-1.881H9.456V3.94A.94.94 0 0 0 8.516 3Zm6.426 11.794a1.068 1.068 0 0 1-.02.039l-.703 1.407h3.924l-1.962-3.924-1.24 2.478Z" clip-rule="evenodd"/></svg><select autocomplete="off" class="astro-scmnraha"><option value="/pr-preview/pr-9/operations/advanced/" class="astro-scmnraha">Deutsch</option><option value="/pr-preview/pr-9/en/operations/advanced/" class="astro-scmnraha">English</option></select><svg aria-hidden="true" class="icon caret astro-scmnraha astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-lang-select></div></div></div></sl-sidebar-pane></nav><div class="main-frame astro-ogthqvzv"><script type="module">var e=document.getElementById(`starlight__sidebar`),t=e?.querySelector(`sl-sidebar-state-persist`),n=`sl-sidebar-state`,r=()=>{let r=[],i=t?.dataset.hash||``;try{let e=sessionStorage.getItem(n),t=JSON.parse(e||`{}`);Array.isArray(t.open)&&t.hash===i&&(r=t.open)}catch{}return{hash:i,open:r,scroll:e?.scrollTop||0}},i=e=>{try{sessionStorage.setItem(n,JSON.stringify(e))}catch{}},a=()=>i(r()),o=(e,t)=>{let n=r();n.open[t]=e,i(n)};t?.addEventListener(`click`,e=>{if(!(e.target instanceof Element))return;let t=e.target.closest(`summary`)?.closest(`details`);if(!t)return;let n=t.querySelector(`sl-sidebar-restore`),r=parseInt(n?.dataset.index||``);isNaN(r)||o(!t.open,r)}),addEventListener(`visibilitychange`,()=>{document.visibilityState===`hidden`&&a()});</script><div class="lg:sl-flex astro-kk5qjijy"><aside class="right-sidebar-container print:hidden astro-kk5qjijy"><div class="right-sidebar astro-kk5qjijy"><div class="lg:sl-hidden astro-5jw5e7fz"><mobile-starlight-toc data-min-h="2" data-max-h="2" class="astro-ec7qe6jg"><nav aria-labelledby="starlight__on-this-page--mobile" class="astro-ec7qe6jg"><details id="starlight__mobile-toc" class="astro-ec7qe6jg"><summary id="starlight__on-this-page--mobile" class="sl-flex astro-ec7qe6jg"><span class="toggle sl-flex astro-ec7qe6jg">Auf dieser Seite<svg aria-hidden="true" class="caret astro-ec7qe6jg astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></span><span class="display-current astro-ec7qe6jg"></span></summary><div class="dropdown astro-ec7qe6jg"><ul class="isMobile astro-qoa5ihji" style="--depth: 0;"><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#_top" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Überblick</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#rahmen-und-bewertung" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Rahmen und Bewertung</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#ein-mitglied-entwerfen" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Ein Mitglied entwerfen</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#ein-mitglied-auf-zwei-ebenen" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Ein Mitglied auf zwei Ebenen</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#alerts-für-ein-mitglied" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Alerts für ein Mitglied</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#rechte-des-triage-dienstes" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Rechte des Triage-Dienstes</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#wiederherstellung-aus-einem-snapshot" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Wiederherstellung aus einem Snapshot</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#die-zeit-messen" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Die Zeit messen</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#ein-sla-auf-messwerten" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Ein SLA auf Messwerten</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#ein-postmortem-aus-daten" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Ein Postmortem aus Daten</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#das-kostenmodell-eines-mitglieds" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Das Kostenmodell eines Mitglieds</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#ein-eigenes-mitglied-auftrag-a" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Ein eigenes Mitglied (Auftrag A)</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#cluster-wiederherstellen-und-sla-auftrag-b" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Cluster wiederherstellen und SLA (Auftrag B)</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#postmortem-und-kostenmodell-auftrag-c" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Postmortem und Kostenmodell (Auftrag C)</span></a></li></ul></div></details></nav></mobile-starlight-toc><script type="module" src="/pr-preview/pr-9/_astro/MobileTableOfContents.astro_astro_type_script_index_0_lang.C3fM4Kra.js"></script></div><div class="right-sidebar-panel sl-hidden lg:sl-block astro-5jw5e7fz"><div class="sl-container astro-5jw5e7fz"><starlight-toc data-min-h="2" data-max-h="2"><nav aria-labelledby="starlight__on-this-page"><h2 id="starlight__on-this-page">Auf dieser Seite</h2><ul class="astro-qoa5ihji" style="--depth: 0;"><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#_top" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Überblick</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#rahmen-und-bewertung" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Rahmen und Bewertung</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#ein-mitglied-entwerfen" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Ein Mitglied entwerfen</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#ein-mitglied-auf-zwei-ebenen" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Ein Mitglied auf zwei Ebenen</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#alerts-für-ein-mitglied" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Alerts für ein Mitglied</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#rechte-des-triage-dienstes" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Rechte des Triage-Dienstes</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#wiederherstellung-aus-einem-snapshot" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Wiederherstellung aus einem Snapshot</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#die-zeit-messen" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Die Zeit messen</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#ein-sla-auf-messwerten" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Ein SLA auf Messwerten</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#ein-postmortem-aus-daten" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Ein Postmortem aus Daten</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#das-kostenmodell-eines-mitglieds" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Das Kostenmodell eines Mitglieds</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#ein-eigenes-mitglied-auftrag-a" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Ein eigenes Mitglied (Auftrag A)</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#cluster-wiederherstellen-und-sla-auftrag-b" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Cluster wiederherstellen und SLA (Auftrag B)</span></a></li><li style="--depth: 0;" class="astro-qoa5ihji"><a href="#postmortem-und-kostenmodell-auftrag-c" style="--depth: 0;" class="astro-qoa5ihji"><span style="--depth: 0;" class="astro-qoa5ihji">Postmortem und Kostenmodell (Auftrag C)</span></a></li></ul></nav></starlight-toc><script type="module" src="/pr-preview/pr-9/_astro/TableOfContents.astro_astro_type_script_index_0_lang.BpJaGz7G.js"></script></div></div></div></aside><div class="main-pane astro-kk5qjijy"><main data-pagefind-body class="astro-rlm2zbci" lang="de-CH" dir="ltr"><div class="content-panel astro-vrdjozuv"><div class="sl-container astro-vrdjozuv"><h1 id="_top" class="astro-obpc4a67">Zusatzaufträge</h1></div></div><div class="content-panel astro-vrdjozuv"><div class="sl-container astro-vrdjozuv"><div class="sl-markdown-content"><div class="lt-box lt-assignment" role="group" aria-labelledby="lt-box-1"><p class="lt-box-title" id="lt-box-1"><span class="lt-box-kind">Auftrag</span></p><p>«Die fünfte Organisation will bei uns einsteigen», schreibt Simone Wyss. «Bringt sie bitte so auf unsere Plattform wie die anderen vier. Vor der Unterschrift will sie wissen, wie schnell wir nach einem schweren Fehler wieder laufen und was wir ihr zusagen. Geht bei ihr etwas schief, möchte der Vorstand einen ehrlichen Bericht. Beat Kläy fragt ausserdem, was sie uns kostet und welchen Preis wir verlangen sollen.»</p></div>
+<div class="lt-box lt-goals" role="group" aria-labelledby="lt-box-2"><p class="lt-box-title" id="lt-box-2"><span class="lt-box-kind">Lernziele</span></p><p>Nach diesem Kapitel kannst du:</p><ul>
+<li>Ein neues Mitglied in OpenNebula und im Cluster aufnehmen</li>
+<li>Die Alerts eines Mitglieds an einen eigenen Dienst leiten und dessen Rechte begründen</li>
+<li>Den Cluster aus einem Snapshot von etcd wiederherstellen und die Zeit messen</li>
+<li>Ein SLA auf gemessene Zeiten und die Architektur stützen</li>
+<li>Die Zeitlinie eines Postmortems aus Daten aufbauen und den Entwurf eines Modells korrigieren</li>
+<li>Einen Preis für ein Mitglied aus den Vollkosten ableiten</li>
+</ul></div>
+<div class="sl-heading-wrapper level-h2"><h2 id="rahmen-und-bewertung">Rahmen und Bewertung</h2><a class="sl-anchor-link" href="#rahmen-und-bewertung"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Abschnitt betitelt „Rahmen und Bewertung“</span></a></div>
+<p>Dieses Kapitel gibt dir keine Anleitung zum Nachbauen. Zu jedem Auftrag entwirfst du eine eigene Lösung, setzt sie in deinem Lab um und begründest deine Entscheide. Die Abschnitte vor den Aufträgen erklären die Konzepte und zeigen, wo du abwägen musst. Dabei gelten diese Bedingungen:</p>
+<ul>
+<li>Die Aufträge sind die Zusatzaufträge von <a href="../../assessment/milestone-4/">Meilenstein 4</a> und bauen auf dem Stand deiner Basis auf</li>
+<li>Auftrag A setzt deinen Triage-Dienst aus Zusatzauftrag B von Meilenstein 3 voraus, wie ihn <a href="../../observability/advanced/#triage-mit-freigabe-auftrag-b">Kapitel 5.5</a> beschreibt. Die Aufträge B und C bauen auf dem Mitglied aus Auftrag A auf.</li>
+<li>Für alle drei Aufträge zusammen rechnest du mit vier bis sechs Stunden</li>
+<li>Du zeigst sie live im Unterricht oder in einem Screencast von höchstens zehn Minuten, wie es der Meilenstein unter <a href="../../assessment/milestone-4/#zusatzauftr%C3%A4ge-zeigen">Zusatzaufträge zeigen</a> beschreibt. Dabei beantwortest du die zwei Fragen aus dem Check <code dir="auto">m4</code>.</li>
+<li>Zu jedem Auftrag schreibst du eine Dokumentation in fünf Teilen, wie sie die <a href="../../assessment/#dokumentation-der-zusatzauftr%C3%A4ge">Leistungsbeurteilung</a> beschreibt</li>
+<li>Jeder Auftrag gibt 0 bis 3 Punkte nach den <a href="../../assessment/#stufen-der-zusatzauftr%C3%A4ge">Stufen der Zusatzaufträge</a>, 3 Punkte nur mit einem eigenen Entscheid samt Alternative und Abwägung. Ohne Dokumentation gibt er höchstens 1 Punkt.</li>
+<li>KI-Assistenten setzt du nach den <a href="../../start/overview/#ki-werkzeuge">Regeln des Kurses</a> ein. Jede Zeile deiner Lösung musst du in der Vorführung erklären können.</li>
+</ul>
+<div class="sl-heading-wrapper level-h2"><h2 id="ein-mitglied-entwerfen">Ein Mitglied entwerfen</h2><a class="sl-anchor-link" href="#ein-mitglied-entwerfen"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Abschnitt betitelt „Ein Mitglied entwerfen“</span></a></div>
+<p>Das fünfte Mitglied wählst du frei, eine kleine Organisation aus der Region mit einem Dienst auf einer VM und einer Anwendung im Cluster. Die Tabelle gibt einige Ideen.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Idee</th><th>Was sie braucht</th></tr></thead><tbody><tr><td>Kindertagesstätte</td><td>Anmeldungen mit Daten von Kindern, eine Website für Eltern</td></tr><tr><td>Musikschule</td><td>Stundenplan und Abrechnung, Spitzen zu Semesterbeginn</td></tr><tr><td>Physiotherapie</td><td>Termine und Behandlungsnotizen unter Berufsgeheimnis</td></tr><tr><td>Quartierverein</td><td>Website und Mitgliederliste, kleines Budget</td></tr><tr><td>Bäckerei mit Bestellungen</td><td>Bestellungen bis 18 Uhr, Spitzen vor Feiertagen</td></tr><tr><td>Architekturbüro</td><td>grosse Pläne, Backups wichtiger als Verfügbarkeit</td></tr></tbody></table>
+<details class="lt-box lt-details"><summary>Schutzbedarf und die Grenzen des Labs</summary><p>Bevor du etwas anlegst, stufst du den Schutzbedarf des Mitglieds wie in <a href="../security/#schutzbedarf">Kapitel 6.1</a> ein und begründest jede Stufe. Daraus folgen deine Entscheide zu Quota, Rechten des Triage-Dienstes, RPO und Preis. Das Lab setzt dabei zwei Grenzen:</p><ul>
+<li>Die VM des Mitglieds hat höchstens 1 GB Arbeitsspeicher. Schon damit lagerte ein Knoten im Lab neben dem Server von k3s rund 200 MB auf die Disk aus.</li>
+<li>Die Anwendung im Cluster erfüllt das Profil <code dir="auto">restricted</code>, das die Vorlage seit Kapitel 6.1 verlangt. Eine statische Website mit dem Image <code dir="auto">nginxinc/nginx-unprivileged</code> genügt, eine kleine eigene App ebenso.</li>
+</ul></details>
+<div class="sl-heading-wrapper level-h2"><h2 id="ein-mitglied-auf-zwei-ebenen">Ein Mitglied auf zwei Ebenen</h2><a class="sl-anchor-link" href="#ein-mitglied-auf-zwei-ebenen"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Abschnitt betitelt „Ein Mitglied auf zwei Ebenen“</span></a></div>
+<p>Ein Mitglied gibt es auf beiden Ebenen der Plattform. Die Ebenen wissen nichts voneinander, nur die Namen und deine Dokumentation zeigen, dass Gruppe und Namespace zusammengehören.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Ebene</th><th>Das Mitglied</th><th>Seine Grenze</th></tr></thead><tbody><tr><td>OpenNebula</td><td>eine Gruppe mit Gruppenadmin in einem VDC und mit Preisen für den Showback</td><td>die Quota der Gruppe</td></tr><tr><td>Cluster</td><td>ein Ordner in <code dir="auto">members/</code>, aus dem Argo CD einen Namespace mit LimitRange, NetworkPolicy und dem Profil <code dir="auto">restricted</code> macht</td><td>die ResourceQuota im Namespace</td></tr></tbody></table>
+<details class="lt-box lt-details"><summary>Wege zur Aufnahme, ein eigenes VDC und die Grösse der Quota</summary><p>Bei den vier Mitgliedern legte das Skript aus <a href="../../tenants/groups/">Kapitel 3.1</a> die Gruppen an. Einen Namespace haben nur das Veloatelier aus der Vorlage des Repos und die Gemeinde mit ihrem Pull Request aus <a href="../../platform/templates/#der-antrag-der-gemeinde">Kapitel 4.5</a>. Beim fünften wählst du zwischen Handarbeit, einem eigenen Skript und Git. Ein Skript kostet beim ersten Mitglied mehr Zeit, hält aber jeden Schritt fest und lässt sich wiederverwenden. Ein eigenes VDC statt <code dir="auto">wolkenwerk</code> kann dem Mitglied einen anderen Ausschnitt geben, etwa nur einen Knoten.</p><p>Beide Grenzen begründest du je für sich. Eine grosszügige Quota erspart dem Mitglied Anfragen beim Plattform-Team, zählt im Preismodell aus <a href="../cost/#ein-preis-f%C3%BCr-das-neue-mitglied">Kapitel 6.4</a> aber als reservierte Kapazität. Eine knappe Quota passt zu einem kleinen Budget, bremst aber eine Anwendung, die zu Spitzenzeiten wachsen muss.</p></details>
+<div class="sl-heading-wrapper level-h2"><h2 id="alerts-für-ein-mitglied">Alerts für ein Mitglied</h2><a class="sl-anchor-link" href="#alerts-für-ein-mitglied"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Abschnitt betitelt „Alerts für ein Mitglied“</span></a></div>
+<p>Die Regeln eines Mitglieds liegen als <code dir="auto">PrometheusRule</code> in seinem Ordner im Plattform-Repo und kommen und gehen mit seinem Pull Request. Dank der Werte von kube-prometheus-stack aus Kapitel 5.1 liest Prometheus die Regeln aller Namespaces, ein besonderes Label braucht es nicht. Woran Alertmanager die Alerts für die Triage erkennt, entscheidest du, etwa am Namen, am Namespace oder an einem eigenen Label.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Weg</th><th>Vorteil</th><th>Nachteil</th></tr></thead><tbody><tr><td>Eine Route pro Mitglied</td><td>leicht zu lesen</td><td>bei jedem neuen Mitglied änderst du die Werte von Alertmanager</td></tr><tr><td>Ein gemeinsames Label für die Triage</td><td>die Route bleibt gleich, die Regeln der Mitglieder entscheiden</td><td>jede Regel für die Triage muss das Label tragen</td></tr></tbody></table>
+<details class="lt-box lt-details"><summary>Symptome, Labels, Dauer und Routen von Alertmanager</summary><p>Ein guter Alert meldet ein Symptom, das die Kundschaft bemerkt, wie <a href="../../observability/slo/#symptome-und-ursachen">Kapitel 5.3</a> erklärt. Bei einer kleinen Website genügt oft die Frage, ob noch ein Pod bereit ist. Die Metriken von kube-state-metrics liefern dazu die Labels <code dir="auto">namespace</code> und <code dir="auto">deployment</code>, aus denen dein Triage-Dienst sein Ziel ablesen kann. Labels wie <code dir="auto">severity</code> setzt du selbst in der Alert-Regel. Mit einer zu kurzen Dauer in <code dir="auto">for</code> meldet der Alert schon einen gewöhnlichen Neustart, mit einer zu langen kommt er spät.</p><p>Alertmanager reicht jeden Alert von der obersten Route an die erste Unterroute weiter, deren Matcher zu seinen Labels passen. Mit <code dir="auto">continue</code> prüft er auch die folgenden Routen. In der Basis gibt es nur die oberste Route mit dem Empfänger <code dir="auto">null</code>. <code dir="auto">amtool config routes test</code> zeigt, welche Route ein Alert nimmt, wie das <a href="https://github.com/prometheus/alertmanager/blob/v0.34.2/README.md#amtool">README von Alertmanager</a> beschreibt.</p></details>
+<div class="sl-heading-wrapper level-h2"><h2 id="rechte-des-triage-dienstes">Rechte des Triage-Dienstes</h2><a class="sl-anchor-link" href="#rechte-des-triage-dienstes"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Abschnitt betitelt „Rechte des Triage-Dienstes“</span></a></div>
+<p>Nach Meilenstein 3 darf dein Triage-Dienst nur, was er für den Webshop braucht. Was er beim neuen Mitglied lesen oder tun darf, legst du mit einer <code dir="auto">Role</code> und einem <code dir="auto">RoleBinding</code> in dessen Namespace fest. Diese Rechte gelten nur für die API von Kubernetes, nicht für die Logs in Loki.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Rechte beim Mitglied</th><th>Folge</th></tr></thead><tbody><tr><td>Keine Rechte, keine Logs</td><td>dem Modell fehlt der Kontext, sein Vorschlag bleibt allgemein</td></tr><tr><td>Leserechte</td><td>das Modell sieht mehr, auch Daten des Mitglieds, denn Logs können Personendaten enthalten</td></tr><tr><td>Neustart eines Deployments</td><td>ein falscher Vorschlag kann nach einer unbedachten Freigabe Schaden anrichten</td></tr></tbody></table>
+<details class="lt-box lt-details"><summary>ClusterRole, Prüfung der Rechte und Zugriff auf Loki</summary><p>Eine <code dir="auto">ClusterRole</code> mit <code dir="auto">ClusterRoleBinding</code> gälte in allen Namespaces zugleich. <a href="../security/#rechte-auf-der-plattform">Kapitel 6.1</a> erklärt die Rollen, <code dir="auto">kubectl auth can-i</code> mit <code dir="auto">--as</code> zeigt, was ein ServiceAccount wirklich darf.</p><p>Loki läuft im Lab mit <code dir="auto">auth_enabled: false</code> und liefert jedem, der es erreicht, die Logs aller Namespaces. Ob dein Dienst die Logs des Mitglieds liest, regelst du deshalb im Dienst selbst und begründest es mit dem Schutzbedarf.</p></details>
+<div class="sl-heading-wrapper level-h2"><h2 id="wiederherstellung-aus-einem-snapshot">Wiederherstellung aus einem Snapshot</h2><a class="sl-anchor-link" href="#wiederherstellung-aus-einem-snapshot"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Abschnitt betitelt „Wiederherstellung aus einem Snapshot“</span></a></div>
+<p>Ein <strong>Snapshot</strong> ist eine Kopie der ganzen Datenbank des Clusters zu einem Zeitpunkt, mit allen Objekten bis zu den Secrets, den Applications von Argo CD und dessen Passwort. Was Pods in Volumes schreiben, etwa Metriken und Logs, enthält er nicht. Ohne das Token des alten Servers ist er nutzlos, denn damit verschlüsselt k3s vertrauliche Daten in der Datenbank, wie die Seite <a href="https://docs.k3s.io/datastore/backup-restore">Backup and Restore</a> von k3s beschreibt.</p>
+<details class="lt-box lt-details"><summary>Zurücksetzen, verlorener Server, Neustart der Controller und Messwerte aus dem Lab</summary><p>Auf einem bestehenden Server setzt k3s die Datenbank mit <code dir="auto">--cluster-reset</code> und <code dir="auto">--cluster-reset-restore-path</code> auf einen Snapshot zurück. Der Server wird dabei zum einzigen Mitglied eines neuen etcd-Clusters. Ist der Server verloren, braucht ein neuer Server die Kopie des Snapshots und das alte Token. Die <a href="https://docs.k3s.io/cli/etcd-snapshot">Dokumentation der Snapshots</a> beschreibt beide Fälle.</p><p>Controller wie Argo CD und der Operator von Prometheus merken sich den zuletzt gesehenen Stand, der nach dem Zurücksetzen nicht mehr stimmt. Im Lab des Kurses war die API 13 Sekunden nach dem Zurücksetzen mit dem zuvor gelöschten Namespace <code dir="auto">argocd</code> und allen Applications zurück. Argo CD übernahm aber keine Commits mehr und der Operator meldete Fehler beim Beobachten, bis die Controller in <code dir="auto">argocd</code> und <code dir="auto">monitoring</code> und der Controller von Sealed Secrets neu gestartet waren. Diesen Neustart empfiehlt auch die <a href="https://v1-36.docs.kubernetes.io/docs/tasks/administer-cluster/configure-upgrade-etcd/#restoring-an-etcd-cluster">Dokumentation von Kubernetes</a>. Danach rollt Argo CD aus, was seit dem Snapshot in Git dazukam. Verloren ist, was nach dem Snapshot nur im Cluster entstand, etwa ein Secret aus <code dir="auto">kubectl</code>. Bei Snapshots alle sechs Stunden ist das höchstens die Arbeit von sechs Stunden.</p></details>
+<div class="sl-heading-wrapper level-h2"><h2 id="die-zeit-messen">Die Zeit messen</h2><a class="sl-anchor-link" href="#die-zeit-messen"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Abschnitt betitelt „Die Zeit messen“</span></a></div>
+<p>Lege vor der Übung fest, wann die Uhr startet und wann sie stoppt. Im Lab des Kurses antwortete die API 13 Sekunden nach dem Zurücksetzen wieder. Diese Zeit misst aber nur die API. Für das Mitglied zählt, wann seine Anwendung läuft und Argo CD Änderungen aus Git übernimmt.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Fall</th><th>Du brauchst</th><th>Im Lab des Kurses</th></tr></thead><tbody><tr><td>Gelöschter Namespace</td><td>den Snapshot auf dem Server selbst</td><td>API nach 13 Sekunden zurück, danach Neustart der Controller</td></tr><tr><td>Verlorener Server</td><td>einen neuen Server, die Kopie des Snapshots auf dem Front-end und das Token</td><td>vom Zurücksetzen bis zur laufenden Anwendung des Mitglieds knapp eine Minute</td></tr></tbody></table>
+<details class="lt-box lt-details"><summary>Reaktionszeit, Volumes des verlorenen Servers und Wahl des Falls</summary><p>Zum RTO gehört auch die Zeit, bis jemand den Ausfall bemerkt, reagiert und den passenden Snapshot wählt.</p><p>Die Volumes von local-path auf der Disk des verlorenen Servers blieben nur als Objekte ohne ihre Ordner zurück, ihre Pods warteten mit der Meldung «does not exist». Welchen Fall du übst, entscheidest du. Im SLA schreibst du, für welchen Fall deine Zeit gilt.</p></details>
+<div class="sl-heading-wrapper level-h2"><h2 id="ein-sla-auf-messwerten">Ein SLA auf Messwerten</h2><a class="sl-anchor-link" href="#ein-sla-auf-messwerten"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Abschnitt betitelt „Ein SLA auf Messwerten“</span></a></div>
+<p><a href="../sla/">Kapitel 6.3</a> beschreibt die Teile eines SLA und die Verfügbarkeit, die das Lab ehrlich zulässt. Für dein Mitglied stützt du jede Zusage auf Messungen und Sicherungen.</p>
+<ul>
+<li>Das RTO folgt aus deiner Messung und den Betriebszeiten. Ohne Pikett wird ein Ausfall am Samstagabend erst am Montag behoben. Das SLA sagt deshalb, ob das RTO rund um die Uhr oder nur zu den Supportzeiten gilt.</li>
+<li>Das RPO folgt aus den Sicherungen, für den Cluster aus den Snapshots alle sechs Stunden, für die VM aus ihrem Backup-Job. Ohne Backup-Job kann das SLA für die Daten der VM kein RPO zusagen.</li>
+<li>Die Verfügbarkeit folgt aus der Architektur mit nur einem Front-end und einem Server von k3s. Eine höhere Zusage verlangt etwa einen Pikettdienst oder drei Server für k3s und erhöht den Preis aus Auftrag C.</li>
+</ul>
+<details class="lt-box lt-details"><summary>Ein internes SLO, strenger als das SLA</summary><p>Intern setzt du das SLO strenger als das SLA, damit du ein Problem bemerkst, bevor die Zusage bricht. Das Kapitel <a href="https://sre.google/sre-book/service-level-objectives/">Service Level Objectives</a> im SRE-Buch von Google erklärt den Unterschied.</p></details>
+<div class="sl-heading-wrapper level-h2"><h2 id="ein-postmortem-aus-daten">Ein Postmortem aus Daten</h2><a class="sl-anchor-link" href="#ein-postmortem-aus-daten"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Abschnitt betitelt „Ein Postmortem aus Daten“</span></a></div>
+<p>Die Zeitlinie ist der wichtigste und mühsamste Teil eines Postmortems. Bei Wolkenwerk liegen ihre Fakten an drei Orten.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Quelle</th><th>Was sie liefert</th></tr></thead><tbody><tr><td>Zeitreihe <code dir="auto">ALERTS</code> in Prometheus</td><td>Name und Zustand jedes Alerts in <code dir="auto">pending</code> oder <code dir="auto">firing</code>, daraus Beginn und Ende</td></tr><tr><td>Audit-Log deines Triage-Dienstes</td><td>Vorschläge und Entscheide</td></tr><tr><td>Verlauf des Plattform-Repos in Git</td><td>die Änderungen</td></tr></tbody></table>
+<details class="lt-box lt-details"><summary>Programm und Modell, Entwürfe aus dem Lab und ihre Fehler</summary><p>Ein Programm fragt diese Quellen ab und ordnet sie nach der Zeit, ganz ohne Modell. Das Modell schreibt nur den Text darum herum, etwa Zusammenfassung, Auswirkung, Ursachen und Massnahmen. Eine gute Frage verlangt einen Bericht ohne Schuldzuweisung, der nur die gelieferten Fakten verwendet und Fehlendes als fehlend benennt. Mit der Option <code dir="auto">format</code> antwortet Ollama in JSON oder nach einem JSON-Schema, passend für ein Dokument mit festen Abschnitten.</p><p>Im Lab des Kurses stand über Git <code dir="auto">FAIL_PERCENT</code> auf 60 wie beim Vorfall in Kapitel 5.3. Das Modell <code dir="auto">llama3.2:3b</code> schrieb den Entwurf in 33 Sekunden. Die Zeitlinie aus dem Programm stimmte, der Entwurf enthielt dagegen mehrere Fehler.</p><ul>
+<li>Er gab etwa eine Stunde Ausfall an, die Fehler dauerten rund zehn Minuten</li>
+<li>Er machte den Umbau auf etcd für eine Verzögerung der Snapshots verantwortlich, die es nie gab</li>
+<li>Er lobte denselben Umbau ohne einen Fakt als Gewinn an Stabilität</li>
+<li>Er erfand Verantwortliche wie «Teamleiter A» und schrieb Massnahmen unter «Was schlecht lief»</li>
+<li>Die richtige Ursache übernahm er aus dem Vorschlag des Triage-Dienstes</li>
+</ul><p>Ein zweiter Entwurf über eine halbe Stunde nannte 13 Minuten Auswirkung und schrieb gleich danach, die Benutzer hätten keine Ausfälle bemerkt, obwohl 60 % der Anfragen scheiterten. Weil ein Entwurf auch mit falschen Aussagen fertig aussieht, prüft deine Korrektur jede Zahl, jede Ursache und jede genannte Person gegen die Zeitlinie.</p></details>
+<div class="sl-heading-wrapper level-h2"><h2 id="das-kostenmodell-eines-mitglieds">Das Kostenmodell eines Mitglieds</h2><a class="sl-anchor-link" href="#das-kostenmodell-eines-mitglieds"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Abschnitt betitelt „Das Kostenmodell eines Mitglieds“</span></a></div>
+<p>In <a href="../cost/">Kapitel 6.4</a> kostete ein Mitglied mit einem Namespace von 1 CPU und 1 GB und einer VM mit einer halben CPU und 1 GB rund 233 Franken im Monat, 16,3 % der Vollkosten von 17’128 Franken im Jahr. Nach den Preisen des Showbacks aus Kapitel 3.3 waren es rund 86 Franken, vor allem weil dort die Arbeit des Plattform-Teams fehlt.</p>
+<p>Für dein Mitglied wählst du die Verteilung und begründest deine Annahmen.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Verteilung</th><th>Eigenschaft</th></tr></thead><tbody><tr><td>Nach Reservierung</td><td>einfach und planbar, eine grosszügige Quota wird aber teuer</td></tr><tr><td>Nach gemessenem Verbrauch</td><td>folgt dem tatsächlichen Gebrauch, schwankt aber von Monat zu Monat und braucht Messwerte über längere Zeit</td></tr><tr><td>Grundbeitrag und Anteil nach Verbrauch</td><td>der Grundbeitrag deckt die Arbeit, der Verbrauch kommt nach Showback dazu</td></tr></tbody></table>
+<details class="lt-box lt-details"><summary>Backups, Right-Sizing und Messwerte aus dem Lab</summary><p>Backups im Backup-Datastore gehören in die Rechnung, wenn das Mitglied viele oder grosse davon hat. Für das Right-Sizing vergleichst du Requests und Quota deines Mitglieds mit dem Verbrauch aus den Abfragen von <a href="../cost/#right-sizing">Kapitel 6.4</a>. Im Lab des Kurses reservierte das Mitglied <code dir="auto">probe</code> 64 MiB Speicher und nutzte höchstens 21 MiB.</p></details>
+<div class="sl-heading-wrapper level-h2"><h2 id="ein-eigenes-mitglied-auftrag-a">Ein eigenes Mitglied (Auftrag A)</h2><a class="sl-anchor-link" href="#ein-eigenes-mitglied-auftrag-a"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Abschnitt betitelt „Ein eigenes Mitglied (Auftrag A)“</span></a></div>
+<p>Du nimmst ein fünftes Mitglied, das du selbst entworfen hast, auf beiden Ebenen deiner Plattform auf und überwachst seine Anwendung. Ihr Alert erreicht deinen Triage-Dienst aus Meilenstein 3, du entscheidest über dessen Vorschlag und behebst den Fehler über Git.</p>
+<figure class="lt-figure fig"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 508" role="img" aria-labelledby="p6c5-member-de-title p6c5-member-de-desc">
+<title id="p6c5-member-de-title">Ein fünftes Mitglied auf beiden Ebenen</title>
+<desc id="p6c5-member-de-desc">Oben die Ebene OpenNebula. Dort hat das neue Mitglied eine VM für seinen Dienst, eine Quota mit Preisen für den Showback und eine Gruppe mit Admin in einem VDC. Darunter der Cluster k3s mit dem Namespace des Mitglieds, in dem seine Anwendung und seine Alert-Regel liegen. Gruppe und Namespace wissen nichts voneinander, nur derselbe Name verbindet sie. Du bringst einen Pull Request und Commits nach Gitea. Argo CD holt sie dort mit dem ApplicationSet members und rollt sie im Namespace aus. Prometheus überwacht die Anwendung. Löst die Regel aus, schickt Prometheus einen Alert an Alertmanager, dessen Route ihn als Webhook an deinen Triage-Dienst weiterleitet. Was der Dienst im Namespace des Mitglieds darf, legst du selbst fest. Er legt dir einen Vorschlag vor und hält deinen Entscheid in seinem Audit-Log fest. Den Fehler löst du über Git aus und behebst ihn auch dort.</desc>
+<defs><marker id="p6c5-member-de-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"></path></marker><marker id="p6c5-member-de-head-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head d-head-accent" d="M 0 1 L 9 5 L 0 9 z"></path></marker></defs>
+<rect class="d-ground" x="0" y="0" width="780" height="508" rx="14"></rect>
+<rect class="d-band d-band-2" x="16" y="16" width="748" height="108" rx="12"></rect>
+<text class="d-label d-label-blue" x="32" y="40" text-anchor="start">OPENNEBULA</text>
+<rect class="d-band d-band-3" x="216" y="156" width="548" height="232" rx="12"></rect>
+<text class="d-label d-label-violet" x="232" y="180" text-anchor="start">CLUSTER K3S</text>
+<path class="d-line d-dashed" d="M 638 108 L 638 194"></path>
+<text class="d-sub" x="648" y="144" text-anchor="start">derselbe Name</text>
+<path class="d-arrow d-arrow-accent" d="M 232 224 L 170 224" marker-end="url(#p6c5-member-de-head-accent)"></path>
+<text class="d-sub" x="200" y="216" text-anchor="middle">holt</text>
+<path class="d-arrow d-arrow-accent" d="M 408 224 L 454 224" marker-end="url(#p6c5-member-de-head-accent)"></path>
+<text class="d-sub" x="432" y="216" text-anchor="middle">rollt aus</text>
+<path class="d-arrow" d="M 680 316 L 680 254" marker-end="url(#p6c5-member-de-head)"></path>
+<text class="d-sub" x="670" y="290" text-anchor="end">überwacht</text>
+<path class="d-arrow d-arrow-accent" d="M 612 344 L 578 344" marker-end="url(#p6c5-member-de-head-accent)"></path>
+<text class="d-sub" x="594" y="336" text-anchor="middle">Alert</text>
+<path class="d-arrow d-arrow-accent" d="M 436 344 L 386 344" marker-end="url(#p6c5-member-de-head-accent)"></path>
+<text class="d-sub" x="410" y="336" text-anchor="middle">Webhook</text>
+<path class="d-arrow d-dashed" d="M 360 316 L 360 284 L 520 284 L 520 254" marker-end="url(#p6c5-member-de-head)"></path>
+<text class="d-sub" x="440" y="276" text-anchor="middle">Rechte nach deiner Wahl</text>
+<path class="d-arrow d-arrow-accent" d="M 288 372 L 288 434" marker-end="url(#p6c5-member-de-head-accent)"></path>
+<text class="d-sub" x="280" y="416" text-anchor="end">Vorschlag</text>
+<path class="d-arrow d-arrow-accent" d="M 328 436 L 328 374" marker-end="url(#p6c5-member-de-head-accent)"></path>
+<text class="d-sub" x="336" y="416" text-anchor="start">Entscheid</text>
+<path class="d-arrow d-arrow-accent" d="M 232 464 L 92 464 L 92 254" marker-end="url(#p6c5-member-de-head-accent)"></path>
+<text class="d-sub" x="102" y="332" text-anchor="start">Pull Request,</text>
+<text class="d-sub" x="102" y="348" text-anchor="start">Fehler, Behebung</text>
+<rect class="d-shadow" x="32" y="53.5" width="224" height="56" rx="10"></rect>
+<rect class="d-tile d-tile-violet" x="32" y="52" width="224" height="56" rx="10"></rect>
+<g class="d-icon d-icon-violet" transform="translate(44 71) scale(0.75)"><rect x="4" y="4" width="16" height="16" rx="2"></rect><rect x="8.5" y="8.5" width="7" height="7" rx="1"></rect></g>
+<text class="d-title d-title-violet" x="72" y="77" text-anchor="start">VM des Mitglieds</text>
+<text class="d-sub" x="72" y="93" text-anchor="start">für seinen Dienst</text>
+<rect class="d-shadow" x="280" y="53.5" width="224" height="56" rx="10"></rect>
+<rect class="d-tile" x="280" y="52" width="224" height="56" rx="10"></rect>
+<g class="d-icon" transform="translate(292 71) scale(0.75)"><circle cx="12" cy="12" r="9"></circle><path d="M14.5 9c-.5-1-1.5-1.5-2.5-1.5-1.7 0-2.8 1-2.8 2.2 0 2.9 5.6 1.6 5.6 4.5 0 1.2-1.2 2.3-2.8 2.3-1.1 0-2.2-.6-2.7-1.6M12 6v1.5M12 16.5V18"></path></g>
+<text class="d-title" x="320" y="77" text-anchor="start">Quota und Preise</text>
+<text class="d-sub" x="320" y="93" text-anchor="start">Grenze und Showback</text>
+<rect class="d-shadow" x="528" y="53.5" width="220" height="56" rx="10"></rect>
+<rect class="d-tile" x="528" y="52" width="220" height="56" rx="10"></rect>
+<g class="d-icon" transform="translate(540 71) scale(0.75)"><circle cx="9" cy="8" r="3.5"></circle><path d="M2.5 20a6.5 6.5 0 0 1 13 0"></path><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M18 14.2a6.5 6.5 0 0 1 3.5 5.8"></path></g>
+<text class="d-title" x="568" y="77" text-anchor="start">Gruppe mit Admin</text>
+<text class="d-sub" x="568" y="93" text-anchor="start">in einem VDC</text>
+<rect class="d-shadow" x="16" y="197.5" width="152" height="56" rx="10"></rect>
+<rect class="d-tile" x="16" y="196" width="152" height="56" rx="10"></rect>
+<g class="d-icon" transform="translate(28 215) scale(0.75)"><circle cx="6" cy="6" r="2.5"></circle><circle cx="6" cy="18" r="2.5"></circle><circle cx="18" cy="9" r="2.5"></circle><path d="M6 8.5v7M18 11.5c0 3-6 2-10.5 5"></path></g>
+<text class="d-title" x="56" y="221" text-anchor="start">Gitea</text>
+<text class="d-sub" x="56" y="237" text-anchor="start">Repo platform</text>
+<rect class="d-shadow" x="232" y="197.5" width="176" height="56" rx="10"></rect>
+<rect class="d-tile" x="232" y="196" width="176" height="56" rx="10"></rect>
+<g class="d-icon" transform="translate(244 215) scale(0.75)"><path d="M20 12a8 8 0 0 1-14.3 4.9M4 12A8 8 0 0 1 18.3 7.1"></path><path d="M18.5 3v4.3h-4.3M5.5 21v-4.3h4.3"></path></g>
+<text class="d-title" x="272" y="221" text-anchor="start">Argo CD</text>
+<text class="d-sub" x="272" y="237" text-anchor="start">ApplicationSet members</text>
+<rect class="d-shadow" x="456" y="197.5" width="292" height="56" rx="10"></rect>
+<rect class="d-tile d-tile-violet" x="456" y="196" width="292" height="56" rx="10"></rect>
+<g class="d-icon d-icon-violet" transform="translate(468 215) scale(0.75)"><path d="M12 3 20 7.5v9L12 21l-8-4.5v-9z"></path><path d="M4 7.5 12 12l8-4.5M12 12v9"></path></g>
+<text class="d-title d-title-violet" x="496" y="221" text-anchor="start">Namespace des Mitglieds</text>
+<text class="d-sub" x="496" y="237" text-anchor="start">Anwendung und Alert-Regel</text>
+<rect class="d-shadow" x="232" y="317.5" width="152" height="56" rx="10"></rect>
+<rect class="d-tile d-tile-accent" x="232" y="316" width="152" height="56" rx="10"></rect>
+<g class="d-icon d-icon-accent" transform="translate(244 335) scale(0.75)"><circle cx="12" cy="12" r="3"></circle><path d="M12 2.5v3M12 18.5v3M4.2 6l2.3 1.8M17.5 16.2l2.3 1.8M4.2 18l2.3-1.8M17.5 7.8 19.8 6M2.5 12h3M18.5 12h3"></path></g>
+<text class="d-title" x="272" y="341" text-anchor="start">Triage-Dienst</text>
+<text class="d-sub" x="272" y="357" text-anchor="start">mit Audit-Log</text>
+<rect class="d-shadow" x="436" y="317.5" width="140" height="56" rx="10"></rect>
+<rect class="d-tile" x="436" y="316" width="140" height="56" rx="10"></rect>
+<g class="d-icon" transform="translate(448 335) scale(0.75)"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"></path><path d="M10 20.5a2 2 0 0 0 4 0"></path></g>
+<text class="d-title" x="476" y="341" text-anchor="start">Alertmanager</text>
+<text class="d-sub" x="476" y="357" text-anchor="start">Route zur Triage</text>
+<rect class="d-shadow" x="612" y="317.5" width="136" height="56" rx="10"></rect>
+<rect class="d-tile" x="612" y="316" width="136" height="56" rx="10"></rect>
+<g class="d-icon" transform="translate(624 335) scale(0.75)"><ellipse cx="12" cy="5.5" rx="7.5" ry="2.5"></ellipse><path d="M4.5 5.5v13c0 1.4 3.4 2.5 7.5 2.5s7.5-1.1 7.5-2.5v-13"></path><path d="M4.5 12c0 1.4 3.4 2.5 7.5 2.5s7.5-1.1 7.5-2.5"></path></g>
+<text class="d-title" x="652" y="341" text-anchor="start">Prometheus</text>
+<text class="d-sub" x="652" y="357" text-anchor="start">Regel löst aus</text>
+<rect class="d-shadow" x="232" y="437.5" width="152" height="56" rx="10"></rect>
+<rect class="d-tile d-tile-accent" x="232" y="436" width="152" height="56" rx="10"></rect>
+<g class="d-icon d-icon-accent" transform="translate(244 455) scale(0.75)"><circle cx="12" cy="8" r="4"></circle><path d="M4 21a8 8 0 0 1 16 0"></path></g>
+<text class="d-title" x="272" y="461" text-anchor="start">Du</text>
+<text class="d-sub" x="272" y="477" text-anchor="start">Plattform-Team</text>
+</svg></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Ausgangslage</th><th>Ergebnis</th></tr></thead><tbody><tr><td>Aus der Basis hast du die Gruppen <code dir="auto">praxis</code>, <code dir="auto">treuhand</code>, <code dir="auto">velo</code> und <code dir="auto">gemeinde</code> der vier Mitglieder im VDC <code dir="auto">wolkenwerk</code>, die Vorlage <code dir="auto">ubuntu</code> und das Netz <code dir="auto">cc-net</code>. Das ApplicationSet <code dir="auto">members</code> aus Kapitel 4.5 macht aus jedem Ordner unter <code dir="auto">members</code> im Repo <code dir="auto">wolkenwerk/platform</code> einen Namespace nach der Vorlage <code dir="auto">templates/member</code>, die seit Kapitel 6.1 das Profil <code dir="auto">restricted</code> verlangt. Dein Triage-Dienst aus Zusatzauftrag B von Meilenstein 3 läuft mit seinem Audit-Log, seine Route und sein Empfänger stehen in den Werten von kube-prometheus-stack.</td><td>In OpenNebula gibt es dein fünftes Mitglied als Gruppe mit Admin in einem VDC, mit Quota, Preisen für den Showback und einer laufenden VM. Im Cluster läuft seine Anwendung in einem eigenen Namespace, eine Alert-Regel in seinem Ordner überwacht sie. Einen Vorfall hast du über Git ausgelöst und behoben, das Audit-Log deines Triage-Dienstes zeigt den Vorschlag und deinen Entscheid dazu.</td></tr></tbody></table>
+<div class="sl-heading-wrapper level-h3"><h3 id="vorgehen">Vorgehen</h3><a class="sl-anchor-link" href="#vorgehen"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Abschnitt betitelt „Vorgehen“</span></a></div>
+<ol>
+<li>Entwirf das Mitglied mit seinem Dienst und stufe seinen Schutzbedarf ein.</li>
+<li>Lege das Mitglied in OpenNebula mit Gruppe, Admin, Quota und Preisen an und starte seine VM.</li>
+<li>Beantrage seinen Namespace mit der Anwendung über einen Pull Request in Gitea und nimm ihn an.</li>
+<li>Ergänze eine Alert-Regel im Ordner des Mitglieds und leite ihren Alert an deinen Triage-Dienst weiter.</li>
+<li>Lege fest, was dein Triage-Dienst im Namespace des Mitglieds lesen und tun darf.</li>
+<li>Löse den Alert über Git aus, entscheide über den Vorschlag und behebe den Fehler über Git.</li>
+<li>Halte Werte, Zeiten und deine Entscheide mit ihren Alternativen für die Dokumentation fest.</li>
+</ol>
+<div class="sl-heading-wrapper level-h3"><h3 id="anforderungen">Anforderungen</h3><a class="sl-anchor-link" href="#anforderungen"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Abschnitt betitelt „Anforderungen“</span></a></div>
+<ol>
+<li>Eine kurze Beschreibung nennt das Mitglied, seinen Dienst und seinen Schutzbedarf mit Begründung.</li>
+<li>In OpenNebula hat das Mitglied eine Gruppe mit Admin in einem VDC, eine Quota, Preise für den Showback und eine laufende VM mit höchstens 1 GB Arbeitsspeicher.</li>
+<li>Sein Namespace entsteht aus der Vorlage über einen zusammengeführten Pull Request in Gitea. Argo CD rollt seine Anwendung aus, sie erfüllt das Profil <code dir="auto">restricted</code>.</li>
+<li>Eine Alert-Regel im Ordner des Mitglieds überwacht die Anwendung. Alertmanager leitet ihren Alert an deinen Triage-Dienst weiter.</li>
+<li>Du hast den Alert über Git ausgelöst, über den Vorschlag entschieden und den Fehler über Git behoben. Das Audit-Log zeigt Vorschlag und Entscheid.</li>
+</ol>
+<div class="sl-heading-wrapper level-h3"><h3 id="vorführung">Vorführung</h3><a class="sl-anchor-link" href="#vorführung"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Abschnitt betitelt „Vorführung“</span></a></div>
+<ul>
+<li>Gruppe, Quota und laufende VM des Mitglieds in Sunstone oder in der CLI</li>
+<li>Den Pull Request in Gitea und die gesunde Application in Argo CD</li>
+<li>Den Alert in Alertmanager, den Vorschlag deines Triage-Dienstes und deinen Entscheid im Audit-Log</li>
+<li>Mit <code dir="auto">kubectl auth can-i</code>, was dein Triage-Dienst im Namespace des Mitglieds darf</li>
+</ul>
+<details class="lt-box lt-details"><summary>Hinweise aus dem Lab</summary><ul>
+<li>Den Alert löst du über Git aus, etwa mit null Replikas oder einem Image, das es nicht gibt</li>
+<li>Im Lab des Kurses kam der Alert zwei Minuten, nachdem der letzte Pod weg war</li>
+<li>Der Triage-Dienst schlug dort einen Neustart vor. Das Team lehnte ab, denn solange Git null Replikas verlangt, startet auch ein Neustart keinen Pod.</li>
+<li>Argo CD stellt immer wieder den Zustand aus Git her, behoben ist die Störung erst mit dem richtigen Stand in Git</li>
+</ul></details>
+<details class="lt-box lt-details"><summary>Quellen</summary><ul>
+<li><a href="../../tenants/groups/">Kapitel 3.1</a> zu Gruppen, Gruppenadmins und VDCs, <a href="../../tenants/quotas/">Kapitel 3.2</a> zu Quotas und <a href="../../tenants/showback/">Kapitel 3.3</a> zu den Preisen</li>
+<li>Die Dokumentation von OpenNebula 7.4 zu <a href="https://docs.opennebula.io/7.4/product/cloud_system_administration/multitenancy/manage_groups/">Gruppen</a>, <a href="https://docs.opennebula.io/7.4/product/cloud_system_administration/multitenancy/manage_vdcs/">VDCs</a>, <a href="https://docs.opennebula.io/7.4/product/cloud_system_administration/capacity_planning/quotas/">Quotas</a> und zum <a href="https://docs.opennebula.io/7.4/product/cloud_system_administration/multitenancy/showback/">Showback</a></li>
+<li><a href="../../platform/templates/#der-antrag-der-gemeinde">Kapitel 4.5</a> mit dem Weg eines Namespace über einen Pull Request</li>
+<li><a href="../security/#pod-security-admission">Kapitel 6.1</a> und die <a href="https://v1-36.docs.kubernetes.io/docs/concepts/security/pod-security-standards/">Pod Security Standards</a> von Kubernetes 1.36 zum Profil <code dir="auto">restricted</code></li>
+<li><a href="../../observability/slo/">Kapitel 5.3</a> und die Anleitung des Prometheus Operator 0.94 zu <a href="https://github.com/prometheus-operator/prometheus-operator/blob/v0.94.2/Documentation/developer/alerting.md#deploying-prometheus-rules">Regeln</a> für die Alert-Regel</li>
+<li>Die <a href="https://prometheus.io/docs/alerting/0.34/configuration/#route">Konfiguration von Alertmanager 0.34</a>, der Version in kube-prometheus-stack 92.17.0, zu <code dir="auto">route</code>, Matchern und <code dir="auto">webhook_config</code></li>
+<li>Die <a href="https://v1-36.docs.kubernetes.io/docs/reference/access-authn-authz/rbac/">Dokumentation zu RBAC</a> zu Rollen und Bindungen</li>
+</ul></details>
+<div class="sl-heading-wrapper level-h2"><h2 id="cluster-wiederherstellen-und-sla-auftrag-b">Cluster wiederherstellen und SLA (Auftrag B)</h2><a class="sl-anchor-link" href="#cluster-wiederherstellen-und-sla-auftrag-b"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Abschnitt betitelt „Cluster wiederherstellen und SLA (Auftrag B)“</span></a></div>
+<p>Du stellst den Cluster aus einem Snapshot von etcd wieder her und misst die Zeit, bis die Plattform für dein Mitglied wieder läuft. Auf diese Zeit und die Architektur deines Labs stützt du ein SLA für das Mitglied.</p>
+<figure class="lt-figure fig"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 428" role="img" aria-labelledby="p6c5-restore-de-title p6c5-restore-de-desc">
+<title id="p6c5-restore-de-title">Wiederherstellung aus einem Snapshot und SLA</title>
+<desc id="p6c5-restore-de-desc">Oben das Front-end mit der Kopie der Snapshots und des Tokens in ~/backup/k3s und mit Gitea. Darunter der Cluster k3s. Aus der Kopie stellst du k3s-server wieder her, je nach Fehlerfall den bestehenden Server oder einen neuen. Danach holt Argo CD wieder Commits aus Gitea und rollt die Anwendung deines Mitglieds aus. Unten links deine Messung für den Fehlerfall, den du gewählt hast, auf einer Zeitachse. Start und Ende legst du selbst fest, dazwischen hältst du Zwischenzeiten fest. Die gemessene Zeit geht in das SLA für dein Mitglied ein. Darin folgt die Verfügbarkeit aus der Architektur, das RPO aus den Sicherungen und das RTO aus deiner Messung und den Supportzeiten.</desc>
+<defs><marker id="p6c5-restore-de-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"></path></marker><marker id="p6c5-restore-de-head-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head d-head-accent" d="M 0 1 L 9 5 L 0 9 z"></path></marker></defs>
+<rect class="d-ground" x="0" y="0" width="780" height="428" rx="14"></rect>
+<rect class="d-band d-band-2" x="16" y="16" width="748" height="104" rx="12"></rect>
+<text class="d-label d-label-blue" x="32" y="40" text-anchor="start">FRONT-END</text>
+<rect class="d-band d-band-3" x="16" y="152" width="748" height="104" rx="12"></rect>
+<text class="d-label d-label-violet" x="32" y="176" text-anchor="start">CLUSTER K3S</text>
+<path class="d-arrow d-arrow-accent" d="M 144 108 L 144 186" marker-end="url(#p6c5-restore-de-head-accent)"></path>
+<text class="d-sub" x="154" y="140" text-anchor="start">Wiederherstellung</text>
+<path class="d-arrow d-arrow-accent" d="M 640 188 L 640 110" marker-end="url(#p6c5-restore-de-head-accent)"></path>
+<text class="d-sub" x="650" y="140" text-anchor="start">holt Commits</text>
+<path class="d-arrow d-arrow-accent" d="M 532 216 L 482 216" marker-end="url(#p6c5-restore-de-head-accent)"></path>
+<text class="d-sub" x="506" y="208" text-anchor="middle">rollt aus</text>
+<rect class="d-shadow" x="32" y="53.5" width="224" height="56" rx="10"></rect>
+<rect class="d-tile d-tile-accent" x="32" y="52" width="224" height="56" rx="10"></rect>
+<g class="d-icon d-icon-accent" transform="translate(44 71) scale(0.75)"><rect x="3" y="6" width="18" height="12" rx="2"></rect><path d="M7 14h.01M11 14h6"></path></g>
+<text class="d-title" x="72" y="77" text-anchor="start">Snapshots und Token</text>
+<text class="d-code" x="72" y="93" text-anchor="start">~/backup/k3s</text>
+<rect class="d-shadow" x="532" y="53.5" width="216" height="56" rx="10"></rect>
+<rect class="d-tile" x="532" y="52" width="216" height="56" rx="10"></rect>
+<g class="d-icon" transform="translate(544 71) scale(0.75)"><circle cx="6" cy="6" r="2.5"></circle><circle cx="6" cy="18" r="2.5"></circle><circle cx="18" cy="9" r="2.5"></circle><path d="M6 8.5v7M18 11.5c0 3-6 2-10.5 5"></path></g>
+<text class="d-title" x="572" y="77" text-anchor="start">Gitea</text>
+<text class="d-sub" x="572" y="93" text-anchor="start">Repo platform</text>
+<rect class="d-shadow" x="32" y="189.5" width="224" height="56" rx="10"></rect>
+<rect class="d-tile d-tile-violet" x="32" y="188" width="224" height="56" rx="10"></rect>
+<g class="d-icon d-icon-violet" transform="translate(44 207) scale(0.75)"><rect x="4" y="4" width="16" height="7" rx="1.5"></rect><rect x="4" y="13" width="16" height="7" rx="1.5"></rect><path d="M8 7.5h.01M8 16.5h.01"></path></g>
+<text class="d-title d-title-violet" x="72" y="213" text-anchor="start">k3s-server</text>
+<text class="d-sub" x="72" y="229" text-anchor="start">bestehend oder neu</text>
+<rect class="d-shadow" x="280" y="189.5" width="200" height="56" rx="10"></rect>
+<rect class="d-tile d-tile-violet" x="280" y="188" width="200" height="56" rx="10"></rect>
+<g class="d-icon d-icon-violet" transform="translate(292 207) scale(0.75)"><path d="M12 3 20 7.5v9L12 21l-8-4.5v-9z"></path><path d="M4 7.5 12 12l8-4.5M12 12v9"></path></g>
+<text class="d-title d-title-violet" x="320" y="213" text-anchor="start">Anwendung</text>
+<text class="d-sub" x="320" y="229" text-anchor="start">deines Mitglieds</text>
+<rect class="d-shadow" x="532" y="189.5" width="216" height="56" rx="10"></rect>
+<rect class="d-tile d-tile-violet" x="532" y="188" width="216" height="56" rx="10"></rect>
+<g class="d-icon d-icon-violet" transform="translate(544 207) scale(0.75)"><path d="M20 12a8 8 0 0 1-14.3 4.9M4 12A8 8 0 0 1 18.3 7.1"></path><path d="M18.5 3v4.3h-4.3M5.5 21v-4.3h4.3"></path></g>
+<text class="d-title d-title-violet" x="572" y="213" text-anchor="start">Argo CD</text>
+<text class="d-sub" x="572" y="229" text-anchor="start">übernimmt Commits</text>
+<rect class="d-band d-band-1" x="16" y="288" width="460" height="124" rx="12"></rect>
+<text class="d-label" x="32" y="312" text-anchor="start">DEINE MESSUNG</text>
+<rect class="d-tag" x="299" y="298" width="161" height="18" rx="9"></rect>
+<text class="d-tag-text" x="379.5" y="310.5" text-anchor="middle">Fehlerfall nach deiner Wahl</text>
+<path class="d-line d-line-accent" d="M 56 356 L 436 356"></path>
+<circle class="d-ground" cx="56" cy="356" r="7"></circle>
+<circle class="d-fill-blue" cx="56" cy="356" r="4.5"></circle>
+<circle class="d-ground" cx="176" cy="356" r="5.5"></circle>
+<circle class="d-fill-blue" cx="176" cy="356" r="3"></circle>
+<circle class="d-ground" cx="246" cy="356" r="5.5"></circle>
+<circle class="d-fill-blue" cx="246" cy="356" r="3"></circle>
+<circle class="d-ground" cx="316" cy="356" r="5.5"></circle>
+<circle class="d-fill-blue" cx="316" cy="356" r="3"></circle>
+<circle class="d-ground" cx="436" cy="356" r="7"></circle>
+<circle class="d-fill-blue" cx="436" cy="356" r="4.5"></circle>
+<text class="d-sub" x="49" y="340" text-anchor="start">Start, von dir festgelegt</text>
+<text class="d-sub" x="246" y="340" text-anchor="middle">Zwischenzeiten</text>
+<text class="d-sub" x="443" y="340" text-anchor="end">Ende, von dir festgelegt</text>
+<path class="d-line" d="M 56 376 L 56 382 L 436 382 L 436 376"></path>
+<text class="d-sub" x="246" y="398" text-anchor="middle">gemessene Zeit</text>
+<path class="d-arrow d-arrow-accent" d="M 436 382 L 514 382" marker-end="url(#p6c5-restore-de-head-accent)"></path>
+<rect class="d-shadow" x="516" y="289.5" width="248" height="124" rx="10"></rect>
+<rect class="d-tile" x="516" y="288" width="248" height="124" rx="10"></rect>
+<text class="d-title" x="640" y="325.5" text-anchor="middle">SLA für dein Mitglied</text>
+<text class="d-sub" x="640" y="344.5" text-anchor="middle"><tspan class="d-title-small">Verfügbarkeit</tspan><tspan class="d-sub"> aus der Architektur</tspan></text>
+<text class="d-sub" x="640" y="363.5" text-anchor="middle"><tspan class="d-title-small">RPO</tspan><tspan class="d-sub"> aus den Sicherungen</tspan></text>
+<text class="d-sub" x="640" y="382.5" text-anchor="middle"><tspan class="d-title-small">RTO</tspan><tspan class="d-sub"> aus Messung und Supportzeiten</tspan></text>
+</svg></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Ausgangslage</th><th>Ergebnis</th></tr></thead><tbody><tr><td>Seit Kapitel 6.2 läuft dein Cluster mit etcd, auf <code dir="auto">k3s-server</code> entsteht alle sechs Stunden ein Snapshot. Ein Timer kopiert die Snapshots mit dem Token und dem Schlüssel von Sealed Secrets nach <code dir="auto">~/backup/k3s</code> auf dem Front-end. Die Anwendung deines Mitglieds aus Auftrag A läuft, Argo CD rollt sie aus dem Repo <code dir="auto">wolkenwerk/platform</code> aus.</td><td>Der Cluster läuft wieder aus einem Snapshot dieser Kopie, Argo CD übernimmt neue Commits und die Anwendung deines Mitglieds ist zurück. Deine Messung hält Start, Ende und Zwischenzeiten fest. Ein SLA für das Mitglied stützt Verfügbarkeit, Supportzeiten, RPO und RTO auf diese Messung, auf deine Sicherungen und auf die Architektur deines Labs.</td></tr></tbody></table>
+<div class="sl-heading-wrapper level-h3"><h3 id="vorgehen-1">Vorgehen</h3><a class="sl-anchor-link" href="#vorgehen-1"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Abschnitt betitelt „Vorgehen“</span></a></div>
+<ol>
+<li>Wähle einen Fehlerfall und lege fest, wann deine Messung beginnt und wann sie endet.</li>
+<li>Sichere vorher das Audit-Log aus Auftrag A, halte den Timer aus Kapitel 6.2 an und lege in smartlearn oder in deinem Hypervisor einen Snapshot der drei Server an.</li>
+<li>Löse den Fehlerfall aus und stelle den Cluster mit einem Snapshot aus der Kopie auf dem Front-end wieder her.</li>
+<li>Prüfe, dass Argo CD wieder neue Commits übernimmt und die Anwendung deines Mitglieds läuft.</li>
+<li>Schreibe das SLA für dein Mitglied und begründe Verfügbarkeit, RPO und RTO.</li>
+<li>Halte die Zeiten, den verwendeten Snapshot und deinen Entscheid mit seiner Alternative für die Dokumentation fest.</li>
+</ol>
+<aside aria-label="Vor der Wiederherstellung" class="starlight-aside starlight-aside--caution"><p class="starlight-aside__title" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" class="starlight-aside__icon"><path d="M12 16a1 1 0 1 0 0 2 1 1 0 0 0 0-2Zm10.67 1.47-8.05-14a3 3 0 0 0-5.24 0l-8 14A3 3 0 0 0 3.94 22h16.12a3 3 0 0 0 2.61-4.53Zm-1.73 2a1 1 0 0 1-.88.51H3.94a1 1 0 0 1-.88-.51 1 1 0 0 1 0-1l8-14a1 1 0 0 1 1.78 0l8.05 14a1 1 0 0 1 .05 1.02v-.02ZM12 8a1 1 0 0 0-1 1v4a1 1 0 0 0 2 0V9a1 1 0 0 0-1-1Z"></path></svg>Vor der Wiederherstellung</p><div class="starlight-aside__content"><p>Ein Snapshot von etcd bringt keine Daten aus Volumes zurück. Kopiere deshalb vorher das Audit-Log deines Triage-Dienstes aus Auftrag A in dein Abgabe-Repo. Lege zudem in smartlearn oder in deinem Hypervisor einen Snapshot der drei Server an, damit du bei einem Fehlschlag zurückkannst. Halte ausserdem den Timer aus Kapitel 6.2 mit <code dir="auto">sudo systemctl stop cc-backup-k3s.timer</code> an. Läuft die Kopie gegen einen neuen Server, überschreibt sie in <code dir="auto">~/backup/k3s</code> das Token des alten Servers, das die Wiederherstellung braucht. Nach der Wiederherstellung startest du den Timer mit <code dir="auto">sudo systemctl start cc-backup-k3s.timer</code> wieder.</p></div></aside>
+<div class="sl-heading-wrapper level-h3"><h3 id="anforderungen-1">Anforderungen</h3><a class="sl-anchor-link" href="#anforderungen-1"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Abschnitt betitelt „Anforderungen“</span></a></div>
+<ol>
+<li>Du hast einen Fehlerfall gewählt und den Cluster mit einem Snapshot aus der Kopie auf dem Front-end wiederhergestellt.</li>
+<li>Start und Ende deiner Messung sind festgelegt, die gemessenen Zeiten sind festgehalten.</li>
+<li>Nach der Wiederherstellung übernimmt Argo CD wieder neue Commits und die Anwendung deines Mitglieds läuft.</li>
+<li>Das SLA nennt den Dienst, die Verfügbarkeit mit Zeitraum und Ausnahmen, die Supportzeiten, RPO und RTO.</li>
+<li>Verfügbarkeit, RPO und RTO sind mit deiner Messung, deinen Sicherungen und der Architektur des Labs begründet.</li>
+</ol>
+<div class="sl-heading-wrapper level-h3"><h3 id="vorführung-1">Vorführung</h3><a class="sl-anchor-link" href="#vorführung-1"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Abschnitt betitelt „Vorführung“</span></a></div>
+<ul>
+<li>Den verwendeten Snapshot und seine Kopie auf dem Front-end</li>
+<li>Deine Messung mit Start, Ende und Zwischenzeiten</li>
+<li>Einen Commit, den Argo CD nach der Wiederherstellung übernommen hat</li>
+<li>Das SLA und die Begründung von RPO und RTO</li>
+</ul>
+<details class="lt-box lt-details"><summary>Hinweise aus dem Lab</summary><ul>
+<li>Die Wiederherstellung darfst du vor der Vorführung machen. Dort zeigst du sie an ihren Spuren, etwa am Snapshot, an deinen Zeiten und am Zustand danach.</li>
+<li>Als <code dir="auto">tofu apply</code> im Lab einen verlorenen Server ersetzte, wartete die neue VM zehn Minuten in <code dir="auto">pending</code>. Wie beim Neubau in Kapitel 6.2 kannte OpenNebula für die Disk des Knotens noch den alten Wert.</li>
+<li>Einen eigenen Snapshot hat ein neuer Server erst wieder, wenn k3s den nächsten nach Zeitplan schreibt</li>
+</ul></details>
+<details class="lt-box lt-details"><summary>Quellen</summary><ul>
+<li><a href="../backup/#snapshots-sichern">Kapitel 6.2</a> zu den Snapshots, ihrer Kopie und dem Token</li>
+<li>Die <a href="https://docs.k3s.io/cli/etcd-snapshot">Dokumentation der Snapshots</a> von k3s zur Wiederherstellung auf einem bestehenden Server und auf neuen Hosts</li>
+<li><a href="../sla/">Kapitel 6.3</a> mit den Teilen eines SLA und der Tabelle der Ausfallzeiten, <a href="../backup/#rpo-und-rto">Kapitel 6.2</a> mit RPO und RTO</li>
+<li>Das Kapitel <a href="https://sre.google/sre-book/service-level-objectives/">Service Level Objectives</a> im SRE-Buch, das erklärt, warum ein internes SLO strenger sein soll als das SLA</li>
+</ul></details>
+<div class="sl-heading-wrapper level-h2"><h2 id="postmortem-und-kostenmodell-auftrag-c">Postmortem und Kostenmodell (Auftrag C)</h2><a class="sl-anchor-link" href="#postmortem-und-kostenmodell-auftrag-c"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Abschnitt betitelt „Postmortem und Kostenmodell (Auftrag C)“</span></a></div>
+<p>Zum Vorfall aus Auftrag A schreibt das lokale Modell einen Entwurf des Postmortems aus einer Zeitlinie, die du ohne Modell aus den Daten aufbaust. Du korrigierst den Entwurf und rechnest dazu ein Kostenmodell für dein Mitglied.</p>
+<figure class="lt-figure fig"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 492" role="img" aria-labelledby="p6c5-postmortem-de-title p6c5-postmortem-de-desc">
+<title id="p6c5-postmortem-de-title">Postmortem und Kostenmodell eines Mitglieds</title>
+<desc id="p6c5-postmortem-de-desc">Oben das Postmortem. Drei Quellen, die Zeitreihe ALERTS, das Audit-Log des Triage-Dienstes und der Verlauf des Plattform-Repos, ergeben ohne Modell eine nach der Zeit geordnete Zeitlinie. Mit deiner Frage und der Zeitlinie schreibt das lokale Modell aus Meilenstein 3 den Entwurf postmortem-entwurf.md. Du prüfst ihn gegen die Fakten der Zeitlinie und hältst deine Korrektur in postmortem.md fest. Unten das Kostenmodell. Aus den Ressourcen des Mitglieds, seiner Quota und seiner VM, leitest du über seinen Anteil an den Vollkosten einen Preis pro Monat ab. Die Verteilung wählst du selbst. Den Preis vergleichst du mit dem Showback aus OpenNebula. Aus gemessenen Requests und gemessenem Verbrauch entsteht dein Vorschlag zum Right-Sizing.</desc>
+<defs><marker id="p6c5-postmortem-de-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head" d="M 0 1 L 9 5 L 0 9 z"></path></marker><marker id="p6c5-postmortem-de-head-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head d-head-accent" d="M 0 1 L 9 5 L 0 9 z"></path></marker></defs>
+<rect class="d-ground" x="0" y="0" width="780" height="492" rx="14"></rect>
+<rect class="d-band d-band-1" x="16" y="16" width="748" height="248" rx="12"></rect>
+<text class="d-label" x="32" y="40" text-anchor="start">POSTMORTEM</text>
+<path class="d-arrow d-arrow-accent" d="M 224 100 L 292 100" marker-end="url(#p6c5-postmortem-de-head-accent)"></path>
+<text class="d-sub" x="259" y="92" text-anchor="middle">geordnet</text>
+<path class="d-arrow d-arrow-accent" d="M 486 100 L 554 100" marker-end="url(#p6c5-postmortem-de-head-accent)"></path>
+<text class="d-sub" x="521" y="92" text-anchor="middle">deine Frage</text>
+<path class="d-arrow d-arrow-accent" d="M 652 128 L 652 182" marker-end="url(#p6c5-postmortem-de-head-accent)"></path>
+<text class="d-sub" x="662" y="160" text-anchor="start">schreibt</text>
+<path class="d-arrow d-arrow-accent" d="M 556 216 L 488 216" marker-end="url(#p6c5-postmortem-de-head-accent)"></path>
+<text class="d-sub" x="521" y="208" text-anchor="middle">du prüfst</text>
+<path class="d-arrow d-dashed" d="M 390 128 L 390 182" marker-end="url(#p6c5-postmortem-de-head)"></path>
+<text class="d-sub" x="400" y="160" text-anchor="start">Fakten</text>
+<rect class="d-shadow" x="32" y="53.5" width="192" height="96" rx="10"></rect>
+<rect class="d-tile" x="32" y="52" width="192" height="96" rx="10"></rect>
+<text class="d-title" x="128" y="75.5" text-anchor="middle">Drei Quellen</text>
+<text class="d-sub" x="128" y="94.5" text-anchor="middle"><tspan class="d-sub">Zeitreihe </tspan><tspan class="d-code">ALERTS</tspan></text>
+<text class="d-sub" x="128" y="113.5" text-anchor="middle"><tspan class="d-sub">Audit-Log des Triage-Dienstes</tspan></text>
+<text class="d-sub" x="128" y="132.5" text-anchor="middle"><tspan class="d-sub">Verlauf des Plattform-Repos</tspan></text>
+<rect class="d-shadow" x="294" y="73.5" width="192" height="56" rx="10"></rect>
+<rect class="d-tile d-tile-accent" x="294" y="72" width="192" height="56" rx="10"></rect>
+<g class="d-icon d-icon-accent" transform="translate(306 91) scale(0.75)"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></g>
+<text class="d-title" x="334" y="97" text-anchor="start">Zeitlinie</text>
+<text class="d-sub" x="334" y="113" text-anchor="start">ohne Modell</text>
+<rect class="d-shadow" x="556" y="73.5" width="192" height="56" rx="10"></rect>
+<rect class="d-tile" x="556" y="72" width="192" height="56" rx="10"></rect>
+<g class="d-icon" transform="translate(568 91) scale(0.75)"><rect x="6" y="6" width="12" height="12" rx="2"></rect><path d="M9 2.5V6M15 2.5V6M9 18v3.5M15 18v3.5M2.5 9H6M2.5 15H6M18 9h3.5M18 15h3.5"></path><path d="M10 10h4v4h-4z"></path></g>
+<text class="d-title" x="596" y="97" text-anchor="start">Lokales Modell</text>
+<text class="d-sub" x="596" y="113" text-anchor="start">aus Meilenstein 3</text>
+<rect class="d-shadow" x="294" y="185.5" width="192" height="64" rx="10"></rect>
+<rect class="d-tile d-tile-accent" x="294" y="184" width="192" height="64" rx="10"></rect>
+<g class="d-icon d-icon-accent" transform="translate(306 207) scale(0.75)"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"></path><path d="M14 3v5h5M9 13h6M9 17h4"></path></g>
+<text class="d-title" x="334" y="206" text-anchor="start">Korrektur</text>
+<text class="d-sub" x="334" y="221" text-anchor="start">deine Fassung</text>
+<text class="d-code" x="334" y="236" text-anchor="start">postmortem.md</text>
+<rect class="d-shadow" x="556" y="185.5" width="192" height="64" rx="10"></rect>
+<rect class="d-tile" x="556" y="184" width="192" height="64" rx="10"></rect>
+<g class="d-icon" transform="translate(568 207) scale(0.75)"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"></path><path d="M14 3v5h5M9 13h6M9 17h4"></path></g>
+<text class="d-title" x="596" y="206" text-anchor="start">Entwurf</text>
+<text class="d-sub" x="596" y="221" text-anchor="start">des Modells</text>
+<text class="d-code" x="596" y="236" text-anchor="start">postmortem-entwurf.md</text>
+<rect class="d-band d-band-1" x="16" y="296" width="748" height="180" rx="12"></rect>
+<text class="d-label" x="32" y="320" text-anchor="start">KOSTENMODELL</text>
+<path class="d-arrow d-arrow-accent" d="M 224 360 L 292 360" marker-end="url(#p6c5-postmortem-de-head-accent)"></path>
+<text class="d-sub" x="259" y="338" text-anchor="middle">Anteil der</text>
+<text class="d-sub" x="259" y="352" text-anchor="middle">Vollkosten</text>
+<path class="d-line d-dashed" d="M 486 360 L 556 360"></path>
+<text class="d-sub" x="521" y="352" text-anchor="middle">Vergleich</text>
+<path class="d-arrow d-arrow-accent" d="M 224 432 L 292 432" marker-end="url(#p6c5-postmortem-de-head-accent)"></path>
+<rect class="d-shadow" x="32" y="333.5" width="192" height="56" rx="10"></rect>
+<rect class="d-tile" x="32" y="332" width="192" height="56" rx="10"></rect>
+<g class="d-icon" transform="translate(44 351) scale(0.75)"><rect x="4" y="4" width="16" height="16" rx="2"></rect><rect x="8.5" y="8.5" width="7" height="7" rx="1"></rect></g>
+<text class="d-title" x="72" y="357" text-anchor="start">Ressourcen</text>
+<text class="d-sub" x="72" y="373" text-anchor="start">Quota und VM</text>
+<rect class="d-shadow" x="294" y="333.5" width="192" height="56" rx="10"></rect>
+<rect class="d-tile d-tile-accent" x="294" y="332" width="192" height="56" rx="10"></rect>
+<g class="d-icon d-icon-accent" transform="translate(306 351) scale(0.75)"><circle cx="12" cy="12" r="9"></circle><path d="M14.5 9c-.5-1-1.5-1.5-2.5-1.5-1.7 0-2.8 1-2.8 2.2 0 2.9 5.6 1.6 5.6 4.5 0 1.2-1.2 2.3-2.8 2.3-1.1 0-2.2-.6-2.7-1.6M12 6v1.5M12 16.5V18"></path></g>
+<text class="d-title" x="334" y="357" text-anchor="start">Preis pro Monat</text>
+<text class="d-sub" x="334" y="373" text-anchor="start">nach deiner Verteilung</text>
+<rect class="d-shadow" x="556" y="333.5" width="192" height="56" rx="10"></rect>
+<rect class="d-tile" x="556" y="332" width="192" height="56" rx="10"></rect>
+<g class="d-icon" transform="translate(568 351) scale(0.75)"><path d="M4 20h16"></path><path d="M7 16v-4M12 16V8M17 16v-7"></path></g>
+<text class="d-title" x="596" y="357" text-anchor="start">Showback</text>
+<text class="d-sub" x="596" y="373" text-anchor="start">aus OpenNebula</text>
+<rect class="d-shadow" x="32" y="405.5" width="192" height="56" rx="10"></rect>
+<rect class="d-tile" x="32" y="404" width="192" height="56" rx="10"></rect>
+<g class="d-icon" transform="translate(44 423) scale(0.75)"><ellipse cx="12" cy="5.5" rx="7.5" ry="2.5"></ellipse><path d="M4.5 5.5v13c0 1.4 3.4 2.5 7.5 2.5s7.5-1.1 7.5-2.5v-13"></path><path d="M4.5 12c0 1.4 3.4 2.5 7.5 2.5s7.5-1.1 7.5-2.5"></path></g>
+<text class="d-title" x="72" y="429" text-anchor="start">Messwerte</text>
+<text class="d-sub" x="72" y="445" text-anchor="start">Requests und Verbrauch</text>
+<rect class="d-shadow" x="294" y="405.5" width="192" height="56" rx="10"></rect>
+<rect class="d-tile d-tile-accent" x="294" y="404" width="192" height="56" rx="10"></rect>
+<g class="d-icon d-icon-accent" transform="translate(306 423) scale(0.75)"><path d="M20 12a8 8 0 0 1-14.3 4.9M4 12A8 8 0 0 1 18.3 7.1"></path><path d="M18.5 3v4.3h-4.3M5.5 21v-4.3h4.3"></path></g>
+<text class="d-title" x="334" y="429" text-anchor="start">Right-Sizing</text>
+<text class="d-sub" x="334" y="445" text-anchor="start">dein Vorschlag</text>
+</svg></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Ausgangslage</th><th>Ergebnis</th></tr></thead><tbody><tr><td>Der Vorfall aus Auftrag A hat Spuren an drei Orten hinterlassen, als Alert in der Zeitreihe <code dir="auto">ALERTS</code> von Prometheus, als Einträge im Audit-Log deines Triage-Dienstes und als Commits im Repo <code dir="auto">wolkenwerk/platform</code>. Das lokale Modell aus Zusatzauftrag A von Meilenstein 3 erreichst du vom Front-end aus. Die Vollkosten von Wolkenwerk stehen in Kapitel 6.4, die Preise für den Showback deines Mitglieds hast du in Auftrag A gesetzt.</td><td>Es gibt eine Zeitlinie des Vorfalls, die ohne Modell aus diesen Daten entstanden ist, den Entwurf <code dir="auto">postmortem-entwurf.md</code> des Modells und deine korrigierte Fassung <code dir="auto">postmortem.md</code>. Dazu kommt ein Kostenmodell mit einem Preis pro Monat für dein Mitglied, dem Vergleich mit seinem Showback und einem Vorschlag zum Right-Sizing aus Messwerten.</td></tr></tbody></table>
+<div class="sl-heading-wrapper level-h3"><h3 id="vorgehen-2">Vorgehen</h3><a class="sl-anchor-link" href="#vorgehen-2"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Abschnitt betitelt „Vorgehen“</span></a></div>
+<ol>
+<li>Sammle die Fakten des Vorfalls aus Alerts, Audit-Log und Git und ordne sie ohne Modell zu einer Zeitlinie.</li>
+<li>Formuliere deine Frage an das Modell und lass es aus der Zeitlinie einen Entwurf des Postmortems schreiben.</li>
+<li>Prüfe den Entwurf gegen die Zeitlinie und halte deine Korrektur in einer eigenen Datei fest.</li>
+<li>Bestimme die Ressourcen deines Mitglieds, wähle eine Verteilung der Vollkosten und leite einen Preis pro Monat ab.</li>
+<li>Vergleiche den Preis mit dem Showback deines Mitglieds aus OpenNebula.</li>
+<li>Miss Requests und Verbrauch deines Mitglieds über längere Zeit und leite daraus einen Vorschlag zum Right-Sizing ab.</li>
+<li>Halte Werte, Annahmen und deinen Entscheid mit seiner Alternative für die Dokumentation fest.</li>
+</ol>
+<div class="sl-heading-wrapper level-h3"><h3 id="anforderungen-2">Anforderungen</h3><a class="sl-anchor-link" href="#anforderungen-2"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Abschnitt betitelt „Anforderungen“</span></a></div>
+<ol>
+<li>Die Zeitlinie des Vorfalls entsteht ohne Modell aus Alerts, Audit-Log und Git.</li>
+<li>Das lokale Modell schreibt daraus den Entwurf <code dir="auto">postmortem-entwurf.md</code>. Deine Frage an das Modell verlangt einen Bericht ohne Schuldzuweisung, der nur die gelieferten Fakten verwendet.</li>
+<li><code dir="auto">postmortem.md</code> ist deine korrigierte Fassung und hält fest, was im Entwurf stimmte, was falsch war und was du geändert hast.</li>
+<li>Das Kostenmodell nennt die Ressourcen des Mitglieds, seinen Anteil an den Vollkosten und einen Preis pro Monat. Es vergleicht den Preis mit dem Showback des Mitglieds aus OpenNebula.</li>
+<li>Ein Vorschlag zum Right-Sizing stützt sich auf gemessene Requests und gemessenen Verbrauch.</li>
+</ol>
+<div class="sl-heading-wrapper level-h3"><h3 id="vorführung-2">Vorführung</h3><a class="sl-anchor-link" href="#vorführung-2"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Abschnitt betitelt „Vorführung“</span></a></div>
+<ul>
+<li>Die Zeitlinie mit der Quelle jedes Eintrags</li>
+<li>Den Entwurf des Modells neben deiner Korrektur mit zwei Stellen, die du geändert hast</li>
+<li>Das Kostenmodell und den Showback deines Mitglieds für einen Monat</li>
+<li>Deinen Vorschlag zum Right-Sizing mit den Messwerten</li>
+</ul>
+<details class="lt-box lt-details"><summary>Hinweise aus dem Lab</summary><ul>
+<li><code dir="auto">Watchdog</code> löst immer aus und zeigt nur, dass die Alarmierung läuft. Er gehört nicht in die Zeitlinie, ebenso wenig <code dir="auto">InfoInhibitor</code>, der nur Alerts der Stufe info unterdrückt.</li>
+<li>Für einen Entscheid zum Right-Sizing misst du länger als eine Stunde, mindestens einen Tag mit typischer Last</li>
+<li>Entwurf und Korrektur bleiben als zwei Dateien erhalten, damit man sieht, was du geändert hast</li>
+</ul></details>
+<details class="lt-box lt-details"><summary>Quellen</summary><ul>
+<li><a href="../sla/#postmortems">Kapitel 6.3</a> zu Postmortems ohne Schuldzuweisung und das Kapitel <a href="https://sre.google/sre-book/postmortem-culture/">Postmortem Culture</a> des SRE-Buchs von Google</li>
+<li>Ein <a href="https://sre.google/sre-book/example-postmortem/">Beispiel</a> im selben Buch mit einem vollständigen Aufbau samt Zeitlinie</li>
+<li>Die <a href="https://prometheus.io/docs/prometheus/3.15/configuration/alerting_rules/#inspecting-alerts-during-runtime">Dokumentation von Prometheus 3.15</a> zur Zeitreihe <code dir="auto">ALERTS</code></li>
+<li>Die <a href="https://github.com/ollama/ollama/blob/v0.40.13/docs/api.md">Schnittstelle von Ollama 0.40.13</a> mit der Option <code dir="auto">format</code></li>
+<li><a href="../../observability/advanced/#ein-lokales-sprachmodell-auftrag-a">Zusatzauftrag A von Meilenstein 3</a>, denn das Modell erreichst du vom Front-end aus so, wie du es dort bereitgestellt hast</li>
+<li><a href="../cost/">Kapitel 6.4</a> zu den Vollkosten und Abfragen und <a href="../../tenants/showback/#kosten-berechnen">Kapitel 3.3</a> zum Showback mit <code dir="auto">oneshowback</code></li>
+<li><a href="https://www.finops.org/framework/capabilities/invoicing-chargeback/">Invoicing and Chargeback</a> der FinOps Foundation zu Showback und Chargeback</li>
+</ul></details></div><footer class="sl-flex astro-7u27nsfc"><div class="meta sl-flex astro-7u27nsfc"></div><div data-pagefind-ignore style="display: contents"><div class="pagination-links print:hidden astro-d2wubx5p" dir="ltr"><a href="/pr-preview/pr-9/operations/cost/" rel="prev" class="astro-d2wubx5p"><svg aria-hidden="true" class="astro-d2wubx5p astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.5rem;"><path d="M17 11H9.41l3.3-3.29a1.004 1.004 0 1 0-1.42-1.42l-5 5a1 1 0 0 0-.21.33 1 1 0 0 0 0 .76 1 1 0 0 0 .21.33l5 5a1.002 1.002 0 0 0 1.639-.325 1 1 0 0 0-.219-1.095L9.41 13H17a1 1 0 0 0 0-2Z"/></svg><span class="astro-d2wubx5p">Vorherige Seite<br class="astro-d2wubx5p"><span class="link-title astro-d2wubx5p">6.4 Kosten und Ressourceneffizienz</span></span></a><a href="/pr-preview/pr-9/operations/competences/" rel="next" class="astro-d2wubx5p"><svg aria-hidden="true" class="astro-d2wubx5p astro-uz4n3kfc" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.5rem;"><path d="M17.92 11.62a1.001 1.001 0 0 0-.21-.33l-5-5a1.003 1.003 0 1 0-1.42 1.42l3.3 3.29H7a1 1 0 0 0 0 2h7.59l-3.3 3.29a1.002 1.002 0 0 0 .325 1.639 1 1 0 0 0 1.095-.219l5-5a1 1 0 0 0 .21-.33 1 1 0 0 0 0-.76Z"/></svg><span class="astro-d2wubx5p">Nächste Seite<br class="astro-d2wubx5p"><span class="link-title astro-d2wubx5p">6.6 Kompetenzraster</span></span></a></div></div></footer><p class="lt-licence astro-jo6i4kqk">Texte und Abbildungen stehen unter <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.de" class="astro-jo6i4kqk">CC BY-SA 4.0</a> und der Code unter der <a href="https://github.com/ndum/cc/blob/main/LICENSES/MIT.txt" class="astro-jo6i4kqk">MIT-Lizenz</a>. Die Quellen liegen auf <a href="https://github.com/ndum/cc" class="astro-jo6i4kqk">GitHub</a>.</p><p class="lt-licence lt-version astro-jo6i4kqk">Stand <a href="https://github.com/ndum/cc/commit/3007e12343d122085a6dcf0637d6300c9ad84fba" class="astro-jo6i4kqk">3007e12</a></p></div></div></main></div></div></div></div></body></html>
